@@ -10,7 +10,7 @@
     <section name="TODO"> 
       <p>
         The following is a list of items that need to be completed in
-        Betwixt.  Contributions are welcome!.
+        Betwixt.  Contributions are welcome! 
       </p>
       
       <ul>
@@ -23,7 +23,12 @@
 		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
 		  be transformed in XSLT engines as XML.
 		</li>
-	  </ul>
+        <li>
+		  Improved documentation! Improve package level documentation so that new developers can get up 
+                  to speed more quickly. Ensure all betwixt features have good user documentation. 
+                  More good code examples.
+                </li>
+        </ul>
     </section>
   </body>
 </document>
