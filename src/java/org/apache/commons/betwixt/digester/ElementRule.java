@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.6 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.13.2.6 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.7 2004/04/07 21:36:17 rdonkin Exp $
+ * $Revision: 1.13.2.7 $
+ * $Date: 2004/04/07 21:36:17 $
  *
  * ====================================================================
  * 
@@ -61,6 +61,7 @@ package org.apache.commons.betwixt.digester;
  */ 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
@@ -79,7 +80,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.6 2004/02/08 12:11:17 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.7 2004/04/07 21:36:17 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -310,6 +311,19 @@ public class ElementRule extends MappedPropertyRule {
             elementDescriptor.setHollow(true);
 
             writeMethod = null;
+            
+            if (Map.class.isAssignableFrom(type)) {
+                elementDescriptor.setLocalName( "entry" );
+                // add elements for reading
+                ElementDescriptor keyDescriptor = new ElementDescriptor( "key" );
+                keyDescriptor.setHollow( true );
+                elementDescriptor.addElementDescriptor( keyDescriptor );
+            
+                ElementDescriptor valueDescriptor = new ElementDescriptor( "value" );
+                valueDescriptor.setHollow( true );
+                elementDescriptor.addElementDescriptor( valueDescriptor );
+            }
+            
         } else {
             log.trace( "Standard property" );
             elementDescriptor.setHollow(true);
