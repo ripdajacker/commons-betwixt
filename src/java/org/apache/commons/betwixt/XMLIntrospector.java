@@ -94,14 +94,14 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * 
   * <p>Note :</p>
   * <p>This class makes use of the <code>java.bean.Introspector</code>
-  * class, which comtains a BeanInfoSearchPath. To make sure betwixt can
+  * class, which contains a BeanInfoSearchPath. To make sure betwixt can
   * do his work correctly, this searchpath is completely ignored during 
   * processing. The original values will be restored after processing finished
   * </p>
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.6 2002/07/02 16:35:42 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.7 2002/07/02 16:47:15 mvdb Exp $
   */
 public class XMLIntrospector {
 
