@@ -16,6 +16,7 @@
 package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +33,8 @@ import org.apache.commons.digester.ExtendedBaseRules;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
@@ -115,20 +118,7 @@ public class BeanReader extends Digester {
      */
     public void registerBeanClass(Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
-            if ( log.isTraceEnabled() ) {
-                log.trace( "Registering class " + beanClass );
-            }
-            registeredClasses.add( beanClass );
-            
-            // introspect and find the ElementDescriptor to use as the root
-            XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
-            ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor();        
-
-            String path = elementDescriptor.getQualifiedName();
-            if (log.isTraceEnabled()) {
-                log.trace("Added path: " + path + ", mapped to: " + beanClass.getName());
-            }
-            addBeanCreateRule( path, elementDescriptor, beanClass );
+            register(beanClass, null);
             
         } else {
             if ( log.isWarnEnabled() ) {
@@ -137,6 +127,32 @@ public class BeanReader extends Digester {
         }
     }
     
+    /**
+     * Registers the given class at the given path.
+     * @param beanClass <code>Class</code> for binding
+     * @param path the path at which the bean class should be registered
+     * or null if the automatic path is to be used
+     * @throws IntrospectionException
+     */
+    private void register(Class beanClass, String path) throws IntrospectionException {
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Registering class " + beanClass );
+        }
+        XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
+        registeredClasses.add( beanClass );
+
+        ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor();        
+
+        if (path == null) {
+            path = elementDescriptor.getQualifiedName();
+        }
+        
+        if (log.isTraceEnabled()) {
+            log.trace("Added path: " + path + ", mapped to: " + beanClass.getName());
+        }
+        addBeanCreateRule( path, elementDescriptor, beanClass );
+    }
+
     /** 
      * <p>Registers a bean class  
      * and add mapping rules for this bean class at the given path expression.</p>
@@ -165,13 +181,42 @@ public class BeanReader extends Digester {
      */
     public void registerBeanClass(String path, Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
-            registeredClasses.add( beanClass );
             
-            // introspect and find the ElementDescriptor to use as the root
-            XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
-            ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor();        
-
-            addBeanCreateRule( path, elementDescriptor, beanClass );
+            register(beanClass, path);
+            
+        } else {
+            if ( log.isWarnEnabled() ) {
+                log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");
+            }
+        }
+    }
+    
+    
+    /**
+     * <p>Registers a class with a custom mapping.
+     * This mapping is specified by the standard dot betwixt document
+     * contained in the given <code>InputSource</code>.
+     * </p><p>
+     * <strong>Note:</strong> the custom mapping will be registered with
+     * the introspector. This must remain so for the reading to work correctly
+     * It is recommended that use of the pre-registeration process provided
+     * by {@link XMLIntrospector#register}  be considered as an alternative to this method.
+     * </p>
+     * @see {@link #registerBeanClass(Class)} since the general notes given there
+     * apply equally to this 
+     * @param mapping <code>InputSource</code> giving the dot betwixt document specifying 
+     * the mapping
+     * @param beanClass <code>Class</code> that should be register
+     * @throws IntrospectionException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public void registerBeanClass(InputSource mapping, Class beanClass) throws IntrospectionException, IOException, SAXException {
+        if ( ! registeredClasses.contains( beanClass ) ) {
+            	
+            introspector.register( beanClass, mapping );
+            register(beanClass, null);
+            
         } else {
             if ( log.isWarnEnabled() ) {
                 log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");

@@ -29,6 +29,9 @@ public class SimpleTestBean {
     private String gamma;
     
 //-------------------------- Constructors
+    
+    public SimpleTestBean() {}
+    
     public SimpleTestBean(String alpha, String beta, String gamma) {
         setAlpha(alpha);
         setBeta(beta);

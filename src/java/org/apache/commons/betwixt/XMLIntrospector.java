@@ -21,6 +21,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.betwixt.strategy.TypeBindingStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /** 
   * <p><code>XMLIntrospector</code> an introspector of beans to create a 
@@ -437,6 +440,30 @@ public class XMLIntrospector {
         
         return xmlInfo;  
     }
+
+    
+    /**
+     * <p>Introspects the given <code>Class</code> using the dot betwixt 
+     * document in the given <code>InputSource</code>.
+     * </p>
+     * <p>
+     * <strong>Note:</strong> that the given mapping will <em>not</em>
+     * be registered by this method. Use {@link #register(Class, InputSource)}
+     * instead.
+     * </p>
+     * @param aClass <code>Class</code>, not null
+     * @param source <code>InputSource</code>, not null
+     * @return <code>XMLBeanInfo</code> describing the mapping.
+     * @throws SAXException when the input source cannot be parsed
+     * @throws IOException 	
+     */
+    public synchronized XMLBeanInfo introspect(Class aClass, InputSource source) throws IOException, SAXException  {
+        // need to synchronize since we only use one instance and SAX is essentially one thread only
+        configureDigester(aClass);
+        XMLBeanInfo result = (XMLBeanInfo) digester.parse(source);
+        return result;
+    }
+    
     
     /** Create a standard <code>XMLBeanInfo</code> by introspection.
       * The actual introspection depends only on the <code>BeanInfo</code>
@@ -498,6 +525,24 @@ public class XMLIntrospector {
         XMLBeanInfo xmlBeanInfo = createXMLBeanInfo( beanInfo );
         populate( xmlBeanInfo, new JavaBeanType( beanInfo ) );
         return xmlBeanInfo;
+    }
+    
+    /**
+     * <p>Registers the class mapping specified in the standard dot-betwixt file.
+     * Subsequent introspections will use this registered mapping for the class.
+     * </p>
+     * <p>
+     * <strong>Note:</strong> that this method will override any existing mapping
+     * for this class.
+     * </p>
+     * @param aClass <code>Class</code>, not null
+     * @param source <code>InputSource</code>, not null
+     * @throws SAXException when the source cannot be parsed
+     * @throws IOException 
+     */
+    public void register(Class aClass, InputSource source) throws IOException, SAXException  {
+        XMLBeanInfo xmlBeanInfo = introspect(aClass, source);
+        getRegistry().put(aClass, xmlBeanInfo);
     }
     
     /**
@@ -941,11 +986,7 @@ public class XMLIntrospector {
                 }
                 // synchronized method so this digester is only used by
                 // one thread at once
-                if ( digester == null ) {
-                    digester = new XMLBeanInfoDigester();
-                    digester.setXMLIntrospector( this );
-                }
-                digester.setBeanClass( aClass );
+                configureDigester(aClass);
                 return (XMLBeanInfo) digester.parse( urlText );
             } catch (Exception e) {
                 getLog().warn( "Caught exception trying to parse: " + name, e );
@@ -958,6 +999,18 @@ public class XMLIntrospector {
         return null;
     }
             
+    /**
+     * Configures the single <code>Digester</code> instance used by this introspector.
+     * @param aClass <code>Class</code>, not null
+     */
+    private synchronized void configureDigester(Class aClass) {
+        if ( digester == null ) {
+            digester = new XMLBeanInfoDigester();
+            digester.setXMLIntrospector( this );
+        }
+        digester.setBeanClass( aClass );
+    }
+
     /** 
      * Loop through properties and process each one 
      *

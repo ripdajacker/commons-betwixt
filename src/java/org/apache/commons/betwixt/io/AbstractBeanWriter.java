@@ -36,6 +36,7 @@ import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -186,6 +187,33 @@ public abstract class AbstractBeanWriter {
         end();
     }
     
+    /**
+     * <p>Writes the bean using the mapping specified in the <code>InputSource</code>.
+     * </p><p>
+     * <strong>Note:</strong> that the custom mapping will <em>not</em>
+     * be registered for later use. Please use {@link XMLIntrospector#register}
+     * to register the custom mapping for the class and then call
+     * {@link #write(Object)}.
+     * </p>
+     * @see #write(Object) since the standard notes also apply
+     * @param bean <code>Object</code> to be written as xml, not null
+     * @param mapping <code>InputSource/code> containing an xml document
+     * specifying the mapping to be used (in the usual way), not null
+     * @throws IOException
+     * @throws SAXException
+     * @throws IntrospectionException
+     */
+    public void write(Object bean, InputSource source) 
+    					throws IOException, SAXException, IntrospectionException {
+        writeBean(
+                	null, 
+                	null, 
+                	null, 
+                	bean, 
+                	makeContext( bean ), 
+                	getXMLIntrospector().introspect(bean.getClass(), source));
+    }
+    
     /** 
      * <p>Writes the given bean to the current stream 
      * using the given <code>qualifiedName</code>.</p>
@@ -221,6 +249,38 @@ public abstract class AbstractBeanWriter {
         
         // introspect to obtain bean info
         XMLBeanInfo beanInfo = introspector.introspect( bean );
+        writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo);
+        
+        log.trace( "Finished writing bean graph." );
+    }
+    
+    /**
+     * <p>Writes the given bean to the current stream 
+     * using the given mapping.</p>
+     *
+     * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
+     * is encountered in the graph <strong>only</strong> if the <code>getMapIDs()</code>
+     * setting of the <code>BindingConfiguration</code> is false.</p>
+     *
+     * @param namespaceUri the namespace uri, or null to use the automatic binding
+     * @param localName the local name  or null to use the automatic binding
+     * @param qualifiedName the <code>String</code> naming the root element 
+     *  or null to use the automatic binding
+     * @param bean <code>Object</code> to be written, not null
+     * @param context <code>Context</code>, not null
+     * @param beanInfo <code>XMLBeanInfo</code>, not null
+     * @throws IOException
+     * @throws SAXException
+     * @throws IntrospectionException
+     */
+    private void writeBean(
+            					String namespaceUri, 
+            					String localName, 
+            					String qualifiedName, 
+            					Object bean, 
+            					Context context, 
+            					XMLBeanInfo beanInfo) 
+    									throws IOException, SAXException, IntrospectionException {
         if ( beanInfo != null ) {
             ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
             if ( elementDescriptor != null ) {
@@ -329,10 +389,8 @@ public abstract class AbstractBeanWriter {
                 }
             }
         }
-        
-        log.trace( "Finished writing bean graph." );
     }
-    
+
     /** 
       * Get <code>IDGenerator</code> implementation used to 
       * generate <code>ID</code> attribute values .
@@ -1237,7 +1295,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.30 $
+     * @version $Revision: 1.31 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */
