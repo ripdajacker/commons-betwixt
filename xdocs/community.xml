@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>Community</title>
+    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+  </properties>
+
+  <body>
+    <section name="IRC">
+      <p>
+      The Werken Company runs an IRC server with a permenant Betwixt channel. 
+      (Thanks <a href='http://blogs.werken.com/people/bob/'>Bob</a>!)
+      </p>
+      <p>
+      To access the IRC server, point an appropriate IRC client at:
+      </p>
+      
+      <blockquote>
+        <pre>
+             server: <b>irc.werken.com</b>
+               port: <b>6667</b>
+            channel: <b>#betwixt</b>
+        </pre>
+      </blockquote>
+      
+      <p>
+      For those who use <a href="http://www.mozilla.org/">Mozilla</a>, here's a 
+      <a href="irc://irc.werken.com:6667/#betwixt">quick link to #betwixt</a>.
+      </p>
+      <p>
+      Most business is still conducted on the commons-dev mailing list. (And so it should be!)
+      But project members find IRC useful to roll around ideas, discuss designs - or just hang out.
+      You're welcome to join us.
+      </p>
+    <subsection name='Logs'>
+        <p>
+        Many of the channels hosted by The Werken Company are archived
+        and available through the 
+        <a href="http://irc.werken.com/channels/">Werken IRC Archives</a>.
+        </p>
+
+        <p>
+        Here's the <a href="http://irc.werken.com/channels/betwixt/">Betwixt archive</a>
+        </p>
+    </subsection>
+  </section>
+  </body>
+</document>
+
