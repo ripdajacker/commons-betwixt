@@ -51,6 +51,12 @@
              Commons SQL is a component for working with databases and generating DDL.
            </td>
           </tr>
+          <tr>
+           <td><a href="http://www.everyboat.com/">Every Boat Classifieds (Commercial)</a></td>
+           <td>
+             A dynamic self-publishing classifieds system utilizing Betwixt for caching ads as xml
+           </td>
+          </tr>
       </table>
     </subsection>
     </section>
