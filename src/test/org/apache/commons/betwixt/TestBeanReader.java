@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -43,7 +44,6 @@ import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.ConvertUtilsObjectStringConverter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.digester.ExtendedBaseRules;
 import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
@@ -706,7 +706,9 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Number of children", 6, bean.getSize());
         
         ArrayList list = new ArrayList();
-        CollectionUtils.addAll(list, bean.getChildren());
+        for (Iterator it=bean.getChildren();it.hasNext();) {
+            list.add(it.next());
+        }
         
         DoubleLinkedChildBean childZero = (DoubleLinkedChildBean) list.get(0);
         DoubleLinkedChildBean childOne = (DoubleLinkedChildBean) list.get(1);

@@ -107,7 +107,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Base constructor.
      * @param primitiveType if true, this element refers to a primitive type
-     * @deprecated PrimitiveType property has been removed
+     * @deprecated 0.6 PrimitiveType property has been removed
      */
     public ElementDescriptor(boolean primitiveType) {
         this.primitiveType = primitiveType;
@@ -184,7 +184,7 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @param wrapCollectionsInElement true if the elements for the items in the collection 
      * should be contained in a parent element
-     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * @deprecated 0.6 moved to a declarative style of descriptors where the alrogithmic should
      * be done during introspection
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
@@ -199,7 +199,7 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @return true if the elements for the items in the collection should be contained 
      * in a parent element
-     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * @deprecated 0.6 moved to a declarative style of descriptors where the alrogithmic should
      * be done during introspection
      */
     public boolean isWrapCollectionsInElement() {
@@ -425,7 +425,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Returns true if this element refers to a primitive type property
      * @return whether this element refers to a primitive type (or property of a parent object) 
-     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * @deprecated 0.6 moved to a declarative style of descriptors where the alrogithmic should
      * be done during introspection
      */
     public boolean isPrimitiveType() {
@@ -435,7 +435,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Sets whether this element refers to a primitive type (or property of a parent object) 
      * @param primitiveType true if this element refers to a primitive type
-     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * @deprecated 0.6 moved to a declarative style of descriptors where the alrogithmic should
      * be done during introspection
      */
     public void setPrimitiveType(boolean primitiveType) {
