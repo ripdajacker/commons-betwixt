@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.3 2002/09/20 14:00:41 jvanzyl Exp $
- * $Revision: 1.3 $
- * $Date: 2002/09/20 14:00:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.4 2002/11/08 23:08:31 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/11/08 23:08:31 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultPluralStemmer.java,v 1.3 2002/09/20 14:00:41 jvanzyl Exp $
+ * $Id: DefaultPluralStemmer.java,v 1.4 2002/11/08 23:08:31 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -76,7 +76,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultPluralStemmer implements PluralStemmer {
 
@@ -131,7 +131,7 @@ public class DefaultPluralStemmer implements PluralStemmer {
             }
         }
         if (foundKeyCount > 1) {
-            log.warn("More than one type matches, using closest match "+keyFound);
+            log.warn("More than one type matches, using closest match "+answer.getQualifiedName());
         }
         return answer;
         
