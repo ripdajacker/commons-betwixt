@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.5 2004/02/04 22:57:41 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/04 22:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.6 2004/02/07 14:44:45 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/07 14:44:45 $
  *
  * ====================================================================
  * 
@@ -72,7 +72,7 @@ import org.xml.sax.InputSource;
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class TestSchemaValidity extends AbstractTestCase {
 
@@ -184,4 +184,48 @@ public class TestSchemaValidity extends AbstractTestCase {
        
        xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));
     }      
+    
+    private String generateOrderSchema() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        transcriber.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        transcriber.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+        Schema schema = transcriber.generate(OrderBean.class);
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
+        writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+        writer.write(schema);
+        
+        String xsd = out.getBuffer().toString();
+        return xsd;
+    }
+    
+    public void testOrder() throws Exception {
+        String xsd = generateOrderSchema();
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+        writer.getBindingConfiguration().setMapIDs(false);
+        
+        OrderBean bean = new OrderBean("XA-2231", 
+            new CustomerBean("PB34", "Mr Abbot", "1, Skipton Road","Shipley", "Merry England", "BD4 8KL"));
+        bean.addLine(
+              new OrderLineBean(4, new ProductBean("00112234", "A11", "Taylor's Landlord", "Taylor's Landlord")));
+        bean.addLine(
+              new OrderLineBean(5, new ProductBean("00112235", "A13", "Black Sheep Special", "Black Sheep Special")));
+        writer.write(bean);
+       
+        String xml = out.getBuffer().toString();
+       
+        xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));  
+        
+    }
 }

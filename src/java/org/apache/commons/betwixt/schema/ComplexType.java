@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.5 2004/02/04 22:57:41 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/04 22:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.6 2004/02/07 14:44:45 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/07 14:44:45 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class ComplexType {
 	
@@ -95,7 +95,11 @@ public class ComplexType {
     public ComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         if (elementDescriptor.isHollow()) {
             // need to introspector for filled descriptor
-            XMLBeanInfo filledBeanInfo = schema.introspect(elementDescriptor.getPropertyType());
+            Class type = elementDescriptor.getSingularPropertyType();
+            if (type == null) {
+                type = elementDescriptor.getPropertyType();
+            }
+            XMLBeanInfo filledBeanInfo = schema.introspect(type);
             elementDescriptor = filledBeanInfo.getElementDescriptor();
         }
         init(elementDescriptor, schema);      
@@ -116,7 +120,7 @@ public class ComplexType {
         //TODO: add support for spacing elements
         ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();
         for (int i=0,length=elementDescriptors.length; i<length ; i++) {
-                elements.add(new Element(elementDescriptors[i], schema));
+                elements.add(new LocalElement(elementDescriptors[i], schema));
         } 
     }
 
@@ -132,7 +136,7 @@ public class ComplexType {
 	 * Adds an element to those contained by this type
 	 * @param element
 	 */
-	public void addElement(Element element) {
+	public void addElement(LocalElement element) {
 		elements.add(element);
 	}
 	
@@ -173,7 +177,7 @@ public class ComplexType {
           if (obj instanceof ComplexType) {
               ComplexType complexType = (ComplexType) obj;
               result =  isEqual(name, complexType.name) &&
-                        CollectionUtils.isEqualCollection(attributes, complexType.attributes);
+                        CollectionUtils.isEqualCollection(attributes, complexType.attributes) &&
                         CollectionUtils.isEqualCollection(elements, complexType.elements);
                                    
           }

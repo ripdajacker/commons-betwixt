@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.3 2004/02/04 22:57:41 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/04 22:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.4 2004/02/07 14:44:45 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/07 14:44:45 $
  *
  * ====================================================================
  * 
@@ -61,14 +61,11 @@
 
 package org.apache.commons.betwixt.schema;
 
-import java.beans.IntrospectionException;
-
-import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Models the Element tag in the XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class Element {
 	//TODO: going to ignore the issue of namespacing for the moment
@@ -76,29 +73,22 @@ public class Element {
 	
 	private String name;
 	private String type;
+
     private ComplexType complexType;
 	
 	public Element() {}
-	public Element(String name, String type) {
-		setName(name);
-		setType(type);
-	}
+    
+    public Element(String name, String type) {
+        setName(name);
+        setType(type);
+    }
     
     public Element(String name, ComplexType complexType) {
         setName(name);
         setComplexType(complexType);
     }
     
-    public Element(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        setName(elementDescriptor.getLocalName());
-        if (elementDescriptor.isHollow()) {
-            setComplexType( new ComplexType(elementDescriptor, schema));
-            schema.addComplexType(getComplexType());
-        } else {
-            
-            setType("xsd:string");
-        }
-    }
+
     
 
     /**
@@ -132,7 +122,7 @@ public class Element {
     public void setType(String string) {
         type = string;
     }
-    
+
 
     /**
      * Gets the anonymous type definition for this element, if one exists.

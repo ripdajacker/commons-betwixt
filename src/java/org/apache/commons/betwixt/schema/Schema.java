@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.4 2004/02/04 22:57:41 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/02/04 22:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.5 2004/02/07 14:44:45 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/02/07 14:44:45 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.4 $
+ * @version $Revision: 1.1.2.5 $
  */
 public class Schema {
 	
@@ -174,10 +174,10 @@ public class Schema {
     	boolean result = false;
         if (obj instanceof Schema) {
         	Schema schema = (Schema) obj;
-        	result =
-        	CollectionUtils.isEqualCollection(elements, schema.elements) &&
-			CollectionUtils.isEqualCollection(complexTypes, schema.complexTypes) &&
-			CollectionUtils.isEqualCollection(simpleTypes, schema.simpleTypes);
+        	result = 
+                    CollectionUtils.isEqualCollection(elements, schema.elements) &&
+                    CollectionUtils.isEqualCollection(complexTypes, schema.complexTypes) &&
+                    CollectionUtils.isEqualCollection(simpleTypes, schema.simpleTypes);
         }
         return result;
     }
@@ -185,6 +185,7 @@ public class Schema {
     public int hashCode() {
         return 0;
     }
+    
 
 
     public String toString() {
