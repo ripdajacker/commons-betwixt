@@ -24,7 +24,7 @@ import java.util.Set;
  * An option links a name with a value (both strings). 
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @since 0.5
  */
 public class Options {
     /** Empty string array for use with toArray  */

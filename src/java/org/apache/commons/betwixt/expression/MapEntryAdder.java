@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.6 $
+  * @since 0.5
   */
 public class MapEntryAdder {
 

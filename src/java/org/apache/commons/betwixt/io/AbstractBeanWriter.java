@@ -84,7 +84,6 @@ import org.xml.sax.helpers.AttributesImpl;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.27 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -354,6 +353,7 @@ public abstract class AbstractBeanWriter {
     /**
      * Gets the dynamic configuration setting to be used for bean reading.
      * @return the BindingConfiguration settings, not null
+     * @since 0.5
      */
     public BindingConfiguration getBindingConfiguration() {
         return bindingConfiguration;
@@ -362,6 +362,7 @@ public abstract class AbstractBeanWriter {
     /**
      * Sets the dynamic configuration setting to be used for bean reading.
      * @param bindingConfiguration the BindingConfiguration settings, not null
+     * @since 0.5
      */
     public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
         this.bindingConfiguration = bindingConfiguration;
@@ -374,7 +375,7 @@ public abstract class AbstractBeanWriter {
      * then a {@link CyclicReferenceException} will be thrown by the write method.</p>
      * 
      * @return true if <code>ID</code> and <code>IDREF</code> attributes are to be written
-     * @deprecated use {@link BindingConfiguration#getMapIDs}
+     * @deprecated 0.5 use {@link BindingConfiguration#getMapIDs}
      */
     public boolean getWriteIDs() {
         return getBindingConfiguration().getMapIDs();
@@ -386,7 +387,7 @@ public abstract class AbstractBeanWriter {
      * will be thrown whenever a cyclic occurs in the bean graph.
      *
      * @param writeIDs true if <code>ID</code>'s and <code>IDREF</code>'s should be written
-     * @deprecated use {@link BindingConfiguration#setMapIDs}
+     * @deprecated 0.5 use {@link BindingConfiguration#setMapIDs}
      */
     public void setWriteIDs(boolean writeIDs) {
         getBindingConfiguration().setMapIDs( writeIDs );
@@ -401,6 +402,7 @@ public abstract class AbstractBeanWriter {
      * <code>&lt;element attr='value'/&gt;</code> is not.</p>
      *
      * @return true if empty elements will be written into the output
+     * @since 0.5
      */
     public boolean getWriteEmptyElements() {
         return writeEmptyElements;
@@ -415,6 +417,7 @@ public abstract class AbstractBeanWriter {
      * <code>&lt;element attr='value'/&gt;</code> is not.
      *
      * @param writeEmptyElements true if empty elements should be written into the output 
+     * @since 0.5
      */
     public void setWriteEmptyElements(boolean writeEmptyElements) {
         this.writeEmptyElements = writeEmptyElements;
@@ -480,7 +483,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha-1
+     * @since 0.5
      */
     protected void startElement(
                                 WriteContext context,
@@ -504,7 +507,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha-1
+     * @since 0.5
      */
     protected void endElement(
                                 WriteContext context,
@@ -525,7 +528,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void bodyText(WriteContext context, String text) 
                                 throws IOException, SAXException {
@@ -546,8 +549,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha-1
-     * @deprecated use {@link #startElement(WriteContext, String, String, String, Attributes)}
+     * @deprecated 0.5 use {@link #startElement(WriteContext, String, String, String, Attributes)}
      */
     protected void startElement(
                                 String uri, 
@@ -567,8 +569,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha-1
-     * @deprecated use {@link #endElement(WriteContext, String, String, String)}
+     * @deprecated 0.5 use {@link #endElement(WriteContext, String, String, String)}
      */
     protected void endElement(
                                 String uri, 
@@ -585,8 +586,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
-     * @deprecated use {@link #bodyText(WriteContext, String)}
+     * @deprecated 0.5 use {@link #bodyText(WriteContext, String)}
      */
     protected void bodyText(String text) throws IOException, SAXException {}
     
@@ -1206,7 +1206,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.27 $
+     * @version $Revision: 1.28 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */
@@ -1337,7 +1337,7 @@ public abstract class AbstractBeanWriter {
      * Used for pretty priting.
      *
      * @return the amount that the current element is indented
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected int getIndentLevel() {
         return 0;
@@ -1352,7 +1352,7 @@ public abstract class AbstractBeanWriter {
      * @param qualifiedName the qualified name of the element to be expressed
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementStart(String qualifiedName) 
                                         throws IOException, SAXException {
@@ -1367,7 +1367,7 @@ public abstract class AbstractBeanWriter {
      * @param qualifiedName the qualified name of the element to be expressed
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementStart(String uri, String localName, String qualifiedName) 
                                         throws IOException, SAXException {
@@ -1379,7 +1379,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressTagClose() throws IOException, SAXException {}
     
@@ -1390,7 +1390,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementEnd(String qualifiedName) 
                                               throws IOException, SAXException {
@@ -1406,7 +1406,7 @@ public abstract class AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementEnd(
                                                 String uri,
@@ -1424,7 +1424,7 @@ public abstract class AbstractBeanWriter {
      * 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementEnd() throws IOException, SAXException {}
 
@@ -1435,7 +1435,7 @@ public abstract class AbstractBeanWriter {
      * 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressBodyText(String text) throws IOException, SAXException {}
     
@@ -1446,7 +1446,7 @@ public abstract class AbstractBeanWriter {
      * @param value the attribute value
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressAttribute(
                                 String qualifiedName, 
@@ -1466,7 +1466,7 @@ public abstract class AbstractBeanWriter {
      * @param value the attribute value
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressAttribute(
                                 String namespaceUri,
@@ -1489,7 +1489,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void write( 
                             String qualifiedName, 
@@ -1513,7 +1513,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void write( 
                             String qualifiedName, 
@@ -1544,7 +1544,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writeRestOfElement( 
                             String qualifiedName, 
@@ -1566,7 +1566,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writeIDREFElement( 
                                     String qualifiedName, 
@@ -1598,7 +1598,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected boolean writeContent( 
                         ElementDescriptor elementDescriptor, 
@@ -1618,7 +1618,7 @@ public abstract class AbstractBeanWriter {
      * @param context the <code>Context</code> to use to evaluation bean expressions
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writeAttributes( 
                     ElementDescriptor elementDescriptor, 
@@ -1646,7 +1646,7 @@ public abstract class AbstractBeanWriter {
      * @param context the <code>Context</code> to use to evaluation bean expressions
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writeAttribute( 
                         AttributeDescriptor attributeDescriptor, 
@@ -1673,7 +1673,7 @@ public abstract class AbstractBeanWriter {
      * This implementation does nothing but can be overridden by subclasses.
      *
      * @throws IOException if the line cannot be written
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writePrintln() throws IOException {}
     
@@ -1682,7 +1682,7 @@ public abstract class AbstractBeanWriter {
      * This implementation does nothing but can be overridden by subclasses.
      * 
      * @throws IOException if the indent cannot be written
-     * @deprecated after 1.0-Alpha-1 replaced by new BeanWriter API
+     * @deprecated 0.5 replaced by new BeanWriter API
      */
     protected void writeIndent() throws IOException {}
     

@@ -20,7 +20,7 @@
   * of the context bean
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @since 0.5
   */
 public class ClassNameExpression implements Expression {
 

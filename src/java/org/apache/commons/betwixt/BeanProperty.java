@@ -37,7 +37,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.6 2004/06/13 21:32:45 rdonkin Exp $
+  * @since 0.5
   */
 public class BeanProperty {
 

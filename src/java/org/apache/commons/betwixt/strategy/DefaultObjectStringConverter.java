@@ -37,7 +37,7 @@ import org.apache.commons.betwixt.expression.Context;
  * (given the default settings).
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.9 $
+ * @since 0.5
  */
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     

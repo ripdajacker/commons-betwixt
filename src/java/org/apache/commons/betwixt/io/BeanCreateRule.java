@@ -38,8 +38,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.25 $
-  * @deprecated this Rule does not allowed good integration with other Rules -
+  * @deprecated 0.5 this Rule does not allowed good integration with other Rules -
   * use {@link BeanRuleSet} instead.
   */
 public class BeanCreateRule extends Rule {

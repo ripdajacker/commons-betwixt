@@ -40,7 +40,6 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.21 $
   */
 public class BeanReader extends Digester {
 
@@ -187,6 +186,7 @@ public class BeanReader extends Digester {
      *
      * <p><strong>Note</strong> that deregistering a bean does <strong>not</strong>
      * remove the Digester rules associated with that bean.</p>
+     * @since 0.5
      */
     public void flushRegisteredBeanClasses() {    
         registeredClasses.clear();
@@ -203,6 +203,7 @@ public class BeanReader extends Digester {
      * remove the Digester rules associated with that bean.</p>
      *
      * @param beanClass the <code>Class</code> to remove from the set of registered bean classes
+     * @since 0.5 
      */
     public void deregisterBeanClass( Class beanClass ) {
         registeredClasses.remove( beanClass );
@@ -264,7 +265,7 @@ public class BeanReader extends Digester {
      *
      * @return true if <code>ID</code> and <code>IDREF</code> 
      * attributes should be used to match instances
-     * @deprecated use {@link BindingConfiguration#getMapIDs}
+     * @deprecated 0.5 use {@link BindingConfiguration#getMapIDs}
      */
     public boolean getMatchIDs() {
         return getBindingConfiguration().getMapIDs();
@@ -274,7 +275,7 @@ public class BeanReader extends Digester {
      * Set whether the read should use <code>ID</code> attributes to match beans.
      *
      * @param matchIDs pass true if <code>ID</code>'s should be matched
-     * @deprecated use {@link BindingConfiguration#setMapIDs}
+     * @deprecated 0.5 use {@link BindingConfiguration#setMapIDs}
      */
     public void setMatchIDs(boolean matchIDs) {
         getBindingConfiguration().setMapIDs( matchIDs );
@@ -283,6 +284,7 @@ public class BeanReader extends Digester {
     /**
      * Gets the dynamic configuration setting to be used for bean reading.
      * @return the BindingConfiguration settings, not null
+     * @since 0.5
      */
     public BindingConfiguration getBindingConfiguration() {
         return bindingConfiguration;
@@ -291,6 +293,7 @@ public class BeanReader extends Digester {
     /**
      * Sets the dynamic configuration setting to be used for bean reading.
      * @param bindingConfiguration the BindingConfiguration settings, not null
+     * @since 0.5
      */
     public void setBindingConfiguration( BindingConfiguration bindingConfiguration ) {
         this.bindingConfiguration = bindingConfiguration;
@@ -299,6 +302,7 @@ public class BeanReader extends Digester {
     /**
      * Gets read specific configuration details.
      * @return the ReadConfiguration, not null
+     * @since 0.5
      */
     public ReadConfiguration getReadConfiguration() {
         return readConfiguration;
@@ -307,6 +311,7 @@ public class BeanReader extends Digester {
     /**
      * Sets the read specific configuration details.
      * @param readConfiguration not null
+     * @since 0.5
      */
     public void setReadConfiguration( ReadConfiguration readConfiguration ) {
         this.readConfiguration = readConfiguration;

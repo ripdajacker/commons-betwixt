@@ -27,7 +27,7 @@ package org.apache.commons.betwixt;
   * <p>This is really just a marker class - all functionality is inherited.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @since 0.5
   */
 public class TextDescriptor extends Descriptor {
     

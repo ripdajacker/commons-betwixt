@@ -36,7 +36,7 @@ package org.apache.commons.betwixt.strategy;
  * properly by viewing them through their remote interfaces.
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.4 $
+ * @since 0.5
  */
 public class ClassNormalizer {
 

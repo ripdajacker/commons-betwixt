@@ -28,7 +28,7 @@ import java.util.Iterator;
  * If a match is found then the first substituted class is returned as the normalization.
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.6 $
+ * @since 0.5
  */
 public class ListedClassNormalizer extends ClassNormalizer {
 

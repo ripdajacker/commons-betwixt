@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.XMLUtils;
  * with an appropriate decision algorithm.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @since 0.5
  */
 public abstract class BaseMixedContentEncodingStrategy
     extends MixedContentEncodingStrategy {

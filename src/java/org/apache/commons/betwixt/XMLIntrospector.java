@@ -67,7 +67,6 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.29 2004/06/13 21:32:45 rdonkin Exp $
   */
 public class XMLIntrospector {
     /** 
@@ -185,6 +184,7 @@ public class XMLIntrospector {
       * @return the <code>ClassNormalizer</code> used to determine the Class to be introspected
       * for a given Object.
       * @deprecated use getConfiguration().getClassNormalizer
+      * @since 0.5
       */
     public ClassNormalizer getClassNormalizer() {
         return getConfiguration().getClassNormalizer();
@@ -198,6 +198,8 @@ public class XMLIntrospector {
       * @param classNormalizer the <code>ClassNormalizer</code> to be used to determine 
       * the Class to be introspected for a given Object.
       * @deprecated use getConfiguration().setClassNormalizer
+      * @since 0.5
+      *
       */    
     public void setClassNormalizer(ClassNormalizer classNormalizer) {
         getConfiguration().setClassNormalizer(classNormalizer);
@@ -206,7 +208,7 @@ public class XMLIntrospector {
     /** 
      * Is <code>XMLBeanInfo</code> caching enabled? 
      *
-     * @deprecated replaced by XMlBeanInfoRegistry
+     * @deprecated 0.5 replaced by XMlBeanInfoRegistry
      * @return true if caching is enabled
      */
     public boolean isCachingEnabled() {
@@ -216,7 +218,7 @@ public class XMLIntrospector {
     /**
      * Set whether <code>XMLBeanInfo</code> caching should be enabled.
      *
-     * @deprecated replaced by XMlBeanInfoRegistry
+     * @deprecated 0.5 replaced by XMlBeanInfoRegistry
      * @param cachingEnabled ignored
      */    
     public void setCachingEnabled(boolean cachingEnabled) {
@@ -288,7 +290,7 @@ public class XMLIntrospector {
      * Gets the name mapper strategy.
      * 
      * @return the strategy used to convert bean type names into element names
-     * @deprecated getNameMapper is split up in 
+     * @deprecated 0.5 getNameMapper is split up in 
      * {@link #getElementNameMapper()} and {@link #getAttributeNameMapper()}
      */
     public NameMapper getNameMapper() {
@@ -298,7 +300,7 @@ public class XMLIntrospector {
     /** 
      * Sets the strategy used to convert bean type names into element names
      * @param nameMapper the NameMapper strategy to be used
-     * @deprecated setNameMapper is split up in 
+     * @deprecated 0.5 setNameMapper is split up in 
      * {@link #setElementNameMapper(NameMapper)} and {@link #setAttributeNameMapper(NameMapper)}
      */
     public void setNameMapper(NameMapper nameMapper) {
@@ -375,7 +377,7 @@ public class XMLIntrospector {
     /**
      * Flush existing cached <code>XMLBeanInfo</code>'s.
      *
-     * @deprecated use flushable registry instead
+     * @deprecated 0.5 use flushable registry instead
      */
     public void flushCache() {}
     
@@ -599,8 +601,7 @@ public class XMLIntrospector {
      * @param useAttributesForPrimitives write primitives as attributes (rather than elements)
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      * @throws IntrospectionException when bean introspection fails
-     * @deprecated use {@link #createXMLDescriptor}.
-     * @since Alpha1
+     * @deprecated 0.5 use {@link #createXMLDescriptor}.
      */
     public Descriptor createDescriptor(
         PropertyDescriptor propertyDescriptor, 
@@ -616,6 +617,7 @@ public class XMLIntrospector {
      *
      * @param beanProperty the BeanProperty specifying the property
      * @return a correctly configured <code>NodeDescriptor</code> for the property
+     * @since 0.5
      */
     public Descriptor createXMLDescriptor( BeanProperty beanProperty ) {
         return beanProperty.createXMLDescriptor( configuration );
@@ -963,7 +965,7 @@ public class XMLIntrospector {
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated use {@link #addProperties(BeanProperty[], List, List,List)}
+     * @deprecated 0.5 use {@link #addProperties(BeanProperty[], List, List,List)}
      */
     protected void addProperties(
                                     BeanInfo beanInfo, 
@@ -991,6 +993,7 @@ public class XMLIntrospector {
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
+     * @since 0.5
      */
     protected void addProperties(
                                     BeanProperty[] beanProperties, 
@@ -1025,7 +1028,7 @@ public class XMLIntrospector {
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated BeanInfo is no longer required. 
+     * @deprecated 0.5 BeanInfo is no longer required. 
      * Use {@link #addProperty(PropertyDescriptor, List, List, List)} instead.
      */
     protected void addProperty(
@@ -1049,7 +1052,7 @@ public class XMLIntrospector {
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated use {@link #addProperty(BeanProperty, List, List, List)} instead
+     * @deprecated 0.5 use {@link #addProperty(BeanProperty, List, List, List)} instead
      */
     protected void addProperty(
                                 PropertyDescriptor propertyDescriptor, 
@@ -1070,6 +1073,7 @@ public class XMLIntrospector {
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
+     * @since 0.5
      */
     protected void addProperty(
                                 BeanProperty beanProperty, 
@@ -1096,7 +1100,7 @@ public class XMLIntrospector {
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated this method does not support mixed content. 
+     * @deprecated 0.5 this method does not support mixed content. 
      * Use {@link #addProperties(BeanInfo, List, List, List)} instead.
      */
     protected void addProperties(
@@ -1127,7 +1131,7 @@ public class XMLIntrospector {
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated this method does not support mixed content. 
+     * @deprecated 0.5 this method does not support mixed content. 
      * Use {@link #addProperty(BeanInfo, PropertyDescriptor, List, List, List)} instead.
      */
     protected void addProperty(

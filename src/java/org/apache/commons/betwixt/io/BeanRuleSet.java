@@ -35,7 +35,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.19 $
+  * @since 0.5
   */
 public class BeanRuleSet implements RuleSet {
 
@@ -68,7 +68,7 @@ public class BeanRuleSet implements RuleSet {
      * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param matchIDs should ID/IDREFs be used to match beans?
-     * @deprecated use constructor which takes a ReadContext instead
+     * @deprecated 0.5 use constructor which takes a ReadContext instead
      */
     public BeanRuleSet(
         XMLIntrospector introspector,
@@ -124,7 +124,7 @@ public class BeanRuleSet implements RuleSet {
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param context the root Context that bean carrying Contexts should be obtained from, 
      * not null
-     * @deprecated use the constructor which takes a ReadContext instead
+     * @deprecated 0.5 use the constructor which takes a ReadContext instead
      */
     public BeanRuleSet(
                         XMLIntrospector introspector,
@@ -183,7 +183,7 @@ public class BeanRuleSet implements RuleSet {
      * <p>The default value is 'className'.</p>
      * 
      * @param classNameAttribute The name of the attribute used to overload the class name of a bean
-     * @deprecated set the <code>ReadContext</code> property instead
+     * @deprecated 0.5 set the <code>ReadContext</code> property instead
      */
     public void setClassNameAttribute(String classNameAttribute) {
         context.setClassNameAttribute(classNameAttribute);
@@ -331,7 +331,7 @@ public class BeanRuleSet implements RuleSet {
     /**
      * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.19 $
+     * @version $Revision: 1.20 $
      */
     private static class DigesterReadContext extends ReadContext {
 
