@@ -1,45 +1,19 @@
 $Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
 
 			 Commons Betwixt Package
-			   Version 1.0-Alpha-1
-			    Release Notes
+  			       Version 0.5
+			      Release Notes
 
 INTRODUCTION:
 
 Betwixt provides a flexible way to map beans into XML - and vice versa. This is the 
 first betwixt release.
 
-There's quite a lot of work to be done before Betwixt is ready for a full 
-release - but it's already used by other projects. This alpha will give a 
-versioned release for these projects to depend on. A word of warning - though 
-the betwixt developers take backwards compatible very seriously, it's likely that
-some parts of the internal API are going to have to change - and some of these 
-changes may break compatibility. 
-
-NEW FEATURES:
-
-Everything :)
-
-But here's some features you might like to take a look at:
-
-* Betwixt can write beans to character streams or as SAX events
-* Betwixt builds on Digester (http://jakarta.apache.org/commons/digester.html) 
-  to allow xml to be read (using SAX) and mapping into beans in a compatible way
-* Betwixt supports powerful pluggable general strategies but also allows mappings 
-  to be customized at the bean level.
+This release consolidates the codebase released in Alpha-1.0. It is stable and mature
+but the design is limited. Newer, more sophisticated designs are being introduced 
+(in later releses) but they are unlikely to be binary compatible. This API exposed 
+in this release is therefore not sufficiently stable enough to warrent a 1.0 version 
+number.
 
 
-BUG FIXES:
-
-KNOWN LIMITATIONS:
-* This release of betwixt does not validate the element and attribute names 
-  specified in .betwixt files to ensure that they will produce well formed xml. 
-  Please take care to ensure that the names you choose for you elements and 
-  attributes will result in well formed xml.
-* Betwixt is not usable for swing components, unless you write a wrapper class 
-  around the Swing component. The XMLEncoder that is used in JDK 1.4.x does a 
-  better job in this, by analyzing what is needed based on what clone() does and 
-  custom processing for swing components. If you really need this and are writing 
-  wrappers around swing components, please contribute it to the betwixt project. 
-  
 
