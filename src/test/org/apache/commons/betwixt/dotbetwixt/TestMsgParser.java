@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1.2.2 2004/01/15 20:41:28 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/15 20:41:28 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1.2.3 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -73,7 +73,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.1.2.2 2004/01/15 20:41:28 rdonkin Exp $
+ * @version $Id: TestMsgParser.java,v 1.1.2.3 2004/01/18 22:25:23 rdonkin Exp $
  */
 public class TestMsgParser extends TestCase
 {
@@ -143,7 +143,7 @@ public class TestMsgParser extends TestCase
 
         // Configure betwixt
         // For more details see java docs or later in the main documentation
-        beanWriter.getXMLIntrospector().setAttributesForPrimitives(true);
+        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
 
@@ -167,7 +167,7 @@ public class TestMsgParser extends TestCase
         MsgBean msg = null;
         BeanReader beanReader = new BeanReader();
         // Configure the reader
-        beanReader.getXMLIntrospector().setAttributesForPrimitives(true);
+        beanReader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         // Register beans so that betwixt knows what the xml is 
         beanReader.registerBeanClass("message", MsgBean.class);
         StringReader stringReader = new StringReader(xmlMessage);

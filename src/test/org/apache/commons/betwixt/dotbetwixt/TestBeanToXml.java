@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15.2.2 2004/01/15 23:34:23 rdonkin Exp $
- * $Revision: 1.15.2.2 $
- * $Date: 2004/01/15 23:34:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15.2.3 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.15.2.3 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -213,8 +213,8 @@ public class TestBeanToXml extends XmlTestCase {
         
         BeanWriter writer = new BeanWriter( out );
 		writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         
         writer.write( bean );
         

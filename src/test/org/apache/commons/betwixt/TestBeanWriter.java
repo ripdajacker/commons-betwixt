@@ -220,7 +220,7 @@ public class TestBeanWriter extends AbstractTestCase {
 		writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint(); 
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
         writer.setXMLIntrospector(introspector);
         writer.write(new LoopBean("Escape<LessThan"));
         writer.write(new LoopBean("Escape>GreaterThan"));
@@ -469,7 +469,7 @@ public class TestBeanWriter extends AbstractTestCase {
         //XMLIntrospectorHelper.setLog(log);
         
         writer.setWriteEmptyElements(false);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write("Names", names);
         
@@ -489,7 +489,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write("Names", names);
         
@@ -510,7 +510,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write("Names", names);
         
@@ -531,7 +531,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(false);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write("Names", names);
         
@@ -561,7 +561,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write("CarryOn", names);
         
@@ -583,9 +583,9 @@ public class TestBeanWriter extends AbstractTestCase {
 
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new CapitalizeNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
         writer.write("CarryOn", names);
         
         xml = "<?xml version='1.0'?><CarryOn><Names>"
@@ -613,7 +613,7 @@ public class TestBeanWriter extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
         
@@ -633,9 +633,9 @@ public class TestBeanWriter extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new CapitalizeNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
         writer.write(bean);
         
         xml = "<?xml version='1.0'?><NoAdderBean><Things>"
@@ -654,9 +654,9 @@ public class TestBeanWriter extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper(false));
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(false));
         writer.write(bean);
         
         xml = "<?xml version='1.0'?><no-adder-bean><things>"

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.9.2.2 2004/01/15 22:01:03 rdonkin Exp $
- * $Revision: 1.9.2.2 $
- * $Date: 2004/01/15 22:01:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.9.2.3 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.9.2.3 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.9.2.2 2004/01/15 22:01:03 rdonkin Exp $
+ * @version $Id: TestNoWrap.java,v 1.9.2.3 2004/01/18 22:25:23 rdonkin Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase
@@ -192,16 +192,16 @@ public class TestNoWrap
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 
         // wrap collections in an XML element
-        introspector.setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
 
         // turn bean elements first letter into lower case
-        introspector.setElementNameMapper( new DecapitalizeNameMapper() );
+        introspector.getConfiguration().setElementNameMapper( new DecapitalizeNameMapper() );
 
         // Set default plural stemmer.
-        introspector.setPluralStemmer( new DefaultPluralStemmer() );
+        introspector.getConfiguration().setPluralStemmer( new DefaultPluralStemmer() );
 
         return introspector;
     }

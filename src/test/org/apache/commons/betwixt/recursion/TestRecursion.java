@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.3 2004/01/15 23:34:23 rdonkin Exp $
- * $Revision: 1.13.2.3 $
- * $Date: 2004/01/15 23:34:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.4 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.13.2.4 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.13.2.3 2004/01/15 23:34:23 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.13.2.4 2004/01/18 22:25:23 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -113,7 +113,7 @@ public class TestRecursion extends AbstractTestCase
     
         XMLIntrospector intro = createXMLIntrospector();
         //intro.setLog(log);
-        intro.setWrapCollectionsInElement(true);
+        intro.getConfiguration().setWrapCollectionsInElement(true);
         
         //log = new SimpleLog("[testReadwithCollectionsInElementRoundTrip:BeanReader]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
@@ -176,7 +176,7 @@ public class TestRecursion extends AbstractTestCase
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
  
         XMLIntrospector intro = createXMLIntrospector();
-        intro.setWrapCollectionsInElement(false);
+        intro.getConfiguration().setWrapCollectionsInElement(false);
 //        intro.setLog(log);
 //        log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:XMLIntrospectorHelper]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
@@ -243,7 +243,7 @@ public class TestRecursion extends AbstractTestCase
         writer.setWriteEmptyElements( true );
         writer.setXMLIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
-        writer.getXMLIntrospector().setWrapCollectionsInElement(wrapIt);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(wrapIt);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
         writer.getBindingConfiguration().setMapIDs(false);
@@ -259,8 +259,8 @@ public class TestRecursion extends AbstractTestCase
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(true);
-        introspector.setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
         
         return introspector;
     }
@@ -276,7 +276,7 @@ public class TestRecursion extends AbstractTestCase
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
-        writer.getXMLIntrospector().setAttributesForPrimitives(true);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         writer.getBindingConfiguration().setMapIDs(true);
         writer.write(bean);
         

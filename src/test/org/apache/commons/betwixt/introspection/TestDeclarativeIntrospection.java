@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.1 2004/01/18 12:30:58 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:30:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.2 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
@@ -80,8 +80,8 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
     
     public void _testWrappedCollective() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setWrapCollectionsInElement(true);
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
         XMLBeanInfo out = introspector.introspect(PhoneBookBean.class);
         
         // with wrapped collective, we expect a spacer element descriptor 
@@ -112,8 +112,8 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
     
     public void _testUnwrappedCollective() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setWrapCollectionsInElement(false);
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
         XMLBeanInfo out = introspector.introspect(PhoneBookBean.class);
         
         // with wrapped collective, we expect a spacer element descriptor 
@@ -136,8 +136,8 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
     
     public void testIsSimpleForPrimitives() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setWrapCollectionsInElement(true);
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setWrapCollectionsInElement(true);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         XMLBeanInfo out = introspector.introspect(PhoneNumberBean.class);
         
         // the bean is mapped to a complex type structure and so should not be simple

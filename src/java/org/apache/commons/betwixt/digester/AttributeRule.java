@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.2 2004/01/18 19:21:17 rdonkin Exp $
- * $Revision: 1.8.2.2 $
- * $Date: 2004/01/18 19:21:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.3 2004/01/18 22:25:22 rdonkin Exp $
+ * $Revision: 1.8.2.3 $
+ * $Date: 2004/01/18 22:25:22 $
  *
  * ====================================================================
  * 
@@ -81,7 +81,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.8.2.2 2004/01/18 19:21:17 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.8.2.3 2004/01/18 22:25:22 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -233,7 +233,7 @@ public class AttributeRule extends RuleSupport {
             log.trace( "Ignoring class property" );
             return;
         }
-        if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+        if ( getXMLIntrospector().isLoopType( type ) ) {
             log.warn( "Using loop type for an attribute. Type = " 
                     + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );
         }

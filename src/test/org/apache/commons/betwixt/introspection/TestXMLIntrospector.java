@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.3 2004/01/15 23:34:23 rdonkin Exp $
- * $Revision: 1.10.2.3 $
- * $Date: 2004/01/15 23:34:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.4 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.10.2.4 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -86,7 +86,7 @@ import org.apache.commons.digester.rss.Channel;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10.2.3 $
+  * @version $Revision: 1.10.2.4 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -108,7 +108,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         XMLIntrospector introspector = new XMLIntrospector();
         //introspector.setLog(log);
         
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
         
         Object bean = createBean();
         
@@ -199,7 +199,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 //        introspector.setLog(log);
         
         XMLBeanInfo xmlBeanInfo = introspector.introspect(BeanWithBeanInfoBean.class);
@@ -265,7 +265,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
     
     public void testClassNormalizer() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setClassNormalizer( new ClassNormalizer() {
+        introspector.getConfiguration().setClassNormalizer( new ClassNormalizer() {
                 
                 public Class normalize(Class clazz) {
                     if (IFace.class.isAssignableFrom( clazz )) {
@@ -292,7 +292,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
         classNormalizer.addSubstitution( IFace.class );
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setClassNormalizer(classNormalizer);
+        introspector.getConfiguration().setClassNormalizer(classNormalizer);
         
         FaceImpl face = new FaceImpl();
         
@@ -314,7 +314,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter( out );
 		writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setClassNormalizer( classNormalizer );
+        writer.getXMLIntrospector().getConfiguration().setClassNormalizer( classNormalizer );
         FaceImpl bean = new FaceImpl();
         bean.setName("Old Tom Cobbly");
         writer.write(bean);

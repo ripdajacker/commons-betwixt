@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.3 2004/01/17 10:55:24 rdonkin Exp $
- * $Revision: 1.16.2.3 $
- * $Date: 2004/01/17 10:55:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.4 2004/01/18 22:25:22 rdonkin Exp $
+ * $Revision: 1.16.2.4 $
+ * $Date: 2004/01/18 22:25:22 $
  *
  * ====================================================================
  * 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.3 $
+  * @version $Revision: 1.16.2.4 $
   */
 public class BeanRuleSet implements RuleSet {
 
@@ -295,8 +295,8 @@ public class BeanRuleSet implements RuleSet {
             ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
             if (activeDescriptor != null) {
                 Class lastMapped = context.getLastMappedClass();
-                if (XMLIntrospectorHelper
-                    .isPrimitiveType(activeDescriptor.getPropertyType())) {
+                if (context.getXMLIntrospector().
+                    isPrimitiveType(activeDescriptor.getPropertyType())) {
                     // primitives are mapped to body update actions
                     result = BodyUpdateAction.INSTANCE;
                 } else if (lastMapped == null) {
@@ -309,7 +309,7 @@ public class BeanRuleSet implements RuleSet {
                     // really, need a marker to indicate whether a element descriptor 
                     // is hollow
                     if (activeDescriptor.getElementDescriptors().length != 0
-                        && XMLIntrospectorHelper.isLoopType(singular)) {
+                        && context.getXMLIntrospector().isLoopType(singular)) {
                         result = MappingAction.EMPTY;
                     } else if (singular == null) {
                         // workaround for map support

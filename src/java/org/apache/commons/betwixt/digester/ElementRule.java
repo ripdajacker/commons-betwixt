@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.3 2004/01/18 19:21:17 rdonkin Exp $
- * $Revision: 1.13.2.3 $
- * $Date: 2004/01/18 19:21:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.4 2004/01/18 22:25:22 rdonkin Exp $
+ * $Revision: 1.13.2.4 $
+ * $Date: 2004/01/18 22:25:22 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.3 2004/01/18 19:21:17 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.4 2004/01/18 22:25:22 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -290,10 +290,10 @@ public class ElementRule extends MappedPropertyRule {
             log.trace( "Ignoring class property" );
             return;
         }
-        if ( XMLIntrospectorHelper.isPrimitiveType( type ) ) {
+        if ( getXMLIntrospector().isPrimitiveType( type ) ) {
             elementDescriptor.setTextExpression( new MethodExpression( readMethod ) );
             
-        } else if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+        } else if ( getXMLIntrospector().isLoopType( type ) ) {
             log.trace("Loop type ??");
             
             // don't wrap this in an extra element as its specified in the 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.5.2.1 2004/01/15 20:41:29 rdonkin Exp $
- * $Revision: 1.5.2.1 $
- * $Date: 2004/01/15 20:41:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.5.2.2 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.5.2.2 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -167,9 +167,9 @@ public class TestElementsIO extends TestCase {
 
     private XMLIntrospector newXMLIntrospector(NameMapper mapper) {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(true);
-        introspector.setWrapCollectionsInElement(false);
-        introspector.setElementNameMapper(mapper);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setElementNameMapper(mapper);
         return introspector;
     }
 }

@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.8 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.8.2.1 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.8.2.1 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.8.2.1 $
   */
 public class TestHyphenatedNameMapper extends TestCase {
     
@@ -132,7 +132,7 @@ public class TestHyphenatedNameMapper extends TestCase {
         // basically, the test is that no exception is thrown
         //
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
         introspector.introspect(new ArrayList());
     }
 }

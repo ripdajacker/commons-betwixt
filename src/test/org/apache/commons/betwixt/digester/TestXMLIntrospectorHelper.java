@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.6.2.1 2004/01/15 21:57:41 rdonkin Exp $
- * $Revision: 1.6.2.1 $
- * $Date: 2004/01/15 21:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.6.2.2 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.6.2.2 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.6.2.1 $
+  * @version $Revision: 1.6.2.2 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 
@@ -102,8 +102,8 @@ public class TestXMLIntrospectorHelper extends TestCase {
      */
     public void testCreateDescriptorWithHyphenatedElementNameMapper() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
         BeanInfo beanInfo = Introspector.getBeanInfo(CustomerBean.class);
 
         NodeDescriptor nickNameProperty = createDescriptor("nickName", beanInfo, introspector);

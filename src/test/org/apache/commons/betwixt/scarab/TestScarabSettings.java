@@ -9,7 +9,7 @@ package org.apache.commons.betwixt.scarab;
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,13 +168,13 @@ public class TestScarabSettings extends AbstractTestCase
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 
         // wrap collections in an XML element
         //introspector.setWrapCollectionsInElement(true);
 
         // turn bean elements into lower case
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
 
         return introspector;
     }

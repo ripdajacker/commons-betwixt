@@ -161,13 +161,13 @@ public class TestBeanReader extends AbstractTestCase {
         bean = new PersonBean(19, "John Smith");
         stringWriter = new StringWriter();
         beanWriter = new BeanWriter(stringWriter);
-        beanWriter.getXMLIntrospector().setAttributesForPrimitives(true);
+        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         beanWriter.write(bean);
         stringWriter.flush();
         xml = "<?xml version='1.0'?>" + stringWriter.toString();
         
         reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         reader.registerBeanClass( PersonBean.class );
         bean = (PersonBean) reader.parse(new StringReader(xml));
         
@@ -332,8 +332,8 @@ public class TestBeanReader extends AbstractTestCase {
         String xml = "<ListOfNames><names><name name='Martin'/></names></ListOfNames>";
         
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         
         reader.registerBeanClass(ListOfNames.class);
         ListOfNames newListOfNames = (ListOfNames) reader.parse(new StringReader(xml));
@@ -350,8 +350,8 @@ public class TestBeanReader extends AbstractTestCase {
         
         BeanReader reader = new BeanReader();
         reader.setRules( new ExtendedBaseRules() );
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         
         TestRule ruleOne = new TestRule();
         TestRule ruleTwo = new TestRule();
@@ -394,8 +394,8 @@ public class TestBeanReader extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
 		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write("party", bean);
 
@@ -448,8 +448,8 @@ public class TestBeanReader extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
 		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write(bean);
         
@@ -560,8 +560,8 @@ public class TestBeanReader extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.setBindingConfiguration(configuration);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write("party", bean);
 
@@ -722,7 +722,7 @@ public class TestBeanReader extends AbstractTestCase {
                     + "</CHILDREN></DOUBLE_LINKED_PARENT_BEAN>";
                     
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
+        reader.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
         reader.registerBeanClass(DoubleLinkedParentBean.class);
         DoubleLinkedParentBean bean = (DoubleLinkedParentBean) reader.parse(new StringReader(xml));
         

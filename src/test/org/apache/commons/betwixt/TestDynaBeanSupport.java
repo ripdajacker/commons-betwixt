@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDynaBeanSupport.java,v 1.4.2.1 2004/01/15 23:34:22 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/01/15 23:34:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDynaBeanSupport.java,v 1.4.2.2 2004/01/18 22:25:23 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/01/18 22:25:23 $
  *
  * ====================================================================
  * 
@@ -76,7 +76,7 @@ import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 /** Test harness for the DynaBeans support
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4.2.1 $
+  * @version $Revision: 1.4.2.2 $
   */
 public class TestDynaBeanSupport extends AbstractTestCase {
     
@@ -95,7 +95,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
     public void testIntrospectDynaBean() throws Exception
     {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         XMLBeanInfo beanInfo = introspector.introspect(createDynasaurClass());
         ElementDescriptor baseElement = beanInfo.getElementDescriptor();
         // no attributes
@@ -136,7 +136,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
 		writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write(dynasaur);
         
         String xml = "<?xml version='1.0'?><dynasaur><species>Allosaurus</species>"
@@ -155,7 +155,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
 		writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write("bean", bean);
         
         String xml = "<?xml version='1.0'?><bean><ndp>Tweedledum</ndp></bean>";
