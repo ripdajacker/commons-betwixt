@@ -116,6 +116,43 @@ public class LoopBean
     }
     
     
+    public static final LoopBean createNotEmptyNoLoopExampleBean()
+    {
+        LoopBean root = new LoopBean("");
+        LoopBean levelOne = new LoopBean("");
+        LoopBean levelTwo = new LoopBean("");
+        LoopBean levelThree = new LoopBean("");
+        LoopBean levelFour = new LoopBean("");
+        LoopBean levelFive = new LoopBean("Not Empty");
+        
+        root.setFriend(levelOne);
+        levelOne.setFriend(levelTwo);
+        levelTwo.setFriend(levelThree);
+        levelThree.setFriend(levelFour);
+        levelFour.setFriend(levelFive);
+        
+        return root;
+    }
+    
+    public static final LoopBean createEmptyLoopExampleBean()
+    {
+        LoopBean root = new LoopBean("");
+        LoopBean levelOne = new LoopBean("");
+        LoopBean levelTwo = new LoopBean("");
+        LoopBean levelThree = new LoopBean("");
+        LoopBean levelFour = new LoopBean("");
+        LoopBean levelFive = new LoopBean("");
+        
+        root.setFriend(levelOne);
+        levelOne.setFriend(levelTwo);
+        levelTwo.setFriend(levelThree);
+        levelThree.setFriend(levelFour);
+        levelFour.setFriend(levelFive);
+        levelFive.setFriend(root);
+        
+        return root;
+    }
+    
     public static final LoopBean createIdOnlyLoopExampleBean()
     {
         LoopBean root = new LoopBean("Root");
