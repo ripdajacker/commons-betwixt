@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.13 2003/01/07 22:32:57 rdonkin Exp $
- * $Revision: 1.13 $
- * $Date: 2003/01/07 22:32:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.14 2003/01/19 23:22:47 rdonkin Exp $
+ * $Revision: 1.14 $
+ * $Date: 2003/01/19 23:22:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.13 2003/01/07 22:32:57 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.14 2003/01/19 23:22:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -71,6 +71,8 @@ import java.io.Writer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
+
+import org.apache.commons.betwixt.XMLUtils;
 
 /** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
   *
@@ -117,20 +119,9 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision: 1.14 $
   */
 public class BeanWriter extends AbstractBeanWriter {
-
-    /** Escaped <code>&lt;</code> entity */
-    private static final String LESS_THAN_ENTITY = "&lt;";
-    /** Escaped <code>&gt;</code> entity */
-    private static final String GREATER_THAN_ENTITY = "&gt;";
-    /** Escaped <code>&amp;</code> entity */
-    private static final String AMPERSAND_ENTITY = "&amp;";
-    /** Escaped <code>'</code> entity */
-    private static final String APOSTROPHE_ENTITY = "&apos;";
-    /** Escaped <code>"</code> entity */
-    private static final String QUOTE_ENTITY = "&quot;";
 
     /** Where the output goes */
     private Writer writer;    
@@ -364,7 +355,7 @@ public class BeanWriter extends AbstractBeanWriter {
             log.error( "[expressBodyText]Body text is null" );
             
         } else {
-            writer.write( escapeBodyValue(text) );
+            writer.write( XMLUtils.escapeBodyValue(text) );
         }
     }
     
@@ -395,7 +386,7 @@ public class BeanWriter extends AbstractBeanWriter {
         writer.write( ' ' );
         writer.write( qualifiedName );
         writer.write( "=\"" );
-        writer.write( escapeAttributeValue(value) );
+        writer.write( XMLUtils.escapeAttributeValue(value) );
         writer.write( '\"' );
     }
 
@@ -433,29 +424,10 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param value escape <code>value.toString()</code>
      * @return text with escaped delimiters 
+     * @deprecated After 1.0-Alpha-1 moved into utility class {@link XMLUtils#escapeBodyValue}
      */
     protected String escapeBodyValue(Object value) {
-        StringBuffer buffer = new StringBuffer(value.toString());
-        for (int i=0, size = buffer.length(); i <size; i++) {
-            switch (buffer.charAt(i)) {
-                case '<':
-                    buffer.replace(i, i+1, LESS_THAN_ENTITY);
-                    size += 3;
-                    i+=3;
-                    break;
-                 case '>':
-                    buffer.replace(i, i+1, GREATER_THAN_ENTITY);
-                    size += 3;
-                    i += 3;
-                    break;
-                 case '&':
-                    buffer.replace(i, i+1, AMPERSAND_ENTITY);
-                    size += 4;
-                    i += 4;
-                    break;        
-            }
-        }
-        return buffer.toString();
+        return XMLUtils.escapeBodyValue(value);
     }
 
     /** 
@@ -464,39 +436,11 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param value escape <code>value.toString()</code>
      * @return text with characters restricted (for use in attributes) escaped
+     *
+     * @deprecated After 1.0-Alpha-1 moved into utility class {@link XMLUtils#escapeAttributeValue}
      */
     protected String escapeAttributeValue(Object value) {
-        StringBuffer buffer = new StringBuffer(value.toString());
-        for (int i=0, size = buffer.length(); i <size; i++) {
-            switch (buffer.charAt(i)) {
-                case '<':
-                    buffer.replace(i, i+1, LESS_THAN_ENTITY);
-                    size += 3;
-                    i+=3;
-                    break;
-                 case '>':
-                    buffer.replace(i, i+1, GREATER_THAN_ENTITY);
-                    size += 3;
-                    i += 3;
-                    break;
-                 case '&':
-                    buffer.replace(i, i+1, AMPERSAND_ENTITY);
-                    size += 4;
-                    i += 4;
-                    break;
-                 case '\'':
-                    buffer.replace(i, i+1, APOSTROPHE_ENTITY);
-                    size += 4;
-                    i += 4;
-                    break;
-                 case '\"':
-                    buffer.replace(i, i+1, QUOTE_ENTITY);
-                    size += 5;
-                    i += 5;
-                    break;           
-            }
-        }
-        return buffer.toString();
+        return XMLUtils.escapeAttributeValue(value);
     }
 
 }
