@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.8 2002/07/30 20:12:47 mvdb Exp $
- * $Revision: 1.8 $
- * $Date: 2002/07/30 20:12:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.9 2002/08/29 19:16:17 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/08/29 19:16:17 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.8 2002/07/30 20:12:47 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.9 2002/08/29 19:16:17 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,12 +89,17 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class BeanCreateRule extends Rule {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( BeanCreateRule.class );
+    
+    /** Set log to be used by <code>BeanCreateRule</code> instances */
+    public static void setLog(Log log) {
+        log = log;
+    }
     
     /** The descriptor of this element */
     private ElementDescriptor descriptor;
