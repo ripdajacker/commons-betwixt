@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="jar" name="commons-betwixt" basedir=".">
+
+  <target name="jar" depends="get-deps">
+
+    <mkdir dir="target/classes"></mkdir>
+
+    <javac destdir="target/classes" deprecation="false" debug="false" optimize="false" excludes="**/package.html">
+      <src>
+        <pathelement location="src/java"></pathelement>
+      </src>
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+      </classpath>
+    </javac>
+
+    <jar jarfile="target/commons-betwixt-1.0-dev.jar" excludes="**/package.html" basedir="target/classes"></jar>
+
+  </target>
+
+  <target name="get-deps">
+  
+    <mkdir dir="lib"></mkdir>
+    
+    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-logging-1.0.jar"></get>
+    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-beanutils-1.3.jar"></get>
+    <get dest="lib/commons-collections-2.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-collections-2.0.jar"></get>
+    <get dest="lib/commons-digester-1.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-digester-1.2.jar"></get>
+    <get dest="lib/xercesImpl-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/xercesImpl-2.0.0.jar"></get>
+    <get dest="lib/xmlParserAPIs-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/xmlParserAPIs-2.0.0.jar"></get>
+    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/junit-3.7.jar"></get>
+    <get dest="lib/maven.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/maven.jar"></get>
+  
+  </target>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <target name="install-maven">
+
+    
+
+    <get dest="${user.home}/maven-latest-install.jar" usetimestamp="true" src="${maven.repo.remote}maven/maven-latest-install.jar"></get>
+    
+    <unjar dest="${maven.home}" src="${user.home}/maven-latest-install.jar"></unjar>
+    
+  </target>
+
+</project>
+    
