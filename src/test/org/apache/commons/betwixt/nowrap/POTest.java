@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/POTest.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:16:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/POTest.java,v 1.3 2003/07/01 21:46:18 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/07/01 21:46:18 $
  *
  * ====================================================================
  *
@@ -66,6 +66,7 @@ import java.util.List;
 
 public class POTest
 {
+    private static final boolean debug = false;
 
     private List componentTests;
 
@@ -73,13 +74,13 @@ public class POTest
 
     public POTest()
     {
-        System.out.println("-- INSTANTIATING NEW PO");
+        if (debug) System.out.println("-- INSTANTIATING NEW PO");
         componentTests = new ArrayList();
     }
 
     public List getComponenttests()
     {
-        System.out.println("-- GET PO.getComponents");
+        if (debug) System.out.println("-- GET PO.getComponents");
         return this.componentTests;
     }
 
@@ -89,19 +90,19 @@ public class POTest
 
     public void addComponenttest(Componenttest c)
     {
-        System.out.println("-- ADD PO.addComponent");
+        if (debug) System.out.println("-- ADD PO.addComponent");
         componentTests.add(c);
     }
 
     public void setPrintingNumber(String s)
     {
-        System.out.println("-- SET PO.setPrintingNumber");
+        if (debug) System.out.println("-- SET PO.setPrintingNumber");
         printingNumber = s;
     }
 
     public String getPrintingNumber()
     {
-        System.out.println("-- GET PO.getPrintingNumber");
+        if (debug) System.out.println("-- GET PO.getPrintingNumber");
         return printingNumber;
     }
 }
