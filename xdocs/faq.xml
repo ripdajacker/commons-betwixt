@@ -58,6 +58,14 @@
         </a>
       </li>
     </ol>
+    <p><strong>Reading Beans</strong></p>
+    <ol>
+      <li>
+        <a href="#digester-limitation">
+          How can I make my extra digestion <em>Rule</em>s work with Betwixt?
+        </a>
+      </li>
+    </ol>
     <p><strong>Building Betwixt</strong></p>
     <ol>
       <li>
@@ -67,7 +75,7 @@
       </li>
     </ol>
 
-    <section name="General">
+    <subsection name="General">
       <dl>
         <dt>
           <a name="what-is-betwixt">
@@ -120,8 +128,8 @@
 			to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
         </dd>
       </dl>
-    </section>
-    <section name="Writing Beans">     
+    </subsection>
+    <subsection name="Writing Beans">     
       <dl>
         <dt>
           <a name="output-options">
@@ -183,8 +191,34 @@ beanWriter.setWriteIDs(false);
         </dd>
       </dl>   
           
-    </section>
-    <section name="Building Betwixt">
+    </subsection>
+    <subsection name="Reading Beans">
+      <dl>
+        <dt>
+          <a name="digester-limitation">
+            How can I make my extra digestion <em>Rule</em>s work with Betwixt?
+          </a>
+        </dt>
+        <dd>
+            Betwixt uses <a href='http://jakarta.apache.org/commons/digester.html'>Digester</a> for bean
+            reading. The current implementation adds new <em>Rule</em>s at run time (which handle 
+            the reading of child elements). This makes life difficult for any extra <em>Rule</em>s 
+            added by the user before the digestion started.
+        </dd>
+        <dd>
+            Extra <em>Rule</em>s added by the user will probably not work as expected. It may 
+            be possible to find ways to make them work - but equally well, it may be impossible.
+        </dd>
+        <dd>
+            <em>This is a known limitation.</em>
+        </dd>
+        <dd>
+            Hopefully, this will be addressed in a later release.
+            Until then, you are recommended to use the mapping mechanisms in Betwixt instead.
+        </dd>
+      </dl>
+    </subsection>
+    <subsection name="Building Betwixt">
       <dl>
         <dt>
           <a name="how-to-build">
@@ -198,7 +232,7 @@ beanWriter.setWriteIDs(false);
           documentation for details.
         </dd>
       </dl>
-    </section>
+    </subsection>
   </section>
 </body>
 </document>
