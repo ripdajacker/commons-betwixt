@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Integrating Betwixt</title>
+  <author email="jstrachan@apache.org">James Strachan</author>
+ </properties>
+
+<body>
+
+    <section name='Cocooon'>
+        <p>
+<a href='http://cocoon.apache.org/'>Cocoon</a> is a web development framework (and more)
+built around component pipelines and XML. A transformer is available for Cocoon which 
+allows Betwixt to be plugged into these pipelines.
+See the <a href='http://wiki.cocoondev.org/Wiki.jsp?page=BetwixtTransformer'>CocoonWiki</a> 
+for documentation and example.
+    </p>
+</section>
+
+</body>
+</document>
