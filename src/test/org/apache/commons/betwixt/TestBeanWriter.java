@@ -235,7 +235,6 @@ public class TestBeanWriter extends AbstractTestCase {
     
     /** Test simplest case for writing empty elements */
     public void testSimpleWriteEmptyElements() throws Exception{
-        
         // use same bean for both tests
         AddressBean bean = new AddressBean();
         bean.setStreet("Pasture Lane");
@@ -259,6 +258,7 @@ public class TestBeanWriter extends AbstractTestCase {
         String xml = "<?xml version='1.0'?><AddressBean><street>Pasture Lane</street><city>Bradford</city>"
                     + "<code/><country/></AddressBean>";
 //        baseLog.debug(xml);
+
         xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
         
         // test output when not writing empty elements
@@ -274,7 +274,6 @@ public class TestBeanWriter extends AbstractTestCase {
 //        baseLog.debug("SIMPLE NOT EMPTY");
 //        baseLog.debug(out.getBuffer().toString());
         xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
-        
     }
     
     /** Test nested case for writing empty elements */

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.9 2003/02/13 18:41:48 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/02/13 18:41:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.10 2003/03/19 22:57:40 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/03/19 22:57:40 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.9 2003/02/13 18:41:48 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.10 2003/03/19 22:57:40 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -162,10 +162,25 @@ public class TestBeanToXml extends XmlTestCase {
         writer.setWriteEmptyElements( true );
         writer.write(new BadDotBetwixtNamesBean("one", "two"));
         
-        System.out.println(out.toString());
+//        System.out.println(out.toString());
         
         // this should fail if the output is not well formed
         parseString(out.toString());
     }
+    
+    /** Test output of bean with mixed content */
+    public void testMixedContent() throws Exception {
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0' encoding='UTF-8'?>");
+        BeanWriter writer = new BeanWriter( out );
+        writer.write( new MixedContentBean("First", "Last", "Always") );
+        
+        String xml = "<?xml version='1.0' encoding='UTF-8'?><foo version='1.0'>"
+            + "<bar version='First'>Fiddle sticks<baa>Last</baa>Always</bar></foo>";
+        
+        xmlAssertIsomorphicContent(
+                    parseString(xml),
+                    parseString(out.toString()));
+        }
 }
 
