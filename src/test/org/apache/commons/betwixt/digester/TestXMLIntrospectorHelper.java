@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.3 2003/06/05 20:59:16 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/06/05 20:59:16 $
  *
  * ====================================================================
  *
@@ -58,7 +58,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospectorHelper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestXMLIntrospectorHelper.java,v 1.3 2003/06/05 20:59:16 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 
@@ -113,6 +113,10 @@ public class TestXMLIntrospectorHelper extends TestCase {
         NodeDescriptor projectNamesProperty = createDescriptor("projectNames", beanInfo, introspector);
         assertNotNull("projectNames property not found", projectNamesProperty);
         assertEquals("project names property", "project-names", projectNamesProperty.getLocalName());
+    }
+    
+    public void testNullParameters() throws Exception {
+        XMLIntrospectorHelper.isLoopType(null);
     }
 
     /**

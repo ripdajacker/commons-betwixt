@@ -85,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.20 2003/04/11 21:27:41 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.21 2003/06/05 20:59:16 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -569,9 +569,14 @@ public class XMLIntrospectorHelper {
      * Is this a loop type class?
      *
      * @param type is this <code>Class</code> a loop type?
-     * @return true if the type is a loop type 
+     * @return true if the type is a loop type, or if type is null 
      */
     public static boolean isLoopType(Class type) {
+        // check for NPEs
+        if (type == null) {
+            log.trace("isLoopType: type is null");
+            return false;
+        }
         return type.isArray() 
             || Map.class.isAssignableFrom( type ) 
             || Collection.class.isAssignableFrom( type ) 
