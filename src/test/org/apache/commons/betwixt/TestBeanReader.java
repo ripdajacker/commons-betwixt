@@ -80,9 +80,14 @@ import junit.textui.TestRunner;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
+import org.apache.commons.betwixt.io.BeanRuleSet;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.expression.MapEntryAdder;
 
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.ExtendedBaseRules;
+
+import org.apache.commons.logging.impl.SimpleLog;
 
 import org.xml.sax.Attributes;
 
@@ -355,6 +360,85 @@ public class TestBeanReader extends AbstractTestCase {
         // test that the top objects are correct
         assertEquals("Rule one digester top object", listOfNames , ruleOne.getTop());
         assertEquals("Rule two digester top object", martinBean , ruleTwo.getTop());
+    }
+    
+    public void testReadMap() throws Exception {
+        // we might as well start by writing out 
+        MapBean bean = new MapBean("drinkers");
+        bean.addAddress(
+                "Russell McManus", 
+                new AddressBean("6, Westgate","Shipley", "United Kingdom", "BD17 5EJ"));
+        bean.addAddress(
+                "Alex Compbell", 
+                new AddressBean("5, Kirkgate","Shipley", "United Kingdom", "BD18 3QW"));
+        bean.addAddress(
+                "Sid Gardner", 
+                new AddressBean("Old House At Home, Otley Road","Shipley", "United Kingdom", "BD18 2BJ"));
+                
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteIDs(false);
+        writer.write("address-book", bean);
+        
+        System.out.println(out.toString());
+        
+        String xml = "<?xml version='1.0'?><address-book><title>drinkers</title>"
+            + "<addresses><entry><key>Sid Gardner</key><value><country>United Kingdom</country>"
+            + "<code>BD18 2BJ</code><city>Shipley</city><street>Old House At Home, Otley Road</street>"
+            + "</value></entry><entry><key>Alex Compbell</key><value><country>United Kingdom</country>"
+            + "<code>BD18 3QW</code><city>Shipley</city><street>5, Kirkgate</street></value></entry>"
+            + "<entry><key>Russell McManus</key><value><country>United Kingdom</country><code>BD17 5EJ</code>"
+            + "<city>Shipley</city><street>6, Westgate</street></value></entry></addresses></address-book>";
+        
+        xmlAssertIsomorphic(parseString(out.toString()), parseString(xml), true);
+        
+//        SimpleLog log = new SimpleLog("[testReadMap:BeanRuleSet]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanRuleSet.setLog(log);
+//        log = new SimpleLog("[testReadMap:XMLIntrospectorHelper]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        XMLIntrospectorHelper.setLog(log);
+//        log = new SimpleLog("[testReadMap:MapEntryAdder]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        MapEntryAdder.setLog(log);
+
+        BeanReader reader = new BeanReader();
+
+//        log = new SimpleLog("[testReadMap:BeanReader]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        reader.setLog(log);
+//        log = new SimpleLog("[testReadMap:XMLIntrospector]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        reader.getXMLIntrospector().setLog(log);
+
+        reader.setMatchIDs(false);
+        reader.registerBeanClass("address-book", MapBean.class);
+        bean = (MapBean) reader.parse(new StringReader(xml));
+        
+        assertEquals("Title property is incorrect", "drinkers", bean.getTitle());
+        assertEquals("Map entries", 3, bean.getAddresses().size());
+        
+        AddressBean address = (AddressBean) bean.getAddresses().get("Russell McManus");
+        assertNotNull("Missing entry for 'Russell McManus'", address);
+        assertEquals("Bad address (1)", "6, Westgate", address.getStreet());
+        assertEquals("Bad address (2)", "Shipley", address.getCity());
+        assertEquals("Bad address (3)",  "United Kingdom", address.getCountry());
+        assertEquals("Bad address (4)", "BD17 5EJ", address.getCode());
+                    
+        address = (AddressBean) bean.getAddresses().get("Alex Compbell");
+        assertNotNull("Missing entry for 'Alex Compbell'", address);
+        assertEquals("Bad address (5)", "5, Kirkgate", address.getStreet());
+        assertEquals("Bad address (6)", "Shipley", address.getCity());
+        assertEquals("Bad address (7)",  "United Kingdom", address.getCountry());
+        assertEquals("Bad address (8)", "BD18 3QW", address.getCode());
+         
+        address = (AddressBean) bean.getAddresses().get("Sid Gardner");
+        assertNotNull("Missing entry for 'Sid Gardner'", address);
+        assertEquals("Bad address (9)", "Old House At Home, Otley Road", address.getStreet());
+        assertEquals("Bad address (10)", "Shipley", address.getCity());
+        assertEquals("Bad address (11)",  "United Kingdom", address.getCountry());
+        assertEquals("Bad address (12)", "BD18 2BJ", address.getCode());
     }
     
     /** 

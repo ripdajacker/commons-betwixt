@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-commons-sandbox/betwixt/src/test/org/apache/commons/betwixt/AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
- * $Revision: 1.4 $
- * $Date: 2002/05/17 15:24:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/expression/AdderBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2003/04/11 21:29:46 $
  *
  * ====================================================================
  *
@@ -57,78 +57,29 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
+ * $Id: AdderBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
  */
-package org.apache.commons.betwixt;
+package org.apache.commons.betwixt.expression;
 
-import java.io.Serializable;
-
-/** <p><code>CustomerBean</code> is a sample bean for use by the test cases.</p>
+/** <p><code>AdderBean</code> used to test map updates.</p>
   *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.4 $
+  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   */
-public class AddressBean implements Serializable {
+public class AdderBean {
 
-    private String street;
-    private String city;
-    private String code;
-    private String country;
+    private String key;
+    private String value;
     
-    public AddressBean() {
-    }
+    public String getKey() {
+        return key;
+    }	
     
-    public AddressBean(String street, String city, String country, String code) {
-        setStreet(street);
-        setCity(city);
-        setCode(code);
-        setCountry(country);
-    }
-
-    public String getStreet() {
-        return street;
+    public String getValue() {
+        return value;
     }
     
-    public String getCity() {
-        return city;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-    
-    public void setCode(String code) {
-        this.code = code;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    
-    public String toString() {
-        return "[" + this.getClass().getName() + ": street=" + street + ", city="
-                + city+ ", country=" + country + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        return this.hashCode() == obj.hashCode();
-    }
-    
-    public int hashCode() {
-        return toString().hashCode();
+    public void add(String key, String value) {
+        this.key = key;
+        this.value = value;
     }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-commons-sandbox/betwixt/src/test/org/apache/commons/betwixt/AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
- * $Revision: 1.4 $
- * $Date: 2002/05/17 15:24:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/MapBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2003/04/11 21:29:46 $
  *
  * ====================================================================
  *
@@ -57,78 +57,43 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
+ * $Id: MapBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
-import java.io.Serializable;
+import java.util.Map;
+import java.util.HashMap;
 
-/** <p><code>CustomerBean</code> is a sample bean for use by the test cases.</p>
+/** <p><code>MapBean</code> is a sample bean used for testing maps.</p>
   *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.4 $
+  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+  * @version $Revision: 1.1 $
   */
-public class AddressBean implements Serializable {
-
-    private String street;
-    private String city;
-    private String code;
-    private String country;
+public class MapBean {
     
-    public AddressBean() {
-    }
+    private String title = "**UNSET**";
     
-    public AddressBean(String street, String city, String country, String code) {
-        setStreet(street);
-        setCity(city);
-        setCode(code);
-        setCountry(country);
-    }
-
-    public String getStreet() {
-        return street;
+    private Map addresses = new HashMap();
+    
+    public MapBean() {}
+    
+    public MapBean(String title) {
+        setTitle(title);
+    }	
+    
+    public String getTitle() {
+        return title;
     }
     
-    public String getCity() {
-        return city;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
+    public void setTitle(String title) {
+        this.title = title;
+    }	
     
-    public void setCity(String city) {
-        this.city = city;
-    }
+    public Map getAddresses() {
+        return addresses;
+    }	
     
-    public void setCode(String code) {
-        this.code = code;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    
-    public String toString() {
-        return "[" + this.getClass().getName() + ": street=" + street + ", city="
-                + city+ ", country=" + country + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        return this.hashCode() == obj.hashCode();
-    }
-    
-    public int hashCode() {
-        return toString().hashCode();
+    public void addAddress(String name, AddressBean address) {
+        addresses.put(name, address);
     }
 }

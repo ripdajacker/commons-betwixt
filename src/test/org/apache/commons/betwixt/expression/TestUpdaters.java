@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-commons-sandbox/betwixt/src/test/org/apache/commons/betwixt/AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
- * $Revision: 1.4 $
- * $Date: 2002/05/17 15:24:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/expression/TestUpdaters.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2003/04/11 21:29:46 $
  *
  * ====================================================================
  *
@@ -57,78 +57,58 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddressBean.java,v 1.4 2002/05/17 15:24:10 jstrachan Exp $
+ * $Id: TestUpdaters.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
  */
-package org.apache.commons.betwixt;
+package org.apache.commons.betwixt.expression;
 
-import java.io.Serializable;
+import java.lang.reflect.Method;
 
-/** <p><code>CustomerBean</code> is a sample bean for use by the test cases.</p>
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.commons.betwixt.AbstractTestCase;
+
+/** Test harness for map updating 
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.1 $
   */
-public class AddressBean implements Serializable {
-
-    private String street;
-    private String city;
-    private String code;
-    private String country;
+public class TestUpdaters extends AbstractTestCase {
     
-    public AddressBean() {
+    public static Test suite() {
+        return new TestSuite(TestUpdaters.class);
     }
     
-    public AddressBean(String street, String city, String country, String code) {
-        setStreet(street);
-        setCity(city);
-        setCode(code);
-        setCountry(country);
-    }
-
-    public String getStreet() {
-        return street;
+    public TestUpdaters(String testName) {
+        super(testName);
     }
     
-    public String getCity() {
-        return city;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-    
-    public void setCity(String city) {
-        this.city = city;
-    }
-    
-    public void setCode(String code) {
-        this.code = code;
-    }
-    
-    public void setCountry(String country) {
-        this.country = country;
-    }
-    
-    public String toString() {
-        return "[" + this.getClass().getName() + ": street=" + street + ", city="
-                + city+ ", country=" + country + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        return this.hashCode() == obj.hashCode();
-    }
-    
-    public int hashCode() {
-        return toString().hashCode();
+    public void testMapUpdate() throws Exception {	
+        Class[] params = { String.class, String.class } ;
+        Method method = AdderBean.class.getMethod("add", params);
+        MapEntryAdder adder = new MapEntryAdder(method);
+        
+        AdderBean bean = new AdderBean();
+        bean.add("UNSET", "UNSET");
+        
+        Updater keyUpdater = adder.getKeyUpdater();
+        Updater valueUpdater = adder.getValueUpdater();
+        
+        Context context = new Context();
+        context.setBean(bean);
+        
+        keyUpdater.update(context, "key");
+        valueUpdater.update(context, "value");
+        
+        assertEquals("AdderBean not updated (1)", "key", bean.getKey());
+        assertEquals("AdderBean not updated (2)", "value", bean.getValue());
+        
+        keyUpdater.update(context, "new-key");
+        valueUpdater.update(context, "new-value");
+        
+        assertEquals("AdderBean not updated (1)", "new-key", bean.getKey());
+        assertEquals("AdderBean not updated (2)", "new-value", bean.getValue());        
+        
     }
 }
+
