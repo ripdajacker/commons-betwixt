@@ -121,11 +121,18 @@ public class TestBeanReader extends AbstractTestCase {
 
             testCustomer(bean);
             
-            System.out.println( "Read bean: " + bean );
-            System.out.println();
-            System.out.println( "Lets turn it back into XML" );
-            
-            writeBean( bean );
+            String out = writeBean( bean );
+            String xml = "<?xml version='1.0'?><CustomerBean><name>James</name><time>20:30:40</time>"
+                + "<date>2002-03-17</date><projectMap/><bigDecimal>1234567890.12345</bigDecimal>"
+                + "<bigInteger>1234567890</bigInteger><projectNames/><emails>"
+                + "<email>jstrachan@apache.org</email><email>james_strachan@yahoo.co.uk</email>"
+                + "</emails><timestamp>2002-03-17 20:30:40.0</timestamp><locations>"
+                + "<location>London</location><location>Bath</location></locations>"
+                + "<ID/><projectURLs/><nickName/><address><code/><country/>"
+                + "<city/><street/></address><numbers><number>3</number><number>4</number>"
+                + "<number>5</number></numbers></CustomerBean>";
+                
+            xmlAssertIsomorphic(parseString(xml), parseString(out) , true);
         }
         finally {
             in.close();
@@ -166,10 +173,13 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("[Attribute] Person name wrong", "John Smith" , bean.getName());
     }
 
-    public void writeBean(Object bean) throws Exception {
-        BeanWriter writer = new BeanWriter();
+    public String writeBean(Object bean) throws Exception {
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
         writer.enablePrettyPrint();
         writer.write( bean );
+        return out.getBuffer().toString();
     }
     
     /** @return the bean class to use as the root */
