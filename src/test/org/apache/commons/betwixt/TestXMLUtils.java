@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestXMLUtils.java,v 1.2 2003/05/26 10:46:58 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/05/26 10:46:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestXMLUtils.java,v 1.3 2003/10/05 13:56:45 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/10/05 13:56:45 $
  *
  * ====================================================================
- *
+ * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -15,28 +15,28 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
+ *    notice, this list of conditions and the following disclaimer. 
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
  *
- * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:
- *       "This product includes software developed by the
+ * 3. The end-user documentation included with the redistribution,
+ *    if any, must include the following acknowledgement:  
+ *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
  *    Alternately, this acknowlegement may appear in the software itself,
  *    if and wherever such third-party acknowlegements normally appear.
  *
- * 4. The names "The Jakarta Project", "Commons", and "Apache Software
+ * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
- *    from this software without prior written permission. For written
+ *    from this software without prior written permission. For written 
  *    permission, please contact apache@apache.org.
  *
- * 5. Products derived from this software may not be called "Apache"
- *    nor may "Apache" appear in their names without prior written
- *    permission of the Apache Group.
+ * 5. Products derived from this software may not be called "Apache",
+ *    "Apache" nor may "Apache" appear in their names without prior 
+ *    written permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -56,9 +56,9 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- * 
- * $Id: TestXMLUtils.java,v 1.2 2003/05/26 10:46:58 rdonkin Exp $
- */
+ *
+ */ 
+ 
 package org.apache.commons.betwixt;
 
 import junit.framework.Test;
@@ -68,7 +68,7 @@ import junit.textui.TestRunner;
 /** Test harness for the XMLUtils
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class TestXMLUtils extends AbstractTestCase {
     
