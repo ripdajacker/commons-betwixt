@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestLoopType.java,v 1.1.2.1 2004/01/20 23:01:26 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/20 23:01:26 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestLoopType.java,v 1.1.2.2 2004/01/21 21:24:25 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/21 21:24:25 $
  *
  * ====================================================================
  * 
@@ -67,6 +67,7 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
@@ -118,7 +119,34 @@ public class TestLoopType extends TestCase {
         assertEquals("element name matches", "ignore", ignoreDescriptor.getLocalName());
         ElementDescriptor[] childDescriptors = ignoreDescriptor.getElementDescriptors();
         assertEquals("number of child elements", 1, childDescriptors.length);
+     
+    }
+    
+
+    public void testIgnoredAdders() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        XMLBeanInfo beanInfo = introspector.introspect(IgnoreAddersBean.class);
+        ElementDescriptor ignoreDescriptor = beanInfo.getElementDescriptor();
+        
+        assertEquals("element name matches", "ignore", ignoreDescriptor.getLocalName());
+        ElementDescriptor[] childDescriptors = ignoreDescriptor.getElementDescriptors();
+        assertEquals("number of child elements", 1, childDescriptors.length);
                     
+    }
+    
+    //TODO: complete these tests after refactoring the element descriptors produced is complete
+    public void _testAddDefaults() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        XMLBeanInfo beanInfo = introspector.introspect(LibraryBean.class);
+        ElementDescriptor libraryDescriptor = beanInfo.getElementDescriptor();
+        
+        AttributeDescriptor[] libraryAttributeDescriptors = libraryDescriptor.getAttributeDescriptors();
+        assertEquals("Only one attribute", 1, libraryAttributeDescriptors.length);
+        
+        ElementDescriptor[] libraryElementDescriptors = libraryDescriptor.getElementDescriptors();
+        assertEquals("Only one element", 1, libraryElementDescriptors.length);
+        
+        
     }
 }
 
