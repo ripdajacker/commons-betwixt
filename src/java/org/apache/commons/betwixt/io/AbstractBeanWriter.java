@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.4 2002/08/14 18:50:21 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/08/14 18:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.5 2002/10/12 15:26:22 jstrachan Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/10/12 15:26:22 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.4 2002/08/14 18:50:21 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.5 2002/10/12 15:26:22 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -486,6 +486,10 @@ abstract public class AbstractBeanWriter {
                         // XXXX: should we handle nulls better
                         if ( childBean instanceof Iterator ) {
                             for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
+                                Object object = iter.next();
+                                if (object == null) {
+                                    continue;
+                                }
                                 if ( ! writtenContent ) {
                                     writtenContent = true;
                                     if (elementDescriptor.isWrapCollectionsInElement()) {
@@ -493,7 +497,7 @@ abstract public class AbstractBeanWriter {
                                     }
                                 }
                                 ++indentLevel;
-                                write( qualifiedName, iter.next() );
+                                write( qualifiedName, object );
                                 --indentLevel;
                             }
                         }
