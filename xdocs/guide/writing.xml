@@ -22,6 +22,56 @@ with DynaBeans is not yet supported and special behaviour of DynaBeans can be ov
 .betwixt file.
                 </p>
     </subsection>
+        <subsection name='Writing Entity Beans'>
+            <p>
+Entity beans are a kind of Enterprise Java Bean. For more details see the
+<a href='http://java.sun.com/j2ee/'>J2EE</a> specification. They are a common way to persist data.
+When dealing with an entity bean, you usually deal with the remote interface rather than the
+concrete implementation. There is no gaurantee that the class presented by the container will be
+the class your created to provide the bean's functionality. 
+Indeed, <code>Proxy</code> implementations are 
+one common way in which the remote interfaces are implemented. 
+        </p>
+            <p>
+This causes some difficulties for Betwixt. Betwixt (by default) will introspect the actual implementation
+presented by the container.
+Fortunately, the normalization mechanism described <a href='binding#Introspection%20And%20Normalization'>here</a> 
+can be used to allow betwixt to introspect the actual interface (rather than the implementation).
+        </p>
+            <p>
+There are two different strategies that can be used. The first is to create a special 
+<code>ClassNormalizer</code> which extracts an interface from a <code>Proxy</code>.
+(Thanks to Christoph Gaffga for suggesting this.)
+For example:
+        </p>
+<code><pre>
+        XMLIntrospector introspector = ...;
+        introspector.setClassNormalizer( new ClassNormalizer() {
+                public Class normalize( Class clazz ) {
+                    if ( Proxy.isProxyClass(clazz) &amp;&amp; clazz.getInterfaces().length >0 ) {
+                        return clazz.getInterfaces()[0];
+                    }
+                    return clazz;
+                }
+            });
+</pre></code>
+            <p>
+Of course, this will only work if your J2EE implementation uses <code>Proxy</code> classes to implement
+it's Entity Beans.
+        </p>
+            <p>
+The alternative is to use a <code>ListedClassNormalizer</code> and register all remote interfaces.
+For example:
+        </p>
+<code><pre>
+        XMLIntrospector introspector = ...;
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution( MyRemoteInterfaceOne.class );
+        classNormalizer.addSubstitution( MyRemoteInterfaceTwo.class );
+        ...
+        introspector.setClassNormalizer( classNormalizer );
+</pre></code>
+    </subsection>
 </section>
 </body>
 </document>

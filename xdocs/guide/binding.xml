@@ -339,6 +339,36 @@ use case. Betwixt will call a single property with all the mixed content text. S
 property is specified then the bean can be written and then read back.
     </p>
 </subsection>
+        <subsection name='Introspection And Normalization'>
+            <p>
+When an Object is introspected by the <code>XMLIntrospector</code>, the class is examined and 
+an <code>XMLBeanInfo</code> created based upon it. But there are occasions when some variation 
+is needed - for example when reading or writing Entity Beans or Proxy implementations.
+        </p>
+            <p> 
+Betwixt provides the <code>ClassNormalizer</code> strategy class as a way to allow users to customise
+the process by which Betwixt works out which Class should be introspected for a given Object. 
+The default implementation simply supplies the Class of the Object.
+But by setting the <code>classNormalizer</code> property of <code>XMLIntrospector</code>, 
+a custom implementation can be used instead.
+        </p>
+            <p>
+Betwixt supplies a second implementation called <code>ListedClassNormalizer</code>.
+This contains a list of classes to match together with the Class which should be returned 
+when the Class is matched. 
+        </p>
+            <p>
+For example, take a class <code>FaceImpl</code> that implements an interface <code>IFace</code>.
+Betwixt will introspect every instance of <code>FaceImpl</code> as if it just implemented
+<code>IFace</code> by use of the following code:             
+        </p>
+<code><pre>
+        XMLIntrospector introspector = ...;
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution( IFace.class );
+        introspector.setClassNormalizer( classNormalizer );
+</pre></code>
+    </subsection>
 </section>
 
     <section name='Converting Objects And Primitives To Strings (And Back Again)'>
