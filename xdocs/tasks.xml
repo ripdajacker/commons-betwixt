@@ -178,6 +178,30 @@
             <li>
                 <strong>Created DTD for .betwixt files.</strong>
             </li>
+            <li>
+                <strong>Added validity check for element and attribute names in .betwixt files</strong>
+                .betwixt files contain names for xml elements and attributes. Only certain names
+                for elements and attributes are allowed by the xml specification. Betwixt now
+                check to ensure that the names are appropraite and terminates processing with an 
+                Exception if they are not.
+            </li>
+            <li>
+                <strong>Created XMLUtils</strong>
+                Separated out basic xml utilty methods into a static utility class called XMLUtils.
+                This should allow them to be reused in isolation.
+            </li>
+        </ul>
+    </subsection>
+</section>
+<section name='Deprecated'>
+    <subsection name='Since 1.0-Alpha Release'>
+        <ul>
+            <li> 
+                <code>BeanWriter.escapeAttributeValue()</code> moved into XMLUtils
+            </li>
+            <li> 
+                <code>BeanWriter.escapeBodyValue()</code> moved into XMLUtils
+            </li>
         </ul>
     </subsection>
 </section>

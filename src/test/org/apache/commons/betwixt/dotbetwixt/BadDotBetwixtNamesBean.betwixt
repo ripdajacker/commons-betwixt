@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+<element name='bean'>
+    <element property='alpha' name='this is trouble'/>
+    <attribute property='beta' name='this is more trouble'/>
+</element>
+</info>

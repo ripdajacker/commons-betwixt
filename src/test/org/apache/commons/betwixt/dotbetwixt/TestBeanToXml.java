@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.7 2002/12/30 22:45:05 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2002/12/30 22:45:05 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.8 2003/01/19 23:25:52 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/01/19 23:25:52 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.7 2002/12/30 22:45:05 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.8 2003/01/19 23:25:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -147,6 +147,23 @@ public class TestBeanToXml extends XmlTestCase {
                     parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/rbean-result.xml"),
                     parseString(xml));
         */
+    }
+    
+    /** 
+     * This tests that only well formed names for elements and attributes are allowed by .betwixt files
+     */
+    public void testBadDotBetwixtNames() throws Exception {
+        // this will work by testing that the output is well formed
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0' encoding='UTF-8'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.write(new BadDotBetwixtNamesBean("one", "two"));
+        
+        System.out.println(out.toString());
+        
+        // this should fail if the output is not well formed
+        parseString(out.toString());
     }
 }
 

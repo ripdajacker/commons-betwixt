@@ -61,6 +61,7 @@ import java.beans.PropertyDescriptor;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +73,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.6 2003/01/19 23:25:52 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -95,12 +96,19 @@ public class AttributeRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
-     * @throws SAXException if the attribute tag is not inside an element tag
+     * @throws SAXException 1. If the attribute tag is not inside an element tag.
+     * 2. If the name attribute is not valid XML attribute name.
      */
     public void begin(Attributes attributes) throws SAXException {
         
         AttributeDescriptor descriptor = new AttributeDescriptor();
         String name = attributes.getValue( "name" );
+
+        // check that name is well formed 
+        if ( !XMLUtils.isWellFormedXMLName( name ) ) {
+            throw new SAXException("'" + name + "' would not be a well formed xml attribute name.");
+        }
+        
         descriptor.setQualifiedName( name );
         descriptor.setLocalName( name );
         String uri = attributes.getValue( "uri" );

@@ -63,6 +63,7 @@ import java.beans.PropertyDescriptor;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -74,7 +75,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.7 2003/01/19 23:25:52 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
@@ -96,10 +97,16 @@ public class ElementRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
-     * @throws SAXException when this tag's parent is not either an info or element tag
+     * @throws SAXException 1. If this tag's parent is not either an info or element tag.
+     * 2. If the name attribute is not valid XML element name.
      */
     public void begin(Attributes attributes) throws SAXException {
         String name = attributes.getValue( "name" );
+        
+        // check that name is well formed 
+        if ( !XMLUtils.isWellFormedXMLName( name ) ) {
+            throw new SAXException("'" + name + "' would not be a well formed xml element name.");
+        }
         
         ElementDescriptor descriptor = new ElementDescriptor();
         descriptor.setQualifiedName( name );
