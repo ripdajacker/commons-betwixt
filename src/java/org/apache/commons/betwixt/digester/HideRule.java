@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/07 22:32:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.5 2003/01/18 17:26:52 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/18 17:26:52 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HideRule.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
+ * $Id: HideRule.java,v 1.5 2003/01/18 17:26:52 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -69,9 +69,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /** <p><code>HideRule</code> hides the property of the given name.</p>
-  *
+  * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class HideRule extends RuleSupport {
 
@@ -95,7 +95,7 @@ public class HideRule extends RuleSupport {
         String name = attributes.getValue( "property" );
         if ( name == null || name.length() == 0 ) {
             throw new SAXException( 
-                "<ignore> element is missing the mandatory attribute 'property'" );
+                "<hide> element is missing the mandatory attribute 'property'" );
         }
         Set propertySet = getProcessedPropertyNameSet();
         propertySet.add( name );
