@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/12 13:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.5 2003/01/17 15:07:27 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/17 15:07:27 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodExpression.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
+ * $Id: MethodExpression.java,v 1.5 2003/01/17 15:07:27 mvdb Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,7 +66,7 @@ import java.lang.reflect.Method;
 /** <p><code>MethodExpression</code> evaluates a method on the current bean context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class MethodExpression implements Expression {
 
@@ -206,7 +206,7 @@ public class MethodExpression implements Expression {
       */
     protected void handleException(Context context, Exception e) {
         // use the context's logger to log the problem
-        context.getLog().error("[MethodExpression] Cannot evaluate expression", e);
+        context.getLog().error("[MethodExpression] Cannot evaluate expression ", e);
     }
     
     /** 
