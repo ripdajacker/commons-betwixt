@@ -94,6 +94,12 @@
       <email>dlr@apache.org</email>
       <organization>CollabNet</organization>
     </developer>
+    <developer>
+        <name>Tim OBrien</name>
+        <id>tobrien</id>
+        <email>tobrien@apache.org</email>
+        <timezone>-6</timezone>
+    </developer>
   </developers>
   
   <dependencies>
