@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/Father.java,v 1.1.2.2 2004/02/01 22:55:48 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/01 22:55:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/PersonWithNamespace.java,v 1.1.2.1 2004/02/01 22:56:27 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/01 22:56:27 $
  *
  * ====================================================================
  * 
@@ -61,34 +61,50 @@
 
 package org.apache.commons.betwixt.dotbetwixt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * @author Brian Pugh
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1.2.1 $
  */
-public class Father {
+public class PersonWithNamespace {
 
-  private List kids;
-  private String spouse;
-
-  public String getSpouse() {
-    return spouse;
-  }
-
-  public void setSpouse(String spouse) {
-    this.spouse = spouse;
-  }
-
-  public List getKids() {
-    return kids;
-  }
-
-  public void addKid(String kid) {
-    if (this.kids == null) {
-      this.kids = new ArrayList();
+    private String forename;
+    private String middlename;
+    private String lastname;
+    
+    public PersonWithNamespace () {}
+    
+    public PersonWithNamespace (String forename, String middlename, String lastname) {
+        setForename(forename);
+        setMiddlename(middlename);
+        setLastname(lastname);
     }
-    this.kids.add(kid);
-  }
+    
+
+    public String getForename() {
+        return forename;
+    }
+
+
+    public String getLastname() {
+        return lastname;
+    }
+
+
+    public String getMiddlename() {
+        return middlename;
+    }
+
+
+    public void setForename(String string) {
+        forename = string;
+    }
+
+    public void setLastname(String string) {
+        lastname = string;
+    }
+
+    public void setMiddlename(String string) {
+        middlename = string;
+    }
 
 }

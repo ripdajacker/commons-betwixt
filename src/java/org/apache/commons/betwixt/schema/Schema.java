@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/31 15:38:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.3 2004/02/01 22:55:48 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/01 22:55:48 $
  *
  * ====================================================================
  * 
@@ -62,7 +62,6 @@
 package org.apache.commons.betwixt.schema;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,7 +72,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class Schema {
 	

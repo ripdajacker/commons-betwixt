@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/Father.java,v 1.1.2.2 2004/02/01 22:55:48 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/01 22:55:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestDotBetwixtNamespace.java,v 1.1.2.1 2004/02/01 22:57:20 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/01 22:57:20 $
  *
  * ====================================================================
  * 
@@ -61,34 +61,40 @@
 
 package org.apache.commons.betwixt.dotbetwixt;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.StringWriter;
+
+import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
- * @author Brian Pugh
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1.2.1 $
  */
-public class Father {
+public class TestDotBetwixtNamespace extends AbstractTestCase {
 
-  private List kids;
-  private String spouse;
-
-  public String getSpouse() {
-    return spouse;
-  }
-
-  public void setSpouse(String spouse) {
-    this.spouse = spouse;
-  }
-
-  public List getKids() {
-    return kids;
-  }
-
-  public void addKid(String kid) {
-    if (this.kids == null) {
-      this.kids = new ArrayList();
+    public TestDotBetwixtNamespace(String name) {
+        super(name);
     }
-    this.kids.add(kid);
-  }
-
+    
+    
+    public void testWriteSimpleDotBetwixtWithNamespaces() throws Exception {
+        PersonWithNamespace bean = new PersonWithNamespace("Robert", "Burrell", "Donkin");
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().getPrefixMapper()
+            .setPrefix("http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample", "pn");
+        writer.write(bean);
+        
+        String xml = out.getBuffer().toString();
+        
+        String expected = "<?xml version='1.0'?>" +
+                        "<pn:person " +
+                        "xmlns:pn='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample' " +                        "pn:middle='Burrell'>" +
+                        "<forename>Robert</forename>" +
+                        "<pn:surname>Donkin</pn:surname></pn:person>";
+                        
+        xmlAssertIsomorphicContent(parseString(xml), parseString(expected));
+    }
 }

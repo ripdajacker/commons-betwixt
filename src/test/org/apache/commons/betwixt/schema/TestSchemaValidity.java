@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/Father.java,v 1.1.2.2 2004/02/01 22:55:48 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/01 22:55:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.1 2004/02/01 22:57:49 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/01 22:57:49 $
  *
  * ====================================================================
  * 
@@ -59,36 +59,27 @@
  *
  */ 
 
-package org.apache.commons.betwixt.dotbetwixt;
+package org.apache.commons.betwixt.schema;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.betwixt.AbstractTestCase;
 
 /**
- * @author Brian Pugh
+ * Tests for the validity of the schema produced.
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1.2.1 $
  */
-public class Father {
+public class TestSchemaValidity extends AbstractTestCase {
 
-  private List kids;
-  private String spouse;
-
-  public String getSpouse() {
-    return spouse;
-  }
-
-  public void setSpouse(String spouse) {
-    this.spouse = spouse;
-  }
-
-  public List getKids() {
-    return kids;
-  }
-
-  public void addKid(String kid) {
-    if (this.kids == null) {
-      this.kids = new ArrayList();
+    public TestSchemaValidity(String name) {
+        super(name);
     }
-    this.kids.add(kid);
-  }
-
+    
+    
+    public void testSimplestBeanWithAttributes() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        Schema schema = transcriber.generate(SimplestBean.class);
+        
+        
+    }   
 }

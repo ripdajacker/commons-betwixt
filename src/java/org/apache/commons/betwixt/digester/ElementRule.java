@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.4 2004/01/18 22:25:22 rdonkin Exp $
- * $Revision: 1.13.2.4 $
- * $Date: 2004/01/18 22:25:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.5 2004/02/01 22:55:47 rdonkin Exp $
+ * $Revision: 1.13.2.5 $
+ * $Date: 2004/02/01 22:55:47 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.4 2004/01/18 22:25:22 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.5 2004/02/01 22:55:47 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -125,12 +125,15 @@ public class ElementRule extends MappedPropertyRule {
         }
         
         ElementDescriptor descriptor = new ElementDescriptor();
-        descriptor.setQualifiedName( nameAttributeValue );
         descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
+        String qName = nameAttributeValue;
         if ( uri != null ) {
-            descriptor.setURI( uri );        
+            descriptor.setURI( uri );  
+            String prefix = getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri);
+            qName = prefix + ":" + nameAttributeValue;
         }
+        descriptor.setQualifiedName( qName );
         
         String propertyName = attributes.getValue( "property" );
         descriptor.setPropertyName( propertyName );

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.2 2004/01/18 23:01:52 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/18 23:01:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.3 2004/02/01 22:55:47 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/01 22:55:47 $
  *
  * ====================================================================
  * 
@@ -65,6 +65,7 @@ import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
+import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,7 +86,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class IntrospectionConfiguration {
 
@@ -117,7 +118,8 @@ public class IntrospectionConfiguration {
      */
     private NameMapper attributeNameMapper;
 
-
+    /** Prefix naming strategy */
+    private NamespacePrefixMapper prefixMapper = new NamespacePrefixMapper();
 
 
     /**
@@ -303,4 +305,22 @@ public class IntrospectionConfiguration {
         introspectionLog = log;
     }
 
+    
+    /**
+     * Gets the <code>NamespacePrefixMapper</code> used to convert namespace URIs 
+     * into prefixes.
+     * @return NamespacePrefixMapper, not null
+     */
+    public NamespacePrefixMapper getPrefixMapper() {
+        return prefixMapper;
+    }
+
+    /**
+     * Sets the <code>NamespacePrefixMapper</code> used to convert namespave URIs
+     * into prefixes.
+     * @param mapper NamespacePrefixMapper, not null
+     */
+    public void setPrefixMapper(NamespacePrefixMapper mapper) {
+        prefixMapper = mapper;
+    }
 }

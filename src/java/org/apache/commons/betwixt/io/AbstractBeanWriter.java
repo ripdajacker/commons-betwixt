@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.4 2004/01/26 22:20:01 rdonkin Exp $
- * $Revision: 1.22.2.4 $
- * $Date: 2004/01/26 22:20:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.5 2004/02/01 22:55:47 rdonkin Exp $
+ * $Revision: 1.22.2.5 $
+ * $Date: 2004/02/01 22:55:47 $
  *
  * ====================================================================
  * 
@@ -62,6 +62,8 @@ package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -96,7 +98,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22.2.4 $
+  * @version $Revision: 1.22.2.5 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -115,6 +117,8 @@ public abstract class AbstractBeanWriter {
     private boolean writeEmptyElements = true;
     /** Dynamic binding configuration settings */
     private BindingConfiguration bindingConfiguration = new BindingConfiguration();
+    /** Collection of namespaces which have already been declared */
+    private Collection namespacesDeclared = new ArrayList();
     
     /**
      * Marks the start of the bean writing.
@@ -354,6 +358,8 @@ public abstract class AbstractBeanWriter {
         this.idGenerator = idGenerator;
     }
     
+    
+    
     /**
      * Gets the dynamic configuration setting to be used for bean reading.
      * @return the BindingConfiguration settings, not null
@@ -558,11 +564,13 @@ public abstract class AbstractBeanWriter {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
         
+            Attributes attributes = addNamespaceDeclarations(new ElementAttributes( elementDescriptor, context ));
+            
             startElement( 
                             namespaceUri, 
                             localName, 
                             qualifiedName,
-                            new ElementAttributes( elementDescriptor, context ));
+                            attributes);
            
             writeElementContent( elementDescriptor, context ) ;
             
@@ -570,6 +578,33 @@ public abstract class AbstractBeanWriter {
             
         }
     }
+    
+    /**
+     * Adds namespace declarations (if any are needed) to the given attributes.
+     * @param attributes Attributes, not null
+     * @return Attributes, not null
+     */
+    private Attributes addNamespaceDeclarations(Attributes attributes) {
+        Attributes result = attributes;
+        AttributesImpl withDeclarations = null; 
+        for (int i=0, size=attributes.getLength(); i<size ; i++) {
+            String uri = attributes.getURI(i);
+            if (uri != null && !"".equals(uri) && !namespacesDeclared.contains(uri)) {
+                if (withDeclarations == null) {
+                    withDeclarations = new AttributesImpl(attributes);
+                }
+                withDeclarations.addAttribute("", "", "xmlns:" 
+                    + getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri), "NOTATION", uri);
+                namespacesDeclared.add(uri);
+            }
+        }
+        
+        if (withDeclarations != null) {
+            result = withDeclarations;
+        }
+        return result;
+    }
+    
     
     /** 
      * Writes the given element adding an ID attribute 
@@ -599,16 +634,16 @@ public abstract class AbstractBeanWriter {
                                     IntrospectionException {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
-        
+            Attributes attributes = new IDElementAttributes( 
+                        elementDescriptor, 
+                        context, 
+                        idAttribute, 
+                        idValue );
             startElement( 
                         namespaceUri, 
                         localName, 
                         qualifiedName,
-                        new IDElementAttributes( 
-                                                elementDescriptor, 
-                                                context, 
-                                                idAttribute, 
-                                                idValue ));
+                        addNamespaceDeclarations(attributes));
     
             writeElementContent( elementDescriptor, context ) ;
             endElement( namespaceUri, localName, qualifiedName );
@@ -679,7 +714,7 @@ public abstract class AbstractBeanWriter {
                                 idrefAttributeName,
                                 "IDREF",
                                 idrefAttributeValue);
-        startElement( uri, localName, qualifiedName, attributes);        
+        startElement( uri, localName, qualifiedName, addNamespaceDeclarations(attributes));        
         endElement( uri, localName, qualifiedName );
     }
     
@@ -891,6 +926,7 @@ public abstract class AbstractBeanWriter {
         return true;
     }
     
+    
     /**
      * Attributes backed by attribute descriptors.
      * ID/IDREFs not set.
@@ -1097,7 +1133,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.22.2.4 $
+     * @version $Revision: 1.22.2.5 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */
@@ -1596,4 +1632,6 @@ public abstract class AbstractBeanWriter {
     private Context makeContext(Object bean) {
         return new Context( bean, log, bindingConfiguration );
     }
+
+
 }

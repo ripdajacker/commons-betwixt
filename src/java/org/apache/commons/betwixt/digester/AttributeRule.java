@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.3 2004/01/18 22:25:22 rdonkin Exp $
- * $Revision: 1.8.2.3 $
- * $Date: 2004/01/18 22:25:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.4 2004/02/01 22:55:47 rdonkin Exp $
+ * $Revision: 1.8.2.4 $
+ * $Date: 2004/02/01 22:55:47 $
  *
  * ====================================================================
  * 
@@ -81,7 +81,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.8.2.3 2004/01/18 22:25:22 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.8.2.4 2004/02/01 22:55:47 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -117,12 +117,16 @@ public class AttributeRule extends RuleSupport {
             throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml attribute name.");
         }
         
-        descriptor.setQualifiedName( nameAttributeValue );
+        String qName = nameAttributeValue;
         descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
         if ( uri != null ) {
-            descriptor.setURI( uri );        
+            descriptor.setURI( uri );  
+            String prefix = getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri);
+            qName = prefix + ":" + nameAttributeValue; 
         }
+        descriptor.setQualifiedName( qName );
+        
         String propertyName = attributes.getValue( "property" );
         descriptor.setPropertyName( propertyName );
         descriptor.setPropertyType( loadClass( attributes.getValue( "type" ) ) );
