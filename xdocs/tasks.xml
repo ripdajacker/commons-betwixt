@@ -13,23 +13,6 @@
         Betwixt.  Contributions are welcome! 
       </p>
     
-    <subsection name='For 1.0 Alpha 1 Release'>
-        <ul>
-            <li>
-                <strong>Create DTD for .betwixt files.</strong>
-            </li>
-
-            <li>
-                <strong>Test Against Powered By Projects. </strong>
-                Make sure release works with maven (done) and scarab.
-            </li>
-            <li>
-                <strong>Investigate Swing XML'ization Issues</strong>
-                Investigate and document. <em>(MVDB will probably need to handle this.)</em>
-            </li>
-        </ul>
-    </subsection>
-    
     <subsection name="High priority"> 
       <ul>
         <li>
@@ -187,57 +170,6 @@
             would order the elements according to some algorithm eg. alphabetic.
         </li>
        </ul>
-    </subsection>
-    
-    <subsection name='Completed (Since Last Release)'>
-        <ul>
-            <li>
-                    Using \n as default and now shows a warning when an invalid space character is used.<br/> 
-                    Adding a check to only accept valid characters as lineEndings, so parsers actually 
-                    won't choke on the output xml.
-		  BeanWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
-            </li>
-            <li>
-		  Create a SAXWriter class in the io package that takes a bean and writes to a SAX ContentHandler
-		  rather that outputting textual XML like BeanWriter does.
-		  This will allow Betwixt to work nicely in XML pipelining environments like Cocoon and Jelly.
-            </li>
-            <li>  digester.peek() was giving warning. Now checking if it still has something to peek.
-		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
-		  We should patch the way betwixt uses digester to avoid this warning message.
-            </li>
-            <li>
-                <strong>Add description of digester-related limitation to FAQ</strong>
-            </li>
-            <li>
-                <strong>Upgrade To Latest Dependencies</strong>
-                Check that betwixt works with the latest versions of the dependent 
-                Replace all references to deprecated methods. 
-            </li>
-            <li>
-                <strong>Add read and write examples</strong>
-                Add simple read and write examples to getting started section.
-            </li>
-            <li>
-                <strong>Add strategy documentation. </strong>
-                This needs to be added to the main documentation.
-                Example code needs to be created.
-                This code can also be used for more test cases.
-            </li>
-            <li>
-                <strong>Add XMLRegistry documentation. </strong>
-                Add documentation about XMLRegistry to main documentation.
-            </li>
-            <li>
-                <strong>Add XMLIntrospector Setting Documentation. </strong>
-                Add documentation about the XMLIntrospector settings to main documentation.
-                Make sure that warnings are added about consequences of changing settings.
-            </li>
-            <li>
-                <strong>Improve Java Docs. </strong>
-                Go through java docs, add any which are missing, correct any mistakes etc.
-            </li>
-        </ul>
     </subsection>
     </section>
   </body>
