@@ -152,7 +152,7 @@ public class BindingConfiguration implements Serializable {
         this.valueSuppressionStrategy = valueSuppressionStrategy;
     }
     
-	/**
+    /**
      * Gets the strategy used to manage storage and retrieval of id's.
      * 
      * @return Returns the idStoringStrategy, not null
