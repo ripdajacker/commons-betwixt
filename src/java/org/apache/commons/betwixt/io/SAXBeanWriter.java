@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/02/17 19:41:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/02/22 16:25:25 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $
+ * $Id: SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -368,7 +368,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
          */
         public String toString() {
             return "[ElementName uri=" + uri + " ,lName=" + localName + " ,qName=" + qName + "]";
-        }	
+        }
     }
 
 }

@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.12 2003/02/17 19:41:56 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/02/17 19:41:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.13 2003/02/22 16:25:24 mvdb Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/02/22 16:25:24 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.12 2003/02/17 19:41:56 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.13 2003/02/22 16:25:24 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -92,7 +92,7 @@ import org.xml.sax.SAXException;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision: 1.13 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -144,7 +144,6 @@ public abstract class AbstractBeanWriter {
      * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
      * property is false.</p>
      *
-     * @throws CyclicReferenceException when a cyclic reference is encountered 
      * @throws IOException if an IO problem occurs during writing 
      * @throws SAXException if an SAX problem occurs during writing  
      * @throws IntrospectionException if a java beans introspection problem occurs 
@@ -178,7 +177,6 @@ public abstract class AbstractBeanWriter {
      * @param qualifiedName the string naming root element
      * @param bean the <code>Object</code> to write out as xml
      * 
-     * @throws CyclicReferenceException when a cyclic reference is encountered 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
@@ -206,7 +204,6 @@ public abstract class AbstractBeanWriter {
      * @param qualifiedName the string naming root element
      * @param bean the <code>Object</code> to write out as xml
      * 
-     * @throws CyclicReferenceException when a cyclic reference is encountered 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
@@ -571,7 +568,7 @@ public abstract class AbstractBeanWriter {
     /** 
      * Express an attribute 
      *
-     * @param namesapceUri the namespace uri
+     * @param namespaceUri the namespace uri
      * @param localName the local name
      * @param qualifiedName the qualified name of the attribute
      * @param value the attribute value
