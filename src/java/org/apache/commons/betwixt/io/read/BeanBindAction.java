@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.7 2004/03/13 18:36:33 rdonkin Exp $
- * $Revision: 1.1.2.7 $
- * $Date: 2004/03/13 18:36:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.8 2004/03/13 19:19:43 rdonkin Exp $
+ * $Revision: 1.1.2.8 $
+ * $Date: 2004/03/13 19:19:43 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.7 2004/03/13 18:36:33 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.8 2004/03/13 19:19:43 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.7 $
+ * @version $Revision: 1.1.2.8 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -94,7 +94,7 @@ public class BeanBindAction extends MappingAction.Base {
                         
         Log log = context.getLog();
 
-        ElementDescriptor computedDescriptor = context.getActiveDescriptor();
+        ElementDescriptor computedDescriptor = context.getCurrentDescriptor();
 
         if (computedDescriptor == null) {
             log.trace("No Descriptor");

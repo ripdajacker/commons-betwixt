@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.5 2004/03/13 18:36:33 rdonkin Exp $
- * $Revision: 1.4.2.5 $
- * $Date: 2004/03/13 18:36:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.6 2004/03/13 19:19:43 rdonkin Exp $
+ * $Revision: 1.4.2.6 $
+ * $Date: 2004/03/13 19:19:43 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.xml.sax.Attributes;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.5 $
+  * @version $Revision: 1.4.2.6 $
   */
 public class ReadContext extends Context {
 
@@ -100,7 +100,7 @@ public class ReadContext extends Context {
 	private ArrayStack objectStack = new ArrayStack();
 
 	private Class rootClass;
-
+    /** The <code>XMLIntrospector</code> to be used to map the xml*/
 	private XMLIntrospector xmlIntrospector;
 
 	/** 
@@ -238,6 +238,11 @@ public class ReadContext extends Context {
 		return (String) top;
 	}
 
+    /**
+     * Gets the element name for the currently mapped element.
+     * @return the name of the currently mapped element, 
+     * or null if there has been no element mapped 
+     */
 	public String getCurrentElement() {
 		return (String) elementMappingStack.peek();
 	}
@@ -255,20 +260,6 @@ public class ReadContext extends Context {
 		return new RelativePathIterator();
 	}
 
-	public ElementDescriptor getRelativePathElementDescriptor()
-		throws IntrospectionException {
-		ElementDescriptor result = null;
-		XMLBeanInfo lastMappedClazzInfo = getLastMappedClassXMLBeanInfo();
-		if (lastMappedClazzInfo != null) {
-			result =
-				lastMappedClazzInfo
-					.getElementDescriptor()
-					.getElementDescriptor(
-					getRelativeElementPathIterator());
-		}
-		return result;
-	}
-
 	/**
 	  * Gets an iterator for the current relative path.
 	  * This is not guarenteed to behave safely if the underlying array
@@ -278,7 +269,7 @@ public class ReadContext extends Context {
 	  *
 	  * @return an Iterator over String's
 	  */
-	public Iterator getParentElementPathIterator() {
+	private Iterator getParentElementPathIterator() {
 		Object top = elementMappingStack.peek();
 		if (top instanceof Class) {
 			return new RelativePathIterator(1);
@@ -286,44 +277,25 @@ public class ReadContext extends Context {
 		return new RelativePathIterator();
 	}
 
-	public ElementDescriptor getParentPathElementDescriptor()
-		throws IntrospectionException {
-		ElementDescriptor result = null;
-		XMLBeanInfo lastMappedClazzInfo = getLastMappedClassXMLBeanInfo();
-		if (lastMappedClazzInfo != null) {
-            Iterator it = getParentElementPathIterator();
-            Object test = it.next();
-			result =
-				lastMappedClazzInfo
-					.getElementDescriptor()
-					.getElementDescriptor(it);
-		}
-		return result;
-	}
-
 	/**
 	  * Gets the Class that was last mapped, if there is one.
 	  * 
-	  * @return the Class last marked as mapped or null if no class has been mapped
+	  * @return the Class last marked as mapped 
+      * or null if no class has been mapped
 	  */
 	public Class getLastMappedClass() {
-		return getLastMappedClass(0);
+        Class lastMapped = null;
+        for (int i = 0, size = elementMappingStack.size();
+            i < size;
+            i++) {
+            Object entry = elementMappingStack.peek(i);
+            if (entry instanceof Class) {
+                lastMapped = (Class) entry;
+                break;
+            }
+        }
+        return lastMapped;
 	}
-
-	public Class getLastMappedClass(int offset) {
-		Class lastMapped = null;
-		for (int i = offset, size = elementMappingStack.size();
-			i < size;
-			i++) {
-			Object entry = elementMappingStack.peek(i);
-			if (entry instanceof Class) {
-				lastMapped = (Class) entry;
-				break;
-			}
-		}
-		return lastMapped;
-	}
-    
     
     private Class getParentClass()
     {
@@ -374,21 +346,6 @@ public class ReadContext extends Context {
     }
     
 
-	public XMLBeanInfo getLastMappedClassXMLBeanInfo()
-		throws IntrospectionException {
-		XMLBeanInfo lastMappedXMLBeanInfo = null;
-		Class lastMappedClass = getLastMappedClass();
-		if (lastMappedClass != null) {
-			lastMappedXMLBeanInfo =
-				getXMLIntrospector().introspect(lastMappedClass);
-		}
-		return lastMappedXMLBeanInfo;
-	}
-
-	public Iterator getRelativeElementPathIterator(int offset) {
-		return new RelativePathIterator(1);
-	}
-
 	/** 
 	  * Pushes the given element onto the element mapping stack.
 	  *
@@ -405,10 +362,19 @@ public class ReadContext extends Context {
 		}
 	}
 
+    /**
+     * Is the root element currently being mapped?
+     * @return true if the element being mapped is the root element
+     * but false if the stack is empty
+     */    
 	public boolean isAtRootElement() {
 		return (elementMappingStack.size() == 1);
 	}
 
+    /**
+     * Is the element mapping stack empty?
+     * @return true if the element mapping stack is empty
+     */
     public boolean isStackEmpty() {
         return (elementMappingStack.size() == 0);
     }
@@ -504,18 +470,37 @@ public class ReadContext extends Context {
 		// for now, do nothing		
 	}
 
+    /**
+     * Pops the last mapping <code>Object</code> from the 
+     * stack containing beans that have been mapped.
+     * @return 
+     */
 	public Object popBean() {
 		return objectStack.pop();
 	}
 
+    /**
+     * Pushs a newly mapped <code>Object</code> onto the mapped bean stack.
+     * @param bean
+     */
 	public void pushBean(Object bean) {
 		objectStack.push(bean);
 	}
 
+    /**
+     * Gets the <code>XMLIntrospector</code> to be used to create
+     * the mappings for the xml.
+     * @return <code>XMLIntrospector, not null
+     */
 	public XMLIntrospector getXMLIntrospector() {
 		return xmlIntrospector;
 	}
 
+    /**
+     * Sets the <code>XMLIntrospector</code> to be used to create
+     * the mappings for the xml.
+     * @param xmlIntrospector <code>XMLIntrospector</code>, not null
+     */
 	public void setXMLIntrospector(XMLIntrospector xmlIntrospector) {
 		this.xmlIntrospector = xmlIntrospector;
 	}
@@ -528,6 +513,13 @@ public class ReadContext extends Context {
 		this.rootClass = rootClass;
 	}
 
+    /**
+     * Gets the <code>ElementDescriptor</code> that describes the
+     * mapping for the current element.
+     * @return <code>ElementDescriptor</code> or null if there is no
+     * current mapping
+     * @throws Exception
+     */
 	public ElementDescriptor getCurrentDescriptor() throws Exception {
 		ElementDescriptor result = null;
 		Iterator relativePathIterator = getRelativeElementPathIterator();
@@ -555,36 +547,13 @@ public class ReadContext extends Context {
 		}
 		return result;
 	}
-
-	public ElementDescriptor getActiveDescriptor() throws Exception {
-
-		ElementDescriptor computedDescriptor =
-			getRelativePathElementDescriptor();
-		if (computedDescriptor == null) {
-			computedDescriptor = getParentPathElementDescriptor();
-		}
-		ElementDescriptor parentDescriptor = null;
-		if (computedDescriptor != null
-			&& computedDescriptor.getPropertyType() == null) {
-			XMLBeanInfo childXMLBeanInfo = getLastMappedClassXMLBeanInfo();
-			if (childXMLBeanInfo == null) {
-				getLog().trace("No XMLBeanInfo");
-
-			} else {
-
-				parentDescriptor =
-					childXMLBeanInfo.getElementDescriptor().findParent(
-						computedDescriptor);
-			}
-		}
-
-		if (computedDescriptor == null
-			|| computedDescriptor.getSingularPropertyType() == null) {
-			computedDescriptor = parentDescriptor;
-		}
-		return computedDescriptor;
-	}
-	
+    
+    /**
+     * Populates the object mapped by the <code>AttributeDescriptor</code>s
+     * with the values in the given <code>Attributes</code>.
+     * @param attributeDescriptors <code>AttributeDescriptor</code>s, not null
+     * @param attributes <code>Attributes</code>, not null
+     */
 	public void populateAttributes(
 		AttributeDescriptor[] attributeDescriptors,
 		Attributes attributes) {
