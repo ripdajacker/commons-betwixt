@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/PhoneBookBean.java,v 1.1.2.1 2004/01/18 12:32:08 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:32:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/PhoneBookBean.java,v 1.1.2.2 2004/01/19 21:19:36 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/19 21:19:36 $
  *
  * ====================================================================
  * 
@@ -61,14 +61,14 @@
 
 package org.apache.commons.betwixt.introspection;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Bean models a simple list of phone numbers as found (for example) in a contant list.
  * Really just a list of phone number entries.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class PhoneBookBean {   
     private String name;

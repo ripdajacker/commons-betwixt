@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.1 2004/01/18 12:34:40 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:34:40 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.2 2004/01/19 21:19:36 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/19 21:19:36 $
  *
  * ====================================================================
  * 
@@ -61,8 +61,8 @@
 
 package org.apache.commons.betwixt.schema;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -72,7 +72,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class ComplexType {
 	
