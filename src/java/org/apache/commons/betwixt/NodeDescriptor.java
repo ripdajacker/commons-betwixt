@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/12 13:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.5 2003/01/13 18:07:52 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/13 18:07:52 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
+ * $Id: NodeDescriptor.java,v 1.5 2003/01/13 18:07:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class NodeDescriptor {
 
@@ -234,7 +234,7 @@ public class NodeDescriptor {
 
     
     /** 
-     * 
+     * Gets the name of the bean property to which this node refers
      * @return the name of the bean property to which this node refers to, 
      * or null if it is just a constant 
      */
@@ -243,7 +243,7 @@ public class NodeDescriptor {
     }
     
     /** 
-     * Sets the name of the bean property to which this node refers to,
+     * Sets the name of the bean property to which this node refers
      * @param propertyName the name of the bean property. 
      * Or null, if this node is not mapped to to a bean property
      */

@@ -18,10 +18,7 @@
             <li>
                 <strong>Create DTD for .betwixt files.</strong>
             </li>
-            <li>
-                <strong>Improve Java Docs. </strong>
-                Go through java docs, add any which are missing, correct any mistakes etc.
-            </li>
+
             <li>
                 <strong>Test Against Powered By Projects. </strong>
                 Make sure release works with maven (done) and scarab.
@@ -236,9 +233,12 @@
                 Add documentation about the XMLIntrospector settings to main documentation.
                 Make sure that warnings are added about consequences of changing settings.
             </li>
+            <li>
+                <strong>Improve Java Docs. </strong>
+                Go through java docs, add any which are missing, correct any mistakes etc.
+            </li>
         </ul>
     </subsection>
-    
     </section>
   </body>
 </document>
