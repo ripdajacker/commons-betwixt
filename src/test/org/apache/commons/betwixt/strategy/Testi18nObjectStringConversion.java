@@ -1,7 +1,7 @@
 /**
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/Testi18nObjectStringConversion.java,v 1.2 2003/09/17 21:36:30 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/09/17 21:36:30 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/Testi18nObjectStringConversion.java,v 1.3 2003/09/17 21:46:13 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/09/17 21:46:13 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Testi18nObjectStringConversion.java,v 1.2 2003/09/17 21:36:30 rdonkin Exp $
+ * $Id: Testi18nObjectStringConversion.java,v 1.3 2003/09/17 21:46:13 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ import java.text.SimpleDateFormat;
  * Tests ObjectStringConverters in FRENCH locale
  * 
  * @author Robert Burrell Donkin
- * @version $Id: Testi18nObjectStringConversion.java,v 1.2 2003/09/17 21:36:30 rdonkin Exp $
+ * @version $Id: Testi18nObjectStringConversion.java,v 1.3 2003/09/17 21:46:13 rdonkin Exp $
  */
 public class Testi18nObjectStringConversion extends TestObjectStringConverters
 {    
@@ -97,7 +97,7 @@ public class Testi18nObjectStringConversion extends TestObjectStringConverters
         calendar.set(1980, 11, 9, 5, 0, 0);
         java.util.Date date = calendar.getTime();
         String formatted = format.format(date);
-        assertEquals("Locale dependent conversions", "mar. déc. 09 05:00:000 1980", formatted);
+        assertEquals("Locale dependent conversions", "mar. d\u00E9c. 09 05:00:000 1980", formatted);
         
     }
 }
