@@ -9,7 +9,6 @@ import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
-import org.apache.commons.betwixt.strategy.NoOpPluralStemmer;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 
 import junit.framework.Test;
@@ -21,7 +20,7 @@ import junit.textui.TestRunner;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.1 2002/07/08 16:40:06 jvanzyl Exp $
+ * @version $Id: TestNoWrap.java,v 1.2 2002/07/08 16:42:12 jvanzyl Exp $
  */
 public class TestNoWrap
     extends TestCase
