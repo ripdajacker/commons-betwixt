@@ -101,7 +101,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.9 2002/08/14 20:26:22 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.10 2002/10/26 14:30:54 mvdb Exp $
   */
 public class XMLIntrospector {
 
@@ -136,6 +136,8 @@ public class XMLIntrospector {
      * It will default to the normal nameMapper.
      */
     private NameMapper attributeNameMapper;
+    
+    private boolean useBeanInfoSearchPath = false;
     
     /** Base constructor */
     public XMLIntrospector() {
@@ -194,8 +196,12 @@ public class XMLIntrospector {
       */
     public XMLBeanInfo introspect(Class aClass) throws IntrospectionException {
         // we first reset the beaninfo searchpath.
-        String[] searchPath = Introspector.getBeanInfoSearchPath();
-        Introspector.setBeanInfoSearchPath(new String[] { });
+        String[] searchPath = null;
+        if (!useBeanInfoSearchPath)
+        {
+            searchPath = Introspector.getBeanInfoSearchPath();
+            Introspector.setBeanInfoSearchPath(new String[] { });
+        }
         
         XMLBeanInfo xmlInfo = null;
         if ( cachingEnabled ) {
@@ -224,8 +230,11 @@ public class XMLIntrospector {
         if (log.isTraceEnabled()) {
             log.trace(xmlInfo);
         }
-        // we restore the beaninfo searchpath.
-        Introspector.setBeanInfoSearchPath(searchPath);
+        if (!useBeanInfoSearchPath)
+        {
+            // we restore the beaninfo searchpath.
+            Introspector.setBeanInfoSearchPath(searchPath);
+        }
         
         return xmlInfo;
     }
@@ -525,4 +534,22 @@ public class XMLIntrospector {
     public boolean isPrimitiveType(Class type) {
         return XMLIntrospectorHelper.isPrimitiveType(type);
     }
+    /**
+     * By default it will be false.
+     * 
+     * @return boolean if the beanInfoSearchPath should be used.
+     */
+    public boolean useBeanInfoSearchPath() {
+        return useBeanInfoSearchPath;
+    }
+
+    /**
+     * Specifies if you want to use the beanInfoSearchPath 
+     * @see java.beans.Introspector for more details
+     * @param useBeanInfoSearchPath 
+     */
+    public void setUseBeanInfoSearchPath(boolean useBeanInfoSearchPath) {
+        this.useBeanInfoSearchPath = useBeanInfoSearchPath;
+    }
+
 }
