@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.1 2004/01/13 21:57:54 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/13 21:57:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/15 20:21:21 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.1 2004/01/13 21:57:54 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -79,7 +79,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -353,7 +353,7 @@ public class BeanBindAction extends MappingAction.Base {
                 // iterate through all attributes        
                 AttributeDescriptor[] attributeDescriptors =
                     typeDescriptor.getAttributeDescriptors();
-                populateAttributes(attributeDescriptors, attributes, context);
+                context.populateAttributes(attributeDescriptors, attributes);
 
                 if (log.isTraceEnabled()) {
                     log.trace("Created bean " + instance);
@@ -374,49 +374,6 @@ public class BeanBindAction extends MappingAction.Base {
         return action;
     }
 
-    private void populateAttributes(
-        AttributeDescriptor[] attributeDescriptors,
-        Attributes attributes,
-        ReadContext context) {
-
-        Log log = context.getLog();
-        if (attributeDescriptors != null) {
-            for (int i = 0, size = attributeDescriptors.length;
-                i < size;
-                i++) {
-                AttributeDescriptor attributeDescriptor =
-                    attributeDescriptors[i];
-
-                // The following isn't really the right way to find the attribute
-                // but it's quite robust.
-                // The idea is that you try both namespace and local name first
-                // and if this returns null try the qName.
-                String value =
-                    attributes.getValue(
-                        attributeDescriptor.getURI(),
-                        attributeDescriptor.getLocalName());
-
-                if (value == null) {
-                    value =
-                        attributes.getValue(
-                            attributeDescriptor.getQualifiedName());
-                }
-
-                if (log.isTraceEnabled()) {
-                    log.trace("Attr URL:" + attributeDescriptor.getURI());
-                    log.trace(
-                        "Attr LocalName:" + attributeDescriptor.getLocalName());
-                    log.trace(value);
-                }
-
-                Updater updater = attributeDescriptor.getUpdater();
-                log.trace(updater);
-                if (updater != null && value != null) {
-                    updater.update(context, value);
-                }
-            }
-        }
-    }
 
     /** 
     * Factory method to create new bean instances 

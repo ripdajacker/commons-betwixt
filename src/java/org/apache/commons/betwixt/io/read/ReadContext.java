@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.2 2004/01/15 20:21:21 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/01/15 20:21:21 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,20 +65,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
 
 /**  
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.1 $
+  * @version $Revision: 1.4.2.2 $
   */
 public class ReadContext extends Context {
 
@@ -516,4 +519,48 @@ public class ReadContext extends Context {
 		}
 		return computedDescriptor;
 	}
+	
+	public void populateAttributes(
+		AttributeDescriptor[] attributeDescriptors,
+		Attributes attributes) {
+
+		Log log = getLog();
+		if (attributeDescriptors != null) {
+			for (int i = 0, size = attributeDescriptors.length;
+				i < size;
+				i++) {
+				AttributeDescriptor attributeDescriptor =
+					attributeDescriptors[i];
+
+				// The following isn't really the right way to find the attribute
+				// but it's quite robust.
+				// The idea is that you try both namespace and local name first
+				// and if this returns null try the qName.
+				String value =
+					attributes.getValue(
+						attributeDescriptor.getURI(),
+						attributeDescriptor.getLocalName());
+
+				if (value == null) {
+					value =
+						attributes.getValue(
+							attributeDescriptor.getQualifiedName());
+				}
+
+				if (log.isTraceEnabled()) {
+					log.trace("Attr URL:" + attributeDescriptor.getURI());
+					log.trace(
+						"Attr LocalName:" + attributeDescriptor.getLocalName());
+					log.trace(value);
+				}
+
+				Updater updater = attributeDescriptor.getUpdater();
+				log.trace(updater);
+				if (updater != null && value != null) {
+					updater.update(this, value);
+				}
+			}
+		}
+	}
+
 }

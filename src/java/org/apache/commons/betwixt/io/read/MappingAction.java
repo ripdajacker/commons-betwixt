@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.1 2004/01/13 22:26:19 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/13 22:26:19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/15 20:21:21 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,10 +57,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MappingAction.java,v 1.1.2.1 2004/01/13 22:26:19 rdonkin Exp $
+ * $Id: MappingAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
+import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.xml.sax.Attributes;
 
 /**
@@ -68,77 +70,92 @@ import org.xml.sax.Attributes;
  * It is intended that most MappingAction's will not need to maintain state.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public abstract class MappingAction {
-	
-	/**
-	 * Executes mapping action on new element.
-	 * @param namespace
-	 * @param name
-	 * @param attributes Attributes not null
-	 * @param context Context not null
-	 * @return the MappingAction to be used to map the sub-graph 
-	 * under this element
-	 * @throws Exception
-	 */
-	public abstract MappingAction begin(
-								String namespace, 
-								String name,
-								Attributes attributes,
-								ReadContext context) throws Exception;
 
-	/**
-	 * Executes mapping action for element body text
-	 * @param text
-	 * @param context
-	 * @throws Exception
-	 */
-	public abstract void body(
-					String text, 
-					ReadContext context) throws Exception;
-					
-	/**
-	 * Executes mapping action one element ends
-	 * @param context
-	 * @throws Exception
-	 */
-	public abstract void end(ReadContext context) throws Exception;
+    /**
+     * Executes mapping action on new element.
+     * @param namespace
+     * @param name
+     * @param attributes Attributes not null
+     * @param context Context not null
+     * @return the MappingAction to be used to map the sub-graph 
+     * under this element
+     * @throws Exception
+     */
+    public abstract MappingAction begin(
+        String namespace,
+        String name,
+        Attributes attributes,
+        ReadContext context)
+        throws Exception;
 
-	public static final MappingAction EMPTY = new MappingAction.Base();
+    /**
+     * Executes mapping action for element body text
+     * @param text
+     * @param context
+     * @throws Exception
+     */
+    public abstract void body(String text, ReadContext context)
+        throws Exception;
 
-	/**
-	 * Basic action.
-	 * 
-	 * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-	 * @version $Revision: 1.1.2.1 $
-	 */
-	public static class Base extends MappingAction {
+    /**
+     * Executes mapping action one element ends
+     * @param context
+     * @throws Exception
+     */
+    public abstract void end(ReadContext context) throws Exception;
 
-		/* (non-Javadoc)
-		 * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
-		 */
-		public MappingAction begin(String namespace, String name, Attributes attributes, ReadContext context) throws Exception {
-			return this;
-		}
+    public static final MappingAction EMPTY = new MappingAction.Base();
 
-		/* (non-Javadoc)
-		 * @see org.apache.commons.betwixt.io.read.MappingAction#body(java.lang.String, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
-		 */
-		public void body(String text, ReadContext context) throws Exception {
-			// do nothing
-		}
+    /**
+     * Basic action.
+     * 
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @version $Revision: 1.1.2.2 $
+     */
+    public static class Base extends MappingAction {
 
-		/* (non-Javadoc)
-		 * @see org.apache.commons.betwixt.io.read.MappingAction#end(org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.digester.Digester, org.apache.commons.betwixt.XMLIntrospector)
-		 */
-		public void end(ReadContext context) throws Exception {
-			// do nothing
-			// TODO: this is a temporary refactoring
-			// it would be better to do this in the rule
-			// need to move more logic into the context and out of the rule
-			context.popElement();
-		}
-		
-	}
+        /* (non-Javadoc)
+         * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
+         */
+        public MappingAction begin(
+            String namespace,
+            String name,
+            Attributes attributes,
+            ReadContext context)
+            throws Exception {
+            // TODO: i'm not too sure about this part of the design
+            // i'm not sure whether base should give base behaviour or if it should give standard behaviour
+            // i'm hoping that things will become clearer once the descriptor logic has been cleared 
+            ElementDescriptor descriptor = context.getCurrentDescriptor();
+            if (descriptor != null) {
+
+                AttributeDescriptor[] attributeDescriptors =
+                    descriptor.getAttributeDescriptors();
+                context.populateAttributes(attributeDescriptors, attributes);
+            }
+            return this;
+        }
+
+        /* (non-Javadoc)
+         * @see org.apache.commons.betwixt.io.read.MappingAction#body(java.lang.String, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
+         */
+        public void body(String text, ReadContext context) throws Exception {
+            // do nothing
+        }
+
+        /* (non-Javadoc)
+         * @see org.apache.commons.betwixt.io.read.MappingAction#end(org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.digester.Digester, org.apache.commons.betwixt.XMLIntrospector)
+         */
+        public void end(ReadContext context) throws Exception {
+            // do nothing
+            // TODO: this is a temporary refactoring
+            // it would be better to do this in the rule
+            // need to move more logic into the context and out of the rule
+            context.popElement();
+        }
+
+    }
 }
