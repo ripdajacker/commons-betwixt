@@ -33,7 +33,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * rather than extending {@link Context}.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @since 0.5
  */
 public abstract class WriteContext {
     

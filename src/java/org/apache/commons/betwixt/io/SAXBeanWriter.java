@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.15 2004/03/31 19:54:24 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.15.2.1 2004/06/19 16:24:10 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -52,7 +52,9 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     /** 
      * Should document events (ie start and end) be called?
      *
-     * @return true if this SAXWriter should call start and end of the content handler
+     * @return true if this SAXWriter should call start 
+     * and end of the content handler
+     * @since 0.5
      */
     public boolean getCallDocumentEvents() {
         return callDocumentEvents;
@@ -62,6 +64,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * Sets whether the document events (ie start and end) should be called.
      *
      * @param callDocumentEvents should document events be called
+     * @since 0.5
      */
     public void setCallDocumentEvents(boolean callDocumentEvents) {
         this.callDocumentEvents = callDocumentEvents;
@@ -103,7 +106,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @param qName the element's qualified name
      * @param attributes the element's attributes
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void startElement(
                                 WriteContext context,
@@ -127,7 +130,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @param localName the element's local name 
      * @param qName the element's qualified name
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void endElement(
                                 WriteContext context,
@@ -146,7 +149,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * Express body text 
      * @param text the element body text 
      * @throws SAXException if the <code>ContentHandler</code> has a problem
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void bodyText(WriteContext context, String text) throws SAXException  {
         // FIX ME

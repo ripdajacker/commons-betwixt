@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
   * The standard implementations used by Betwixt are present here.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @since 0.5
   */
 public class ChainedBeanCreatorFactory {
     

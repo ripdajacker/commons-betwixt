@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * Common superclass for types of <code>Descriptor</code></p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @since 0.5
   */
 public abstract class Descriptor {
 

@@ -34,7 +34,7 @@ import org.apache.commons.betwixt.expression.Context;
  * original input.
  * </p>
  * @author Robert Burrell Donkin 
- * @version
+ * @since 0.5
  */
 public class ObjectStringConverter implements Serializable {
     

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @since 0.5
   */
 public class ReadContext extends Context {
 

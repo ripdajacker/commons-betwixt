@@ -24,6 +24,7 @@ import org.apache.commons.beanutils.DynaBean;
  * @see org.apache.commons.beanutils.DynaBean
  * 
  * @author Michael Becke
+ * @since 0.5
  */
 public class DynaBeanExpression implements Expression {
 

@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.XMLUtils;
  * illegal characters before passing result down the chain.
  * 
  * @author Robert Burrell Donkin
- * @version $Revision: 1.4 $
+ * @since 0.5
  */
 public class BadCharacterReplacingNMapper implements NameMapper {
     /** Next mapper in chain, possibly null */

@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.io.read;
   * A Chain of bean creators.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @since 0.5
   */
 public abstract class BeanCreationChain {
 
