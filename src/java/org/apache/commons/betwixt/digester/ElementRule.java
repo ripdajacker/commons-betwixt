@@ -258,12 +258,7 @@ public class ElementRule extends MappedPropertyRule {
         }
         
         // choose response from property type
-        
-        // TODO: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
-            log.trace( "Ignoring class property" );
-            return;
-        }
+
         if ( getXMLIntrospector().isPrimitiveType( type ) ) {
             elementDescriptor.setTextExpression( new MethodExpression( readMethod ) );
             

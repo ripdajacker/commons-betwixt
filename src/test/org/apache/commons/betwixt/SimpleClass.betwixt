@@ -18,5 +18,6 @@
     <element name="test-class">
         <attribute name="test-prop-1" property="testPropertyOne"/>
         <attribute name="test-prop-2" property="testPropertyTwo"/>
+        <element name="class" property="class"/>
     </element>
 </info>
