@@ -105,7 +105,6 @@
     </dependency>
 
 <!-- runtime dependencies only required for testing and sample programs -->
-<!--
     <dependency>
       <name>xercesImpl</name>
       <type>required</type>
@@ -119,9 +118,18 @@
       <version>2.0.0</version>
       <jar>xmlParserAPIs-2.0.0.jar</jar>
     </dependency>
--->
 
 	<!-- for unit tests -->
+    <dependency>
+      <name>junit</name>
+      <type>required</type>
+      <version>3.7</version>
+      <url>http://www.junit.org</url>
+      <jar>junit-3.7.jar</jar>
+    </dependency>
+     <!-- some testcases need maven 
+          we should get rid of that dependency
+     -->          
     <dependency>
       <name>maven</name>
       <type>required</type>
@@ -139,18 +147,21 @@
     <aspectSourceDirectory/>
 
     <!-- Unit test classes -->
-    <unitTestPatterns>
-      <unitTestPattern>include = **/Test*.java</unitTestPattern>
-    </unitTestPatterns>
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+    </unitTest>
 
     <!-- Integration unit test classes -->
     <integrationUnitTestPatterns></integrationUnitTestPatterns>
     
-    <!-- J A R  R E S O U R C E S -->
-    <!-- Resources that are packaged up inside the JAR file -->
-    <jarResources>
-      <jarResource>include = **/*.properties</jarResource>
-    </jarResources>
+    <resources>
+      <includes>
+        <include>**/*.properties</include>
+      </includes>
+    </resources>
+    
     <jars></jars>
   </build>
   
