@@ -283,6 +283,14 @@ Added ClassNormalizer strategy. This allows the Class introspector to differ fro
             <li>
 <strong>Added Support For Replacement Of Bad Characters</strong> to default mapping of element names.
             </li>
+            <li>
+<strong>Added Options mechanism</strong> for communication behaviour hints to optional
+strategies.
+            </li>
+            <li>
+<strong>CDATA encoding support</strong> add support for flexible coding of body text as CDATA
+sections (in addition to character escaping).
+            </li>
         </ul>
     </subsection>
 </section>

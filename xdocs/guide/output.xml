@@ -76,8 +76,33 @@ For example, to have all content wrapped in <code>CDATA</code> sections:
         writer.setMixedContentEncodingStrategy(MixedContentEncodingStrategy.CDATA);
 </source>
             <p>
-By default, Betwixt using escaping and produces no CDATA sections.
+By default, Betwixt uses character escaping only. However, the default
+strategy also supports per-property specification through
+setting the appropriate <a href='binding.html#Using%20Options'>option</a>.
+Setting the <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+option to <code>CDATA</code> will instruct the default strategy to wrap
+the element's body text in a CDATA section.
+For example, the following betwixt file fragment encodes the 
+<code>some-property</code> element's body text as CDATA
+(when the default strategy is used):
         </p>
+<source>
+<![CDATA[
+<?xml version='1.0'?>
+<info primitiveTypes="attribute">
+	<element name='some-bean'>
+        ...
+		<element name='some-property' property='someProperty'>
+			<option>
+				<name>org.apache.commons.betwixt.mixed-content-encoding</name>
+				<value>CDATA</value>
+			</option>
+		</element>
+        ...
+	</element>
+</info>
+]]>
+</source>
     </subsection>
 </section>
 <section name='Pushing Results to SAX'>

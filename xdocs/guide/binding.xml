@@ -476,6 +476,69 @@ is a good please to start when creating your own implementation.
         </p>
     </subsection>
 </section>
-
+    <section name='(Brief) Guide To Creating Custom Strategy Plugins'>
+            <p>
+It is common for users of Betwixt to need to develop their own custom strategies
+to handle some parts of the binding process. This section contains some information
+that may of of some use for those people. Help to create a more comprehensive guide
+would be appreciated.
+        </p>
+        <subsection name='Using Options'>
+            <p>
+Options provide an extensible way for extra mapping information to be communicated
+from the binding to those components executing the mapping. Each <code>Descriptor</code>
+exposes an 
+<a href='../apidocs/org/apache/commons/betwixt/Descriptor.html#getOptions()'>Options property</a>.
+This contains a set of values indexed by name (both are strings). These options can be
+set programmatically during the binding. They can also be set through the <code>.betwixt</code>
+file.
+        </p>
+            <p>
+Setting option values through the <code>.betwixt</code> file is easy: just add an 
+<code>&lt;option&gt;</code> child element to an <code>&lt;element&gt;</code> element.
+For example, the <code>XMLBeanInfo</code> for the following betwixt file:
+        </p>
+<source>
+<![CDATA[
+<?xml version='1.0'?>
+<info primitiveTypes="attribute">
+	<element name='some-bean'>
+		<element name='some-property' property='someProperty'>
+			<option>
+				<name>org.apache.commons.betwixt.example-one</name>
+				<value>value-one</value>
+			</option>
+		</element>
+		<element name='another-property' property='anotherProperty'>
+			<option>
+				<name>org.apache.commons.betwixt.example-two</name>
+				<value>value-two</value>
+			</option>
+		</element>
+	</element>
+</info>
+]]>
+</source>
+            <p>
+will have the value <em>value-one</em> associated with the option name
+<em>org.apache.commons.betwixt.example-one</em> in the options for the 
+<code>some-property</code> descriptor and <em>value-two</em>
+associated with <em>org.apache.commons.betwixt.example-two</em>
+for <code>another-property</code>.
+Note that the last value set for a particular option name is the one that
+will be used.
+        </p>
+            <p>
+The recommended convention for naming option's is to prefix with the reverse domain
+name (the same convension that is used for the standard naming of packages). 
+In any case, all option names beginning with <code>org.apache</code> should be avoided since
+these may be used by ASF products in the future.
+        </p>
+            <p>
+At the moment, there is no support for inheritance of options (from parent to child)
+through this may be considered later if there is sufficient demand.            
+        </p>
+    </subsection>
+</section>
 </body>
 </document>
