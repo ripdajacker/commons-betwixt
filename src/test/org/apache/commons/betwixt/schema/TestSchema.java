@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.3 2002/10/27 00:39:00 dion Exp $
- * $Revision: 1.3 $
- * $Date: 2002/10/27 00:39:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.4 2002/11/27 22:19:12 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/11/27 22:19:12 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSchema.java,v 1.3 2002/10/27 00:39:00 dion Exp $
+ * $Id: TestSchema.java,v 1.4 2002/11/27 22:19:12 rdonkin Exp $
  */
 package org.apache.commons.betwixt.schema;
 
@@ -73,6 +73,7 @@ import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 
 
 /**
@@ -80,7 +81,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.3 2002/10/27 00:39:00 dion Exp $
+ * @version $Id: TestSchema.java,v 1.4 2002/11/27 22:19:12 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -113,13 +114,15 @@ public class TestSchema extends AbstractTestCase
         StringReader in = new StringReader(buffer.getBuffer().toString());
         reader = createBeanReader();
         XMLIntrospector intro = createXMLIntrospector();
+        DefaultXMLBeanInfoRegistry registry = new DefaultXMLBeanInfoRegistry();
+        intro.setRegistry(registry);
         // we have written the xml file back with element collections,
         // so we have to say to the reader we want to use that now
         // (the default when creating in this test is not to use them)
         intro.setWrapCollectionsInElement(true);
         // first flush the cash, else setting other options, doesn't
         // end up in rereading / mapping the object model.
-        intro.flushCache();
+        registry.flush();
         // set the xmlIntrospector back to the reader
         reader.setXMLIntrospector(intro);
         PhysicalSchema schemaSecond = (PhysicalSchema) reader.parse(in);

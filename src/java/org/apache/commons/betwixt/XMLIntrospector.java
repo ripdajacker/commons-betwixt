@@ -82,6 +82,8 @@ import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
+import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 
 /** 
   * <p><code>XMLIntrospector</code> an introspector of beans to create a 
@@ -101,7 +103,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.10 2002/10/26 14:30:54 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.11 2002/11/27 22:19:12 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -114,11 +116,8 @@ public class XMLIntrospector {
     /** should we wrap collections in an extra element? */
     private boolean wrapCollectionsInElement = true;
     
-    /** Is <code>XMLBeanInfo</code> caching enabled? */
-    boolean cachingEnabled = true;
-    
     /** Maps classes to <code>XMLBeanInfo</code>'s */
-    protected Map cacheXMLBeanInfos = new HashMap();
+    private XMLBeanInfoRegistry registry = new DefaultXMLBeanInfoRegistry();
     
     /** Digester used to parse the XML descriptor files */
     private XMLBeanInfoDigester digester;
@@ -157,26 +156,39 @@ public class XMLIntrospector {
         this.log = log;
     }
     
+    public XMLBeanInfoRegistry getRegistry() {
+        return registry;
+    }
+    
+    public void setRegistry(XMLBeanInfoRegistry registry) {
+        this.registry = registry;
+    }
+    
+    
     /** 
      * Is <code>XMLBeanInfo</code> caching enabled? 
+     *
+     * @deprecated replaced by XMlBeanInfoRegistry
      */
     public boolean isCachingEnabled() {
-        return cachingEnabled;
+        return true;
     }
 
     /**
      * Set whether <code>XMLBeanInfo</code> caching should be enabled.
+     *
+     * @deprecated replaced by XMlBeanInfoRegistry
      */    
     public void setCachingEnabled(boolean cachingEnabled) {
-        this.cachingEnabled = cachingEnabled;
+        //
     }
     
     /**
      * Flush existing cached <code>XMLBeanInfo</code>'s.
+     *
+     * @deprecated use flushable registry instead
      */
-    public void flushCache() {
-        cacheXMLBeanInfos.clear();
-    }
+    public void flushCache() {}
     
     /** Create a standard <code>XMLBeanInfo</code> by introspection
         The actual introspection depends only on the <code>BeanInfo</code>
@@ -204,10 +216,8 @@ public class XMLIntrospector {
         }
         
         XMLBeanInfo xmlInfo = null;
-        if ( cachingEnabled ) {
-            // if caching is enabled, try in caching first
-            xmlInfo = (XMLBeanInfo) cacheXMLBeanInfos.get( aClass );
-        }
+        // see if info's in registry
+        xmlInfo = registry.get( aClass );
         if (xmlInfo == null) {
             // lets see if we can find an XML descriptor first
             if ( log.isDebugEnabled() ) {
@@ -221,7 +231,7 @@ public class XMLIntrospector {
             }
             
             if (xmlInfo != null) {
-                cacheXMLBeanInfos.put( aClass, xmlInfo );
+                registry.put( aClass, xmlInfo );
             }
         } else {
             log.trace("Used cached XMLBeanInfo.");

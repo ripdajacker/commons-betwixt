@@ -68,6 +68,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.apache.commons.betwixt.registry.NoCacheRegistry;
+import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+
 
 /** Test harness for the XMLIntrospector
   *
@@ -121,7 +124,8 @@ public class TestXMLIntrospector extends AbstractTestCase {
 
 
         // test introspection with caching off      
-        introspector.setCachingEnabled(false);  
+        //introspector.setCachingEnabled(false);  
+        introspector.setRegistry(new NoCacheRegistry());
         info = introspector.introspect( bean );
         
         assertTrue( "Found XMLBeanInfo", info != null );
@@ -136,8 +140,9 @@ public class TestXMLIntrospector extends AbstractTestCase {
 
 
         // test introspection after flushing cache
-        introspector.setCachingEnabled(true); 
-        introspector.flushCache();
+//        introspector.setCachingEnabled(true);
+        introspector.setRegistry(new DefaultXMLBeanInfoRegistry()); 
+        //introspector.flushCache();
         info = introspector.introspect( bean );
         
         assertTrue( "Found XMLBeanInfo", info != null );
