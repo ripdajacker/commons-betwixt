@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.2 2002/09/12 13:49:03 jstrachan Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/09/12 13:49:03 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.2 2002/09/12 13:49:03 jstrachan Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ import java.beans.Introspector;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -101,11 +101,16 @@ public class HyphenatedNameMapper implements NameMapper {
      */
     public String mapTypeToElementName(String typeName) {
         
+        int length = typeName.length();
+        if (length == 0) {
+            return "";
+        }
+        
         StringBuffer sb = new StringBuffer();
 
         sb.append(convertChar(typeName.charAt(0)));        
         
-        for (int i = 1; i < typeName.length(); i++) {
+        for (int i = 1; i < length; i++) {
             if (Character.isUpperCase(typeName.charAt(i))) {
                 sb.append(separator);
                 sb.append(convertChar(typeName.charAt(i)));
