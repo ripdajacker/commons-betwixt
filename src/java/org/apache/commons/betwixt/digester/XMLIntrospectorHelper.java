@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.3 2002/07/02 11:24:49 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.4 2002/07/08 16:51:38 jvanzyl Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -119,10 +119,14 @@ public class XMLIntrospectorHelper {
      * The class property is ignored.
      */
     public static NodeDescriptor createDescriptor( 
-        PropertyDescriptor propertyDescriptor,
-        boolean useAttributesForPrimitives
+        PropertyDescriptor propertyDescriptor, 
+        boolean useAttributesForPrimitives,
+        XMLIntrospector introspector
     ) throws IntrospectionException {
         Class type = propertyDescriptor.getPropertyType();
+        
+        System.out.println(propertyDescriptor.getPropertyType());
+        
         NodeDescriptor nodeDescriptor = null;
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -167,8 +171,9 @@ public class XMLIntrospectorHelper {
             if ( Map.class.isAssignableFrom( type ) ) {
                 loopDescriptor.setQualifiedName( "entry" );
             }
-            
+
             ElementDescriptor elementDescriptor = new ElementDescriptor();
+            elementDescriptor.setWrapCollectionsInElement(introspector.isWrapCollectionsInElement());
             elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
             
             nodeDescriptor = elementDescriptor;            
@@ -225,7 +230,7 @@ public class XMLIntrospectorHelper {
             elementDescriptor.setPrimitiveType(true);
         }
         else if ( isLoopType( type ) ) {
-            log.trace("Loop type");
+            log.trace("Loop type ??");
             
             // don't wrap this in an extra element as its specified in the 
             // XML descriptor so no need.            
@@ -321,9 +326,19 @@ public class XMLIntrospectorHelper {
                         // and if so, we'll set a new Updater on it if there
                         // is not one already
                         ElementDescriptor descriptor = findGetCollectionDescriptor( introspector, rootDescriptor, propertyName );
+                            
+                            if ( log.isDebugEnabled() ) {
+                                log.debug( "!! " + propertyName + " -> " + descriptor);
+                            }
+                        
                         if ( descriptor != null ) {
                             descriptor.setUpdater( new MethodUpdater( method ) );
                             descriptor.setSingularPropertyType( types[0] );
+                            
+                            if ( log.isDebugEnabled() ) {
+                                log.debug( "!! " + method);
+                                log.debug( "!! " + types[0]);
+                            }
                             
                             // is there a child element with no localName
                             ElementDescriptor[] children = descriptor.getElementDescriptors();

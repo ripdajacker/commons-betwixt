@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.1 2002/06/10 17:53:35 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:35 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.2 2002/07/08 16:51:38 jvanzyl Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/08 16:51:38 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddDefaultsRule.java,v 1.1 2002/06/10 17:53:35 jstrachan Exp $
+ * $Id: AddDefaultsRule.java,v 1.2 2002/07/08 16:51:38 jvanzyl Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -87,7 +87,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -123,7 +123,7 @@ public class AddDefaultsRule extends RuleSupport {
                             continue;
                         }
                         NodeDescriptor nodeDescriptor = XMLIntrospectorHelper.createDescriptor( 
-                            descriptor, attributesForPrimitives 
+                            descriptor, attributesForPrimitives, getXMLIntrospector()
                         );
                         if ( nodeDescriptor != null ) {
                             addDescriptor( nodeDescriptor );
