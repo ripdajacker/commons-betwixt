@@ -1,0 +1,28 @@
+<?xml version='1.0' ?>
+<PersonListBean>
+
+		<owner className="org.apache.commons.betwixt.derived.EmployeeBean">
+			<age>27</age>
+			<name>Rob</name>
+		</owner>
+
+  	<personList>
+    		<person>
+		    	<age>22</age>
+		    	<name>Athos</name>
+    		</person>
+    		<person className="org.apache.commons.betwixt.derived.EmployeeBean">
+    			<age>25</age>
+    			<name>Porthos</name>
+    		</person>
+    		<person className="org.apache.commons.betwixt.derived.ManagerBean">
+    			<cheeseSize>12</cheeseSize>
+    			<age>23</age>
+    			<name>Aramis</name>
+    		</person>
+    		<person>
+    			<age>18</age>
+    			<name>D'Artagnan</name>
+    		</person>
+    </personList>
+</PersonListBean>

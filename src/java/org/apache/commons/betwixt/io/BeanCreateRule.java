@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.21 2003/02/24 18:21:29 rdonkin Exp $
- * $Revision: 1.21 $
- * $Date: 2003/02/24 18:21:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.22 2003/03/20 19:29:00 jstrachan Exp $
+ * $Revision: 1.22 $
+ * $Date: 2003/03/20 19:29:00 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.21 2003/02/24 18:21:29 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.22 2003/03/20 19:29:00 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.21 $
+  * @version $Revision: 1.22 $
   * @deprecated this Rule does not allowed good integration with other Rules -
   * use {@link BeanRuleSet} instead.
   */
@@ -115,6 +115,8 @@ public class BeanCreateRule extends Rule {
     private String pathPrefix;
     /** Use id's to match beans? */
     private boolean matchIDs = true;
+    /** allows an attribute to be specified to overload the types of beans used */
+    private String classNameAttribute = "className";
     
     /**
      * Convenience constructor which uses <code>ID's</code> for matching.
@@ -372,6 +374,35 @@ public class BeanCreateRule extends Rule {
     public void finish() {}
 
 
+    // Properties
+    //-------------------------------------------------------------------------    
+    
+
+    /**
+     * The name of the attribute which can be specified in the XML to override the
+     * type of a bean used at a certain point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @return The name of the attribute used to overload the class name of a bean
+     */
+    public String getClassNameAttribute() {
+        return classNameAttribute;
+    }
+
+    /**
+     * Sets the name of the attribute which can be specified in 
+     * the XML to override the type of a bean used at a certain 
+     * point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     */
+    public void setClassNameAttribute(String classNameAttribute) {
+        this.classNameAttribute = classNameAttribute;
+    }
+
     // Implementation methods
     //-------------------------------------------------------------------------    
     
@@ -406,14 +437,21 @@ public class BeanCreateRule extends Rule {
             }
         }
         
+        Class theClass = beanClass;
         try {
-            if (log.isTraceEnabled()) {
-                log.trace( "Creating instance of " + beanClass );
+            
+            String className = attributes.getValue(classNameAttribute);
+            if (className != null) {
+                // load the class we should instantiate
+                theClass = getDigester().getClassLoader().loadClass(className);
             }
-            return beanClass.newInstance();
+            if (log.isTraceEnabled()) {
+                log.trace( "Creating instance of " + theClass );
+            }
+            return theClass.newInstance();
             
         } catch (Exception e) {
-            log.warn( "Could not create instance of type: " + beanClass.getName() );
+            log.warn( "Could not create instance of type: " + theClass.getName() );
             return null;
         }
     }    

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.3 2003/02/20 18:20:41 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/02/20 18:20:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.4 2003/03/20 19:29:00 jstrachan Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/03/20 19:29:00 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.3 2003/02/20 18:20:41 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.4 2003/03/20 19:29:00 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -83,7 +83,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -109,6 +109,8 @@ public class BeanRuleSet implements RuleSet {
     private Class baseBeanClass;
     /** Should ID/IDREFs be used to match beans created previously  */
     private boolean matchIDs;
+    /** allows an attribute to be specified to overload the types of beans used */
+    private String classNameAttribute = "className";
     
     /**
      * Base constructor.
@@ -131,6 +133,33 @@ public class BeanRuleSet implements RuleSet {
         this.baseBeanClass = baseBeanClass;
         this.matchIDs = matchIDs;
     }
+    
+
+    /**
+     * The name of the attribute which can be specified in the XML to override the
+     * type of a bean used at a certain point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @return The name of the attribute used to overload the class name of a bean
+     */
+    public String getClassNameAttribute() {
+        return classNameAttribute;
+    }
+
+    /**
+     * Sets the name of the attribute which can be specified in 
+     * the XML to override the type of a bean used at a certain 
+     * point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     */
+    public void setClassNameAttribute(String classNameAttribute) {
+        this.classNameAttribute = classNameAttribute;
+    }
+
     
 //-------------------------------- Ruleset implementation
 
@@ -658,6 +687,11 @@ public class BeanRuleSet implements RuleSet {
                 // XXX the existing system
                 // XXX maybe it's going to have to change so i'll use 'idref' for nows
                 //
+                
+                /** 
+                 * @todo this is a duplicate of the code in BeanCreateRule
+                 * we should try refactor to some common place
+                 */
                 if ( matchIDs ) {
                     String idref = attributes.getValue( "idref" );
                     if ( idref != null ) {
@@ -677,14 +711,20 @@ public class BeanRuleSet implements RuleSet {
                     }
                 }
                 
+                Class theClass = beanClass;
                 try {
-                    if (log.isTraceEnabled()) {
-                        log.trace( "Creating instance of " + beanClass );
+                    String className = attributes.getValue(classNameAttribute);
+                    if (className != null) {
+                        // load the class we should instantiate
+                        theClass = getDigester().getClassLoader().loadClass(className);
                     }
-                    return beanClass.newInstance();
+                    if (log.isTraceEnabled()) {
+                        log.trace( "Creating instance of " + theClass );
+                    }
+                    return theClass.newInstance();
                     
                 } catch (Exception e) {
-                    log.warn( "Could not create instance of type: " + beanClass.getName() );
+                    log.warn( "Could not create instance of type: " + theClass.getName() );
                     return null;
                 }
             }    
