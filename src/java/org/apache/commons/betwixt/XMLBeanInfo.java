@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.3 2002/07/01 18:44:15 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/01 18:44:15 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.4 2002/09/26 19:29:33 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/09/26 19:29:33 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfo.java,v 1.3 2002/07/01 18:44:15 rdonkin Exp $
+ * $Id: XMLBeanInfo.java,v 1.4 2002/09/26 19:29:33 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -76,7 +76,7 @@ package org.apache.commons.betwixt;
   * usual values.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class XMLBeanInfo {
     /** Descriptor for main element */
@@ -124,10 +124,17 @@ public class XMLBeanInfo {
     
     /** Search attributes for one matching <code>ID</code> attribute name */
     public AttributeDescriptor getIDAttribute() {
-        if ( cachedIDAttribute = false ) {
+        //
+        // XXX for some reason caching isn't working at the moment
+        // it could be that this method is called too early
+        // and not reset when attributes change
+        // on the other hand, the speed gain is likely to be too
+        // small to bother about
+        //
+        //if ( cachedIDAttribute = false ) {
             idAttributeDescriptor = findIDAttribute();
-            cachedIDAttribute = true;
-        }
+          //  cachedIDAttribute = true;
+        //}
         return idAttributeDescriptor;
     }
     
