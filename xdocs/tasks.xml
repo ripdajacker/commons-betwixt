@@ -171,15 +171,16 @@
         </li>
        </ul>
     </subsection>
-    
-    <subsection name='Completed (Since 1.0-Alpha-1 Release)'>
+</section>
+<section name='Completed'>
+    <subsection name='Since 1.0-Alpha Release'>
         <ul>
             <li>
                 <strong>Created DTD for .betwixt files.</strong>
             </li>
         </ul>
     </subsection>
-    </section>
+</section>
   </body>
 </document>
 
