@@ -27,7 +27,7 @@ import org.apache.commons.betwixt.LibraryBeanWithArraySetter;
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.2 2004/06/13 21:32:48 rdonkin Exp $
+ * @version $Id: TestReadContext.java,v 1.3 2004/12/20 22:04:53 rdonkin Exp $
  */
 public class TestReadContext extends AbstractTestCase {
 
@@ -92,6 +92,13 @@ public class TestReadContext extends AbstractTestCase {
         context.pushElement("delta");
         context.pushElement("gamma");
         assertEquals("No class", null, context.getLastMappedClass());
+    }
+    
+    public void testGetCurrentElement() throws Exception {
+        ReadContext context = new ReadContext(new BindingConfiguration(), new ReadConfiguration());
+        context.pushElement("element");
+        context.markClassMap(String.class);
+        assertEquals("Current element: ", "element", context.getCurrentElement());
     }
     
     public void testLastMappedClassBottomClass() throws Exception

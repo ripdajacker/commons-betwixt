@@ -230,7 +230,7 @@ public class ReadContext extends Context {
 	            result  = (String) mappedElement;
 	            break;
 	        }
-	        --i;
+	        ++i;
 	    }
 	    return result;
 	}
