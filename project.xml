@@ -14,14 +14,14 @@
   <shortDescription>Commons Betwixt</shortDescription>
   <gumpRepositoryId>jakarta</gumpRepositoryId>
   <description>Commons Betwixt: mapping beans to XML</description>
-  <url>http://jakarta.apache.org/commons/sandbox/betwixt.html</url>
+  <url>http://jakarta.apache.org/commons/betwixt.html</url>
   <issueTrackingUrl>http://nagoya.apache.org/</issueTrackingUrl>
   <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/betwixt/</siteDirectory>
-  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons-sandbox/betwixt/</distributionDirectory>
+  <siteDirectory>/www/jakarta.apache.org/commons/betwixt/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/betwixt/</distributionDirectory>
   <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/betwixt</connection>
-    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/betwixt/</url>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/betwixt</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons/betwixt/</url>
   </repository>
   
   
