@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.1 2004/01/18 23:01:52 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/01/18 23:01:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.2 2004/01/19 20:55:59 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/01/19 20:55:59 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.1 2004/01/18 23:01:52 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.2 2004/01/19 20:55:59 rdonkin Exp $
   */
 public class BeanProperty {
 
