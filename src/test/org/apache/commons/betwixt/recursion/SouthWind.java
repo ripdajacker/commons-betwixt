@@ -1,13 +1,13 @@
 /*
- * $Header: /home/cvs/jakarta-commons/beanutils/LICENSE.txt,v 1.3 2003/01/15 21:59:38 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/15 21:59:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/SouthWind.java,v 1.1.2.1 2004/01/14 22:53:01 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/01/14 22:53:01 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
+ * Copyright (c) 2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,4 +57,33 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- */ 
+ */
+package org.apache.commons.betwixt.recursion;
+
+/**
+ * Test bean for resursion
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1.2.1 $
+ */
+public class SouthWind {
+	
+	private WestWind west;
+	
+	public SouthWind() {}
+	
+	
+    /**
+     * @return
+     */
+    public WestWind getNextWindClockwise() {
+        return west;
+    }
+
+    /**
+     * @param east
+     */
+    public void setNextWindClockwise(WestWind west) {
+        this.west = west;
+    }
+
+}

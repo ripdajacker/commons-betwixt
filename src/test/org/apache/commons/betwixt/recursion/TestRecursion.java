@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13 2003/10/19 14:44:54 mvdb Exp $
- * $Revision: 1.13 $
- * $Date: 2003/10/19 14:44:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.1 2004/01/14 22:51:35 rdonkin Exp $
+ * $Revision: 1.13.2.1 $
+ * $Date: 2004/01/14 22:51:35 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.13 2003/10/19 14:44:54 mvdb Exp $
+ * @version $Id: TestRecursion.java,v 1.13.2.1 2004/01/14 22:51:35 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -350,5 +350,33 @@ public class TestRecursion extends AbstractTestCase
             // that's what we expected!
         }
     }  
+    
+    
+	/** Tests for a stack overflow bug */
+	public void testRegisterOverflow() throws Exception {
+		BeanReader reader = new BeanReader();
+		try
+		{
+			reader.registerBeanClass(NorthWind.class);
+		}
+		catch (StackOverflowError e)
+		{
+			e.printStackTrace();
+			fail("Expected registration to succeed");
+		}
+	}
+    
+	public void testRegisterOverflow2() throws Exception {
+		BeanReader beanReader = new BeanReader();
+		try
+		{
+			beanReader.registerBeanClass(PersonTest.class);
+		}
+		catch (StackOverflowError e)
+		{
+			e.printStackTrace();
+			fail("Expected registration to succeed");
+		}
+	}
 }
 
