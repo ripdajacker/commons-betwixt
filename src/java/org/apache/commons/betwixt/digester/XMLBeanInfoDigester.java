@@ -30,7 +30,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -162,6 +162,11 @@ public class XMLBeanInfoDigester extends Digester {
             addRule( "*/attribute", new AttributeRule() );
             addRule( "*/hide", new HideRule() );
             addRule( "*/addDefaults", new AddDefaultsRule() );
+            
+            OptionRule optionRule = new OptionRule();
+            addRule( "*/option", optionRule );
+            addRule( "*/option/name", optionRule.getNameRule() );
+            addRule( "*/option/value", optionRule.getValueRule() );
         }
         
         // now initialize

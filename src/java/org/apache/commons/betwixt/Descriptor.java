@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * Common superclass for types of <code>Descriptor</code></p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public abstract class Descriptor {
 
@@ -36,6 +36,8 @@ public abstract class Descriptor {
     private Class propertyType;
     /** the singular property type (i.e. the type ignoring the Collection or Array */
     private Class singularPropertyType;
+    /** Options set for this Descriptor */
+    private Options options = new Options();
     
     
     /** Base constructor */
@@ -134,6 +136,27 @@ public abstract class Descriptor {
      */
     public void setSingularPropertyType(Class singularPropertyType) {
         this.singularPropertyType = singularPropertyType;
+    }
+    
+    
+    /**
+     * Gets the options for this descriptor.
+     * Options are used to communicate non-declarative
+     * (optinal) behaviour hints.
+     * @return <code>Options</code>, not null
+     */
+    public Options getOptions() {
+        return options;
+    }
+    
+    /**
+     * Sets the options for this descriptor.
+     * Options are used to communicate non-declarative
+     * (optinal) behaviour hints.
+     * @param options
+     */
+    public void setOptions(Options options) {
+        this.options = options;
     }
 
 }
