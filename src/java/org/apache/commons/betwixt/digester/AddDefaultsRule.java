@@ -35,7 +35,6 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.12 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -134,7 +133,7 @@ public class AddDefaultsRule extends RuleSupport {
     * @throws SAXException if the parent for the addDefaults element is not a <element> 
     * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
     * <code>ElementDescriptor</code>
-    * @deprecated replaced {@link #addDescriptor( Descriptor )} 
+    * @deprecated 0.5 replaced {@link #addDescriptor( Descriptor )} 
     */
     protected void addDescriptor( NodeDescriptor nodeDescriptor ) throws SAXException {
         addDescriptor( (Descriptor) nodeDescriptor );
@@ -147,6 +146,7 @@ public class AddDefaultsRule extends RuleSupport {
     * @throws SAXException if the parent for the addDefaults element is not a <element> 
     * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
     * <code>ElementDescriptor</code>
+    * @since 0.5
     */
     protected void addDescriptor( Descriptor nodeDescriptor ) throws SAXException {
         Object top = digester.peek();

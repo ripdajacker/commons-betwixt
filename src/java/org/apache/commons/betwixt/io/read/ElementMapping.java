@@ -22,7 +22,7 @@ import org.xml.sax.Attributes;
   * Describes a mapping between an xml element and a betwixt element.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.7 $
+  * @since 0.5
   */
 public class ElementMapping {
     

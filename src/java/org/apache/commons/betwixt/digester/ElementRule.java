@@ -35,7 +35,6 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.15 2004/06/13 21:32:45 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -45,6 +44,7 @@ public class ElementRule extends MappedPropertyRule {
      * Sets the log for this class 
      * 
      * @param newLog the new Log implementation for this class to use
+     * @since 0.5
      */
     public static final void setLog(Log newLog) {
         log = newLog;
@@ -171,6 +171,7 @@ public class ElementRule extends MappedPropertyRule {
      * Uses the default updater (from the standard java bean property).
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @since 0.5
      */
     protected void configureDescriptor(ElementDescriptor elementDescriptor) {
         configureDescriptor( elementDescriptor, null );
@@ -182,6 +183,7 @@ public class ElementRule extends MappedPropertyRule {
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      * @param updateMethodName custom update method. If null, then use standard
+     * @since 0.5
      */
     protected void configureDescriptor(
                                         ElementDescriptor elementDescriptor,

@@ -48,7 +48,6 @@ import org.apache.commons.logging.LogFactory;
   * think about whether they need replacing with something different.
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.30 2004/06/13 21:32:45 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -89,7 +88,7 @@ public class XMLIntrospectorHelper {
      * @param introspector use this <code>XMLIntrospector</code>
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      * @throws IntrospectionException when bean introspection fails
-     * @deprecated this method has been replaced by {@link XMLIntrospector#createDescriptor}
+     * @deprecated 0.5 this method has been replaced by {@link XMLIntrospector#createDescriptor}
      */
     public static NodeDescriptor createDescriptor( 
         PropertyDescriptor propertyDescriptor, 
@@ -234,6 +233,7 @@ public class XMLIntrospectorHelper {
      * If null, then then 
      * @param beanClass the <code>Class</code> from which the update method should be found.
      * This may be null only when <code>updateMethodName</code> is also null.
+     * @since 0.5
      * @deprecated moved into ElementRule
      */
     public static void configureProperty( 

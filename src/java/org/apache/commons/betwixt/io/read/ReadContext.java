@@ -46,7 +46,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkina
-  * @version $Revision: 1.7 $
+  * @since 0.5
   */
 public class ReadContext extends Context {
 

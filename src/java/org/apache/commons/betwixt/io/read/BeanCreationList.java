@@ -29,7 +29,7 @@ import java.util.Iterator;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @since 0.5
   */
 public class BeanCreationList extends BeanCreationChain {
     

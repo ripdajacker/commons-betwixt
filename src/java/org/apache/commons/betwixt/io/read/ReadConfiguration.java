@@ -21,7 +21,7 @@ import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
   * Stores mapping phase configuration settings that apply only for bean reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @since 0.5
   */
 public class ReadConfiguration {
     
