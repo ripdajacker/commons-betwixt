@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.6 2003/03/19 22:59:01 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/03/19 22:59:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.7 2003/04/08 13:38:03 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/04/08 13:38:03 $
  *
  * ====================================================================
  *
@@ -57,12 +57,9 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.6 2003/03/19 22:59:01 rdonkin Exp $
+ * $Id: NodeDescriptor.java,v 1.7 2003/04/08 13:38:03 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
-
-import org.apache.commons.betwixt.expression.Expression;
-import org.apache.commons.betwixt.expression.Updater;
 
 /** <p> Common superclass for <code>ElementDescriptor</code> 
   * and <code>AttributeDescriptor</code>.</p>
@@ -71,7 +68,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class NodeDescriptor extends Descriptor {
 
