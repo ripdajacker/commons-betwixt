@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: BeanCreateRule.java,v 1.5 2002/07/02 16:09:33 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.6 2002/07/04 14:53:01 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -37,7 +37,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -208,7 +208,7 @@ public class BeanCreateRule extends Rule {
             return beanClass.newInstance();
         }
         catch (Exception e) {
-            log.debug( "Could not create instance of type: " + beanClass.getName() );
+            log.warn( "Could not create instance of type: " + beanClass.getName() );
             return null;
         }
     }    
