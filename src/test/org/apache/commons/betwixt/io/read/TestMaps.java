@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestMaps.java,v 1.1.2.1 2004/02/22 17:09:29 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/22 17:09:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestMaps.java,v 1.1.2.2 2004/05/01 09:42:22 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/05/01 09:42:22 $
  *
  * ====================================================================
  * 
@@ -72,7 +72,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class TestMaps extends AbstractTestCase {
 
@@ -132,4 +132,66 @@ public class TestMaps extends AbstractTestCase {
  
     }
 
+    public void testMapWithArray() throws Exception {
+
+        AddressBook addressBook = new AddressBook();
+        AddressBean[] johnsAddresses = new AddressBean[2];
+        johnsAddresses[0] = new AddressBean("12 here", "Chicago", "USA", "1234");
+        johnsAddresses[1] =
+            new AddressBean("333 there", "Los Angeles", "USA", "99999");
+        String name = "John";
+        addressBook.addAddressBookItem(name, johnsAddresses);
+        StringWriter outputWriter = new StringWriter();
+        outputWriter.write("<?xml version='1.0' ?>\n");
+        BeanWriter beanWriter = new BeanWriter(outputWriter);
+        beanWriter.enablePrettyPrint();
+        beanWriter.write(addressBook);
+    
+        String xml =
+            "<?xml version='1.0' ?>\n"
+                + "  <AddressBook id=\"1\">\n"
+                + "    <addressBookItems>\n"
+                + "      <entry id=\"2\">\n"
+                + "        <key>John</key>\n"
+                + "        <value id=\"3\">\n"
+                + "          <AddressBean id=\"4\">\n"
+                + "            <city>Chicago</city>\n"
+                + "            <code>1234</code>\n"
+                + "            <country>USA</country>\n"
+                + "            <street>12 here</street>\n"
+                + "          </AddressBean>\n"
+                + "          <AddressBean id=\"5\">\n"
+                + "            <city>Los Angeles</city>\n"
+                + "            <code>99999</code>\n"
+                + "            <country>USA</country>\n"
+                + "            <street>333 there</street>\n"
+                + "          </AddressBean>\n"
+                + "        </value>\n"
+                + "      </entry>\n"
+                + "    </addressBookItems>\n"
+                + "  </AddressBook>\n";
+    
+        assertEquals(xml, outputWriter.toString());
+        BeanReader reader = new BeanReader();
+        reader.registerBeanClass(AddressBook.class);
+        StringReader xmlReader = new StringReader(outputWriter.toString());
+        AddressBook result = (AddressBook) reader.parse(xmlReader);
+        assertNotNull("Expected to get an AddressBook!", result);
+        assertNotNull(
+            "Expected AddressBook to have some address entryitems!",
+            result.getAddressBookItems());
+        AddressBean[] resultAddresses =
+            (AddressBean[]) result.getAddressBookItems().get(name);
+        assertNotNull(
+            "Expected to have some addresses for " + name,
+            resultAddresses);
+        assertEquals(
+            "Got wrong city in first address for " + name,
+            johnsAddresses[0].getCity(),
+            resultAddresses[0].getCity());
+        assertEquals(
+            "Got wrong city in second address for " + name,
+            johnsAddresses[1].getCity(),
+            resultAddresses[1].getCity());
+    }
 }

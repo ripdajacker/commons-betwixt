@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.12 2004/04/27 20:00:54 rdonkin Exp $
- * $Revision: 1.1.2.12 $
- * $Date: 2004/04/27 20:00:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.13 2004/05/01 09:42:22 rdonkin Exp $
+ * $Revision: 1.1.2.13 $
+ * $Date: 2004/05/01 09:42:22 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.12 2004/04/27 20:00:54 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.13 2004/05/01 09:42:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.12 $
+ * @version $Revision: 1.1.2.13 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -96,10 +96,6 @@ public class BeanBindAction extends MappingAction.Base {
 
         ElementDescriptor computedDescriptor = context.getCurrentDescriptor();
 
-        if (computedDescriptor == null) {
-            log.trace("No Descriptor");
-        }
-
         if (log.isTraceEnabled()) {
             log.trace("Element Pushed: " + name);
         }
@@ -108,7 +104,12 @@ public class BeanBindAction extends MappingAction.Base {
         MappingAction action = MappingAction.EMPTY;
 
         Object instance = null;
-        Class beanClass = computedDescriptor.getSingularPropertyType();
+        Class beanClass = null;
+        if (computedDescriptor == null) {
+            log.trace("No Descriptor");
+        } else {
+            beanClass = computedDescriptor.getSingularPropertyType();
+        }
         // TODO: this is a bit of a workaround 
         // need to come up with a better way of doing maps
         if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {

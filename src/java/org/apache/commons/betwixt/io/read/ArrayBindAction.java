@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
  * and therefore cannot be used concurrently (in simultaneous readings).
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class ArrayBindAction extends MappingAction.Base {
    
@@ -95,7 +95,7 @@ public class ArrayBindAction extends MappingAction.Base {
         ReadContext context)
         throws Exception {
         originalUpdater = context.getCurrentUpdater();
-        MappingAction nextBindAction = super.next(namespace, name, attributes, context);
+        MappingAction nextBindAction = BeanBindAction.INSTANCE;
         beanMapping.setDelegate(nextBindAction);
         return beanMapping;
     }

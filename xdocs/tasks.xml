@@ -273,6 +273,10 @@ supressed.
 <strong>SimpleTypeMapper strategy</strong> for finely grained control over simple type (primitive) 
 binding.
             </li>
+            <li>
+<strong>Improved support for reading arrays.</strong> In particular added code to support
+reading of array valued property setters and for array valued adders.
+            </li>
         </ul>
     </subsection>
 </section>

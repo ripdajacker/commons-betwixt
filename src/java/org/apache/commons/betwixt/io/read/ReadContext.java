@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.11 2004/04/19 21:27:23 rdonkin Exp $
- * $Revision: 1.4.2.11 $
- * $Date: 2004/04/19 21:27:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.12 2004/05/01 09:42:22 rdonkin Exp $
+ * $Revision: 1.4.2.12 $
+ * $Date: 2004/05/01 09:42:22 $
  *
  * ====================================================================
  * 
@@ -91,7 +91,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.11 $
+  * @version $Revision: 1.4.2.12 $
   */
 public class ReadContext extends Context {
 
@@ -336,6 +336,9 @@ public class ReadContext extends Context {
 	  * @param mappedClazz the Class which has been mapped at the current path, not null
 	  */
 	public void markClassMap(Class mappedClazz) throws IntrospectionException {
+        if (mappedClazz.isArray()) {
+            mappedClazz = mappedClazz.getComponentType();
+        }
 		elementMappingStack.push(mappedClazz);
         
         XMLBeanInfo mappedClassInfo = getXMLIntrospector().introspect(mappedClazz);

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.11 2004/04/18 09:48:06 rdonkin Exp $
- * $Revision: 1.27.2.11 $
- * $Date: 2004/04/18 09:48:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.12 2004/05/01 09:42:22 rdonkin Exp $
+ * $Revision: 1.27.2.12 $
+ * $Date: 2004/05/01 09:42:22 $
  *
  * ====================================================================
  * 
@@ -112,7 +112,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.11 2004/04/18 09:48:06 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.12 2004/05/01 09:42:22 rdonkin Exp $
   */
 public class XMLIntrospector {
     /** 
@@ -826,6 +826,9 @@ public class XMLIntrospector {
                                       
                         children[n].setUpdater( adder.getKeyUpdater() );
                         children[n].setSingularPropertyType(  keyType );
+                        if (children[n].getPropertyType() == null) {
+                            children[n].setPropertyType( valueType );
+                        }
                         if ( isPrimitiveType(keyType) ) {
                             children[n].setHollow(false);
                         }
@@ -837,8 +840,22 @@ public class XMLIntrospector {
 
                         children[n].setUpdater( adder.getValueUpdater() );
                         children[n].setSingularPropertyType( valueType );
+                        if (children[n].getPropertyType() == null) {
+                            children[n].setPropertyType( valueType );
+                        }
                         if ( isPrimitiveType( valueType) ) {
                             children[n].setHollow(false);
+                        }
+                        if ( isLoopType( valueType )) {
+                            // need to attach a hollow descriptor
+                            // don't know the element name
+                            // so use null name (to match anything)
+                            ElementDescriptor loopDescriptor = new ElementDescriptor();
+                            loopDescriptor.setHollow(true);
+                            loopDescriptor.setSingularPropertyType( valueType );
+                            loopDescriptor.setPropertyType( valueType );
+                            children[n].addElementDescriptor(loopDescriptor);
+                            
                         }
                         if ( getLog().isTraceEnabled() ) { 
                             getLog().trace( "Value descriptor: " + children[n]);

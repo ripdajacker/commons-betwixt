@@ -26,7 +26,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class DefaultActionMappingStrategy extends ActionMappingStrategy {
     
@@ -50,8 +50,11 @@ public class DefaultActionMappingStrategy extends ActionMappingStrategy {
         ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
         if (activeDescriptor != null) {
             if (activeDescriptor.isHollow()) {
-                result = BeanBindAction.INSTANCE;
-                
+                if (isArrayDescriptor(activeDescriptor)) {
+                    result = ArrayBindAction.createMappingAction(activeDescriptor);
+                } else {
+                    result = BeanBindAction.INSTANCE;
+                }
             }
             else if (activeDescriptor.isSimple())
             {

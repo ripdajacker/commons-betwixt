@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.4.2.1 2004/03/29 20:50:21 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/03/29 20:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.4.2.2 2004/05/01 09:42:22 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/05/01 09:42:22 $
  *
  * ====================================================================
  * 
@@ -60,7 +60,9 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,7 +81,7 @@ import org.apache.commons.logging.LogFactory;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4.2.1 $
+  * @version $Revision: 1.4.2.2 $
   */
 public class MapEntryAdder {
 
@@ -243,6 +245,18 @@ public class MapEntryAdder {
                 value = context.getObjectStringConverter()
                         .stringToObject( (String) value, valueType, null, context );
             }
+            
+            // special case for collection objects into arrays                    
+            if (value instanceof Collection && valueType.isArray()) {
+                Collection valuesAsCollection = (Collection) value;
+                Class componentType = valueType.getComponentType();
+                if (componentType != null) {
+                    Object[] valuesAsArray = 
+                        (Object[]) Array.newInstance(componentType, valuesAsCollection.size());
+                    value = valuesAsCollection.toArray(valuesAsArray);
+                }
+            }
+            
                  
             Object[] arguments = { key, value };
             try {
