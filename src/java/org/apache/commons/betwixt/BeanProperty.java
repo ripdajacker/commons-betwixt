@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.2 2004/01/19 20:55:59 rdonkin Exp $
- * $Revision: 1.4.2.2 $
- * $Date: 2004/01/19 20:55:59 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.3 2004/01/19 22:38:08 rdonkin Exp $
+ * $Revision: 1.4.2.3 $
+ * $Date: 2004/01/19 22:38:08 $
  *
  * ====================================================================
  * 
@@ -73,6 +73,7 @@ import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
+import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.logging.Log;
 
 /** 
@@ -81,7 +82,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.2 2004/01/19 20:55:59 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.3 2004/01/19 22:38:08 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -196,7 +197,7 @@ public class BeanProperty {
                 + name + " type=" + type);
         }
         
-        Descriptor descriptor = null;
+        NodeDescriptor descriptor = null;
         Expression propertyExpression = getPropertyExpression();
         Updater propertyUpdater = getPropertyUpdater();
         
@@ -221,88 +222,173 @@ public class BeanProperty {
             
         }
         
+        //TODO this big conditional should be replaced with subclasses based
+        // on the type
+        
         //TODO replace with simple type support
         if ( XMLIntrospectorHelper.isPrimitiveType( type ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "Primitive type: " + name);
-            }
-            if ( configuration.isAttributesForPrimitives() ) {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Adding property as attribute: " + name );
-                }
-                descriptor = new AttributeDescriptor();
-            } else {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Adding property as element: " + name );
-                }
-                descriptor = new ElementDescriptor();
-            }
-            descriptor.setTextExpression( propertyExpression );
-            if ( propertyUpdater != null ) {
-                descriptor.setUpdater( propertyUpdater );
-            }
+            descriptor =
+                createDescriptorForPrimitive(
+                    configuration,
+                    name,
+                    log,
+                    propertyExpression,
+                    propertyUpdater);
             
         } else if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+            
             if (log.isTraceEnabled()) {
                 log.trace("Loop type: " + name);
                 log.trace("Wrap in collections? " + configuration.isWrapCollectionsInElement());
             }
-            ElementDescriptor loopDescriptor = new ElementDescriptor();
-            loopDescriptor.setContextExpression(
-                new IteratorExpression( propertyExpression )
-            );
-            loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
-            // XXX: need to support some kind of 'add' or handle arrays, Lists or indexed properties
-            //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
-            if ( Map.class.isAssignableFrom( type ) ) {
-                loopDescriptor.setQualifiedName( "entry" );
-                // add elements for reading
-                loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
-                loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
+            
+            if ( Map.class.isAssignableFrom( type )) {
+                descriptor = createDescriptorForMap(configuration, propertyExpression);
+            } else {
+            
+                descriptor = createDescriptorForCollective( configuration, propertyExpression);
             }
-
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
-            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
-            
-            descriptor = elementDescriptor;
-            
         } else {
             if (log.isTraceEnabled()) {
                 log.trace( "Standard property: " + name);
             }
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setContextExpression( propertyExpression );
-            if ( propertyUpdater != null ) {
-                elementDescriptor.setUpdater( propertyUpdater );
-            }
-            
-            descriptor = elementDescriptor;
+            descriptor =
+                createDescriptorForStandard(
+                    propertyExpression,
+                    propertyUpdater);
         }
 
-        if (descriptor instanceof NodeDescriptor) {
-            NodeDescriptor nodeDescriptor = (NodeDescriptor) descriptor;
-            if (descriptor instanceof AttributeDescriptor) {
-                // we want to use the attributemapper only when it is an attribute.. 
-                nodeDescriptor.setLocalName( 
-                    configuration.getAttributeNameMapper().mapTypeToElementName( name ) );
-                
-            } else {
-                nodeDescriptor.setLocalName( 
-                    configuration.getElementNameMapper().mapTypeToElementName( name ) );
-            }        
-        }
-  
+        NameMapper nameMapper = configuration.getElementNameMapper();
+        if (descriptor instanceof AttributeDescriptor) {
+            // we want to use the attributemapper only when it is an attribute.. 
+            nameMapper = configuration.getAttributeNameMapper();
+            
+        }  
+        
+        descriptor.setLocalName( nameMapper.mapTypeToElementName( name ));
         descriptor.setPropertyName( name );
         descriptor.setPropertyType( type );
-        
-        // XXX: associate more bean information with the descriptor?
-        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
-        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
-        
+       
         if (log.isTraceEnabled()) {
             log.trace( "Created descriptor:" );
             log.trace( descriptor );
+        }
+        return descriptor;
+    }
+    
+    /**
+     * Creates an <code>ElementDescriptor</code> for a standard property
+     * @param propertyExpression
+     * @param propertyUpdater
+     * @return
+     */
+    private ElementDescriptor createDescriptorForStandard(
+        Expression propertyExpression,
+        Updater propertyUpdater) {
+            
+        ElementDescriptor result;
+
+        ElementDescriptor elementDescriptor = new ElementDescriptor();
+        elementDescriptor.setContextExpression( propertyExpression );
+        if ( propertyUpdater != null ) {
+            elementDescriptor.setUpdater( propertyUpdater );
+        }
+        
+        result = elementDescriptor;
+        return result;
+    }
+
+    /**
+     * Creates an ElementDescriptor for an <code>Map</code> type property
+     * @param configuration
+     * @param propertyExpression
+     * @return
+     */
+    private ElementDescriptor createDescriptorForMap(
+        IntrospectionConfiguration configuration,
+        Expression propertyExpression) {
+            
+        ElementDescriptor result;
+        
+        ElementDescriptor loopDescriptor = new ElementDescriptor();
+        loopDescriptor.setContextExpression(
+            new IteratorExpression( propertyExpression )
+        );
+        loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+
+        loopDescriptor.setQualifiedName( "entry" );
+        // add elements for reading
+        loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
+        loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
+        
+        
+        ElementDescriptor elementDescriptor = new ElementDescriptor();
+        elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+        elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+        
+        result = elementDescriptor;
+        return result;
+    }
+
+    /**
+     * Creates an <code>ElementDescriptor</code> for a collective type property
+     * @param configuration
+     * @param propertyExpression
+     * @return
+     */
+    private ElementDescriptor createDescriptorForCollective(
+        IntrospectionConfiguration configuration,
+        Expression propertyExpression) {
+            
+        ElementDescriptor result;
+        
+        ElementDescriptor loopDescriptor = new ElementDescriptor();
+        loopDescriptor.setContextExpression(
+            new IteratorExpression( propertyExpression )
+        );
+        loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+        
+        ElementDescriptor elementDescriptor = new ElementDescriptor();
+        elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+        elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+        
+        result = elementDescriptor;
+        return result;
+    }
+
+    /**
+     * Creates a NodeDescriptor for a primitive type node
+     * @param configuration
+     * @param name
+     * @param log
+     * @param propertyExpression
+     * @param propertyUpdater
+     * @return
+     */
+    private NodeDescriptor createDescriptorForPrimitive(
+        IntrospectionConfiguration configuration,
+        String name,
+        Log log,
+        Expression propertyExpression,
+        Updater propertyUpdater) {
+        NodeDescriptor descriptor;
+        if (log.isTraceEnabled()) {
+            log.trace( "Primitive type: " + name);
+        }
+        if ( configuration.isAttributesForPrimitives() ) {
+            if (log.isTraceEnabled()) {
+                log.trace( "Adding property as attribute: " + name );
+            }
+            descriptor = new AttributeDescriptor();
+        } else {
+            if (log.isTraceEnabled()) {
+                log.trace( "Adding property as element: " + name );
+            }
+            descriptor = new ElementDescriptor();
+        }
+        descriptor.setTextExpression( propertyExpression );
+        if ( propertyUpdater != null ) {
+            descriptor.setUpdater( propertyUpdater );
         }
         return descriptor;
     }

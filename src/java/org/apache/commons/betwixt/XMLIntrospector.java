@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.5 2004/01/19 20:55:59 rdonkin Exp $
- * $Revision: 1.27.2.5 $
- * $Date: 2004/01/19 20:55:59 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.6 2004/01/19 22:38:08 rdonkin Exp $
+ * $Revision: 1.27.2.6 $
+ * $Date: 2004/01/19 22:38:08 $
  *
  * ====================================================================
  * 
@@ -80,12 +80,10 @@ import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
-import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.StringExpression;
-import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
@@ -113,7 +111,7 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.5 2004/01/19 20:55:59 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.6 2004/01/19 22:38:08 rdonkin Exp $
   */
 public class XMLIntrospector {
     
@@ -682,6 +680,9 @@ public class XMLIntrospector {
      * be optimized by caching. Multiple hash maps are created and getMethods is
      * called multiple times. This is relatively expensive and so it'd be better
      * to push into a proper class and cache.
+     * <br>
+     * TODO this probably does work properly with DynaBeans: need to push
+     * implementation into an class and expose it on BeanType.
      *
      * @param introspector use this <code>XMLIntrospector</code> for introspection
      * @param rootDescriptor add defaults to this descriptor
@@ -690,6 +691,7 @@ public class XMLIntrospector {
     public void defaultAddMethods( 
                                             ElementDescriptor rootDescriptor, 
                                             Class beanClass ) {
+                                              
         // lets iterate over all methods looking for one of the form
         // add*(PropertyType)
         if ( beanClass != null ) {
@@ -725,14 +727,16 @@ public class XMLIntrospector {
                 }
             }
             
+            Map elementsByPropertyName = makeElementDescriptorMap( rootDescriptor );
+            
             for (Iterator it=singleParameterAdders.iterator();it.hasNext();) {
                 Method singleParameterAdder = (Method) it.next();
-                setIteratorAdder(rootDescriptor, singleParameterAdder);
+                setIteratorAdder(elementsByPropertyName, singleParameterAdder);
             }
             
             for (Iterator it=twinParameterAdders.iterator();it.hasNext();) {
                 Method twinParameterAdder = (Method) it.next();
-                setMapAdder(rootDescriptor, twinParameterAdder);
+                setMapAdder(elementsByPropertyName, twinParameterAdder);
             }
         }
     }
@@ -743,12 +747,12 @@ public class XMLIntrospector {
      * @param singleParameterAdder
      */
     private void setIteratorAdder(
-        ElementDescriptor rootDescriptor,
+        Map elementsByPropertyName,
         Method singleParameterAdderMethod) {
         
         String adderName = singleParameterAdderMethod.getName();
         String propertyName = Introspector.decapitalize(adderName.substring(3));
-        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, rootDescriptor);
+        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
         if (matchingDescriptor != null) {
             //TODO defensive code: probably should check descriptor type
             
@@ -788,11 +792,11 @@ public class XMLIntrospector {
      * @param singleParameterAdder
      */
     private void setMapAdder(
-        ElementDescriptor rootDescriptor,
+        Map elementsByPropertyName,
         Method twinParameterAdderMethod) {
         String adderName = twinParameterAdderMethod.getName();
         String propertyName = Introspector.decapitalize(adderName.substring(3));
-        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, rootDescriptor);
+        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
         if ( matchingDescriptor != null && Map.class.isAssignableFrom( matchingDescriptor.getPropertyType() )) {
             // this may match a map
             getLog().trace("Matching map");
@@ -855,76 +859,45 @@ public class XMLIntrospector {
      * @param rootDescriptor
      * @return
      */
-    private ElementDescriptor getMatchForAdder(String propertyName, ElementDescriptor rootDescriptor) {
+    private ElementDescriptor getMatchForAdder(
+                                                String propertyName, 
+                                                Map elementsByPropertyName) {
         ElementDescriptor matchingDescriptor = null;
-        
         if (propertyName.length() > 0) {
-
-            // now lets try find the ElementDescriptor which displays
-            // a property which starts with propertyName
-            // and if so, we'll set a new Updater on it if there
-            // is not one already
-            matchingDescriptor =
-                findGetCollectionDescriptor(rootDescriptor, propertyName);
-
-            if (getLog().isDebugEnabled()) {
-                getLog().debug("!! " + propertyName + " -> " + matchingDescriptor);
-                getLog().debug(
-                    "!! "
-                        + propertyName
-                        + " -> "
-                        + (matchingDescriptor != null
-                            ? matchingDescriptor.getPropertyName()
-                            : ""));
+            if ( getLog().isTraceEnabled() ) {
+                getLog().trace( "findPluralDescriptor( " + propertyName 
+                    + " ):root property name=" + propertyName );
+            }
+        
+            PluralStemmer stemmer = getPluralStemmer();
+            matchingDescriptor = stemmer.findPluralDescriptor( propertyName, elementsByPropertyName );
+        
+            if ( getLog().isTraceEnabled() ) {
+                getLog().trace( 
+                    "findPluralDescriptor( " + propertyName 
+                        + " ):ElementDescriptor=" + matchingDescriptor );
             }
         }
         return matchingDescriptor;
     }
     
     // Implementation methods
-    //-------------------------------------------------------------------------        
-    
-    /** 
-     * Attempts to find the element descriptor for the getter property that 
-     * typically matches a collection or array. The property name is used
-     * to match. e.g. if an addChild() method is detected the 
-     * descriptor for the 'children' getter property should be returned.
-     *
-     * @param introspector use this <code>XMLIntrospector</code>
-     * @param rootDescriptor the <code>ElementDescriptor</code> whose child element will be
-     * searched for a match
-     * @param propertyName the name of the 'adder' method to match
-     * @return <code>ElementDescriptor</code> for the matching getter 
+    //------------------------------------------------------------------------- 
+         
+
+    /**
+     * Creates a map where the keys are the property names and the values are the ElementDescriptors
      */
-    private ElementDescriptor findGetCollectionDescriptor( 
-                                                ElementDescriptor rootDescriptor, 
-                                                String propertyName ) {
-        // create the Map of propertyName -> descriptor that the PluralStemmer will choose
-        Map map = new HashMap();
-        //String propertyName = rootDescriptor.getPropertyName();
-        if ( getLog().isTraceEnabled() ) {
-            getLog().trace( "findPluralDescriptor( " + propertyName 
-                + " ):root property name=" + rootDescriptor.getPropertyName() );
+    private Map makeElementDescriptorMap( ElementDescriptor rootDescriptor ) {
+        Map result = new HashMap();
+        String rootPropertyName = rootDescriptor.getPropertyName();
+        if (rootPropertyName != null) {
+            result.put(rootPropertyName, rootDescriptor);
         }
-        
-        if (rootDescriptor.getPropertyName() != null) {
-            map.put(propertyName, rootDescriptor);
-        }
-        makeElementDescriptorMap( rootDescriptor, map );
-        
-        PluralStemmer stemmer = getPluralStemmer();
-        ElementDescriptor elementDescriptor = stemmer.findPluralDescriptor( propertyName, map );
-        
-        if ( getLog().isTraceEnabled() ) {
-            getLog().trace( 
-                "findPluralDescriptor( " + propertyName 
-                    + " ):ElementDescriptor=" + elementDescriptor );
-        }
-        
-        return elementDescriptor;
+        makeElementDescriptorMap( rootDescriptor, result );
+        return result;
     }
-
-
+    
     /**
      * Creates a map where the keys are the property names and the values are the ElementDescriptors
      * 
@@ -1428,7 +1401,4 @@ public class XMLIntrospector {
             return properties;
         }
     }
-    
-
-
 }
