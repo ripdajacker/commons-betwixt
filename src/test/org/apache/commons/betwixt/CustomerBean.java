@@ -85,6 +85,7 @@ public class CustomerBean implements Serializable {
     
     private String id;
     private String name;
+    private String nickName;
     private String[] emails;
     private int[] numbers;
     private AddressBean address;
@@ -97,6 +98,11 @@ public class CustomerBean implements Serializable {
     public String getID() {
         return id;
     }
+    
+    public String getNickName() {
+       return nickName;
+    }
+
     
     public String getName() {
         return name;
@@ -148,6 +154,10 @@ public class CustomerBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+ 
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }    
     
     public void setEmails(String[] emails) {
         this.emails = emails;

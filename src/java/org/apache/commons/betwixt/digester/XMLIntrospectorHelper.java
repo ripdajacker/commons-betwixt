@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.5 2002/07/08 22:34:34 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.6 2002/08/14 20:26:22 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -123,10 +123,12 @@ public class XMLIntrospectorHelper {
         boolean useAttributesForPrimitives,
         XMLIntrospector introspector
     ) throws IntrospectionException {
+        String name = propertyDescriptor.getName();
         Class type = propertyDescriptor.getPropertyType();
-        
+       
         if (log.isTraceEnabled()) {
-            log.trace(propertyDescriptor.getPropertyType());
+            log.trace("Creating descriptor for property: name="
+                + name + " type=" + type);
         }
         
         NodeDescriptor nodeDescriptor = null;
@@ -134,7 +136,10 @@ public class XMLIntrospectorHelper {
         Method writeMethod = propertyDescriptor.getWriteMethod();
         
         if ( readMethod == null ) {
-            log.trace( "No read method" );
+            if (log.isTraceEnabled()) {
+                log.trace( "No read method for property: name="
+                    + name + " type=" + type);
+            }
             return null;
         }
         
@@ -145,25 +150,36 @@ public class XMLIntrospectorHelper {
         // choose response from property type
         
         // XXX: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
+        if ( Class.class.equals( type ) && "class".equals( name ) ) {
             log.trace( "Ignoring class property" );
             return null;
         }
         if ( isPrimitiveType( type ) ) {
-            log.trace( "Primitive type" );
+            if (log.isTraceEnabled()) {
+                log.trace( "Primitive type: " + name);
+            }
             if ( useAttributesForPrimitives ) {
-                log.trace( "Added attribute" );
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as attribute: " + name );
+                }
                 nodeDescriptor = new AttributeDescriptor();
             }
             else {
-                log.trace( "Added element" );
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as element: " + name );
+                }
                 nodeDescriptor = new ElementDescriptor(true);
             }
             nodeDescriptor.setTextExpression( new MethodExpression( readMethod ) );
-            nodeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            
+            if ( writeMethod != null ) {
+                nodeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
         }
         else if ( isLoopType( type ) ) {
-            log.trace("Loop type");
+            if (log.isTraceEnabled()) {
+                log.trace("Loop type: " + name);
+            }
             ElementDescriptor loopDescriptor = new ElementDescriptor();
             loopDescriptor.setContextExpression(
                 new IteratorExpression( new MethodExpression( readMethod ) )
@@ -181,14 +197,27 @@ public class XMLIntrospectorHelper {
             nodeDescriptor = elementDescriptor;            
         }
         else {
-            log.trace( "Standard property" );
+            if (log.isTraceEnabled()) {
+                log.trace( "Standard property: " + name);
+            }
             ElementDescriptor elementDescriptor = new ElementDescriptor();
             elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
-            elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            if ( writeMethod != null ) {
+                elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
             
-            nodeDescriptor = elementDescriptor;            
+            nodeDescriptor = elementDescriptor;          
         }
-        nodeDescriptor.setLocalName( propertyDescriptor.getName() );
+
+        nodeDescriptor.setLocalName( introspector.getNameMapper().mapTypeToElementName( name ) );
+        if (nodeDescriptor instanceof AttributeDescriptor) {
+            // we want to use the attributemapper only when it is an attribute.. 
+            nodeDescriptor.setLocalName( introspector.getAttributeNameMapper().mapTypeToElementName( name ) );
+        }
+        else {
+            nodeDescriptor.setLocalName( introspector.getElementNameMapper().mapTypeToElementName( name ) );
+        }        
+  
         nodeDescriptor.setPropertyName( propertyDescriptor.getName() );
         nodeDescriptor.setPropertyType( type );        
         

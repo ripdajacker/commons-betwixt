@@ -101,7 +101,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.8 2002/07/02 20:31:45 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.9 2002/08/14 20:26:22 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -495,106 +495,18 @@ public class XMLIntrospector {
                                 List attributes) 
                                     throws 
                                         IntrospectionException {
-        Class type = propertyDescriptor.getPropertyType();
-        NodeDescriptor nodeDescriptor = null;
-        Method readMethod = propertyDescriptor.getReadMethod();
-        Method writeMethod = propertyDescriptor.getWriteMethod();
-        
-        if ( readMethod == null ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "No read method" );
-            }
-            return;
+        NodeDescriptor nodeDescriptor = XMLIntrospectorHelper
+            .createDescriptor(propertyDescriptor,
+                                 isAttributesForPrimitives(),
+                                 this);
+        if (nodeDescriptor == null) {
+           return;
         }
-        
-        if ( log.isTraceEnabled() ) {
-            log.trace( "Read method=" + readMethod.getName() );
+        if (nodeDescriptor instanceof ElementDescriptor) {
+           elements.add(nodeDescriptor);
+        } else {
+           attributes.add(nodeDescriptor);
         }
-        
-        // choose response from property type
-        
-        // XXX: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "Ignoring class property" );
-            }
-            return;
-        }
-        if ( isPrimitiveType( type ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "Primitive type" );
-            }
-            if ( isAttributesForPrimitives() ) {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Added attribute" );
-                }
-                nodeDescriptor = new AttributeDescriptor();
-                attributes.add( nodeDescriptor );
-            }
-            else {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Added element" );
-                }
-                nodeDescriptor = new ElementDescriptor(true);
-                elements.add( nodeDescriptor );
-            }
-            nodeDescriptor.setTextExpression( new MethodExpression( readMethod ) );
-            
-            if ( writeMethod != null ) {
-                nodeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
-            }
-        }
-        else if ( isLoopType( type ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace("Loop type");
-            }
-            ElementDescriptor loopDescriptor = new ElementDescriptor();
-            loopDescriptor.setContextExpression(
-                new IteratorExpression( new MethodExpression( readMethod ) )
-            );
-            // XXX: need to support some kind of 'add' or handle arrays, s or indexed properties
-            //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
-            if ( Map.class.isAssignableFrom( type ) ) {
-                loopDescriptor.setQualifiedName( "entry" );
-            }
-            
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
-            elementDescriptor.setWrapCollectionsInElement(isWrapCollectionsInElement());
-            
-            nodeDescriptor = elementDescriptor;            
-            elements.add( nodeDescriptor );
-        }
-        else {
-            if (log.isTraceEnabled()) {
-                log.trace( "Standard property" );
-            }
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
-            
-            if ( writeMethod != null ) {
-                elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
-            }
-            
-            nodeDescriptor = elementDescriptor;            
-            elements.add( nodeDescriptor );
-        }
-
-        nodeDescriptor.setLocalName( getNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
-        if (nodeDescriptor instanceof AttributeDescriptor) {
-            // we want to use the attributemapper only when it is an attribute.. 
-            nodeDescriptor.setLocalName( getAttributeNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
-        }
-        else{
-            nodeDescriptor.setLocalName( getElementNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
-        }        
-        
-        nodeDescriptor.setPropertyName( propertyDescriptor.getName() );
-        nodeDescriptor.setPropertyType( type );        
-        
-        // XXX: associate more bean information with the descriptor?
-        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
-        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
     }
     
     /** Factory method to create XMLBeanInfo instances */
