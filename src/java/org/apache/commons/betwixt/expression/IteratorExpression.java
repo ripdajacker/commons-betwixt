@@ -1,7 +1,7 @@
  /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.2 2002/07/01 18:55:39 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/01 18:55:39 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IteratorExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: IteratorExpression.java,v 1.2 2002/07/01 18:55:39 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.expression;
@@ -75,7 +75,7 @@ import org.apache.commons.collections.SingletonIterator;
 /** <p><code>IteratorExpression</code> returns an iterator over the current context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class IteratorExpression implements Expression {
     
@@ -128,5 +128,9 @@ public class IteratorExpression implements Expression {
     
     public void update(Context context, String newValue) {
         // do nothing
+    }
+    
+    public String toString() {
+        return "IteratorExpression [expression=" + expression + "]";
     }
 }
