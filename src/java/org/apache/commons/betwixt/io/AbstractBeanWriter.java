@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.18 2003/07/31 21:40:58 rdonkin Exp $
- * $Revision: 1.18 $
- * $Date: 2003/07/31 21:40:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.19 2003/08/21 22:47:40 rdonkin Exp $
+ * $Revision: 1.19 $
+ * $Date: 2003/08/21 22:47:40 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.18 2003/07/31 21:40:58 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.19 2003/08/21 22:47:40 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -66,7 +66,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.Descriptor;
@@ -77,8 +76,6 @@ import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-import org.apache.commons.betwixt.strategy.ObjectStringConverter;
-import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -100,7 +97,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.18 $
+  * @version $Revision: 1.19 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -209,6 +206,7 @@ public abstract class AbstractBeanWriter {
      * @param localName the local name
      * @param qualifiedName the string naming root element
      * @param bean the <code>Object</code> to write out as xml
+     * @param context not null
      * 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
@@ -367,7 +365,7 @@ public abstract class AbstractBeanWriter {
     
     /**
      * Sets the dynamic configuration setting to be used for bean reading.
-     * @param the BindingConfiguration settings, not null
+     * @param bindingConfiguration the BindingConfiguration settings, not null
      */
     public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
         this.bindingConfiguration = bindingConfiguration;
@@ -735,10 +733,20 @@ public abstract class AbstractBeanWriter {
                                     if (object == null) {
                                         continue;
                                     }
-                                    writeBean( namespaceUri, localName, qualifiedName, object, context );
+                                    writeBean( 
+                                            namespaceUri, 
+                                            localName, 
+                                            qualifiedName, 
+                                            object, 
+                                            context );
                                 }
                             } else {
-                                writeBean( namespaceUri, localName, qualifiedName, childBean, context );
+                                writeBean( 
+                                            namespaceUri, 
+                                            localName, 
+                                            qualifiedName, 
+                                            childBean, 
+                                            context );
                             }
                         }                    
                     } else {
@@ -1484,6 +1492,8 @@ public abstract class AbstractBeanWriter {
       * Converts an object to a string.
       *
       * @param value the Object to represent as a String, possibly null
+      * @param descriptor writing out this descriptor not null
+      * @param context not null
       * @return String representation, not null
       */
     private String convertToString( Object value , Descriptor descriptor, Context context ) {
@@ -1494,6 +1504,7 @@ public abstract class AbstractBeanWriter {
     /**
       * Factory method for new contexts.
       * Ensure that they are correctly configured.
+      * @param bean make a new Context for this bean
       */
     private Context makeContext(Object bean) {
         return new Context( bean, log, bindingConfiguration );
