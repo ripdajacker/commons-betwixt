@@ -20,7 +20,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.commons.beanutils.DynaProperty;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.DynaBeanExpression;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
@@ -182,7 +181,7 @@ public class BeanProperty {
                     propertyExpression,
                     propertyUpdater);
             
-        } else if ( XMLIntrospectorHelper.isLoopType( getPropertyType() ) ) {
+        } else if ( configuration.isLoopType( getPropertyType() ) ) {
             
             if (log.isTraceEnabled()) {
                 log.trace("Loop type: " + getPropertyName());
@@ -308,7 +307,7 @@ public class BeanProperty {
         } else {
             result = entryDescriptor;
         }
-
+        result.setCollective(true);
         return result;
     }
 
@@ -336,6 +335,7 @@ public class BeanProperty {
         // set the property updater (if it exists)
         // may be overridden later by the adder
         loopDescriptor.setUpdater(propertyUpdater);
+        loopDescriptor.setCollective(true);
         
         if ( configuration.isWrapCollectionsInElement() ) {
             // create wrapping desctiptor

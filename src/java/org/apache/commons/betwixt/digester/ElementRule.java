@@ -115,6 +115,9 @@ public class ElementRule extends MappedPropertyRule {
             getPropertyType( propertyType, beanClass, propertyName ) 
         );
         
+        descriptor.setCollective(getXMLIntrospector().getConfiguration()
+                .isLoopType(descriptor.getPropertyType()));
+        
         String implementationClass = attributes.getValue( "class" );
         if ( log.isTraceEnabled() ) {
             log.trace("'class' attribute=" + implementationClass);

@@ -1080,7 +1080,7 @@ public abstract class AbstractBeanWriter {
         }
         
         // always write out loops - even when they have no elements
-        if ( XMLIntrospectorHelper.isLoopType( descriptor.getPropertyType() ) ) {
+        if ( descriptor.isCollective() ) {
             log.trace("Loop type so not empty.");
             return false;
         }
@@ -1332,7 +1332,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.32 $
+     * @version $Revision: 1.33 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

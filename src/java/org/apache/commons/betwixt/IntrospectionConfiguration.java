@@ -16,6 +16,11 @@
 
 package org.apache.commons.betwixt;
 
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
@@ -46,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class IntrospectionConfiguration {
 
@@ -372,5 +377,24 @@ public class IntrospectionConfiguration {
     public void setPropertySuppressionStrategy(
             PropertySuppressionStrategy propertySuppressionStrategy) {
         this.propertySuppressionStrategy = propertySuppressionStrategy;
+    }
+    
+    /** 
+     * Is this a loop type class?
+     *
+     * @param type is this <code>Class</code> a loop type?
+     * @return true if the type is a loop type, or if type is null 
+     */
+    public boolean isLoopType(Class type) {
+        // consider: should this be factored into a pluggable strategy?
+        // check for NPEs
+        if (type == null) {
+            return false;
+        }
+        return type.isArray() 
+            || Map.class.isAssignableFrom( type ) 
+            || Collection.class.isAssignableFrom( type ) 
+            || Enumeration.class.isAssignableFrom( type ) 
+            || Iterator.class.isAssignableFrom( type );
     }
 }

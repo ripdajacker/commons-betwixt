@@ -643,6 +643,7 @@ public class XMLIntrospector {
             if ( isLoopType ) {
                 getLog().trace("Bean is loop");
                 ElementDescriptor loopDescriptor = new ElementDescriptor();
+                loopDescriptor.setCollective(true);
                 loopDescriptor.setContextExpression(
                     new IteratorExpression( EmptyExpression.getInstance() )
                 );
@@ -956,7 +957,7 @@ public class XMLIntrospector {
                             loopDescriptor.setSingularPropertyType( valueType );
                             loopDescriptor.setPropertyType( valueType );
                             children[n].addElementDescriptor(loopDescriptor);
-                            
+                            loopDescriptor.setCollective(true);
                         }
                         if ( getLog().isTraceEnabled() ) { 
                             getLog().trace( "Value descriptor: " + children[n]);
@@ -1326,7 +1327,7 @@ public class XMLIntrospector {
      * @return true if the type is a loop type 
      */
     public boolean isLoopType(Class type) {
-        return XMLIntrospectorHelper.isLoopType(type);
+        return getConfiguration().isLoopType(type);
     }
     
     
@@ -1437,7 +1438,7 @@ public class XMLIntrospector {
         
         /** @see BeanType#isLoopType */
         public boolean isLoopType() {
-            return XMLIntrospectorHelper.isLoopType( beanClass );
+            return getConfiguration().isLoopType( beanClass );
         }
         
         /** @see BeanType#isMapType */

@@ -18,7 +18,6 @@ package org.apache.commons.betwixt;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Expression;
 
 /** <p><code>ElementDescriptor</code> describes the XML elements
@@ -79,6 +78,9 @@ public class ElementDescriptor extends NodeDescriptor {
 
     /** Whether this element refers to a primitive type (or property of a parent object) */
     private boolean primitiveType;
+    /** Is this a collective type? */
+    private boolean isCollectiveType;
+    
     /**
      * Is this element hollow?
      * In other words, is this descriptor a place holder indicating the name
@@ -555,12 +557,15 @@ public class ElementDescriptor extends NodeDescriptor {
      * maybe this method is unnecessary
      */
     public boolean isCollective() {
-        boolean result = false;
-        Class type = getPropertyType();
-        if (type != null) {
-            result = XMLIntrospectorHelper.isLoopType(type);
-        }
-        return result;
+        return isCollectiveType;
+    }
+    
+    /**
+     * Sets whether the element described is a collective.
+     * @param isCollectiveType
+     */
+    public void setCollective(boolean isCollectiveType) {
+        this.isCollectiveType = isCollectiveType;
     }
 
     /** 

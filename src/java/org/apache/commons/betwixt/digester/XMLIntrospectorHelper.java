@@ -48,6 +48,8 @@ import org.apache.commons.logging.LogFactory;
   * think about whether they need replacing with something different.
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  *
+  * @deprecated
   */
 public class XMLIntrospectorHelper {
 
@@ -549,6 +551,7 @@ public class XMLIntrospectorHelper {
      *
      * @param type is this <code>Class</code> a loop type?
      * @return true if the type is a loop type, or if type is null 
+     * @deprecated
      */
     public static boolean isLoopType(Class type) {
         // check for NPEs
