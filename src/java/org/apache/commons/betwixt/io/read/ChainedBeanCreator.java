@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreator.java,v 1.4.2.1 2004/04/27 20:00:41 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/04/27 20:00:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreator.java,v 1.4.2.2 2004/05/08 16:00:59 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/05/08 16:00:59 $
  *
  * ====================================================================
  * 
@@ -64,7 +64,7 @@ package org.apache.commons.betwixt.io.read;
   * Creator of beans that may delegate responsibility to members down the chain.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.1 $
+  * @version $Revision: 1.4.2.2 $
   */
 public interface ChainedBeanCreator {
     
@@ -81,7 +81,8 @@ public interface ChainedBeanCreator {
       * @return the Object created, possibly null
       */
     
-    // TODO: is element mapping really necessary? 
+    // TODO: is element mapping really necessary here?
+    // TODO: what about exception handling? 
     public Object create(
                             ElementMapping elementMapping, 
                             ReadContext context, 

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<PartyBean>
+    <dateOfParty>Wed Apr 14 19:46:55 MDT 2004</dateOfParty>
+    <excuse>tired</excuse>
+    <fromHour>2</fromHour>
+    <venue include-file="org/apache/commons/betwixt/io/read/impl/venue.xml"/>
+</PartyBean>
