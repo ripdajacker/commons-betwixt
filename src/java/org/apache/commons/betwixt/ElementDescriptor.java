@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.8 2003/03/19 22:59:01 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/03/19 22:59:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.9 2003/05/16 13:32:00 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/05/16 13:32:00 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.8 2003/03/19 22:59:01 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.9 2003/05/16 13:32:00 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,24 +74,30 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
     /** 
      * Descriptors for attributes this element contains.
-     * Constructed lazily on demand from a List
+     * <strong>Note:</strong> Constructed lazily on demand from a List.
+     * {@link #getAttributeDescriptor()} should be called rather than accessing this
+     * field directly.
      */
     private AttributeDescriptor[] attributeDescriptors;
     /** 
      * Descriptors for child elements.
-     * Constructed lazily on demand from a List
+     * <strong>Note:</strong> Constructed lazily on demand from a List.
+     * {@link #getElementDescriptor()} should be called rather than accessing this
+     * field directly.
      */
     private ElementDescriptor[] elementDescriptors;
     
     /** 
-     * Descriptors for child content
-     * Constructed lazily on demand from a List.
+     * Descriptors for child content.
+     * <strong>Note:</strong> Constructed lazily on demand from a List.
+     * {@link #getContentDescriptor()} should be called rather than accessing this
+     * field directly.
      */
     private Descriptor[] contentDescriptors;
     
@@ -168,7 +174,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * @see #getElementDescriptors
      */
     public boolean hasChildren() {
-        return elementDescriptors != null && elementDescriptors.length > 0;
+        return getElementDescriptors().length > 0;
     }
     
     /** 
@@ -177,7 +183,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * @see #getAttributeDescriptors
      */
     public boolean hasAttributes() {
-        return attributeDescriptors != null && attributeDescriptors.length > 0;
+        return getAttributeDescriptors().length > 0;
     }
     
     /** 
@@ -186,7 +192,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * @see #getContentDescriptors
      */
     public boolean hasContent() {
-        return contentDescriptors != null && contentDescriptors.length > 0; 
+        return getContentDescriptors().length > 0; 
      } 
     
     
