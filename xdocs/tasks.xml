@@ -211,36 +211,40 @@
             <li> 
                 <code>Expression.update</code> has been replaced by Updater
             </li>
-            <li> 
-                <code>AbstractBeanWriter.write(String, ElementDescriptor, Context)</code> refactored away
+            <li><strong>Refactoring (new SAX inspired API)</strong>
+                <ul>
+                    <li><strong>AbstractBeanWriter</strong>
+                        <ul>
+                            <li><code>write</code> removed</li>
+                            <li><code>writeIDREFElement</code> removed</li>       
+                            <li><code>writeAttributes</code> removed</li>    
+                            <li><code>writeAttribute</code> removed</li>    
+                            <li><code>writeRestOfElement</code> removed</li>    
+                            <li><code>getIndentLevel</code> moved into BeanWriter</li>   
+                            <li><code>expressElementStart</code> removed</li>   
+                            <li><code>expressTagClose</code> removed</li>   
+                            <li><code>expressElementEnd</code> removed</li>
+                            <li><code>expressBodyText</code> removed</li>
+                            <li><code>expressAttribute</code> removed</li>
+                            <li><code>writeRestOfElement</code> removed</li>
+                            <li><code>writeContent</code> removed</li>
+                            <li><code>writePrintln</code> removed</li>
+                            <li><code>writeIndent</code> removed</li>
+                        </ul>
+                    </li>
+                    <li><strong>BeanWriter</strong>
+                        <ul>
+                            <li><code>writePrintln</code> removed</li>
+                            <li><code>writeIndent</code> removed</li>
+                            <li><code>expressElementStart</code> removed</li>   
+                            <li><code>expressTagClose</code> removed</li>   
+                            <li><code>expressElementEnd</code> removed</li>
+                            <li><code>expressBodyText</code> removed</li>
+                            <li><code>expressAttribute</code> removed</li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
-            <li> 
-                <code>AbstractBeanWriter.write(String, ElementDescriptor, Context, String, String)</code> refactored away
-            </li>
-            <li> 
-                <code>AbstractBeanWriter.writeIDREFElement( String, String, String)</code> refactored away
-            </li>       
-            <li> 
-                <code>AbstractBeanWriter.writeAttributes()</code> refactored away
-            </li>    
-            <li> 
-                <code>AbstractBeanWriter.writeAttribute()</code> refactored away
-            </li>    
-            <li> 
-                <code>AbstractBeanWriter.writeRestOfElement</code> refactored away
-            </li>    
-            <li> 
-                <code>AbstractBeanWriter.getIndentLevel</code> moved into BeanWriter
-            </li>   
-            <li> 
-                <code>SAXBeanWriter.expressElementEnd(String qualifiedName)</code> deprecated 
-            </li>   
-            <li> 
-                <code>SAXBeanWriter.expressAttribute(String qualifiedName)</code> deprecated 
-            </li>  
-            <li> 
-                <code>SAXBeanWriter.expressElementStart(String qualifiedName)</code> deprecated 
-            </li>  
         </ul>
     </subsection>
 </section>
