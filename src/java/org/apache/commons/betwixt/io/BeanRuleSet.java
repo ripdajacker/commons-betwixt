@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.4 2003/03/20 19:29:00 jstrachan Exp $
- * $Revision: 1.4 $
- * $Date: 2003/03/20 19:29:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.5 2003/04/11 21:27:42 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/04/11 21:27:42 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.4 2003/03/20 19:29:00 jstrachan Exp $
+ * $Id: BeanRuleSet.java,v 1.5 2003/04/11 21:27:42 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -83,7 +83,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -284,7 +284,10 @@ public class BeanRuleSet implements RuleSet {
                         continue;
                     }
                     if ( childDescriptor.getUpdater() != null ) {
-                        if (log.isTraceEnabled()) {
+                        if (
+                            log.isTraceEnabled() 
+                            && childDescriptor.getUpdater() instanceof MethodUpdater) {
+                            
                             log.trace("Element has updater "
                             + ((MethodUpdater) childDescriptor.getUpdater()).getMethod().getName());
                         }
@@ -319,7 +322,9 @@ public class BeanRuleSet implements RuleSet {
                             }
                         }
                     } else {
-                        log.trace("Element does not have updater");
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Element does not have updater: " + childDescriptor);
+                        }
                     }
     
                     ElementDescriptor[] grandChildren = childDescriptor.getElementDescriptors();
@@ -328,6 +333,8 @@ public class BeanRuleSet implements RuleSet {
                             log.trace("Adding grand children @path:" + path);
                         }
                         addChildRules( path + '/', childDescriptor, context );
+                    } else if ( log.isTraceEnabled() ) {
+                        log.trace( "No children for " + childDescriptor);
                     }
                 }
             }
@@ -345,7 +352,7 @@ public class BeanRuleSet implements RuleSet {
         */
         ElementDescriptor getElementDescriptor( ElementDescriptor propertyDescriptor ) {
             Class beanClass = propertyDescriptor.getSingularPropertyType();
-            if ( beanClass != null ) {
+            if ( beanClass != null && !Map.class.isAssignableFrom( beanClass ) ) {
                 try {
                     XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
                     return xmlInfo.getElementDescriptor();

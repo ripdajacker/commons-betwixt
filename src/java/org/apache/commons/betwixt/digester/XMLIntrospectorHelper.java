@@ -74,6 +74,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
+import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.19 2003/04/08 13:41:40 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.20 2003/04/11 21:27:41 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -193,6 +194,9 @@ public class XMLIntrospectorHelper {
             //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
             if ( Map.class.isAssignableFrom( type ) ) {
                 loopDescriptor.setQualifiedName( "entry" );
+                // add elements for reading
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
             }
 
             ElementDescriptor elementDescriptor = new ElementDescriptor();
@@ -441,57 +445,121 @@ public class XMLIntrospectorHelper {
                     // XXX: should we filter out non-void returning methods?
                     // some beans will return something as a helper
                     Class[] types = method.getParameterTypes();
-                    if ( types != null && types.length == 1 ) {
-                        String propertyName = Introspector.decapitalize( name.substring(3) );
+                    if ( types != null) {
                         if ( log.isTraceEnabled() ) {
-                            log.trace( name + "->" + propertyName );
-                        }
-
-                        // now lets try find the ElementDescriptor which displays
-                        // a property which starts with propertyName
-                        // and if so, we'll set a new Updater on it if there
-                        // is not one already
-                        ElementDescriptor descriptor = 
-                            findGetCollectionDescriptor( 
-                                                        introspector, 
-                                                        rootDescriptor, 
-                                                        propertyName );
-
-                        if ( log.isDebugEnabled() ) {
-                            log.debug( "!! " + propertyName + " -> " + descriptor );
-                            log.debug( "!! " + name + " -> " 
-                             + (descriptor!=null?descriptor.getPropertyName():"") );
+                            log.trace("Searching for match for " + method);
                         }
                         
-                        if ( descriptor != null ) {
-                            descriptor.setUpdater( new MethodUpdater( method ) );
-                            descriptor.setSingularPropertyType( types[0] );
-                            
-                            if ( log.isDebugEnabled() ) {
-                                log.debug( "!! " + method);
-                                log.debug( "!! " + types[0]);
+                        if ( ( types.length == 1 ) || types.length == 2 ) {
+                            String propertyName = Introspector.decapitalize( name.substring(3) );
+                            if ( log.isTraceEnabled() ) {
+                                log.trace( name + "->" + propertyName );
                             }
-                            
-                            // is there a child element with no localName
-                            ElementDescriptor[] children = descriptor.getElementDescriptors();
-                            if ( children != null && children.length > 0 ) {
-                                ElementDescriptor child = children[0];
-                                String localName = child.getLocalName();
-                                if ( localName == null || localName.length() == 0 ) {
-                                    child.setLocalName( 
-                                        introspector.getElementNameMapper()
-                                            .mapTypeToElementName( propertyName ) );
+    
+                            // now lets try find the ElementDescriptor which displays
+                            // a property which starts with propertyName
+                            // and if so, we'll set a new Updater on it if there
+                            // is not one already
+                            ElementDescriptor descriptor = 
+                                findGetCollectionDescriptor( 
+                                                            introspector, 
+                                                            rootDescriptor, 
+                                                            propertyName );
+    
+                            if ( log.isDebugEnabled() ) {
+                                log.debug( "!! " + propertyName + " -> " + descriptor );
+                                log.debug( "!! " + name + " -> " 
+                                + (descriptor!=null?descriptor.getPropertyName():"") );
+                            }
+                            if ( descriptor != null ) {
+                                boolean isMapDescriptor 
+                                    = Map.class.isAssignableFrom( descriptor.getPropertyType() );
+                                if ( !isMapDescriptor && types.length == 1 ) {
+                                    // this may match a standard collection or iteration
+                                    log.trace("Matching collection or iteration");
+                                    
+                                    descriptor.setUpdater( new MethodUpdater( method ) );
+                                    descriptor.setSingularPropertyType( types[0] );
+                                    
+                                    if ( log.isDebugEnabled() ) {
+                                        log.debug( "!! " + method);
+                                        log.debug( "!! " + types[0]);
+                                    }
+                                    
+                                    // is there a child element with no localName
+                                    ElementDescriptor[] children 
+                                        = descriptor.getElementDescriptors();
+                                    if ( children != null && children.length > 0 ) {
+                                        ElementDescriptor child = children[0];
+                                        String localName = child.getLocalName();
+                                        if ( localName == null || localName.length() == 0 ) {
+                                            child.setLocalName( 
+                                                introspector.getElementNameMapper()
+                                                    .mapTypeToElementName( propertyName ) );
+                                        }
+                                    }
+
+                                } else if ( isMapDescriptor && types.length == 2 ) {
+                                    // this may match a map
+                                    log.trace("Matching map");
+                                    ElementDescriptor[] children 
+                                        = descriptor.getElementDescriptors();
+                                    // see if the descriptor's been set up properly
+                                    if ( children.length == 0 ) {
+                                        
+                                        log.info(
+                                            "'entry' descriptor is missing for map. "
+                                            + "Updaters cannot be set");
+                                        
+                                    } else {
+                                        // loop through grandchildren 
+                                        // adding updaters for key and value
+                                        ElementDescriptor[] grandchildren
+                                            = children[0].getElementDescriptors();
+                                        MapEntryAdder adder = new MapEntryAdder(method);
+                                        for ( 
+                                            int n=0, 
+                                                noOfGrandChildren = grandchildren.length;
+                                            n < noOfGrandChildren;
+                                            n++ ) {
+                                            if ( "key".equals( 
+                                                    grandchildren[n].getLocalName() ) ) {
+                                            
+                                                grandchildren[n].setUpdater( 
+                                                                adder.getKeyUpdater() );
+                                                grandchildren[n].setSingularPropertyType( 
+                                                                types[0] );
+                                                if ( log.isTraceEnabled() ) {
+                                                    log.trace(
+                                                        "Key descriptor: " + grandchildren[n]);
+                                                }                                               
+                                                
+                                            } else if ( 
+                                                "value".equals( 
+                                                    grandchildren[n].getLocalName() ) ) {
+
+                                                grandchildren[n].setUpdater( 
+                                                                    adder.getValueUpdater() );
+                                                grandchildren[n].setSingularPropertyType( 
+                                                                    types[1] );
+                                                if ( log.isTraceEnabled() ) {
+                                                    log.trace(
+                                                        "Value descriptor: " + grandchildren[n]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if ( log.isDebugEnabled() ) {
+                                    log.debug( 
+                                        "Could not find an ElementDescriptor with property name: " 
+                                        + propertyName + " to attach the add method: " + method 
+                                    );
                                 }
                             }
-                        } else {
-                            if ( log.isDebugEnabled() ) {
-                                log.debug( 
-                                    "Could not find an ElementDescriptor with property name: " 
-                                    + propertyName + " to attach the add method: " + method 
-                                );
-                            }
                         }
-                    }
+                    } 
                 }
             }
         }
