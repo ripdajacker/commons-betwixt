@@ -223,20 +223,25 @@ beanWriter.setWriteEmptyElements(false);
         </dt>
         <dd>
             Betwixt uses <a href='http://jakarta.apache.org/commons/digester.html'>Digester</a> for bean
-            reading. The current implementation adds new <em>Rule</em>s at run time (which handle 
-            the reading of child elements). This makes life difficult for any extra <em>Rule</em>s 
-            added by the user before the digestion started.
+            reading. There are problems integrating the last release with custom digester rules. 
+            The CVS HEAD version of betwixt now supports this and so users who need to do this should 
+            upgrade.
         </dd>
+        <dt>
+          <a name="Why Can't A Read My Bean?">
+            Why does reading my xml return null?
+          </a>
+        </dt>
         <dd>
-            Extra <em>Rule</em>s added by the user will probably not work as expected. It may 
-            be possible to find ways to make them work - but equally well, it may be impossible.
-        </dd>
-        <dd>
-            <em>This is a known limitation.</em>
-        </dd>
-        <dd>
-            Hopefully, this will be addressed in a later release.
-            Until then, you are recommended to use the mapping mechanisms in Betwixt instead.
+            Here are some common reasons why this may happen:
+            <ul>
+            <li><strong>The class lacks a no-argument construct.</strong>
+            Betwixt only supports creation of beans with no-argument constructors.
+            This may be fixed in a future release. (Patches for this gratefully received!)</li>
+            <li><strong>The class need to be registered at a custom path.</strong>
+            You may need to use <code>registerBeanRegister(String path, Class beanClass)</code>
+            to register the class at a particular path.</li>
+            </ul>
         </dd>
       </dl>
     </subsection>

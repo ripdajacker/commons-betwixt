@@ -87,6 +87,10 @@
     <subsection name="Medium priority"> 
       <ul>
             <li>
+                <strong>Add support for constructors with arguments.</strong>
+                Currently, only beans with no-argument constructors can be read.
+            </li>
+            <li>
                 <strong>Create design documentation</strong>
                 This will help people understand the betwixt design.
             </li>
