@@ -1,0 +1,8 @@
+build.properties
+dist
+target
+velocity.log
+.project
+
+foo.txt
+maven.log

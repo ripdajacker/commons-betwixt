@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Jelly">
+
+  <title>Betwixt</title>
+  <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
+
+  <body>
+    <menu name="Betwixt">
+      <item name="Overview"                href="/index.html"/>
+      <item name="FAQ"                     href="/faq.html"/>
+      <item name="Detail"                  href="/overview.html"/>
+      <item name="To Do List"              href="/todo.html"/>
+    </menu>
+  </body>
+</project>

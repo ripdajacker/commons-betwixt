@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Betwixt Overview</title>
+  <author email="jstrachan@apache.org">James Strachan</author>
+ </properties>
+
+<body>
+
+<section name="Getting Started">
+
+<p>Probably the best way to get started is to look at some examples. The best 
+example to start with is the Ant target &quot;demo.rss&quot; which runs the RSSBeanWriter 
+sample program in the src/test directory. Once you've got the Jakarta Commons 
+build system working, by installing Ant and creating your own build.properties 
+to point to the required JARs type the following at a command line</p>
+
+<pre>ant demo.rss</pre>
+
+<p>This uses the Commons Digester RSSDigester example to parse an RSS document, 
+create a Channel bean and then write it out again as XML using the default 
+XMLIntrospector and the BeanWriter. You should see the XML come out from the 
+Channel bean which looks similar to a real RSS document.</p>
+
+<p>The next example to look at is</p>
+
+<pre>ant demo.rss2</pre>
+
+<p>This is similar to the above but uses a BeanReader to parse the RSS file. So 
+this is Betwixt defaulting the Digester rules required to parse the XML document. 
+Then the BeanWriter is used to output the beans that get created.</p>
+</section>
+
+<section name="Mapping beans to XML">
+
+
+<p>There are various ways of mapping beans to an XML structure. For example 
+consider a simple bean</p>
+
+<pre>public class CustomerBean {
+    public String getName();
+    public Order[] getOrders();
+    public String[] getEmailAddresses();
+}</pre>
+
+<p>This could be mapped to XML as these various ways</p>
+
+
+<section name="Example 1">
+
+<p>This example uses attributes for primitive types.</p>
+
+<pre>&lt;CustomerBean name=&quot;James&quot;&gt;
+    &lt;order id=&quot;1&quot;&gt;...&lt;/order&gt;
+    &lt;order id=&quot;2&quot;&gt;...&lt;/order&gt;
+    &lt;emailAddress&gt;jstrachan@apache.org&lt;/emailAddress&gt;
+&lt;/CustomerBean&gt;</pre>
+</section>
+
+
+<section name="Example 2">
+
+<p>This example uses elements for all properties and wraps collections in an 
+extra element (which can be quite common in XML schemas). Also note that some 
+element names have been changed.</p>
+
+<pre>&lt;customer&gt;
+    &lt;name&gt;James&lt;/name&gt;
+    &lt;orders&gt;
+        &lt;order id=&quot;1&quot;&gt;...&lt;/order&gt;
+        &lt;order id=&quot;2&quot;&gt;...&lt;/order&gt;
+    &lt;/orders&gt;
+    &lt;email-addresses&gt;
+        &lt;email-address&gt;jstrachan@apache.org&lt;/email-address&gt;
+    &lt;/email-addresses&gt;
+&lt;/customer&gt;    </pre>
+
+<p>Betwixt aims to provide a diversity of possible mappings such that the 
+developer can choose, if they wish, how their beans appear as XML to support 
+whatever XML encoding scheme that is desired. If no particular mapping is 
+provided then Betwixt will create a default mapping for you. Also the 
+customization mechanism allows you to just override the parts you want to and 
+let Betwixt default the rest. So if you just want to rename a property in XML 
+for a certain type, thats all you need to do. No need to hand-code what Betwixt 
+can deduce for itself. </p>
+</section>
+
+</section>
+
+<section name="Customizing the mapping of a bean to XML">
+
+<p>The XMLIntrospector will look for files of the form <i>className.betwixt</i> 
+on the classpath using the same ClassLoader used to load the given class and use 
+that document to specify the mapping to XML. If this file does not exist 
+then the default introspection rules are used.</p>
+<p>The simplest possible file may just set the name of the element. e.g.</p>
+
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;info&gt;
+  &lt;element name=&quot;channel&quot;/&gt;
+  &lt;addDefaults/&gt;
+&lt;/info&gt;</pre>
+
+<p>The above means to use the name 'channel' for the outer most element for the 
+given type. The &lt;addDefaults&gt; means to add the defaults from the introspector. 
+This allows you to just rename a few properties then let the introspector do the 
+rest. There is also a &lt;hide&gt; element which allows one or more properties to be 
+hidden. Also note that the &lt;element&gt; and &lt;attribute&gt; tags can be 
+nested to any 
+kind of depth allowing whatever XML structure you wish. This can be useful if 
+you wish to wrap collections in some arbitrary collection tags or to group 
+properties of a bean together in some XML structure. e.g.</p>
+
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;info primitiveTypes=&quot;attribute&quot;&gt;
+  &lt;element name=&quot;channel&quot;/&gt;
+    &lt;element name=&quot;customerList&quot;&gt;
+      &lt;element name=&quot;customer&quot; property=&quot;customers&quot;/&gt;
+    &lt;/element&gt;
+    &lt;element name=&quot;foo&quot;&gt;
+      &lt;attribute name=&quot;qqq&quot; property=&quot;ppp&quot;/&gt;
+      &lt;element name=&quot;bar&quot; property=&quot;xyz&quot;/&gt;
+    &lt;hide property=&quot;something&quot;/&gt;
+    &lt;addDefaults/&gt;
+  &lt;/element&gt;
+&lt;/info&gt;
+</pre>
+
+<p>The primitiveTypes attribute in the &lt;info&gt; element is optional and can be 
+used to specify whether primitive java types (strings, numbers, dates etc) are 
+specified as attributes or elements by default.</p>
+<p>Finally static text can be specified using a value attribute inside an 
+&lt;element&gt; or &lt;attribute&gt; tag. e.g. to add constant attributes such 
+as a version label to the 
+generated XML...</p>
+
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;info primitiveTypes=&quot;element&quot;&gt;
+  &lt;element name=&quot;rss&quot;/&gt;
+    &lt;attribute name=&quot;version&quot; value=&quot;0.91&quot;/&gt;
+    &lt;element name=&quot;channel&quot;/&gt;
+    &lt;addDefaults/&gt;
+  &lt;/element&gt;
+&lt;/info&gt;
+</pre>
+</section>
+
+<section name="Bean naming conventions">
+
+<p>The Java Beans specification contains various naming conventions that should 
+be used when writing beans that will allow the beans introspector to 
+automatically guess the properties in a bean and their getters &amp; setter methods 
+etc. Betwixt will use these same naming conventions to deduce how to make the 
+beans appear as XML. There are some other naming conventions that you can use to 
+make your beans easier to output as XML or parse.</p>
+</section>
+
+<section name="Using adder methods for composite properties">
+
+<p>This naming convention is used to indicate the singular type of some composite property.</p>
+
+<p>To use: create an add method to match the getter method for 'composite 
+properties'.</p>
+
+<pre>public class SomeBean {
+    public &lt;CollectionType&gt; getFoo*();
+    public void addFoo(&lt;SingularType&gt; foo);
+}</pre>
+
+<p>Where CollectionType can be an array, a Collection, Enumeration, Iterator, 
+Map. The [SinglularType] refers to the type of an item in the collection. The 
+name of the getter property starts with 'Foo'. So 'Foo' is the singular name, 
+the plural collection name could be Foos, FooArray, FooList, FooIterator or some 
+other encoding, though the plural name should start with the singular name for 
+auto-detection to work properly.</p>
+
+<section name="Examples">
+
+<p>In the RSS example from Digester there's a bean which matches this pattern.</p>
+
+<pre>
+public class Channel
+
+    public Item[] getItems();
+
+    public void addItem(Item item);
+}
+</pre>
+
+<p>This means that the following bean does not match this naming convention, 
+since the plural property name does not start with the singular name..</p>
+<pre>public class Foo {
+    public Collection getPeople();
+    public void addPerson(Person person);
+}</pre>
+
+<p>Though these two beans do match</p>
+
+<pre>public class Foo {
+    public Collection getPersonCollection();
+    public void addPerson(Person person);
+}
+public class Foo {
+    public Iterator getPersonIterator();
+    public void addPerson(Person person);
+}
+</pre>
+
+<p>The following are other valid examples of <i>composite-getter</i> methods and 
+their matching <i>adder</i> methods.</p>
+
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
+  <tr>
+    <td width="50%" align="center"><b>Composite getter method</b></td>
+    <td width="50%" align="center"><b>Adder method</b></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">getChildren()</td>
+    <td width="50%" align="center">addChild()</td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">getPersonList()</td>
+    <td width="50%" align="center">addPerson()</td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">getItems()</td>
+    <td width="50%" align="center">addItem()</td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">getChannels()</td>
+    <td width="50%" align="center">addChannel()</td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">getSheep()</td>
+    <td width="50%" align="center">addSheep()</td>
+  </tr>
+</table>
+
+</section>
+
+</section>
+
+
+</body>
+</document>

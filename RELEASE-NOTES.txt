@@ -1,0 +1,23 @@
+$Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
+
+			 Commons Betwixt Package
+			   Version 1.0-dev
+			    Release Notes
+
+
+INTRODUCTION:
+
+This document contains the release notes for this version of the Commons
+Betwixt package, and highlights changes since the previous version.  The
+current release adds new features and bug fixes, and is being done now to
+follow the release early/release often mentality.
+
+
+NEW FEATURES:
+
+* 
+
+
+BUG FIXES:
+
+

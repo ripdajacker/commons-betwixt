@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+
+<!-- $Id: build.xml,v 1.22 2002/06/05 07:57:07 jstrachan Exp $ -->
+<project name="betwixt" default="maven:jar" basedir=".">
+
+
+
+<!-- ========== Initialize Properties ===================================== -->
+
+  <!-- Allow any user specific values to override the defaults -->
+  <property file="${user.home}/build.properties" />
+  <!-- Allow user defaults for this project -->
+  <property file="build.properties" />
+  <!-- Set default values for the build -->
+  <property file="project.properties" />
+  
+  <!-- maven:start -->
+  
+  <!-- ================================================================== -->
+  <!-- D E F I N E   A N T   T A S K S                                    -->
+  <!-- ================================================================== -->
+  <taskdef
+    name="maven-ant"
+    classname="org.apache.maven.ant.Ant">
+    <classpath>
+      <pathelement location="${lib.repo}/maven.jar"/>
+    </classpath>
+  </taskdef>
+
+        
+  <!-- ================================================================== -->
+  <!-- D E L E G A T O R S                                                -->
+  <!-- ================================================================== -->
+        
+    <target name="maven:gump-descriptor">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="gump-descriptor"/>
+    </target>
+    
+    <target name="maven:maven-update">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="maven-update"/>
+    </target>
+    
+    <target name="maven:update-jars">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="update-jars"/>
+    </target>
+    
+    <target name="maven:jar">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="jar"/>
+    </target>
+    
+    <target name="maven:docs-quick">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="docs-quick"/>
+    </target>
+    
+    <target name="maven:run-singletest">
+      <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="run-singletest"/>
+    </target>
+    
+    <target name="maven:compile">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="compile"/>
+    </target>
+    
+    <target name="maven:jar-resources">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="jar-resources"/>
+    </target>
+    
+    <target name="maven:fo">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="fo"/>
+    </target>
+    
+    <target name="maven:cvs-change-log">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="cvs-change-log"/>
+    </target>
+    
+    <target name="maven:war">
+      <maven-ant antfile="${maven.home}/plugins/j2ee/build.xml" target="war"/>
+    </target>
+    
+    <target name="maven:generate-reactor">
+      <maven-ant antfile="${maven.home}/plugins/reactor/build.xml" target="generate-reactor"/>
+    </target>
+    
+    <target name="maven:cross-ref">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="cross-ref"/>
+    </target>
+    
+    <target name="maven:deploy-site">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="deploy-site"/>
+    </target>
+    
+    <target name="maven:ear">
+      <maven-ant antfile="${maven.home}/plugins/j2ee/build.xml" target="ear"/>
+    </target>
+    
+    <target name="maven:install-jar">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="install-jar"/>
+    </target>
+    
+    <target name="maven:task-list">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="task-list"/>
+    </target>
+    
+    <target name="maven:docs">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="docs"/>
+    </target>
+    
+    <target name="maven:site">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="site"/>
+    </target>
+    
+    <target name="maven:deploy-dist">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="deploy-dist"/>
+    </target>
+    
+    <target name="maven:javadocs">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="javadocs"/>
+    </target>
+    
+    <target name="maven:announce">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="announce"/>
+    </target>
+    
+    <target name="maven:check-source">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="check-source"/>
+    </target>
+    
+    <target name="maven:dist">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="dist"/>
+    </target>
+    
+    <target name="maven:dist-build">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="dist-build"/>
+    </target>
+    
+    <target name="maven:metrics">
+      <maven-ant antfile="${maven.home}/plugins/metrics/build.xml" target="metrics"/>
+    </target>
+    
+    <target name="maven:clean">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="clean"/>
+    </target>
+    
+    <target name="maven:env">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="env"/>
+    </target>
+    
+    <target name="maven:compile-test">
+      <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="compile"/>
+    </target>
+    
+    <target name="maven:test">
+      <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="test"/>
+    </target>
+    
+    <target name="maven:pdf">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="pdf"/>
+    </target>
+    
+    <target name="maven:iutest">
+      <maven-ant antfile="${maven.home}/plugins/uitest/build.xml" target="iutest"/>
+    </target>
+    
+    <target name="maven:activity-log">
+      <maven-ant antfile="${maven.home}/plugins/docs/build.xml" target="activity-log"/>
+    </target>
+    
+    <target name="maven:verify-project">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="verify-project"/>
+    </target>
+    
+    <target name="maven:validate-pom">
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="validate-pom"/>
+    </target>
+    
+    <target name="maven:validate-war">
+      <maven-ant antfile="${maven.home}/plugins/j2ee/build.xml" target="validate-war"/>
+    </target>
+    
+
+  <!-- maven:end -->
+
+<!-- ========== Helper Targets ============================================ -->
+
+    <target name="clean" depends="maven:clean">
+      <delete file="velocity.log"/>
+    </target>
+    
+
+    <target name="compile" depends="maven:compile, maven:jar-resources">
+      <path id="test.classpath">
+        <pathelement path="${maven.build.dest}"/>
+        <pathelement path="${maven.test.dest}"/>
+        
+        <!-- pick up the test .betwixt files -->
+        <pathelement path="src/test"/>
+        <path refid="maven.dependency.classpath"/>
+        <pathelement location="${lib.repo}/junit-3.7.jar"/>
+        <pathelement location="${lib.repo}/xmlParserAPIs-2.0.0.jar"/>
+        <pathelement location="${lib.repo}/xercesImpl-2.0.0.jar"/>
+        <path path="${classpath}"/>
+        <path path="${java.classpath}"/>
+      </path>
+      
+      <echo message="test callback file: ${maven.test.callback.pre-test.buildFile} and target: ${maven.test.callback.pre-test.buildTarget}"/>
+
+    </target>   
+
+    <target name="compile.tests" depends="compile, maven:compile-test"/>
+    <target name="test" depends="maven:test"/>
+    <target name="dist" depends="maven:dist-build"/>
+    <target name="site" depends="maven:site"/>
+    
+    <target name="test-resources" 
+      description="Copies all resources required by the test cases into the build area">
+      <echo message="Runing the test-resources target!!!"/>
+      
+      <copy todir="${maven.test.dest}">
+        <fileset dir="${maven.unitTestSourceDirectory}" includes="**/*.betwixt"/>
+      </copy>
+    </target>   
+
+
+<!-- ========== Unit Test Targets ========================================= -->
+
+
+   <target name="test.write" depends="compile.tests" 
+      description="Runs sample bean write">
+    <java classname="org.apache.commons.betwixt.TestBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="info"/>
+    </java>
+   </target>
+
+   <target name="test.reader" depends="compile.tests" 
+      description="Runs test of bean reader">
+    <java classname="org.apache.commons.betwixt.TestBeanReader" fork="yes">
+      <classpath refid="test.classpath"/>
+      <!-- this all seems a bit much to get some logging? -->
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+   </target>
+
+   <target name="test.digester" depends="compile.tests" 
+      description="Runs the test of the XMLBeanInfo digester">
+    <java classname="org.apache.commons.betwixt.TestXMLBeanInfoDigester" fork="yes">
+      <classpath refid="test.classpath"/>
+      <!-- this all seems a bit much to get some logging? maybe a properties file might help -->
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+   </target>
+
+   <target name="test.rss" depends="compile.tests" 
+      description="Runs the RSS round trip unit tests">
+    <java classname="org.apache.commons.betwixt.TestRSSRoundTrip" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="info"/>
+    </java>
+   </target>
+
+   <target name="test.rss.debug" depends="compile.tests" 
+      description="Runs the RSS round trip unit tests with debugging on">
+    <java classname="org.apache.commons.betwixt.TestRSSRoundTrip" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+   </target>
+
+   <target name="test.maven"
+      description="Runs the Maven unit test">
+    <property name="maven.testcase" value="org.apache.commons.betwixt.TestMavenProject"/>   
+    <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="run-singletest"/>
+   </target>
+
+   <target name="test.maven.debug" depends="compile.tests" 
+      description="Runs the Maven unit test with debugging on">
+    <java classname="org.apache.commons.betwixt.TestMavenProject" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+   </target>
+
+   <target name="test.scarab"
+      description="Runs the Scarab unit test">
+    <property name="maven.testcase" value="org.apache.commons.betwixt.scarab.TestScarabSettings"/>   
+    <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="run-singletest"/>
+   </target>
+
+   <target name="test.scarab.debug" depends="compile.tests"
+      description="Runs the Scarab unit test with debugging on">
+    <java classname="org.apache.commons.betwixt.scarab.TestScarabSettings" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+   </target>
+
+
+<!-- ========== Sample Program Targets ==================================== -->
+
+   <target name="demo.writer" depends="compile.tests" 
+      description="Runs sample bean writer">
+    <echo message="Running sample bean writer..."/>
+    <java classname="org.apache.commons.betwixt.SampleBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+   </target>
+
+   <target name="demo.sys" depends="compile.tests" 
+      description="Runs system properties sample">
+    <echo message="Running system properties sample..."/>
+    <java classname="org.apache.commons.betwixt.SystemProperties" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+   </target>
+
+   <target name="demo.rss" depends="compile.tests" 
+      description="Runs the RSS sample">
+    <echo message="Running the RSS sample..."/>
+    <java classname="org.apache.commons.betwixt.RSSBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+   </target>
+
+   <target name="demo.rss2" depends="compile.tests" 
+      description="Runs the RSS read and write sample">
+    <echo message="Running the RSS read and write sample..."/>
+    <java classname="org.apache.commons.betwixt.RSSBeanReader" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+   </target>
+
+
+</project>

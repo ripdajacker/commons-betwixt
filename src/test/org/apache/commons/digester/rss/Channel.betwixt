@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="rss">
+    <attribute name="version" property="version"/>
+    <element name="channel">
+      <element name="title"  property="title"/>
+      <element name="item"  property="items"/>
+      <element name="textinput"  property="textInput"/>
+      <element name="skipDays">
+        <element name="day" property="skipDays"/>
+      </element>
+      <element name="skipHours">
+        <element name="hour" property="skipHours"/>
+      </element>
+      <addDefaults/>
+    </element>
+  </element>
+</info>

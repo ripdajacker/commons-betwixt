@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="attribute">
+  <element name="element">
+    <element name="attribute" property="attributeDescriptors"/>
+    <element name="element" property="elementDescriptors"/>
+    <addDefaults/>
+  </element>
+</info>

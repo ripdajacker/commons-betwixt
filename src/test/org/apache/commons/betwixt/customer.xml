@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomerBean name="James" ID="1">
+  <address code="N5" city="London" country="UK" street="Near the park"/>
+  <projectMap>
+    <entry>
+      <key>jaxen</key>
+      <value>http://jaxen.org</value>
+    </entry>
+    <entry>
+      <key>jakarta-taglibs</key>
+      <value>http://jakarta.apache.org/taglibs/</value>
+    </entry>
+    <entry>
+      <key>dom4j</key>
+      <value>http://dom4j.org</value>
+    </entry>
+    <entry>
+      <key>jakarta-commons</key>
+      <value>http://jakarta.apache.org/commons/</value>
+    </entry>
+  </projectMap>
+  <projectNames>
+    <String>jaxen</String>
+    <String>jakarta-taglibs</String>
+    <String>dom4j</String>
+    <String>jakarta-commons</String>
+  </projectNames>
+  <emails>
+    <String>jstrachan@apache.org</String>
+    <String>james_strachan@yahoo.co.uk</String>
+  </emails>
+  <projectURLs>
+    <String>http://jaxen.org</String>
+    <String>http://jakarta.apache.org/taglibs/</String>
+    <String>http://dom4j.org</String>
+    <String>http://jakarta.apache.org/commons/</String>
+  </projectURLs>
+  <numbers>
+    <Integer>3</Integer>
+    <Integer>4</Integer>
+    <Integer>5</Integer>
+  </numbers>
+</CustomerBean>

@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>Betwixt FAQ</title>
+    <author email="jstrachan@apache.org">James Strachan</author>
+  </properties>
+
+  <body>
+
+  <section name="Frequently Asked Questions">
+    <p>
+      This document attempts to answer some of the more frequently asked
+      questions regarding various aspects of Betwixt.  These questions are
+      typically asked over and over again on the mailing lists, as a
+      courtesy to the developers, we ask that you read this document
+      before posting to the mailing lists.  
+    </p>
+    <p><strong>General</strong></p>
+    <ol>
+      <li>
+        <a href="#what-is-betwixt">
+          What is Betwixt?
+        </a>
+      </li>
+      <li>
+        <a href="#why-called-betwixt">
+          Why is this called Betwixt?
+        </a>
+      </li>
+      <li>
+        <a href="#comparison">
+          How does Betwixt compare to technologies like JAXB and Castor?
+        </a>
+      </li>
+    </ol>
+    <p><strong>Building Betwixt</strong></p>
+    <ol>
+      <li>
+        <a href="#how-to-build">
+          How do I build Betwixt?
+        </a>
+      </li>
+    </ol>
+
+    <section name="General">
+      <dl>
+        <dt>
+          <a name="what-is-betwixt">
+            What is Betwixt?
+          </a>
+        </dt>
+        <dd>
+          The Betwixt library provides an XML introspection mechanism
+   		  for mapping beans to XML in a flexible way.
+          Please see the <a href="index.html">Home page</a> and <a
+          href="overview.html">Overview</a> documents for more detail.
+        </dd>
+      </dl>
+      
+      <dl>
+        <dt>
+          <a name="why-called-betwixt">
+          	Why is this called Betwixt?
+          </a>
+        </dt>
+        <dd>
+          I grepped a dictionary for words containing B*T*X for Bean To XML.
+          There's not many words around containing those 3 letters in order. 
+		  Betwixt also seems a fitting name as its the stuff between (betwixt) Beans and XML.
+        </dd>
+      </dl>
+      
+      <dl>
+        <dt>
+          <a name="comparison">
+          	How does Betwixt compare to technologies like JAXB and Castor?
+          </a>
+        </dt>
+        <dd>
+			Where JAXP and Castor are strong is when you have a well agreed schema (XML
+			Schema for Castor or a DTD in the case of JAXB, last time I looked) and want
+			to auto-generate beans for parsing and processing the XML.
+        </dd>
+        <dd>
+			Betwixt is strong is when you've already got the beans and just want a nice
+			looking XML format to serialize/deserialize your beans. 
+			Indeed with Betwixt you can just write your beans and not even worry
+			about XML schemas and providing you follow a simple bean naming convention
+			(the use of getter, setter and <i>adder</i> methods) you'll get nice looking XML for free.
+        </dd>
+        <dd>
+			In JDK1.4 there is a 
+			<a href="http://java.sun.com/j2se/1.4/docs/guide/beans/changes14.html">long term bean serialization</a> 
+			mechanism which you can use. However Betwixt generates cleaner looking XML which can be customized
+			to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
+        </dd>
+      </dl>
+      
+    </section>
+    <section name="Building Betwixt">
+      <dl>
+        <dt>
+          <a name="how-to-build">
+            How do I build Betwixt?
+          </a>
+        </dt>
+        <dd>
+          Betwixt uses Maven for its build system. So you should be able to build Betwixt just like
+          any other Maven enabled project. Please see the 
+          <a href="http://jakarta.apache.org/turbine/maven/start/index.html">Maven</a> 
+          documentation for details.
+        </dd>
+      </dl>
+    </section>
+  </section>
+</body>
+</document>
