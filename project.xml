@@ -116,7 +116,13 @@
         <timezone>-6</timezone>
     </developer>
   </developers>
-  
+    <contributors>
+    <contributor>
+      <name>Brian Pugh</name>
+      <email></email>
+    </contributor>
+  </contributors>
+
   <dependencies>
     
     <dependency>
