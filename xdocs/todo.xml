@@ -15,10 +15,10 @@
       
       <ul>
         <li>
-		  Consider allowing the parsing of XML to order the propperties/elements in the XMLBeanInfo
+		  Consider allowing the parsing of XML to order the properties/elements in the XMLBeanInfo
 		  so that when the XML is output again it follows the same XML ordering again.
 		  There is an example describing this 
-		  <a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&msgNo=8488">here</a>
+		  <a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&amp;msgNo=8488">here</a>
 		</li>
         <li>
 		  Create a SAXWriter class in the io package that takes a bean and writes to a SAX ContentHandler
@@ -33,7 +33,7 @@
 		  Improved documentation! Improve package level documentation so that new developers can get up 
           to speed more quickly. Ensure all betwixt features have good user documentation. 
           More good code examples.
-        <li>
+        </li>
        </ul>
     </section>
   </body>
