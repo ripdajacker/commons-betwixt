@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/19 00:52:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.3 2002/07/29 09:29:24 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/07/29 09:29:24 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
+ * $Id: AbstractBeanWriter.java,v 1.3 2002/07/29 09:29:24 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -479,7 +479,9 @@ abstract public class AbstractBeanWriter {
                             for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
                                 if ( ! writtenContent ) {
                                     writtenContent = true;
-                                    expressTagClose();
+                                    if (elementDescriptor.isWrapCollectionsInElement()) {
+                                        expressTagClose();
+                                    }
                                 }
                                 ++indentLevel;
                                 write( qualifiedName, iter.next() );
