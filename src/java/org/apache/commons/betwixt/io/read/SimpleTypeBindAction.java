@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.5 2004/02/21 17:32:39 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/21 17:32:39 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.6 2004/04/18 19:47:22 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/04/18 19:47:22 $
  *
  * ====================================================================
  *
@@ -57,18 +57,17 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SimpleTypeBindAction.java,v 1.1.2.5 2004/02/21 17:32:39 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.6 2004/04/18 19:47:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
-import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.expression.Updater;
 import org.xml.sax.Attributes;
 
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1.2.5 $
+  * @version $Revision: 1.1.2.6 $
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 
@@ -79,7 +78,7 @@ public class SimpleTypeBindAction extends MappingAction.Base {
     public void body(String text, ReadContext context) throws Exception {
         // add dyna-bean support!
         // probably refactoring needed
-        Updater updater = getCurrentUpdater(context);
+        Updater updater = context.getCurrentUpdater();
         if (updater != null)
         {
             updater.update(context, text);
@@ -91,15 +90,6 @@ public class SimpleTypeBindAction extends MappingAction.Base {
         }
     }
     
-    private Updater getCurrentUpdater(ReadContext context) throws Exception {
-        Updater result = null;
-        ElementDescriptor elementDescriptor = context.getCurrentDescriptor() ;
-        if (elementDescriptor != null) {
-            result = elementDescriptor.getUpdater();
-        }
-        return result;
-    }
-
     public MappingAction next(
         String namespace,
         String name,

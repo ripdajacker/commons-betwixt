@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.7 2004/04/18 16:43:10 rdonkin Exp $
- * $Revision: 1.4.2.7 $
- * $Date: 2004/04/18 16:43:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.8 2004/04/18 19:47:22 rdonkin Exp $
+ * $Revision: 1.4.2.8 $
+ * $Date: 2004/04/18 19:47:22 $
  *
  * ====================================================================
  * 
@@ -93,7 +93,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.7 $
+  * @version $Revision: 1.4.2.8 $
   */
 public class ReadContext extends Context {
 
@@ -338,11 +338,7 @@ public class ReadContext extends Context {
         return result;
     }
     
-
-    /**
-     * @return
-     */
-    public ElementDescriptor getParentElementDescriptor() throws IntrospectionException {
+    private ElementDescriptor getParentDescriptor() throws IntrospectionException {
         ElementDescriptor parentDescriptor = null;
         XMLBeanInfo parentInfo = getParentXMLBeanInfo();
         if ( parentInfo != null ) {
@@ -589,5 +585,22 @@ public class ReadContext extends Context {
 			}
 		}
 	}
+
+    public Updater getCurrentUpdater() throws Exception {
+        //TODO: add dyna-bean support!
+        // probably refactoring needed
+        ElementDescriptor currentDescriptor = getCurrentDescriptor();
+        Updater updater = null;
+        if (currentDescriptor != null) {
+            updater = currentDescriptor.getUpdater();
+        } 
+        if (updater == null) {
+            ElementDescriptor parentDescriptor = getParentDescriptor();
+            if (parentDescriptor != null) {
+                updater = parentDescriptor.getUpdater();         
+            }
+        }
+        return updater;
+    }
 
 }
