@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.4 2003/01/05 09:52:22 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/05 09:52:22 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.4 2003/01/05 09:52:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -84,20 +84,45 @@ public class HyphenatedNameMapper implements NameMapper {
     /** whether upper or lower case conversions should be performed */
     private boolean upperCase = false;
     
+    /** Construct a hyphenated name mapper that converts the name to lower case and uses the default separator. */
     public HyphenatedNameMapper() {
     }
     
+    /** 
+     * Construct a hyphenated name mapper with default separator.
+     *
+     * @param upperCase should the type name be converted (entirely) to upper case 
+     */
     public HyphenatedNameMapper(boolean upperCase) {
         this.upperCase = upperCase;
     }
     
+    /** 
+     * Construct a hyphenated name mapper.
+     *
+     * @param upperCase should the type name be converted (entirely) to upper case 
+     * @param separator use this string to separate the words in the name returned. 
+     * The words in the bean name are deduced by relying on the standard camel's hump
+     * property naming convention.
+     */
     public HyphenatedNameMapper(boolean upperCase, String separator) {
         this.upperCase = upperCase;
         this.separator = separator;
     }
     
     /**
-     * @return the element name for the given bean type name
+     * <p>The words within the bean name are deduced assuming the camel's hump naming
+     * convention. For example, the words in <code>FooBar</code> are <code>foo</code> 
+     * and <code>bar</code>.</p>
+     * 
+     * <p>Next convert all letter in the bean name to either upper case or lower case
+     * based on the {@link #isUpperCase} property value.</p>
+     *
+     * <p>Then the {@link #getSeparator} property value is inserted so that it separates
+     * each word.</p>
+     *
+     * @return the bean name converted to either upper or lower case with words separated 
+     * by the separator.
      */
     public String mapTypeToElementName(String typeName) {
         
@@ -131,6 +156,8 @@ public class HyphenatedNameMapper implements NameMapper {
     // Properties
     //-------------------------------------------------------------------------        
     /** 
+     * This separator will be inserted between the words in the bean name.
+     *
      * @return the separator used to seperate words, which defaults to '-' 
      */
     public String getSeparator() {
@@ -145,6 +172,9 @@ public class HyphenatedNameMapper implements NameMapper {
     }
     
     /** 
+     * Should the bean name be converted to upper case?
+     * Otherwise, it will be converted to lower case.
+     *
      * @return whether upper or lower case conversions should be performed, 
      * which defaults to false for lower case
      */    

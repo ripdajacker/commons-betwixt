@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.13 2002/12/15 17:42:06 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.14 2003/01/05 09:52:22 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -379,6 +379,8 @@ public class XMLIntrospector {
 
 
     /**
+     * Get the name mapping strategy used to convert bean names into elements.
+     *
      * @return the strategy used to convert bean type names into element 
      * names. If no element mapper is currently defined then a default one is created.
      */
@@ -399,6 +401,8 @@ public class XMLIntrospector {
     
 
     /**
+     * Get the name mapping strategy used to convert bean names into attributes.
+     *
      * @return the strategy used to convert bean type names into attribute
      * names. If no attributeNamemapper is known, it will default to the ElementNameMapper
      */

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DecapitalizeNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DecapitalizeNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 09:52:22 $
  *
  * ====================================================================
  *
@@ -57,23 +57,35 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DecapitalizeNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: DecapitalizeNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
 import java.beans.Introspector;
 
 /** 
- * A name mapper which converts types to a decapitalized String. So
- * a bean type of Foo will be converted to the element name "foo"
+ * <p>A name mapper which converts types to a decapitalized String.</p>
+ *
+ * <p>This conversion decapitalizes in the standard java beans way 
+ * (as per <code>java.beans.Introspector</code>).
+ * This means that the first letter only will be decapitalized except 
+ * for the case where the first and second characters are both upper case.
+ * When both are upper case, then the name will be left alown.</p>
+ * 
+ * <p>So a bean type of <code>Foo</code> will be converted to the element name <code>"foo"</code.
+ * <code>FooBar</code> will be converted to <code>"fooBar"</code>.
+ * But <code>URL</code> will remain as <code>"URL"</code>.</p>
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DecapitalizeNameMapper implements NameMapper {
 
     /**
-     * @return the element name for the given bean type name
+     * Decapitalize first letter unless both are upper case.
+     * (As per standard java beans behaviour.)
+     * 
+     * @return decapitalized name as per <code>java.beans.Introspector</code>
      */
     public String mapTypeToElementName(String typeName) {
         return Introspector.decapitalize( typeName );

@@ -7,5 +7,18 @@
   default behaviour.of the XMLIntrospector
   </p>
   
+  <p>
+  Implementations of the <code>NameMapper</code> interface can be used to set the strategy used by 
+  <code>XMLIntrospector</code> to determine how to convert bean and property names into element 
+  and attribute names.
+  </p>
+  
+  <p>
+  Implementations of the <code>PluralStemmer</code> interface allows the strategy used by 
+  <code>XMLIntrospector</code> to find which plural method maps to a singular property name.
+  This strategy is used to match composite properties to adder-methods.
+  How plurals are constructed is langauge-dependent. A typical usage for custom strategies
+  is to provide support for plural patterns in different languages.
+  </p>
 </body>
 </html>

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/NameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/NameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 09:52:22 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: NameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -65,11 +65,14 @@ package org.apache.commons.betwixt.strategy;
  * A plugin Strategy pattern for converting java type names into element names.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface NameMapper {
 
     /**
+     * Convert the given bean or property name to name for use in xml 
+     * (as an element or an attribute nqame).
+     * 
      * @return the element name for the given bean type name
      */
     String mapTypeToElementName(String typeName);

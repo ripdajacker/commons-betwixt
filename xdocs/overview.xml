@@ -142,41 +142,158 @@
     automatically guess the properties in a bean and their getters, their
     setter methods etc. Betwixt will use these same naming conventions to deduce how to make the 
     beans appear as XML. There are some other naming conventions that you can use to 
-    make your beans easier to output as XML or parse.</p>
+    make your beans easier to output as XML or parse.
+    </p>
     
     <p>
-    The Betwixt approach to this problem uses pluggable interfaces in the 
-    <code>org.apache.commons.betwixt.strategy</code> package.
+    One common requirement when mapping beans to xml is that the property and type names from the bean 
+    must be processed (in some way) before they are used in the xml. For example, a property 
+    called <code>WebApp</code> might need to be mapped to an element called <code>web-app</code>.
+    </p>
+    
+    <p>
+    Betwixt supports customization of these mappings through plug-in implementations of the 
+    <code>org.apache.commons.betwixt.strategy.NameMapper</code> interface. It is often useful to allow
+    different mappings for elements and attribute and so different implementations can be set for 
+    elements and attributes. The default NameMapper implementation simply returns the type name 
+    without modification.
+    </p>
+    
+    <p>
+    <strong>Note</strong> that the attribute and element names given in a .betwixt file (as usual)
+    override the name mapping settings on the <code>XMLIntrotrospector</code>.
     </p>
 
-<subsection name="Converting Type Names To Element Names">
+<subsection name="Using a custom type name to element name mapping">
 
     <p>
-    Betwixt supports pluggable conversion of type names to element names.
+    Betwixt supports pluggable conversion of type names to element names. Setting the 
+    <code>ElementNameMapper</code> property on an <code>XMLIntrospector</code> determines
+    how names from the bean will be converted into element names.
     </p>
 
+</subsection>
+
+
+<subsection name="Using a custom property name to attribute name mapping">
+
+    <p>
+    Betwixt supports pluggable conversion of type names to attribute names. Setting the 
+    <code>AttributeNameMapper</code> property on an <code>XMLIntrospector</code> determines
+    how names from the bean will be converted into attribute names.
+    </p>
+
+</subsection>
+
+<subsection name="Custom Mapping Example">
+
+    <p>
+    Here's a simple bean which will be mapped to xml:
+    
+<source><![CDATA[
+public class TallTreeBean {
+
+    private float heightOfTree;
+    
+    public TallTreeBean(float height) {
+        setHeightOfTree(height);
+    }
+    
+    public float getHeightOfTree() {
+        return heightOfTree;
+    }	
+    
+    public void setHeightOfTree(float heightOfTree) {
+        this.heightOfTree = heightOfTree;
+    }
+}	
+]]></source>
+
+    </p>
+    <p>
+    Next is an application that writes that bean to xml. Custom name mappers for elements
+    and attributes are set.
+    
+<source><![CDATA[
+import org.apache.commons.betwixt.io.BeanWriter;
+import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+
+public class NameMapperExampleApp {
+    
+    public static final void main(String args[]) throws Exception{
+        
+        // create write and set basic properties
+	BeanWriter writer = new BeanWriter();
+        writer.getXMLIntrospector().setAttributesForPrimitives(true);
+        writer.enablePrettyPrint();
+        writer.setWriteIDs(false);
+        
+        // set a custom name mapper for attributes
+        writer.getXMLIntrospector().setAttributeNameMapper(new HyphenatedNameMapper());
+        // set a custom name mapper for elements
+        writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
+        
+        // write out the bean
+        writer.write(new TallTreeBean(15.1f));
+        System.out.println("");
+    }
+    
+}
+]]></source>
+    </p>
+    
+    <p>
+    The application should print out (to System.out) an xml fragment which looks like:
+    
+<source><![CDATA[
+<tallTreeBean height-of-tree="15.1"/>
+]]></source>
+    
+    </p>
+    <p>
+    As you can see, the first letter of the element name has been decapitalized and the 
+    capitals in the property separated by hyphens after being converted to lower case.
+    </p>
 </subsection>
 
 </section>
 
 <section name="Using adder methods for composite properties">
 
-    <p>This naming convention is used to indicate the singular type of some composite property.</p>
+    <p>
+    This naming convention is used to indicate the singular type of some composite property.
+    </p>
     
-    <p>To use: create an add method to match the getter method for 'composite 
-    properties'.</p>
+    <p>
+    To use: create an add method to match the getter method for 'composite 
+    properties'.
+    </p>
 
 <source><![CDATA[public class SomeBean {
     public <CollectionType> getFoo*();
     public void addFoo(<SingularType> foo);
 }]]></source>
 
-    <p>Where CollectionType can be an array, a Collection, Enumeration, Iterator, 
+    <p>
+    Where CollectionType can be an array, a Collection, Enumeration, Iterator, 
     Map. The [SinglularType] refers to the type of an item in the collection. The 
     name of the getter property starts with 'Foo'. So 'Foo' is the singular name, 
     the plural collection name could be Foos, FooArray, FooList, FooIterator or some 
     other encoding, though the plural name should start with the singular name for 
-    auto-detection to work properly.</p>
+    auto-detection to work properly.
+    </p>
+
+<subsection name="Using a custom plural stemmer">
+    <p>
+    In particular, different languages have different ways of 
+    </p>
+    
+    <p>
+    Betwixt supports 
+    </p>
+
+</subsection>
 
 </section>
 

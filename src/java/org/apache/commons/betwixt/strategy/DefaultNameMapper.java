@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 09:52:22 $
  *
  * ====================================================================
  *
@@ -57,20 +57,25 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultNameMapper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: DefaultNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
 /** 
- * A default implementation of the name mapper.
+ * <p>A default implementation of the name mapper.
+ * This mapper simply returns the unmodified type name.</p>
+ *
+ * <p>For example, <code>PropertyName</code> would be converted to <code>PropertyName</code>.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultNameMapper implements NameMapper {
 
     /**
-     * @return the element name for the given bean type name
+     * This implementation returns the parameter passed in without modification.
+     * 
+     * @return the typeName parameter without modification
      */
     public String mapTypeToElementName(String typeName) {
         return typeName;
