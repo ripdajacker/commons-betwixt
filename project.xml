@@ -49,6 +49,12 @@
       <email>martin@mvdb.net</email>
       <organization>mvdb.com</organization>
     </developer>
+    <developer>
+      <name>dIon Gillard</name>
+      <id>dion</id>
+      <email>dion@apache.org</email>
+      <organization>Multitask Consulting</organization>
+    </developer>
   </developers>
   
   <dependencies>
