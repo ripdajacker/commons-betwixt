@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -96,6 +97,8 @@ import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 import org.apache.commons.betwixt.strategy.ConvertUtilsObjectStringConverter;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.ExtendedBaseRules;
@@ -693,6 +696,68 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Bad address (10)", "Shipley", address.getCity());
         assertEquals("Bad address (11)",  "United Kingdom", address.getCountry());
         assertEquals("Bad address (12)", "BD18 2BJ", address.getCode());
+    }
+    
+    public void testIndirectReference() throws Exception
+    {	
+        Tweedledum dum = new Tweedledum();
+        Tweedledee dee = new Tweedledee(dum);
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteIDs(false);
+        writer.write(dee);
+        String xml =  "<?xml version='1.0'?><Tweedledee><name>Tweedledee</name>"
+                    + "<brother><name>Tweedledum</name></brother></Tweedledee>";
+        xmlAssertIsomorphic(parseString(xml), parseString(out) , true);
+
+        BeanReader reader = new BeanReader();
+        
+        reader.setMatchIDs(false);
+        reader.registerBeanClass(Tweedledee.class);
+        Tweedledee bean = (Tweedledee) reader.parse(new StringReader(xml));
+        assertNotNull(bean.getBrother());
+    }
+    
+    public void _testDoubleLinkedCollectionRead() throws Exception
+    {
+        String xml =  "<?xml version='1.0'?><DOUBLE_LINKED_PARENT_BEAN>"
+                    + "<NAME>Cronus</NAME>"
+                    + "<CHILDREN>"
+                    + "<CHILD><NAME>Hades</NAME></CHILD>"
+                    + "<CHILD><NAME>Hera</NAME></CHILD>"
+                    + "<CHILD><NAME>Hestia</NAME></CHILD>"
+                    + "<CHILD><NAME>Demeter</NAME></CHILD>"
+                    + "<CHILD><NAME>Poseidon</NAME></CHILD>"
+                    + "<CHILD><NAME>Zeus</NAME></CHILD>"
+                    + "</CHILDREN></DOUBLE_LINKED_PARENT_BEAN>";
+                    
+        BeanReader reader = new BeanReader();
+        reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
+        reader.registerBeanClass(DoubleLinkedParentBean.class);
+        DoubleLinkedParentBean bean = (DoubleLinkedParentBean) reader.parse(new StringReader(xml));
+        
+        assertNotNull("Bean read", bean);
+        assertEquals("Cronus", "Parent name", bean.getName());
+        assertEquals("Number of children", 6, bean.getSize());
+        
+        ArrayList list = new ArrayList();
+        CollectionUtils.addAll(list, bean.getChildren());
+        
+        DoubleLinkedChildBean childZero = (DoubleLinkedChildBean) list.get(0);
+        DoubleLinkedChildBean childOne = (DoubleLinkedChildBean) list.get(1);
+        DoubleLinkedChildBean childTwo = (DoubleLinkedChildBean) list.get(2);
+        DoubleLinkedChildBean childThree = (DoubleLinkedChildBean) list.get(3);
+        DoubleLinkedChildBean childFour = (DoubleLinkedChildBean) list.get(4);
+        DoubleLinkedChildBean childFive = (DoubleLinkedChildBean) list.get(5);
+ 
+        assertEquals("Child name zero", "Hades", childZero.getName());
+        assertEquals("Child name one", "Hera", childZero.getName());
+        assertEquals("Child name two", "Hestia", childZero.getName());
+        assertEquals("Child name three", "Demeter", childZero.getName());
+        assertEquals("Child name four", "Poseidon", childZero.getName());
+        assertEquals("Child name five", "Zeus", childZero.getName());
+        
     }
     
     /** 
