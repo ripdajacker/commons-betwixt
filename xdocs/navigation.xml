@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE org.apache.commons.menus SYSTEM '../../xdocs/stylesheets/menus/org-apache-commons-menus.dtd'>
 <project name="Betwixt">
 
   <title>Betwixt</title>
   <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
 
   <body>
+    &about-menu;
     <menu name="Betwixt">
       <item name="Overview"                href="/index.html"/>
       <item name="FAQ"                     href="/faq.html"/>
@@ -19,5 +21,9 @@
       <item name="Reading Beans(Advanced)" href="/guide/reading.html"/>
       <item name="Examples"                href="/guide/examples.html"/>
     </menu>
+        &information-menu;
+        &community-menu;
+        &translations-menu;
+
   </body>
 </project>
