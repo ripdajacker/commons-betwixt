@@ -9,7 +9,7 @@
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
-
+  <url>http://jakarta.apache.org/commons/betwixt/</url>
   <versions>
     <version>
       <id>1.0-beta-1</id>
