@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE org.apache.commons.menus SYSTEM '../../xdocs/stylesheets/menus/org-apache-commons-menus.dtd'>
+<!DOCTYPE org.apache.commons.menus SYSTEM '../../../jakarta-commons/commons-build/menus/menus.dtd'>
 <project name="Betwixt">
 
   <title>Betwixt</title>
@@ -11,7 +11,7 @@
             href="http://jakarta.apache.org/commons/"/>
     </links>
 
-    &about-menu;
+    &top-menus;
     <menu name="Betwixt">
       <item name="Overview"                href="/index.html"/>
       <item name="FAQ"                     href="/faq.html"/>
@@ -29,9 +29,6 @@
       <item name="Examples"                href="/guide/examples.html"/>
       <item name="Tutorial"                href="/guide/tutorial.html"/>
     </menu>
-        &information-menu;
-        &community-menu;
-        &translations-menu;
-
+    &bottom-menus;
   </body>
 </project>
