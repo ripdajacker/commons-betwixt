@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.26 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.26 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27 2003/11/24 09:20:13 mvdb Exp $
+ * $Revision: 1.27 $
+ * $Date: 2003/11/24 09:20:13 $
  *
  * ====================================================================
  * 
@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.26 2003/10/09 20:52:04 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.27 2003/11/24 09:20:13 mvdb Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -619,14 +619,14 @@ public class XMLIntrospectorHelper {
             return false;
         }
         return type.getName().startsWith( "java.lang." )
-            || type.isAssignableFrom( Number.class ) 
-            || type.isAssignableFrom( String.class ) 
-            || type.isAssignableFrom( Date.class ) 
-            || type.isAssignableFrom( java.sql.Date.class ) 
-            || type.isAssignableFrom( java.sql.Time.class ) 
-            || type.isAssignableFrom( java.sql.Timestamp.class ) 
-            || type.isAssignableFrom( java.math.BigDecimal.class ) 
-            || type.isAssignableFrom( java.math.BigInteger.class );
+            || Number.class.isAssignableFrom( type ) 
+            || String.class.isAssignableFrom( type ) 
+            || Date.class.isAssignableFrom( type ) 
+            || java.sql.Date.class.isAssignableFrom( type ) 
+            || java.sql.Time.class.isAssignableFrom( type ) 
+            || java.sql.Timestamp.class.isAssignableFrom( type ) 
+            || java.math.BigDecimal.class.isAssignableFrom( type ) 
+            || java.math.BigInteger.class.isAssignableFrom( type );
     }
     
     // Implementation methods
