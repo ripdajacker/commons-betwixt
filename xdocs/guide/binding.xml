@@ -145,7 +145,80 @@ public class NameMapperExampleApp {
     capitals in the property separated by hyphens after being converted to lower case.
     </p>
 </subsection>
+    <subsection name='Nested Classes'>
+        <p>
+When using a public nested class (whether static or not) the naming of the base type 
+passed into the <code>NameMapper</code> obeys the standard inner classes naming semantics
+(using $). Typically, the mappers that ship with <code>Betwixt</code> ignore this symbol
+during type name processing. It will therefore appear in the name of the element. 
+    </p>
+        <p>
+For example, running the following application:
+    </p>
+<source><![CDATA[
+public class InnerClassWriter {
+    public class TallTreeBean {
 
+        private float heightOfTree;
+
+        public TallTreeBean(float height) {
+                setHeightOfTree(height);
+        }
+
+        public float getHeightOfTree() {
+                return heightOfTree;
+        }       
+
+        public void setHeightOfTree(float heightOfTree) {
+                this.heightOfTree = heightOfTree;
+        }
+    }
+
+    public static final void main(String args[]) throws Exception {
+
+        // create write and set basic properties
+        BeanWriter writer = new BeanWriter();
+        writer.getXMLIntrospector().getConfiguration()
+            .setAttributesForPrimitives (true);
+        writer.enablePrettyPrint();
+        writer.getBindingConfiguration().setMapIDs(false);
+
+        // set a custom name mapper for attributes
+        writer.getXMLIntrospector().getConfiguration()
+            .setAttributeNameMapper(new HyphenatedNameMapper());
+        // set a custom name mapper for elements
+        writer.getXMLIntrospector().getConfiguration()
+            .setElementNameMapper(new  DecapitalizeNameMapper());
+
+        // write out the bean
+        writer.write(new InnerClassWriter().new TallTreeBean(15.1f));
+    }
+}
+]]></source>
+        <p>
+results in:    
+    </p>
+<source><![CDATA[
+    <innerClassWriter$TallTreeBean height-of-tree="15.1"/>
+]]></source>
+        <p>
+It is recommended that those that make extensive use of inner classes create
+a custom <code>NameMapper</code> implementation that processes inner class names
+appropriately.
+    </p>
+        <p>
+<strong>Note:</strong> that since <code>Betwixt</code> uses reflection during 
+introspection, the usual rules concerning class scoping and visibility apply.
+    </p>
+        <p>
+For example, if the scope of the nested class in the example above is changed 
+from public to protected, friendly or private then the following result will be 
+produced:
+    </p>
+<source><![CDATA[
+    <innerClassWriter$TallTreeBean/>
+]]></source>
+</subsection>    
 </section>
 
 <section name="Using Adder Methods For Composite Properties">
