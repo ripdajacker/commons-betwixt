@@ -89,7 +89,7 @@
   <target name="internal-test" depends="compile-tests">
     
       <mkdir dir="${testreportdir}"></mkdir>
-      <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
+      <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true" showoutput='yes'>
         
         <sysproperty key="basedir" value="${resourcedir}"></sysproperty>
         <formatter type="xml"></formatter>
