@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<IDBean id="1">
+    <name>alpha</name>
+    <children>
+        <IDBean id="2">
+            <name>beta</name>
+            <children/>
+            <id>two</id>
+        </IDBean>
+        <IDBean id="3">
+            <name>gamma</name>
+            <children/>
+            <id>three</id>
+        </IDBean>
+    </children>
+    <id>one</id>
+</IDBean>

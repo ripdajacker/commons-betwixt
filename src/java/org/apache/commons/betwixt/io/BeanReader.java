@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.2 2002/07/09 21:50:31 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/09 21:50:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.3 2002/08/29 19:28:50 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/08/29 19:28:50 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.2 2002/07/09 21:50:31 mvdb Exp $
+ * $Id: BeanReader.java,v 1.3 2002/08/29 19:28:50 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -86,7 +86,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class BeanReader extends Digester {
 
@@ -140,6 +140,7 @@ public class BeanReader extends Digester {
                 log.trace("Added path: " + path + ", mapped to: " + beanClass.getName());
             }
             addBeanCreateRule( path, elementDescriptor, beanClass );
+            addBeanCreateRule( "*/" + path, elementDescriptor, beanClass );
         }
     }
     
@@ -153,6 +154,8 @@ public class BeanReader extends Digester {
             ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor();        
 
             addBeanCreateRule( path, elementDescriptor, beanClass );
+        } else {
+            log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");
         }
     }
     
@@ -198,6 +201,7 @@ public class BeanReader extends Digester {
      */ 
     public void setLog(Log log) {
         this.log = log;
+        setLogger(log);
     }
         
     // Implementation methods
