@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.2 2004/01/15 22:02:49 rdonkin Exp $
- * $Revision: 1.16.2.2 $
- * $Date: 2004/01/15 22:02:49 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.3 2004/01/17 10:55:24 rdonkin Exp $
+ * $Revision: 1.16.2.3 $
+ * $Date: 2004/01/17 10:55:24 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2005 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.2 $
+  * @version $Revision: 1.16.2.3 $
   */
 public class BeanRuleSet implements RuleSet {
 
