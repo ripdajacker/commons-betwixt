@@ -198,7 +198,7 @@ public class AttributeRule extends RuleSupport {
             attributeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
         }
         
-        attributeDescriptor.setLocalName( propertyDescriptor.getName() );
+        attributeDescriptor.setPropertyName( propertyDescriptor.getName() );
         attributeDescriptor.setPropertyType( type );        
         
         // XXX: associate more bean information with the descriptor?
