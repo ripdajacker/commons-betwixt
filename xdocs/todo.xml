@@ -45,6 +45,10 @@
                 <strong>Investigate Swing XML'ization Issues</strong>
                 Investigate and document. <em>(MVDB will probably need to handle this.)</em>
             </li>
+            <li>
+                <strong>Add read and write examples</strong>
+                Add simple read and write examples to getting started section.
+            </li>
         </ul>
     </subsection>
     
