@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.5 2002/10/12 15:26:22 jstrachan Exp $
- * $Revision: 1.5 $
- * $Date: 2002/10/12 15:26:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.6 2002/10/14 01:55:38 dion Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/10/14 01:55:38 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.5 2002/10/12 15:26:22 jstrachan Exp $
+ * $Id: AbstractBeanWriter.java,v 1.6 2002/10/14 01:55:38 dion Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -126,12 +126,16 @@ abstract public class AbstractBeanWriter {
      * @param bean write out representation of this bean
      */
     public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
-        log.debug( "Writing bean graph..." );
-        log.debug( bean );
+        if (log.isDebugEnabled()) {
+            log.debug( "Writing bean graph..." );
+            log.debug( bean );
+        }
         start();
         write( null, bean );
         end();
-        log.debug( "Finished writing bean graph." );
+        if (log.isDebugEnabled()) {
+            log.debug( "Finished writing bean graph." );
+        }
     }
     
     /**
