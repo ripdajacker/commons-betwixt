@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 
-<!-- $Id: dotbetwixt.dtd,v 1.10 2004/09/23 21:46:00 rdonkin Exp $ -->
+<!-- $Id: dotbetwixt.dtd,v 1.11 2004/12/01 21:07:13 rdonkin Exp $ -->
 <!-- 
 	The DTD for .betwixt files 
 	Suggested public ID: "-//Jakarta Apache //DTD digester-rules XML V1.0//EN";
@@ -45,10 +45,12 @@
     
     the (optional) class attribute specifies an implementation class that should
     be used for instantiation (as opposed to the type of the property)
+    
+    Note that name is required except when the property is a collective
 -->
 <!ELEMENT element (attribute|addDefaults|element|text)*>
 <!ATTLIST element
-    name CDATA #REQUIRED
+    name CDATA #IMPLIED 
     type CDATA #IMPLIED
     uri CDATA #IMPLIED
     value CDATA #IMPLIED

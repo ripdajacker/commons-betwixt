@@ -70,21 +70,11 @@ public class ElementRule extends MappedPropertyRule {
     public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         String nameAttributeValue = attributes.getValue( "name" );
         
-        // check that the name attribute is present 
-        if ( nameAttributeValue == null || nameAttributeValue.trim().equals( "" ) ) {
-            throw new SAXException("Name attribute is required.");
-        }
-        
-        // check that name is well formed 
-        if ( !XMLUtils.isWellFormedXMLName( nameAttributeValue ) ) {
-            throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml element name.");
-        }
-        
         ElementDescriptor descriptor = new ElementDescriptor();
         descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
         String qName = nameAttributeValue;
-        if ( uri != null ) {
+        if ( uri != null && nameAttributeValue != null) {
             descriptor.setURI( uri );  
             String prefix = getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri);
             qName = prefix + ":" + nameAttributeValue;
@@ -115,8 +105,21 @@ public class ElementRule extends MappedPropertyRule {
             getPropertyType( propertyType, beanClass, propertyName ) 
         );
         
-        descriptor.setCollective(getXMLIntrospector().getConfiguration()
-                .isLoopType(descriptor.getPropertyType()));
+        boolean isCollective = getXMLIntrospector().getConfiguration()
+        .isLoopType(descriptor.getPropertyType());
+        
+        descriptor.setCollective(isCollective);
+        
+        // check that the name attribute is present 
+        if ( !isCollective && (nameAttributeValue == null || nameAttributeValue.trim().equals( "" ) )) {
+            throw new SAXException("Name attribute is required.");
+        }
+        
+        // check that name is well formed 
+        if ( nameAttributeValue != null && !XMLUtils.isWellFormedXMLName( nameAttributeValue ) ) {
+            throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml element name.");
+        }
+        
         
         String implementationClass = attributes.getValue( "class" );
         if ( log.isTraceEnabled() ) {
@@ -239,10 +242,6 @@ public class ElementRule extends MappedPropertyRule {
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
         
-        String existingLocalName = elementDescriptor.getLocalName();
-        if (existingLocalName == null || "".equals(existingLocalName)) {
-            elementDescriptor.setLocalName( propertyDescriptor.getName() );
-        }
         elementDescriptor.setPropertyType( type );        
         
         // TODO: associate more bean information with the descriptor?
