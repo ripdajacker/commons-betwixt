@@ -6,6 +6,11 @@
   <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
 
   <body>
+    <links>
+      <item name="Jakarta Commons"                   
+            href="http://jakarta.apache.org/commons/"/>
+    </links>
+
     &about-menu;
     <menu name="Betwixt">
       <item name="Overview"                href="/index.html"/>
