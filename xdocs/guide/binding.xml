@@ -535,6 +535,46 @@ beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrateg
          });
 ]]></source></p>
     </subsection>
+    <subsection name='Mixed Collections - Guessing Element Names'>
+            <p>
+A collection may contain objects of several different types. If you 
+specify a name for the collections elements in the dot-betwixt-files (for these
+'mixed' collections), you can't say by its XML element what kind of object it was.
+Therefore, by omitting the <code>name</code>-attribute for a collection in  
+dot-betwixt-files, Betwixt will map each object contained in that collection separately.
+            </p>
+            <p>
+As an example, we assume a small <code>TestClass</code> having only one property
+named <code>col</code> of type <code>java.util.Collection</code>. The collection
+contains object of different types. With a usual dot-betwixt-file we would expect
+to have all items in the collection be of the same element-type in the XML output.
+Now we omit the name and let Betwixt guess the names for the items in the collection:
+<source><![CDATA[
+  <?xml version="1.0" encoding="ISO-8859-15"?>
+  <info primitiveTypes="element">
+    <element name="test-class">
+      <element name="mixed-collection">
+         <element property="col"/> <!-- without name-attribute! -->
+      </element>
+    </element>
+  </info>
+]]></source>
+The output would now look like:
+<source><![CDATA[
+  <test-class>
+    <mixed-collection>
+      <string>String x</string>
+      <integer>5</integer>
+      <another-class>
+        ...
+      </another-class>
+    </mixed-collection>
+  </test-class>
+]]></source>
+As you can see above the collection's items are named diffent depending on
+their type.
+      </p>
+    </subsection>
 </section>
 
     <section name='Converting Objects And Primitives To Strings (And Back Again)'>
