@@ -148,6 +148,44 @@ public class TestBeanReader extends AbstractTestCase {
     protected InputStream getXMLInput() throws IOException {
         return new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/customer.xml") );
     }
+ 
+    /** 
+     * This tests that you can read a bean which has an adder but not a property
+     */ 
+    public void testAdderButNoProperty() throws Exception {
+        /*
+        // 
+        // This is a test for an unfixed issue that might - or might not - be a bug
+        // a developer submitted a patch but this broke the other unit test
+        // a proper fix would require quite a lot of work including some refactoring
+        // of various interfaces
+        //
+        
+        // check bean's still working
+        AdderButNoPropertyBean bean = new AdderButNoPropertyBean();
+        bean.addString("one");
+        bean.addString("two");
+        bean.addString("three");
+        checkBean(bean);
+        
+        BeanReader reader = new BeanReader();
+        reader.registerBeanClass( AdderButNoPropertyBean.class );
+        
+        InputStream in =  
+            new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/adder-np.xml") );
+        try {
+        
+            checkBean((AdderButNoPropertyBean) reader.parse( in ));
+            
+        }
+        finally {
+            in.close();
+        }        
+        */
+    }
     
+    private void checkBean(AdderButNoPropertyBean bean) throws Exception {
+        assertEquals("Bad addString call count", 3, bean.stringCallCount());
+    }
 }
 
