@@ -60,6 +60,9 @@ public abstract class MappedPropertyRule extends RuleSupport {
                 log.trace("Searching for property " + propertyName + " on " + beanClass);
             }
             try {
+                // TODO: replace this call to introspector to an object call
+                // which finds all property descriptors for a class
+                // this allows extra property descriptors to be added 
                 BeanInfo beanInfo = Introspector.getBeanInfo( beanClass );
                 PropertyDescriptor[] descriptors = 
                     beanInfo.getPropertyDescriptors();
@@ -72,6 +75,18 @@ public abstract class MappedPropertyRule extends RuleSupport {
                         }
                     }
                 }
+                // for interfaces, check all super interfaces
+                if (beanClass.isInterface()) {
+                    Class[] superinterfaces = beanClass.getInterfaces();
+                    for (int i=0, size=superinterfaces.length; i<size; i++) {
+                        PropertyDescriptor descriptor = getPropertyDescriptor(superinterfaces[i], propertyName);
+                        if (descriptor != null)
+                        {
+                            return descriptor;
+                        }
+                    }
+                }
+                
                 log.trace("No match found.");
                 return null;
             } catch (Exception e) {

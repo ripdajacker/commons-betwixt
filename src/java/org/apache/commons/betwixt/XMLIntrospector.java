@@ -1320,6 +1320,9 @@ public class XMLIntrospector {
                         }
                     }            
                 }
+                
+                addAllSuperinterfaces(beanClass, propertyDescriptors);
+                
                 // what happens when size is zero?
                 properties = new BeanProperty[ propertyDescriptors.size() ];
                 int count = 0;
@@ -1330,6 +1333,34 @@ public class XMLIntrospector {
             }
             return properties;
         }
+        
+        /**
+         * Adds all super interfaces.
+         * Super interface methods are not returned within the usual 
+         * bean info for an interface.
+         * @param clazz <code>Class</code>, not null
+         * @param propertyDescriptors <code>ArrayList</code> of <code>PropertyDescriptor</code>s', not null
+         */
+        private void addAllSuperinterfaces(Class clazz, ArrayList propertyDescriptors) {
+            if (clazz.isInterface()) {
+                Class[] superinterfaces = clazz.getInterfaces();
+                for (int i=0, size=superinterfaces.length; i<size; i++) {
+                    try {
+                        
+                        BeanInfo beanInfo = Introspector.getBeanInfo(superinterfaces[i]);
+                        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+                        for (int j=0, descriptorLength=descriptors.length; j<descriptorLength ; j++) {
+                            propertyDescriptors.add(descriptors[j]);
+                        }
+                        addAllSuperinterfaces(superinterfaces[i], propertyDescriptors);
+                        
+                    } catch (IntrospectionException ex) {
+                        log.info("Introspection on superinterface failed.", ex);
+                    }
+                }
+            }
+        }
+        
     }
     
     /** Implementation for DynaClasses */
