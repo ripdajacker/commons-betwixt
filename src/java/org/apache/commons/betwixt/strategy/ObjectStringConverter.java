@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.1 2003/07/31 21:37:25 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/31 21:37:25 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.2 2003/08/16 06:28:42 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/16 06:28:42 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ObjectStringConverter.java,v 1.1 2003/07/31 21:37:25 rdonkin Exp $
+ * $Id: ObjectStringConverter.java,v 1.2 2003/08/16 06:28:42 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -66,7 +66,19 @@ import java.io.Serializable;
 import org.apache.commons.betwixt.expression.Context;
 
 /** 
- * Strategy class allows custom string &lt;-&gt; object conversion implementations.
+ * <p>Strategy class for string &lt;-&gt; object conversions.
+ * Implementations of this interface are used by Betwixt to perform
+ * string &lt;-&gt; object conversions.
+ * This performs only the most basic conversions.
+ * Most applications will use a subclass.
+ * </p>
+ * <p>It is strongly recommended that (in order to support round tripping)
+ * that <code>objectToString</code> and <code>stringToObject</code>
+ * are inverse functions.
+ * In other words, given the same flavour, context and type the applying 
+ * objectToString to the result of stringToObject should be equal to the 
+ * original input.
+ * </p>
  */
 public class ObjectStringConverter implements Serializable {
     
