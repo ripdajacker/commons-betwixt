@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.4 2004/01/22 11:00:03 rdonkin Exp $
- * $Revision: 1.4.2.4 $
- * $Date: 2004/01/22 11:00:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.5 2004/01/24 13:36:17 rdonkin Exp $
+ * $Revision: 1.4.2.5 $
+ * $Date: 2004/01/24 13:36:17 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.4 2004/01/22 11:00:03 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.5 2004/01/24 13:36:17 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -365,14 +365,22 @@ public class BeanProperty {
         loopDescriptor.setContextExpression(
             new IteratorExpression( propertyExpression )
         );
-        loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+        loopDescriptor.setPropertyName(getPropertyName());
+        loopDescriptor.setPropertyType(getPropertyType());
+        loopDescriptor.setHollow(true);
         
-        ElementDescriptor elementDescriptor = new ElementDescriptor();
-        elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
-        elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+        if ( configuration.isWrapCollectionsInElement() ) {
+            // create wrapping desctiptor
+            ElementDescriptor wrappingDescriptor = new ElementDescriptor();
+            wrappingDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+            wrappingDescriptor.setLocalName(
+                configuration.getElementNameMapper().mapTypeToElementName( propertyName ));
+            result = wrappingDescriptor;
         
-        result = elementDescriptor;
-        configureDescriptor(result, configuration);
+        } else {   
+            // unwrapped Descriptor
+            result = loopDescriptor;
+        }
         return result;
     }
 

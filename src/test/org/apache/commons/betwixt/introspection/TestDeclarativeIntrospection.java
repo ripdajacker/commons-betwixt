@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.3 2004/01/22 11:00:03 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/01/22 11:00:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.4 2004/01/24 13:36:18 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/01/24 13:36:18 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
@@ -115,7 +115,7 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
         assertFalse("Expected simple element not to be hollow", nameDescriptor.isHollow());
     }
     
-    public void _testWrappedCollective() throws Exception {
+    public void testWrappedCollective() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.getConfiguration().setWrapCollectionsInElement(true);
         introspector.getConfiguration().setAttributesForPrimitives(true);
@@ -140,14 +140,14 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
                     List.class, 
                     hollowPhoneNumberDescriptor.getPropertyType());
         assertEquals("Expected the singular property type to be the phone number", 
-                    PhoneBookBean.class, 
+                    PhoneNumberBean.class, 
                     hollowPhoneNumberDescriptor.getSingularPropertyType());
         
         assertEquals("Collective element name should match adder", "number" , hollowPhoneNumberDescriptor.getQualifiedName());
 
     }
     
-    public void _testUnwrappedCollective() throws Exception {
+    public void testUnwrappedCollective() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.getConfiguration().setWrapCollectionsInElement(false);
         introspector.getConfiguration().setAttributesForPrimitives(true);
@@ -166,7 +166,7 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
                     List.class, 
                     hollowPhoneNumberDescriptor.getPropertyType());
         assertEquals("Expected the singular property type to be the phone number", 
-                    PhoneBookBean.class, 
+                    PhoneNumberBean.class, 
                     hollowPhoneNumberDescriptor.getSingularPropertyType());
         assertEquals("Collective element name should match adder", "number" , hollowPhoneNumberDescriptor.getQualifiedName());
     }

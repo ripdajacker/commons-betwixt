@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.6 2004/01/19 22:38:08 rdonkin Exp $
- * $Revision: 1.27.2.6 $
- * $Date: 2004/01/19 22:38:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.7 2004/01/24 13:36:17 rdonkin Exp $
+ * $Revision: 1.27.2.7 $
+ * $Date: 2004/01/24 13:36:17 $
  *
  * ====================================================================
  * 
@@ -111,7 +111,7 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.6 2004/01/19 22:38:08 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.7 2004/01/24 13:36:17 rdonkin Exp $
   */
 public class XMLIntrospector {
     
@@ -765,23 +765,16 @@ public class XMLIntrospector {
                                     
             matchingDescriptor.setUpdater( new MethodUpdater( singleParameterAdderMethod ) );
             matchingDescriptor.setSingularPropertyType( singularType );
+            String localName = matchingDescriptor.getLocalName();
+            if ( localName == null || localName.length() == 0 ) {
+                matchingDescriptor.setLocalName( 
+                    getElementNameMapper()
+                        .mapTypeToElementName( propertyName ) );
+            }
                                     
             if ( getLog().isDebugEnabled() ) {
                 getLog().debug( "!! " + singleParameterAdderMethod);
                 getLog().debug( "!! " + singularType);
-            }
-                                    
-            // is there a child element with no localName
-            ElementDescriptor[] children 
-                = matchingDescriptor.getElementDescriptors();
-            if ( children != null && children.length > 0 ) {
-                ElementDescriptor child = children[0];
-                String localName = child.getLocalName();
-                if ( localName == null || localName.length() == 0 ) {
-                    child.setLocalName( 
-                        getElementNameMapper()
-                            .mapTypeToElementName( propertyName ) );
-                }
             }
         }
     }
