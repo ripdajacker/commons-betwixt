@@ -1,0 +1,16 @@
+<project default="install" xmlns:j="jelly:core">
+
+  <preGoal name="test:test">
+    
+    <echo>Copying test resources ...</echo>
+    
+    <copy todir="target/test-classes/org/apache/commons/betwixt/nowrap">
+      <fileset dir="src/test/org/apache/commons/betwixt/nowrap">
+        <include name="*.betwixt"/>
+        <include name="*.xml"/>
+      </fileset>
+    </copy>
+    
+  </preGoal>
+
+</project>
