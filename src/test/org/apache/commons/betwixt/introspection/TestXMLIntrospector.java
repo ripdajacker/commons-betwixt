@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.5 2003/07/27 17:55:51 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/07/27 17:55:51 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.6 2003/09/08 14:00:47 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/09/08 14:00:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.5 2003/07/27 17:55:51 rdonkin Exp $
+ * $Id: TestXMLIntrospector.java,v 1.6 2003/09/08 14:00:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -80,6 +80,9 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.AttributeDescriptor;
 
+import org.apache.commons.betwixt.strategy.ClassNormalizer;
+import org.apache.commons.betwixt.strategy.ListedClassNormalizer;
+
 import org.apache.commons.betwixt.io.BeanWriter;
 
 import org.apache.commons.logging.impl.SimpleLog;
@@ -88,7 +91,7 @@ import org.apache.commons.logging.impl.SimpleLog;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -250,5 +253,62 @@ public class TestXMLIntrospector extends AbstractTestCase {
                     parseString(out.toString()));
         }
     }
+    
+    public void testDefaultClassNormalizer() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        
+        FaceImpl face = new FaceImpl();
+        XMLBeanInfo info = introspector.introspect( face );
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
+    
+        AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();      
+        ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        
+        assertEquals("Expected no attributes", 0, attributeDescriptor.length);
+        assertEquals("Expected two elements", 2, children.length);
+    }	
+    
+    public void testClassNormalizer() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.setClassNormalizer( new ClassNormalizer() {
+                
+                public Class normalize(Class clazz) {
+                    if (IFace.class.isAssignableFrom( clazz )) {
+                        return IFace.class;
+                    }	
+                    return super.normalize( clazz );
+                }	
+            });
+        
+        FaceImpl face = new FaceImpl();
+        XMLBeanInfo info = introspector.introspect( face );
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        assertEquals("Expected only itself", 1, elementDescriptor.getElementDescriptors().length);
+    
+        AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();      
+        ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        
+        assertEquals("Expected no attributes", 0, attributeDescriptor.length);
+        assertEquals("Expected one elements", 1, children.length);
+        assertEquals("Expected element", "name", children[0].getLocalName());
+    }	
+    
+    public void testListedClassNormalizer() throws Exception {
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution( IFace.class );
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.setClassNormalizer(classNormalizer);
+        
+        FaceImpl face = new FaceImpl();
+        
+        XMLBeanInfo info = introspector.introspect( face );
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();      
+        ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        
+        assertEquals("Expected no attributes", 0, attributeDescriptor.length);
+        assertEquals("Expected one elements", 1, children.length);
+        assertEquals("Expected element", "name", children[0].getLocalName());
+    }	    
 }
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.3 2003/08/24 16:57:40 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/08/24 16:57:40 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.4 2003/09/08 14:00:47 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/09/08 14:00:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXmlToBean.java,v 1.3 2003/08/24 16:57:40 rdonkin Exp $
+ * $Id: TestXmlToBean.java,v 1.4 2003/09/08 14:00:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -193,11 +193,11 @@ public class TestXmlToBean extends XmlTestCase {
     
     /** Tests basic use of an implementation for an interface */
     public void testBasicInterfaceImpl() throws Exception {
-        SimpleLog log = new SimpleLog("[testBasicInterfaceImpl:BeanRuleSet]");
-        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        BeanRuleSet.setLog(log);
-        log = new SimpleLog("[testBasicInterfaceImpl:BeanReader]");
-        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //SimpleLog log = new SimpleLog("[testBasicInterfaceImpl:BeanRuleSet]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //BeanRuleSet.setLog(log);
+        //log = new SimpleLog("[testBasicInterfaceImpl:BeanReader]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
     
         ExampleBean bean = new ExampleBean("Alice");
         bean.addExample(new ExampleImpl(1, "Mad Hatter"));
@@ -213,7 +213,7 @@ public class TestXmlToBean extends XmlTestCase {
         
         
         BeanReader reader = new BeanReader();
-        reader.setLog(log);
+        //reader.setLog(log);
         reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
         reader.getXMLIntrospector().setWrapCollectionsInElement(false);
         reader.registerBeanClass( ExampleBean.class );
