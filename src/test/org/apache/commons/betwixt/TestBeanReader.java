@@ -438,6 +438,60 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Incorrect date property", date.toGMTString(), readBean.getDateOfParty().toGMTString());  
     }
  
+    public void testHyphenatedNameMapping() throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2003, 7, 2, 19, 30, 00);
+        java.util.Date date = calendar.getTime();
+        
+        String dateToString = date.toString();
+        
+        PartyBean bean = new PartyBean(
+                "Wedding",
+                date,
+                1930,
+                new AddressBean("Old White Lion Hotel", "Howarth", "Merry Old England", "BD22 8EP"));
+
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        
+        BeanWriter writer = new BeanWriter(out);
+        XMLIntrospector introspector = writer.getXMLIntrospector();
+        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.setAttributesForPrimitives(false);
+        
+        writer.write(bean);
+        
+        String xml = "<?xml version='1.0'?><party-bean>"
+            + "<venue><street>Old White Lion Hotel</street><city>Howarth</city>"
+            + "<code>BD22 8EP</code><country>Merry Old England</country></venue>"
+            + "<date-of-party>" + dateToString 
+            + "</date-of-party><from-hour>1930</from-hour>"
+            + "<excuse>Wedding</excuse>"
+            + "</party-bean>";
+        
+        xmlAssertIsomorphic(parseString(xml), parseString(out) , true);
+        
+        BeanReader reader = new BeanReader();
+        reader.setXMLIntrospector(introspector);
+        reader.registerBeanClass(PartyBean.class);
+        PartyBean readBean = (PartyBean) reader.parse(new StringReader(xml)); 
+        
+        assertEquals("FromHours incorrect property value", readBean.getFromHour(), bean.getFromHour());
+        assertEquals("Excuse incorrect property value", readBean.getExcuse(), bean.getExcuse());
+        
+        // check address
+        AddressBean readAddress = readBean.getVenue();
+        AddressBean address = bean.getVenue();
+        assertEquals("address.street incorrect property value", readAddress.getStreet(), address.getStreet());
+        assertEquals("address.city incorrect property value", readAddress.getCity(), address.getCity());
+        assertEquals("address.code incorrect property value", readAddress.getCode(), address.getCode());
+        assertEquals("address.country incorrect property value", readAddress.getCountry(), address.getCountry());
+        
+        // check dates
+        assertEquals("Incorrect date property", date.toGMTString(), readBean.getDateOfParty().toGMTString());  
+        
+    }
+ 
     public void testCustomDateReadConversion() throws Exception {
     
         BindingConfiguration configuration = new BindingConfiguration(
