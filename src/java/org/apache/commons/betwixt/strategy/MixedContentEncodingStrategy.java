@@ -32,21 +32,45 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * in the sense of escaping a sequence of character data.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class MixedContentEncodingStrategy {
 
+    /** 
+     * The name of the option used to specify encoding on a per-element
+     * basis is
+     * <code>org.apache.commons.betwixt.mixed-content-encoding</code> 
+     */
+    public static final String ENCODING_OPTION_NAME 
+        = "org.apache.commons.betwixt.mixed-content-encoding";
+    /** The option value for CDATA */
+    public static final String CDATA_ENCODING = "CDATA";
+
     /**
      * The standard implementation used by Betwixt by default.
+     * The default is to escape as character data unless
+     * the <code>ElementDescriptor</code> contains
+     * an option with name 
+     * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+     * and value <code>CDATA</code>.
      * This is a singleton.
      */
     public static final MixedContentEncodingStrategy DEFAULT 
             = new BaseMixedContentEncodingStrategy() {
         /**
-         * Always encode by escaping character data.
+         * Encode by escaping character data unless
+         * the <code>ElementDescriptor</code> contains
+         * an option with name 
+         * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+         * and value <code>CDATA</code>.
          */
         protected boolean encodeAsCDATA(ElementDescriptor element) {
-            return false;       
+            boolean result = false;
+            if (element != null ) {
+                String optionValue = element.getOptions().getValue(ENCODING_OPTION_NAME);
+                result = CDATA_ENCODING.equals(optionValue);        
+            }
+            return result;       
         }
     };
     

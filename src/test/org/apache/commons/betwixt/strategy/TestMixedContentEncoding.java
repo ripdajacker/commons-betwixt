@@ -21,6 +21,7 @@ import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.io.BeanWriter;
 
 
@@ -29,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Mixed content encoding is the process by which body content
  * is written out (in an escaped form) into a textual output stream. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestMixedContentEncoding extends AbstractTestCase {
 
@@ -104,7 +105,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
             MixedContentEncodingStrategy.CDATA.encode("<proclaim>The King Is Dead, Long Live The King</proclaim>", descriptor));
     }
     
-    public void testdefaultOutput() throws Exception {
+    public void testDefaultOutput() throws Exception {
         Element element = new Element();
         element.setValue("<greeting>What Ho Jeeves!</greeting>");
         
@@ -119,6 +120,66 @@ public class TestMixedContentEncoding extends AbstractTestCase {
          
         assertEquals(expected,xml); 
                             
+    }
+    
+    /** Unit test for default output when CDATA option is set */
+    public void testDefaultOutputWithCDATAOption() throws Exception {
+        Element element = new Element();
+        element.setValue("<greeting>What Ho Jeeves!</greeting>");
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
+        elementInfo.getElementDescriptor().getElementDescriptors()[0]
+            .getOptions().addOption(MixedContentEncodingStrategy.ENCODING_OPTION_NAME, "CDATA");  
+         
+        writer.write(element);
+        
+        String expected = "<?xml version='1.0'?><Element>\n<value><![CDATA[<greeting>What Ho Jeeves!</greeting>]]></value>\n</Element>\n";
+        String xml = out.getBuffer().toString();
+         
+        assertEquals(expected,xml); 
+                            
+    }
+    
+    /** Unit test for default output when character escaping option is set */
+    public void testDefaultOutputWithCharacterEscapingOption() throws Exception {
+        Element element = new Element();
+        element.setValue("<greeting>What Ho Jeeves!</greeting>");
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
+        elementInfo.getElementDescriptor().getElementDescriptors()[0]
+            .getOptions().addOption("org.apache.commons.betwixt.mixed-content-encoding", "escaped");
+        writer.write(element);
+        
+        String expected = "<?xml version='1.0'?><Element>\n<value>&lt;greeting&gt;What Ho Jeeves!&lt;/greeting&gt;</value>\n</Element>\n";
+        String xml = out.getBuffer().toString();
+         
+        assertEquals(expected,xml); 
+    }
+    
+    public void testDefaultOutputWithDotBetwixtOptions() throws Exception {
+        ABCBean bean = new ABCBean();
+        bean.setA("<strong>weak</strong>");
+        bean.setB("<strong>weak</strong>");
+        bean.setC("<strong>weak</strong>");
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.write(bean);
+        
+        String expected = "<?xml version='1.0'?>" +            "<greek-abc>\n" +            "<alpha><![CDATA[<strong>weak</strong>]]></alpha>\n" +            "<beta>&lt;strong&gt;weak&lt;/strong&gt;</beta>\n" +            "<gamma>&lt;strong&gt;weak&lt;/strong&gt;</gamma>\n" +            "</greek-abc>\n";
+        String xml = out.getBuffer().toString();
+         
+        assertEquals(expected,xml); 
     }
     
     public void testEscapedOutput() throws Exception {

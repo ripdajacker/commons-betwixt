@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<info primitiveTypes="attribute">
+	<element name='greek-abc'>
+		<element name='alpha' property='a'>
+			<option>
+				<name>org.apache.commons.betwixt.mixed-content-encoding</name>
+				<value>CDATA</value>
+			</option>
+		</element>
+		<element name='beta' property='b'>
+			<option>
+				<name>org.apache.commons.betwixt.mixed-content-encoding</name>
+				<value>escaped</value>
+			</option>
+		</element>
+		<element name='gamma' property='c'>
+		</element>
+	</element>
+</info>
