@@ -33,7 +33,7 @@ import java.util.Random;
   * constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision$
   */
 public final class RandomIDGenerator extends AbstractIDGenerator {
     

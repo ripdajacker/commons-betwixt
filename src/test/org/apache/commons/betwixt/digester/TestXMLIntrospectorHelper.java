@@ -35,7 +35,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision$
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 

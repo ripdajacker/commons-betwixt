@@ -26,7 +26,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * Simple SAXContentHandler to test the SAXBeanWriter
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXContentHandler.java,v 1.4 2004/02/28 13:38:35 yoavs Exp $
+ * @version $Id$
  */
 public class SAXContentHandler extends DefaultHandler {
     

@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
 /** Test harness for the BadCharacterReplacingNMapper
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class TestBadCharacterReplacingNMapper extends TestCase {
     

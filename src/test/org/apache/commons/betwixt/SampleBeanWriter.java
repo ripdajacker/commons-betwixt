@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** A sample program to output a bean as pretty printed XML
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class SampleBeanWriter extends AbstractTestCase {
     

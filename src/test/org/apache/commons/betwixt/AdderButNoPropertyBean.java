@@ -18,7 +18,7 @@ package org.apache.commons.betwixt;
 /** <p>Bean to test finding an adder without an associated property.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class AdderButNoPropertyBean {
     

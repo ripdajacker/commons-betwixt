@@ -22,7 +22,7 @@ import java.util.List;
 /** <p>Bean to test lists of people</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class PersonListBean {
     

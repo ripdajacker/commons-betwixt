@@ -21,7 +21,7 @@ package org.apache.commons.betwixt;
   * gets called and throws a <code>RuntimeException</code> if the count gets too high.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class LoopBean
 {

@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 /**
  * Models the attribute element in an XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class Attribute {
 

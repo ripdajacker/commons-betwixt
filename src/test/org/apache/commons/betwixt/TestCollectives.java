@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TestCollectives extends AbstractTestCase{
     
@@ -65,7 +65,13 @@ public class TestCollectives extends AbstractTestCase{
         writer.write(categories);
         
         String xml = out.getBuffer().toString();
-        String expected = "<?xml version='1.0'?><Categories>" +            "<Category><Name>Runs</Name></Category>" +            "<Category><Name>Innings</Name></Category>" +            "<Category><Name>Dismissals</Name></Category>" +            "<Category><Name>High Score</Name></Category>" +            "<Category><Name>Average</Name></Category>" +            "</Categories>";
+        String expected = "<?xml version='1.0'?><Categories>" +
+            "<Category><Name>Runs</Name></Category>" +
+            "<Category><Name>Innings</Name></Category>" +
+            "<Category><Name>Dismissals</Name></Category>" +
+            "<Category><Name>High Score</Name></Category>" +
+            "<Category><Name>Average</Name></Category>" +
+            "</Categories>";
             
        xmlAssertIsomorphicContent(parseString(expected), parseString(xml));
     }   

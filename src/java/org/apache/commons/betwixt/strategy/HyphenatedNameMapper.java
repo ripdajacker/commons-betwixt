@@ -28,7 +28,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.11 $
+ * @version $Revision$
  */
 public class HyphenatedNameMapper implements NameMapper {
 

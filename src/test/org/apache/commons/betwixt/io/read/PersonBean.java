@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.io.read;
 /** <p><code>PersonBean</code> is a sample bean for use with the test cases.</p>
   *
   * @author Robert Burrell Donkin<
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class PersonBean {
     

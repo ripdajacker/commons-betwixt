@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
  * Test that harnasses the DecapitlizeNameMapper
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDecapitalizeNameMapper.java,v 1.5 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class TestDecapitalizeNameMapper extends TestCase
 {

@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
  * <p>Test case for example.</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.5 $ $Date: 2004/06/13 21:32:47 $
+ * @version $Revision$ $Date$
  */
 
 public class TestRSS extends AbstractTestCase {

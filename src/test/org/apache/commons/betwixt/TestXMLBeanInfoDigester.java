@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 /** Test harness for the Digester of XMLBeanInfo
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class TestXMLBeanInfoDigester extends AbstractTestCase {
     

@@ -38,7 +38,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.10 $
+  * @version $Revision$
   */
 public class TestIDRead extends AbstractTestCase {
 

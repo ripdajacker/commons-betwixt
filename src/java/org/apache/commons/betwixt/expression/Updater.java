@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.expression;
   * context bean from some text from an XML attribute or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public interface Updater {
 

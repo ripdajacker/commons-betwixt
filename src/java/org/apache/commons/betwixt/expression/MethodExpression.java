@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 /** <p><code>MethodExpression</code> evaluates a method on the current bean context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision$
   */
 public class MethodExpression implements Expression {
 

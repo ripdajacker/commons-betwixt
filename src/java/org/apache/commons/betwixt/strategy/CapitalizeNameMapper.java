@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.strategy;
  * So eg elementName should return ElementName
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CapitalizeNameMapper.java,v 1.7 2004/02/28 13:38:34 yoavs Exp $
+ * @version $Id$
  */
 public class CapitalizeNameMapper implements NameMapper {
 

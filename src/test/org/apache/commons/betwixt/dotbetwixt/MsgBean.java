@@ -20,7 +20,7 @@ package org.apache.commons.betwixt.dotbetwixt;
  * did not have any update methods on the element, but on the attributes.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: MsgBean.java,v 1.2 2004/02/28 13:38:35 yoavs Exp $
+ * @version $Id$
  */
 public class MsgBean
 {

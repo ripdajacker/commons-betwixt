@@ -21,7 +21,7 @@ import java.io.Serializable;
  * <p><code>GlobalAttributeOption</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: GlobalAttributeOption.java,v 1.4 2002/06/05 07:57:07 jstrachan Exp $
+ * @version $Id$
  */
 public class GlobalAttributeOption implements Serializable
 {

@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.io.read;
  * Example enum
  * 
  * @author Robert Burrell Donkin
- * @version $Id: CompassPoint.java,v 1.4 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class CompassPoint {
 

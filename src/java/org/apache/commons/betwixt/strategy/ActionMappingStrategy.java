@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
  * customize the mapping. 
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public abstract class ActionMappingStrategy {
     

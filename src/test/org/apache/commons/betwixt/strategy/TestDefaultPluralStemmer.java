@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * Tests the defaultPluralStemmer
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDefaultPluralStemmer.java,v 1.6 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class TestDefaultPluralStemmer extends TestCase
 {

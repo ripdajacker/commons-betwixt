@@ -20,7 +20,7 @@ package org.apache.commons.betwixt;
 /** Simple bean that with a (brotherly) cycle class graph reference
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class Tweedledee {
 

@@ -22,7 +22,7 @@ package org.apache.commons.betwixt.strategy;
  * <p>For example, <code>PropertyName</code> would be converted to <code>PropertyName</code>.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public class DefaultNameMapper implements NameMapper {
 

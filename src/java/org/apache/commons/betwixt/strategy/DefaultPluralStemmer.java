@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Revision: 1.10 $
+ * @version $Revision$
  */
 public class DefaultPluralStemmer implements PluralStemmer {
 

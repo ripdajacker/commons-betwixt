@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * Tests ObjectStringConverters in FRENCH locale
  * 
  * @author Robert Burrell Donkin
- * @version $Id: Testi18nObjectStringConversion.java,v 1.7 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class Testi18nObjectStringConversion extends TestObjectStringConverters
 {    

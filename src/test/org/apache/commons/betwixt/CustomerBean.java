@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision$
   */
 public class CustomerBean implements Serializable {
 

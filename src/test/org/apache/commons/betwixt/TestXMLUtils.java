@@ -23,7 +23,7 @@ import junit.textui.TestRunner;
 /** Test harness for the XMLUtils
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class TestXMLUtils extends AbstractTestCase {
     

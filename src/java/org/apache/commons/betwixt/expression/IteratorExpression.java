@@ -28,7 +28,7 @@ import java.util.NoSuchElementException;
 /** <p><code>IteratorExpression</code> returns an iterator over the current context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision$
   */
 public class IteratorExpression implements Expression {
     

@@ -36,7 +36,7 @@ import org.apache.commons.logging.impl.SimpleLog;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision$
   */
 public class TestBeanWriter extends AbstractTestCase {
     

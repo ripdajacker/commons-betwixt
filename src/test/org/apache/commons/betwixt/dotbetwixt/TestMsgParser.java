@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.4 2004/06/13 21:32:47 rdonkin Exp $
+ * @version $Id$
  */
 public class TestMsgParser extends TestCase
 {

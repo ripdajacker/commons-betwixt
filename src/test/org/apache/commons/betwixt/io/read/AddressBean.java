@@ -21,7 +21,7 @@ import java.io.Serializable;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class AddressBean implements Serializable {
 

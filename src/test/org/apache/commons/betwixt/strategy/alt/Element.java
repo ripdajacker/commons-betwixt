@@ -20,7 +20,7 @@ package org.apache.commons.betwixt.strategy.alt;
  * <code>Element</code> is a sample bean for use with test cases
  *
  * @author <a href="mailto:tima@intalio.com">Tim Anderson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class Element {
 

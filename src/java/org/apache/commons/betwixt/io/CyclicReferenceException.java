@@ -30,7 +30,7 @@ package org.apache.commons.betwixt.io;
   * then this exception will be thrown.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class CyclicReferenceException extends RuntimeException {
     

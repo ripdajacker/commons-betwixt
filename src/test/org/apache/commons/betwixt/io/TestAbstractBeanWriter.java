@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TestAbstractBeanWriter extends AbstractTestCase {
 

@@ -41,7 +41,7 @@ import org.apache.commons.digester.rss.Channel;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision$
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     

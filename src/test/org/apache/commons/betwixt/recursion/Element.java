@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * This is just a simple element bean..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Element.java,v 1.6 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class Element
 {

@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.derived;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:Michael.Davey@coderage.org">Michael Davey</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class PersonBean {
     

@@ -24,7 +24,7 @@ import java.beans.SimpleBeanInfo;
 /** <p>Bean info for exmaple bean used in introspection.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class BeanWithBeanInfoBeanBeanInfo extends SimpleBeanInfo {
     

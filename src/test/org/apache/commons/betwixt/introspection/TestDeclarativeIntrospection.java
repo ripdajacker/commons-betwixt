@@ -27,7 +27,7 @@ import org.apache.commons.betwixt.examples.rss.Channel;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {

@@ -21,7 +21,7 @@ import org.xml.sax.Attributes;
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision$
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 

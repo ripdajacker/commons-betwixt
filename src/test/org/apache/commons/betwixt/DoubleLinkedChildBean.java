@@ -20,7 +20,7 @@ package org.apache.commons.betwixt;
 /** This is a child that has a property containing it's parent.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class DoubleLinkedChildBean {
 

@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Test harness for bean creation (during reading).
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestBeanCreation.java,v 1.6 2004/06/13 21:32:48 rdonkin Exp $
+ * @version $Id$
  */
 public class TestBeanCreation extends AbstractTestCase {
 

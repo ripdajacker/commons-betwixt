@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * <p><code>Module</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: Module.java,v 1.2 2002/06/01 18:28:06 jon Exp $
+ * @version $Id$
  */
 public class Module
 {

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Test for <code>BeanWriter</code>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision$
  */
 public class TestBeanWriter extends TestCase {
 

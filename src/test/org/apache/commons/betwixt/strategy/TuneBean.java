@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TuneBean {
 

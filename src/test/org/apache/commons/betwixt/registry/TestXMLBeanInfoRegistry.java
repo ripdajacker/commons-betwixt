@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 /** Test harness for the XMLBeanInfoRegistry
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class TestXMLBeanInfoRegistry extends AbstractTestCase {
     

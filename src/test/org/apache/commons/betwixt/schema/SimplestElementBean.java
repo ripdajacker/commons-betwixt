@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.schema;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class SimplestElementBean extends SimplestBean {
 

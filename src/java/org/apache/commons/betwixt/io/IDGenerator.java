@@ -26,7 +26,7 @@ package org.apache.commons.betwixt.io;
   * <p>Standard implementations are included with that supply random and sequantial values.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision$
   */
 public interface IDGenerator {
     

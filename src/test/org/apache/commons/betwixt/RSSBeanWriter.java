@@ -25,7 +25,7 @@ import org.apache.commons.digester.rss.RSSDigester;
   * to output it as XML again.
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class RSSBeanWriter extends AbstractTestCase {
     

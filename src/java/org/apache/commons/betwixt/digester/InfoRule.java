@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision$
   */
 public class InfoRule extends RuleSupport {
 

@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.schema;
 /**
  * Implmented by <code>element</code> definition.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public interface Element {
     public String getName();

@@ -23,7 +23,7 @@ import org.apache.commons.betwixt.IntrospectionConfiguration;
  * Binds simple types as specified by {@link IntrospectionConfiguration#isAttributesForPrimitives()}.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class StandardSimpleTypeMapper extends SimpleTypeMapper {
 

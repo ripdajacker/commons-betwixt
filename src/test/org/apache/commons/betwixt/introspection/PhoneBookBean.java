@@ -24,7 +24,7 @@ import java.util.List;
  * Bean models a simple list of phone numbers as found (for example) in a contant list.
  * Really just a list of phone number entries.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class PhoneBookBean {   
     private String name;

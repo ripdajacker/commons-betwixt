@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * A hashmap is used.
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: DefaultXMLBeanInfoRegistry.java,v 1.6 2004/02/28 13:38:33 yoavs Exp $
+  * @version $Id$
   */
 public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
 

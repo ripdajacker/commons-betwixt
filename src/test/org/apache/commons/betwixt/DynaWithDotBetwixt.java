@@ -24,7 +24,7 @@ import org.apache.commons.beanutils.DynaProperty;
 /** <p>Test bean which extends DynaBean but has a .betwixt file.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class DynaWithDotBetwixt implements DynaBean {
     

@@ -21,7 +21,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestNamespaces extends AbstractTestCase {
 

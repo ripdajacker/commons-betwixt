@@ -23,7 +23,7 @@ import java.math.BigInteger;
  * Default <code>DataTypeMapper</code>implementation.
  * Provides a reasonably standard and compatible mapping.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class DefaultDataTypeMapper extends DataTypeMapper {
 

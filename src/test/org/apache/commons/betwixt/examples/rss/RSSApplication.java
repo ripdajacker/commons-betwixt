@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * rather than providing a .</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.5 $ $Date: 2004/06/13 21:32:47 $
+ * @version $Revision$ $Date$
  */
 
 public class RSSApplication {

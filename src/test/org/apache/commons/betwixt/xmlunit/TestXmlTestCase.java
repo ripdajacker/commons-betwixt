@@ -27,7 +27,7 @@ import org.xml.sax.InputSource;
  * Test harness which test xml unit
  *
  * @author Robert Burrell Donkin
- * @version $Id: TestXmlTestCase.java,v 1.6 2004/06/13 21:32:49 rdonkin Exp $
+ * @version $Id$
  */
  public class TestXmlTestCase extends XmlTestCase {
  

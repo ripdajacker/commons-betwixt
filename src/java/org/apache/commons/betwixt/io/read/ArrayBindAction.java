@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
  * and therefore cannot be used concurrently (in simultaneous readings).
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class ArrayBindAction extends MappingAction.Base {
    

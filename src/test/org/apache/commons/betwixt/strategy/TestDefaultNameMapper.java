@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
  * Testcase that covers the DefaultNameMapper.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDefaultNameMapper.java,v 1.6 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class TestDefaultNameMapper extends TestCase
 {

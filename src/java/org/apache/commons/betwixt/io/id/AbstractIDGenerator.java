@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.io.IDGenerator;
   * Subclasses should override {@link #nextIdImpl}.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision$
   */
 public abstract class AbstractIDGenerator implements IDGenerator {
     

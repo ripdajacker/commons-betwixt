@@ -20,7 +20,7 @@ package org.apache.commons.betwixt;
   * to be created for a bean instance.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class AttributeDescriptor extends NodeDescriptor {
 

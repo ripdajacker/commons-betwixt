@@ -22,7 +22,7 @@ import java.util.TreeMap;
 /** <p><code>MapBean</code> is a sample bean used for testing maps.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class MapBean {
     

@@ -22,7 +22,7 @@ package org.apache.commons.betwixt.schema;
  * All settings are gathered into this one class for convenience.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TranscriptionConfiguration {
     

@@ -29,7 +29,7 @@ package org.apache.commons.betwixt.introspection;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class BeanWithBeanInfoBean {
     

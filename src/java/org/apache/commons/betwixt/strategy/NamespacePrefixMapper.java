@@ -30,7 +30,7 @@ import java.util.HashMap;
  * This class is used to supply consistent, user specified prefixes.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class NamespacePrefixMapper {
     

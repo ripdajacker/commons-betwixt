@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.expression.Context;
  * Test harness for ObjectStringConverter implementations
  * 
  * @author <a href="mailto:rdonkin at apache.org">Robert Burrell Donkin</a>
- * @version $Id: TestObjectStringConverters.java,v 1.6 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class TestObjectStringConverters extends TestCase
 {

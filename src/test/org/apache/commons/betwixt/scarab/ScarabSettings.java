@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * <p><code>ScarabSettings</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: ScarabSettings.java,v 1.4 2002/06/05 10:30:50 jstrachan Exp $
+ * @version $Id$
  */
 public class ScarabSettings implements Serializable
 {

@@ -18,7 +18,7 @@ package org.apache.commons.betwixt;
 /** <p>A simple bean that demonstrates conversions of primitives and objects.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class DeltaBean {
 

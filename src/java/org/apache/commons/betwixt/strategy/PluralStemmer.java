@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * This interface allows a variety of different implementations to be used.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.7 $
+ * @version $Revision$
  */
 public interface PluralStemmer {
 

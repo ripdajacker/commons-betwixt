@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.11 2004/10/04 21:50:35 rdonkin Exp $
+  * @version $Id$
   */
 public class AttributeRule extends RuleSupport {
 

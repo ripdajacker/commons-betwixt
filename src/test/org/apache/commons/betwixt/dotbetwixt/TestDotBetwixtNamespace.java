@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestDotBetwixtNamespace extends AbstractTestCase {
 
@@ -47,7 +47,8 @@ public class TestDotBetwixtNamespace extends AbstractTestCase {
         
         String expected = "<?xml version='1.0'?>" +
                         "<pn:person " +
-                        "xmlns:pn='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample' " +                        "pn:middle='Burrell'>" +
+                        "xmlns:pn='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample' " +
+                        "pn:middle='Burrell'>" +
                         "<forename>Robert</forename>" +
                         "<pn:surname>Donkin</pn:surname></pn:person>";
                         

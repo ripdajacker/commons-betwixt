@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision$
  */
 public class TestOptions extends TestCase {
     
@@ -32,7 +32,8 @@ public class TestOptions extends TestCase {
     public void testGetValue() {
         Options options = new Options();
         options.addOption("A", "Alpha");
-        options.addOption("B", "Beta");       
+        options.addOption("B", "Beta");
+       
         assertEquals("Get added value", "Alpha", options.getValue("A"));
         assertNull("Value not added is null", options.getValue("C"));
         

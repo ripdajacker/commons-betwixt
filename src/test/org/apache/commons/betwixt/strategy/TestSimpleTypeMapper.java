@@ -34,7 +34,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /**
  * Tests for SimpleTypeMapper and the associated strategy.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TestSimpleTypeMapper extends AbstractTestCase {
 
@@ -94,10 +94,21 @@ public class TestSimpleTypeMapper extends AbstractTestCase {
         writer.write(bean);
         
         String xml = out.getBuffer().toString();
-        String expected = "<?xml version='1.0'?>" +            "<TuneBean recorded='1972'>" +            "    <name>On The Run</name>" +            "    <artist>Pink Floyd</artist>" +            "    <composers>" +            "       <composer born='1944'>" +            "           <forename>David</forename>" +            "           <surname>Gilmour</surname>" +            "       </composer>" +            "       <composer born='1944'>" +
+        String expected = "<?xml version='1.0'?>" +
+            "<TuneBean recorded='1972'>" +
+            "    <name>On The Run</name>" +
+            "    <artist>Pink Floyd</artist>" +
+            "    <composers>" +
+            "       <composer born='1944'>" +
+            "           <forename>David</forename>" +
+            "           <surname>Gilmour</surname>" +
+            "       </composer>" +
+            "       <composer born='1944'>" +
             "           <forename>Roger</forename>" +
             "           <surname>Waters</surname>" +
-            "       </composer>" +            "   </composers>" +            "</TuneBean>";
+            "       </composer>" +
+            "   </composers>" +
+            "</TuneBean>";
         
         xmlAssertIsomorphicContent(parseString(xml), parseString(expected), true);
     }

@@ -38,7 +38,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: XMLBeanInfoRegistry.java,v 1.6 2004/02/28 13:38:34 yoavs Exp $
+  * @version $Id$
   */
 public interface XMLBeanInfoRegistry {
     

@@ -21,7 +21,7 @@ import java.util.List;
 /** <p>Bean to test lists of people</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class PersonListBean {
 

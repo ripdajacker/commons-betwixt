@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
   * helper methods.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class RuleSupport extends Rule {
 

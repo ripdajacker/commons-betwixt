@@ -32,7 +32,7 @@ import org.xml.sax.InputSource;
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TestSchemaValidity extends AbstractTestCase {
 

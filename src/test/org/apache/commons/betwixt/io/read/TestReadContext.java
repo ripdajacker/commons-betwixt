@@ -27,7 +27,7 @@ import org.apache.commons.betwixt.LibraryBeanWithArraySetter;
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.3 2004/12/20 22:04:53 rdonkin Exp $
+ * @version $Id$
  */
 public class TestReadContext extends AbstractTestCase {
 

@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Craig R. McClanahan
  * @author Ted Husted
- * @version $Revision: 1.4 $ $Date: 2004/06/13 21:32:47 $
+ * @version $Revision$ $Date$
  */
 
 public class Channel implements Serializable {

@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 /** Test harness for map updating 
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class TestUpdaters extends AbstractTestCase {
     

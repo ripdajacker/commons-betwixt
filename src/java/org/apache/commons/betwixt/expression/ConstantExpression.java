@@ -20,7 +20,7 @@ package org.apache.commons.betwixt.expression;
   * <p> In other words, {@link #evaluate} returns a value independent of the context. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class ConstantExpression implements Expression {
 

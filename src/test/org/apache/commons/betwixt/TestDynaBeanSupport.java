@@ -31,7 +31,7 @@ import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 /** Test harness for the DynaBeans support
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class TestDynaBeanSupport extends AbstractTestCase {
     

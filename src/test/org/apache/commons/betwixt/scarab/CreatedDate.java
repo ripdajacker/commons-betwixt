@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * <p><code>CreatedDate</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jon@latchkey.com">Jon Scott Stevens</a>
- * @version $Id: CreatedDate.java,v 1.5 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class CreatedDate implements Serializable
 {

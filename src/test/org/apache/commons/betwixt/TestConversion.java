@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.io.BeanReader;
 /**
  * Tests conversions.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public class TestConversion extends TestCase{
 
@@ -38,7 +38,12 @@ public class TestConversion extends TestCase{
      * @throws Exception
      */
     public void testNullTimestampConversion() throws Exception {
-        String xml = "<?xml version='1.0'?>" +            "<EventBean>" +            "<type>WARNING</type>" +            "<start>2004-02-10 00:00:00.0</start>" +            "<end/>" +            "</EventBean>";
+        String xml = "<?xml version='1.0'?>" +
+            "<EventBean>" +
+            "<type>WARNING</type>" +
+            "<start>2004-02-10 00:00:00.0</start>" +
+            "<end/>" +
+            "</EventBean>";
             
        StringReader in = new StringReader(xml);
        BeanReader reader = new BeanReader();

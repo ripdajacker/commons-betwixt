@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Mixed content encoding is the process by which body content
  * is written out (in an escaped form) into a textual output stream. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision$
  */
 public class TestMixedContentEncoding extends AbstractTestCase {
 
@@ -180,7 +180,12 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
         
-        String expected = "<?xml version='1.0'?>" +            "<greek-abc>\n" +            "<alpha><![CDATA[<strong>weak</strong>]]></alpha>\n" +            "<beta>&lt;strong&gt;weak&lt;/strong&gt;</beta>\n" +            "<gamma>&lt;strong&gt;weak&lt;/strong&gt;</gamma>\n" +            "</greek-abc>\n";
+        String expected = "<?xml version='1.0'?>" +
+            "<greek-abc>\n" +
+            "<alpha><![CDATA[<strong>weak</strong>]]></alpha>\n" +
+            "<beta>&lt;strong&gt;weak&lt;/strong&gt;</beta>\n" +
+            "<gamma>&lt;strong&gt;weak&lt;/strong&gt;</gamma>\n" +
+            "</greek-abc>\n";
         String xml = out.getBuffer().toString();
          
         assertEquals(expected,xml); 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /** Bean that contains an array property.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class ArrayBean {
     

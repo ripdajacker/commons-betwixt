@@ -1,7 +1,7 @@
 /*
  * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/Category.java,v 1.2 2004/06/13 21:32:46 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2004/06/13 21:32:46 $
+ * $Revision$
+ * $Date$
  *
  * ====================================================================
  * 
@@ -63,7 +63,7 @@ package org.apache.commons.betwixt;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class Category {
     

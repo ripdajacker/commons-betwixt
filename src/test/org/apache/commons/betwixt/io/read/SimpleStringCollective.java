@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /** Simple bean that wraps a primitive collection
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.2 $
+  * @version $Revision$
   */
 public class SimpleStringCollective {
     private ArrayList strings = new ArrayList();

@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestArrays extends AbstractTestCase {
 
@@ -46,8 +46,12 @@ public class TestArrays extends AbstractTestCase {
         
         writer.write(libraryBean);
         String xml = out.toString();
-        String expected = "<?xml version='1.0'?><LibraryBean>" +            "<books>" +            "<book author='Martin Fowler' title='Refactoring' publisher='Addision Wesley'/>" +            "<book author='Ben Laurie' title='Apache' publisher='O&apos;Reilly'/>" +
-            "<book author='Kent Beck' title='Test Driven Development' publisher='Addision Wesley'/>" +            "</books>" +
+        String expected = "<?xml version='1.0'?><LibraryBean>" +
+            "<books>" +
+            "<book author='Martin Fowler' title='Refactoring' publisher='Addision Wesley'/>" +
+            "<book author='Ben Laurie' title='Apache' publisher='O&apos;Reilly'/>" +
+            "<book author='Kent Beck' title='Test Driven Development' publisher='Addision Wesley'/>" +
+            "</books>" +
             "</LibraryBean>";
             
         xmlAssertIsomorphicContent(

@@ -21,7 +21,7 @@ import java.util.Date;
 /** Simple bean
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision$
   */
 public class PartyBean {
     

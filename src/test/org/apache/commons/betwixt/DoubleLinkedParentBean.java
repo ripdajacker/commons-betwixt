@@ -22,7 +22,7 @@ import java.util.Iterator;
 /** This is a child that has a property containing it's parent.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision$
   */
 public class DoubleLinkedParentBean {
 

@@ -35,7 +35,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.11 2004/06/13 21:32:48 rdonkin Exp $
+ * @version $Id$
  */
 public class TestNoWrap
     extends AbstractTestCase

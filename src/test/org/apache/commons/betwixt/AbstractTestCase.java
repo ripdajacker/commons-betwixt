@@ -31,7 +31,7 @@ import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 /** Abstract base class for test cases.
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public abstract class AbstractTestCase extends XmlTestCase {
     

@@ -22,7 +22,7 @@ import java.io.Serializable;
  * <p><code>GlobalIssueType</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: GlobalIssueType.java,v 1.2 2002/06/01 18:28:06 jon Exp $
+ * @version $Id$
  */
 public class GlobalIssueType implements Serializable
 {

@@ -23,7 +23,7 @@ import junit.textui.TestRunner;
 /** Test harness for the Descriptors (ElementDescriptor and so on).
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @version $Revision$
   */
 public class TestDescriptors extends AbstractTestCase {
     

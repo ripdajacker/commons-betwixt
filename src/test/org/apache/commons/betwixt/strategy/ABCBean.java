@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.strategy;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision$
  */
 public class ABCBean {
     

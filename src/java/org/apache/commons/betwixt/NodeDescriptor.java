@@ -22,7 +22,7 @@ package org.apache.commons.betwixt;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision$
   */
 public class NodeDescriptor extends Descriptor {
 

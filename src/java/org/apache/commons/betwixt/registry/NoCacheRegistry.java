@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * In effect, this turns caching off.
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: NoCacheRegistry.java,v 1.6 2004/02/28 13:38:33 yoavs Exp $
+  * @version $Id$
   */
 public final class NoCacheRegistry implements XMLBeanInfoRegistry {
     

@@ -25,7 +25,7 @@ import java.util.Iterator;
  * <code>Elements</code> is a sample bean for use with test cases
  *
  * @author <a href="mailto:tima@intalio.com">Tim Anderson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class Elements {
 

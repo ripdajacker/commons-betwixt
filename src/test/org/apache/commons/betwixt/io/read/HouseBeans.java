@@ -22,7 +22,7 @@ import java.util.Iterator;
  * Collective class for HouseBean
  * 
  * @author Robert Burrell Donkin
- * @version $Id: HouseBeans.java,v 1.4 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class HouseBeans {
 

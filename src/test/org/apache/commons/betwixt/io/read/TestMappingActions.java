@@ -32,7 +32,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * Test harness for Mapping Actions.
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestMappingActions.java,v 1.2 2004/06/13 21:32:48 rdonkin Exp $
+ * @version $Id$
  */
 public class TestMappingActions extends AbstractTestCase {
 

@@ -331,7 +331,7 @@ public class BeanRuleSet implements RuleSet {
     /**
      * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.22 $
+     * @version $Revision$
      */
     private static class DigesterReadContext extends ReadContext {
 

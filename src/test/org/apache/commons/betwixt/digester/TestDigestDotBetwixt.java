@@ -28,20 +28,31 @@ import org.apache.commons.betwixt.dotbetwixt.ExampleBean;
 /**
  * Tests for reading dot betwist files.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestDigestDotBetwixt extends TestCase {
     
     
     public void testDigestWithOptions() throws Exception {
-        String xml = "<?xml version='1.0'?>" +            "<info>" +            "    <element name='example-bean'>" +            "        <option>" +            "           <name>one</name>" +            "           <value>value one</value>" +            "        </option>" +            "        <option>" +
+        String xml = "<?xml version='1.0'?>" +
+            "<info>" +
+            "    <element name='example-bean'>" +
+            "        <option>" +
+            "           <name>one</name>" +
+            "           <value>value one</value>" +
+            "        </option>" +
+            "        <option>" +
             "           <name>two</name>" +
             "           <value>value two</value>" +
-            "        </option>" +            "        <element name='example' property='examples'>" +
+            "        </option>" +
+            "        <element name='example' property='examples'>" +
             "          <option>" +
             "             <name>three</name>" +
             "             <value>value three</value>" +
-            "          </option>" +            "        </element>" +            "    </element>" +            "</info>";
+            "          </option>" +
+            "        </element>" +
+            "    </element>" +
+            "</info>";
             
         XMLBeanInfoDigester digester = new XMLBeanInfoDigester();
         digester.setXMLIntrospector(new XMLIntrospector());

@@ -15,7 +15,7 @@
    limitations under the License.
 -->
 
-<!-- $Id: build-legacy.xml,v 1.2 2004/02/29 21:58:36 scolebourne Exp $ -->
+<!-- $Id$ -->
 <project name="betwixt" default="maven:jar" basedir=".">
 
 

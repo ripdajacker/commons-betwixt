@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.IntrospectionConfiguration;
  * For Betwixt, these are converted to and from strings
  * and these strings used to populate either attributes or element body's.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public abstract class SimpleTypeMapper {
 
@@ -35,7 +35,7 @@ public abstract class SimpleTypeMapper {
      * For Betwixt, these are converted to and from strings
      * and these strings used to populate either attributes or element body's.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.2 $
+     * @version $Revision$
      */
     public static class Binding {
         public static final Binding ELEMENT = new Binding(1);

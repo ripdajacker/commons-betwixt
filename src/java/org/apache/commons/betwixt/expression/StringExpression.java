@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.expression;
 /** <p><code>StringExpression</code> returns the current context object as a string.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision$
   */
 public class StringExpression implements Expression {
     

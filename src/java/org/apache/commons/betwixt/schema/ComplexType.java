@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
  * Global (top level) complex types are represented by {@link GlobalComplexType}.
  * Locally defined or referenced complex types are represented by {@link LocalComplexType}. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  */
 public abstract class ComplexType {
 

@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<!-- $Id: recursion2.xml,v 1.2 2004/07/04 17:02:08 rdonkin Exp $ -->
+<!-- $Id$ -->
 <ElementBean>
     <element name="element1">
         <element name="element11">

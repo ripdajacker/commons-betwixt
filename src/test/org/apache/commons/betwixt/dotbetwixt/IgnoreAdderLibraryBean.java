@@ -20,6 +20,6 @@ package org.apache.commons.betwixt.dotbetwixt;
 /**
  * Subclass that differs only in it's .betwixt file 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class IgnoreAdderLibraryBean extends LibraryBean {}

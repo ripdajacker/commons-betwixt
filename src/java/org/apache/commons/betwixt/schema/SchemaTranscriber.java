@@ -33,7 +33,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * This should allow both SAX and text.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class SchemaTranscriber {
 	

@@ -39,7 +39,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.11 2004/06/13 21:32:48 rdonkin Exp $
+ * @version $Id$
  */
 public class TestSchema extends AbstractTestCase
 {

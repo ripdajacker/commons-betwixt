@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 /**
  * Represent some kind of event.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class EventBean {
 

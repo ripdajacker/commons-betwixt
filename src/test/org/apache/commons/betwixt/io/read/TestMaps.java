@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision$
  */
 public class TestMaps extends AbstractTestCase {
 
@@ -48,7 +48,20 @@ public class TestMaps extends AbstractTestCase {
         bean.addSomeThingy("Thorkell", "The Tall");
         writer.write(bean);
         String xml = out.getBuffer().toString();
-        String expected = "<?xml version='1.0'?><BeanWithConcreteMap>" +            "<entry>" +            "<key>Swein</key>" +            "<value>Forkbeard</value>" +            "</entry>" +            "<entry>" +            "<key>Thorkell</key>" +            "<value>The Tall</value>" +            "</entry>" +            "<entry>" +            "<key>Aethelred</key>" +            "<value>The Unready</value>" +            "</entry>" +            "</BeanWithConcreteMap>";
+        String expected = "<?xml version='1.0'?><BeanWithConcreteMap>" +
+            "<entry>" +
+            "<key>Swein</key>" +
+            "<value>Forkbeard</value>" +
+            "</entry>" +
+            "<entry>" +
+            "<key>Thorkell</key>" +
+            "<value>The Tall</value>" +
+            "</entry>" +
+            "<entry>" +
+            "<key>Aethelred</key>" +
+            "<value>The Unready</value>" +
+            "</entry>" +
+            "</BeanWithConcreteMap>";
         xmlAssertIsomorphicContent(parseString(expected), parseString(xml));
     }
 

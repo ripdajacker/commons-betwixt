@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision$
   */
 public class TestHyphenatedNameMapper extends TestCase {
     

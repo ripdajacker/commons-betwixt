@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.schema;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DbDataType.java,v 1.5 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id$
  */
 public class DbDataType
 {

@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.9 2004/06/13 21:32:45 rdonkin Exp $
+  * @version $Id$
   */
 public class TextRule extends MappedPropertyRule {
 

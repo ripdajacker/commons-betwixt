@@ -35,7 +35,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * Test harness which round trips a Scarab's settings xml file
  *
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: TestScarabSettings.java,v 1.7 2002/06/05 07:57:07 jstrachan Exp $
+ * @version $Id$
  */
 public class TestScarabSettings extends AbstractTestCase
 {
