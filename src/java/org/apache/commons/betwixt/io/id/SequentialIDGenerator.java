@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/08/14 18:50:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SequentialIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: SequentialIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -72,7 +72,7 @@ package org.apache.commons.betwixt.io.id;
   * {@link #SequentialIDGenerator(int start)} constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public final class SequentialIDGenerator extends AbstractIDGenerator {
     
@@ -102,8 +102,8 @@ public final class SequentialIDGenerator extends AbstractIDGenerator {
     /** 
       * Increment counter and then return value.
       */
-    public int nextIdImpl() {
-        return ++counter;
+    public String nextIdImpl() {
+        return Integer.toString(++counter);
     }
     
     /** 

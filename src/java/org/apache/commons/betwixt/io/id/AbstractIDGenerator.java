@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/08/14 18:50:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: AbstractIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -72,15 +72,15 @@ import org.apache.commons.betwixt.io.IDGenerator;
   * Subclasses should override {@link #nextIdImpl}.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public abstract class AbstractIDGenerator implements IDGenerator {
     
     /** Last <code>ID</code> returned */
-    private int lastId = 0;
+    private String lastId = "0";
     
     /** Get last <code>ID</code> returned. */
-    public final int getLastId() {
+    public final String getLastId() {
         return lastId;
     }
     
@@ -90,7 +90,7 @@ public abstract class AbstractIDGenerator implements IDGenerator {
       * <p>This method obtains the next <code>ID</code> from subclass
       * and then uses this to set the <code>LastId</code> property.</p>
       */
-    public final int nextId() {
+    public final String nextId() {
         lastId = nextIdImpl();
         return lastId;
     }
@@ -101,5 +101,5 @@ public abstract class AbstractIDGenerator implements IDGenerator {
       * value (according to it's algorithm).
       * Setting the <code>LastId</code> property can be left to this class.
       */
-    protected abstract int nextIdImpl();
+    protected abstract String nextIdImpl();
 }

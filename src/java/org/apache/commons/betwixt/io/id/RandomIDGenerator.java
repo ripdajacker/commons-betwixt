@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/08/14 18:50:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: RandomIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: RandomIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -79,7 +79,7 @@ import java.util.Random;
   * constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public final class RandomIDGenerator extends AbstractIDGenerator {
     
@@ -109,13 +109,13 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
       * then this method will recursively call itself if the random
       * <code>ID</code> is less than zero.</p>
       */
-    public int nextIdImpl() {
+    public String nextIdImpl() {
         int next = random.nextInt();
         if (onlyPositiveIds && next<0) {
             // it's negative and we're ignoring them so get another
             return nextIdImpl();
         }
-        return next;
+        return Integer.toString(next);
     }
     
     /** Get whether only positive <code>ID</code>'s should be generated */

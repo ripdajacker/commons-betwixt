@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.3 2002/07/29 09:29:24 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/29 09:29:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.4 2002/08/14 18:50:21 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/08/14 18:50:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.3 2002/07/29 09:29:24 mvdb Exp $
+ * $Id: AbstractBeanWriter.java,v 1.4 2002/08/14 18:50:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -189,8 +189,8 @@ abstract public class AbstractBeanWriter {
                     qualifiedName = elementDescriptor.getQualifiedName();
                 }
                 
-                Object ref = null;
-                Object id = null;
+                String ref = null;
+                String id = null;
                 
                 // only give id's to non-primatives
                 if ( elementDescriptor.isPrimitiveType() ) {
@@ -202,14 +202,14 @@ abstract public class AbstractBeanWriter {
                 } 
                 else {
                 
-                    ref = idMap.get( context.getBean() );
+                    ref = (String) idMap.get( context.getBean() );
                     if ( ref == null ) {
                         // this is the first time that this bean has be written
                         AttributeDescriptor idAttribute = beanInfo.getIDAttribute();
                         if (idAttribute == null) {
                             // use a generated id
-                            id = new Integer( idGenerator.nextId() );
-                            idMap.put( bean, id);
+                            id = idGenerator.nextId();
+                            idMap.put( bean, id );
                             
                             if ( writeIDs ) {
                                 // write element with id
@@ -218,7 +218,7 @@ abstract public class AbstractBeanWriter {
                                     elementDescriptor, 
                                     context , 
                                     beanInfo.getIDAttributeName(),
-                                    id.toString());
+                                    id);
                                     
                             } else {    
                                 // write element without ID
@@ -232,7 +232,16 @@ abstract public class AbstractBeanWriter {
                             // use id from bean property
                             // it's up to the user to ensure uniqueness
                             // XXX should we trap nulls?
-                            id = idAttribute.getTextExpression().evaluate( context );
+                            Object exp = idAttribute.getTextExpression().evaluate( context );
+                            if (exp == null) {
+                                // we'll use a random id
+                                log.debug("Using random id");
+                                id = idGenerator.nextId();
+                                
+                            } else {
+                                // convert to string
+                                id = exp.toString();
+                            }
                             idMap.put( bean, id);
                             
                             // the ID attribute should be written automatically
@@ -253,7 +262,7 @@ abstract public class AbstractBeanWriter {
                         writeIDREFElement( 
                                         qualifiedName,  
                                         beanInfo.getIDREFAttributeName(), 
-                                        ref.toString());
+                                        ref);
                     }
                 }
             }
