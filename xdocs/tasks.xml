@@ -199,6 +199,8 @@ Create a strategy which allow general implementation rules to be specified.
             <li>All exceptions are now complex</li>
             <li><strong>PropertySuppressionStrategy</strong> added which allows 
             course grained control of those properties which should be ignored by Betwixt.</li>
+            <li>Improved support for <strong>java.util collections API implementations</strong>.
+            Betwixt now recognizes additional properties on custom collection implementations.</li>
         </ul>
     </subsection>
     <subsection name='0.6'>
@@ -455,6 +457,11 @@ can be enabled by setting an introspection configuration property.
             <li>
 All exceptions are now complex types. This is now more consistent but the default
 binding for exceptions in java.lang package have been changed from simple to complex.
+            </li>
+            <li>
+Properties on collection implementations are now recognized (rather than ignored)
+by Betwixt. Please use an appropriate <code>ClassNormalizer</code> for implementations
+that need to hide their extra properties.
             </li>
         </ul>
     </subsection>

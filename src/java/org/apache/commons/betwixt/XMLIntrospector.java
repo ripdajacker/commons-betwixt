@@ -623,25 +623,35 @@ public class XMLIntrospector {
             getLog().trace("Bean is primitive");
             elementDescriptor.setTextExpression( StringExpression.getInstance() );
             
-        } else if ( bean.isLoopType() ) {
-            getLog().trace("Bean is loop");
-            ElementDescriptor loopDescriptor = new ElementDescriptor();
-            loopDescriptor.setContextExpression(
-                new IteratorExpression( EmptyExpression.getInstance() )
-            );
-            if ( bean.isMapType() ) {
-                loopDescriptor.setQualifiedName( "entry" );
-            }
-            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
-            
         } else {
+            
             getLog().trace("Bean is standard type");
+            
+            boolean isLoopType = bean.isLoopType();
+            
             List elements = new ArrayList();
             List attributes = new ArrayList();
             List contents = new ArrayList();
 
-            addProperties( bean.getProperties(), elements, attributes, contents );    
-
+            // add bean properties for all collection which are not basic
+            if ( !( isLoopType && isBasicCollection( bean.getClass() ) ) )
+            {
+                addProperties( bean.getProperties(), elements, attributes, contents );    
+            }
+            
+            // add iterator for collections
+            if ( isLoopType ) {
+                getLog().trace("Bean is loop");
+                ElementDescriptor loopDescriptor = new ElementDescriptor();
+                loopDescriptor.setContextExpression(
+                    new IteratorExpression( EmptyExpression.getInstance() )
+                );
+                if ( bean.isMapType() ) {
+                    loopDescriptor.setQualifiedName( "entry" );
+                }
+                elements.add( loopDescriptor );
+            }
+            
             int size = elements.size();
             if ( size > 0 ) {
                 ElementDescriptor[] descriptors = new ElementDescriptor[size];
@@ -673,6 +683,20 @@ public class XMLIntrospector {
             getLog().trace("Populated descriptor:");
             getLog().trace(elementDescriptor);
         }
+    }
+    
+    /**
+     * <p>Is the given type a basic collection?
+     * </p><p>
+     * This is used to determine whether a collective type
+     * should be introspected as a bean (in addition to a collection).
+     * </p>
+     * @param type <code>Class</code>, not null
+     * @return
+     */
+    private boolean isBasicCollection( Class type )
+    {
+        return type.getName().startsWith( "java.util" );
     }
     
     /**

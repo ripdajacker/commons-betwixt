@@ -15,6 +15,8 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
+import java.util.Collection;
+
 /**
  * Pluggable strategy specifying whether property's should be surpressed.
  * Implementations can be used to give rules about which properties 
@@ -25,7 +27,8 @@ public abstract class PropertySuppressionStrategy {
 
     /**
      * Default implementation supresses the class property
-     * found on every object.
+     * found on every object. Also, the <code>isEmpty</code>
+     * property is supressed for implementations of <code>Collection</code>.
      */
     public static final PropertySuppressionStrategy DEFAULT = new PropertySuppressionStrategy() {
         public boolean suppressProperty(Class clazz, Class propertyType, String propertyName) {
@@ -34,6 +37,11 @@ public abstract class PropertySuppressionStrategy {
             if ( Class.class.equals( propertyType) && "class".equals( propertyName ) ) {
                 result = true;
             }
+            // ignore isEmpty for collection subclasses
+            if ( "empty".equals( propertyName ) && Collection.class.isAssignableFrom( clazz )) {
+                result = true;
+            }
+            
             return result;
         }
     };

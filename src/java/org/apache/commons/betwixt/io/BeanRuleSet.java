@@ -297,7 +297,7 @@ public class BeanRuleSet implements RuleSet {
         public void body(String namespace, String name, String text)
             throws Exception {
 
-            log.trace("[BRS] Body with text " + text);
+            if (log.isTraceEnabled()) log.trace("[BRS] Body with text " + text);
             if (digester.getCount() > 0) {
                 MappingAction action = context.currentMappingAction();
                 action.body(text, context);
@@ -331,7 +331,7 @@ public class BeanRuleSet implements RuleSet {
     /**
      * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.21 $
+     * @version $Revision: 1.22 $
      */
     private static class DigesterReadContext extends ReadContext {
 

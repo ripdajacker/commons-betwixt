@@ -21,13 +21,14 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Iterator;
 
+import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestCollectives extends AbstractTestCase{
     
@@ -98,5 +99,52 @@ public class TestCollectives extends AbstractTestCase{
        
     }
     
+    public void testIntrospectListExtension() throws Exception
+    {      
+        XMLIntrospector xmlIntrospector = new XMLIntrospector();
+        XMLBeanInfo beanInfo = xmlIntrospector.introspect(ArrayListExtender.class);
+        
+        ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
+        ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
+        assertEquals(2, childDescriptors.length);
+        assertEquals("another", childDescriptors[0].getPropertyName());
+        assertTrue(childDescriptors[1].getContextExpression() instanceof IteratorExpression);
+    }
 
+    public void testWriteListExtension() throws Exception
+    {
+        ArrayListExtender bean = new ArrayListExtender("Whatever");
+        bean.add(new Long(11));
+        bean.add(new Long(12));
+        bean.add(new Long(13));
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs( false );
+        writer.write(bean);
+        
+        String expected = "<?xml version='1.0'?><ArrayListExtender><another>Whatever</another>" +
+        		"<Long>11</Long><Long>12</Long><Long>13</Long></ArrayListExtender>";
+        
+        xmlAssertIsomorphicContent(parseString( expected ), parseString( out ));
+    }
+    
+
+    public void testReadListExtension() throws Exception
+    {
+        String xml = "<?xml version='1.0'?><ArrayListExtender><another>Whatever</another>" +
+		"<Long>11</Long><Long>12</Long><Long>13</Long></ArrayListExtender>";
+
+        StringReader in = new StringReader( xml );
+        
+        BeanReader reader = new BeanReader();
+        reader.getBindingConfiguration().setMapIDs( false );
+
+        reader.registerBeanClass( ArrayListExtender.class );
+        ArrayListExtender bean = (ArrayListExtender) reader.parse( in );
+        
+        assertEquals("Whatever", bean.getAnother());
+    }
 }
