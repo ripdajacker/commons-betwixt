@@ -214,7 +214,7 @@ public class XMLIntrospectorHelper {
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
-     * @deprecated unused
+     * @deprecated 0.6 unused
      */
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
@@ -234,7 +234,7 @@ public class XMLIntrospectorHelper {
      * @param beanClass the <code>Class</code> from which the update method should be found.
      * This may be null only when <code>updateMethodName</code> is also null.
      * @since 0.5
-     * @deprecated moved into ElementRule
+     * @deprecated 0.6 moved into ElementRule
      */
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
@@ -342,7 +342,7 @@ public class XMLIntrospectorHelper {
      *
      * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
-     * @deprecated moved into AttributeRule
+     * @deprecated 0.6 moved into AttributeRule
      */
     public static void configureProperty( 
                                     AttributeDescriptor attributeDescriptor, 
@@ -405,7 +405,7 @@ public class XMLIntrospectorHelper {
      * @param introspector use this <code>XMLIntrospector</code> for introspection
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
-     * @deprecated use the method in XMLIntrospector instead
+     * @deprecated 0.6 use the method in XMLIntrospector instead
      */
     public static void defaultAddMethods( 
                                             XMLIntrospector introspector, 
@@ -573,7 +573,7 @@ public class XMLIntrospectorHelper {
      * type can be varied.
      * @param type is this <code>Class<code> a primitive type?
      * @return true for primitive types 
-     * @deprecated replaced by {@link org.apache.commons.betwixt.strategy.TypeBindingStrategy}
+     * @deprecated 0.6 replaced by {@link org.apache.commons.betwixt.strategy.TypeBindingStrategy}
      */
     public static boolean isPrimitiveType(Class type) {
         if ( type == null ) {
@@ -610,7 +610,7 @@ public class XMLIntrospectorHelper {
      * searched for a match
      * @param propertyName the name of the 'adder' method to match
      * @return <code>ElementDescriptor</code> for the matching getter 
-     * @deprecated moved into XMLIntrospector
+     * @deprecated 0.6 moved into XMLIntrospector
      */
     protected static ElementDescriptor findGetCollectionDescriptor( 
                                                 XMLIntrospector introspector, 
@@ -647,7 +647,7 @@ public class XMLIntrospectorHelper {
      * @param rootDescriptor the values of the maps are the children of this 
      * <code>ElementDescriptor</code> index by their property names
      * @param map the map to which the elements will be added
-     * @deprecated moved into XMLIntrospector
+     * @deprecated 0.6 moved into XMLIntrospector
      */
     protected static void makeElementDescriptorMap( ElementDescriptor rootDescriptor, Map map ) {
         ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
@@ -670,7 +670,7 @@ public class XMLIntrospectorHelper {
      * @param rootDescriptor traverse child graph for this <code>ElementDescriptor</code>
      * @param oldValue replace this <code>ElementDescriptor</code>
      * @param newValue replace with this <code>ElementDescriptor</code>
-     * @deprecated now unused
+     * @deprecated 0.6 now unused
      */     
     protected static void swapDescriptor( 
                                 ElementDescriptor rootDescriptor, 

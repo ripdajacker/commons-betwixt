@@ -18,15 +18,15 @@ package org.apache.commons.betwixt.schema;
 
 import java.beans.IntrospectionException;
 import java.util.Iterator;
+import java.util.Collection;
 
 import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.2.2.1 $
  */
 public class GlobalComplexType extends ComplexType {
 	
@@ -68,8 +68,8 @@ public class GlobalComplexType extends ComplexType {
           if (obj instanceof GlobalComplexType) {
               GlobalComplexType complexType = (GlobalComplexType) obj;
               result =  isEqual(name, complexType.name) &&
-                        CollectionUtils.isEqualCollection(attributes, complexType.attributes) &&
-                        CollectionUtils.isEqualCollection(elements, complexType.elements);
+                        equalContents(attributes, complexType.attributes) &&
+                        equalContents(elements, complexType.elements);
                                    
           }
           return result;
@@ -77,6 +77,21 @@ public class GlobalComplexType extends ComplexType {
 
     public int hashCode() {
         return 0;
+    }
+    
+    private boolean equalContents(Collection one, Collection two)
+    {
+        // doesn't check cardinality but should be ok
+        if (one.size() != two.size()) {
+            return false;
+        }
+        for (Iterator it=one.iterator();it.hasNext();) {
+            Object object = it.next();
+            if (!two.contains(object)) {
+                return false;
+            }
+        }
+        return true;
     }
 
       /**

@@ -184,7 +184,8 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
+        <ul>
             <li><strong>Improved empty element rendering</strong></li>
             <li>
 <strong>Extended betwixt file</strong> by adding two new properties 
@@ -199,6 +200,7 @@ binding.
 <strong>Improved support for reading arrays.</strong> In particular added code to support
 reading of array valued property setters and for array valued adders.
             </li>
+        </ul>
     </subsection>
     <subsection name='0.5'>
         <ul>
@@ -311,7 +313,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
         <ul>
                 <li><strong>Refactoring (more declarative descriptors)</strong>
             	<ul>
@@ -413,13 +415,13 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
         <ul>
         </ul>
     </subsection>
 </section>
 <section name='Semantic Changes'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
         <ul>
             <li>
             	<strong>Introspection and ElementDescriptor</strong> changes in introspection and 

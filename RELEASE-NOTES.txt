@@ -1,16 +1,21 @@
 $Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
 
                          Commons Betwixt Package
-                               Version 0.5
+                               Version 0.6
                               Release Notes
 
 INTRODUCTION:
 
-Betwixt provides a flexible way to map beans into XML - and vice versa. This is the 
-first full Betwixt release.
+Betwixt provides a flexible way to map beans into XML - and vice versa.
 
-This release consolidates the codebase released in Alpha-1.0. It is stable and mature
-but the design is limited. Newer, more sophisticated designs are being introduced 
-(in later releses) but they are unlikely to be binary compatible. This API exposed 
-in this release is therefore not sufficiently stable enough to warrent a 1.0 version 
-number.
+Betwixt release 0.6 is the first release containing the refactored codebase 
+featuring an improved design. This is a service release for those who have been
+using the code from the CVS branch and offers an easy, compatible upgrade path
+for those using the 0.5 design. It is recommended that all users should upgrade
+to this release since the 0.5 design is no longer actively supported and is 
+limited in terms of functionality. 
+
+This release is binary compatible with the 0.5 codebase but the methods deprecated
+in 0.5 are likely to be removed soon after 0.6 is released.
+
+For more details see the tasks document.

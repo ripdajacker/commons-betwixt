@@ -41,6 +41,27 @@
 </section>
 
 <section name="Releases">
+  <subsection name='Betwixt 0.6'>
+    <p>
+Betwixt release 0.6 is the first release containing the refactored codebase 
+featuring an improved design. This is a service release for those who have been
+using the code from the CVS branch and offers an easy, compatible upgrade path
+for those using the 0.5 design. It is recommended that all users should upgrade
+to this release since the 0.5 design is no longer actively supported and is 
+limited in terms of functionality. 
+    </p>
+    <p>
+This release is binary compatible with the 0.5 codebase but the methods deprecated
+in 0.5 are likely to be removed soon after 0.6 is released.
+    </p>
+    <p>
+Betwixt release 0.6 is available in 
+<a href='http://jakarta.apache.org/site/binindex.cgi#commons-betwixt'>binary</a>
+and
+<a href='http://jakarta.apache.org/site/sourceindex.cgi#commons-betwixt'>source</a>
+distribution.
+    </p>
+  </subsection>
   <subsection name="Betwixt 0.5">
     <p>
 Betwixt release 0.5 is intended to consolidate the codebase released as 1.0 Alpha 1. 
