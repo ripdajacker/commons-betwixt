@@ -60,6 +60,15 @@
 		  be transformed in XSLT engines as XML.
 		</li>
        </ul>
+      <ul>
+        <li>
+		  Add support for custom class loaders. Probably this means adding a classloader property
+                  to <code>XMLIntrospector</code> and then ensuring all class creation uses that. 
+                  The digestion rules which create the <code>XMLBeanInfo</code> from <code>.betwixt</code>
+                  files should use the <code>XMLBeanInfoDigester</code> classloader property which should
+                  be set by the <code>XMLIntrospector</code>.
+		</li>
+       </ul>
     </section>
     
     </section>
