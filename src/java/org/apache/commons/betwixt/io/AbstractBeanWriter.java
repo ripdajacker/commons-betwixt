@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.15 2003/03/19 22:59:02 rdonkin Exp $
- * $Revision: 1.15 $
- * $Date: 2003/03/19 22:59:02 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.16 2003/04/24 08:52:20 rdonkin Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/04/24 08:52:20 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.15 2003/03/19 22:59:02 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.16 2003/04/24 08:52:20 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -74,6 +74,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,7 +96,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.15 $
+  * @version $Revision: 1.16 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -851,6 +852,12 @@ public abstract class AbstractBeanWriter {
             }
         }
         
+        // always write out loops - even when they have no elements
+        if ( XMLIntrospectorHelper.isLoopType( descriptor.getPropertyType() ) ) {
+            log.trace("Loop type so not empty.");
+            return false;
+        }
+        
         // now test child elements
         // an element is empty if it has no non-empty child elements
         if ( descriptor.hasChildren() ) {
@@ -862,6 +869,7 @@ public abstract class AbstractBeanWriter {
             }
         }
         
+        log.trace( "Element is empty." );
         return true;
     }
     

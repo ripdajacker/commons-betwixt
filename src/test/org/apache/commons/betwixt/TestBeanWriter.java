@@ -72,6 +72,7 @@ import junit.textui.TestRunner;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
 import org.apache.commons.logging.impl.SimpleLog;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 
 
 /** Test harness for the BeanWriter
@@ -353,6 +354,112 @@ public class TestBeanWriter extends AbstractTestCase {
          + "<String>That</String>" 
          + "<String>The Other</String>" 
          +"</Array>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+    }
+    
+    
+    /** Test nested case for writing empty elements */
+    public void testListedWriteEmptyElements() throws Exception {
+        ListOfNames names = new ListOfNames();
+        names.addName(new NameBean("Tom"));
+        names.addName(new NameBean("Dick"));
+        names.addName(new NameBean("Harry"));
+        names.addName(new NameBean(""));
+    
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        BeanWriter writer = new BeanWriter(out);
+        
+        //SimpleLog log = new SimpleLog("[testListedWriteEmptyElements:AbstractBeanWriter]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //writer.setAbstractBeanWriterLog(log);
+        
+        //log = new SimpleLog("[testListedWriteEmptyElements:XMLIntrospector]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //writer.getXMLIntrospector().setLog(log);
+        
+        //log = new SimpleLog("[testListedWriteEmptyElements:XMLIntrospectorHelper]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //XMLIntrospectorHelper.setLog(log);
+        
+        writer.setWriteEmptyElements(false);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        writer.setWriteIDs(false);
+        writer.write("Names", names);
+        
+        String xml = "<?xml version='1.0'?><Names>"
+         + "<name><name>Tom</name></name>" 
+         + "<name><name>Dick</name></name>" 
+         + "<name><name>Harry</name></name>" 
+         +"</Names>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        writer.setWriteIDs(false);
+        writer.write("Names", names);
+        
+        xml = "<?xml version='1.0'?><Names>"
+         + "<name><name>Tom</name></name>" 
+         + "<name><name>Dick</name></name>" 
+         + "<name><name>Harry</name></name>" 
+         + "<name><name/></name>"
+         +"</Names>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.write("Names", names);
+        
+        xml = "<?xml version='1.0'?><Names><names>"
+         + "<name><name>Tom</name></name>" 
+         + "<name><name>Dick</name></name>" 
+         + "<name><name>Harry</name></name>" 
+         + "<name><name/></name></names>"
+         +"</Names>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(false);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.write("Names", names);
+        
+        xml = "<?xml version='1.0'?><Names><names>"
+         + "<name><name>Tom</name></name>" 
+         + "<name><name>Dick</name></name>" 
+         + "<name><name>Harry</name></name>" 
+         + "</names>"
+         +"</Names>";
          
         xmlAssertIsomorphicContent(
                             parseString(out.getBuffer().toString()),
