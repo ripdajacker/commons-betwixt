@@ -111,7 +111,9 @@ public class TestBeanWriter extends AbstractTestCase {
     
     
     public void testLooping() throws Exception {
-        BeanWriter writer = new BeanWriter();
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
         
         // logging for debugging jsut this method 
@@ -128,21 +130,80 @@ public class TestBeanWriter extends AbstractTestCase {
         
         writer.enablePrettyPrint();
         writer.write( LoopBean.createNoLoopExampleBean() );    
-        writer.write( LoopBean.createLoopExampleBean() );   
+        
+        String xml ="<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name>"
+                + "<friend><name>level2</name><friend><name>level3</name><friend><name>level4</name>"
+                + "<friend><name>level5</name></friend></friend></friend></friend></friend></LoopBean>";
+      
+        xmlAssertIsomorphicContent(
+                            "Test no loop",
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);        
+        
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
+        writer.write( LoopBean.createLoopExampleBean() );  
+        xml ="<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name>"
+                + "<friend><name>level2</name><friend><name>level3</name><friend><name>level4</name>"
+                + "<friend><name>level5</name><friend idref='1'/></friend></friend></friend>"
+                + "</friend></friend></LoopBean>";
+        xmlAssertIsomorphicContent(
+                            "Test loop",
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);  
         
         // test not writing IDs
-        writer.setWriteIDs(false);
+
         
 //        log.info("Writing LoopBean.createNoLoopExampleBean...");
         
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
+        writer.setWriteIDs(false);
         writer.write( LoopBean.createNoLoopExampleBean() );
+        xml ="<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name><friend>"
+            + "<name>level2</name><friend><name>level3</name><friend><name>level4</name><friend>"
+            + "<name>level5</name></friend></friend>"
+            + "</friend></friend></friend></LoopBean>";
+                
+        xmlAssertIsomorphicContent(	
+                            "Test no loop, no ids",
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true); 
         
 //        log.info("Writing LoopBean.createIdOnlyLoopExampleBean...");
         
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
+        writer.setWriteIDs(false);
         writer.write( LoopBean.createIdOnlyLoopExampleBean() );
+        xml = "<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name>"
+            + "<friend><name>level2</name><friend><name>level3</name><friend><name>level4</name>"
+            + "<friend><name>level5</name><friend><name>Root</name></friend></friend>"
+            + "</friend></friend></friend></friend></LoopBean>";
+                
+        xmlAssertIsomorphicContent(	
+                            "Test id only loop",
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true); 
         
         try {   
-//            log.info("Writing LoopBean.createLoopExampleBean...");
+//            log.info("Writing LoopBean.createLoopExampleBean...")
+            out = new StringWriter();
+            out.write("<?xml version='1.0'?>");
+            writer = new BeanWriter(out);
+            writer.setWriteEmptyElements( true );
+            writer.setWriteIDs(false);
             writer.write( LoopBean.createLoopExampleBean() );   
             fail("CyclicReferenceException not thrown!");
             
