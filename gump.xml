@@ -27,10 +27,9 @@
     <depend project="commons-beanutils"/>
     <depend project="commons-collections"/>
     <depend project="commons-digester"/>
-    <depend project="xercesImpl"/>
-    <depend project="xmlParseAPIs"/>
+    <depend project="xerces"/>
+    <depend project="xml-apis"/>
     <depend project="junit"/>
-    <depend project="maven"/>
 
     <work nested="target/classes"/>
     <home nested="target"/>

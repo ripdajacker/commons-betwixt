@@ -25,14 +25,13 @@
   
     <mkdir dir="lib"></mkdir>
     
-    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-logging-1.0.jar"></get>
-    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-beanutils-1.3.jar"></get>
-    <get dest="lib/commons-collections-2.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-collections-2.0.jar"></get>
-    <get dest="lib/commons-digester-1.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/commons-digester-1.2.jar"></get>
-    <get dest="lib/xercesImpl-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/xercesImpl-2.0.0.jar"></get>
-    <get dest="lib/xmlParserAPIs-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/xmlParserAPIs-2.0.0.jar"></get>
-    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/junit-3.7.jar"></get>
-    <get dest="lib/maven.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars/maven.jar"></get>
+    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-logging-1.0.jar"></get>
+    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-beanutils-1.3.jar"></get>
+    <get dest="lib/commons-collections-2.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-collections-2.0.jar"></get>
+    <get dest="lib/commons-digester-1.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-digester-1.2.jar"></get>
+    <get dest="lib/xerces-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xerces-2.0.0.jar"></get>
+    <get dest="lib/xml-apis-2.0.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xml-apis-2.0.2.jar"></get>
+    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/junit-3.7.jar"></get>
   
   </target>
 
