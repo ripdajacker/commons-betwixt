@@ -1,5 +1,24 @@
 <project default="java:jar" xmlns:j="jelly:core">
 
+  <preGoal name="dist:build-bin">
+    
+    <echo>Copying RELEASE_NOTES ...</echo>
+    
+    <copy todir="${maven.dist.bin.assembly.dir}">
+      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
+    </copy>
+
+  </preGoal>
+  
+  <preGoal name="dist:build-src">
+    
+    <echo>Copying RELEASE_NOTES ...</echo>
+    <copy todir="${maven.dist.src.assembly.dir}">
+      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
+    </copy>
+
+  </preGoal>
+
   <preGoal name="test:compile">
     
     <echo>Copying test resources ...</echo>
