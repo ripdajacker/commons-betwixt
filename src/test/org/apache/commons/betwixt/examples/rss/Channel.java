@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/Channel.java,v 1.1 2004/01/12 20:29:27 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2004/01/12 20:29:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/Channel.java,v 1.1.2.1 2004/01/15 20:41:28 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/01/15 20:41:28 $
  *
  * ====================================================================
  * 
@@ -62,12 +62,7 @@
 
 package org.apache.commons.betwixt.examples.rss;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +76,7 @@ import java.util.List;
  *
  * @author Craig R. McClanahan
  * @author Ted Husted
- * @version $Revision: 1.1 $ $Date: 2004/01/12 20:29:27 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/15 20:41:28 $
  */
 
 public class Channel implements Serializable {

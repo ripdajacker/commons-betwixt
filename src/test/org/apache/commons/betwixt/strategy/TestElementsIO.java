@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.5 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.5.2.1 2004/01/15 20:41:29 rdonkin Exp $
+ * $Revision: 1.5.2.1 $
+ * $Date: 2004/01/15 20:41:29 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -161,7 +161,7 @@ public class TestElementsIO extends TestCase {
         
         result.setXMLIntrospector(newXMLIntrospector(mapper));
         result.enablePrettyPrint();
-        result.setWriteIDs(false);
+        result.getBindingConfiguration().setMapIDs(false);
         return result;
     }
 

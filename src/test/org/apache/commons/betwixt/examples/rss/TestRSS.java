@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/TestRSS.java,v 1.2 2004/01/12 22:16:08 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2004/01/12 22:16:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/TestRSS.java,v 1.2.2.1 2004/01/15 20:41:28 rdonkin Exp $
+ * $Revision: 1.2.2.1 $
+ * $Date: 2004/01/15 20:41:28 $
  *
  * ====================================================================
  * 
@@ -62,14 +62,15 @@
 
 package org.apache.commons.betwixt.examples.rss;
 
-import org.apache.commons.betwixt.AbstractTestCase;
 import java.io.File;
+
+import org.apache.commons.betwixt.AbstractTestCase;
 
 /**
  * <p>Test case for example.</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.2 $ $Date: 2004/01/12 22:16:08 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/15 20:41:28 $
  */
 
 public class TestRSS extends AbstractTestCase {

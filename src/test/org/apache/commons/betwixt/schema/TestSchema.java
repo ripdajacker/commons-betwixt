@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
- * $Revision: 1.9.2.1 $
- * $Date: 2004/01/13 21:49:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.9.2.2 2004/01/15 20:41:29 rdonkin Exp $
+ * $Revision: 1.9.2.2 $
+ * $Date: 2004/01/15 20:41:29 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
+ * @version $Id: TestSchema.java,v 1.9.2.2 2004/01/15 20:41:29 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -223,7 +223,7 @@ public class TestSchema extends AbstractTestCase
         writer.getXMLIntrospector().setWrapCollectionsInElement(wrapCollectionsInElement);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         // the source has 2 spaces indention and \n as line seperator.
         writer.setIndent("  ");
         writer.setEndOfLine("\n");

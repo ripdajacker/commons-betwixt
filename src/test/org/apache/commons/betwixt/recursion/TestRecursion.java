@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.1 2004/01/14 22:51:35 rdonkin Exp $
- * $Revision: 1.13.2.1 $
- * $Date: 2004/01/14 22:51:35 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.2 2004/01/15 20:41:29 rdonkin Exp $
+ * $Revision: 1.13.2.2 $
+ * $Date: 2004/01/15 20:41:29 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.13.2.1 2004/01/14 22:51:35 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.13.2.2 2004/01/15 20:41:29 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -245,7 +245,7 @@ public class TestRecursion extends AbstractTestCase
         writer.getXMLIntrospector().setWrapCollectionsInElement(wrapIt);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         // the source has 2 spaces indention and \n as line seperator.
         writer.setIndent("  ");
         writer.setEndOfLine("\n");
@@ -276,7 +276,7 @@ public class TestRecursion extends AbstractTestCase
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
-        writer.setWriteIDs(true);
+        writer.getBindingConfiguration().setMapIDs(true);
         writer.write(bean);
         
         String xml = "<?xml version='1.0'?><IdBean notId='Not ID' id='Hello, World'/>";
@@ -302,7 +302,7 @@ public class TestRecursion extends AbstractTestCase
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
         writer.setWriteEmptyElements( true );
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(alpha);
 
         String xml = "<?xml version='1.0'?><Element><name>Alpha</name><elements><element>"
@@ -332,7 +332,7 @@ public class TestRecursion extends AbstractTestCase
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
         writer.setWriteEmptyElements( true );
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         
         //SimpleLog log = new SimpleLog("[testCyclicReferenceStack2:BeanWriter]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);

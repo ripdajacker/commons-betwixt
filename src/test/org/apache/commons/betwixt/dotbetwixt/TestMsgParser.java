@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1.2.1 2004/01/15 19:50:56 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/15 19:50:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1.2.2 2004/01/15 20:41:28 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/15 20:41:28 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,17 +63,17 @@
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-
-import junit.framework.TestCase;
 /**
  * Tests the marshalling and unmarshalling of MsgBeans with Betwixt.
  * The problem tested here is that an element without an updater would
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.1.2.1 2004/01/15 19:50:56 rdonkin Exp $
+ * @version $Id: TestMsgParser.java,v 1.1.2.2 2004/01/15 20:41:28 rdonkin Exp $
  */
 public class TestMsgParser extends TestCase
 {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/Item.java,v 1.1 2004/01/12 20:30:18 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2004/01/12 20:30:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/Item.java,v 1.1.2.1 2004/01/15 20:41:28 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/01/15 20:41:28 $
  *
  * ====================================================================
  * 
@@ -62,7 +62,6 @@
 
 package org.apache.commons.betwixt.examples.rss;
 
-import java.io.PrintWriter;
 import java.io.Serializable;
 
 
@@ -74,7 +73,7 @@ import java.io.Serializable;
  * <p>Based on the Jakarta Commons <code>Digester</code> implementation.</p>
  *
  * @author Craig R. McClanahan
- * @version $Revision: 1.1 $ $Date: 2004/01/12 20:30:18 $
+ * @version $Revision: 1.1.2.1 $ $Date: 2004/01/15 20:41:28 $
  */
 
 public class Item implements Serializable {

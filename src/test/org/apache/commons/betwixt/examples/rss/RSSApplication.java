@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/RSSApplication.java,v 1.2 2004/01/12 22:16:08 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2004/01/12 22:16:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/RSSApplication.java,v 1.2.2.1 2004/01/15 20:41:28 rdonkin Exp $
+ * $Revision: 1.2.2.1 $
+ * $Date: 2004/01/15 20:41:28 $
  *
  * ====================================================================
  * 
@@ -63,7 +63,6 @@
 package org.apache.commons.betwixt.examples.rss;
 
 import java.io.File;
-
 import java.util.Iterator;
 
 import org.apache.commons.betwixt.io.BeanReader;
@@ -75,7 +74,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * rather than providing a .</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.2 $ $Date: 2004/01/12 22:16:08 $
+ * @version $Revision: 1.2.2.1 $ $Date: 2004/01/15 20:41:28 $
  */
 
 public class RSSApplication {
