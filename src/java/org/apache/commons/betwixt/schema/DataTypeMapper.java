@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.6 2004/02/23 21:41:13 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/23 21:41:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/DataTypeMapper.java,v 1.1.2.1 2004/02/23 21:42:27 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/23 21:42:27 $
  *
  * ====================================================================
  * 
@@ -62,9 +62,15 @@
 package org.apache.commons.betwixt.schema;
 
 /**
+ * <p>Maps Java simple data types into XML schema data types.
+ * </p><p>
+ * This pluggable strategy is used to allow the mapping of (simple) java types
+ * into XML schema data types to be customized.
+ * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.1 $
  */
-public interface Element {
-    public String getName();
+public abstract class DataTypeMapper {
+    
+    public abstract String toXMLSchemaDataType(Class type);
 }

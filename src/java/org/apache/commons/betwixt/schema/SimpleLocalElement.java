@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SimpleLocalElement.java,v 1.1.2.1 2004/02/08 12:11:40 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/08 12:11:40 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SimpleLocalElement.java,v 1.1.2.2 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -67,7 +67,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class SimpleLocalElement extends LocalElement {
     
@@ -78,9 +78,13 @@ public class SimpleLocalElement extends LocalElement {
         setType(type);
     }
     
-    public SimpleLocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
+    public SimpleLocalElement(
+                                TranscriptionConfiguration configuration, 
+                                ElementDescriptor descriptor, 
+                                Schema schema) 
+                                    throws IntrospectionException {
         super(descriptor, schema);
-        setType("xsd:string");
+        setType(configuration.getDataTypeMapper().toXMLSchemaDataType(descriptor.getPropertyType()));
     }
     
     public String getType() {
@@ -112,5 +116,15 @@ public class SimpleLocalElement extends LocalElement {
         }
         
         return one.equals(two);
-    } 
+    }
+    
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<element name='");
+        buffer.append(getName());
+        buffer.append("' type='");
+        buffer.append(getType());
+        buffer.append("'/>"); 
+        return buffer.toString();
+    }
 }

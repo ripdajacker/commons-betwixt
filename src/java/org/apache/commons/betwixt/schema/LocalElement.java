@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalElement.java,v 1.1.2.2 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalElement.java,v 1.1.2.3 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -67,9 +67,9 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
-public class LocalElement {
+public class LocalElement implements Element {
 
     protected String name;
     

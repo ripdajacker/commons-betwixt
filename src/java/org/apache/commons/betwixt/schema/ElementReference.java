@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ElementReference.java,v 1.1.2.1 2004/02/08 12:12:50 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/08 12:12:50 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ElementReference.java,v 1.1.2.2 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -67,9 +67,9 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
-public class ElementReference extends Element {
+public class ElementReference extends GlobalElement {
 
     protected String maxOccurs = "1";
 
@@ -84,10 +84,10 @@ public class ElementReference extends Element {
         super(name, type);
     }
 
-    public ElementReference(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+    public ElementReference(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         setName(elementDescriptor.getLocalName());
         if (elementDescriptor.isHollow()) {
-            setComplexType( new GlobalComplexType(elementDescriptor, schema));
+            setComplexType( new GlobalComplexType(configuration, elementDescriptor, schema));
             schema.addComplexType(getComplexType());
             if (elementDescriptor.isCollective()) {
                 maxOccurs = "unbounded";

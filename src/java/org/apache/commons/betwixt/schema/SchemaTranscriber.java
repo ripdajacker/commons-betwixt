@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.3 2004/02/04 22:57:41 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/04 22:57:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.4 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -77,9 +77,8 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * and Betwixt can be used to output this to xml.
  * This should allow both SAX and text.
  * </p>
- * TODO: it's very likely that strategies will be needed to allow flexibility in mapping later
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class SchemaTranscriber {
 	
@@ -88,9 +87,26 @@ public class SchemaTranscriber {
     
 	/** Used to introspect beans in order to generate XML */
 	private XMLIntrospector introspector = new XMLIntrospector();
+    private TranscriptionConfiguration configuration = new TranscriptionConfiguration();
 	
 	public SchemaTranscriber() {}
 	 
+    /**
+     * Gets the configuration for the XMLBeanInfo to XML schema transcription.
+     * @return TranscriptionConfiguration, not null
+     */
+    public TranscriptionConfiguration getConfiguration() {
+        return configuration;
+    }
+    
+    /**
+     * Sets the configuration for the XMLBeanInfo to XML schema transcription.
+     * @param configuration TranscriptionConfiguration, not null
+     */
+    public void setConfiguration(TranscriptionConfiguration configuration) {
+        this.configuration = configuration;
+    }
+    
 	/**
 	 * Gets the XMLIntrospector used to create XMLInfoBean's.
 	 * @return XMLIntrospector used to create XMLInfoBean's used to generate schema, not null
@@ -129,7 +145,7 @@ public class SchemaTranscriber {
 	public Schema generate(XMLBeanInfo xmlBeanInfo) throws IntrospectionException {
        ElementDescriptor elementDescriptor = xmlBeanInfo.getElementDescriptor(); 
 	   Schema schema = new Schema(introspector);
-       schema.addGlobalElementType(elementDescriptor);
+       schema.addGlobalElementType(configuration, elementDescriptor);
        return schema;
 	}
     

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.6 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.7 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.7 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.7 $
  */
 public class Schema {
 	
@@ -133,7 +133,7 @@ public class Schema {
 	 * Adds a new element to those defined.
 	 * @param element not null
 	 */
-	public void addElement(Element element) {
+	public void addElement(GlobalElement element) {
 		elements.add(element);
 	}
 
@@ -158,15 +158,15 @@ public class Schema {
      * Adds global (top level) element and type declarations matching the given descriptor.
      * @param elementDescriptor ElementDescriptor not null
      */
-    public void addGlobalElementType(ElementDescriptor elementDescriptor) throws IntrospectionException {
+    public void addGlobalElementType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor) throws IntrospectionException {
         // need to create a global element declaration and a complex type 
         // use the fully qualified class name as the type name
-        Element element = new Element(
+        GlobalElement element = new GlobalElement(
                             elementDescriptor.getLocalName(), 
                             elementDescriptor.getPropertyType().getName());
         addElement(element);
         
-        GlobalComplexType type = new GlobalComplexType(elementDescriptor, this);
+        GlobalComplexType type = new GlobalComplexType(configuration, elementDescriptor, this);
         addComplexType(type);
     }	
 	

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.7 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.7 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.8 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.8 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.7 $
+ * @version $Revision: 1.1.2.8 $
  */
 public abstract class ComplexType {
 
@@ -81,7 +81,7 @@ public abstract class ComplexType {
 
     public ComplexType() {}
 
-    public ComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+    public ComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         if (elementDescriptor.isHollow()) {
             // need to introspector for filled descriptor
             Class type = elementDescriptor.getSingularPropertyType();
@@ -91,10 +91,10 @@ public abstract class ComplexType {
             XMLBeanInfo filledBeanInfo = schema.introspect(type);
             elementDescriptor = filledBeanInfo.getElementDescriptor();
         }
-        init(elementDescriptor, schema);      
+        init(configuration, elementDescriptor, schema);      
     }
 
-    protected void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+    protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         for (int i=0,length=attributeDescriptors.length; i<length ; i++) {
@@ -110,11 +110,11 @@ public abstract class ComplexType {
         ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();
         for (int i=0,length=elementDescriptors.length; i<length ; i++) {
             if (elementDescriptors[i].isHollow()) {
-                elements.add(new ElementReference(elementDescriptors[i], schema));
+                elements.add(new ElementReference(configuration, elementDescriptors[i], schema));
             } else if (elementDescriptors[i].isSimple()){
-                elements.add(new SimpleLocalElement(elementDescriptors[i], schema));
+                elements.add(new SimpleLocalElement(configuration, elementDescriptors[i], schema));
             } else {
-                elements.add(new ComplexLocalElement(elementDescriptors[i], schema));
+                elements.add(new ComplexLocalElement(configuration, elementDescriptors[i], schema));
             }
         } 
     }

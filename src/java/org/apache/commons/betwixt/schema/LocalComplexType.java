@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalComplexType.java,v 1.1.2.1 2004/02/08 12:14:13 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/08 12:14:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalComplexType.java,v 1.1.2.2 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -69,15 +69,15 @@ import org.apache.commons.collections.CollectionUtils;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class LocalComplexType extends ComplexType {
 
 
     public LocalComplexType() {}
 
-    public LocalComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        super(elementDescriptor, schema);   
+    public LocalComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        super(configuration, elementDescriptor, schema);   
     }
 
     public boolean equals(Object obj) {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexLocalElement.java,v 1.1.2.1 2004/02/08 12:12:18 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/08 12:12:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexLocalElement.java,v 1.1.2.2 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -67,14 +67,14 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class ComplexLocalElement extends LocalElement {
     
     private LocalComplexType type;
-    public ComplexLocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
+    public ComplexLocalElement(TranscriptionConfiguration configuration, ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
         super(descriptor, schema);
-        setType(new LocalComplexType(descriptor, schema));
+        setType(new LocalComplexType(configuration, descriptor, schema));
     }
     
     public LocalComplexType getType() {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/GlobalComplexType.java,v 1.1.2.1 2004/02/08 12:13:41 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/08 12:13:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/GlobalComplexType.java,v 1.1.2.2 2004/02/23 21:41:13 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/23 21:41:13 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class GlobalComplexType extends ComplexType {
 	
@@ -83,13 +83,13 @@ public class GlobalComplexType extends ComplexType {
      * Constructs a new ComplexType from the descriptor given.
      * @param elementDescriptor
      */
-    public GlobalComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        super(elementDescriptor, schema);    
+    public GlobalComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        super(configuration, elementDescriptor, schema);    
     }
 
-    protected void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+    protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         setName(elementDescriptor.getPropertyType().getName());
-        super.init(elementDescriptor, schema);
+        super.init(configuration, elementDescriptor, schema);
     }
 
 	/**
