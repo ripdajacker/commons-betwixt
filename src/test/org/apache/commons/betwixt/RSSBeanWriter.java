@@ -45,7 +45,7 @@ public class RSSBeanWriter extends AbstractTestCase {
             bean = digester.parse( args[0] );
         }
         else {
-            InputStream in = new FileInputStream( "src/test/org/apache/commons/betwixt/rss-example.xml" );
+            InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml") );
             bean = digester.parse( in ); 
             in.close();
         }

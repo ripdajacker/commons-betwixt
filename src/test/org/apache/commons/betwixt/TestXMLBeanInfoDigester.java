@@ -94,7 +94,7 @@ public class TestXMLBeanInfoDigester extends AbstractTestCase {
     public void testDigester() throws Exception {
         XMLBeanInfoDigester digester = new XMLBeanInfoDigester();
 
-        InputStream in = new FileInputStream( "src/test/org/apache/commons/digester/rss/Channel.betwixt" );
+        InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/digester/rss/Channel.betwixt") );
         
         assertTrue( "Found betwixt config file", in != null );
         

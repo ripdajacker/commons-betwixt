@@ -10,6 +10,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
+import org.apache.commons.betwixt.AbstractTestCase;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -20,10 +21,10 @@ import junit.textui.TestRunner;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.2 2002/07/08 16:42:12 jvanzyl Exp $
+ * @version $Id: TestNoWrap.java,v 1.3 2002/07/26 21:04:05 jvanzyl Exp $
  */
 public class TestNoWrap
-    extends TestCase
+    extends AbstractTestCase
 {
     private POTest po;
 
@@ -61,7 +62,7 @@ public class TestNoWrap
     public void load()
         throws Exception
     {
-        String xmlLocation = "src/test/org/apache/commons/betwixt/nowrap/po_add_test.xml";
+        String xmlLocation = getTestFile("src/test/org/apache/commons/betwixt/nowrap/po_add_test.xml");
 
         FileInputStream in = new FileInputStream(new File(xmlLocation));
 

@@ -70,7 +70,7 @@ public class RSSBeanReader extends AbstractTestCase {
             bean = reader.parse( args[0] );
         }
         else {
-            InputStream in = new FileInputStream( "src/test/org/apache/commons/betwixt/rss-example.xml" );
+            InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml") );
             bean = reader.parse( in ); 
             in.close();
         }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.2 2002/07/26 21:04:05 jvanzyl Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/26 21:04:05 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSchema.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: TestSchema.java,v 1.2 2002/07/26 21:04:05 jvanzyl Exp $
  */
 package org.apache.commons.betwixt.schema;
 
@@ -80,9 +80,9 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * @version $Id: TestSchema.java,v 1.2 2002/07/26 21:04:05 jvanzyl Exp $
  */
-public class TestSchema extends TestCase
+public class TestSchema extends AbstractTestCase
 {
     
     public static Test suite()
@@ -106,7 +106,7 @@ public class TestSchema extends TestCase
     throws Exception
     {
         BeanReader reader = createBeanReader();
-        PhysicalSchema schema = (PhysicalSchema) reader.parse("src/test/org/apache/commons/betwixt/schema/schema.xml");
+        PhysicalSchema schema = (PhysicalSchema) reader.parse(getTestFile("src/test/org/apache/commons/betwixt/schema/schema.xml"));
         StringWriter buffer = new StringWriter();
         write(schema, buffer, true);
         StringReader in = new StringReader(buffer.getBuffer().toString());
@@ -136,7 +136,7 @@ public class TestSchema extends TestCase
     throws Exception
     {
         BeanReader reader = createBeanReader();
-        PhysicalSchema schema = (PhysicalSchema) reader.parse("src/test/org/apache/commons/betwixt/schema/schema.xml");
+        PhysicalSchema schema = (PhysicalSchema) reader.parse(getTestFile("src/test/org/apache/commons/betwixt/schema/schema.xml"));
         StringWriter buffer = new StringWriter();
         write(schema, buffer, false);
         StringReader in = new StringReader(buffer.getBuffer().toString());

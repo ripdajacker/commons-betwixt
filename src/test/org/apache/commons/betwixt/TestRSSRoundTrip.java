@@ -122,7 +122,7 @@ public class TestRSSRoundTrip extends AbstractTestCase {
         // lets parse the example 
         RSSDigester digester = new RSSDigester();
         
-        InputStream in = new FileInputStream( "src/test/org/apache/commons/betwixt/rss-example.xml" );
+        InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml") );
         Object bean = digester.parse( in ); 
         in.close();
         
@@ -157,7 +157,7 @@ public class TestRSSRoundTrip extends AbstractTestCase {
         // lets parse the example using the RSSDigester
         RSSDigester digester = new RSSDigester();
         
-        InputStream in = new FileInputStream( "src/test/org/apache/commons/betwixt/rss-example.xml" );
+        InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml") );
         Object bean = digester.parse( in ); 
         in.close();
         

@@ -33,7 +33,7 @@ import org.apache.commons.logging.impl.SimpleLog;
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision: 1.7 $
   */
-public class TestBeanReader extends TestCase {
+public class TestBeanReader extends AbstractTestCase {
     
     public static void main( String[] args ) {
         TestRunner.run( suite() );
@@ -78,7 +78,7 @@ public class TestBeanReader extends TestCase {
     }
     
     protected InputStream getXMLInput() throws IOException {
-        return new FileInputStream( "src/test/org/apache/commons/betwixt/customer.xml" );
+        return new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/customer.xml") );
     }
     
     public void testWriteThenRead() throws Exception

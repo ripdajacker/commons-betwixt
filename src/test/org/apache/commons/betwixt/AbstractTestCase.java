@@ -61,6 +61,7 @@
  */
 package org.apache.commons.betwixt;
 
+import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,10 +79,20 @@ import org.apache.commons.betwixt.io.BeanWriter;
   */
 public abstract class AbstractTestCase extends TestCase {
     
+    /**
+     * Basedir for all i/o
+     */
+    public String basedir = System.getProperty("basedir");
+    
     public AbstractTestCase(String testName) {
         super(testName);
     }
-    
+
+    public String getTestFile(String path)
+    {
+        return new File(basedir,path).getAbsolutePath();
+    }
+
     protected Object createBean() {
         CustomerBean bean = new CustomerBean();
         bean.setID( "1" );

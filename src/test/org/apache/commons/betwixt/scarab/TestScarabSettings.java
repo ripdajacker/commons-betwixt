@@ -118,7 +118,7 @@ public class TestScarabSettings extends AbstractTestCase
         BeanReader reader = createBeanReader();
 
         ScarabSettings ss = (ScarabSettings) reader.parse(
-            new FileInputStream("src/test/org/apache/commons/betwixt/scarab/scarab-settings.xml"));
+            new FileInputStream(getTestFile("src/test/org/apache/commons/betwixt/scarab/scarab-settings.xml")));
 
         // now lets output it to a buffer
         StringWriter buffer = new StringWriter();
