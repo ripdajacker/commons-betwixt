@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/12/30 20:32:30 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 22:45:05 $
  *
  * ====================================================================
  *
@@ -57,9 +57,11 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
+ * $Id: TestXMLIntrospector.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
+
+import java.io.StringWriter;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -68,6 +70,8 @@ import java.beans.BeanInfo;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
+import org.apache.commons.logging.impl.SimpleLog;
 
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.NoCacheRegistry;
@@ -78,11 +82,13 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.AttributeDescriptor;
 
+import org.apache.commons.betwixt.io.BeanWriter;
+
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -165,23 +171,71 @@ public class TestXMLIntrospector extends AbstractTestCase {
     }
     
     public void testBeanWithBeanInfo() throws Exception {
+        
         // let's check that bean info's ok
         BeanInfo bwbiBeanInfo = Introspector.getBeanInfo(BeanWithBeanInfoBean.class);
         
-        PropertyDescriptor[] descriptors = bwbiBeanInfo.getPropertyDescriptors();
+        PropertyDescriptor[] propertyDescriptors = bwbiBeanInfo.getPropertyDescriptors();
 
-        assertEquals("Wrong number of properties", 2 , descriptors.length);
+        assertEquals("Wrong number of properties", 2 , propertyDescriptors.length);
         
         // order of properties isn't guarenteed 
-        if ("alpha".equals(descriptors[0].getName())) {
+        if ("alpha".equals(propertyDescriptors[0].getName())) {
         
-            assertEquals("Second property name", "gamma" , descriptors[1].getName());
+            assertEquals("Second property name", "gamma" , propertyDescriptors[1].getName());
             
         } else {
         
-            assertEquals("First property name", "gamma" , descriptors[0].getName());
-            assertEquals("Second property name", "alpha" , descriptors[1].getName());
+            assertEquals("First property name", "gamma" , propertyDescriptors[0].getName());
+            assertEquals("Second property name", "alpha" , propertyDescriptors[1].getName());
         }
+        
+        // finished with the descriptors
+        propertyDescriptors = null;
+
+//        SimpleLog log = new SimpleLog("[testBeanWithBeanInfo:XMLIntrospector]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.setAttributesForPrimitives(false);
+//        introspector.setLog(log);
+        
+        XMLBeanInfo xmlBeanInfo = introspector.introspect(BeanWithBeanInfoBean.class);
+        
+        ElementDescriptor[] elementDescriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
+        
+//        log = new SimpleLog("[testBeanWithBeanInfo]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_DEBUG);
+        
+//        log.debug("XMLBeanInfo:");
+//        log.debug(xmlBeanInfo);
+//        log.debug("Elements:");
+//        log.debug(elementDescriptors[0].getPropertyName());
+//        log.debug(elementDescriptors[1].getPropertyName());
+        
+        assertEquals("Wrong number of elements", 2 , elementDescriptors.length);
+
+        // order of properties isn't guarenteed 
+        if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
+        
+            assertEquals("Second element name", "gamma" , elementDescriptors[1].getPropertyName());
+            
+        } else {
+        
+            assertEquals("First element name", "gamma" , elementDescriptors[0].getPropertyName());
+            assertEquals("Second element name", "alpha" , elementDescriptors[1].getPropertyName());
+        }
+        
+        // might as well give test output
+        StringWriter out = new StringWriter();
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteIDs(false);
+        BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value","beta value","gamma value");
+        writer.write(bean);
+        
+        xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output.xml"),
+                    parseString(out.toString()));
     }
 }
 

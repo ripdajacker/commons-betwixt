@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/BeanWithBeanInfoBean.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/12/30 20:32:30 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/BeanWithBeanInfoBean.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 22:45:05 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWithBeanInfoBean.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
+ * $Id: BeanWithBeanInfoBean.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.introspection;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class BeanWithBeanInfoBean {
     
@@ -84,7 +84,7 @@ public class BeanWithBeanInfoBean {
     
     public BeanWithBeanInfoBean() {}
     
-    public BeanWithBeanInfoBean(String alpha, String beta) {
+    public BeanWithBeanInfoBean(String alpha, String beta, String gamma) {
         setAlpha(alpha);
         setBeta(beta);
         gammaSetter(gamma);

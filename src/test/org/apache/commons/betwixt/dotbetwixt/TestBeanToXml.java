@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.6 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.7 2002/12/30 22:45:05 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2002/12/30 22:45:05 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestBeanToXml.java,v 1.7 2002/12/30 22:45:05 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -77,8 +77,6 @@ import org.apache.commons.betwixt.xmlunit.XmlTestCase;
   * @author Robert Burrell Donkin
   */
 public class TestBeanToXml extends XmlTestCase {
-
-    private final static boolean debug = true;
 
 //--------------------------------- Test Suite
     
@@ -117,11 +115,6 @@ public class TestBeanToXml extends XmlTestCase {
         writer.write(bean);
         out.flush();
         String xml = out.toString();
-
-        if (debug) {
-            System.out.println("************testSimpleBean************");
-            System.out.println(xml);
-        }
         
         xmlAssertIsomorphicContent(
                     parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/simpletestone.xml"),
