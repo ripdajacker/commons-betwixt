@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.10 2004/04/18 20:29:07 rdonkin Exp $
- * $Revision: 1.4.2.10 $
- * $Date: 2004/04/18 20:29:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.11 2004/04/19 21:27:23 rdonkin Exp $
+ * $Revision: 1.4.2.11 $
+ * $Date: 2004/04/19 21:27:23 $
  *
  * ====================================================================
  * 
@@ -91,7 +91,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.10 $
+  * @version $Revision: 1.4.2.11 $
   */
 public class ReadContext extends Context {
 
@@ -109,6 +109,8 @@ public class ReadContext extends Context {
 	private ArrayStack objectStack = new ArrayStack();
     
     private ArrayStack descriptorStack = new ArrayStack();
+    
+    private ArrayStack updaterStack = new ArrayStack();
 
 	private Class rootClass;
     /** The <code>XMLIntrospector</code> to be used to map the xml*/
@@ -241,6 +243,10 @@ public class ReadContext extends Context {
             descriptorStack.pop();
         }
         
+        if (!updaterStack.isEmpty()) {
+            updaterStack.pop();
+        }
+        
 		Object top = null;
 		if (!elementMappingStack.isEmpty()) {
 			top = elementMappingStack.pop();
@@ -315,6 +321,11 @@ public class ReadContext extends Context {
                 nextDescriptor = currentDescriptor.getElementDescriptor(elementName);
             }
         }
+        Updater updater = null;
+        if (nextDescriptor != null) {
+            updater = nextDescriptor.getUpdater();
+        }
+        updaterStack.push(updater);
         descriptorStack.push(nextDescriptor);
 	}
 
@@ -326,9 +337,13 @@ public class ReadContext extends Context {
 	  */
 	public void markClassMap(Class mappedClazz) throws IntrospectionException {
 		elementMappingStack.push(mappedClazz);
+        
         XMLBeanInfo mappedClassInfo = getXMLIntrospector().introspect(mappedClazz);
         ElementDescriptor mappedElementDescriptor = mappedClassInfo.getElementDescriptor();
         descriptorStack.push(mappedElementDescriptor);
+        
+        Updater updater = mappedElementDescriptor.getUpdater();
+        updaterStack.push(updater);
 	}
 
 	/**
@@ -481,21 +496,63 @@ public class ReadContext extends Context {
 		}
 	}
 
-    public Updater getCurrentUpdater() throws Exception {
-        //TODO: add dyna-bean support!
-        // probably refactoring needed
-        ElementDescriptor currentDescriptor = getCurrentDescriptor();
-        Updater updater = null;
-        if (currentDescriptor != null) {
-            updater = currentDescriptor.getUpdater();
-        } 
-        if (updater == null) {
-            ElementDescriptor parentDescriptor = getParentDescriptor();
-            if (parentDescriptor != null) {
-                updater = parentDescriptor.getUpdater();         
+    /**
+     * <p>Pushes an <code>Updater</code> onto the stack.</p>
+     * <p>
+     * <strong>Note</strong>Any action pushing an <code>Updater</code> onto
+     * the stack should take responsibility for popping
+     * the updater from the stack at an appropriate time.
+     * </p>
+     * <p>
+     * <strong>Usage:</strong> this may be used by actions
+     * which require a temporary object to be updated.
+     * Pushing an updater onto the stack allow actions
+     * downstream to transparently update the temporary proxy.
+     * </p>
+     * @param updater Updater, possibly null
+     */
+    public void pushUpdater(Updater updater) {
+        updaterStack.push(updater);
+    }
+    
+    /**
+     * Pops the top <code>Updater</code> from the stack.
+     * <p>
+     * <strong>Note</strong>Any action pushing an <code>Updater</code> onto
+     * the stack should take responsibility for popping
+     * the updater from the stack at an appropriate time.
+     * </p>
+     * @return <code>Updater</code>, possibly null
+     */
+    public Updater popUpdater() {
+        return (Updater) updaterStack.pop();
+    }
+
+    /**
+     * Gets the current <code>Updater</code>.
+     * This may (or may not) be the updater for the current
+     * descriptor.
+     * If the current descriptor is a bean child,
+     * the the current updater will (most likely) 
+     * be the updater for the property.
+     * Actions (that, for example, use proxy objects)
+     * may push updaters onto the stack.
+     * @return Updater, possibly null
+     */
+    public Updater getCurrentUpdater() {
+        // TODO: think about whether this is right
+        //       it makes some sense to look back up the 
+        //       stack until a non-empty updater is found.
+        //       actions who need to put a stock to this 
+        //       behaviour can always use an ignoring implementation. 
+        Updater result = null;
+        if (!updaterStack.empty()) {
+            result = (Updater) updaterStack.peek();
+            if ( result == null && updaterStack.size() >1 ) {
+                result = (Updater) updaterStack.peek(1);
             }
         }
-        return updater;
+        return result;  
     }
 
 }
