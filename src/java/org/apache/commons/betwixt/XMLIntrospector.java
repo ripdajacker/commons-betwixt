@@ -94,7 +94,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
+  * @version $Id: XMLIntrospector.java,v 1.3 2002/07/01 18:45:20 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -206,7 +206,12 @@ public class XMLIntrospector {
             if (xmlInfo != null) {
                 cacheXMLBeanInfos.put( aClass, xmlInfo );
             }
-        }        
+        } else {
+            log.trace("Used cached XMLBeanInfo.");
+        }
+        
+        log.trace(xmlInfo);
+        
         return xmlInfo;
     }
     
