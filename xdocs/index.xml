@@ -40,8 +40,24 @@
 
 </section>
 
-<section name="Download Betwixt">
-  <subsection name="Alpha Releases">
+<section name="Releases">
+  <subsection name="Betwixt 0.5">
+    <p>
+Betwixt release 0.5 is currently in preparation. This is intended to consolidate
+the Alpha 1 codebase for those users who want or need an official release of this
+code. This numbering system more accurately reflects the current state of the codebase
+- stable, mature but limited with APIs that will need to change.
+    </p>
+    <p>
+The current CVS HEAD code now contains the merged refactoring branch. A 
+baseline 0.6 release is planned for this code once 0.5 has been released.
+    </p>
+    <p>
+For more information, see the road map <a href='http://wiki.apache.org/jakarta-commons/Betwixt'>
+on the wiki</a>.
+    </p>
+  </subsection>
+  <subsection name="Betwixt 1.0 Alpha 1">
     <p>
     <strong>Betwixt 1.0 Alpha 1</strong> - 28 Jan 2003
     <ul>
@@ -52,7 +68,8 @@
     </ul>
     </p>
   </subsection>
-  <subsection name="Nightly Builds">
+</section>
+<section name="Nightly Builds">
     <p>
         Nightly builds are built once a day from the current CVS HEAD.
         This is (nearly) the lastest code and so should be treated with caution!
@@ -61,7 +78,6 @@
         You can get the nightly builds from 
         <a href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-betwixt/">here</a>
     </p>
-  </subsection>
 </section>
 
 </body>
