@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+    <element name='attribute' uri='http://www.w3.org/2001/XMLSchema'>
+    	<attribute
+    		name='name'
+    		property='name'/>
+    	<attribute 
+    		name='type' 
+    		property='type'/>
+    </element>
+</info>
