@@ -61,11 +61,6 @@
             Run test coverage tool and improve coverage of key functionality.
         </li>
         <li>
-            <strong>Allow customization for update from .betwixt file</strong>
-            Add updater attribute that allows the updater to be specified for an elements.
-            This should also allow updaters to be ignored for certain properties.
-        </li>
-        <li>
             <strong>Add dynabeans support.</strong> 
             Dynabeans are a feature of <code>commons-beanutils</code> that allows data in non-beans to be
             wrapped into pseudo-beans. If betwixt supported dynabeans then you could do cool stuff like 
@@ -204,6 +199,10 @@
                 body text between child elements through the .betwixt file. This text can be
                 static or set from a property.
             </li>
+        <li>
+            <strong>Allow customization for update from .betwixt file</strong>
+            Add updater attribute that allows the updater to be specified for an elements.
+        </li>
         </ul>
     </subsection>
 </section>

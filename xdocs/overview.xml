@@ -471,6 +471,38 @@ public class NameMapperExampleApp {
     </p>
     
 </subsection>
+<subsection name='Advanced Updaters'>
+    <p>
+Betwixt by default uses the property write method for standard properties 
+and matched stems for composite properties (for more details, see 
+<a href="#Using adder methods for composite properties">here</a>) 
+to update property values when reading beans. 
+These approaches should be sufficient for most cases. 
+But this can be overruled on a per element basis.
+    </p>
+    <p>
+By using a .betwixt file, the method used to update the bean can be controlled on a per element basis.
+When the value of the <code>updater</code> attribute of an <code>&lt;element&gt;</code> element is set,
+Betwixt will try to find a bean method with a matching name which takes a single parameter.
+When such a matching method exists, this will be called to update the property value.
+    </p>
+    <p>
+For example, the following betwixt file fragment: 
+    
+<source><![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="bean">
+        ...
+        <element name='name' property='name' updater='nameSetter'/>
+        ...
+  </element>
+</info>
+]]></source>
+
+will look for a method called 'nameSetter' and use that to update the value mapped to the 'name' element.
+    </p>
+</subsection>
 </section>
 
 <section name="Examples">
