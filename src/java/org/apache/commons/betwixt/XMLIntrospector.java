@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.18 2003/01/06 22:50:44 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.19 2003/01/09 22:34:07 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -130,7 +130,7 @@ public class XMLIntrospector {
      * It will default to the normal nameMapper.
      */
     private NameMapper attributeNameMapper;
-    
+    /** Should the existing bean info search path for java.reflect.Introspector be used? */
     private boolean useBeanInfoSearchPath = false;
     
     /** Base constructor */
@@ -138,21 +138,23 @@ public class XMLIntrospector {
     }
     
     /**
-     * <p> Get the current logging implementation. </p>
+     * <p>Gets the current logging implementation. </p>
+     * @return the Log implementation which this class logs to
      */ 
     public Log getLog() {
         return log;
     }
 
     /**
-     * <p> Set the current logging implementation. </p>
+     * <p>Sets the current logging implementation.</p>
+     * @param log the Log implementation to use for logging
      */ 
     public void setLog(Log log) {
         this.log = log;
     }
     
     /** 
-     * <p>Get current registry implementation used.
+     * <p>Gets the current registry implementation.
      * The registry is checked to see if it has an <code>XMLBeanInfo</code> for a class
      * before introspecting. 
      * After standard introspection is complete, the instance will be passed to the registry.</p>
@@ -160,13 +162,15 @@ public class XMLIntrospector {
      * <p>This allows finely grained control over the caching strategy.
      * It also allows the standard introspection mechanism 
      * to be overridden on a per class basis.</p>
+     *
+     * @return the XMLBeanInfoRegistry currently used 
      */
     public XMLBeanInfoRegistry getRegistry() {
         return registry;
     }
     
     /** 
-     * <p>Set current registry implementation used.
+     * <p>Sets the <code>XMLBeanInfoRegistry</code> implementation.
      * The registry is checked to see if it has an <code>XMLBeanInfo</code> for a class
      * before introspecting. 
      * After standard introspection is complete, the instance will be passed to the registry.</p>
@@ -174,6 +178,8 @@ public class XMLIntrospector {
      * <p>This allows finely grained control over the caching strategy.
      * It also allows the standard introspection mechanism 
      * to be overridden on a per class basis.</p>
+     *
+     * @param registry the XMLBeanInfoRegistry to use
      */
     public void setRegistry(XMLBeanInfoRegistry registry) {
         this.registry = registry;
@@ -184,6 +190,7 @@ public class XMLIntrospector {
      * Is <code>XMLBeanInfo</code> caching enabled? 
      *
      * @deprecated replaced by XMlBeanInfoRegistry
+     * @return true if caching is enabled
      */
     public boolean isCachingEnabled() {
         return true;
@@ -193,6 +200,7 @@ public class XMLIntrospector {
      * Set whether <code>XMLBeanInfo</code> caching should be enabled.
      *
      * @deprecated replaced by XMlBeanInfoRegistry
+     * @param cachingEnabled ignored
      */    
     public void setCachingEnabled(boolean cachingEnabled) {
         //
@@ -206,9 +214,13 @@ public class XMLIntrospector {
     public void flushCache() {}
     
     /** Create a standard <code>XMLBeanInfo</code> by introspection
-        The actual introspection depends only on the <code>BeanInfo</code>
-        associated with the bean.
-        */
+      * The actual introspection depends only on the <code>BeanInfo</code>
+      * associated with the bean.
+      * 
+      * @param bean introspect this bean
+      * @return XMLBeanInfo describing bean-xml mapping
+      * @throws IntrospectionException when the bean introspection fails
+      */
     public XMLBeanInfo introspect(Object bean) throws IntrospectionException {
         if (log.isDebugEnabled()) {
             log.debug( "Introspecting..." );
@@ -218,8 +230,12 @@ public class XMLIntrospector {
     }
     
     /** Create a standard <code>XMLBeanInfo</code> by introspection.
-        The actual introspection depends only on the <code>BeanInfo</code>
-        associated with the bean.        
+      * The actual introspection depends only on the <code>BeanInfo</code>
+      * associated with the bean.    
+      *    
+      * @param aClass introspect this class
+      * @return XMLBeanInfo describing bean-xml mapping
+      * @throws IntrospectionException when the bean introspection fails
       */
     public XMLBeanInfo introspect(Class aClass) throws IntrospectionException {
         // we first reset the beaninfo searchpath.
@@ -262,9 +278,13 @@ public class XMLIntrospector {
     }
     
     /** Create a standard <code>XMLBeanInfo</code> by introspection. 
-        The actual introspection depends only on the <code>BeanInfo</code>
-        associated with the bean.
-        */
+      * The actual introspection depends only on the <code>BeanInfo</code>
+      * associated with the bean.
+      *
+      * @param beanInfo the BeanInfo the xml-bean mapping is based on
+      * @return XMLBeanInfo describing bean-xml mapping
+      * @throws IntrospectionException when the bean introspection fails
+      */
     public XMLBeanInfo introspect(BeanInfo beanInfo) throws IntrospectionException {    
         XMLBeanInfo answer = createXMLBeanInfo( beanInfo );
 
@@ -339,13 +359,19 @@ public class XMLIntrospector {
     // Properties
     //-------------------------------------------------------------------------        
     
-    /** Should attributes (or elements) be used for primitive types.
-     */
+    /** 
+      * Should attributes (or elements) be used for primitive types.
+      * @return true if primitive types will be mapped to attributes in the introspection
+      */
     public boolean isAttributesForPrimitives() {
         return attributesForPrimitives;
     }
 
-    /** Set whether attributes (or elements) should be used for primitive types. */
+    /** 
+      * Set whether attributes (or elements) should be used for primitive types. 
+      * @param attributesForPrimitives pass trus to map primitives to attributes,
+      *        pass false to map primitives to elements
+      */
     public void setAttributesForPrimitives(boolean attributesForPrimitives) {
         this.attributesForPrimitives = attributesForPrimitives;
     }
@@ -359,7 +385,12 @@ public class XMLIntrospector {
         return wrapCollectionsInElement;
     }
 
-    /** Sets whether we should we wrap collections in an extra element? */
+    /** 
+     * Sets whether we should we wrap collections in an extra element.
+     *
+     * @param wrapCollectionsInElement pass true if collections should be wrapped in a
+     *        parent element
+     */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
         this.wrapCollectionsInElement = wrapCollectionsInElement;
     }
@@ -378,12 +409,16 @@ public class XMLIntrospector {
     
     /** 
      * Sets the strategy used to detect matching singular and plural properties 
+     *
+     * @param pluralStemmer the PluralStemmer used to match singular and plural
      */
     public void setPluralStemmer(PluralStemmer pluralStemmer) {
         this.pluralStemmer = pluralStemmer;
     }
 
     /** 
+     * Gets the name mapper strategy.
+     * 
      * @return the strategy used to convert bean type names into element names
      * @deprecated getNameMapper is split up in 
      * {@link #getElementNameMapper()} and {@link #getAttributeNameMapper()}
@@ -394,7 +429,7 @@ public class XMLIntrospector {
     
     /** 
      * Sets the strategy used to convert bean type names into element names
-     * @param nameMapper
+     * @param nameMapper the NameMapper strategy to be used
      * @deprecated setNameMapper is split up in 
      * {@link #setElementNameMapper(NameMapper)} and {@link #setAttributeNameMapper(NameMapper)}
      */
@@ -404,7 +439,7 @@ public class XMLIntrospector {
 
 
     /**
-     * Get the name mapping strategy used to convert bean names into elements.
+     * Gets the name mapping strategy used to convert bean names into elements.
      *
      * @return the strategy used to convert bean type names into element 
      * names. If no element mapper is currently defined then a default one is created.
@@ -417,8 +452,8 @@ public class XMLIntrospector {
     }
      
     /**
-     *  Sets the strategy used to convert bean type names into element names
-     * @param nameMapper
+     * Sets the strategy used to convert bean type names into element names
+     * @param nameMapper the NameMapper to use for the conversion
      */
     public void setElementNameMapper(NameMapper nameMapper) {
         this.elementNameMapper = nameMapper;
@@ -426,7 +461,7 @@ public class XMLIntrospector {
     
 
     /**
-     * Get the name mapping strategy used to convert bean names into attributes.
+     * Gets the name mapping strategy used to convert bean names into attributes.
      *
      * @return the strategy used to convert bean type names into attribute
      * names. If no attributeNamemapper is known, it will default to the ElementNameMapper
@@ -441,7 +476,7 @@ public class XMLIntrospector {
 
     /**
      * Sets the strategy used to convert bean type names into attribute names
-     * @param nameMapper
+     * @param nameMapper the NameMapper to use for the convertion
      */
     public void setAttributeNameMapper(NameMapper nameMapper) {
         this.attributeNameMapper = nameMapper;
@@ -458,6 +493,8 @@ public class XMLIntrospector {
     /** 
      * A Factory method to lazily create a new strategy 
      * to detect matching singular and plural properties.
+     *
+     * @return new defualt PluralStemmer implementation
      */
     protected PluralStemmer createPluralStemmer() {
         return new DefaultPluralStemmer();
@@ -466,6 +503,8 @@ public class XMLIntrospector {
     /** 
      * A Factory method to lazily create a strategy 
      * used to convert bean type names into element names.
+     *
+     * @return new default NameMapper implementation
      */
     protected NameMapper createNameMapper() {
         return new DefaultNameMapper();
@@ -475,6 +514,10 @@ public class XMLIntrospector {
      * Attempt to lookup the XML descriptor for the given class using the
      * classname + ".betwixt" using the same ClassLoader used to load the class
      * or return null if it could not be loaded
+     * 
+     * @param aClass digester .betwixt file for this class
+     * @return XMLBeanInfo digested from the .betwixt file if one can be found.
+     *         Otherwise null.
      */
     protected synchronized XMLBeanInfo findByXMLDescriptor( Class aClass ) {
         // trim the package name
@@ -511,7 +554,14 @@ public class XMLIntrospector {
         return null;
     }
             
-    /** Loop through properties and process each one */
+    /** 
+     * Loop through properties and process each one 
+     *
+     * @param beanInfo the BeanInfo whose properties will be processed
+     * @param elements ElementDescriptor list to which elements will be added
+     * @param attributes AttributeDescriptor list to which attributes will be added
+     * @throws IntrospectionException if the bean introspection fails
+     */
     protected void addProperties(
                                     BeanInfo beanInfo, 
                                     List elements, 
@@ -534,6 +584,12 @@ public class XMLIntrospector {
      * Process a property. 
      * Go through and work out whether it's a loop property, a primitive or a standard.
      * The class property is ignored.
+     *
+     * @param beanInfo the BeanInfo whose property is being processed
+     * @param propertyDescriptor the PropertyDescriptor to process
+     * @param elements ElementDescriptor list to which elements will be added
+     * @param attributes AttributeDescriptor list to which attributes will be added
+     * @throws IntrospectionException if the bean introspection fails
      */
     protected void addProperty(
                                 BeanInfo beanInfo, 
@@ -556,23 +612,38 @@ public class XMLIntrospector {
         }
     }
     
-    /** Factory method to create XMLBeanInfo instances */
+    /** 
+     * Factory method to create XMLBeanInfo instances 
+     *
+     * @param beanInfo the BeanInfo from which the XMLBeanInfo will be created
+     * @return XMLBeanInfo describing the bean-xml mapping
+     */
     protected XMLBeanInfo createXMLBeanInfo( BeanInfo beanInfo ) {
         XMLBeanInfo answer = new XMLBeanInfo( beanInfo.getBeanDescriptor().getBeanClass() );
         return answer;
     }
 
-    /** Returns true if the type is a loop type */
+    /** 
+     * Is this class a loop?
+     *
+     * @param type the Class to test
+     * @return true if the type is a loop type 
+     */
     public boolean isLoopType(Class type) {
         return XMLIntrospectorHelper.isLoopType(type);
     }
     
     
-    /** Returns true for primitive types */
+    /** 
+     * Is this class a primitive?
+     * @param type the Class to test
+     * @return true for primitive types 
+     */
     public boolean isPrimitiveType(Class type) {
         return XMLIntrospectorHelper.isPrimitiveType(type);
     }
     /**
+     * Should the original <code>java.reflect.Introspector</code> bean info search path be used?
      * By default it will be false.
      * 
      * @return boolean if the beanInfoSearchPath should be used.

@@ -1,7 +1,7 @@
  /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.5 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IteratorExpression.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: IteratorExpression.java,v 1.5 2003/01/09 22:34:07 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.expression;
@@ -74,20 +74,26 @@ import org.apache.commons.collections.iterators.EnumerationIterator;
 /** <p><code>IteratorExpression</code> returns an iterator over the current context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class IteratorExpression implements Expression {
     
     /** Use this <code>Expression</code> to perform initial evaluation*/
     private Expression expression;
     
-    /** Construct <code>IteratorExpression</code> using given expression for initial evaluation.
+    /** 
+     * Construct <code>IteratorExpression</code> using given expression for initial evaluation.
+     * @param expression this expression will be evaluated and the result converted to an 
+     *        iterator.
      */
     public IteratorExpression(Expression expression) {
         this.expression = expression;
     }
     
-    /** Returns an interator over the current context */
+    /** 
+     * Returns an interator over the current context 
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
     public Object evaluate(Context context) {        
         // evaluate wrapped expression against context
         Object value = expression.evaluate( context );
@@ -124,11 +130,19 @@ public class IteratorExpression implements Expression {
         // so return an empty iterator
         return Collections.EMPTY_LIST.iterator();
     }
-    
+
+    /** 
+     * Do nothing
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
     public void update(Context context, String newValue) {
         // do nothing
     }
     
+    /**
+     * Returns something useful for logging
+     * @return string useful for logging
+     */
     public String toString() {
         return "IteratorExpression [expression=" + expression + "]";
     }

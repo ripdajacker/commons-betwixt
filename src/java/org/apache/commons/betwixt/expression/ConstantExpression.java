@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/ConstantExpression.java,v 1.2 2002/07/01 18:53:52 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/01 18:53:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/ConstantExpression.java,v 1.3 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ConstantExpression.java,v 1.2 2002/07/01 18:53:52 rdonkin Exp $
+ * $Id: ConstantExpression.java,v 1.3 2003/01/09 22:34:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,7 +66,7 @@ package org.apache.commons.betwixt.expression;
   * <p> In other words, {@link #evaluate} returns a value independent of the context. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class ConstantExpression implements Expression {
 
@@ -78,8 +78,10 @@ public class ConstantExpression implements Expression {
     public ConstantExpression() {
     }
     
-    /** Convenience constructor sets <code>value</code> property.
-     */
+    /** 
+      * Convenience constructor sets <code>value</code> property.
+      * @param value the Object which is the constant value for this expression
+      */
     public ConstantExpression(Object value) {
         this.value = value;
     }
@@ -94,20 +96,34 @@ public class ConstantExpression implements Expression {
         return value;
     }
     
+    /**
+     * Do nothing
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
     public void update(Context context, String newValue) {
         // do nothing
     }
 
-    /** Gets the constant value of this expression */
+    /** 
+     * Gets the constant value of this expression 
+     * @return this expression's constant value 
+     */
     public Object getValue() {
         return value;
     }
     
-    /** Sets the constant value of this expression */
+    /**  
+     * Sets the constant value of this expression 
+     * @param value the constant value for this expression
+     */
     public void setValue(Object value) {
         this.value = value;
     }
     
+    /**
+     * Returns something useful for logging
+     * @return something useful for logging
+     */
     public String toString() {
         return "ConstantExpression [value=" + value + "]";
     }

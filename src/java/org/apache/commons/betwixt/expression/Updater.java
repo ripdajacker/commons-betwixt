@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Updater.java,v 1.2 2002/07/02 15:56:58 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/02 15:56:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Updater.java,v 1.3 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -64,13 +64,16 @@ package org.apache.commons.betwixt.expression;
   * context bean from some text from an XML attribute or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public interface Updater {
 
     /** Updates the current bean context with a new String value.
      * This is typically used when parsing XML and updating a bean value
      * from XML 
+     *
+     * @param context update the bean in this <code>Context</code>
+     * @param newValue set value to this <code>Object</code>
      */
     public void update(Context context, Object newValue);
 }

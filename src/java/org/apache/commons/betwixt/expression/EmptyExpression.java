@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/EmptyExpression.java,v 1.2 2002/07/01 18:54:38 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/01 18:54:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/EmptyExpression.java,v 1.3 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: EmptyExpression.java,v 1.2 2002/07/01 18:54:38 rdonkin Exp $
+ * $Id: EmptyExpression.java,v 1.3 2003/01/09 22:34:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,14 +66,16 @@ package org.apache.commons.betwixt.expression;
   * <p> See {@link #evaluate}. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class EmptyExpression implements Expression {
     
     /** Don't need more than one <code>EmptyExpression</code>*/
     private static final EmptyExpression singleton = new EmptyExpression();
     
-    /** Return the <code>EmptyExpression</code> singleton. 
+    /**
+     * Gets the singleton instance.
+     * @return the EmptyExpression singleton. 
      */
     public static EmptyExpression getInstance() {
         return singleton;
@@ -85,15 +87,23 @@ public class EmptyExpression implements Expression {
     }
     
     /** Return the bean we're evaluating.
+     * @see org.apache.commons.betwixt.expression.Expression
      */ 
     public Object evaluate(Context context) {
         return context.getBean();
     }
     
+    /** Do nothing
+     * @see org.apache.commons.betwixt.expression.Expression
+     */ 
     public void update(Context context, String newValue) {
         // do nothing
     }
     
+    /**
+     * Return something useful for logging.
+     * @return short name for this class
+     */
     public String toString() {
         return "EmptyExpression";
     }

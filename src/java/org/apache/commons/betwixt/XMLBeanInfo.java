@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/01/07 22:32:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.6 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfo.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
+ * $Id: XMLBeanInfo.java,v 1.6 2003/01/09 22:34:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -76,7 +76,7 @@ package org.apache.commons.betwixt;
   * usual values.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class XMLBeanInfo {
     /** Descriptor for main element */
@@ -157,7 +157,10 @@ public class XMLBeanInfo {
         return idAttributeDescriptor;
     }
     
-    /** ID attribute search implementation */
+    /** 
+     * ID attribute search implementation 
+     * @return the AttributeDescriptor for the <code>ID</code> attribute
+     */
     private AttributeDescriptor findIDAttribute() {
         // we'll check to see if the bean already has an id
         if ( getElementDescriptor().hasAttributes() ) {

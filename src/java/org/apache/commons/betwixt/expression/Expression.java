@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Expression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Expression.java,v 1.2 2003/01/09 22:34:07 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/09 22:34:07 $
  *
  * ====================================================================
  *
@@ -57,25 +57,38 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Expression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: Expression.java,v 1.2 2003/01/09 22:34:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>Expression</code> represents an arbitrary expression on a bean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public interface Expression {
 
     /** Evaluates the expression on the bean with the given context
      * and returns the result 
+     *
+     * @param context evaluate against this <code>Context</code>
+     * @return the value of the expression
      */
     public Object evaluate(Context context);    
     
-    /** Updates the current bean context with a new String value.
+    
+    /* XXX 
+       Is update actually useful?
+       None of the expression implementations i can find do anything when it's called.
+       I suspect that it's been replaced by Updater
+       but i maybe i'm missing something subtle
+    */
+    /** <p>Updates the current bean context with a new String value.
      * This is typically used when parsing XML and updating a beans value
-     * from XML 
+     * from XML.<p>
+     *
+     * @param context update this <code>Context</code> 
+     * @param newValue the new value for this expression
      */
     public void update(Context context, String newValue);
 }
