@@ -191,6 +191,36 @@ public class BeanReader extends Digester {
         }
     }
     
+    /**
+     * <p>Registers a class with a multi-mapping.
+     * This mapping is specified by the multi-mapping document
+     * contained in the given <code>InputSource</code>.
+     * </p><p>
+     * <strong>Note:</strong> the custom mappings will be registered with
+     * the introspector. This must remain so for the reading to work correctly
+     * It is recommended that use of the pre-registeration process provided
+     * by {@link XMLIntrospector#register}  be considered as an alternative to this method.
+     * </p>
+     * @see {@link #registerBeanClass(Class)} since the general notes given there
+     * apply equally to this 
+     * @see {@link XMLIntrospector#register(InputSource) for more details on the multi-mapping format
+     * @param mapping <code>InputSource</code> giving the multi-mapping document specifying 
+     * the mapping
+     * @throws IntrospectionException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public void registerMultiMapping(InputSource mapping) throws IntrospectionException, IOException, SAXException {
+        Class[] mappedClasses = introspector.register(mapping);
+        for (int i=0, size=mappedClasses.length; i<size; i++) 
+        {
+            Class beanClass = mappedClasses[i];
+	        if ( ! registeredClasses.contains( beanClass ) ) {
+	            register(beanClass, null);
+	            
+	        }
+        }
+    }
     
     /**
      * <p>Registers a class with a custom mapping.

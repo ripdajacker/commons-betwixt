@@ -29,10 +29,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
+import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
@@ -85,6 +87,9 @@ public class XMLIntrospector {
     /** Digester used to parse the XML descriptor files */
     private XMLBeanInfoDigester digester;
 
+    /** Digester used to parse the multi-mapping XML descriptor files */
+    private MultiMappingBeanInfoDigester multiMappingdigester;
+    
     /** Configuration to be used for introspection*/
     private IntrospectionConfiguration configuration;
     
@@ -525,6 +530,56 @@ public class XMLIntrospector {
         XMLBeanInfo xmlBeanInfo = createXMLBeanInfo( beanInfo );
         populate( xmlBeanInfo, new JavaBeanType( beanInfo ) );
         return xmlBeanInfo;
+    }
+    
+    
+    /**
+     * <p>Registers the class mappings specified in the multi-class document
+     * given by the <code>InputSource</code>.
+     * </p>
+     * <p>
+     * <strong>Note:</strong> that this method will override any existing mapping
+     * for the speficied classes.
+     * </p>
+     * @param source <code>InputSource</code>, not null
+     * @return <code>Class</code> array containing all mapped classes
+     * @throws IntrospectionException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public synchronized Class[] register(InputSource source) throws IntrospectionException, IOException, SAXException {
+        Map xmlBeanInfoByClass = loadMultiMapping(source);	
+        Set keySet = xmlBeanInfoByClass.keySet();
+        Class mappedClasses[] = new Class[keySet.size()];
+        int i=0;
+        for (Iterator it=keySet.iterator(); it.hasNext(); ) {
+            Class clazz = (Class) it.next();
+            mappedClasses[i++] = clazz;
+            XMLBeanInfo xmlBeanInfo = (XMLBeanInfo) xmlBeanInfoByClass.get(clazz);
+            if (xmlBeanInfo != null) {
+                getRegistry().put(clazz, xmlBeanInfo);
+            }   
+        }
+        return mappedClasses;
+    }
+    
+    /**
+     * Loads the multi-mapping from the given <code>InputSource</code>.
+     * @param mapping <code>InputSource</code>, not null
+     * @return <code>Map</code> containing <code>XMLBeanInfo</code>'s
+     * indexes by the <code>Class</code> they describe
+     * @throws IOException
+     * @throws SAXException
+     */
+    private synchronized Map loadMultiMapping(InputSource mapping) throws IOException, SAXException {
+        // synchronized method so this digester is only used by
+        // one thread at once
+        if (multiMappingdigester == null) {
+            multiMappingdigester = new MultiMappingBeanInfoDigester();
+            multiMappingdigester.setXMLIntrospector(this);
+        }
+        Map multiBeanInfoMap = (Map) multiMappingdigester.parse(mapping);
+        return multiBeanInfoMap;
     }
     
     /**

@@ -17,6 +17,7 @@
 package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * <p>Encodes body content.
