@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/02/17 19:41:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.5 2003/07/09 18:10:24 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/07/09 18:10:24 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
+ * $Id: TestSAXBeanWriter.java,v 1.5 2003/07/09 18:10:24 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,6 +72,7 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.PersonBean;
+import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -86,9 +87,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.5 2003/07/09 18:10:24 rdonkin Exp $
  */
-public class TestSAXBeanWriter extends TestCase {
+public class TestSAXBeanWriter extends AbstractTestCase {
     
     public static final String XML = "<?xml version='1.0'?><PersonBean id='1'><age>35</age><name>John Smith</name></PersonBean>";
 
@@ -102,14 +103,22 @@ public class TestSAXBeanWriter extends TestCase {
         // writer bean into string
         StringWriter out = new StringWriter();
         
-        SimpleLog log = new SimpleLog("[TestWrite:SAXBeanWriter]");
-        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //SimpleLog log = new SimpleLog("[TestWrite:SAXBeanWriter]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         
         SAXBeanWriter writer = new SAXBeanWriter(new SAXContentHandler(out));
-        writer.setLog(log);
+        //writer.setLog(log);
         writer.write(bean);
         String beanString = out.getBuffer().toString();
-        System.out.println(beanString);
+        String xml = "<?xml version='1.0'?><PersonBean><age>35</age>"
+                + "<name>John Smith</name></PersonBean>";
+                
+                        
+        xmlAssertIsomorphicContent(
+                    parseString(xml),
+                    parseString(beanString),
+                    true);
+     
         // test the result
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
