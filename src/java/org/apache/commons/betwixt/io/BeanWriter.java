@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
 
 import org.apache.commons.betwixt.XMLUtils;
+import org.apache.commons.betwixt.strategy.MixedContentEncodingStrategy;
 
 /** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
   *
@@ -75,7 +76,7 @@ import org.apache.commons.betwixt.XMLUtils;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.21 $
+  * @version $Revision: 1.22 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -100,6 +101,9 @@ public class BeanWriter extends AbstractBeanWriter {
     private boolean closedStartTag = true;
     /** Current level of indentation (starts at 1 with the first element) */
     private int indentLevel;
+    /** USed to determine how body content should be encoded before being output*/
+    private MixedContentEncodingStrategy mixedContentEncodingStrategy 
+        = MixedContentEncodingStrategy.DEFAULT;
     
     /**
      * <p> Constructor uses <code>System.out</code> for output.</p>
@@ -262,6 +266,28 @@ public class BeanWriter extends AbstractBeanWriter {
         this.log = log;
     }
     
+    /**
+     * Gets the encoding strategy for mixed content.
+     * This is used to process body content 
+     * before it is written to the textual output.
+     * @return the <code>MixedContentEncodingStrategy</code>, not null
+     */
+    public MixedContentEncodingStrategy getMixedContentEncodingStrategy() {
+        return mixedContentEncodingStrategy;
+    }
+
+    /**
+     * Sets the encoding strategy for mixed content.
+     * This is used to process body content 
+     * before it is written to the textual output.
+     * @param strategy the <code>MixedContentEncodingStrategy</code>
+     * used to process body content, not null
+     */
+    public void setMixedContentEncodingStrategy(MixedContentEncodingStrategy strategy) {
+        mixedContentEncodingStrategy = strategy;
+    }
+    
+    
     // New API
     //------------------------------------------------------------------------------
 
@@ -364,7 +390,7 @@ public class BeanWriter extends AbstractBeanWriter {
                 writer.write( '>' );
                 closedStartTag = true;
             }
-            writer.write( XMLUtils.escapeBodyValue(text) );
+            writer.write( mixedContentEncodingStrategy.encode(text, currentDescriptor) );
             currentElementIsEmpty = false;
             currentElementHasBodyText = true;
         }
@@ -556,4 +582,6 @@ public class BeanWriter extends AbstractBeanWriter {
         writer.write( XMLUtils.escapeAttributeValue(value) );
         writer.write( '\"' );
     }
+
+
 }
