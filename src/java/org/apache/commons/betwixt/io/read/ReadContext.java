@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.8 2004/04/18 19:47:22 rdonkin Exp $
- * $Revision: 1.4.2.8 $
- * $Date: 2004/04/18 19:47:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.9 2004/04/18 20:20:31 rdonkin Exp $
+ * $Revision: 1.4.2.9 $
+ * $Date: 2004/04/18 20:20:31 $
  *
  * ====================================================================
  * 
@@ -93,7 +93,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.8 $
+  * @version $Revision: 1.4.2.9 $
   */
 public class ReadContext extends Context {
 
@@ -109,6 +109,8 @@ public class ReadContext extends Context {
 	private ArrayStack actionMappingStack = new ArrayStack();
 	/** Stack contains all beans created */
 	private ArrayStack objectStack = new ArrayStack();
+    
+    private ArrayStack descriptorStack = new ArrayStack();
 
 	private Class rootClass;
     /** The <code>XMLIntrospector</code> to be used to map the xml*/
@@ -235,7 +237,12 @@ public class ReadContext extends Context {
 	  * This is the local name if the parser is namespace aware, otherwise the name
 	  */
 	public String popElement() {
-
+        // since the descriptor stack is populated by pushElement,
+        // need to ensure that it's correct popped by popElement
+        if (!descriptorStack.isEmpty()) {
+            descriptorStack.pop();
+        }
+        
 		Object top = null;
 		if (!elementMappingStack.isEmpty()) {
 			top = elementMappingStack.pop();
@@ -259,36 +266,6 @@ public class ReadContext extends Context {
 	}
 
 	/**
-	  * Gets an iterator for the current relative path.
-	  * This is not guarenteed to behave safely if the underlying array
-	  * is modified during an interation.
-	  * The current relative path is the sequence of element names
-	  * starting with the element after the last mapped class marked.
-	  *
-	  * @return an Iterator over String's
-	  */
-	private Iterator getRelativeElementPathIterator() {
-		return new RelativePathIterator();
-	}
-
-	/**
-	  * Gets an iterator for the current relative path.
-	  * This is not guarenteed to behave safely if the underlying array
-	  * is modified during an interation.
-	  * The current relative path is the sequence of element names
-	  * starting with the element after the last mapped class marked.
-	  *
-	  * @return an Iterator over String's
-	  */
-	private Iterator getParentElementPathIterator() {
-		Object top = elementMappingStack.peek();
-		if (top instanceof Class) {
-			return new RelativePathIterator(1);
-		}
-		return new RelativePathIterator();
-	}
-
-	/**
 	  * Gets the Class that was last mapped, if there is one.
 	  * 
 	  * @return the Class last marked as mapped 
@@ -307,49 +284,13 @@ public class ReadContext extends Context {
         }
         return lastMapped;
 	}
-    
-    private Class getParentClass()
-    {
-        Class result = null;
-        boolean first = true;
-        for (int i = 0, size = elementMappingStack.size();
-            i < size;
-            i++) {
-            Object entry = elementMappingStack.peek(i);
-            if (entry instanceof Class) {
-                if (first) {
-                    first = false;
-                } else {
-                
-                    result = (Class) entry;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-    
-    private XMLBeanInfo getParentXMLBeanInfo() throws IntrospectionException {
-        XMLBeanInfo result = null;
-        Class parentClass = getParentClass();
-        if ( parentClass != null ) {
-            result = getXMLIntrospector().introspect(parentClass);
-        }
-        return result;
-    }
-    
+
     private ElementDescriptor getParentDescriptor() throws IntrospectionException {
-        ElementDescriptor parentDescriptor = null;
-        XMLBeanInfo parentInfo = getParentXMLBeanInfo();
-        if ( parentInfo != null ) {
-            Iterator it = getParentElementPathIterator();
-            parentDescriptor =
-                parentInfo
-                    .getElementDescriptor()
-                    .getElementDescriptor(it);            
+        ElementDescriptor result = null;
+        if (descriptorStack.size() > 1) {
+            result = (ElementDescriptor) descriptorStack.peek(1);
         }
-        
-        return parentDescriptor;
+        return result;
     }
     
 
@@ -359,14 +300,24 @@ public class ReadContext extends Context {
 	  * @param elementName the local name if the parser is namespace aware,
 	  * otherwise the full element name. Not null
 	  */
-	public void pushElement(String elementName) {
+	public void pushElement(String elementName) throws Exception {
 
 		elementMappingStack.push(elementName);
 		// special case to ensure that root class is appropriately marked
 		//TODO: is this really necessary?
+        ElementDescriptor nextDescriptor = null;
 		if (elementMappingStack.size() == 1 && rootClass != null) {
 			markClassMap(rootClass);
-		}
+            XMLBeanInfo rootClassInfo 
+                = getXMLIntrospector().introspect(rootClass);
+            nextDescriptor = rootClassInfo.getElementDescriptor();
+		} else {
+            ElementDescriptor currentDescriptor = getCurrentDescriptor();
+            if (currentDescriptor != null) {
+                nextDescriptor = currentDescriptor.getElementDescriptor(elementName);
+            }
+        }
+        descriptorStack.push(nextDescriptor);
 	}
 
 	/**
@@ -375,51 +326,12 @@ public class ReadContext extends Context {
 	  * 
 	  * @param mappedClazz the Class which has been mapped at the current path, not null
 	  */
-	public void markClassMap(Class mappedClazz) {
+	public void markClassMap(Class mappedClazz) throws IntrospectionException {
 		elementMappingStack.push(mappedClazz);
+        XMLBeanInfo mappedClassInfo = getXMLIntrospector().introspect(mappedClazz);
+        ElementDescriptor mappedElementDescriptor = mappedClassInfo.getElementDescriptor();
+        descriptorStack.push(mappedElementDescriptor);
 	}
-
-	/** Used to return relative path */
-	private class RelativePathIterator implements Iterator {
-
-		/** The stack position that this iterator is at */
-		private int at;
-		private int offset;
-
-		public RelativePathIterator() {
-			this(0);
-		}
-
-		public RelativePathIterator(int offset) {
-			this.offset = offset;
-			at = elementMappingStack.size() - 1;
-			for (int i = offset, size = elementMappingStack.size();
-				i < size;
-				i++) {
-				Object entry = elementMappingStack.peek(i);
-				if (entry instanceof Class) {
-					at = i - 1;
-					break;
-				}
-			}
-		}
-
-		public boolean hasNext() {
-			return (at >= offset);
-		}
-
-		public Object next() {
-			if (hasNext()) {
-				return elementMappingStack.peek(at--);
-			} else {
-				throw new NoSuchElementException();
-			}
-		}
-
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	};
 
 	/**
 	 * Pops an action mapping from the stack
@@ -482,6 +394,11 @@ public class ReadContext extends Context {
      * @return <code>XMLIntrospector, not null
      */
 	public XMLIntrospector getXMLIntrospector() {
+        // read context is not intended to be used by multiple threads
+        // so no need to worry about lazy creation
+        if (xmlIntrospector == null) {
+            xmlIntrospector = new XMLIntrospector();
+        }
 		return xmlIntrospector;
 	}
 
@@ -511,29 +428,9 @@ public class ReadContext extends Context {
      */
 	public ElementDescriptor getCurrentDescriptor() throws Exception {
 		ElementDescriptor result = null;
-		Iterator relativePathIterator = getRelativeElementPathIterator();
-		if (relativePathIterator.hasNext()) {
-			Class lastMappedClazz = getLastMappedClass();
-			if (lastMappedClazz != null) {
-				XMLBeanInfo lastMappedClazzInfo =
-					getXMLIntrospector().introspect(lastMappedClazz);
-				ElementDescriptor baseDescriptor =
-					lastMappedClazzInfo.getElementDescriptor();
-				result =
-					baseDescriptor.getElementDescriptor(relativePathIterator);
-			}
-		} else {
-			// this means that we're updating the root
-			Class lastMappedClazz = getLastMappedClass();
-			if (lastMappedClazz != null) {
-				XMLBeanInfo lastMappedClazzInfo =
-					getXMLIntrospector().introspect(lastMappedClazz);
-				ElementDescriptor baseDescriptor =
-					lastMappedClazzInfo.getElementDescriptor();
-				result =
-					baseDescriptor.getElementDescriptor(relativePathIterator);
-			}
-		}
+        if (!descriptorStack.empty()) {
+            result = (ElementDescriptor) descriptorStack.peek();
+        }
 		return result;
 	}
     

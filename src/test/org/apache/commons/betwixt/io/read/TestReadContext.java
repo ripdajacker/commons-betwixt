@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/04/18 16:43:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/04/18 20:20:31 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
+ * $Id: TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -74,7 +74,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
+ * @version $Id: TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
  */
 public class TestReadContext extends AbstractTestCase {
 
@@ -86,7 +86,7 @@ public class TestReadContext extends AbstractTestCase {
         return new TestSuite(TestReadContext.class);
     }    
     
-    public void testElementStackPushPop() {
+    public void testElementStackPushPop() throws Exception {
         ReadContext context = new ReadContext(
                     new BindingConfiguration(), 
                     new ReadConfiguration());
@@ -104,7 +104,7 @@ public class TestReadContext extends AbstractTestCase {
            
     }
        
-    public void testElementStackMarkedPushPop() {
+    public void testElementStackMarkedPushPop() throws Exception {
         ReadContext context = new ReadContext(
                     new BindingConfiguration(), 
                     new ReadConfiguration());
@@ -130,7 +130,7 @@ public class TestReadContext extends AbstractTestCase {
         assertEquals("Three marks at bottom", null, context.popElement());
     }
     
-    public void testLastMappedClassNoClass()
+    public void testLastMappedClassNoClass() throws Exception
     {
         ReadContext context = new ReadContext(
                     new BindingConfiguration(), 
@@ -141,7 +141,7 @@ public class TestReadContext extends AbstractTestCase {
         assertEquals("No class", null, context.getLastMappedClass());
     }
     
-    public void testLastMappedClassBottomClass()
+    public void testLastMappedClassBottomClass() throws Exception
     {
         ReadContext context = new ReadContext(
                     new BindingConfiguration(), 
@@ -154,7 +154,7 @@ public class TestReadContext extends AbstractTestCase {
         assertEquals("One classes", Object.class, context.getLastMappedClass());
     }
     
-    public void testLastMappedClassTwoClasses()
+    public void testLastMappedClassTwoClasses() throws Exception
     {
         
         ReadContext context = new ReadContext(
@@ -168,7 +168,7 @@ public class TestReadContext extends AbstractTestCase {
         assertEquals("Two classes", String.class, context.getLastMappedClass());
     }
     
-    public void testLastMappedClassTopClass()
+    public void testLastMappedClassTopClass() throws Exception
     {
         ReadContext context = new ReadContext(
                     new BindingConfiguration(), 
