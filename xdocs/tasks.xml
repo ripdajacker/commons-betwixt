@@ -402,6 +402,7 @@ reading of array valued property setters and for array valued adders.
         			</li>
             	</ul>
             </li>
+            <li><strong>Improved empty element rendering</strong></li>
         </ul>
     </subsection>
 </section>
