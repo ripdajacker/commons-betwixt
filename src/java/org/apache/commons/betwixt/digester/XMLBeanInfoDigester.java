@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.6.2.1 2004/01/15 19:50:56 rdonkin Exp $
- * $Revision: 1.6.2.1 $
- * $Date: 2004/01/15 19:50:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.6.2.2 2004/01/24 13:54:51 rdonkin Exp $
+ * $Revision: 1.6.2.2 $
+ * $Date: 2004/01/24 13:54:51 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6.2.1 $
+  * @version $Revision: 1.6.2.2 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -170,7 +170,8 @@ public class XMLBeanInfoDigester extends Digester {
     public void setAttributesForPrimitives(boolean attributesForPrimitives) {
         this.attributesForPrimitives = attributesForPrimitives;
         if ( introspector != null ) {
-            introspector.setAttributesForPrimitives( attributesForPrimitives );
+            introspector.getConfiguration()
+                .setAttributesForPrimitives( attributesForPrimitives );
         }
     }
 
