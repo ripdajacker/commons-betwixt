@@ -116,13 +116,13 @@ public class TestBeanReader extends AbstractTestCase {
         bean = new PersonBean(19, "John Smith");
         stringWriter = new StringWriter();
         beanWriter = new BeanWriter(stringWriter);
-        beanWriter.getXMLIntrospector().setAttributesForPrimitives(true);
+        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         beanWriter.write(bean);
         stringWriter.flush();
         xml = "<?xml version='1.0'?>" + stringWriter.toString();
         
         reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         reader.registerBeanClass( PersonBean.class );
         bean = (PersonBean) reader.parse(new StringReader(xml));
         
@@ -134,6 +134,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint();
         writer.write( bean );
         return out.getBuffer().toString();
@@ -286,8 +287,8 @@ public class TestBeanReader extends AbstractTestCase {
         String xml = "<ListOfNames><names><name name='Martin'/></names></ListOfNames>";
         
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         
         reader.registerBeanClass(ListOfNames.class);
         ListOfNames newListOfNames = (ListOfNames) reader.parse(new StringReader(xml));
@@ -304,8 +305,8 @@ public class TestBeanReader extends AbstractTestCase {
         
         BeanReader reader = new BeanReader();
         reader.setRules( new ExtendedBaseRules() );
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(true);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
         
         TestRule ruleOne = new TestRule();
         TestRule ruleTwo = new TestRule();
@@ -346,9 +347,10 @@ public class TestBeanReader extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write("party", bean);
 
@@ -399,9 +401,10 @@ public class TestBeanReader extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write(bean);
         
@@ -512,8 +515,8 @@ public class TestBeanReader extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.setBindingConfiguration(configuration);
         XMLIntrospector introspector = writer.getXMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         
         writer.write("party", bean);
 
@@ -575,7 +578,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write("address-book", bean);
         
         String xml = "<?xml version='1.0'?><address-book><title>drinkers</title>"
@@ -610,7 +613,7 @@ public class TestBeanReader extends AbstractTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        reader.getXMLIntrospector().setLog(log);
 
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass("address-book", MapBean.class);
         bean = (MapBean) reader.parse(new StringReader(xml));
         
@@ -638,7 +641,27 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Bad address (11)",  "United Kingdom", address.getCountry());
         assertEquals("Bad address (12)", "BD18 2BJ", address.getCode());
     }
-    
+
+  public void testReadMap2() throws Exception{
+    IdMap idMap = new IdMap();
+    String id ="3920";
+    idMap.addId(id, new Integer(1));
+    StringWriter outputWriter = new StringWriter();
+    outputWriter.write("<?xml version='1.0' ?>\n");
+    BeanWriter beanWriter = new BeanWriter(outputWriter);
+    beanWriter.write(idMap);
+    String xml = outputWriter.toString();
+    System.out.println("Map test: " + xml);
+
+    BeanReader beanReader = new BeanReader();
+    beanReader.registerBeanClass(IdMap.class);
+    IdMap result = (IdMap)beanReader.parse(new StringReader(xml));
+    assertNotNull("didn't get an object back!", result);
+    assertNotNull("didn't get a Map out of the IdMap!", result.getIds());
+    assertEquals("Got the Map, but doesn't have an entry!", 1, result.getIds().size());
+    assertNotNull("Got the Map, but doesn't have correct values!", result.getIds().get(id));
+  }
+
     public void testIndirectReference() throws Exception
     {	
         Tweedledum dum = new Tweedledum();
@@ -646,7 +669,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(dee);
         String xml =  "<?xml version='1.0'?><Tweedledee><name>Tweedledee</name>"
                     + "<brother><name>Tweedledum</name></brother></Tweedledee>";
@@ -654,7 +677,7 @@ public class TestBeanReader extends AbstractTestCase {
 
         BeanReader reader = new BeanReader();
         
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass(Tweedledee.class);
         Tweedledee bean = (Tweedledee) reader.parse(new StringReader(xml));
         assertNotNull(bean.getBrother());
@@ -674,7 +697,7 @@ public class TestBeanReader extends AbstractTestCase {
                     + "</CHILDREN></DOUBLE_LINKED_PARENT_BEAN>";
                     
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
+        reader.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
         reader.registerBeanClass(DoubleLinkedParentBean.class);
         DoubleLinkedParentBean bean = (DoubleLinkedParentBean) reader.parse(new StringReader(xml));
         
@@ -727,7 +750,7 @@ public class TestBeanReader extends AbstractTestCase {
             return called;
         }
         
-        public void begin(Attributes attributes) {
+        public void begin(String name, String namespace, Attributes attributes) {
             top = getDigester().peek();
             called = true;
         }

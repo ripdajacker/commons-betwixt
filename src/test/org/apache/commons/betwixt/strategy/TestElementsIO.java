@@ -116,15 +116,15 @@ public class TestElementsIO extends TestCase {
         
         result.setXMLIntrospector(newXMLIntrospector(mapper));
         result.enablePrettyPrint();
-        result.setWriteIDs(false);
+        result.getBindingConfiguration().setMapIDs(false);
         return result;
     }
 
     private XMLIntrospector newXMLIntrospector(NameMapper mapper) {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(true);
-        introspector.setWrapCollectionsInElement(false);
-        introspector.setElementNameMapper(mapper);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setElementNameMapper(mapper);
         return introspector;
     }
 }

@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.util.Set;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.BeanProperty;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
@@ -34,7 +35,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -54,9 +55,48 @@ public class AddDefaultsRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws Exception generally this will indicate an unrecoverable error 
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(String name, String namespace, Attributes attributes) throws Exception {
+        boolean addProperties = true;
+        String addPropertiesAttributeValue = attributes.getValue("add-properties");
+        if (addPropertiesAttributeValue != null)
+        {
+            addProperties = Boolean.valueOf(addPropertiesAttributeValue).booleanValue();
+        }
+        
+        boolean addAdders = true;
+        String addAddersAttributeValue = attributes.getValue("add-adders");
+        if (addAddersAttributeValue != null)
+        {
+            addProperties = Boolean.valueOf(addAddersAttributeValue).booleanValue();
+        }
+        
+        if (addProperties) {
+            addDefaultProperties();
+        }
+        
+        if (addAdders) {
+            addAdders();
+        }
+    }
+
+    /**
+     * Adds default adder methods
+     */
+    private void addAdders() {
         Class beanClass = getBeanClass();
-        Set procesedProperties = getProcessedPropertyNameSet();
+        // default any addProperty() methods
+        getXMLIntrospector().defaultAddMethods( 
+                                            getRootElementDescriptor(), 
+                                            beanClass );
+    }
+
+    /**
+     * Adds default property methods
+     *
+     */
+    private void addDefaultProperties() {
+        Class beanClass = getBeanClass();
+        Set processedProperties = getProcessedPropertyNameSet();
         if ( beanClass != null ) {
             try {
                 boolean attributesForPrimitives = getXMLInfoDigester().isAttributesForPrimitives();
@@ -66,12 +106,12 @@ public class AddDefaultsRule extends RuleSupport {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {
                         PropertyDescriptor descriptor = descriptors[i];
                         // have we already created a property for this
-                        String name = descriptor.getName();
-                        if ( procesedProperties.contains( name ) ) {
+                        String propertyName = descriptor.getName();
+                        if ( processedProperties.contains( propertyName ) ) {
                             continue;
                         }
-                        Descriptor nodeDescriptor = getXMLIntrospector().createDescriptor(
-                                    descriptor, attributesForPrimitives);
+                        Descriptor nodeDescriptor = 
+                        	getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
                         if ( nodeDescriptor != null ) {
                             addDescriptor( nodeDescriptor );
                         }
@@ -81,12 +121,6 @@ public class AddDefaultsRule extends RuleSupport {
                 log.info( "Caught introspection exception", e );
             }
         }
-        
-        // default any addProperty() methods
-        XMLIntrospectorHelper.defaultAddMethods( 
-                                            getXMLIntrospector(), 
-                                            getRootElementDescriptor(), 
-                                            beanClass );
     }
 
 

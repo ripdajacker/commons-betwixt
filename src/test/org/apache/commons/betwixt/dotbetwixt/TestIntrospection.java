@@ -55,7 +55,7 @@ public class TestIntrospection extends XmlTestCase {
         ElementDescriptor[] elementDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
         ElementDescriptor elementsElementDescriptor = null;
         for ( int i=0, size = elementDescriptors.length; i<size ; i++ ) {
-            if ( "examples".equals( elementDescriptors[i].getLocalName() ) ) {
+            if ( "example".equals( elementDescriptors[i].getLocalName() ) ) {
                 elementsElementDescriptor = elementDescriptors[i];
             }
         }

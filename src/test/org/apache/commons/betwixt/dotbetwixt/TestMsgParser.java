@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.3 2004/03/31 21:11:53 rdonkin Exp $
+ * @version $Id: TestMsgParser.java,v 1.4 2004/06/13 21:32:47 rdonkin Exp $
  */
 public class TestMsgParser extends TestCase
 {
@@ -98,8 +98,8 @@ public class TestMsgParser extends TestCase
 
         // Configure betwixt
         // For more details see java docs or later in the main documentation
-        beanWriter.getXMLIntrospector().setAttributesForPrimitives(true);
-        beanWriter.setWriteIDs(false);
+        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
 
         // Write example bean as base element 'person'
@@ -122,7 +122,7 @@ public class TestMsgParser extends TestCase
         MsgBean msg = null;
         BeanReader beanReader = new BeanReader();
         // Configure the reader
-        beanReader.getXMLIntrospector().setAttributesForPrimitives(true);
+        beanReader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         // Register beans so that betwixt knows what the xml is 
         beanReader.registerBeanClass("message", MsgBean.class);
         StringReader stringReader = new StringReader(xmlMessage);

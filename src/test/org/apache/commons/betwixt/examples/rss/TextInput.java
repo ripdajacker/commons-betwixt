@@ -28,7 +28,7 @@ import java.io.Serializable;
  * <p>Based on the Jakarta Commons <code>Digester</code> implementation.</p>
  *
  * @author Craig R. McClanahan
- * @version $Revision: 1.3 $ $Date: 2004/03/31 21:11:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/13 21:32:47 $
  */
 
 public class TextInput implements Serializable {

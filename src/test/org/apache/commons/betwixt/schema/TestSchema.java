@@ -39,7 +39,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.10 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id: TestSchema.java,v 1.11 2004/06/13 21:32:48 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -88,13 +88,14 @@ public class TestSchema extends AbstractTestCase
         // we have written the xml file back with element collections,
         // so we have to say to the reader we want to use that now
         // (the default when creating in this test is not to use them)
-        intro.setWrapCollectionsInElement(true);
+        intro.getConfiguration().setWrapCollectionsInElement(true);
         // first flush the cash, else setting other options, doesn't
         // end up in rereading / mapping the object model.
         registry.flush();
         // set the xmlIntrospector back to the reader
         reader.setXMLIntrospector(intro);
         reader.deregisterBeanClass(PhysicalSchema.class);
+        reader.getRules().clear();
         reader.registerBeanClass(PhysicalSchema.class);
         PhysicalSchema schemaSecond = (PhysicalSchema) reader.parse(in);
         buffer.close();
@@ -141,12 +142,12 @@ public class TestSchema extends AbstractTestCase
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
 
         // Since we don't want to have collectionelements 
         // line <DBMSS>, we have to set this to false,
         // since the default is true.
-        introspector.setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
 
         // We have to use the HyphenatedNameMapper
         // Since we want the names to resolve from eg PhysicalSchema
@@ -154,11 +155,11 @@ public class TestSchema extends AbstractTestCase
         // we pass to the mapper we want uppercase and use _ for name
         // seperation.
         // This will set our ElementMapper.
-        introspector.setElementNameMapper(new HyphenatedNameMapper(true, "_"));
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
         // since our attribute names will use a different 
         // naming convention in our xml file (just all lowercase)
         // we set another mapper for the attributes
-        introspector.setAttributeNameMapper(new DecapitalizeNameMapper());
+        introspector.getConfiguration().setAttributeNameMapper(new DecapitalizeNameMapper());
 
         return introspector;
     }
@@ -174,10 +175,10 @@ public class TestSchema extends AbstractTestCase
         writer.setWriteEmptyElements( true );
         writer.setXMLIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
-        writer.getXMLIntrospector().setWrapCollectionsInElement(wrapCollectionsInElement);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         // the source has 2 spaces indention and \n as line seperator.
         writer.setIndent("  ");
         writer.setEndOfLine("\n");

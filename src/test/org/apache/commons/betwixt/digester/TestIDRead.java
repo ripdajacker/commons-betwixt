@@ -38,7 +38,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class TestIDRead extends AbstractTestCase {
 
@@ -58,6 +58,7 @@ public class TestIDRead extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
         IDBean bean = new IDBean("alpha","one");
         bean.addChild(new IDBean("beta","two"));
         bean.addChild(new IDBean("gamma","three"));

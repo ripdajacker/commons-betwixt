@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class TestHyphenatedNameMapper extends TestCase {
     
@@ -87,7 +87,7 @@ public class TestHyphenatedNameMapper extends TestCase {
         // basically, the test is that no exception is thrown
         //
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
         introspector.introspect(new ArrayList());
     }
 }

@@ -30,7 +30,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -125,7 +125,8 @@ public class XMLBeanInfoDigester extends Digester {
     public void setAttributesForPrimitives(boolean attributesForPrimitives) {
         this.attributesForPrimitives = attributesForPrimitives;
         if ( introspector != null ) {
-            introspector.setAttributesForPrimitives( attributesForPrimitives );
+            introspector.getConfiguration()
+                .setAttributesForPrimitives( attributesForPrimitives );
         }
     }
 
@@ -170,7 +171,7 @@ public class XMLBeanInfoDigester extends Digester {
         }
         
         // now initialize
-        attributesForPrimitives = true;
+        setAttributesForPrimitives(attributesForPrimitives);
         processedPropertyNameSet.clear();
     }
     

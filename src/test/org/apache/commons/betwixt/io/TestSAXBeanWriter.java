@@ -40,7 +40,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.10 2004/02/28 13:38:35 yoavs Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.11 2004/06/13 21:32:48 rdonkin Exp $
  */
 public class TestSAXBeanWriter extends AbstractTestCase {
     
@@ -61,6 +61,7 @@ public class TestSAXBeanWriter extends AbstractTestCase {
         
         SAXBeanWriter writer = new SAXBeanWriter(new SAXContentHandler(out));
         //writer.setLog(log);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
         String beanString = out.getBuffer().toString();
         String xml = "<?xml version='1.0'?><PersonBean><age>35</age>"

@@ -33,6 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.apache.xerces.parsers.SAXParser;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -41,14 +42,39 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /** 
   * Provides xml test utilities. 
   * Hopefully, these might be moved into [xmlunit] sometime.
   *
   * @author Robert Burrell Donkin
+  * @author Khaled Noaman, IBM (some portions derived from test code originally contributed to the Apache Xerces project)
   */
 public class XmlTestCase extends TestCase {
+
+    private static final String NAMESPACES_FEATURE_ID 
+                            = "http://xml.org/sax/features/namespaces";
+
+    private static final String NAMESPACE_PREFIXES_FEATURE_ID 
+                            = "http://xml.org/sax/features/namespace-prefixes";
+
+    private static final String VALIDATION_FEATURE_ID 
+                            = "http://xml.org/sax/features/validation";
+
+    private static final String SCHEMA_VALIDATION_FEATURE_ID 
+                            = "http://apache.org/xml/features/validation/schema";
+
+    private static final String SCHEMA_FULL_CHECKING_FEATURE_ID 
+                            = "http://apache.org/xml/features/validation/schema-full-checking";
+
+    private static final String DYNAMIC_VALIDATION_FEATURE_ID 
+                            = "http://apache.org/xml/features/validation/dynamic";
+
+    private static final String NONAMESPACE_SCHEMA_LOCATION_PROPERTY_ID 
+        = "http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation";
+
 
     protected static boolean debug = false;
 
@@ -370,6 +396,15 @@ public class XmlTestCase extends TestCase {
             System.out.println("[XmlTestCase]" + message);
         }
     }
+
+    
+    private void log(String message, Exception e)
+    {
+        if (debug) {
+            System.out.println("[XmlTestCase]" + message);
+            e.printStackTrace();
+        }
+    }
     
     private String trim(String trimThis)
     {
@@ -416,6 +451,101 @@ public class XmlTestCase extends TestCase {
             
             return nameOne.compareTo(nameTwo);
         }
+    }
+    
+    
+    public void validateWithSchema(InputSource documentSource, final InputSource schemaSource) 
+            throws ParserConfigurationException, SAXException, IOException
+    {
+        class XMLUnitHandler extends DefaultHandler {
+            ArrayList errors = new ArrayList();
+            ArrayList warnings = new ArrayList();
+            InputSource schemaSource;
+    
+            XMLUnitHandler(InputSource schemaSource) {
+                this.schemaSource = schemaSource;
+                schemaSource.setSystemId("schema.xsd");
+            }
+    
+            public InputSource resolveEntity(String publicId, String systemId) {
+                return schemaSource;
+            }
+    
+            public void error(SAXParseException ex) {
+                errors.add(ex);
+            }
+    
+            public void warning(SAXParseException ex) {
+                warnings.add(ex);
+            }
+    
+            void reportErrors() throws SAXException {
+                if (errors.size() > 0) {
+                    throw (SAXException) errors.get(0);
+                }
+            }
+    
+        }
+
+        // it's not all that good to have a concrete dependency on Xerces
+        // and a particular version, at that.
+        // but schema support in the Xerces series of parsers is variable
+        // and some of the configuration details differ.
+        // At least this way seems reliable
+        SAXParser parser = new SAXParser();
+    
+        // Set features
+        parser.setFeature(NAMESPACES_FEATURE_ID, true);
+        parser.setFeature(NAMESPACE_PREFIXES_FEATURE_ID, false);
+        parser.setFeature(VALIDATION_FEATURE_ID, true);
+        parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, true);
+        parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, false);
+        parser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, false);
+    
+        // Set properties
+        parser.setProperty(NONAMESPACE_SCHEMA_LOCATION_PROPERTY_ID, "schema.xsd");
+    
+        XMLUnitHandler handler = new XMLUnitHandler(schemaSource);
+    
+        // Set handlers
+        parser.setContentHandler(handler);
+        parser.setErrorHandler(handler);
+        parser.setEntityResolver(handler);
+    
+        // parse document
+        parser.parse(documentSource);
+        handler.reportErrors();
+    }
+    
+    public boolean isValid(InputSource documentSource, InputSource schemaSource) 
+            throws ParserConfigurationException, IOException
+    {
+        boolean result = false;
+        try
+        {
+            validateWithSchema(documentSource, schemaSource);
+            result = true;
+        }
+        catch (SAXException se)
+        {
+            log("Validation failed.", se);
+        }
+        
+        return result;
+    }
+    
+    public void xmlAssertIsValid(InputSource documentSource, InputSource schemaSource) 
+        throws ParserConfigurationException, IOException
+    {
+        try
+        {
+            validateWithSchema(documentSource, schemaSource);
+        }
+        catch (SAXException se)
+        {
+            se.printStackTrace();
+            fail("Validation failure: " + se.getMessage());
+        }   
     }
 }
 

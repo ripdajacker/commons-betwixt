@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.8 2004/03/31 21:11:52 rdonkin Exp $
+  * @version $Id: TextRule.java,v 1.9 2004/06/13 21:32:45 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 
@@ -60,7 +60,7 @@ public class TextRule extends MappedPropertyRule {
      * 2. If this tag has a value attribute together with either a property
      * or type attribute.
      */
-    public void begin(Attributes attributes) throws SAXException {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         
         TextDescriptor descriptor = new TextDescriptor();
         
@@ -90,9 +90,9 @@ public class TextRule extends MappedPropertyRule {
             );
             
             if ( beanClass != null ) {
-                String name = descriptor.getPropertyName();
+                String descriptorPropertyName = descriptor.getPropertyName();
                 PropertyDescriptor propertyDescriptor = 
-                    getPropertyDescriptor( beanClass, name );
+                    getPropertyDescriptor( beanClass, descriptorPropertyName );
                 if ( propertyDescriptor != null ) { 
                         Method readMethod = propertyDescriptor.getReadMethod();
                         descriptor.setTextExpression( new MethodExpression( readMethod ) );
@@ -100,7 +100,7 @@ public class TextRule extends MappedPropertyRule {
                         if (writeMethod != null) {
                             descriptor.setUpdater( new MethodUpdater(writeMethod));
                         }
-                        getProcessedPropertyNameSet().add( name );
+                        getProcessedPropertyNameSet().add( descriptorPropertyName );
                 }
             }
         }

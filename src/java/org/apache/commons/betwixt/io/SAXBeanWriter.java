@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.15 2004/03/31 19:54:24 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.16 2004/06/13 21:32:45 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -149,6 +149,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @since 1.0 Alpha 1
      */
     protected void bodyText(WriteContext context, String text) throws SAXException  {
+    	//TODO:
         // FIX ME
         // CHECK UNICODE->CHAR CONVERSION!
         // THIS WILL QUITE POSSIBLY BREAK FOR NON-ROMAN

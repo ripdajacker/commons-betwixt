@@ -55,7 +55,7 @@ public class RSSBeanWriter extends AbstractTestCase {
         
     public void write(Object bean) throws Exception {
         BeanWriter writer = new BeanWriter();
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.enablePrettyPrint();
         writer.write( bean );
     }

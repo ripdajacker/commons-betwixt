@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 /** Bean for testing ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class IDBean {
     
@@ -72,6 +72,6 @@ public class IDBean {
     }
     
     public String toString() {
-        return "IDBean[name=" + getName() + ",id=" + getId() + "]";
+        return "IDBean[name=" + getName() + ",id=" + getId() + ", children=" + children.size() + "] " + super.toString();
     }
 }

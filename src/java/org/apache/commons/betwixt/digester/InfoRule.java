@@ -24,7 +24,7 @@ import org.xml.sax.SAXException;
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class InfoRule extends RuleSupport {
 
@@ -46,7 +46,7 @@ public class InfoRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws SAXException if the primitiveTypes attribute contains an invalid value
      */
-    public void begin(Attributes attributes) throws SAXException {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         Class beanClass = getBeanClass();
         
         xmlBeanInfo = new XMLBeanInfo( beanClass );
@@ -73,7 +73,7 @@ public class InfoRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() {
+    public void end(String name, String namespace) {
         Object top = getDigester().pop();
     }
 }

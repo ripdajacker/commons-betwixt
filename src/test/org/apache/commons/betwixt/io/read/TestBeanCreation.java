@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Test harness for bean creation (during reading).
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestBeanCreation.java,v 1.5 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id: TestBeanCreation.java,v 1.6 2004/06/13 21:32:48 rdonkin Exp $
  */
 public class TestBeanCreation extends AbstractTestCase {
 
@@ -60,8 +60,9 @@ public class TestBeanCreation extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         writer.write("houses", houses);
         
         String xml = "<?xml version='1.0'?><houses>"
@@ -107,8 +108,8 @@ public class TestBeanCreation extends AbstractTestCase {
         chain.insertBeanCreator(1, new EnumCreator());
         
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(false);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         reader.registerBeanClass("houses", HouseBeans.class);
         reader.getReadConfiguration().setBeanCreationChain(chain);
         
@@ -143,8 +144,9 @@ public class TestBeanCreation extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(true);
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         writer.write("houses", houses);
         
         String xml = "<?xml version='1.0'?><houses>"
@@ -190,8 +192,8 @@ public class TestBeanCreation extends AbstractTestCase {
         chain.insertBeanCreator(1, new EnumCreator());
         
         BeanReader reader = new BeanReader();
-        reader.getXMLIntrospector().setAttributesForPrimitives(true);
-        reader.getXMLIntrospector().setWrapCollectionsInElement(false);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         reader.registerBeanClass("houses", HouseBeans.class);
         reader.getReadConfiguration().setBeanCreationChain(chain);
         

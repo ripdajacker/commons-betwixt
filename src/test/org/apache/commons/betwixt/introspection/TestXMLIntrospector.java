@@ -35,12 +35,13 @@ import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.NoCacheRegistry;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.ListedClassNormalizer;
+import org.apache.commons.digester.rss.Channel;
 
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -62,7 +63,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         XMLIntrospector introspector = new XMLIntrospector();
         //introspector.setLog(log);
         
-        introspector.setAttributesForPrimitives(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
         
         Object bean = createBean();
         
@@ -153,7 +154,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 //        introspector.setLog(log);
         
         XMLBeanInfo xmlBeanInfo = introspector.introspect(BeanWithBeanInfoBean.class);
@@ -186,7 +187,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         // might as well give test output
         StringWriter out = new StringWriter();
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value","beta value","gamma value");
         writer.write(bean);
         
@@ -219,7 +220,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
     
     public void testClassNormalizer() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setClassNormalizer( new ClassNormalizer() {
+        introspector.getConfiguration().setClassNormalizer( new ClassNormalizer() {
                 
                 public Class normalize(Class clazz) {
                     if (IFace.class.isAssignableFrom( clazz )) {
@@ -246,7 +247,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
         classNormalizer.addSubstitution( IFace.class );
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setClassNormalizer(classNormalizer);
+        introspector.getConfiguration().setClassNormalizer(classNormalizer);
         
         FaceImpl face = new FaceImpl();
         
@@ -267,7 +268,8 @@ public class TestXMLIntrospector extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter( out );
-        writer.getXMLIntrospector().setClassNormalizer( classNormalizer );
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setClassNormalizer( classNormalizer );
         FaceImpl bean = new FaceImpl();
         bean.setName("Old Tom Cobbly");
         writer.write(bean);
@@ -278,5 +280,19 @@ public class TestXMLIntrospector extends AbstractTestCase {
                             parseString(xml), 
                             true);
     }	
+    
+    public void testBetwixtFileType() throws Exception {
+    	XMLIntrospector introspector = new XMLIntrospector();
+    	XMLBeanInfo info = introspector.introspect( Channel.class );
+    	
+    	ElementDescriptor elementDescriptor = info.getElementDescriptor();
+    	
+		Class clazz = elementDescriptor.getSingularPropertyType();
+		assertEquals( "Element type correct", Channel.class , clazz);
+		
+		assertEquals( "Element name correct", "rss", elementDescriptor.getLocalName());
+    }
+    
+
 }
 

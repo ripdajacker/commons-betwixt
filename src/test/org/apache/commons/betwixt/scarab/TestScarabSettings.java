@@ -123,13 +123,13 @@ public class TestScarabSettings extends AbstractTestCase
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 
         // wrap collections in an XML element
         //introspector.setWrapCollectionsInElement(true);
 
         // turn bean elements into lower case
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
 
         return introspector;
     }

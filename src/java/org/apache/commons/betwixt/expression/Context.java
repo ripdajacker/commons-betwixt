@@ -43,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class Context {
 
@@ -123,10 +123,12 @@ public class Context {
     }
 
     /** Returns a new child context with the given bean but the same log and variables. 
-     *
+     * 
      * @param newBean create a child context for this bean
      * @return new Context with new bean but shared variables 
      */
+    // TODO: need to think about whether this is a good idea and how subclasses
+    // should handle this
     public Context newContext(Object newBean) {
         Context context = new Context(this);
         context.setBean( newBean );

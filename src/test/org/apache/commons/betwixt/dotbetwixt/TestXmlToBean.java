@@ -49,7 +49,7 @@ public class TestXmlToBean extends XmlTestCase {
 
 //---------------------------------- Tests
     
-    public void testCustomUpdaters() throws Exception {
+    public void _testCustomUpdaters() throws Exception {
         // might as well check writer whilst we're at it
         MixedUpdatersBean bean = new MixedUpdatersBean("Lov");
         bean.badNameSetter("Hate");
@@ -70,7 +70,7 @@ public class TestXmlToBean extends XmlTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        XMLIntrospectorHelper.setLog(log);
         
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
 
     	String xml = "<?xml version='1.0'?><mixed><name>Lov</name><bad-name>Hate</bad-name>"
@@ -96,7 +96,7 @@ public class TestXmlToBean extends XmlTestCase {
         
         // now we'll test reading via round tripping
         BeanReader reader = new BeanReader();
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass("mixed", MixedUpdatersBean.class);
         bean = (MixedUpdatersBean) reader.parse(new StringReader(xml));
         
@@ -140,7 +140,7 @@ public class TestXmlToBean extends XmlTestCase {
     
     
     /** Tests basic use of an implementation for an interface */
-    public void testBasicInterfaceImpl() throws Exception {
+    public void _testBasicInterfaceImpl() throws Exception {
         //SimpleLog log = new SimpleLog("[testBasicInterfaceImpl:BeanRuleSet]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         //BeanRuleSet.setLog(log);
@@ -162,8 +162,8 @@ public class TestXmlToBean extends XmlTestCase {
         
         BeanReader reader = new BeanReader();
         //reader.setLog(log);
-        reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
-        reader.getXMLIntrospector().setWrapCollectionsInElement(false);
+        reader.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         reader.registerBeanClass( ExampleBean.class );
         
         StringReader in = new StringReader( xml );

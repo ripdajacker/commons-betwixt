@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!-- $Id: dotbetwixt.dtd,v 1.7 2003/08/24 16:58:54 rdonkin Exp $ -->
-<!-- The DTD for .betwixt files -->
+<!-- $Id: dotbetwixt.dtd,v 1.8 2004/06/13 21:32:46 rdonkin Exp $ -->
+<!-- 
+	The DTD for .betwixt files 
+	Suggested public ID: "-//Jakarta Apache //DTD digester-rules XML V1.0//EN";
+
+	-->
 
 <!ELEMENT attribute EMPTY>
 <!ATTLIST attribute

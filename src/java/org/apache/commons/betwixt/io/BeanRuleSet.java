@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
+
 package org.apache.commons.betwixt.io;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.TextDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
-import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.betwixt.io.read.ElementMapping;
+import org.apache.commons.betwixt.io.read.BeanBindAction;
+import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
 import org.apache.commons.digester.Digester;
@@ -43,14 +35,13 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.18 $
+  * @version $Revision: 1.19 $
   */
 public class BeanRuleSet implements RuleSet {
-    
-    
+
     /** Logger */
-    private static Log log = LogFactory.getLog( BeanRuleSet.class );
-    
+    private static Log log = LogFactory.getLog(BeanRuleSet.class);
+
     /** 
     * Set log to be used by <code>BeanRuleSet</code> instances 
     * @param aLog the <code>Log</code> implementation for this class to log to
@@ -58,21 +49,17 @@ public class BeanRuleSet implements RuleSet {
     public static void setLog(Log aLog) {
         log = aLog;
     }
-    
-    /** Use this to introspect beans */
-    private XMLIntrospector introspector;
+
     /** The base path under which the rules will be attached */
     private String basePath;
     /** The element descriptor for the base  */
     private ElementDescriptor baseElementDescriptor;
-    /** The bean based  */
-    private Class baseBeanClass;
     /** The (empty) base context from which all Contexts 
     with beans are (directly or indirectly) obtained */
-    private ReadContext baseContext;
+    private DigesterReadContext context;
     /** allows an attribute to be specified to overload the types of beans used */
     private String classNameAttribute = "className";
-    
+
     /**
      * Base constructor.
      *
@@ -84,20 +71,50 @@ public class BeanRuleSet implements RuleSet {
      * @deprecated use constructor which takes a ReadContext instead
      */
     public BeanRuleSet(
-                        XMLIntrospector introspector,
-                        String basePath, 
-                        ElementDescriptor baseElementDescriptor, 
-                        Class baseBeanClass,
-                        boolean matchIDs) {
-        this.introspector = introspector;
+        XMLIntrospector introspector,
+        String basePath,
+        ElementDescriptor baseElementDescriptor,
+        Class baseBeanClass,
+        boolean matchIDs) {
         this.basePath = basePath;
         this.baseElementDescriptor = baseElementDescriptor;
-        this.baseBeanClass = baseBeanClass;
         BindingConfiguration bindingConfiguration = new BindingConfiguration();
-        bindingConfiguration.setMapIDs( matchIDs );
-        baseContext = new ReadContext( log , bindingConfiguration, new ReadConfiguration() );
+        bindingConfiguration.setMapIDs(matchIDs);
+        context =
+            new DigesterReadContext(
+                log,
+                bindingConfiguration,
+                new ReadConfiguration());
+        context.setRootClass(baseBeanClass);
+        context.setXMLIntrospector(introspector);
     }
-    
+
+    /**
+     * Base constructor.
+     *
+     * @param introspector the <code>XMLIntrospector</code> used to introspect 
+     * @param basePath specifies the (Digester-style) path under which the rules will be attached
+     * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
+     * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
+     * @param context the root Context that bean carrying Contexts should be obtained from, 
+     * not null
+     * @deprecated use the constructor which takes a ReadContext instead
+     */
+    public BeanRuleSet(
+        XMLIntrospector introspector,
+        String basePath,
+        ElementDescriptor baseElementDescriptor,
+        Context context) {
+
+        this.basePath = basePath;
+        this.baseElementDescriptor = baseElementDescriptor;
+        this.context =
+            new DigesterReadContext(context, new ReadConfiguration());
+        this.context.setRootClass(
+            baseElementDescriptor.getSingularPropertyType());
+        this.context.setXMLIntrospector(introspector);
+    }
+
     /**
      * Base constructor.
      *
@@ -115,13 +132,14 @@ public class BeanRuleSet implements RuleSet {
                         ElementDescriptor baseElementDescriptor, 
                         Class baseBeanClass,
                         Context context) {
-        this.introspector = introspector;
-        this.basePath = basePath;
-        this.baseElementDescriptor = baseElementDescriptor;
-        this.baseBeanClass = baseBeanClass;
-        this.baseContext = new ReadContext( context, new ReadConfiguration() );
+        this(
+            introspector,
+            basePath,
+            baseElementDescriptor,
+            baseBeanClass,
+            new ReadContext( context, new ReadConfiguration() ));
     }
-    
+
     /**
      * Base constructor.
      *
@@ -133,16 +151,16 @@ public class BeanRuleSet implements RuleSet {
      * not null
      */
     public BeanRuleSet(
-                        XMLIntrospector introspector,
-                        String basePath, 
-                        ElementDescriptor baseElementDescriptor, 
-                        Class baseBeanClass,
-                        ReadContext baseContext) {
-        this.introspector = introspector;
+        XMLIntrospector introspector,
+        String basePath,
+        ElementDescriptor baseElementDescriptor,
+        Class baseBeanClass,
+        ReadContext baseContext) {
         this.basePath = basePath;
         this.baseElementDescriptor = baseElementDescriptor;
-        this.baseBeanClass = baseBeanClass;
-        this.baseContext = baseContext;
+        this.context = new DigesterReadContext(baseContext);
+        this.context.setRootClass(baseBeanClass);
+        this.context.setXMLIntrospector(introspector);
     }
 
     /**
@@ -154,7 +172,7 @@ public class BeanRuleSet implements RuleSet {
      * @return The name of the attribute used to overload the class name of a bean
      */
     public String getClassNameAttribute() {
-        return baseContext.getClassNameAttribute();
+        return context.getClassNameAttribute();
     }
 
     /**
@@ -168,10 +186,10 @@ public class BeanRuleSet implements RuleSet {
      * @deprecated set the <code>ReadContext</code> property instead
      */
     public void setClassNameAttribute(String classNameAttribute) {
-        baseContext.setClassNameAttribute(classNameAttribute);
+        context.setClassNameAttribute(classNameAttribute);
     }
-    
-//-------------------------------- Ruleset implementation
+
+    //-------------------------------- Ruleset implementation
 
     /** 
      * <p>Return namespace associated with this ruleset</p>
@@ -183,7 +201,7 @@ public class BeanRuleSet implements RuleSet {
     public String getNamespaceURI() {
         return null;
     }
-    
+
     /**
      * Add rules for bean to given <code>Digester</code>.
      *
@@ -193,603 +211,200 @@ public class BeanRuleSet implements RuleSet {
         if (log.isTraceEnabled()) {
             log.trace("Adding rules to:" + digester);
         }
-        
-        ReadingContext readContext = new ReadingContext( digester );
+
+        context.setDigester(digester);
+
+        // if the classloader is not set, set to the digester classloader
+        if (context.getClassLoader() == null) {
+            context.setClassLoader(digester.getClassLoader());
+        }
+
+        // TODO: need to think about strategy for paths
+        // may need to provide a default path and then allow the user to override
+        digester.addRule("!" + basePath + "/*", new ActionMappingRule());
     }
-    
+
     /**
-     * <p>A set of associated rules that maps a bean graph.
-     * An instance will be created each time {@link #addRuleInstances} is called.</p>
-     *
-     * <p>When an instance is constructed, rules are created and added to digester.</p>
+     * Single rule that is used to map all elements.
+     * 
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
      */
-    private class ReadingContext {
+    private final class ActionMappingRule extends Rule {
 
-        /** The rules in this context indexed by path */
-        private Map rulesByPath = new HashMap();
-        
-        /** 
-         * Creates rules for bean and adds them to digester 
-         * @param digester the <code>Digester</code> 
-         * to which the bean mapping rules will be added
-         */
-        ReadingContext(Digester digester) {
-            ReadContext context = new ReadContext( baseContext );
-            // if the classloader is not set, set to the digester classloader
-            if ( context.getClassLoader() == null ) {
-                context.setClassLoader( digester.getClassLoader()  );
-            }
-            BeanRule rule 
-                = new BeanRule( basePath + "/" , baseElementDescriptor, baseBeanClass, context );
-            addRule( basePath, rule , baseElementDescriptor, context );
-            
-            if ( log.isDebugEnabled() ) {
-                log.debug( "Added root rule to path: " + basePath + " class: " + baseBeanClass );
-            } 
-            
-            
-            Iterator it = rulesByPath.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                if ( log.isTraceEnabled() ) {
-                    log.trace("Added rule:" + entry.getValue() + " @path:" + entry.getKey());
-                }
-                digester.addRule( (String) entry.getKey() , (Rule) entry.getValue() );
-            }
-        }
-                                                                    
-        /** 
-        * Add child rules for given descriptor at given prefix 
-        *
-        * @param prefix add child rules at this (digester) path prefix
-        * @param currentDescriptor add child rules for this descriptor
-        * @param context the <code>Context</code> against which beans will be evaluated 
-        */
-        private void addChildRules( 
-                                    String prefix, 
-                                    ElementDescriptor currentDescriptor, 
-                                    ReadContext context ) {
-            
+        /**
+          * Processes the start of a new <code>Element</code>.
+          * The actual processing is delegated to <code>MappingAction</code>'s.
+          * @see Rule#begin(String, String, Attributes)
+          */
+        public void begin(String namespace, String name, Attributes attributes)
+            throws Exception {
+
             if (log.isTraceEnabled()) {
-                log.trace("Adding child rules for " + currentDescriptor + "@" + prefix);
-            }
-            
-            // if we are a reference to a type we should lookup the original
-            // as this ElementDescriptor will be 'hollow' and have no child attributes/elements.
-            // XXX: this should probably be done by the NodeDescriptors...
-            ElementDescriptor typeDescriptor = getElementDescriptor( currentDescriptor );
-            //ElementDescriptor typeDescriptor = descriptor;
-    
-            
-            ElementDescriptor[] childDescriptors = typeDescriptor.getElementDescriptors();
-            if ( childDescriptors != null ) {
-                for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
-                    final ElementDescriptor childDescriptor = childDescriptors[i];
-                    if (log.isTraceEnabled()) {
-                        log.trace("Processing child " + childDescriptor);
-                    }
-                    
-                    String qualifiedName = childDescriptor.getQualifiedName();
-                    if ( qualifiedName == null ) {
-                        log.trace( "Ignoring" );
-                        continue;
-                    }
-                    String path = prefix + qualifiedName;
-                    // this code is for making sure that recursive elements
-                    // can also be used..
-                    
-                    if ( qualifiedName.equals( currentDescriptor.getQualifiedName() ) 
-                            && currentDescriptor.getPropertyName() != null ) {
-                        log.trace("Creating generic rule for recursive elements");
-                        int index = -1;
-                        if (childDescriptor.isWrapCollectionsInElement()) {
-                            index = prefix.indexOf(qualifiedName);
-                            if (index == -1) {
-                                // shouldn't happen.. 
-                                log.debug( "Oops - this shouldn't happen" );
-                                continue;
-                            }
-                            int removeSlash = prefix.endsWith("/")?1:0;
-                            path = "*/" + prefix.substring(index, prefix.length()-removeSlash);
-                            if (log.isTraceEnabled()) {
-                                log.trace("Added wrapped rule for " + childDescriptor);
-                            }
-                        } else {
-                            // we have a element/element type of thing..
-                            ElementDescriptor[] desc = currentDescriptor.getElementDescriptors();
-                            if (desc.length == 1) {
-                                path = "*/"+desc[0].getQualifiedName();
-                            }
-                            if (log.isTraceEnabled()) {
-                                log.trace("Added not wrapped rule for " + childDescriptor);
-                            }
-                        }
-                        addRule( path, childDescriptor, context );
-                        continue;
-                    }
-                    if ( childDescriptor.getUpdater() != null ) {
-                        if (
-                            log.isTraceEnabled() 
-                            && childDescriptor.getUpdater() instanceof MethodUpdater) {
-                            
-                            log.trace("Element has updater "
-                            + ((MethodUpdater) childDescriptor.getUpdater()).getMethod().getName());
-                        }
-                        if ( childDescriptor.isPrimitiveType() ) {
-                            addPrimitiveTypeRule( path, childDescriptor, context );
-                            
-                        } else {
-                            // add the first child to the path
-                            ElementDescriptor[] grandChildren 
-                                = childDescriptor.getElementDescriptors();
-                            if ( grandChildren != null && grandChildren.length > 0 ) {
-                                ElementDescriptor grandChild = grandChildren[0];
-                                String grandChildQName = grandChild.getQualifiedName();
-                                if ( grandChildQName != null && grandChildQName.length() > 0 ) {
-                                    if (childDescriptor.isWrapCollectionsInElement()) {
-                                        path += '/' + grandChildQName;
-                                        if (log.isTraceEnabled()) {
-                                            log.trace(
-                                    "Descriptor wraps elements in collection, path:" 
-                                                + path);
-                                        }
-                                        
-                                    } else {
-                                        path = prefix 
-                                            + (prefix.endsWith("/")?"":"/") + grandChildQName;
-                                        if (log.isTraceEnabled()) {
-                                            log.trace(
-                                    "Descriptor does not wrap elements in collection, path:" 
-                                            + path);
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            // maybe we are adding a primitve type to a collection/array
-                            Class beanClass = childDescriptor.getSingularPropertyType();
-                            if ( XMLIntrospectorHelper.isPrimitiveType( beanClass ) ) {
-                                addPrimitiveTypeRule( path, childDescriptor, context );
-                                
-                            } else {
-                                addRule( path, childDescriptor,  context );
-                            }
-                        }
-                    } else {
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Element does not have updater: " + childDescriptor);
-                        }
-                        if (childDescriptor.hasAttributes()) {
-                            if ( log.isTraceEnabled() ) {
-                                log.trace( "Element has attributes, so adding rule anyway : "
-                                            + childDescriptor );
-                            }
-                            addRule(path,childDescriptor, context);
-                        }
-                    }
-    
-                    ElementDescriptor[] grandChildren = childDescriptor.getElementDescriptors();
-                    if ( grandChildren != null && grandChildren.length > 0 ) {
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Adding grand children @path:" + path);
-                        }
-                        addChildRules( path + '/', childDescriptor, context );
-                    } else if ( log.isTraceEnabled() ) {
-                        log.trace( "No children for " + childDescriptor);
-                    }
+                int attributesLength = attributes.getLength();
+                if (attributesLength > 0) {
+                    log.trace("Attributes:");
                 }
-            }
-        }
-        
-        /** Allows the navigation from a reference to a property object to the 
-        * descriptor defining what the property is. i.e. doing the join from a reference 
-        * to a type to lookup its descriptor.
-        * This could be done automatically by the NodeDescriptors. 
-        * Refer to TODO.txt for more info.
-        *
-        * @param propertyDescriptor find descriptor for property object 
-        * referenced by this descriptor
-        * @return descriptor for the singular property class type referenced.
-        */
-        ElementDescriptor getElementDescriptor( ElementDescriptor propertyDescriptor ) {
-            Class beanClass = propertyDescriptor.getSingularPropertyType();
-            if ( beanClass != null && !Map.class.isAssignableFrom( beanClass ) ) {
-                if (log.isTraceEnabled()) {
-                    log.trace("Filling descriptor for: " + beanClass);
-                }
-                try {
-                    XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
-                    if (log.isTraceEnabled()) {
-                        log.trace("Is wrapped? " 
-                        + xmlInfo.getElementDescriptor().isWrapCollectionsInElement());
-                    }
-                    return xmlInfo.getElementDescriptor();
-                    
-                } catch (Exception e) {
-                    log.warn( "Could not introspect class: " + beanClass, e );
-                }
-            }
-            // could not find a better descriptor so use the one we've got
-            return propertyDescriptor;
-        }
-        
-        /** 
-        * Adds a new Digester rule to process the text as a primitive type
-        *
-        * @param path digester path where this rule will be attached
-        * @param childDescriptor update this <code>ElementDescriptor</code> with the body text
-        * @param context the <code>ReadContext</code> against which the elements will be evaluated 
-        */
-        void addPrimitiveTypeRule(
-                                String path, 
-                                final ElementDescriptor childDescriptor, 
-                                final ReadContext context) {
-                                
-            Rule rule = new Rule() {
-                public void body(String text) throws Exception {
-                    childDescriptor.getUpdater().update( context, text );
-                }        
-            };
-            add( path, rule );
-        }
-        
-        /** 
-        * Adds a new Digester rule to process the text as a primitive type
-        *
-        * @param path digester path where this rule will be attached
-        * @param elementDescriptor update this <code>ElementDescriptor</code> with the body text
-        * @param context the <code>ReadContext</code> against which the elements will be evaluated 
-        */
-        private void addRule( 
-                            String path, 
-                            ElementDescriptor elementDescriptor, 
-                            ReadContext context ) {
-            BeanRule rule = new BeanRule( path + '/', elementDescriptor, context );
-            addRule( path, rule, elementDescriptor, context );
-        }
-        
-        /**
-        * Safely add a rule with given path.
-        *
-        * @param path the digester path to add rule at
-        * @param rule the <code>Rule</code> to add
-        * @param elementDescriptor the <code>ElementDescriptor</code> 
-        * associated with this rule
-        * @param context the <code>ReadContext</code> against which the elements 
-        * will be evaluated        
-        */
-        private void addRule(
-                            String path, 
-                            Rule rule, 
-                            ElementDescriptor elementDescriptor, 
-                            ReadContext context) {
-            if ( add( path, rule ) ) {
-                // stop infinite recursion by allowing only one rule per path
-                addChildRules( path + '/', elementDescriptor, context );
-            }
-        }    
-        
-        /**
-         * Add a rule at given path.
-         *
-         * @param path add rule at this path
-         * @param rule the <code>Rule</code> to add
-         *
-         * @return true if this rule was successfully add at given path
-         */
-        private boolean add( String path, Rule rule ) {
-            // only one bean rule allowed per path
-            if ( ! rulesByPath.containsKey( path ) ) {
-                if ( log.isDebugEnabled() ) {
-                    log.debug( "Added rule for path: " + path + " rule: " + rule );
-                    if (log.isTraceEnabled()) {
-                        log.trace( rulesByPath );
-                    }
-                }
-                rulesByPath.put( path, rule );
-                return true;
-                
-            } else {
-                if ( log.isDebugEnabled() ) {
-                    log.debug( "Ignoring duplicate digester rule for path: " 
-                                + path + " rule: " + rule );
-                    log.debug( "New rule (not added): " + rule );
-                    log.debug( "Existing rule:" + rulesByPath.get(path) );
-                }
-            }
-            return false;
-        }
-        
-        /**
-        * Rule that creates bean and updates methods.
-        */
-        private class BeanRule extends Rule {
-            
-            /** The descriptor of this element */
-            private ElementDescriptor descriptor;
-            /** The Context used when evaluating Updaters */
-            private ReadContext context;
-            /** In this begin-end loop did we actually create a new bean */
-            private boolean createdBean;
-            /** The type of the bean to create */
-            private Class beanClass;
-            /** The prefix added to digester rules */
-            private String pathPrefix;
-            
-            
-            /** 
-            * Constructor uses standard qualified name from <code>ElementDescriptor</code>.
-            * 
-            * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
-            * @param beanClass the <code>Class</code> to be created
-            * @param context the <code>ReadContext</code> for this rule
-            */
-            public BeanRule( ElementDescriptor descriptor, Class beanClass, ReadContext context ) {
-                this( descriptor.getQualifiedName() + "/", descriptor, beanClass, context );
-            }
-            
-            /**
-            * Construct a rule based on singular property type of <code>ElementDescriptor</code>.
-            *
-            * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
-            * @param context the <code>Context</code> to be used to evaluate expressions
-            * @param pathPrefix the digester path prefix
-            */
-            public BeanRule(
-                                    String pathPrefix,
-                                    ElementDescriptor descriptor, 
-                                    ReadContext context ) {
-                this( 
-                        pathPrefix,
-                        descriptor, 
-                        descriptor.getSingularPropertyType(), 
-                        context );
-            }
-            
-            /**
-            * Base constructor (used by other constructors).
-            *
-            * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
-            * @param beanClass the <code>Class</code> of the bean to be created
-            * @param context the <code>Context</code> to be used to evaluate expressions
-            * @param pathPrefix the digester path prefix
-            */
-            private BeanRule(
-                                    String pathPrefix, 
-                                    ElementDescriptor descriptor, 
-                                    Class beanClass,
-                                    ReadContext context ) {
-                this.descriptor = descriptor;        
-                this.context = context;
-                this.beanClass = beanClass;
-                this.pathPrefix = pathPrefix;
-    
-                if (log.isTraceEnabled()) {
-                    log.trace("Created bean create rule");
-                    log.trace("Descriptor=" + descriptor);
-                    log.trace("Class=" + beanClass);
-                    log.trace("Path prefix=" + pathPrefix);
-                }
-            }
-                
-            // Rule interface
-            //-------------------------------------------------------------------------    
-            
-            /**
-              * @see Rule#begin(String, String, Attributes)
-              */
-            public void begin(String namespace, String name, Attributes attributes) {
-                if ( log.isDebugEnabled() ) {
-                    log.debug( "Called with descriptor: " + descriptor 
-                                + " propertyType: " + descriptor.getPropertyType() );
-                }
-                
-                if (log.isTraceEnabled()) {
-                    int attributesLength = attributes.getLength();
-                    if (attributesLength > 0) {
-                        log.trace("Attributes:");
-                    }
-                    for (int i=0, size=attributesLength; i<size; i++) {
-                        log.trace("Local:" + attributes.getLocalName(i));
-                        log.trace("URI:" + attributes.getURI(i));
-                        log.trace("QName:" + attributes.getQName(i));
-                    }
-                }
-                
-                // XXX: if a single rule instance gets reused and nesting occurs
-                // XXX: we should probably use a stack of booleans to test if we created a bean
-                // XXX: or let digester take nulls, which would be easier for us ;-)
-                createdBean = false;
-                Object instance = null;
-                // if we are a reference to a type we should lookup the original
-                // as this ElementDescriptor will be 'hollow' 
-                // and have no child attributes/elements.
-                // XXX: this should probably be done by the NodeDescriptors...
-                ElementDescriptor typeDescriptor = getElementDescriptor( descriptor );
-                if ( typeDescriptor.getUpdater() == null && beanClass == null ) {
-                    // we try to get the instance from the context.
-                    instance = context.getBean();
-                    if ( instance == null ) {
-                        return;
-                    }
-                } else {
-                    instance = createBean( namespace, name, attributes );
-                    if ( instance != null ) {
-                        createdBean = true;
-                        context.setBean( instance );
-                        digester.push( instance );
-                    } else {
-                        // we don't do anything if the instance is null.
-                        return;
-                    }
-                }
-        
-                // iterate through all attributes        
-                AttributeDescriptor[] attributeDescriptors 
-                    = typeDescriptor.getAttributeDescriptors();
-                if ( attributeDescriptors != null ) {
-                    for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
-                        AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
-                        
-                        // The following isn't really the right way to find the attribute
-                        // but it's quite robust.
-                        // The idea is that you try both namespace and local name first
-                        // and if this returns null try the qName.
-                        String value = attributes.getValue( 
-                            attributeDescriptor.getURI(),
-                            attributeDescriptor.getLocalName() 
-                        );
-                        
-                        if ( value == null ) {
-                            value = attributes.getValue(
-                                attributeDescriptor.getQualifiedName());
-                        }
-                        
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Attr URL:" + attributeDescriptor.getURI());
-                            log.trace(
-                                        "Attr LocalName:" 
-                                        + attributeDescriptor.getLocalName() );
-                            log.trace(value);
-                        }
-                        
-                        Updater updater = attributeDescriptor.getUpdater();
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Updater : "+updater);
-                        }
-                        if ( updater != null && value != null ) {
-                            updater.update( context, value );
-                        }
-                    }
-                }
-                
-                if ( log.isTraceEnabled() ) {
-                    log.trace("Created bean " + instance);
-                    log.trace("Path prefix: " + pathPrefix);
-                }
-                
-                // add bean for ID matching
-                if ( context.getMapIDs() ) {
-                    // XXX need to support custom ID attribute names
-                    // XXX i have a feeling that the current mechanism might need to change
-                    // XXX so i'm leaving this till later
-                    String id = attributes.getValue( "id" );
-                    if ( id != null ) {
-                        context.putBean( id, instance );
-                    }
-                }
-            }
-            
-            /**
-              * @see Rule#body(String, String, String)
-              */
-            public void body(String namespace, String name, String text) {
-                
-                if ( log.isTraceEnabled() ) {
-                    log.trace("Body with text " + text);
-                }
-                if ( digester.getCount() > 0 ) {
-                    Context bodyContext = context.newContext( digester.peek() );
-                    // Take the first content descriptor
-                    ElementDescriptor typeDescriptor = getElementDescriptor( descriptor );
-                    TextDescriptor descriptor = typeDescriptor.getPrimaryBodyTextDescriptor();
-                    if ( descriptor != null ) {
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Setting mixed content for:");
-                            log.trace(descriptor);
-                        }
-                        Updater updater = descriptor.getUpdater();
-                        if ( log.isTraceEnabled() ) {
-                            log.trace( "Updating mixed content with:" );
-                            log.trace( updater );
-                        }
-                        if ( updater != null && text != null ) {
-                            updater.update( bodyContext, text );
-                        }
-                    }
+                for (int i = 0, size = attributesLength; i < size; i++) {
+                    log.trace("Local:" + attributes.getLocalName(i));
+                    log.trace("URI:" + attributes.getURI(i));
+                    log.trace("QName:" + attributes.getQName(i));
                 }
             }
 
-            /**
-            * Process the end of this element.
-            */
-            public void end() {
-                if ( createdBean ) {
-                    
-                    // force any setters of the parent bean to be called for this new bean instance
-                    Updater updater = descriptor.getUpdater();
-                    Object instance = context.getBean();
-        
-                    Object top = digester.pop();
-                    if (log.isTraceEnabled()) {
-                        log.trace("Popped " + top);
-                    }
-                    if (digester.getCount() == 0) {
-                        context.setBean(null);
-                    }else{
-                        context.setBean( digester.peek() );
-                    }
-        
-                    if ( updater != null ) {
-                        if ( log.isDebugEnabled() ) {
-                            log.debug( "Calling updater for: " + descriptor + " with: " 
-                                + instance + " on bean: " + context.getBean() );
-                        }
-                        updater.update( context, instance );
-                    } else {
-                        if ( log.isDebugEnabled() ) {
-                            log.debug( "No updater for: " + descriptor + " with: " 
-                                + instance + " on bean: " + context.getBean() );
-                        }
-                    }
-                }
-            }
-        
-            /** 
-             * Tidy up.
-             */
-            public void finish() {
-                //
-                // Clear indexed beans so that we're ready to process next document
-                //
-                baseContext.clearBeans();
-            }
-        
-        
-            // Implementation methods
-            //-------------------------------------------------------------------------    
+            context.pushElement(name);
             
-            /** 
-            * Factory method to create new bean instances 
-            *
-            * @param namespace the namespace for the element
-            * @param name the local name
-            * @param attributes the <code>Attributes</code> used to match <code>ID/IDREF</code>
-            * @return the created bean
-            */
-            protected Object createBean( String namespace, String name, Attributes attributes ) {
-                // todo: recycle element mappings 
-                ElementMapping mapping = new ElementMapping();
-                mapping.setType( beanClass );
-                mapping.setNamespace( namespace );
-                mapping.setName( name );
-                mapping.setAttributes( attributes );
-                mapping.setDescriptor( descriptor );
+            MappingAction nextAction =
+                nextAction(namespace, name, attributes, context);
+
+            context.pushMappingAction(nextAction);
+        }
+
+        /**
+         * Gets the next action to be executed 
+         * @param namespace the element's namespace, not null
+         * @param name the element name, not null
+         * @param attributes the element's attributes, not null
+         * @param context the <code>ReadContext</code> against which the xml is being mapped.
+         * @return the initialized <code>MappingAction</code>, not null
+         * @throws Exception
+         */
+        private MappingAction nextAction(
+            String namespace,
+            String name,
+            Attributes attributes,
+            ReadContext context)
+            throws Exception {
                 
-                Object newInstance = context.getBeanCreationChain().create( mapping, context );
+            MappingAction result = null;
+            MappingAction lastAction = context.currentMappingAction();
+            if (lastAction == null)
+            {
+                result =  BeanBindAction.INSTANCE;   
+            } else {
                 
-                return newInstance;
-            }    
-            
-            /**
-            * Return something meaningful for logging.
-            *
-            * @return something useful for logging
-            */
-            public String toString() {
-                return "BeanRule [path prefix=" + pathPrefix + " descriptor=" + descriptor + "]";
+                result = lastAction.next(namespace, name, attributes, context);
             }
+            return result.begin(namespace, name, attributes, context);
+        }
+
+
+
+        /**
+        * Processes the body text for the current element.
+        * This is delegated to the current <code>MappingAction</code>.
+        * @see Rule#body(String, String, String)
+        */
+        public void body(String namespace, String name, String text)
+            throws Exception {
+
+            log.trace("[BRS] Body with text " + text);
+            if (digester.getCount() > 0) {
+                MappingAction action = context.currentMappingAction();
+                action.body(text, context);
+            } else {
+                log.trace("[BRS] ZERO COUNT");
+            }
+        }
+
+        /**
+        * Process the end of this element.
+        * This is delegated to the current <code>MappingAction</code>.
+        */
+        public void end(String namespace, String name) throws Exception {
+
+            MappingAction action = context.popMappingAction();
+            action.end(context);
+        }
+
+        /** 
+         * Tidy up.
+         */
+        public void finish() {
+            //
+            // Clear indexed beans so that we're ready to process next document
+            //
+            context.clearBeans();
+        }
+
+    }
+
+    /**
+     * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @version $Revision: 1.19 $
+     */
+    private static class DigesterReadContext extends ReadContext {
+
+        private Digester digester;
+
+        /**
+         * @param context
+         * @param readConfiguration
+         */
+        public DigesterReadContext(
+            Context context,
+            ReadConfiguration readConfiguration) {
+            super(context, readConfiguration);
+            // TODO Auto-generated constructor stub
+        }
+
+        /**
+         * @param bindingConfiguration
+         * @param readConfiguration
+         */
+        public DigesterReadContext(
+            BindingConfiguration bindingConfiguration,
+            ReadConfiguration readConfiguration) {
+            super(bindingConfiguration, readConfiguration);
+        }
+
+        /**
+         * @param log
+         * @param bindingConfiguration
+         * @param readConfiguration
+         */
+        public DigesterReadContext(
+            Log log,
+            BindingConfiguration bindingConfiguration,
+            ReadConfiguration readConfiguration) {
+            super(log, bindingConfiguration, readConfiguration);
+        }
+
+        /**
+         * @param log
+         * @param bindingConfiguration
+         * @param readConfiguration
+         */
+        public DigesterReadContext(ReadContext readContext) {
+            super(readContext);
+        }
+
+        public Digester getDigester() {
+            // TODO: replace with something better
+            return digester;
+        }
+
+        public void setDigester(Digester digester) {
+            // TODO: replace once moved to single Rule
+            this.digester = digester;
+        }
+
+        /* (non-Javadoc)
+         * @see org.apache.commons.betwixt.io.read.ReadContext#pushBean(java.lang.Object)
+         */
+        public void pushBean(Object bean) {
+            super.pushBean(bean);
+            digester.push(bean);
+        }
+
+        /* (non-Javadoc)
+         * @see org.apache.commons.betwixt.io.read.ReadContext#putBean(java.lang.Object)
+         */
+        public Object popBean() {
+            Object bean = super.popBean();
+            Object top = digester.pop();
+            return bean;
         }
     }
-}  
 
+}

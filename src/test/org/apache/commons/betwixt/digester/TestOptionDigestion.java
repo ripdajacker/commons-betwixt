@@ -16,18 +16,18 @@
  
 package org.apache.commons.betwixt.digester;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.xml.sax.helpers.AttributesImpl;
 
-import junit.framework.TestCase;
-
 
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TestOptionDigestion extends TestCase {
 

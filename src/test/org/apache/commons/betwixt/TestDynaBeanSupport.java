@@ -31,7 +31,7 @@ import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 /** Test harness for the DynaBeans support
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestDynaBeanSupport extends AbstractTestCase {
     
@@ -50,7 +50,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
     public void testIntrospectDynaBean() throws Exception
     {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
         XMLBeanInfo beanInfo = introspector.introspect(createDynasaurClass());
         ElementDescriptor baseElement = beanInfo.getElementDescriptor();
         // no attributes
@@ -90,7 +90,8 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write(dynasaur);
         
         String xml = "<?xml version='1.0'?><dynasaur><species>Allosaurus</species>"
@@ -108,7 +109,8 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write("bean", bean);
         
         String xml = "<?xml version='1.0'?><bean><ndp>Tweedledum</ndp></bean>";

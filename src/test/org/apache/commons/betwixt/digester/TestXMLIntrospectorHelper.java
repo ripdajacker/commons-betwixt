@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.apache.commons.betwixt.BeanProperty;
 import org.apache.commons.betwixt.CustomerBean;
 import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
@@ -34,7 +35,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 
@@ -56,8 +57,8 @@ public class TestXMLIntrospectorHelper extends TestCase {
      */
     public void testCreateDescriptorWithHyphenatedElementNameMapper() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setAttributesForPrimitives(false);
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.getConfiguration().setAttributesForPrimitives(false);
+        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
         BeanInfo beanInfo = Introspector.getBeanInfo(CustomerBean.class);
 
         NodeDescriptor nickNameProperty = createDescriptor("nickName", beanInfo, introspector);
@@ -82,8 +83,7 @@ public class TestXMLIntrospectorHelper extends TestCase {
         for (int i=0; i<properties.length; i++) {
             if (propertyName.equals(properties[i].getName())) {
                 NodeDescriptor desc = (NodeDescriptor) introspector
-                    .createDescriptor(properties[i],
-                                      introspector.isAttributesForPrimitives());
+                    .createXMLDescriptor(new BeanProperty(properties[i]));
                 return desc;
             } 
         }

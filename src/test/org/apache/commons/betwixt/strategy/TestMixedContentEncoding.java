@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Mixed content encoding is the process by which body content
  * is written out (in an escaped form) into a textual output stream. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TestMixedContentEncoding extends AbstractTestCase {
 
@@ -112,7 +112,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value>&lt;greeting&gt;What Ho Jeeves!&lt;/greeting&gt;</value>\n</Element>\n";
@@ -130,7 +131,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
         elementInfo.getElementDescriptor().getElementDescriptors()[0]
             .getOptions().addOption(MixedContentEncodingStrategy.ENCODING_OPTION_NAME, "CDATA");  
@@ -152,7 +154,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
         elementInfo.getElementDescriptor().getElementDescriptors()[0]
             .getOptions().addOption("org.apache.commons.betwixt.mixed-content-encoding", "escaped");
@@ -173,7 +176,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
         
         String expected = "<?xml version='1.0'?>" +            "<greek-abc>\n" +            "<alpha><![CDATA[<strong>weak</strong>]]></alpha>\n" +            "<beta>&lt;strong&gt;weak&lt;/strong&gt;</beta>\n" +            "<gamma>&lt;strong&gt;weak&lt;/strong&gt;</gamma>\n" +            "</greek-abc>\n";
@@ -189,7 +193,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(false));
         writer.write(element);
         
@@ -207,7 +212,8 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(true));
         writer.write(element);
         

@@ -15,7 +15,9 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class MapEntryAdder {
 
@@ -190,14 +192,26 @@ public class MapEntryAdder {
             if ( key instanceof String ) {
                 // try to convert into primitive types
                 key = context.getObjectStringConverter()
-                        .stringToObject( (String) key, valueType, null, context );
+                        .stringToObject( (String) key, keyType, null, context );
             }
             
             if ( value instanceof String ) {
                 // try to convert into primitive types
                 value = context.getObjectStringConverter()
-                        .stringToObject( (String) value, keyType, null, context );
+                        .stringToObject( (String) value, valueType, null, context );
             }
+            
+            // special case for collection objects into arrays                    
+            if (value instanceof Collection && valueType.isArray()) {
+                Collection valuesAsCollection = (Collection) value;
+                Class componentType = valueType.getComponentType();
+                if (componentType != null) {
+                    Object[] valuesAsArray = 
+                        (Object[]) Array.newInstance(componentType, valuesAsCollection.size());
+                    value = valuesAsCollection.toArray(valuesAsArray);
+                }
+            }
+            
                  
             Object[] arguments = { key, value };
             try {

@@ -91,6 +91,17 @@
           How can I make my extra digestion <em>Rule</em>s work with Betwixt?
         </a>
       </li>
+      <li>
+        <a href="#bean-read-failure">
+          Why does reading my xml return null?
+        </a>
+      </li>
+      <li>
+      	<a href="#betwixt-matching-adders">
+How can I make Betwixt match adders to collective properties when using
+a <code>.betwixt</code> file <em>without</em> also adding default propertes?
+      	</a>
+      </li>
     </ol>
     <p><strong>Building Betwixt</strong></p>
     <ol>
@@ -263,7 +274,7 @@ encoding strategy</a>.
             upgrade.
         </dd>
         <dt>
-          <a name="Why Can't A Read My Bean?">
+          <a name="bean-read-failure">
             Why does reading my xml return null?
           </a>
         </dt>
@@ -278,7 +289,19 @@ encoding strategy</a>.
             to register the class at a particular path.</li>
             </ul>
         </dd>
+         <dt>
+          <a name="betwixt-matching-adders">
+How can I make Betwixt match adders to collective properties when using
+a <code>.betwixt</code> file <em>without</em> also adding default propertes?
+          </a>
+        </dt>
+        <dd>
+Add the <code>&lt;addDefaults&gt;</code> and to it add an attribute 
+<code>add-properties=&quot;false&quot;</code>.
+        </dd>       
+        
       </dl>
+      
     </subsection>
     <subsection name="Building Betwixt">
       <dl>

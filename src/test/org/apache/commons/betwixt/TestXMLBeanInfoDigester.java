@@ -46,6 +46,10 @@ public class TestXMLBeanInfoDigester extends AbstractTestCase {
     
     public void testDigester() throws Exception {
         XMLBeanInfoDigester digester = new XMLBeanInfoDigester();
+        // TODO the digestion probably won't work without an XMLIntrospector
+        // so it might be better to enforce via a constructor 
+        // or create a default one 
+        digester.setXMLIntrospector(new XMLIntrospector());
 
         InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/digester/rss/Channel.betwixt") );
         
@@ -66,6 +70,7 @@ public class TestXMLBeanInfoDigester extends AbstractTestCase {
         
         descriptor = elements[0];
         assertEquals( "Element name correct", "channel", descriptor.getLocalName() );
+        
     }
 }
 

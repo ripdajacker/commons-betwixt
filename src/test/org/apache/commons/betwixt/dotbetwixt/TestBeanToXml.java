@@ -1,6 +1,7 @@
 /*
  * Copyright 2001-2004 The Apache Software Foundation.
  * 
+
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -67,7 +68,7 @@ public class TestBeanToXml extends XmlTestCase {
 //        log = new SimpleLog("[testSimpleBean:XMLIntrospectorHelper]");
 //        XMLIntrospectorHelper.setLog(log);
     
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
 	SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");
         writer.write(bean);
         out.flush();
@@ -129,6 +130,7 @@ public class TestBeanToXml extends XmlTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write( new MixedContentBean("First", "Last", "Always") );
         
         String xml = "<?xml version='1.0' encoding='UTF-8'?><foo version='1.0'>"
@@ -144,6 +146,7 @@ public class TestBeanToXml extends XmlTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write( new MixedContentOne("Life,", "The Universe And Everything", 42) );
         
         String xml = "<?xml version='1.0' encoding='UTF-8'?><deep-thought alpha='Life,' gamma='42'>"
@@ -165,8 +168,9 @@ public class TestBeanToXml extends XmlTestCase {
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         
         BeanWriter writer = new BeanWriter( out );
-        writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
-        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+		writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
         
         writer.write( bean );
         

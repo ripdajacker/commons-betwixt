@@ -18,11 +18,14 @@ package org.apache.commons.betwixt.digester;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.MethodExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -33,7 +36,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.9 2004/02/28 13:38:32 yoavs Exp $
+  * @version $Id: AttributeRule.java,v 1.10 2004/06/13 21:32:45 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -59,22 +62,26 @@ public class AttributeRule extends RuleSupport {
      * @throws SAXException 1. If the attribute tag is not inside an element tag.
      * 2. If the name attribute is not valid XML attribute name.
      */
-    public void begin(Attributes attributes) throws SAXException {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         
         AttributeDescriptor descriptor = new AttributeDescriptor();
-        String name = attributes.getValue( "name" );
+        String nameAttributeValue = attributes.getValue( "name" );
 
         // check that name is well formed 
-        if ( !XMLUtils.isWellFormedXMLName( name ) ) {
-            throw new SAXException("'" + name + "' would not be a well formed xml attribute name.");
+        if ( !XMLUtils.isWellFormedXMLName( nameAttributeValue ) ) {
+            throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml attribute name.");
         }
         
-        descriptor.setQualifiedName( name );
-        descriptor.setLocalName( name );
+        String qName = nameAttributeValue;
+        descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
         if ( uri != null ) {
-            descriptor.setURI( uri );        
+            descriptor.setURI( uri );  
+            String prefix = getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri);
+            qName = prefix + ":" + nameAttributeValue; 
         }
+        descriptor.setQualifiedName( qName );
+        
         String propertyName = attributes.getValue( "property" );
         descriptor.setPropertyName( propertyName );
         descriptor.setPropertyType( loadClass( attributes.getValue( "type" ) ) );
@@ -104,7 +111,7 @@ public class AttributeRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() {
+    public void end(String name, String namespace) {
         Object top = digester.pop();
     }
 
@@ -144,8 +151,7 @@ public class AttributeRule extends RuleSupport {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {
                         PropertyDescriptor descriptor = descriptors[i];
                         if ( name.equals( descriptor.getName() ) ) {
-                            XMLIntrospectorHelper
-                                .configureProperty( attributeDescriptor, descriptor );
+                            configureProperty( attributeDescriptor, descriptor );
                             getProcessedPropertyNameSet().add( name );
                             break;
                         }
@@ -156,4 +162,54 @@ public class AttributeRule extends RuleSupport {
             }
         }
     }    
+    
+    /**
+     * Configure an <code>AttributeDescriptor</code> from a <code>PropertyDescriptor</code>
+     *
+     * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     */
+    private void configureProperty( 
+                                    AttributeDescriptor attributeDescriptor, 
+                                    PropertyDescriptor propertyDescriptor ) {
+        Class type = propertyDescriptor.getPropertyType();
+        Method readMethod = propertyDescriptor.getReadMethod();
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        
+        if ( readMethod == null ) {
+            log.trace( "No read method" );
+            return;
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Read method=" + readMethod );
+        }
+        
+        // choose response from property type
+        
+        // XXX: ignore class property ??
+        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
+            log.trace( "Ignoring class property" );
+            return;
+        }
+        if ( getXMLIntrospector().isLoopType( type ) ) {
+            log.warn( "Using loop type for an attribute. Type = " 
+                    + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );
+        }
+
+        log.trace( "Standard property" );
+        attributeDescriptor.setTextExpression( new MethodExpression( readMethod ) );
+        
+        if ( writeMethod != null ) {
+            attributeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+        }
+        
+        attributeDescriptor.setLocalName( propertyDescriptor.getName() );
+        attributeDescriptor.setPropertyType( type );        
+        
+        // XXX: associate more bean information with the descriptor?
+        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
+        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+    }
+    
 }

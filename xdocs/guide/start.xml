@@ -151,6 +151,23 @@
 </info>
 ]]></source>
 
+	<p>The plain <code>&lt;addDefaults&gt;</code> tag adds default properties
+	and the adders (it can find) for all the properties (both explicitly 
+	described in the <code>.betwixt</code> file and the default ones discovered).
+	Usually, this is really pretty useful but sometimes it is more finely graine
+	control is needed. In this case, there are two properties that can be set
+	to given this extra control:</p>
+	
+	<ul>
+		<li><strong><code>add-properties</code></strong> If this property is set to any value
+		other than <code>true</code> the discovery of default properties will
+		be suppressed.</li>
+		<li><strong><code>add-adders</code></strong> if this property is set to
+		any value other than <code>true</code> the matching of adders will be supressed.</li>
+	</ul>
+	
+	<p>Using <code>&lt;addDefaults add-properties='false' add-adders='false'/&gt;</code>
+	doesn't really make any sense but no error will be thrown.</p>
 </subsection>
 
 </section>

@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 /** <p><code>HideRule</code> hides the property of the given name.</p>
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class HideRule extends RuleSupport {
 
@@ -45,20 +45,13 @@ public class HideRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws SAXException when the mandatory 'property' attribute is missing
      */
-    public void begin(Attributes attributes) throws SAXException {
-        String name = attributes.getValue( "property" );
-        if ( name == null || name.length() == 0 ) {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
+        String propertyAttributeValue = attributes.getValue( "property" );
+        if ( propertyAttributeValue == null || propertyAttributeValue.length() == 0 ) {
             throw new SAXException( 
                 "<hide> element is missing the mandatory attribute 'property'" );
         }
         Set propertySet = getProcessedPropertyNameSet();
-        propertySet.add( name );
-    }
-
-
-    /**
-     * Process the end of this element.
-     */
-    public void end() {
+        propertySet.add( propertyAttributeValue );
     }
 }

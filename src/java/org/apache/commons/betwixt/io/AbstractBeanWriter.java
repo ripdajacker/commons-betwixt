@@ -17,6 +17,8 @@ package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -82,7 +84,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.26 $
+  * @version $Revision: 1.27 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -103,6 +105,8 @@ public abstract class AbstractBeanWriter {
     private BindingConfiguration bindingConfiguration = new BindingConfiguration();
     /** <code>WriteContext</code> implementation reused curing writing */
     private WriteContextImpl writeContext = new WriteContextImpl();
+    /** Collection of namespaces which have already been declared */
+    private Collection namespacesDeclared = new ArrayList();
     
     /**
      * Marks the start of the bean writing.
@@ -149,7 +153,7 @@ public abstract class AbstractBeanWriter {
             log.debug( bean );
         }
         start();
-        write( null, bean );
+        writeBean( null, null, null, bean, makeContext( bean ) );
         end();
         if (log.isDebugEnabled()) {
             log.debug( "Finished writing bean graph." );
@@ -178,7 +182,9 @@ public abstract class AbstractBeanWriter {
                         IOException, 
                         SAXException,
                         IntrospectionException {
+        start();
         writeBean( "", qualifiedName, qualifiedName, bean, makeContext( bean ) );
+        end();
     }
     
     /** 
@@ -233,8 +239,8 @@ public abstract class AbstractBeanWriter {
                 String ref = null;
                 String id = null;
                 
-                // only give id's to non-primatives
-                if ( elementDescriptor.isPrimitiveType() ) {
+                // simple type should not have IDs
+                if ( elementDescriptor.isSimple() ) {
                     // write without an id
                     writeElement( 
                         namespaceUri,
@@ -342,6 +348,8 @@ public abstract class AbstractBeanWriter {
     public void setIdGenerator(IDGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
+    
+    
     
     /**
      * Gets the dynamic configuration setting to be used for bean reading.
@@ -616,23 +624,55 @@ public abstract class AbstractBeanWriter {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
         
-            if (elementDescriptor.isWrapCollectionsInElement()) {
-                writeContext.setCurrentDescriptor(elementDescriptor);
-                startElement( 
+            Attributes attributes = addNamespaceDeclarations(
+                new ElementAttributes( elementDescriptor, context ), namespaceUri);
+            writeContext.setCurrentDescriptor(elementDescriptor);
+            startElement( 
                             writeContext,
                             namespaceUri, 
                             localName, 
                             qualifiedName,
-                            new ElementAttributes( elementDescriptor, context ));
-            }
-    
+                            attributes);
+           
             writeElementContent( elementDescriptor, context ) ;
-            if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                writeContext.setCurrentDescriptor(elementDescriptor);
-                endElement( writeContext, namespaceUri, localName, qualifiedName );
-            }
+            writeContext.setCurrentDescriptor(elementDescriptor);
+            endElement( writeContext, namespaceUri, localName, qualifiedName );
+            
         }
     }
+    
+    /**
+     * Adds namespace declarations (if any are needed) to the given attributes.
+     * @param attributes Attributes, not null
+     * @param elementNamespaceUri the URI for the enclosing element, possibly null
+     * @return Attributes, not null
+     */
+    private Attributes addNamespaceDeclarations(Attributes attributes, String elementNamespaceUri) {
+        Attributes result = attributes;
+        AttributesImpl withDeclarations = null; 
+        for (int i=-1, size=attributes.getLength(); i<size ; i++) {
+            String uri = null;
+            if (i == -1) {
+                uri = elementNamespaceUri;
+            } else {
+                uri = attributes.getURI(i);
+            }
+            if (uri != null && !"".equals(uri) && !namespacesDeclared.contains(uri)) {
+                if (withDeclarations == null) {
+                    withDeclarations = new AttributesImpl(attributes);
+                }
+                withDeclarations.addAttribute("", "", "xmlns:" 
+                    + getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri), "NOTATION", uri);
+                namespacesDeclared.add(uri);
+            }
+        }
+        
+        if (withDeclarations != null) {
+            result = withDeclarations;
+        }
+        return result;
+    }
+    
     
     /** 
      * Writes the given element adding an ID attribute 
@@ -663,16 +703,17 @@ public abstract class AbstractBeanWriter {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
             writeContext.setCurrentDescriptor(elementDescriptor);
+            Attributes attributes = new IDElementAttributes( 
+                        elementDescriptor, 
+                        context, 
+                        idAttribute, 
+                        idValue );
             startElement( 
                         writeContext,
                         namespaceUri, 
                         localName, 
                         qualifiedName,
-                        new ElementAttributes( 
-                                                elementDescriptor, 
-                                                context, 
-                                                idAttribute, 
-                                                idValue ));
+                        addNamespaceDeclarations(attributes, namespaceUri));
     
             writeElementContent( elementDescriptor, context ) ;
             writeContext.setCurrentDescriptor(elementDescriptor);
@@ -707,14 +748,7 @@ public abstract class AbstractBeanWriter {
                                     SAXException,
                                     IntrospectionException {
 
-        if ( elementDescriptor.isWrapCollectionsInElement() ) {
-            writeAttributes( elementDescriptor, context );
-        }
-
         writeElementContent( elementDescriptor, context );
-        if ( elementDescriptor.isWrapCollectionsInElement() ) {
-            endElement( writeContext, uri, localName, qualifiedName );
-        }
     }
 
     /**
@@ -753,7 +787,7 @@ public abstract class AbstractBeanWriter {
                                 "IDREF",
                                 idrefAttributeValue);
         writeContext.setCurrentDescriptor(elementDescriptor);
-        startElement( writeContext, uri, localName, qualifiedName, attributes);        
+        startElement( writeContext, uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri));        
         endElement( writeContext, uri, localName, qualifiedName );
     }
     
@@ -966,20 +1000,16 @@ public abstract class AbstractBeanWriter {
     }
     
     
-    
-    
     /**
-     * Attributes backed by attribute descriptors
+     * Attributes backed by attribute descriptors.
+     * ID/IDREFs not set.
      */
     private class ElementAttributes implements Attributes {
         /** Attribute descriptors backing the <code>Attributes</code> */
         private AttributeDescriptor[] attributes;
         /** Context to be evaluated when finding values */
         private Context context;
-        /** ID attribute value */
-        private String idValue;
-        /** ID attribute name */
-        private String idAttributeName;
+
         
         
         /** 
@@ -991,25 +1021,6 @@ public abstract class AbstractBeanWriter {
         ElementAttributes( ElementDescriptor descriptor, Context context ) {
             attributes = descriptor.getAttributeDescriptors();
             this.context = context;
-        }
-        
-        /** 
-         * Construct attributes for element and context.
-         *
-         * @param descriptor the <code>ElementDescriptor</code> describing the element
-         * @param context evaluate against this context
-         * @param idAttributeName the name of the id attribute 
-         * @param idValue the ID attribute value
-         */
-        ElementAttributes( 
-                            ElementDescriptor descriptor, 
-                            Context context, 
-                            String idAttributeName,
-                            String idValue) {
-            attributes = descriptor.getAttributeDescriptors();
-            this.context = context;
-            this.idValue = idValue;
-            this.idAttributeName = idAttributeName;
         }
         
         /**
@@ -1143,19 +1154,12 @@ public abstract class AbstractBeanWriter {
          */
         public String getValue( int index ) {
             if ( indexInRange( index )) {
-                if (
-                    idAttributeName != null 
-                    && idAttributeName.equals(attributes[index].getLocalName())) {
-                        
-                    return idValue;
-                    
-                } else {
-                    Expression expression = attributes[index].getTextExpression();
-                    if ( expression != null ) {
-                        Object value = expression.evaluate( context );
-                        return convertToString( value, attributes[index], context );
-                    }
+                Expression expression = attributes[index].getTextExpression();
+                if ( expression != null ) {
+                    Object value = expression.evaluate( context );
+                    return convertToString( value, attributes[index], context );
                 }
+                
                 return "";
             }
             return null;
@@ -1195,6 +1199,132 @@ public abstract class AbstractBeanWriter {
         private boolean indexInRange( int index ) {
             return ( index >= 0 && index < attributes.length );
         }
+    }
+    
+    /**
+     * Attributes with generate ID/IDREF attributes
+     * //TODO: refactor the ID/REF generation so that it's fixed at introspection
+     * and the generators are placed into the Context.
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @version $Revision: 1.27 $
+     */
+    private class IDElementAttributes extends ElementAttributes {
+		/** ID attribute value */
+		private String idValue;
+		/** ID attribute name */
+		private String idAttributeName;
+
+		private boolean matchingAttribute = false;
+		private int length;
+		private int idIndex;
+		
+		/** 
+		 * Construct attributes for element and context.
+		 *
+		 * @param descriptor the <code>ElementDescriptor</code> describing the element
+		 * @param context evaluate against this context
+		 * @param idAttributeName the name of the id attribute 
+		 * @param idValue the ID attribute value
+		 */
+		IDElementAttributes( 
+							ElementDescriptor descriptor, 
+							Context context, 
+							String idAttributeName,
+							String idValue) {
+			super(descriptor, context);
+			this.idValue = idValue;
+			this.idAttributeName = idAttributeName;
+			
+			// see if we have already have a matching attribute descriptor
+			AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors();
+			length = attributeDescriptors.length;
+			for (int i=0; i<length; i++) {
+				if (idAttributeName.equals(attributeDescriptors[i])) {
+					matchingAttribute = true;
+					idIndex = i;
+					break;
+				}
+			}
+			if (!matchingAttribute) {
+				length += 1;
+				idIndex = length-1;
+			}
+		}    	
+		
+        public int getIndex(String uri, String localName) {
+            if (localName.equals(idAttributeName)) {
+            	return idIndex;
+            }
+        	
+            return super.getIndex(uri, localName);
+        }
+
+        public int getIndex(String qName) {
+			if (qName.equals(idAttributeName)) {
+				return idIndex;
+			}
+			
+            return super.getIndex(qName);
+        }
+
+        public int getLength() {
+            return length;
+        }
+
+        public String getLocalName(int index) {
+            if (index == idIndex) {
+            	return idAttributeName;
+            }
+            return super.getLocalName(index);
+        }
+
+        public String getQName(int index) {
+			if (index == idIndex) {
+				return idAttributeName;
+			}
+            return super.getQName(index);
+        }
+
+        public String getType(int index) {
+			if (index == idIndex) {
+				return "ID";
+			}
+            return super.getType(index);
+        }
+
+        public String getType(String uri, String localName) {
+            return getType(getIndex(uri, localName));
+        }
+
+        public String getType(String qName) {
+            return getType(getIndex(qName));
+        }
+
+        public String getURI(int index) {
+        	//TODO: this is probably wrong
+        	// probably need to move ID management into introspection
+        	// before we can handle this namespace bit correctly
+			if (index == idIndex) {
+				return "";
+			}
+            return super.getURI(index);
+        }
+
+        public String getValue(int index) {
+            if (index == idIndex) {
+            	return idValue;
+            }
+            return super.getValue(index);
+        }
+
+        public String getValue(String uri, String localName) {
+            return getValue(getIndex(uri, localName));
+        }
+
+        public String getValue(String qName) {
+            return getValue(getIndex(qName));
+        }
+
     }
     
     
@@ -1579,6 +1709,7 @@ public abstract class AbstractBeanWriter {
     private Context makeContext(Object bean) {
         return new Context( bean, log, bindingConfiguration );
     }
+
     
     /**
      * Basic mutable implementation of <code>WriteContext</code>.

@@ -18,6 +18,7 @@ package org.apache.commons.betwixt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Expression;
 
 /** <p><code>ElementDescriptor</code> describes the XML elements
@@ -28,7 +29,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.15 $
+  * @version $Revision: 1.16 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -79,6 +80,13 @@ public class ElementDescriptor extends NodeDescriptor {
 
     /** Whether this element refers to a primitive type (or property of a parent object) */
     private boolean primitiveType;
+    /**
+     * Is this element hollow?
+     * In other words, is this descriptor a place holder indicating the name
+     * and update for a root ElementDescriptor for this type obtained by introspection
+     * TODO: this would probably be better modeled as a separate subclass
+     */
+    private boolean isHollow = false;
     
     /** 
      * Whether this collection element can be used
@@ -100,6 +108,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Base constructor.
      * @param primitiveType if true, this element refers to a primitive type
+     * @deprecated PrimitiveType property has been removed
      */
     public ElementDescriptor(boolean primitiveType) {
         this.primitiveType = primitiveType;
@@ -154,6 +163,18 @@ public class ElementDescriptor extends NodeDescriptor {
         return getContentDescriptors().length > 0; 
      } 
     
+    /**
+     * Is this a simple element?
+     * A simple element is one without child elements or attributes.
+     * This corresponds to the simple type concept used in XML Schema.
+     * TODO: need to consider whether it's sufficient to calculate
+     * which are simple types (and so don't get IDs assigned etc)
+     * @return true if it is a <code>SimpleType</code> element
+     */
+    public boolean isSimple() {
+        return !(hasAttributes()) && !(hasChildren());
+    }
+    
     
     /** 
      * Sets whether <code>Collection</code> bean properties should wrap items in a parent element.
@@ -163,6 +184,8 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @param wrapCollectionsInElement true if the elements for the items in the collection 
      * should be contained in a parent element
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
         this.wrapCollectionsInElement = wrapCollectionsInElement;
@@ -176,6 +199,8 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @return true if the elements for the items in the collection should be contained 
      * in a parent element
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public boolean isWrapCollectionsInElement() {
         return this.wrapCollectionsInElement;
@@ -262,6 +287,40 @@ public class ElementDescriptor extends NodeDescriptor {
         }
         return elementDescriptors;
     }
+    
+    /**
+      * Gets a child ElementDescriptor matching the given name if one exists.
+      * Note that (so long as there are no better matches), a null name
+      * acts as a wildcard. In other words, an 
+      * <code>ElementDescriptor</code> the first descriptor 
+      * with a null name will match any name
+      * passed in, unless some other matches the name exactly.
+      *
+      * @param name the localname to be matched, not null
+      * @returns the child ElementDescriptor with the given name if one exists, 
+      * otherwise null
+      */
+    public ElementDescriptor getElementDescriptor(String name) {
+    
+        ElementDescriptor elementDescriptor = null;
+        ElementDescriptor descriptorWithNullName = null;
+        ElementDescriptor[] elementDescriptors = getElementDescriptors();
+        for (int i=0, size=elementDescriptors.length; i<size; i++) {
+            String elementName = elementDescriptors[i].getQualifiedName();
+            if (name.equals(elementName)) {
+                elementDescriptor = elementDescriptors[i];
+                break;
+            }
+            if (descriptorWithNullName == null && elementName == null) {
+                descriptorWithNullName = elementDescriptors[i];
+            }
+        }
+        if (elementDescriptor == null) {
+            elementDescriptor = descriptorWithNullName;
+        }
+        return elementDescriptor;
+    }
+
 
     /** 
      * Sets the descriptors for the child element of the element this describes. 
@@ -362,6 +421,8 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Returns true if this element refers to a primitive type property
      * @return whether this element refers to a primitive type (or property of a parent object) 
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public boolean isPrimitiveType() {
         return primitiveType;
@@ -370,6 +431,8 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Sets whether this element refers to a primitive type (or property of a parent object) 
      * @param primitiveType true if this element refers to a primitive type
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public void setPrimitiveType(boolean primitiveType) {
         this.primitiveType = primitiveType;
@@ -475,6 +538,41 @@ public class ElementDescriptor extends NodeDescriptor {
     }
     
     /**
+     * TODO is this implementation correct?
+     * maybe this method is unnecessary
+     */
+    public boolean isCollective() {
+        boolean result = false;
+        Class type = getPropertyType();
+        if (type != null) {
+            result = XMLIntrospectorHelper.isLoopType(type);
+        }
+        return result;
+    }
+
+    /** 
+     * @todo is this really a good design?
+     */
+    public ElementDescriptor findParent(ElementDescriptor elementDescriptor) {
+        ElementDescriptor result = null;
+        ElementDescriptor[] elementDescriptors = getElementDescriptors();
+        for (int i=0, size=elementDescriptors.length; i<size; i++) {
+            if (elementDescriptors[i].equals(elementDescriptor)) {
+                result = this;
+                break;
+            }
+            else
+            {
+                result = elementDescriptors[i].findParent(elementDescriptor);
+                if (result != null) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
      * Returns something useful for logging.
      *
      * @return a string useful for logging
@@ -484,5 +582,33 @@ public class ElementDescriptor extends NodeDescriptor {
             "ElementDescriptor[qname=" + getQualifiedName() + ",pname=" + getPropertyName() 
             + ",class=" + getPropertyType() + ",singular=" + getSingularPropertyType()
             + ",updater=" + getUpdater() + ",wrap=" + isWrapCollectionsInElement() + "]";
+    }
+
+    /**
+     * Is this decriptor hollow?
+     * A hollow descriptor is one which gives only the class that the subgraph
+     * is mapped to rather than describing the entire subgraph.
+     * A new <code>XMLBeanInfo</code> should be introspected 
+     * and that used to describe the subgraph.
+     * A hollow descriptor should not have any child descriptors. 
+     * TODO: consider whether a subclass would be better
+     * @return true if this is hollow 
+     */
+    public boolean isHollow() {
+        return isHollow;
     }    
+    
+    /**
+     * Sets whether this descriptor is hollow.
+     * A hollow descriptor is one which gives only the class that the subgraph
+     * is mapped to rather than describing the entire subgraph.
+     * A new <code>XMLBeanInfo</code> should be introspected 
+     * and that used to describe the subgraph.
+     * A hollow descriptor should not have any child descriptors. 
+     * TODO: consider whether a subclass would be better
+     * @param true if this is hollow 
+     */
+    public void setHollow(boolean isHollow) {
+        this.isHollow = isHollow;
+    }  
 }

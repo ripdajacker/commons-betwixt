@@ -185,8 +185,8 @@ public class TestRSSRoundTrip extends AbstractTestCase {
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         //writer.setAbstractBeanWriterLog(log);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
-        writer.setWriteIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint();
         writer.write( bean );
     }

@@ -35,7 +35,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.10 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id: TestNoWrap.java,v 1.11 2004/06/13 21:32:48 rdonkin Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase
@@ -85,6 +85,7 @@ public class TestNoWrap
         po = (POTest) reader.parse(in);
         assertEquals("PO Printing No", "555008805581", po.getPrintingNumber());
         List componentTests = po.getComponenttests();
+        
         assertEquals("#Component tests", 3, componentTests.size());
         Componenttest testOne = (Componenttest) componentTests.get(0);
         assertEquals("Component Test One", "Text", testOne.getCompDescription());
@@ -105,7 +106,7 @@ public class TestNoWrap
         out.write("<?xml version='1.0'?>");
         BeanWriter beanWriter = new BeanWriter(out);
         beanWriter.setXMLIntrospector(createXMLIntrospector());
-        beanWriter.setWriteIDs(false);
+        beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
         
         beanWriter.write(po);
@@ -146,16 +147,16 @@ public class TestNoWrap
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(false);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 
         // wrap collections in an XML element
-        introspector.setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
 
         // turn bean elements first letter into lower case
-        introspector.setElementNameMapper( new DecapitalizeNameMapper() );
+        introspector.getConfiguration().setElementNameMapper( new DecapitalizeNameMapper() );
 
         // Set default plural stemmer.
-        introspector.setPluralStemmer( new DefaultPluralStemmer() );
+        introspector.getConfiguration().setPluralStemmer( new DefaultPluralStemmer() );
 
         return introspector;
     }

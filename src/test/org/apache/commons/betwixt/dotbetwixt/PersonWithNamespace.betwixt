@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+    <element name='person' uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'>
+    	<attribute 
+    		name='middle'
+    		property='middlename' 
+    		uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'/>
+    	<element 
+    		name='forename' 
+    		property='forename' />
+    	<element 
+    		name='surname' 
+    		property='lastname' 
+    		uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'/>
+    </element>
+</info>

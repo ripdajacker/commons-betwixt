@@ -296,6 +296,43 @@ searching for an <code>add*</code> method that takes a single parameter, now Bet
     </p>
     
     <p>
+More finely grained control over which primitive properties are mapped to elements and which
+to attributes can be supplied by creating a custom <code>SimpleTypeMapper</code> strategy
+and plugging that into the introspection configuration. 
+    </p>
+    
+    <p>
+Here is an example implementation (which maps strings to elements 
+and everything else to attributes):
+    </p>
+<source><![CDATA[    
+    /** Implementation binds strings to elements but everything else to attributes */
+    public class StringsAsElementsSimpleTypeMapper extends SimpleTypeMapper {
+        /**
+         * Binds strings to elements but everything else to attributes
+         */
+        public Binding bind(
+                            String propertyName, 
+                            Class propertyType, 
+                            IntrospectionConfiguration configuration) {
+            if (String.class.equals(propertyType)) {
+                return SimpleTypeMapper.Binding.ELEMENT;
+            }
+            return SimpleTypeMapper.Binding.ATTRIBUTE;
+        }
+    }
+]]></source>    
+    <p>
+This class can be used to configure <code>Betwixt</code> so that strings are bounds to
+elements but other primitives are bound to attributes as follows:
+    </p>
+<source><![CDATA[     
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setSimpleTypeMapper(
+            new StringsAsElementsSimpleTypeMapper());
+        ...
+]]></source> 
+    <p>
     The <strong><code>WrapCollectionsInElement</code></strong> property determines whether the elements 
     for a composite property (ie one that returns a collection or iterator) should be wrapped in a parent
     element. For example, if <code>isWrapCollectionsInElement</code> is true then a property with signature 

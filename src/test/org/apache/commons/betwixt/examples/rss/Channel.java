@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2001-2004 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * @author Craig R. McClanahan
  * @author Ted Husted
- * @version $Revision: 1.3 $ $Date: 2004/03/31 21:11:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/06/13 21:32:47 $
  */
 
 public class Channel implements Serializable {

@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.io.read;
   * Creator of beans that may delegate responsibility to members down the chain.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public interface ChainedBeanCreator {
     
@@ -35,6 +35,9 @@ public interface ChainedBeanCreator {
       * @param chain not null
       * @return the Object created, possibly null
       */
+    
+    // TODO: is element mapping really necessary here?
+    // TODO: what about exception handling? 
     public Object create(
                             ElementMapping elementMapping, 
                             ReadContext context, 

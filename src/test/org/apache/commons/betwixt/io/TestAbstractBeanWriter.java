@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestAbstractBeanWriter extends AbstractTestCase {
 
@@ -44,11 +44,11 @@ public class TestAbstractBeanWriter extends AbstractTestCase {
         bean.addActor(new PersonBean("Nicol", "Williamson"));
         
         TestWritingAPI writer = new TestWritingAPI();
-        writer.getXMLIntrospector().setAttributesForPrimitives(true);
-        XMLBeanInfo movieXmlBeanInfo 
-            = writer.getXMLIntrospector().introspect(MovieBean.class);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         XMLBeanInfo personXmlBeanInfo 
             = writer.getXMLIntrospector().introspect(PersonBean.class);
+        XMLBeanInfo movieXmlBeanInfo 
+            = writer.getXMLIntrospector().introspect(MovieBean.class);
         writer.write(bean);
         
         List expected = new ArrayList();
@@ -206,7 +206,7 @@ public class TestAbstractBeanWriter extends AbstractTestCase {
             String uri,
             String localName,
             String qName)
-            throws IOException, SAXException {
+            throws IOException, SAXException {;
                 recording.add(new Record(END_ELEMENT, context.getCurrentDescriptor()));
         }
 

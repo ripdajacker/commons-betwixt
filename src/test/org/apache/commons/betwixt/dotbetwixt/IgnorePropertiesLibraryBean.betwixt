@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="attribute">
+    <element name='library'>
+        <element name='library-name' property='name'/>
+        <element name='books' property='books'/>
+        <addDefaults add-properties='true' add-adders='false'/>
+    </element>
+</info>

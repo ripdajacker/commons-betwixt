@@ -16,6 +16,7 @@
  
 package org.apache.commons.betwixt.recursion;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.14 2004/02/28 13:38:36 yoavs Exp $
+ * @version $Id: TestRecursion.java,v 1.15 2004/06/13 21:32:48 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -67,7 +68,7 @@ public class TestRecursion extends AbstractTestCase
     
         XMLIntrospector intro = createXMLIntrospector();
         //intro.setLog(log);
-        intro.setWrapCollectionsInElement(true);
+        intro.getConfiguration().setWrapCollectionsInElement(true);
         
         //log = new SimpleLog("[testReadwithCollectionsInElementRoundTrip:BeanReader]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
@@ -130,7 +131,7 @@ public class TestRecursion extends AbstractTestCase
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
  
         XMLIntrospector intro = createXMLIntrospector();
-        intro.setWrapCollectionsInElement(false);
+        intro.getConfiguration().setWrapCollectionsInElement(false);
 //        intro.setLog(log);
 //        log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:XMLIntrospectorHelper]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
@@ -197,10 +198,10 @@ public class TestRecursion extends AbstractTestCase
         writer.setWriteEmptyElements( true );
         writer.setXMLIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
-        writer.getXMLIntrospector().setWrapCollectionsInElement(wrapIt);
+        writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(wrapIt);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         // the source has 2 spaces indention and \n as line seperator.
         writer.setIndent("  ");
         writer.setEndOfLine("\n");
@@ -213,8 +214,8 @@ public class TestRecursion extends AbstractTestCase
         XMLIntrospector introspector = new XMLIntrospector();
 
         // set elements for attributes to true
-        introspector.setAttributesForPrimitives(true);
-        introspector.setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
         
         return introspector;
     }
@@ -230,8 +231,8 @@ public class TestRecursion extends AbstractTestCase
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
-        writer.getXMLIntrospector().setAttributesForPrimitives(true);
-        writer.setWriteIDs(true);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        writer.getBindingConfiguration().setMapIDs(true);
         writer.write(bean);
         
         String xml = "<?xml version='1.0'?><IdBean notId='Not ID' id='Hello, World'/>";
@@ -257,7 +258,7 @@ public class TestRecursion extends AbstractTestCase
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
         writer.setWriteEmptyElements( true );
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(alpha);
 
         String xml = "<?xml version='1.0'?><Element><name>Alpha</name><elements><element>"
@@ -287,7 +288,7 @@ public class TestRecursion extends AbstractTestCase
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
         writer.setWriteEmptyElements( true );
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         
         //SimpleLog log = new SimpleLog("[testCyclicReferenceStack2:BeanWriter]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
@@ -305,5 +306,70 @@ public class TestRecursion extends AbstractTestCase
             // that's what we expected!
         }
     }  
+    
+    
+	/** Tests for a stack overflow bug */
+	public void testRegisterOverflow() throws Exception {
+		BeanReader reader = new BeanReader();
+		try
+		{
+			reader.registerBeanClass(NorthWind.class);
+		}
+		catch (StackOverflowError e)
+		{
+			e.printStackTrace();
+			fail("Expected registration to succeed");
+		}
+	}
+    
+	public void testRegisterOverflow2() throws Exception {
+		BeanReader beanReader = new BeanReader();
+		try
+		{
+			beanReader.registerBeanClass(PersonTest.class);
+		}
+		catch (StackOverflowError e)
+		{
+			e.printStackTrace();
+			fail("Expected registration to succeed");
+		}
+	}
+	
+	public void  testCycleReferences() throws Exception {
+	  PersonTest person = new PersonTest();
+	  person.setName("John Doe");
+	  AddressTest address = new AddressTest();
+	  address.setStreetAddress("1221 Washington Street");
+	  person.setAddress(address);
+	  ReferenceTest reference = new ReferenceTest();
+	  reference.setPerson(person);
+	  address.setReference(reference);
+	
+	  StringWriter outputWriter = new StringWriter();
+	
+	  outputWriter.write("<?xml version='1.0' ?>\n");
+	  BeanWriter beanWriter = new BeanWriter(outputWriter);
+	  beanWriter.enablePrettyPrint();
+	  beanWriter.getBindingConfiguration().setMapIDs(true);
+	  beanWriter.write(person);   
+	
+	  BeanReader beanReader = new BeanReader();
+	  beanReader.getBindingConfiguration().setMapIDs(true);
+	
+	  // Configure the reader
+	  beanReader.registerBeanClass(PersonTest.class);
+	  beanReader.registerBeanClass(AddressTest.class);
+	  beanReader.registerBeanClass(ReferenceTest.class);
+	
+	  String out = outputWriter.toString();
+	  StringReader xmlReader = new StringReader(out);
+	
+	  //Parse the xml
+	  PersonTest result = (PersonTest)beanReader.parse(xmlReader);
+	  assertSame("Cycle did not result in the same reference", result, result.getAddress().getReference().getPerson());
+	
+	  }
+	
+
 }
 

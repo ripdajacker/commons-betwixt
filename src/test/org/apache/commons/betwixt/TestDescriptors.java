@@ -19,10 +19,11 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+
 /** Test harness for the Descriptors (ElementDescriptor and so on).
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestDescriptors extends AbstractTestCase {
     
@@ -91,6 +92,38 @@ public class TestDescriptors extends AbstractTestCase {
         assertTrue("Descriptor has children (5)", descriptor.hasChildren());
         assertTrue("Descriptor has content (5)", descriptor.hasContent());
         assertTrue("Descriptor has attributes (3)", descriptor.hasAttributes());       
+    }
+    
+    public void testGetElementDescriptorByName() 
+    {
+        ElementDescriptor descriptor = new ElementDescriptor("Flintstones");
+        descriptor.addElementDescriptor(new ElementDescriptor("Freddy"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Wilma"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Pebbles"));
+        
+        ElementDescriptor returned = descriptor.getElementDescriptor("Freddy");
+        assertTrue("Freddy is a Flintstone", returned != null);
+        assertEquals("Freddy is the right flintstone", "Freddy", returned.getLocalName());
+        
+        returned = descriptor.getElementDescriptor("Wilma");
+        assertTrue("Wilma is a Flintstone", returned != null);
+        assertEquals("Wilma is the right flintstone", "Wilma", returned.getLocalName());
+        
+        returned = descriptor.getElementDescriptor("Barney");
+        assertTrue("Barney is not a Flintstone", returned == null);
+    }
+    
+    public void testGetElementDescriptorByNameNullMatch() 
+    {
+        ElementDescriptor descriptor = new ElementDescriptor("Flintstones");
+        descriptor.addElementDescriptor(new ElementDescriptor("Freddy"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Wilma"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Pebbles"));
+        descriptor.addElementDescriptor(new ElementDescriptor());
+        
+        ElementDescriptor returned = descriptor.getElementDescriptor("NotFreddy");
+        assertTrue("NotFreddy matched", returned != null);
+        assertEquals("NotFreddy match by null descriptor", null, returned.getLocalName());
     }
 }
 

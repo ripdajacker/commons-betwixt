@@ -309,6 +309,20 @@ the BeanCreator at a suitable position:
 Now you're ready to start reading enums!
         </p>
     </subsection>
+    
+        <subsection name='Using Bean Includes'>
+            <p>
+<code>IncludeBeanCreator</code> is a <code>ChainedBeanCreator</code> that implements a system
+of 'includes' files. Adding this class to the bean creation chain will load and read the file
+specified by the <code>include-file</code> attribute whenever it is encountered.
+The file will be loaded as a resource by the current <code>ClassLoader</code> using the standard rules.
+        </p>
+            <p>
+A similar effect could be accumplished through the using of xml entity's.
+There are occasions when this is inconvenient and so it's useful to have an alternative
+available.
+        </p>
+    </subsection>
 </section>
 
 </body>
