@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultNameMapper.java,v 1.3 2003/01/06 22:50:45 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/06 22:50:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultNameMapper.java,v 1.4 2003/09/08 21:41:48 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/09/08 21:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultNameMapper.java,v 1.3 2003/01/06 22:50:45 rdonkin Exp $
+ * $Id: DefaultNameMapper.java,v 1.4 2003/09/08 21:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -68,17 +68,36 @@ package org.apache.commons.betwixt.strategy;
  * <p>For example, <code>PropertyName</code> would be converted to <code>PropertyName</code>.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultNameMapper implements NameMapper {
 
+    /** Used to convert bad character in the name */
+    private static final BadCharacterReplacingNMapper badCharacterReplacementNMapper 
+        = new BadCharacterReplacingNMapper( new PlainMapper() );
+    
+    /** Base implementation chained by bad character replacement mapper */
+    private static final class PlainMapper implements NameMapper {
+        /**
+        * This implementation returns the parameter passed in without modification.
+        *  
+        * @param typeName the string to convert 
+        * @return the typeName parameter without modification
+        */
+        public String mapTypeToElementName( String typeName ) {
+            return typeName ;
+        }  
+    }
+
     /**
-     * This implementation returns the parameter passed in without modification.
+     * This implementation returns the parameter passed after
+     * deleting any characters which the XML specification does not allow
+     * in element names.
      *  
      * @param typeName the string to convert 
      * @return the typeName parameter without modification
      */
-    public String mapTypeToElementName(String typeName) {
-        return typeName;
+    public String mapTypeToElementName( String typeName ) {
+        return badCharacterReplacementNMapper.mapTypeToElementName( typeName );
     }
 }

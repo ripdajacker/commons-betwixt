@@ -261,6 +261,9 @@ When set, the named class will be used to instantiate beans mapped to this eleme
 <strong>Improved Support For Interfaces including Entity Beans (ClassNormalizer)</strong>
 Added ClassNormalizer strategy. This allows the Class introspector to differ from that of the Object.
             </li>
+            <li>
+<strong>Added Support For Replacement Of Bad Characters</strong> to default mapping of element names.
+            </li>
         </ul>
     </subsection>
 </section>

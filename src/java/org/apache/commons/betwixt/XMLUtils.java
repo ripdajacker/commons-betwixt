@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.4 2003/05/26 10:46:57 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/05/26 10:46:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.5 2003/09/08 21:41:48 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/09/08 21:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLUtils.java,v 1.4 2003/05/26 10:46:57 rdonkin Exp $
+ * $Id: XMLUtils.java,v 1.5 2003/09/08 21:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
  /**
@@ -75,7 +75,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class XMLUtils {
 
@@ -400,14 +400,14 @@ public class XMLUtils {
         }
         
         char ch = name.charAt(0);
-        if( isNameStart(ch) == false) {
+        if( isNameStartChar(ch) == false) {
            return false;
            
         }
         
         for (int i = 1; i < name.length(); i++ ) {
            ch = name.charAt(i);
-           if( isName( ch ) == false ) {
+           if( isNameChar( ch ) == false ) {
               return false;
            }
         }
@@ -421,7 +421,7 @@ public class XMLUtils {
      * @param c The character to check.
      * @return true if this is an XML name character
      */
-    private static boolean isName(int c) {
+    public static boolean isNameChar(int c) {
         return c < 0x10000 && (CHARS[c] & MASK_NAME) != 0;
     }
     
@@ -432,7 +432,7 @@ public class XMLUtils {
      * @param c The character to check.
      * @return trus if this is an XML name start character
      */
-    private static boolean isNameStart(int c) {
+    public static boolean isNameStartChar(int c) {
         return c < 0x10000 && (CHARS[c] & MASK_NAME_START) != 0;
     }
 }
