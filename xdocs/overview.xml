@@ -286,13 +286,24 @@ public class NameMapperExampleApp {
 
 <subsection name="Using a custom plural stemmer">
     <p>
-    In particular, different languages have different ways of 
-    </p>
-    
-    <p>
-    Betwixt supports 
+    Betwixt allows this auto-detection of plurals from singulars to be customized.
+    Implementations of <code>org.apache.commons.betwixt.PluralStemmer</code> allow different
+    strategies for this mapping to be plugged into <code>XMLIntrospector</code>.
+    The strategy used by <code>XMLIntrospector</code> to match singlular properties and plural methods
+    is determined by the <code>PluralStemmer</code> property value.
     </p>
 
+    <p>
+    One important usage of custom plural stemmers is to support classes with non-english method names.
+    A custom <code>PluralStemmer</code> implementation can be created containing the plural rules for
+    the language. Betwixt will then be able to recognize matching plural and singular methods.
+    </p>
+
+    <p>
+    The default implementation supports common english plural patterns and then falls back to finding
+    any property that starts with the singular name. For example, it will match a plural property called
+    <code>FooBars</code> for a singular property called <code>FooBar</code>. 
+    </p>
 </subsection>
 
 </section>

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.6 2003/01/05 10:23:07 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/05 10:23:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultPluralStemmer.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: DefaultPluralStemmer.java,v 1.6 2003/01/05 10:23:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -75,7 +75,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultPluralStemmer implements PluralStemmer {
 
@@ -83,7 +83,19 @@ public class DefaultPluralStemmer implements PluralStemmer {
     protected static Log log = LogFactory.getLog( DefaultPluralStemmer.class );
 
     /**
+     * <p>Algorithm supports common english plural patterns.</p>
+     *
+     * <p>First, common english plural constructions will be tried. 
+     * If the property doesn't end with <code>'y'</code> then this method will look for
+     * a property with which has <code>'es'</code> appended. 
+     * If the property ends with <code>'y'</code> then a property with the <code>'y'</code>
+     * replaced by <code>'ies'</code> will be searched for.</p>
+     *
+     * <p>If no matches are found then - if one exists - a property starting with the 
+     * singular name will be returned.</p>
+     * 
      * @return the plural descriptor for the given singular property name
+     * @return if more than one descriptor matches, then the best match is returned
      */
     public ElementDescriptor findPluralDescriptor( String propertyName, Map map) {
         int foundKeyCount = 0;

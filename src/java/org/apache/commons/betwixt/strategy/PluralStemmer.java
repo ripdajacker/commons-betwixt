@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/PluralStemmer.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/PluralStemmer.java,v 1.3 2003/01/05 10:23:07 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/05 10:23:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: PluralStemmer.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: PluralStemmer.java,v 1.3 2003/01/05 10:23:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,15 +74,18 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * This interface allows a variety of different implementations to be used.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface PluralStemmer {
 
     /**
+     * Find the plural descriptor for a singular property.
+     * 
      * @return the plural descriptor for the given singular property name
+     * @return <code>null</code> is no matching descriptor can be found 
      * @param propertyName is the singular property name, from the adder method
      * @param map is a map with the keys are the property names of the available
-     *  descriptors and the values are the descriptors.
+     *  descriptors and the values are the descriptors. This may not be null.
      */
     ElementDescriptor findPluralDescriptor( String propertyName, Map map );
 
