@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.3 2004/02/21 17:20:06 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/21 17:20:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.4 2004/02/21 17:32:39 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/21 17:32:39 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MappingAction.java,v 1.1.2.3 2004/02/21 17:20:06 rdonkin Exp $
+ * $Id: MappingAction.java,v 1.1.2.4 2004/02/21 17:32:39 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -70,7 +70,7 @@ import org.xml.sax.Attributes;
  * It is intended that most MappingAction's will not need to maintain state.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public abstract class MappingAction {
 
@@ -117,11 +117,33 @@ public abstract class MappingAction {
 
     public static final MappingAction EMPTY = new MappingAction.Base();
 
+    public static final MappingAction IGNORE = new MappingAction.Ignore();    
+    
+    private static final class Ignore extends MappingAction {
+
+        public MappingAction next(String namespace, String name, Attributes attributes, ReadContext context) throws Exception {
+            return this;
+        }
+
+        public MappingAction begin(String namespace, String name, Attributes attributes, ReadContext context) throws Exception {
+            return this;
+        }
+
+        public void body(String text, ReadContext context) throws Exception {
+            // do nothing
+        }
+
+        public void end(ReadContext context) throws Exception {
+            // do nothing
+        }
+        
+    }
+
     /**
      * Basic action.
      * 
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.1.2.3 $
+     * @version $Revision: 1.1.2.4 $
      */
     public static class Base extends MappingAction {
         

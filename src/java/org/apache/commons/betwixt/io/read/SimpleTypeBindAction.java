@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.4 2004/02/21 16:58:58 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/02/21 16:58:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.5 2004/02/21 17:32:39 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/02/21 17:32:39 $
  *
  * ====================================================================
  *
@@ -57,21 +57,24 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SimpleTypeBindAction.java,v 1.1.2.4 2004/02/21 16:58:58 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.5 2004/02/21 17:32:39 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.expression.Updater;
+import org.xml.sax.Attributes;
 
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1.2.4 $
+  * @version $Revision: 1.1.2.5 $
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 
     public static final SimpleTypeBindAction INSTANCE = new SimpleTypeBindAction();
+
+    
 
     public void body(String text, ReadContext context) throws Exception {
         // add dyna-bean support!
@@ -95,6 +98,15 @@ public class SimpleTypeBindAction extends MappingAction.Base {
             result = elementDescriptor.getUpdater();
         }
         return result;
+    }
+
+    public MappingAction next(
+        String namespace,
+        String name,
+        Attributes attributes,
+        ReadContext context)
+        throws Exception {
+        return MappingAction.IGNORE;
     }
 
 }
