@@ -311,6 +311,36 @@ public class NameMapperExampleApp {
     </p>
 </subsection>
 
+<subsection name="Reading And Writing Map Properties">
+    <p>
+Maps are a special kind of composite property. Each entry in a map has a key and a value. 
+Betwixt handles maps by adding extra elements which wrap each entry. Each entry is wrapped in
+a <code>&lt;entry&gt;</code> element. That element contains the key wrapped in a <code>&lt;key&gt;</code>
+element and the entry value wrapped in a <code>&lt;value&gt;</code> element.
+        </p>
+    <p>
+The structure is something like:
+<source><![CDATA[
+    ...
+    <entry>
+        <key>...</key>
+        <value>...</value>
+    <entry>
+    <entry>
+        <key>...</key>
+        <value>...</value>
+    <entry>
+    ...
+]]></source>
+The key and the value content are standard betwixt mappings of the objects.
+        </p>
+    <p>
+Reading map properties is an extension of the ways that Betwixt handles collections. Rather than 
+searching for an <code>add*</code> method that takes a single parameter, now Betwixt looks 
+(in a similar fashion) for such a method that takes two parameters.
+        </p> 
+</subsection>
+
 </section>
 
 <section name="Customizing the mapping of a bean to XML (advanced)">

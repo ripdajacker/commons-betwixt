@@ -199,10 +199,15 @@
                 body text between child elements through the .betwixt file. This text can be
                 static or set from a property.
             </li>
-        <li>
-            <strong>Allow customization for update from .betwixt file</strong>
-            Add updater attribute that allows the updater to be specified for an elements.
-        </li>
+            <li>
+                <strong>Allow customization for update from .betwixt file</strong>
+                Add updater attribute that allows the updater to be specified for an elements.
+            </li>
+            <li>
+                <strong>Added Reading for Composite Map Properties</strong>
+                Added code that reads entries for composite map properties and adds then correctly.
+                This code relies on the Betwixt map element mapping format.
+            </li>
         </ul>
     </subsection>
 </section>
