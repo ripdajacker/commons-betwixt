@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.1 2002/11/08 22:09:01 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2002/11/08 22:09:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.2 2003/01/16 00:54:50 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/16 00:54:50 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSAXBeanWriter.java,v 1.1 2002/11/08 22:09:01 mvdb Exp $
+ * $Id: TestSAXBeanWriter.java,v 1.2 2003/01/16 00:54:50 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -83,7 +83,7 @@ import org.xml.sax.InputSource;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.1 2002/11/08 22:09:01 mvdb Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.2 2003/01/16 00:54:50 mvdb Exp $
  */
 public class TestSAXBeanWriter extends TestCase {
     
@@ -102,7 +102,6 @@ public class TestSAXBeanWriter extends TestCase {
         SAXBeanWriter writer = new SAXBeanWriter(new SAXContentHandler(out));
         writer.write(bean);
         String beanString = out.getBuffer().toString();
-        
         // test the result
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -125,9 +124,19 @@ public class TestSAXBeanWriter extends TestCase {
                 this.assertNotNull("Person name missing", child.getFirstChild());
                 this.assertEquals("Person name wrong", "John Smith", child.getFirstChild().getNodeValue().trim());
             } else {
-                if (!child.getNodeName().equals("#text")) {
-                    this.fail("Unknown attribute " + child.getNodeName());
+                if (child.getNodeName().equals("#text")) {
+                    // now check if the textNode is empty after a trim.
+                    String value = child.getNodeValue();
+                    if (value != null) {
+                        value = value.trim();
+                    }
+                    if (value.length() != 0) {
+                        fail("Text should not contain content in node " + child.getNodeName());
+                    }
+                }else{
+                    fail("Invalid node " + child.getNodeName());
                 }
+                
             }
         }
     }       
