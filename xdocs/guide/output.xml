@@ -39,6 +39,20 @@ to efficiently push content through a socket or just to create a simple String.
 Note that only document fragments are created so you may need to append any
 prologs before writing the bean.
     </p>
+        <subsection name='Rendering Empty Tags'>
+            <p>
+Empty tags (ones containing no body content and no child nodes) can be rendered 
+in two ways: as a single closed tag (for example <code>&lt;element/&gt;</code>) or as a 
+pair of tags (<code>&lt;element&gt;&lt;/element&gt;</code>). By default, Betwixt
+renders empty tags as a single close tag but setting the <code>BeanWriter</code>
+<code>endTagForEmptyElement</code> to true will ensures that all empty elements are 
+rendered as a pair of tags. For example:
+        </p>
+<source>
+        BeanWriter writer = new BeanWriter(out);
+        writer.setEndTagForEmptyElement(true);
+</source>
+    </subsection>
         <subsection name='Content Encoding'>
             <p>
 When writing character data (the content between markup tags) to a textual stream,
