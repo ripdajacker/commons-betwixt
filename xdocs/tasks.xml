@@ -340,7 +340,7 @@ Added ClassNormalizer strategy. This allows the Class introspector to differ fro
         </ul>
     </subsection>
 </section>
-<section name='Symantic Changes'>
+<section name='Semantic Changes'>
     <subsection name='Since 1.0-Alpha 1 Release'>
         <ul>	
             <li>
