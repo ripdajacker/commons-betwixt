@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.1 2002/07/18 23:19:07 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/07/18 23:19:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/19 00:52:41 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.1 2002/07/18 23:19:07 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -128,11 +128,34 @@ abstract public class AbstractBeanWriter {
     public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
         log.debug( "Writing bean graph..." );
         log.debug( bean );
-        
+        start();
         write( null, bean );
-
+        end();
         log.debug( "Finished writing bean graph." );
     }
+    
+    /**
+     * Marks the start of the bean writing.
+     * By default doesn't do anything, but can be used
+     * to do extra start processing 
+     * @throws IOException
+     * @throws SAXException
+     */
+    public void start() throws IOException, SAXException {
+    }
+    
+    /**
+     * Marks the start of the bean writing.
+     * By default doesn't do anything, but can be used
+     * to do extra end processing 
+     * @throws IOExcpetion
+     * @throws SAXException
+     */
+    
+    public void end() throws IOException, SAXException {
+    }
+        
+    
     
     /** 
      * <p>Writes the given bean to the current stream using the given <code>qualifiedName</code>.</p>

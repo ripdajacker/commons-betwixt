@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.1 2002/07/18 23:19:07 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/07/18 23:19:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/19 00:52:41 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.1 2002/07/18 23:19:07 rdonkin Exp $
+ * $Id: SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,9 +89,13 @@ import org.xml.sax.helpers.AttributesImpl;
 // At the moment, namespaces are NOT supported!
 
 /**
-  * 
-  */
-public class SAXBeanWriter {
+ * The SAXBeanwriter will send events to a ContentHandler
+ * 
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Id: SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $ 
+ */
+public class SAXBeanWriter extends AbstractBeanWriter {
 
     /** Where the output goes */
     private ContentHandler contentHandler;    
@@ -103,6 +107,8 @@ public class SAXBeanWriter {
     private AttributesImpl attributes;
     
     private boolean elementWaiting = false;
+    
+    private boolean isDocumentStarted = false;
     
     /**
      * <p> Constructor sets writer used for output.</p>
@@ -140,7 +146,7 @@ public class SAXBeanWriter {
         // make sure any previous elements have been sent
         sendElementStart();
         // ok prepare for new one
-	elementWaiting = true;
+	    elementWaiting = true;
         attributes = new AttributesImpl();
         lastElementName = qualifiedName;
     }
@@ -189,9 +195,35 @@ public class SAXBeanWriter {
     //-------------------------------------------------------------------------    
     
     private void sendElementStart() throws SAXException {
+        if (!this.isDocumentStarted)
+        {
+            contentHandler.startDocument();
+            this.isDocumentStarted = true;
+        }
         if (elementWaiting) {
             contentHandler.startElement("","",lastElementName,attributes);
             elementWaiting = false;
         }
     }
+    /**
+     * This will announce the start of the document
+     * to the contenthandler.
+     * 
+     * @see org.apache.commons.betwixt.io.AbstractBeanWriter#end()
+     */
+    
+    public void start() throws SAXException {
+        contentHandler.startDocument();
+    }
+
+    /**
+     * This method will announce the end of the document to
+     * the contenthandler.
+     * 
+     * @see org.apache.commons.betwixt.io.AbstractBeanWriter#start()
+     */
+    public void end() throws SAXException {
+        contentHandler.endDocument();
+    }
+
 }
