@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -150,7 +152,9 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals( ConvertUtils.convert("2002-03-17", Date.class), customer.getDate());
         assertEquals( ConvertUtils.convert("20:30:40", Time.class), customer.getTime());
         assertEquals( ConvertUtils.convert("2002-03-17 20:30:40.0", Timestamp.class), customer.getTimestamp());
-        
+
+        assertEquals( new BigDecimal("1234567890.12345"), customer.getBigDecimal() );
+        assertEquals( new BigInteger("1234567890"), customer.getBigInteger() );
     }
     
     protected InputStream getXMLInput() throws IOException {

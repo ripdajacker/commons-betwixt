@@ -62,6 +62,8 @@
 package org.apache.commons.betwixt;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -98,6 +100,8 @@ public class CustomerBean implements Serializable {
 	private Date date;
 	private Time time;
 	private Timestamp timestamp;
+	private BigDecimal bigDecimal;
+	private BigInteger bigInteger;
 	    
     public CustomerBean() {
     }
@@ -271,6 +275,38 @@ public class CustomerBean implements Serializable {
 	 */
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	/**
+	 * Returns the bigDecimal.
+	 * @return BigDecimal
+	 */
+	public BigDecimal getBigDecimal() {
+		return bigDecimal;
+	}
+
+	/**
+	 * Returns the bigInteger.
+	 * @return BigInteger
+	 */
+	public BigInteger getBigInteger() {
+		return bigInteger;
+	}
+
+	/**
+	 * Sets the bigDecimal.
+	 * @param bigDecimal The bigDecimal to set
+	 */
+	public void setBigDecimal(BigDecimal bigDecimal) {
+		this.bigDecimal = bigDecimal;
+	}
+
+	/**
+	 * Sets the bigInteger.
+	 * @param bigInteger The bigInteger to set
+	 */
+	public void setBigInteger(BigInteger bigInteger) {
+		this.bigInteger = bigInteger;
 	}
 
 }

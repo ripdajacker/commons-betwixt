@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.8 2002/11/07 15:31:37 jstrachan Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.9 2002/11/07 16:15:08 jstrachan Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -422,7 +422,9 @@ public class XMLIntrospectorHelper {
             || type.isAssignableFrom( Date.class ) 
             || type.isAssignableFrom( java.sql.Date.class ) 
             || type.isAssignableFrom( java.sql.Time.class ) 
-            || type.isAssignableFrom( java.sql.Timestamp.class );
+            || type.isAssignableFrom( java.sql.Timestamp.class ) 
+            || type.isAssignableFrom( java.math.BigDecimal.class ) 
+            || type.isAssignableFrom( java.math.BigInteger.class );
     }
     
     // Implementation methods

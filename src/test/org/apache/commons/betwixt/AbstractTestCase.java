@@ -63,6 +63,8 @@ package org.apache.commons.betwixt;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.sql.Date;
 import java.sql.Time;
@@ -132,6 +134,9 @@ public abstract class AbstractTestCase extends TestCase {
         bean.setDate((Date) ConvertUtils.convert("2002-03-17", Date.class));
         bean.setTime((Time) ConvertUtils.convert("20:30:40", Time.class));
         bean.setTimestamp((Timestamp) ConvertUtils.convert("2002-03-17 20:30:40.0", Timestamp.class));
+        
+        bean.setBigDecimal(new BigDecimal("1234567890.12345"));
+        bean.setBigInteger(new BigInteger("1234567890"));
         
         return bean;
     }
