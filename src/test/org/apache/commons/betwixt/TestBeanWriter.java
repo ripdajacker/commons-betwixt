@@ -187,10 +187,16 @@ public class TestBeanWriter extends AbstractTestCase {
      */
     public void testValidEndOfLine() throws Exception {
         BeanWriter writer = new BeanWriter();
+        
         // store the system err
         PrintStream errStream = System.err;
         ByteArrayOutputStream warning = new ByteArrayOutputStream();
         System.setErr(new PrintStream(warning));
+        
+        // force logging to go to System.err
+        writer.setLog( new SimpleLog( "test.betwixt" ) );
+        
+        
         writer.setEndOfLine("X");
         warning.flush();
         assertTrue(warning.toString().startsWith("[WARN]"));
