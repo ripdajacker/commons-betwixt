@@ -17,20 +17,23 @@
     <section name="High priority"> 
       <ul>
         <li>
+                  Get an overview of what .betwxixt files should really do. Especially more complicated examples will cause very strange and unexpected results.
+        </li>
+        <li>
 		  If an addFoo() method is found with no matching getFoos() then a warning should be generated.
-		</li>
+	</li>
         <li>
 		  <b>Fixed.</b> digester.peek() was giving warning. Now checking if it still has something to peek.
 		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
 		  We should patch the way betwixt uses digester to avoid this warning message.
-		</li>
+	</li>
         <li>
 		  Consider allowing the parsing of XML to order the properties/elements in the XMLBeanInfo
 		  so that when the XML is output again it follows the same XML ordering again.
 		  There is an example describing this 
 		  <a href="http://nagoya.apache.org/eyebrowse/ReadMsg?listName=commons-dev@jakarta.apache.org&amp;msgNo=8488">here</a>.
 		  For example we could add a feature to parse the DTD and order the XMLBeanInfo according to the order in the DTD.		  
-		</li>
+	</li>
         <li>
 		  Improved documentation! Improve package level documentation so that new developers can get up 
           to speed more quickly. Ensure all betwixt features have good user documentation. 
