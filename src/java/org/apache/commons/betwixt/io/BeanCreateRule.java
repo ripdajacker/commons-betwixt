@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.18 2003/01/19 17:18:13 mvdb Exp $
- * $Revision: 1.18 $
- * $Date: 2003/01/19 17:18:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.19 2003/02/06 19:38:16 rdonkin Exp $
+ * $Revision: 1.19 $
+ * $Date: 2003/02/06 19:38:16 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.18 2003/01/19 17:18:13 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.19 2003/02/06 19:38:16 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.18 $
+  * @version $Revision: 1.19 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -431,8 +431,7 @@ public class BeanCreateRule extends Rule {
      * @param prefix add child rules at this (digester) path prefix
      * @param currentDescriptor add child rules for this descriptor
      */
-    protected void addChildRules(String prefix, ElementDescriptor currentDescriptor ) {
-        BeanReader digester = getBeanReader();            
+    protected void addChildRules(String prefix, ElementDescriptor currentDescriptor ) {         
         
         if (log.isTraceEnabled()) {
             log.trace("Adding child rules for " + currentDescriptor + "@" + prefix);
