@@ -21,7 +21,7 @@ import junit.textui.TestRunner;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.3 2002/07/26 21:04:05 jvanzyl Exp $
+ * @version $Id: TestNoWrap.java,v 1.4 2002/09/10 12:41:24 jstrachan Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase
@@ -117,7 +117,7 @@ public class TestNoWrap
         introspector.setWrapCollectionsInElement(false);
 
         // turn bean elements first letter into lower case
-        introspector.setNameMapper( new DecapitalizeNameMapper() );
+        introspector.setElementNameMapper( new DecapitalizeNameMapper() );
 
         // Set default plural stemmer.
         introspector.setPluralStemmer( new DefaultPluralStemmer() );
