@@ -78,7 +78,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: XMLBeanInfoRegistry.java,v 1.1 2002/11/27 22:19:12 rdonkin Exp $
+  * @version $Id: XMLBeanInfoRegistry.java,v 1.2 2002/12/15 17:42:06 mvdb Exp $
   */
 public interface XMLBeanInfoRegistry {
     
@@ -95,4 +95,10 @@ public interface XMLBeanInfoRegistry {
       * Associate a class with it's <code>XMLBeanInfo</code>.
       */
     public void put(Class forThisClass, XMLBeanInfo beanInfo);
+    
+    /**
+     * Flush or resets the current registry to it's original state.
+     * It has to be implemented, however could be an empty implementation
+     */
+    public void flush();
 }

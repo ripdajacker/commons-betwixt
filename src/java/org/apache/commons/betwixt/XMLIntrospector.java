@@ -58,32 +58,27 @@ package org.apache.commons.betwixt;
 
 import java.beans.BeanDescriptor;
 import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
-
-import org.apache.commons.betwixt.expression.EmptyExpression;
-import org.apache.commons.betwixt.expression.IteratorExpression;
-import org.apache.commons.betwixt.expression.MethodExpression;
-import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.expression.StringExpression;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.expression.EmptyExpression;
+import org.apache.commons.betwixt.expression.IteratorExpression;
+import org.apache.commons.betwixt.expression.StringExpression;
+import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
-import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
-import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /** 
   * <p><code>XMLIntrospector</code> an introspector of beans to create a 
@@ -103,7 +98,7 @@ import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.12 2002/11/30 17:16:37 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.13 2002/12/15 17:42:06 mvdb Exp $
   */
 public class XMLIntrospector {
 
@@ -215,9 +210,8 @@ public class XMLIntrospector {
             Introspector.setBeanInfoSearchPath(new String[] { });
         }
         
-        XMLBeanInfo xmlInfo = null;
-        // see if info's in registry
-        xmlInfo = registry.get( aClass );
+        XMLBeanInfo xmlInfo = registry.get( aClass );
+        
         if (xmlInfo == null) {
             // lets see if we can find an XML descriptor first
             if ( log.isDebugEnabled() ) {
