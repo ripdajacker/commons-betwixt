@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.10 2002/12/11 22:12:11 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.11 2002/12/15 15:03:45 mvdb Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -209,7 +209,6 @@ public class XMLIntrospectorHelper {
             nodeDescriptor = elementDescriptor;          
         }
 
-        nodeDescriptor.setLocalName( introspector.getElementNameMapper().mapTypeToElementName( name ) );
         if (nodeDescriptor instanceof AttributeDescriptor) {
             // we want to use the attributemapper only when it is an attribute.. 
             nodeDescriptor.setLocalName( introspector.getAttributeNameMapper().mapTypeToElementName( name ) );
