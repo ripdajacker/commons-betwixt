@@ -29,6 +29,7 @@ import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.SimpleTypeMapper;
+import org.apache.commons.betwixt.strategy.TypeBindingStrategy;
 import org.apache.commons.logging.Log;
 
 /** 
@@ -178,8 +179,10 @@ public class BeanProperty {
         //TODO this big conditional should be replaced with subclasses based
         // on the type
         
-        //TODO replace with simple type support
-        if ( XMLIntrospectorHelper.isPrimitiveType( getPropertyType() ) ) {
+        //TODO complete simple type implementation
+        TypeBindingStrategy.BindingType bindingType 
+        		= configuration.getTypeBindingStrategy().bindingType( getPropertyType() ) ;
+        if ( bindingType.equals( TypeBindingStrategy.BindingType.PRIMITIVE ) ) {
             descriptor =
                 createDescriptorForPrimitive(
                     configuration,

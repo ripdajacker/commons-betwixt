@@ -24,6 +24,7 @@ import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.betwixt.strategy.SimpleTypeMapper;
 import org.apache.commons.betwixt.strategy.StandardSimpleTypeMapper;
+import org.apache.commons.betwixt.strategy.TypeBindingStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class IntrospectionConfiguration {
 
@@ -77,10 +78,11 @@ public class IntrospectionConfiguration {
 
     /** Prefix naming strategy */
     private NamespacePrefixMapper prefixMapper = new NamespacePrefixMapper();
-    /** Binding strategy for simple types */
+    /** Mapping strategy for simple types */
     private SimpleTypeMapper simpleTypeMapper = new StandardSimpleTypeMapper();
-
-
+    /** Binding strategy for Java type */
+    private TypeBindingStrategy typeBindingStrategy = TypeBindingStrategy.DEFAULT;
+    
     /**
       * Gets the <code>ClassNormalizer</code> strategy.
       * This is used to determine the Class to be introspected
@@ -300,4 +302,23 @@ public class IntrospectionConfiguration {
         simpleTypeMapper = mapper;
     }
 
+    /**
+     * Gets the <code>TypeBindingStrategy</code> to be used
+     * to determine the binding for Java types.
+     * @return the <code>TypeBindingStrategy</code> to be used, 
+     * not null
+     */
+    public TypeBindingStrategy getTypeBindingStrategy() {
+        return typeBindingStrategy;
+    }
+    
+    /**
+     * Sets the <code>TypeBindingStrategy</code> to be used
+     * to determine the binding for Java types.
+     * @param typeBindingStrategy the <code>TypeBindingStrategy</code> to be used,
+     * not null
+     */
+    public void setTypeBindingStrategy(TypeBindingStrategy typeBindingStrategy) {
+        this.typeBindingStrategy = typeBindingStrategy;
+    }
 }

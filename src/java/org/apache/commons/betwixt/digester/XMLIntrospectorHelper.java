@@ -573,6 +573,7 @@ public class XMLIntrospectorHelper {
      * type can be varied.
      * @param type is this <code>Class<code> a primitive type?
      * @return true for primitive types 
+     * @deprecated replaced by {@link org.apache.commons.betwixt.strategy.TypeBindingStrategy}
      */
     public static boolean isPrimitiveType(Class type) {
         if ( type == null ) {

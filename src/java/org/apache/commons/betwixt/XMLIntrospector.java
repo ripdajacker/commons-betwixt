@@ -46,6 +46,7 @@ import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.betwixt.strategy.TypeBindingStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -1180,13 +1181,16 @@ public class XMLIntrospector {
     
     /** 
      * Is this class a primitive?
-     * TODO: this method will probably be removed when primitive types
+     * TODO: this method will probably be deprecated when primitive types
      * are subsumed into the simple type concept 
      * @param type the Class to test
      * @return true for primitive types 
      */
     public boolean isPrimitiveType(Class type) {
-        return XMLIntrospectorHelper.isPrimitiveType(type);
+        TypeBindingStrategy.BindingType bindingType 
+			= configuration.getTypeBindingStrategy().bindingType( type ) ;
+        boolean result = (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));
+        return result;
     }
 
     
@@ -1277,7 +1281,7 @@ public class XMLIntrospector {
         
         /** @see BeanType#isPrimitiveType */
         public boolean isPrimitiveType() {
-            return XMLIntrospectorHelper.isPrimitiveType( beanClass );
+            return XMLIntrospector.this.isPrimitiveType( beanClass );
         }
         
         /** @see BeanType#isLoopType */
