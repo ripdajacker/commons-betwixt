@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.8 2003/10/19 14:44:54 mvdb Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/19 14:44:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.9 2003/10/19 14:58:24 mvdb Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/10/19 14:58:24 $
  *
  * ====================================================================
  * 
@@ -85,7 +85,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.8 2003/10/19 14:44:54 mvdb Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.9 2003/10/19 14:58:24 mvdb Exp $
  */
 public class TestSAXBeanWriter extends AbstractTestCase {
     
@@ -125,19 +125,19 @@ public class TestSAXBeanWriter extends AbstractTestCase {
         StringReader reader = new StringReader(beanString);
         in.setCharacterStream(reader);
         Document doc = builder.parse(in);
-        this.assertNotNull("Document missing", doc);        
+        assertNotNull("Document missing", doc);        
         Element root = doc.getDocumentElement();
-        this.assertNotNull("Document root missing", root);
-        this.assertEquals("Document root name wrong", "PersonBean", root.getNodeName());
+        assertNotNull("Document root missing", root);
+        assertEquals("Document root name wrong", "PersonBean", root.getNodeName());
         NodeList children = root.getChildNodes();       
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeName().equals("age")) {
-                this.assertNotNull("Person age missing", child.getFirstChild());
-                this.assertEquals("Person age wrong", "35", child.getFirstChild().getNodeValue().trim());
+                assertNotNull("Person age missing", child.getFirstChild());
+                assertEquals("Person age wrong", "35", child.getFirstChild().getNodeValue().trim());
             } else if (child.getNodeName().equals("name")) {
-                this.assertNotNull("Person name missing", child.getFirstChild());
-                this.assertEquals("Person name wrong", "John Smith", child.getFirstChild().getNodeValue().trim());
+                assertNotNull("Person name missing", child.getFirstChild());
+                assertEquals("Person name wrong", "John Smith", child.getFirstChild().getNodeValue().trim());
             } else {
                 if (child.getNodeName().equals("#text")) {
                     // now check if the textNode is empty after a trim.
