@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /**
  * Tests for the generation of schema from the object models.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestSchemaGeneration extends AbstractTestCase {
 
@@ -34,12 +34,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
         super(name);        
     }
     
-    public void testDummy() {
-        // the tests here require digester CVS HEAD to function correctly
-        // they should be readded as soon as the digester release has been created
-    }
-    
-    public void _testSimplestBeanWithAttributes() throws Exception {
+    public void testSimplestBeanWithAttributes() throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         Schema schema = transcriber.generate(SimplestBean.class);
@@ -65,7 +60,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
     }
     
     
-    public void _testSimplestBeanWithElement() throws Exception {
+    public void testSimplestBeanWithElement() throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         Schema schema = transcriber.generate(SimplestElementBean.class);
@@ -91,7 +86,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
         xmlAssertIsomorphicContent(parseString(expected), parseString(xsd));
     }
     
-    public void _testSimpleBean() throws Exception {
+    public void testSimpleBean() throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         Schema schema = transcriber.generate(SimpleBean.class);
         
@@ -120,7 +115,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
     }
     
     
-    public void _testOrderLineBean() throws Exception {
+    public void testOrderLineBean() throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         transcriber.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
@@ -155,7 +150,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
         xmlAssertIsomorphicContent(parseString(expected), parseString(xsd), true);
     }
     
-    public void _testOrder() throws Exception {
+    public void testOrder() throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
         transcriber.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());

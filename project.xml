@@ -18,7 +18,7 @@
   <pomVersion>3</pomVersion>
   <name>Betwixt</name>
   <id>commons-betwixt</id>
-  <currentVersion>0.6-dev</currentVersion>
+  <currentVersion>0.6.1-dev</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
@@ -71,7 +71,12 @@
     <version>
       <id>0.6</id>
       <name>0.6</name>
-      <tag>HEAD</tag>
+      <tag>BETWIXT_0_6</tag>
+    </version>
+    <version>
+      <id>0.5</id>
+      <name>0.5</name>
+      <tag>BETWIXT_0_5</tag>
     </version>
   </versions>
 
@@ -141,20 +146,18 @@
     </dependency>
 
     <dependency>
-      <id>commons-beanutils</id>
-      <version>1.6.1</version>
+      <groupId>commons-beanutils</groupId>
+      <typeId>jar</typeId>
+      <artifactId>commons-beanutils-core</artifactId>
+      <version>1.7.0</version>
       <url>http://jakarta.apache.org/commons/beanutils.html</url>
     </dependency>
-
+    
     <dependency>
-      <id>commons-collections</id>
-      <version>2.1</version>
-      <url>http://jakarta.apache.org/commons/collections.html</url>
-    </dependency>
-
-    <dependency>
-      <id>commons-digester</id>
-      <version>1.5</version>
+      <groupId>commons-digester</groupId>
+      <typeId>jar</typeId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.6</version>
       <url>http://jakarta.apache.org/commons/digester.html</url>
     </dependency>
 
@@ -202,6 +205,14 @@
                 </resource>
             </resources>
         </unitTest>
+        <resources>
+            <resource>
+                <directory>${pom.build.sourceDirectory}</directory>
+                <includes>
+                    <include>**/*.betwixt</include>
+                </includes>
+            </resource>
+        </resources>
   	</build>
   	
 

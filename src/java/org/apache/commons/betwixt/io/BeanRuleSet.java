@@ -98,7 +98,7 @@ public class BeanRuleSet implements RuleSet {
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param context the root Context that bean carrying Contexts should be obtained from, 
      * not null
-     * @deprecated use the constructor which takes a ReadContext instead
+     * @deprecated 0.6 use the constructor which takes a ReadContext instead
      */
     public BeanRuleSet(
         XMLIntrospector introspector,
@@ -331,7 +331,7 @@ public class BeanRuleSet implements RuleSet {
     /**
      * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.20 $
+     * @version $Revision: 1.21 $
      */
     private static class DigesterReadContext extends ReadContext {
 

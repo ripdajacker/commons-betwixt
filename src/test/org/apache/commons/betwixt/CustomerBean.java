@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -273,5 +272,84 @@ public class CustomerBean implements Serializable {
 	public void setBigInteger(BigInteger bigInteger) {
 		this.bigInteger = bigInteger;
 	}
+
+    /** 
+     * Adapter to make an {@link Iterator Iterator} instance appear to be
+     * an {@link Enumeration Enumeration} instance.
+     * Originate in commons collections
+     * 
+     * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+     */
+    private static final class IteratorEnumeration implements Enumeration {
+        
+        /** The iterator being decorated. */
+        private Iterator iterator;
+        
+        /**
+         * Constructs a new <code>IteratorEnumeration</code> that will not 
+         * function until {@link #setIterator(Iterator) setIterator} is  
+         * invoked.
+         */
+        public IteratorEnumeration() {
+            super();
+        }
+
+        /**
+         * Constructs a new <code>IteratorEnumeration</code> that will use
+         * the given iterator. 
+         * 
+         * @param iterator  the iterator to use
+         */
+        public IteratorEnumeration( Iterator iterator ) {
+            super();
+            this.iterator = iterator;
+        }
+
+        // Iterator interface
+        //-------------------------------------------------------------------------
+
+        /**
+         *  Returns true if the underlying iterator has more elements.
+         *
+         *  @return true if the underlying iterator has more elements
+         */
+        public boolean hasMoreElements() {
+            return iterator.hasNext();
+        }
+
+        /**
+         *  Returns the next element from the underlying iterator.
+         *
+         *  @return the next element from the underlying iterator.
+         *  @throws java.util.NoSuchElementException  if the underlying iterator has no
+         *    more elements
+         */
+        public Object nextElement() {
+            return iterator.next();
+        }
+
+        // Properties
+        //-------------------------------------------------------------------------
+
+        /**
+         *  Returns the underlying iterator.
+         * 
+         *  @return the underlying iterator
+         */
+        public Iterator getIterator() {
+            return iterator;
+        }
+
+        /**
+         *  Sets the underlying iterator.
+         *
+         *  @param iterator  the new underlying iterator
+         */
+        public void setIterator( Iterator iterator ) {
+            this.iterator = iterator;
+        }
+        
+    }
+
 
 }

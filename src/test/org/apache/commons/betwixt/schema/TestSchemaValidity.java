@@ -32,17 +32,12 @@ import org.xml.sax.InputSource;
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestSchemaValidity extends AbstractTestCase {
 
     public TestSchemaValidity(String name) {
         super(name);
-    }
-    
-    public void testDummy() {
-        // the tests here require digester CVS HEAD to function correctly
-        // they should be readded as soon as the digester release has been created
     }
     
     private String generateSchema(Class clazz) throws Exception {
@@ -61,7 +56,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         return xsd;
     }
     
-    public void _testSimplestBeanWithAttributes() throws Exception {
+    public void testSimplestBeanWithAttributes() throws Exception {
        String xsd = generateSchema(SimplestBean.class);
             
        StringWriter out = new StringWriter();
@@ -79,7 +74,7 @@ public class TestSchemaValidity extends AbstractTestCase {
     }   
     
     
-    public void _testSimplestBeanWithElements() throws Exception {
+    public void testSimplestBeanWithElements() throws Exception {
        String xsd = generateSchema(SimplestElementBean.class);
             
        StringWriter out = new StringWriter();
@@ -97,7 +92,7 @@ public class TestSchemaValidity extends AbstractTestCase {
     }   
     
     
-    public void _testSimpleBean() throws Exception {
+    public void testSimpleBean() throws Exception {
        String xsd = generateSchema(SimpleBean.class);
             
        StringWriter out = new StringWriter();
@@ -131,7 +126,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         return xsd;
     }
    
-    public void _testOrderLine() throws Exception {
+    public void testOrderLine() throws Exception {
 
        String xsd = generateOrderLineSchema();
        StringWriter out = new StringWriter();
@@ -168,7 +163,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         return xsd;
     }
     
-    public void _testOrder() throws Exception {
+    public void testOrder() throws Exception {
         String xsd = generateOrderSchema();
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
@@ -188,7 +183,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         writer.write(bean);
        
         String xml = out.getBuffer().toString();
-       
+        
         xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));  
         
     }
@@ -209,7 +204,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         return xsd;
     }
     
-    public void _testRSS() throws Exception {
+    public void testRSS() throws Exception {
         String xsd = generateRSSSchema();
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");

@@ -330,7 +330,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
         <ul>
                 <li><strong>Refactoring (more declarative descriptors)</strong>
             	<ul>
@@ -432,7 +432,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
-    <subsection name='Since 0.5'>
+    <subsection name='0.6'>
         <ul>
         </ul>
     </subsection>

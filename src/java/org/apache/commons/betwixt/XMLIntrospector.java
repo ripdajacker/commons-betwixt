@@ -77,7 +77,7 @@ import org.xml.sax.SAXException;
 public class XMLIntrospector {
     /** 
      * Log used for logging (Doh!) 
-     * @deprecated use the {@link #getLog()} property instead
+     * @deprecated 0.6 use the {@link #getLog()} property instead
      */    
     protected Log log = LogFactory.getLog( XMLIntrospector.class );
     
@@ -192,7 +192,7 @@ public class XMLIntrospector {
       *
       * @return the <code>ClassNormalizer</code> used to determine the Class to be introspected
       * for a given Object.
-      * @deprecated use getConfiguration().getClassNormalizer
+      * @deprecated 0.6 use getConfiguration().getClassNormalizer
       * @since 0.5
       */
     public ClassNormalizer getClassNormalizer() {
@@ -206,7 +206,7 @@ public class XMLIntrospector {
       *
       * @param classNormalizer the <code>ClassNormalizer</code> to be used to determine 
       * the Class to be introspected for a given Object.
-      * @deprecated use getConfiguration().setClassNormalizer
+      * @deprecated 0.6 use getConfiguration().setClassNormalizer
       * @since 0.5
       *
       */    
@@ -238,7 +238,7 @@ public class XMLIntrospector {
     /** 
       * Should attributes (or elements) be used for primitive types.
       * @return true if primitive types will be mapped to attributes in the introspection
-      * @deprecated use getConfiguration().isAttributesForPrimitives
+      * @deprecated 0.6 use getConfiguration().isAttributesForPrimitives
       */
     public boolean isAttributesForPrimitives() {
         return getConfiguration().isAttributesForPrimitives();
@@ -248,7 +248,7 @@ public class XMLIntrospector {
       * Set whether attributes (or elements) should be used for primitive types. 
       * @param attributesForPrimitives pass trus to map primitives to attributes,
       *        pass false to map primitives to elements
-      * @deprecated use getConfiguration().setAttributesForPrimitives
+      * @deprecated 0.6 use getConfiguration().setAttributesForPrimitives
       */
     public void setAttributesForPrimitives(boolean attributesForPrimitives) {
         getConfiguration().setAttributesForPrimitives(attributesForPrimitives);
@@ -258,7 +258,7 @@ public class XMLIntrospector {
      * Should collections be wrapped in an extra element?
      * 
      * @return whether we should we wrap collections in an extra element? 
-     * @deprecated use getConfiguration().isWrapCollectionsInElement
+     * @deprecated 0.6 use getConfiguration().isWrapCollectionsInElement
      */
     public boolean isWrapCollectionsInElement() {
         return getConfiguration().isWrapCollectionsInElement();
@@ -269,7 +269,7 @@ public class XMLIntrospector {
      *
      * @param wrapCollectionsInElement pass true if collections should be wrapped in a
      *        parent element
-     * @deprecated use getConfiguration().setWrapCollectionsInElement
+     * @deprecated 0.6 use getConfiguration().setWrapCollectionsInElement
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
         getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement);
@@ -279,7 +279,7 @@ public class XMLIntrospector {
      * Get singular and plural matching strategy.
      *
      * @return the strategy used to detect matching singular and plural properties 
-     * @deprecated use getConfiguration().getPluralStemmer
+     * @deprecated 0.6 use getConfiguration().getPluralStemmer
      */
     public PluralStemmer getPluralStemmer() {
         return getConfiguration().getPluralStemmer();
@@ -289,7 +289,7 @@ public class XMLIntrospector {
      * Sets the strategy used to detect matching singular and plural properties 
      *
      * @param pluralStemmer the PluralStemmer used to match singular and plural
-     * @deprecated use getConfiguration().setPluralStemmer 
+     * @deprecated 0.6 use getConfiguration().setPluralStemmer 
      */
     public void setPluralStemmer(PluralStemmer pluralStemmer) {
         getConfiguration().setPluralStemmer(pluralStemmer);
@@ -322,7 +322,7 @@ public class XMLIntrospector {
      *
      * @return the strategy used to convert bean type names into element 
      * names. If no element mapper is currently defined then a default one is created.
-     * @deprecated use getConfiguration().getElementNameMapper
+     * @deprecated 0.6 use getConfiguration().getElementNameMapper
      */ 
     public NameMapper getElementNameMapper() {
         return getConfiguration().getElementNameMapper();
@@ -331,7 +331,7 @@ public class XMLIntrospector {
     /**
      * Sets the strategy used to convert bean type names into element names
      * @param nameMapper the NameMapper to use for the conversion
-     * @deprecated use getConfiguration().setElementNameMapper
+     * @deprecated 0.6 use getConfiguration().setElementNameMapper
      */
     public void setElementNameMapper(NameMapper nameMapper) {
         getConfiguration().setElementNameMapper( nameMapper );
@@ -343,7 +343,7 @@ public class XMLIntrospector {
      *
      * @return the strategy used to convert bean type names into attribute
      * names. If no attributeNamemapper is known, it will default to the ElementNameMapper
-     * @deprecated getConfiguration().getAttributeNameMapper
+     * @deprecated 0.6 getConfiguration().getAttributeNameMapper
      */
     public NameMapper getAttributeNameMapper() {
         return getConfiguration().getAttributeNameMapper();
@@ -353,7 +353,7 @@ public class XMLIntrospector {
     /**
      * Sets the strategy used to convert bean type names into attribute names
      * @param nameMapper the NameMapper to use for the convertion
-     * @deprecated use getConfiguration().setAttributeNameMapper
+     * @deprecated 0.6 use getConfiguration().setAttributeNameMapper
      */
     public void setAttributeNameMapper(NameMapper nameMapper) {
         getConfiguration().setAttributeNameMapper( nameMapper );
@@ -364,7 +364,7 @@ public class XMLIntrospector {
      * By default it will be false.
      * 
      * @return boolean if the beanInfoSearchPath should be used.
-     * @deprecated use getConfiguration().useBeanInfoSearchPath
+     * @deprecated 0.6 use getConfiguration().useBeanInfoSearchPath
      */
     public boolean useBeanInfoSearchPath() {
         return getConfiguration().useBeanInfoSearchPath();
@@ -374,7 +374,7 @@ public class XMLIntrospector {
      * Specifies if you want to use the beanInfoSearchPath 
      * @see java.beans.Introspector for more details
      * @param useBeanInfoSearchPath 
-     * @deprecated use getConfiguration().setUseBeanInfoSearchPath
+     * @deprecated 0.6 use getConfiguration().setUseBeanInfoSearchPath
      */
     public void setUseBeanInfoSearchPath(boolean useBeanInfoSearchPath) {
         getConfiguration().setUseBeanInfoSearchPath( useBeanInfoSearchPath );
@@ -1014,7 +1014,7 @@ public class XMLIntrospector {
      * to detect matching singular and plural properties.
      *
      * @return new defualt PluralStemmer implementation
-     * @deprecated this method has been moved into IntrospectionConfiguration.
+     * @deprecated 0.6 this method has been moved into IntrospectionConfiguration.
      * Those who need to vary this should subclass that class instead
      */
     protected PluralStemmer createPluralStemmer() {
@@ -1026,7 +1026,7 @@ public class XMLIntrospector {
      * used to convert bean type names into element names.
      *
      * @return new default NameMapper implementation
-     * @deprecated this method has been moved into IntrospectionConfiguration.
+     * @deprecated 0.6 this method has been moved into IntrospectionConfiguration.
      * Those who need to vary this should subclass that class instead
      */
     protected NameMapper createNameMapper() {

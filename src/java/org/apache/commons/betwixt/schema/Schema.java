@@ -20,17 +20,17 @@ import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Collection;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class Schema {
 	
@@ -130,11 +130,26 @@ public class Schema {
         if (obj instanceof Schema) {
         	Schema schema = (Schema) obj;
         	result = 
-                    CollectionUtils.isEqualCollection(elements, schema.elements) &&
-                    CollectionUtils.isEqualCollection(complexTypes, schema.complexTypes) &&
-                    CollectionUtils.isEqualCollection(simpleTypes, schema.simpleTypes);
+                    equalContents(elements, schema.elements) &&
+                    equalContents(complexTypes, schema.complexTypes) &&
+                    equalContents(simpleTypes, schema.simpleTypes);
         }
         return result;
+    }
+    
+    private boolean equalContents(Collection one, Collection two)
+    {
+        // doesn't check cardinality but should be ok
+        if (one.size() != two.size()) {
+            return false;
+        }
+        for (Iterator it=one.iterator();it.hasNext();) {
+            Object object = it.next();
+            if (!two.contains(object)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public int hashCode() {
