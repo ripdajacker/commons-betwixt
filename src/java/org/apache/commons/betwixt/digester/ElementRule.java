@@ -76,7 +76,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+  * @version $Id: ElementRule.java,v 1.2 2002/07/01 18:52:21 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
@@ -113,12 +113,18 @@ public class ElementRule extends RuleSupport {
         String propertyName = attributes.getValue( "property" );
         descriptor.setPropertyName( propertyName );
         
-        descriptor.setPropertyType( 
-            getPropertyType( attributes.getValue( "type" ), 
-                beanClass, propertyName ) 
-        );
+        String propertyType = attributes.getValue( "type" );
+        
+        if (log.isTraceEnabled()) {
+            log.trace(
+                    "(BEGIN) name=" + name + " uri=" + uri 
+                    + " property=" + propertyName + " type=" + propertyType);
+        }
         
         // set the property type using reflection
+        descriptor.setPropertyType( 
+            getPropertyType( propertyType, beanClass, propertyName ) 
+        );
         
         
         if ( propertyName != null && propertyName.length() > 0 ) {
@@ -168,16 +174,26 @@ public class ElementRule extends RuleSupport {
             try {
                 Class answer = classLoader.loadClass(propertyClassName);
                 if (answer != null) {
+                    if (log.isTraceEnabled()) {
+                        log.trace("Used specified type " + answer);
+                    }
                     return answer;
                 }
             }
             catch (Exception e) {
+                log.warn("Cannot load specified type", e);
             }
         }
+        
         PropertyDescriptor descriptor = 
             getPropertyDescriptor( beanClass, propertyName );        
         if ( descriptor != null ) { 
             return descriptor.getPropertyType();
+        }
+        
+        if (log.isTraceEnabled()) {
+            log.trace("Cannot find property type.");
+            log.trace("  className=" + propertyClassName + " base=" + beanClass + " name=" + propertyName);
         }
         return null;            
     }
@@ -205,6 +221,9 @@ public class ElementRule extends RuleSupport {
     protected PropertyDescriptor getPropertyDescriptor( Class beanClass, 
                                                         String propertyName ) {
         if ( beanClass != null && propertyName != null ) {
+            if (log.isTraceEnabled()) {
+                log.trace("Searching for property " + propertyName + " on " + beanClass);
+            }
             try {
                 BeanInfo beanInfo = Introspector.getBeanInfo( beanClass );
                 PropertyDescriptor[] descriptors = 
@@ -213,10 +232,12 @@ public class ElementRule extends RuleSupport {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {
                         PropertyDescriptor descriptor = descriptors[i];
                         if ( propertyName.equals( descriptor.getName() ) ) {
+                            log.trace("Found matching method.");
                             return descriptor;
                         }
                     }
                 }
+                log.trace("No match found.");
                 return null;
             }
             catch (Exception e) {
