@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/31 15:38:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.3 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -66,7 +66,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 /**
  * Tests for the SchemaTranscriber.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class TestSchemaTranscriber extends AbstractTestCase {
     
@@ -98,16 +98,16 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         Schema expected = new Schema();
         
         ComplexType simplestBeanType = new ComplexType();
-        simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestBean");
+        simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestElementBean");
         simplestBeanType.addElement(new Element("name", "xsd:string"));
         
-        Element root = new Element("SimplestBean", "org.apache.commons.betwixt.schema.SimplestBean");
+        Element root = new Element("SimplestBean", "org.apache.commons.betwixt.schema.SimplestElementBean");
         expected.addComplexType(simplestBeanType);
         expected.addElement(root);
         
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
-        Schema out = transcriber.generate(SimplestBean.class);
+        Schema out = transcriber.generate(SimplestElementBean.class);
         
         assertEquals("Simplest bean schema", expected, out);
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.5 2004/02/01 22:55:47 rdonkin Exp $
- * $Revision: 1.22.2.5 $
- * $Date: 2004/02/01 22:55:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.6 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.22.2.6 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -98,7 +98,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22.2.5 $
+  * @version $Revision: 1.22.2.6 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -165,7 +165,7 @@ public abstract class AbstractBeanWriter {
             log.debug( bean );
         }
         start();
-        write( null, bean );
+        writeBean( null, null, null, bean, makeContext( bean ) );
         end();
         if (log.isDebugEnabled()) {
             log.debug( "Finished writing bean graph." );
@@ -194,7 +194,9 @@ public abstract class AbstractBeanWriter {
                         IOException, 
                         SAXException,
                         IntrospectionException {
+        start();
         writeBean( "", qualifiedName, qualifiedName, bean, makeContext( bean ) );
+        end();
     }
     
     /** 
@@ -564,7 +566,8 @@ public abstract class AbstractBeanWriter {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
         
-            Attributes attributes = addNamespaceDeclarations(new ElementAttributes( elementDescriptor, context ));
+            Attributes attributes = addNamespaceDeclarations(
+                new ElementAttributes( elementDescriptor, context ), namespaceUri);
             
             startElement( 
                             namespaceUri, 
@@ -582,13 +585,19 @@ public abstract class AbstractBeanWriter {
     /**
      * Adds namespace declarations (if any are needed) to the given attributes.
      * @param attributes Attributes, not null
+     * @param elementNamespaceUri the URI for the enclosing element, possibly null
      * @return Attributes, not null
      */
-    private Attributes addNamespaceDeclarations(Attributes attributes) {
+    private Attributes addNamespaceDeclarations(Attributes attributes, String elementNamespaceUri) {
         Attributes result = attributes;
         AttributesImpl withDeclarations = null; 
-        for (int i=0, size=attributes.getLength(); i<size ; i++) {
-            String uri = attributes.getURI(i);
+        for (int i=-1, size=attributes.getLength(); i<size ; i++) {
+            String uri = null;
+            if (i == -1) {
+                uri = elementNamespaceUri;
+            } else {
+                uri = attributes.getURI(i);
+            }
             if (uri != null && !"".equals(uri) && !namespacesDeclared.contains(uri)) {
                 if (withDeclarations == null) {
                     withDeclarations = new AttributesImpl(attributes);
@@ -643,7 +652,7 @@ public abstract class AbstractBeanWriter {
                         namespaceUri, 
                         localName, 
                         qualifiedName,
-                        addNamespaceDeclarations(attributes));
+                        addNamespaceDeclarations(attributes, namespaceUri));
     
             writeElementContent( elementDescriptor, context ) ;
             endElement( namespaceUri, localName, qualifiedName );
@@ -714,7 +723,7 @@ public abstract class AbstractBeanWriter {
                                 idrefAttributeName,
                                 "IDREF",
                                 idrefAttributeValue);
-        startElement( uri, localName, qualifiedName, addNamespaceDeclarations(attributes));        
+        startElement( uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri));        
         endElement( uri, localName, qualifiedName );
     }
     
@@ -1133,7 +1142,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.22.2.5 $
+     * @version $Revision: 1.22.2.6 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="SimplestBean">
+  	<!-- Needed to make Xerces validate -->
+  	<attribute
+  		name='noNamespaceSchemaLocation'
+  		uri='http://www.w3.org/2001/XMLSchema-instance'
+  		value='simple-bean.xsd'/>
+  	<element
+  		name='name'
+  		property='name'/>	
+  </element>
+</info>

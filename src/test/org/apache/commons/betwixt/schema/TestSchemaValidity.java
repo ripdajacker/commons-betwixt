@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.1 2004/02/01 22:57:49 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/01 22:57:49 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -61,12 +61,17 @@
 
 package org.apache.commons.betwixt.schema;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.io.BeanWriter;
+import org.xml.sax.InputSource;
 
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class TestSchemaValidity extends AbstractTestCase {
 
@@ -74,12 +79,36 @@ public class TestSchemaValidity extends AbstractTestCase {
         super(name);
     }
     
-    
-    public void testSimplestBeanWithAttributes() throws Exception {
+    private String generateSchema(Class clazz) throws Exception {
         SchemaTranscriber transcriber = new SchemaTranscriber();
         transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-        Schema schema = transcriber.generate(SimplestBean.class);
+        Schema schema = transcriber.generate(clazz);
         
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
+        writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+        writer.write(schema);
         
+        String xsd = out.getBuffer().toString();
+        return xsd;
+    }
+    
+    public void testSimplestBeanWithAttributes() throws Exception {
+       String xsd = generateSchema(SimplestBean.class);
+            
+       StringWriter out = new StringWriter();
+       out.write("<?xml version='1.0'?>");
+       BeanWriter writer = new BeanWriter(out);
+       writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+       writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI, "xsi");
+       writer.getBindingConfiguration().setMapIDs(false);
+       SimplestBean bean = new SimplestBean("Simon");
+       writer.write(bean);
+       
+       String xml = out.getBuffer().toString();
+       
+       xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));
     }   
 }

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.xmlunit;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/TestXmlTestCase.java,v 1.4.2.1 2004/02/01 13:48:27 rdonkin Exp $
- * $Revision: 1.4.2.1 $
- * $Date: 2004/02/01 13:48:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/TestXmlTestCase.java,v 1.4.2.2 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.4.2.2 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -72,7 +72,7 @@ import org.xml.sax.InputSource;
  * Test harness which test xml unit
  *
  * @author Robert Burrell Donkin
- * @version $Id: TestXmlTestCase.java,v 1.4.2.1 2004/02/01 13:48:27 rdonkin Exp $
+ * @version $Id: TestXmlTestCase.java,v 1.4.2.2 2004/02/02 22:21:44 rdonkin Exp $
  */
  public class TestXmlTestCase extends XmlTestCase {
  
@@ -196,4 +196,5 @@ import org.xml.sax.InputSource;
             new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
         assertFalse(isValid(document, schema));
     }
+    
 }

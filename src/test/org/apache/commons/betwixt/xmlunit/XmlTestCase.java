@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.11.2.1 2004/02/01 13:48:27 rdonkin Exp $
- * $Revision: 1.11.2.1 $
- * $Date: 2004/02/01 13:48:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.11.2.2 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.11.2.2 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -577,6 +577,20 @@ public class XmlTestCase extends TestCase {
         }
         
         return result;
+    }
+    
+    public void xmlAssertIsValid(InputSource documentSource, InputSource schemaSource) 
+        throws ParserConfigurationException, IOException
+    {
+        try
+        {
+            validateWithSchema(documentSource, schemaSource);
+        }
+        catch (SAXException se)
+        {
+            se.printStackTrace();
+            fail("Validation failure: " + se.getMessage());
+        }   
     }
 }
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.3 2004/01/31 15:38:09 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/01/31 15:38:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.4 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -73,7 +73,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class ComplexType {
 	
@@ -96,7 +96,10 @@ public class ComplexType {
         for (int i=0,length=attributeDescriptors.length; i<length ; i++) {
             //TODO: need to think about computing schema types from descriptors
             // this will probably depend on the class mapped to
-            attributes.add(new Attribute(attributeDescriptors[i]));
+            String uri = attributeDescriptors[i].getURI();
+            if (! SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI.equals(uri)) {
+                attributes.add(new Attribute(attributeDescriptors[i]));
+            }
         }
         
         ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();

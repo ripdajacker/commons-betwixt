@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/SimplestBean.java,v 1.1.2.1 2004/01/31 15:37:21 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/31 15:37:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/SimplestBean.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -63,11 +63,17 @@ package org.apache.commons.betwixt.schema;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class SimplestBean {
 
     private String name;
+    
+    public SimplestBean() {}
+    
+    public SimplestBean(String name) {
+        setName(name);
+    }
     
     public String getName() {
         return name;

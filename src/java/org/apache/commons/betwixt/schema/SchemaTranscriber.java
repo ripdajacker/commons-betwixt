@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.1 2004/01/18 12:35:23 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:35:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/02 22:21:44 $
  *
  * ====================================================================
  * 
@@ -63,7 +63,9 @@ package org.apache.commons.betwixt.schema;
 
 import java.beans.IntrospectionException;
 
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.IntrospectionConfiguration;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 
@@ -77,10 +79,13 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * </p>
  * TODO: it's very likely that strategies will be needed to allow flexibility in mapping later
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class SchemaTranscriber {
 	
+    public static final String W3C_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
+    public static final String W3C_SCHEMA_INSTANCE_URI= "http://www.w3.org/2001/XMLSchema-instance";
+    
 	/** Used to introspect beans in order to generate XML */
 	private XMLIntrospector introspector = new XMLIntrospector();
 	
@@ -95,14 +100,17 @@ public class SchemaTranscriber {
 	}
 	
 	/**
-	 * Sets the XMLIntrospector used to create XMLInfoBeans'
+	 * <p>Sets the XMLIntrospector used to create XMLInfoBeans.
+     * </p></p>
+     * <strong>Note:</strong> certain properties will be reconfigured so that 
+     * the introspection will produce correct results.
+     * </p>
 	 * @param introspector XMLIntrospector used to create XMLInfoBean's used to generate schema, not null
 	 */
 	public void setXMLIntrospector(XMLIntrospector introspector) {
 		this.introspector = introspector;
 	}
-	
-	
+
 	/**
 	 * Generates an XML Schema model for the given class.
 	 * @param clazz not null
@@ -124,4 +132,35 @@ public class SchemaTranscriber {
        schema.addGlobalElementType(elementDescriptor);
        return schema;
 	}
+    
+    /**
+     * <p>Gets an <code>IntrospectionConfiguration</code> that is suitable 
+     * for introspecting {@link Schema}.
+     * </p><p>
+     * <strong>Note:</strong> A new instance is created each time this method is called.
+     * It can therefore be safely be modified.
+     * </p>
+     * 
+     * @return IntrospectionConfiguration, not null
+     */
+    public IntrospectionConfiguration createSchemaIntrospectionConfiguration() {
+        IntrospectionConfiguration configuration = new IntrospectionConfiguration();
+        configuration.getPrefixMapper().setPrefix(W3C_SCHEMA_URI, "xsd");
+        configuration.getPrefixMapper().setPrefix(W3C_SCHEMA_INSTANCE_URI, "xsi");
+        return configuration;
+    }
+    
+    /**
+     * <p>Gets a <code>BindingConfiguration</code> that is suitable for mapping {@link Schema}.
+     * </p><p>
+     * <strong>Note:</strong> A new instance is created each time this method is called.
+     * It can therefore be safely be modified.
+     * </p>
+     * @return BindingConfiguration, not null
+     */
+    public BindingConfiguration createSchemaBindingConfiguration() {
+        BindingConfiguration configuration = new BindingConfiguration();
+        configuration.setMapIDs(false);
+        return configuration;   
+    }
 }
