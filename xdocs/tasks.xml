@@ -184,7 +184,23 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 1.0-Alpha 1 Release'>
+    <subsection name='Since 0.5'>
+            <li><strong>Improved empty element rendering</strong></li>
+            <li>
+<strong>Extended betwixt file</strong> by adding two new properties 
+to &lt;addDefaults&gt; that allow matching properties or adders to be
+supressed.
+            </li>
+            <li>
+<strong>SimpleTypeMapper strategy</strong> for finely grained control over simple type (primitive) 
+binding.
+            </li>
+            <li>
+<strong>Improved support for reading arrays.</strong> In particular added code to support
+reading of array valued property setters and for array valued adders.
+            </li>
+    </subsection>
+    <subsection name='0.5'>
         <ul>
             <li>
                 <strong>Added support for CDATA encoding</strong> through strategy
@@ -291,24 +307,41 @@ strategies.
 <strong>CDATA encoding support</strong> add support for flexible coding of body text as CDATA
 sections (in addition to character escaping).
             </li>
-            <li>
-<strong>Extended betwixt file</strong> by adding two new properties 
-to &lt;addDefaults&gt; that allow matching properties or adders to be
-supressed.
-            </li>
-            <li>
-<strong>SimpleTypeMapper strategy</strong> for finely grained control over simple type (primitive) 
-binding.
-            </li>
-            <li>
-<strong>Improved support for reading arrays.</strong> In particular added code to support
-reading of array valued property setters and for array valued adders.
-            </li>
         </ul>
     </subsection>
 </section>
 <section name='Deprecated'>
-    <subsection name='Since 1.0-Alpha 1 Release'>
+    <subsection name='Since 0.5'>
+        <ul>
+                <li><strong>Refactoring (more declarative descriptors)</strong>
+            	<ul>
+            		<li><strong>ElementDescriptor</strong>
+            			<ul>
+            				<li><code>WrapCollectionsInElement</code> property removed</li>
+            				<li><code>PrimitiveType</code> property removed</li>            				
+            			</ul>
+            		</li>
+            		<li><strong>XMLIntrospectorHelper</strong> this will be deprecated.</li>
+            	</ul>
+            </li>
+            <li><strong>Refactored introspection configuration into separate class</strong>
+            	<ul>
+            		<li><strong>XMLIntrospector</strong>
+            			<ul>
+            				<li>useBeanInfoSearchPath property</li>
+            				<li>AttributeNameMapper property</li>
+            				<li>ElementNameMapper property</li>
+            				<li>PluralStemmer property</li>
+            				<li>WrapCollectionsInElement property</li>
+            				<li>AttributesForPrimitives property</li>
+            				<li>ClassNormalizer property</li>
+        				</ul>
+        			</li>
+            	</ul>
+            </li>
+        </ul>
+    </subsection>
+    <subsection name='0.5'>
         <ul>
             <li><strong>Adding context parameter to SAX style API</strong>
                 <ul>
@@ -376,44 +409,40 @@ reading of array valued property setters and for array valued adders.
                     </li>
                 </ul>
             </li>
-            <li><strong>Refactoring (more declarative descriptors)</strong>
-            	<ul>
-            		<li><strong>ElementDescriptor</strong>
-            			<ul>
-            				<li><code>WrapCollectionsInElement</code> property removed</li>
-            				<li><code>PrimitiveType</code> property removed</li>            				
-            			</ul>
-            		</li>
-            		<li><strong>XMLIntrospectorHelper</strong> this will be deprecated.</li>
-            	</ul>
-            </li>
-            <li><strong>Refactored introspection configuration into separate class</strong>
-            	<ul>
-            		<li><strong>XMLIntrospector</strong>
-            			<ul>
-            				<li>useBeanInfoSearchPath property</li>
-            				<li>AttributeNameMapper property</li>
-            				<li>ElementNameMapper property</li>
-            				<li>PluralStemmer property</li>
-            				<li>WrapCollectionsInElement property</li>
-            				<li>AttributesForPrimitives property</li>
-            				<li>ClassNormalizer property</li>
-        				</ul>
-        			</li>
-            	</ul>
-            </li>
-            <li><strong>Improved empty element rendering</strong></li>
         </ul>
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
-    <subsection name='Since 1.0-Alpha 1 Release'>
+    <subsection name='Since 0.5'>
         <ul>
         </ul>
     </subsection>
 </section>
 <section name='Semantic Changes'>
-    <subsection name='Since 1.0-Alpha 1 Release'>
+    <subsection name='Since 0.5'>
+        <ul>
+            <li>
+            	<strong>Introspection and ElementDescriptor</strong> changes in introspection and 
+            	ElementDescriptor to make them more declarative so that the logic required to
+            	read and write beans can be reduced. An explicit flag has been added to indicate
+            	which ElementDescriptors are hollow. The descriptors describing collective mappings
+            	(one-to-many). wrapCollectionInElement has been removed with the wrapping element
+            	descriptor becoming just a spacer (an xml element which is not mapped to a part of
+            	the object graph). The updater now needs to be placed on the hollow collective
+            	element rather than then parent spacer.
+            </li>
+            <li>
+            	<strong>ID assignment</strong> IDs are now not assigned to any element
+            	which are simple (do not have any children and no attributes) rather than just primitives.
+            	The concept of primitives is being phased out in favour of the more general
+            	concept of atomic mappings (object &lt;-&gt; string) and elements of simple type.
+            	ID generation is likely to be refactored soon so that it's performed within 
+            	the structure of the attribute references rather than as part of the writing
+            	algorithm.
+            </li>
+        </ul>
+    </subsection>
+    <subsection name='0.5'>
         <ul>	
             <li>
                 <strong>SAXBeanWriter now sets localName</strong>
@@ -457,25 +486,6 @@ reading of array valued property setters and for array valued adders.
                 <strong><code>ConvertUtils</code> conversion now ignored (by default) for java.util.Date</strong>
                 If you use a custom <code>ConvertUtils</code> java.util.Date converter then see 
                 <a href='guide/binding.html#Converting Dates (And Other Objects)'>the guide</a>.
-            </li>
-            <li>
-            	<strong>Introspection and ElementDescriptor</strong> changes in introspection and 
-            	ElementDescriptor to make them more declarative so that the logic required to
-            	read and write beans can be reduced. An explicit flag has been added to indicate
-            	which ElementDescriptors are hollow. The descriptors describing collective mappings
-            	(one-to-many). wrapCollectionInElement has been removed with the wrapping element
-            	descriptor becoming just a spacer (an xml element which is not mapped to a part of
-            	the object graph). The updater now needs to be placed on the hollow collective
-            	element rather than then parent spacer.
-            </li>
-            <li>
-            	<strong>ID assignment</strong> IDs are now not assigned to any element
-            	which are simple (do not have any children and no attributes) rather than just primitives.
-            	The concept of primitives is being phased out in favour of the more general
-            	concept of atomic mappings (object &lt;-&gt; string) and elements of simple type.
-            	ID generation is likely to be refactored soon so that it's performed within 
-            	the structure of the attribute references rather than as part of the writing
-            	algorithm.
             </li>
         </ul>
     </subsection>
