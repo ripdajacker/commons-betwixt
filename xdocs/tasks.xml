@@ -159,6 +159,11 @@
             elements need a definite and predicatable ordering. Pluggable element ordering strategies
             would order the elements according to some algorithm eg. alphabetic.
         </li>
+        <li>
+            <strong>Support Mixed Content Round Tripping</strong>
+            This is actually has some conceptual problems. What happens when you have two text
+            descriptors mapped to properties next to each other?
+        </li>
        </ul>
     </subsection>
 </section>
@@ -192,6 +197,12 @@
                 An option not to write empty elements has been added. This is required to correctly write 
                 some kinds of xml.
                 The RSS full round tripping will only work with this functionality.
+            </li>
+            <li>
+                <strong>Support Writing Mixed Content</strong> 
+                Mixed content elements contain elements and body text. Added support for adding
+                body text between child elements through the .betwixt file. This text can be
+                static or set from a property.
             </li>
         </ul>
     </subsection>

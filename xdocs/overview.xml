@@ -390,6 +390,56 @@ public class NameMapperExampleApp {
     </p>
 </subsection>
 
+<subsection name="Using .betwixt files To Write Mixed Content">
+    <p>
+    An element with mixed content contains child elements and text. 
+    For example, element <code>foo</code> has mixed content in the following:
+<source>
+<![CDATA[<foo>
+        Some text
+        <bar/>
+    </foo>]]>
+</source>
+    Betwixt supports writing mixed content through <code>text</code> elements in the 
+    .betwixt file. 
+    </p>
+    
+    <p>
+    A <code>text</code> element can be mapped to a property in which case it must have
+    a <code>property</code> attribute and may (optionally) have a <code>type</code> attribute.
+    Otherwise, the <code>text</code> element is mapped to a static value, in which case it
+    must have a <code>value</code> attribute. If a <code>text</code> element has both 
+    <code>value</code> and <code>property</code> attributes then an exception will be thrown.
+    </p>
+    
+    <p>
+    For example, a simple bean with the .betwixt file 
+<source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="attribute">
+    <element name='foo'>
+        <attribute name='version' value='1.0'/>
+        <element name='bar'>
+            <attribute name='version' property='alpha'/>
+            <text value='static text'/>
+            <element name='baa' property='beta'/>
+            <text property='gamma'/>
+        </element>
+    </element>
+</info>]]>
+</source>
+    and with property values alpha='One', beta='Two' and gamma='Three' will write an output like:
+<source>
+<![CDATA[<foo version="1.0">
+    <bar version="One">static text<baa>Two</baa>Three</bar>
+</foo>
+]]></source>
+    </p>
+    
+    <p><strong>Note</strong>Betwixt does not (at the moment) support reading mixed 
+    content elements.</p>
+
+</subsection>
+
 </section>
 
 <section name='Reading Beans (Advanced)'>
