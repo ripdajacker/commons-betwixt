@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.19 2003/01/09 22:34:07 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.20 2003/04/15 21:51:44 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -290,10 +290,16 @@ public class XMLIntrospector {
 
         BeanDescriptor beanDescriptor = beanInfo.getBeanDescriptor();
         Class beanClass = beanDescriptor.getBeanClass();
+        String name = beanDescriptor.getName();
+        // Array's contain a bad character
+        if (beanClass.isArray()) {	
+            // called all array's Array
+            name = "Array";
+        }
         
         ElementDescriptor elementDescriptor = new ElementDescriptor();
         elementDescriptor.setLocalName( 
-            getElementNameMapper().mapTypeToElementName( beanDescriptor.getName() ) );
+            getElementNameMapper().mapTypeToElementName( name ) );
         elementDescriptor.setPropertyType( beanInfo.getBeanDescriptor().getBeanClass() );
         
         if (log.isTraceEnabled()) {

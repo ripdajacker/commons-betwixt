@@ -214,6 +214,10 @@
                 encoding type on the output stream. This allows xml with different encoding types to
                 be written.
             </li>
+            <li>
+                <strong>Fixed bug when writing Array's</strong>
+                When an array was pass to a write call, invalid XML used to be produced. This has been fixed.
+            </li>
         </ul>
     </subsection>
 </section>

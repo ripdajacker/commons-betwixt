@@ -314,5 +314,50 @@ public class TestBeanWriter extends AbstractTestCase {
         xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
         
     }
+    
+    public void testArrayWrite() throws Exception {
+        ArrayBean bean = new ArrayBean("Rob");
+        bean.addHobby("Hacking open source software");
+        bean.addHobby("Playing cricket");
+        bean.addHobby("Watching rugby league");
+        bean.addHobby("Havin' it large");
+    
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.setWriteIDs(false);
+        writer.write(bean);
+        
+        String xml = "<?xml version='1.0'?><ArrayBean><name>Rob</name><hobbies>"
+         + "<hobby>Hacking open source software</hobby>" 
+         + "<hobby>Playing cricket</hobby>" 
+         + "<hobby>Watching rugby league</hobby>" 
+         + "<hobby>Havin' it large</hobby>"
+         +"</hobbies></ArrayBean>";
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        String [] array = {"This", "That", "The Other"};
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.setWriteIDs(false);
+        writer.write(array);
+        
+        xml = "<?xml version='1.0'?><Array>"
+         + "<String>This</String>" 
+         + "<String>That</String>" 
+         + "<String>The Other</String>" 
+         +"</Array>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+    }
 }
 
