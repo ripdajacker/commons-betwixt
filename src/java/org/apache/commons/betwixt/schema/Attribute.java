@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Attribute.java,v 1.1.2.1 2004/01/18 12:34:21 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:34:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Attribute.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -67,7 +67,7 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 /**
  * Models the attribute element in an XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class Attribute {
 
@@ -119,6 +119,10 @@ public class Attribute {
         type = string;
     }
 
+    public int hashCode() {
+        return 0;
+    }
+
     public boolean equals(Object obj) {
         boolean result = false;
         if (obj instanceof Attribute) {
@@ -148,4 +152,8 @@ public class Attribute {
         return result;
     }
 
+    public String toString() {
+        return "<xsd:attribute name='" + name + "' type='" + type + "'/>";
+    }
+        
 }

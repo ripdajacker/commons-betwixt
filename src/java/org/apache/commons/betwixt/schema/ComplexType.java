@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.2 2004/01/19 21:19:36 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/19 21:19:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.3 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -62,6 +62,7 @@
 package org.apache.commons.betwixt.schema;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
@@ -72,7 +73,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class ComplexType {
 	
@@ -90,7 +91,7 @@ public class ComplexType {
      * @param elementDescriptor
      */
     public ComplexType(ElementDescriptor elementDescriptor) {
-        setName(elementDescriptor.getClass().getName());
+        setName(elementDescriptor.getPropertyType().getName());
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         for (int i=0,length=attributeDescriptors.length; i<length ; i++) {
             //TODO: need to think about computing schema types from descriptors
@@ -98,7 +99,11 @@ public class ComplexType {
             attributes.add(new Attribute(attributeDescriptors[i]));
         }
         
-        
+        ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();
+        //TODO: add support for referenced complex classes
+        for (int i=0,length=elementDescriptors.length; i<length ; i++) {
+            elements.add(new Element(elementDescriptors[i]));
+        }       
     }
 
 	/**
@@ -161,6 +166,10 @@ public class ComplexType {
           return result;
       }
 
+    public int hashCode() {
+        return 0;
+    }
+
       /**
        * Null safe equals method
        * @param one
@@ -178,5 +187,23 @@ public class ComplexType {
           }
         
           return result;
+      }
+      
+      public String toString() {
+          StringBuffer buffer = new StringBuffer();
+          buffer.append("<xsd:complexType name='");
+          buffer.append(name);
+          buffer.append("'>");
+          buffer.append("<xsd:sequence>");
+          for (Iterator it=elements.iterator(); it.hasNext();) {
+                buffer.append(it.next());    
+          }
+          buffer.append("</xsd:sequence>");
+          
+          for (Iterator it=attributes.iterator(); it.hasNext();) {
+                buffer.append(it.next());    
+          }
+          buffer.append("</xsd:complexType>");
+          return buffer.toString();
       }
 }

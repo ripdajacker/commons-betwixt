@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SimpleType.java,v 1.1.2.1 2004/01/18 12:36:09 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:36:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SimpleType.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -67,7 +67,7 @@ package org.apache.commons.betwixt.schema;
  * and which has no attributes.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class SimpleType {
 	private String name;
@@ -84,8 +84,8 @@ public class SimpleType {
      * Sets the name
      * @param string
      */
-    public void setName(String string) {
-        name = string;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean equals(Object obj) {
@@ -96,6 +96,11 @@ public class SimpleType {
           }
           return result;
       }
+
+    public int hashCode() {
+        return 0;
+    }
+
 
       /**
        * Null safe equals method
@@ -114,5 +119,9 @@ public class SimpleType {
           }
         
           return result;
+      }
+      
+      public String toString() {
+          return "<xsd:simpleType name='" + name +  "'/>";
       }
 }

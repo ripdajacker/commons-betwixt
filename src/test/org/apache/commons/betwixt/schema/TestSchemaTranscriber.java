@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.1 2004/01/18 12:35:42 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:35:42 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -66,37 +66,65 @@ import org.apache.commons.betwixt.AbstractTestCase;
 /**
  * Tests for the SchemaTranscriber.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class TestSchemaTranscriber extends AbstractTestCase {
-	
-	private static final String SIMPLE_BEAN_SCHEMA =
-	  "<?xml version='1.0'?>" +	  "<xsd:schema xmlns:xsd='http://www.w3c.org/2001/XMLSchema'>" +
-	  "<xsd:element name='simple' type='SimpleBean'/>'" +
-	  "<xsd:complexType name='SimpleBean'>" +
-	  "<xsd:sequence>" +
-	  "<xsd:element name='three' type='xsd:string'/>" +	  "<xsd:element name='four' type='xsd:string'/>" +	  "</xsd:sequence>" + 
-	  "<xsd:attribute name='one' type='xsd:string'/>" +
-	  "<xsd:attribute name='two' type='xsd:string'/>" +	  "</xsd:complexType>" +	  "</xsd:schema>";
-	
+    
     public TestSchemaTranscriber(String testName) {
         super(testName);
     }
 	
     public void testEmpty() {}
     
-	public void _testSimpleBean() throws Exception {
+    public void testSimplestBeanAttribute() throws Exception {
+        Schema expected = new Schema();
+        
+        ComplexType simplestBeanType = new ComplexType();
+        simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestBean");
+        simplestBeanType.addAttribute(new Attribute("name", "xsd:string"));
+        
+        Element root = new Element("SimplestBean", "org.apache.commons.betwixt.schema.SimplestBean");
+        expected.addComplexType(simplestBeanType);
+        expected.addElement(root);
+        
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        Schema out = transcriber.generate(SimplestBean.class);
+        
+        assertEquals("Simplest bean schema", expected, out);
+    }
+    
+    public void testSimplestBeanElement() throws Exception {
+        Schema expected = new Schema();
+        
+        ComplexType simplestBeanType = new ComplexType();
+        simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestBean");
+        simplestBeanType.addElement(new Element("name", "xsd:string"));
+        
+        Element root = new Element("SimplestBean", "org.apache.commons.betwixt.schema.SimplestBean");
+        expected.addComplexType(simplestBeanType);
+        expected.addElement(root);
+        
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        Schema out = transcriber.generate(SimplestBean.class);
+        
+        assertEquals("Simplest bean schema", expected, out);
+    }
+    
+	public void testSimpleBean() throws Exception {
 		SchemaTranscriber transcriber = new SchemaTranscriber();
 		Schema out = transcriber.generate(SimpleBean.class);
 		
 		Schema expected = new Schema();
 		ComplexType simpleBeanType = new ComplexType();
-		simpleBeanType.setName("SimpleBean");
+		simpleBeanType.setName("org.apache.commons.betwixt.schema.SimpleBean");
 		simpleBeanType.addAttribute(new Attribute("one", "xsd:string"));
-		simpleBeanType.addAttribute(new Attribute("one", "xsd:string"));
+		simpleBeanType.addAttribute(new Attribute("two", "xsd:string"));
 		simpleBeanType.addElement(new Element("three", "xsd:string"));
 		simpleBeanType.addElement(new Element("four", "xsd:string"));
 		expected.addComplexType(simpleBeanType);
+        expected.addElement(new Element("simple", "org.apache.commons.betwixt.schema.SimpleBean"));
         
         assertEquals("Simple bean schema", expected, out);
         

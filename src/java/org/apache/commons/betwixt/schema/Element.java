@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.1 2004/01/18 12:35:57 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:35:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -66,7 +66,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 /**
  * Models the Element tag in the XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class Element {
 	//TODO: going to ignore the issue of namespacing for the moment
@@ -88,7 +88,7 @@ public class Element {
     }
     
     public Element(ElementDescriptor elementDescriptor) {
-        
+        this(elementDescriptor.getLocalName(), "xsd:string");
     }
     
 
@@ -151,6 +151,10 @@ public class Element {
 		}
 		return result;
 	}
+    
+    public int hashCode() {
+        return 0;
+    }
 
 	/**
 	 * Null safe equals method
@@ -170,5 +174,21 @@ public class Element {
 		
 		return result;
 	}
+
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<xsd:element name='");
+        buffer.append(name);
+        buffer.append("' type='");
+        buffer.append(type);
+        buffer.append("'>");
+        
+        if (complexType != null) {
+            buffer.append(complexType);
+        }
+        buffer.append("</xsd:element>");
+        return buffer.toString();
+    }
+
 
 }

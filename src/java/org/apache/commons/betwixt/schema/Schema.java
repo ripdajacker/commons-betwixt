@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.1 2004/01/18 12:35:08 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:35:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/31 15:38:09 $
  *
  * ====================================================================
  * 
@@ -62,6 +62,8 @@
 package org.apache.commons.betwixt.schema;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -71,7 +73,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class Schema {
 	
@@ -140,7 +142,7 @@ public class Schema {
         // use the fully qualified class name as the type name
         Element element = new Element(
                             elementDescriptor.getLocalName(), 
-                            elementDescriptor.getClass().getName());
+                            elementDescriptor.getPropertyType().getName());
         addElement(element);
         
         ComplexType type = new ComplexType(elementDescriptor);
@@ -159,5 +161,29 @@ public class Schema {
         return result;
     }
 
+    public int hashCode() {
+        return 0;
+    }
 
+
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<?xml version='1.0'?>");
+        buffer.append("<xsd:schema xmlns:xsd='http://www.w3c.org/2001/XMLSchema'>");
+        
+        for (Iterator it=simpleTypes.iterator(); it.hasNext();) {
+              buffer.append(it.next());    
+        }    
+        
+        for (Iterator it=complexTypes.iterator(); it.hasNext();) {
+              buffer.append(it.next());    
+        }
+        
+  
+        for (Iterator it=elements.iterator(); it.hasNext();) {
+              buffer.append(it.next());    
+        } 
+        buffer.append("</xsd:schema>");
+        return buffer.toString();
+    }
 }
