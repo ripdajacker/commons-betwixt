@@ -34,12 +34,16 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /**
  * Tests for SimpleTypeMapper and the associated strategy.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestSimpleTypeMapper extends AbstractTestCase {
 
     public TestSimpleTypeMapper(String name) {
         super(name);
+    }
+    
+    public void testDefaultExceptionType() throws Exception {
+         assertEquals(TypeBindingStrategy.BindingType.COMPLEX, TypeBindingStrategy.DEFAULT.bindingType(RuntimeException.class));
     }
     
     public void testNewStrategy() throws Exception {

@@ -121,6 +121,26 @@ public abstract class TypeBindingStrategy {
     public static final class Default extends TypeBindingStrategy {
 
         /**
+         * Class who are simple and whose subclass are also simple
+         */
+        private static final Class[] INHERITED_SIMPLE = {
+                                                        Number.class, 
+                                                        String.class,
+                                                        Date.class,
+                                                        java.sql.Date.class,
+                                                        java.sql.Time.class,
+                                                        java.sql.Timestamp.class,
+                                                        java.math.BigDecimal.class,
+                                                        java.math.BigInteger.class};
+                                                        
+        /**
+         * Classes who are complex and whose subclasses are also complex
+         */
+        private static final Class[] INHERITED_COMPLEX = {
+                										Throwable.class
+        								};
+
+        /**
          * Gets the binding type to be used for the given Java type.
          * This implementation recognizes all the usual Java primitive wrappers 
          * (plus a few more that will in most typical use cases be regarded in the same way). 
@@ -153,15 +173,34 @@ public abstract class TypeBindingStrategy {
             } else if ( type.equals( Object.class ) ) {
                 return false;
             }
-            return type.getName().startsWith( "java.lang." )
-                || Number.class.isAssignableFrom( type ) 
-                || String.class.isAssignableFrom( type ) 
-                || Date.class.isAssignableFrom( type ) 
-                || java.sql.Date.class.isAssignableFrom( type ) 
-                || java.sql.Time.class.isAssignableFrom( type ) 
-                || java.sql.Timestamp.class.isAssignableFrom( type ) 
-                || java.math.BigDecimal.class.isAssignableFrom( type ) 
-                || java.math.BigInteger.class.isAssignableFrom( type );
+            for ( int i=0, size=INHERITED_SIMPLE.length; i<size; i++ ) {
+                if ( INHERITED_SIMPLE[i].equals( type ) ) {
+                    return true;
+                }
+            }
+    
+            for ( int i=0, size=INHERITED_COMPLEX.length; i<size; i++ ) {
+                if ( INHERITED_COMPLEX[i].equals( type ) ) {
+                    return false;
+                }
+            }
+            
+            for ( int i=0, size=INHERITED_COMPLEX.length; i<size; i++ ) {
+                if ( INHERITED_COMPLEX[i].isAssignableFrom( type ) ) {
+                    return false;
+                }
+            }     
+            
+            if (type.getName().startsWith( "java.lang." )) {
+                return true;
+            }
+            
+            for ( int i=0, size=INHERITED_SIMPLE.length; i<size; i++ ) {
+                if ( INHERITED_SIMPLE[i].isAssignableFrom( type ) ) {
+                    return true;
+                }
+            }            
+            return false;
         }
     }
 }

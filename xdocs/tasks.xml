@@ -196,6 +196,7 @@ Create a strategy which allow general implementation rules to be specified.
             specified within a single document.</li>
             <li><strong>Improved support for derived beans</strong> bind time type
             population now supported and enabled by default</li>
+            <li>All exceptions are now complex</li>
         </ul>
     </subsection>
     <subsection name='0.6'>
@@ -448,6 +449,10 @@ Betwixt now defaults to bind time type mapping. Now read beans will (by default)
 be populated by their bind time type (as opposed to their introspection time type).
 Most users should notice no negative effects from this change. The previous behaviour
 can be enabled by setting an introspection configuration property.
+            </li>
+            <li>
+All exceptions are now complex types. This is now more consistent but the default
+binding for exceptions in java.lang package have been changed from simple to complex.
             </li>
         </ul>
     </subsection>
