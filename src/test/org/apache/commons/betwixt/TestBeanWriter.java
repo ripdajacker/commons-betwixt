@@ -121,6 +121,8 @@ public class TestBeanWriter extends AbstractTestCase {
         
         writer.write( LoopBean.createNoLoopExampleBean() );
         
+        writer.write( LoopBean.createIdOnlyLoopExampleBean() );
+        
         try {   
             writer.write( LoopBean.createLoopExampleBean() );   
             fail("CyclicReferenceException not thrown!");

@@ -97,7 +97,7 @@ public class LoopBean
         
         return root;
     }    
-    
+        
     public static final LoopBean createLoopExampleBean()
     {
         LoopBean root = new LoopBean("Root");
@@ -113,6 +113,27 @@ public class LoopBean
         levelThree.setFriend(levelFour);
         levelFour.setFriend(levelFive);
         levelFive.setFriend(root);
+        
+        return root;
+    }
+    
+    
+    public static final LoopBean createIdOnlyLoopExampleBean()
+    {
+        LoopBean root = new LoopBean("Root");
+        LoopBean levelOne = new LoopBean("level1");
+        LoopBean levelTwo = new LoopBean("level2");
+        LoopBean levelThree = new LoopBean("level3");
+        LoopBean levelFour = new LoopBean("level4");
+        LoopBean levelFive = new LoopBean("level5");
+        LoopBean notRoot = new LoopBean("Root");
+        
+        root.setFriend(levelOne);
+        levelOne.setFriend(levelTwo);
+        levelTwo.setFriend(levelThree);
+        levelThree.setFriend(levelFour);
+        levelFour.setFriend(levelFive);
+        levelFive.setFriend(notRoot);
         
         return root;
     }
