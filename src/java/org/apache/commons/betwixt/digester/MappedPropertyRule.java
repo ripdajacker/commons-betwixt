@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/MappedPropertyRule.java,v 1.4 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/MappedPropertyRule.java,v 1.4.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -60,9 +60,9 @@
  */ 
 package org.apache.commons.betwixt.digester;
 
+import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.beans.BeanInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +71,7 @@ import org.apache.commons.logging.LogFactory;
   * Maybe a lot of this should be moved into <code>BeanUtils</code>.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public abstract class MappedPropertyRule extends RuleSupport {
 

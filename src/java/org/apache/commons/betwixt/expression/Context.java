@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.8 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.8.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.8.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -63,11 +63,10 @@ package org.apache.commons.betwixt.expression;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /** <p><code>Context</code> describes the context used to evaluate
   * bean expressions.
@@ -89,7 +88,7 @@ import org.apache.commons.betwixt.strategy.ObjectStringConverter;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.8.2.1 $
   */
 public class Context {
 
@@ -169,10 +168,12 @@ public class Context {
     }
 
     /** Returns a new child context with the given bean but the same log and variables. 
-     *
+     * 
      * @param newBean create a child context for this bean
      * @return new Context with new bean but shared variables 
      */
+    // TODO: need to think about whether this is a good idea and how subclasses
+    // should handle this
     public Context newContext(Object newBean) {
         Context context = new Context(this);
         context.setBean( newBean );

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.18 2003/10/19 14:54:38 mvdb Exp $
- * $Revision: 1.18 $
- * $Date: 2003/10/19 14:54:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.18.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.18.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -72,8 +72,8 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
-
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.ExtendedBaseRules;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,7 +85,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.18 $
+  * @version $Revision: 1.18.2.1 $
   */
 public class BeanReader extends Digester {
 
@@ -104,6 +104,8 @@ public class BeanReader extends Digester {
      * Construct a new BeanReader with default properties.
      */
     public BeanReader() {
+    	// TODO: now we require extended rules may need to document this
+    	setRules(new ExtendedBaseRules());
     }
 
     /**
@@ -117,6 +119,7 @@ public class BeanReader extends Digester {
      */
     public BeanReader(SAXParser parser) {
         super(parser);
+		setRules(new ExtendedBaseRules());
     }
 
     /**
@@ -130,6 +133,7 @@ public class BeanReader extends Digester {
      */
     public BeanReader(XMLReader reader) {
         super(reader);
+		setRules(new ExtendedBaseRules());
     }
 
     

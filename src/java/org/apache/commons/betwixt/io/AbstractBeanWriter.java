@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22 2003/10/09 20:52:05 rdonkin Exp $
- * $Revision: 1.22 $
- * $Date: 2003/10/09 20:52:05 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.22.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -66,20 +66,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.Descriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 // FIX ME!!!
@@ -96,7 +96,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22 $
+  * @version $Revision: 1.22.2.1 $
   */
 public abstract class AbstractBeanWriter {
 

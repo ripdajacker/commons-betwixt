@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.7 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.7.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.7.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -60,13 +60,11 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
-
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.ConversionException;
-
 import org.apache.commons.betwixt.expression.Context;
 
 /** 
@@ -84,7 +82,7 @@ import org.apache.commons.betwixt.expression.Context;
  * (given the default settings).
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.7.2.1 $
  */
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     

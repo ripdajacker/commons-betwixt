@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27 2003/11/24 09:20:13 mvdb Exp $
- * $Revision: 1.27 $
- * $Date: 2003/11/24 09:20:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.27.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -77,9 +77,9 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.IteratorExpression;
+import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.27 2003/11/24 09:20:13 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.27.2.1 2004/01/13 21:49:46 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.9.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -65,11 +65,11 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
-import org.apache.commons.betwixt.NodeDescriptor;
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.9.2.1 $
   */
 public class AddDefaultsRule extends RuleSupport {
 

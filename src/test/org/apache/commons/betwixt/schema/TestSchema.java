@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.9 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
+ * $Revision: 1.9.2.1 $
+ * $Date: 2004/01/13 21:49:47 $
  *
  * ====================================================================
  * 
@@ -84,7 +84,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.9 2003/10/09 20:52:10 rdonkin Exp $
+ * @version $Id: TestSchema.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -140,6 +140,7 @@ public class TestSchema extends AbstractTestCase
         // set the xmlIntrospector back to the reader
         reader.setXMLIntrospector(intro);
         reader.deregisterBeanClass(PhysicalSchema.class);
+        reader.getRules().clear();
         reader.registerBeanClass(PhysicalSchema.class);
         PhysicalSchema schemaSecond = (PhysicalSchema) reader.parse(in);
         buffer.close();

@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/IDBean.java,v 1.5 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/IDBean.java,v 1.5.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.5.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -70,7 +70,7 @@ import org.apache.commons.logging.LogFactory;
 /** Bean for testing ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.5.2.1 $
   */
 public class IDBean {
     
@@ -117,6 +117,6 @@ public class IDBean {
     }
     
     public String toString() {
-        return "IDBean[name=" + getName() + ",id=" + getId() + "]";
+        return "IDBean[name=" + getName() + ",id=" + getId() + ", children=" + children.size() + "] " + super.toString();
     }
 }

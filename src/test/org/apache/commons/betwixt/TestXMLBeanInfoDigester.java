@@ -111,6 +111,7 @@ public class TestXMLBeanInfoDigester extends AbstractTestCase {
         
         descriptor = elements[0];
         assertEquals( "Element name correct", "channel", descriptor.getLocalName() );
+        
     }
 }
 

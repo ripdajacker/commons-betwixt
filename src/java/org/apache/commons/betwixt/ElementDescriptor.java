@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14 2003/10/09 20:52:03 rdonkin Exp $
- * $Revision: 1.14 $
- * $Date: 2003/10/09 20:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.1 2004/01/13 21:49:45 rdonkin Exp $
+ * $Revision: 1.14.2.1 $
+ * $Date: 2004/01/13 21:49:45 $
  *
  * ====================================================================
  * 
@@ -61,8 +61,10 @@
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Expression;
 
 /** <p><code>ElementDescriptor</code> describes the XML elements
@@ -73,7 +75,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14 $
+  * @version $Revision: 1.14.2.1 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -307,6 +309,65 @@ public class ElementDescriptor extends NodeDescriptor {
         }
         return elementDescriptors;
     }
+    
+    /**
+      * Gets a child ElementDescriptor matching the given name if one exists.
+      *
+      * @param name the localname to be matched, not null
+      * @returns the child ElementDescriptor with the given name if one exists, 
+      * otherwise null
+      */
+    public ElementDescriptor getElementDescriptor(String name) {
+    
+        ElementDescriptor elementDescriptor = null;
+        ElementDescriptor[] elementDescriptors = getElementDescriptors();
+        for (int i=0, size=elementDescriptors.length; i<size; i++) {
+            if (name.equals(elementDescriptors[i].getQualifiedName())) {
+                elementDescriptor = elementDescriptors[i];
+                break;
+            }
+            else {
+                // workaround for wrapped collections
+                // really, should probably have silent elements (which aren't expressed)
+                if (!elementDescriptors[i].isWrapCollectionsInElement() && 
+                    elementDescriptors[i].isCollective()) {
+
+                    ElementDescriptor grandchild = elementDescriptors[i].getElementDescriptor(name);
+                    if (grandchild != null) {
+                        elementDescriptor = grandchild;
+                        break;
+                    }
+                }
+            }
+        }
+        return elementDescriptor;
+    }
+    
+    /**
+      * Gets a child ElementDescriptor matching the given path if one exists.
+      *
+      * @param pathIterator an Iterator containing String's, 
+      * each string being an element name in the path
+      * @returns the child ElementDescriptor with the given name if one exists, 
+      * otherwise null
+      */
+    public ElementDescriptor getElementDescriptor(Iterator pathIterator) {
+    
+        ElementDescriptor elementDescriptor = null;
+        if (pathIterator.hasNext()) {
+            String nextName = (String) pathIterator.next();
+            ElementDescriptor childDescriptor = getElementDescriptor(nextName);
+            if (childDescriptor != null) {
+                elementDescriptor = childDescriptor.getElementDescriptor(pathIterator);
+            }
+
+        }
+        else
+        {
+            elementDescriptor = this;
+        }
+        return elementDescriptor;
+    }
 
     /** 
      * Sets the descriptors for the child element of the element this describes. 
@@ -517,6 +578,40 @@ public class ElementDescriptor extends NodeDescriptor {
       */
     public void setImplementationClass(Class implementationClass) {
         this.implementationClass = implementationClass;
+    }
+    
+    /**
+     *@todo is this implementation correct?
+     */
+    public boolean isCollective() {
+        boolean result = false;
+        Class type = getPropertyType();
+        if (type != null) {
+            result = XMLIntrospectorHelper.isLoopType(type);
+        }
+        return result;
+    }
+
+    /** 
+     * @todo is this really a good design?
+     */
+    public ElementDescriptor findParent(ElementDescriptor elementDescriptor) {
+        ElementDescriptor result = null;
+        ElementDescriptor[] elementDescriptors = getElementDescriptors();
+        for (int i=0, size=elementDescriptors.length; i<size; i++) {
+            if (elementDescriptors[i].equals(elementDescriptor)) {
+                result = this;
+                break;
+            }
+            else
+            {
+                result = elementDescriptors[i].findParent(elementDescriptor);
+                if (result != null) {
+                    break;
+                }
+            }
+        }
+        return result;
     }
     
     /**

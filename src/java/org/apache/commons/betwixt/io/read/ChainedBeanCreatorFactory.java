@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreatorFactory.java,v 1.4 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreatorFactory.java,v 1.4.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -60,16 +60,15 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
-import org.apache.commons.logging.Log;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.logging.Log;
 
 /**  
   * Group of factory methods for <code>ChainedBeanCreator</code>'s.
   * The standard implementations used by Betwixt are present here.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public class ChainedBeanCreatorFactory {
     

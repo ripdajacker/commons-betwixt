@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.13 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.13.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13 2003/10/09 20:52:04 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.1 2004/01/13 21:49:46 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -177,6 +177,7 @@ public class ElementRule extends MappedPropertyRule {
             XMLBeanInfo beanInfo = (XMLBeanInfo) top;
             beanInfo.setElementDescriptor( descriptor );
             beanClass = beanInfo.getBeanClass();
+            descriptor.setPropertyType( beanClass );
             
         } else if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:44:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -60,14 +60,17 @@
  */ 
 package org.apache.commons.betwixt;
 
+import java.util.ArrayList;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+
 /** Test harness for the Descriptors (ElementDescriptor and so on).
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public class TestDescriptors extends AbstractTestCase {
     
@@ -136,6 +139,115 @@ public class TestDescriptors extends AbstractTestCase {
         assertTrue("Descriptor has children (5)", descriptor.hasChildren());
         assertTrue("Descriptor has content (5)", descriptor.hasContent());
         assertTrue("Descriptor has attributes (3)", descriptor.hasAttributes());       
+    }
+    
+    public void testGetElementDescriptorByName() 
+    {
+        ElementDescriptor descriptor = new ElementDescriptor("Flintstones");
+        descriptor.addElementDescriptor(new ElementDescriptor("Freddy"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Wilma"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Pebbles"));
+        
+        ElementDescriptor returned = descriptor.getElementDescriptor("Freddy");
+        assertTrue("Freddy is a Flintstone", returned != null);
+        assertEquals("Freddy is the right flintstone", "Freddy", returned.getLocalName());
+        
+        returned = descriptor.getElementDescriptor("Wilma");
+        assertTrue("Wilma is a Flintstone", returned != null);
+        assertEquals("Wilma is the right flintstone", "Wilma", returned.getLocalName());
+        
+        returned = descriptor.getElementDescriptor("Barney");
+        assertTrue("Barney is not a Flintstone", returned == null);
+    }
+    
+    public void testGetElementDescriptorIteratorNoMatch() 
+    {
+        ElementDescriptor rootDescriptor = new ElementDescriptor("root");
+        
+        ElementDescriptor levelOneDescriptor = new ElementDescriptor("level1:A");
+        rootDescriptor.addElementDescriptor(levelOneDescriptor);
+        rootDescriptor.addElementDescriptor(new ElementDescriptor("level1:B"));
+        
+        ElementDescriptor levelTwoDescriptor = new ElementDescriptor("level2:A");
+        levelOneDescriptor.addElementDescriptor(levelTwoDescriptor);
+        levelOneDescriptor.addElementDescriptor(new ElementDescriptor("level2:B"));       
+        
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:A"));
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:B"));         
+        
+        ArrayList list = new ArrayList();
+        list.add("level1:A");
+        list.add("level2:B");
+        list.add("level3:A");
+        
+        ElementDescriptor returned = rootDescriptor.getElementDescriptor(list.iterator());
+        assertEquals("No match (1)", null, returned);
+        
+        list = new ArrayList();
+        list.add("level1:A");
+        list.add("level2:C");
+        
+        returned = rootDescriptor.getElementDescriptor(list.iterator());
+        assertEquals("No match (2)", null, returned);
+        
+        list = new ArrayList();
+        list.add("level1:B");
+        list.add("level2:A");
+        list.add("level3:A");
+        
+        returned = rootDescriptor.getElementDescriptor(list.iterator());
+        assertEquals("No match (3)", null, returned);
+    }
+    
+    
+    public void testGetElementDescriptorIteratorMatchOne() 
+    {
+        ElementDescriptor rootDescriptor = new ElementDescriptor("root");
+        
+        ElementDescriptor levelOneDescriptor = new ElementDescriptor("level1:A");
+        rootDescriptor.addElementDescriptor(levelOneDescriptor);
+        rootDescriptor.addElementDescriptor(new ElementDescriptor("level1:B"));
+        
+        ElementDescriptor levelTwoDescriptor = new ElementDescriptor("level2:A");
+        levelOneDescriptor.addElementDescriptor(levelTwoDescriptor);
+        levelOneDescriptor.addElementDescriptor(new ElementDescriptor("level2:B"));       
+        
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:A"));
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:B"));         
+        
+        ArrayList list = new ArrayList();
+        list.add("level1:A");
+        
+        ElementDescriptor returned = rootDescriptor.getElementDescriptor(list.iterator());
+        assertTrue("Match found", returned != null);
+        assertEquals("Returned name", "level1:A", returned.getLocalName());
+    }
+    
+    
+    
+    public void testGetElementDescriptorIteratorMatchDeep() 
+    {
+        ElementDescriptor rootDescriptor = new ElementDescriptor("root");
+        
+        ElementDescriptor levelOneDescriptor = new ElementDescriptor("level1:A");
+        rootDescriptor.addElementDescriptor(levelOneDescriptor);
+        rootDescriptor.addElementDescriptor(new ElementDescriptor("level1:B"));
+        
+        ElementDescriptor levelTwoDescriptor = new ElementDescriptor("level2:A");
+        levelOneDescriptor.addElementDescriptor(levelTwoDescriptor);
+        levelOneDescriptor.addElementDescriptor(new ElementDescriptor("level2:B"));       
+        
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:A"));
+        levelTwoDescriptor.addElementDescriptor(new ElementDescriptor("level3:B"));         
+        
+        ArrayList list = new ArrayList();
+        list.add("level1:A");
+        list.add("level2:A");
+        list.add("level3:B");
+        
+        ElementDescriptor returned = rootDescriptor.getElementDescriptor(list.iterator());
+        assertTrue("Match found", returned != null);
+        assertEquals("Returned name", "level3:B", returned.getLocalName());
     }
 }
 

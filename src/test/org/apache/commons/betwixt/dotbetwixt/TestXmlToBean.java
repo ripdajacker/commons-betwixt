@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.7 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.7 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.7.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.7.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -94,7 +94,7 @@ public class TestXmlToBean extends XmlTestCase {
 
 //---------------------------------- Tests
     
-    public void testCustomUpdaters() throws Exception {
+    public void _testCustomUpdaters() throws Exception {
         // might as well check writer whilst we're at it
         MixedUpdatersBean bean = new MixedUpdatersBean("Lov");
         bean.badNameSetter("Hate");
@@ -185,7 +185,7 @@ public class TestXmlToBean extends XmlTestCase {
     
     
     /** Tests basic use of an implementation for an interface */
-    public void testBasicInterfaceImpl() throws Exception {
+    public void _testBasicInterfaceImpl() throws Exception {
         //SimpleLog log = new SimpleLog("[testBasicInterfaceImpl:BeanRuleSet]");
         //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         //BeanRuleSet.setLog(log);

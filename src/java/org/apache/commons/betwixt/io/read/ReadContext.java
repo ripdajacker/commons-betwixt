@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -57,132 +57,463 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
+import java.beans.IntrospectionException;
 import java.util.HashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.collections.ArrayStack;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**  
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public class ReadContext extends Context {
 
-    /** Beans indexed by ID strings */
-    private HashMap beansById = new HashMap();
-    /** Classloader to be used to load beans during reading */
-    private ClassLoader classLoader;
-    /** The read specific configuration */
-    private ReadConfiguration readConfiguration;
-    
-    /** 
-      * Constructs a <code>ReadContext</code> with the same settings 
-      * as an existing <code>Context</code>.
-      * @param context not null
-      * @param readConfiguration not null
-      */
-    public ReadContext( Context context, ReadConfiguration readConfiguration ) {
-        super( context );
-        this.readConfiguration = readConfiguration;
-    }
-    
-    /**
-      * Constructs a <code>ReadContext</code> with standard log.
-      * @param bindingConfiguration the dynamic configuration, not null
-      * @param readConfiguration the extra read configuration not null
-      */
-    public ReadContext( 
-                    BindingConfiguration bindingConfiguration, 
-                    ReadConfiguration readConfiguration ) {
-        this( 
-                LogFactory.getLog( ReadContext.class ), 
-                bindingConfiguration,  
-                readConfiguration);
-    }
-    
-    /** 
-      * Base constructor
-      * @param log log to this Log
-      * @param bindingConfiguration the dynamic configuration, not null
-      * @param readConfiguration the extra read configuration not null
-      */
-    public ReadContext(
-                        Log log, 
-                        BindingConfiguration bindingConfiguration, 
-                        ReadConfiguration readConfiguration  ) {
-        super( null, log , bindingConfiguration );
-        this.readConfiguration = readConfiguration;
-    }
-    
-    /** 
-      * Constructs a <code>ReadContext</code> 
-      * with the same settings as an existing <code>Context</code>.
-      * @param readContext not null
-      */
-    public ReadContext( ReadContext readContext ) {
-        super( readContext );
-        beansById = readContext.beansById;
-        classLoader = readContext.classLoader;
-        readConfiguration = readContext.readConfiguration;
-    }
-    
-    /**
-     * Puts a bean into storage indexed by an (xml) ID.
-     *
-     * @param id the ID string of the xml element associated with the bean
-     * @param bean the Object to store, not null
-     */
-    public void putBean( String id, Object bean ) {
-        beansById.put( id, bean );
-    }
-    
-    /**
-     * Gets a bean from storage by an (xml) ID.
-     *
-     * @param id the ID string of the xml element associated with the bean
-     * @return the Object that the ID references, otherwise null
-     */
-    public Object getBean( String id ) {
-        return beansById.get( id );
-    }
-    
-    /** 
-     * Clears the beans indexed by id.
-     */
-    public void clearBeans() {
-        beansById.clear();
-    }
-    
-    /**
-      * Gets the classloader to be used.
-      * @return the classloader that should be used to load all classes, possibly null
-      */
-    public ClassLoader getClassLoader() {
-        return classLoader;
-    }
-    
-    /**
-      * Sets the classloader to be used.
-      * @param classLoader the ClassLoader to be used, possibly null
-      */
-    public void setClassLoader( ClassLoader classLoader ) {
-        this.classLoader = classLoader;
-    }
-    
-    /** 
-      * Gets the <code>BeanCreationChange</code> to be used to create beans 
-      * when an element is mapped.
-      * @return the BeanCreationChain not null
-      */
-    public BeanCreationChain getBeanCreationChain() {
-        return readConfiguration.getBeanCreationChain();
-    }
+	/** Beans indexed by ID strings */
+	private HashMap beansById = new HashMap();
+	/** Classloader to be used to load beans during reading */
+	private ClassLoader classLoader;
+	/** The read specific configuration */
+	private ReadConfiguration readConfiguration;
+	/** Records the element path together with the locations where classes were mapped*/
+	private ArrayStack elementMappingStack = new ArrayStack();
+	/** Contains actions for each element */
+	private ArrayStack actionMappingStack = new ArrayStack();
+	/** Stack contains all beans created */
+	private ArrayStack objectStack = new ArrayStack();
+
+	private Class rootClass;
+
+	private XMLIntrospector xmlIntrospector;
+
+	/** 
+	  * Constructs a <code>ReadContext</code> with the same settings 
+	  * as an existing <code>Context</code>.
+	  * @param context not null
+	  * @param readConfiguration not null
+	  */
+	public ReadContext(Context context, ReadConfiguration readConfiguration) {
+		super(context);
+		this.readConfiguration = readConfiguration;
+	}
+
+	/**
+	  * Constructs a <code>ReadContext</code> with standard log.
+	  * @param bindingConfiguration the dynamic configuration, not null
+	  * @param readConfiguration the extra read configuration not null
+	  */
+	public ReadContext(
+		BindingConfiguration bindingConfiguration,
+		ReadConfiguration readConfiguration) {
+		this(
+			LogFactory.getLog(ReadContext.class),
+			bindingConfiguration,
+			readConfiguration);
+	}
+
+	/** 
+	  * Base constructor
+	  * @param log log to this Log
+	  * @param bindingConfiguration the dynamic configuration, not null
+	  * @param readConfiguration the extra read configuration not null
+	  */
+	public ReadContext(
+		Log log,
+		BindingConfiguration bindingConfiguration,
+		ReadConfiguration readConfiguration) {
+		super(null, log, bindingConfiguration);
+		this.readConfiguration = readConfiguration;
+	}
+
+	/** 
+	  * Constructs a <code>ReadContext</code> 
+	  * with the same settings as an existing <code>Context</code>.
+	  * @param readContext not null
+	  */
+	public ReadContext(ReadContext readContext) {
+		super(readContext);
+		beansById = readContext.beansById;
+		classLoader = readContext.classLoader;
+		readConfiguration = readContext.readConfiguration;
+	}
+
+	/**
+	 * Puts a bean into storage indexed by an (xml) ID.
+	 *
+	 * @param id the ID string of the xml element associated with the bean
+	 * @param bean the Object to store, not null
+	 */
+	public void putBean(String id, Object bean) {
+		beansById.put(id, bean);
+	}
+
+	/**
+	 * Gets a bean from storage by an (xml) ID.
+	 *
+	 * @param id the ID string of the xml element associated with the bean
+	 * @return the Object that the ID references, otherwise null
+	 */
+	public Object getBean(String id) {
+		return beansById.get(id);
+	}
+
+	/** 
+	 * Clears the beans indexed by id.
+	 */
+	public void clearBeans() {
+		beansById.clear();
+	}
+
+	/**
+	  * Gets the classloader to be used.
+	  * @return the classloader that should be used to load all classes, possibly null
+	  */
+	public ClassLoader getClassLoader() {
+		return classLoader;
+	}
+
+	/**
+	  * Sets the classloader to be used.
+	  * @param classLoader the ClassLoader to be used, possibly null
+	  */
+	public void setClassLoader(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+
+	/** 
+	  * Gets the <code>BeanCreationChange</code> to be used to create beans 
+	  * when an element is mapped.
+	  * @return the BeanCreationChain not null
+	  */
+	public BeanCreationChain getBeanCreationChain() {
+		return readConfiguration.getBeanCreationChain();
+	}
+
+	/**
+	  * Pops the top element from the element mapping stack.
+	  * Also removes any mapped class marks below the top element.
+	  *
+	  * @return the name of the element popped 
+	  * if there are any more elements on the stack, otherwise null.
+	  * This is the local name if the parser is namespace aware, otherwise the name
+	  */
+	public String popElement() {
+
+		Object top = null;
+		if (!elementMappingStack.isEmpty()) {
+			top = elementMappingStack.pop();
+			if (top != null) {
+				if (!(top instanceof String)) {
+					return popElement();
+				}
+			}
+		}
+
+		return (String) top;
+	}
+
+	public String getCurrentElement() {
+		return (String) elementMappingStack.peek();
+	}
+
+	/**
+	  * Gets an iterator for the current relative path.
+	  * This is not guarenteed to behave safely if the underlying array
+	  * is modified during an interation.
+	  * The current relative path is the sequence of element names
+	  * starting with the element after the last mapped class marked.
+	  *
+	  * @return an Iterator over String's
+	  */
+	public Iterator getRelativeElementPathIterator() {
+		return new RelativePathIterator();
+	}
+
+	public ElementDescriptor getRelativePathElementDescriptor()
+		throws IntrospectionException {
+		ElementDescriptor result = null;
+		XMLBeanInfo lastMappedClazzInfo = getLastMappedClassXMLBeanInfo();
+		if (lastMappedClazzInfo != null) {
+			result =
+				lastMappedClazzInfo
+					.getElementDescriptor()
+					.getElementDescriptor(
+					getRelativeElementPathIterator());
+		}
+		return result;
+	}
+
+	/**
+	  * Gets an iterator for the current relative path.
+	  * This is not guarenteed to behave safely if the underlying array
+	  * is modified during an interation.
+	  * The current relative path is the sequence of element names
+	  * starting with the element after the last mapped class marked.
+	  *
+	  * @return an Iterator over String's
+	  */
+	public Iterator getParentElementPathIterator() {
+		Object top = elementMappingStack.peek();
+		if (top instanceof Class) {
+			return new RelativePathIterator(1);
+		}
+		return new RelativePathIterator();
+	}
+
+	public ElementDescriptor getParentPathElementDescriptor()
+		throws IntrospectionException {
+		ElementDescriptor result = null;
+		XMLBeanInfo lastMappedClazzInfo = getLastMappedClassXMLBeanInfo();
+		if (lastMappedClazzInfo != null) {
+			result =
+				lastMappedClazzInfo
+					.getElementDescriptor()
+					.getElementDescriptor(
+					getParentElementPathIterator());
+		}
+		return result;
+	}
+
+	/**
+	  * Gets the Class that was last mapped, if there is one.
+	  * 
+	  * @return the Class last marked as mapped or null if no class has been mapped
+	  */
+	public Class getLastMappedClass() {
+		return getLastMappedClass(0);
+	}
+
+	public Class getLastMappedClass(int offset) {
+		Class lastMapped = null;
+		for (int i = offset, size = elementMappingStack.size();
+			i < size;
+			i++) {
+			Object entry = elementMappingStack.peek(i);
+			if (entry instanceof Class) {
+				lastMapped = (Class) entry;
+				break;
+			}
+		}
+		return lastMapped;
+	}
+
+	public XMLBeanInfo getLastMappedClassXMLBeanInfo()
+		throws IntrospectionException {
+		XMLBeanInfo lastMappedXMLBeanInfo = null;
+		Class lastMappedClass = getLastMappedClass();
+		if (lastMappedClass != null) {
+			lastMappedXMLBeanInfo =
+				getXMLIntrospector().introspect(lastMappedClass);
+		}
+		return lastMappedXMLBeanInfo;
+	}
+
+	public Iterator getRelativeElementPathIterator(int offset) {
+		return new RelativePathIterator(1);
+	}
+
+	/** 
+	  * Pushes the given element onto the element mapping stack.
+	  *
+	  * @param elementName the local name if the parser is namespace aware,
+	  * otherwise the full element name. Not null
+	  */
+	public void pushElement(String elementName) {
+
+		elementMappingStack.push(elementName);
+		// special case to ensure that root class is appropriately marked
+		//TODO: is this really necessary?
+		if (elementMappingStack.size() == 1 && rootClass != null) {
+			markClassMap(rootClass);
+		}
+	}
+
+	public boolean isAtRootElement() {
+		return (elementMappingStack.size() == 1);
+	}
+
+
+	/**
+	  * Marks the element name stack with a class mapping.
+	  * Relative paths and last mapped class are calculated using these marks.
+	  * 
+	  * @param mappedClazz the Class which has been mapped at the current path, not null
+	  */
+	public void markClassMap(Class mappedClazz) {
+		elementMappingStack.push(mappedClazz);
+	}
+
+	/** Used to return relative path */
+	private class RelativePathIterator implements Iterator {
+
+		/** The stack position that this iterator is at */
+		private int at;
+		private int offset;
+
+		public RelativePathIterator() {
+			this(0);
+		}
+
+		public RelativePathIterator(int offset) {
+			this.offset = offset;
+			at = elementMappingStack.size() - 1;
+			for (int i = offset, size = elementMappingStack.size();
+				i < size;
+				i++) {
+				Object entry = elementMappingStack.peek(i);
+				if (entry instanceof Class) {
+					at = i - 1;
+					break;
+				}
+			}
+		}
+
+		public boolean hasNext() {
+			return (at >= offset);
+		}
+
+		public Object next() {
+			if (hasNext()) {
+				return elementMappingStack.peek(at--);
+			} else {
+				throw new NoSuchElementException();
+			}
+		}
+
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+	};
+
+	/**
+	 * Pops an action mapping from the stack
+	 * @return
+	 */
+	public MappingAction popMappingAction() {
+		return (MappingAction) actionMappingStack.pop();
+	}
+
+	/**
+	 * Pushs an action mapping onto the stack
+	 * @param mappingAction
+	 */
+	public void pushMappingAction(MappingAction mappingAction) {
+		actionMappingStack.push(mappingAction);
+	}
+
+	/**
+	 * Gets the current mapping action
+	 * @return MappingAction 
+	 */
+	public MappingAction currentMappingAction() {
+		if (actionMappingStack.size() == 0)
+		{
+			return null;	
+		}
+		return (MappingAction) actionMappingStack.peek();
+	}
+
+	public Object getBean() {
+		return objectStack.peek();
+	}
+
+	public void setBean(Object bean) {
+		// TODO: maybe need to deprecate the set bean method
+		// and push into subclass
+		// for now, do nothing		
+	}
+
+	public Object popBean() {
+		return objectStack.pop();
+	}
+
+	public void pushBean(Object bean) {
+		objectStack.push(bean);
+	}
+
+	public XMLIntrospector getXMLIntrospector() {
+		return xmlIntrospector;
+	}
+
+	public void setXMLIntrospector(XMLIntrospector xmlIntrospector) {
+		this.xmlIntrospector = xmlIntrospector;
+	}
+
+	public Class getRootClass() {
+		return rootClass;
+	}
+
+	public void setRootClass(Class rootClass) {
+		this.rootClass = rootClass;
+	}
+
+	public ElementDescriptor getCurrentDescriptor() throws Exception {
+		ElementDescriptor result = null;
+		Iterator relativePathIterator = getRelativeElementPathIterator();
+		if (relativePathIterator.hasNext()) {
+			Class lastMappedClazz = getLastMappedClass();
+			if (lastMappedClazz != null) {
+				XMLBeanInfo lastMappedClazzInfo =
+					getXMLIntrospector().introspect(lastMappedClazz);
+				ElementDescriptor baseDescriptor =
+					lastMappedClazzInfo.getElementDescriptor();
+				result =
+					baseDescriptor.getElementDescriptor(relativePathIterator);
+			}
+		} else {
+			// this means that we're updating the root
+			Class lastMappedClazz = getLastMappedClass();
+			if (lastMappedClazz != null) {
+				XMLBeanInfo lastMappedClazzInfo =
+					getXMLIntrospector().introspect(lastMappedClazz);
+				ElementDescriptor baseDescriptor =
+					lastMappedClazzInfo.getElementDescriptor();
+				result =
+					baseDescriptor.getElementDescriptor(relativePathIterator);
+			}
+		}
+		return result;
+	}
+
+	public ElementDescriptor getActiveDescriptor() throws Exception {
+
+		ElementDescriptor computedDescriptor =
+			getRelativePathElementDescriptor();
+		if (computedDescriptor == null) {
+			computedDescriptor = getParentPathElementDescriptor();
+		}
+		ElementDescriptor parentDescriptor = null;
+		if (computedDescriptor != null
+			&& computedDescriptor.getPropertyType() == null) {
+			XMLBeanInfo childXMLBeanInfo = getLastMappedClassXMLBeanInfo();
+			if (childXMLBeanInfo == null) {
+				getLog().trace("No XMLBeanInfo");
+
+			} else {
+
+				parentDescriptor =
+					childXMLBeanInfo.getElementDescriptor().findParent(
+						computedDescriptor);
+			}
+		}
+
+		if (computedDescriptor == null
+			|| computedDescriptor.getSingularPropertyType() == null) {
+			computedDescriptor = parentDescriptor;
+		}
+		return computedDescriptor;
+	}
 }

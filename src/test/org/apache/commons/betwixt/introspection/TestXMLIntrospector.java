@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.10 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.10.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -80,12 +80,13 @@ import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.NoCacheRegistry;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.ListedClassNormalizer;
+import org.apache.commons.digester.rss.Channel;
 
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.10.2.1 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -323,5 +324,19 @@ public class TestXMLIntrospector extends AbstractTestCase {
                             parseString(xml), 
                             true);
     }	
+    
+    public void testBetwixtFileType() throws Exception {
+    	XMLIntrospector introspector = new XMLIntrospector();
+    	XMLBeanInfo info = introspector.introspect( Channel.class );
+    	
+    	ElementDescriptor elementDescriptor = info.getElementDescriptor();
+    	
+		Class clazz = elementDescriptor.getSingularPropertyType();
+		assertEquals( "Element type correct", Channel.class , clazz);
+		
+		assertEquals( "Element name correct", "rss", elementDescriptor.getLocalName());
+    }
+    
+
 }
 

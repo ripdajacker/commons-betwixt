@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ListedClassNormalizer.java,v 1.3 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ListedClassNormalizer.java,v 1.3.2.1 2004/01/13 21:49:46 rdonkin Exp $
+ * $Revision: 1.3.2.1 $
+ * $Date: 2004/01/13 21:49:46 $
  *
  * ====================================================================
  * 
@@ -60,8 +60,8 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /** 
  * <p>ClassNormalizer that uses a list of substitutions.</p>
@@ -73,7 +73,7 @@ import java.util.ArrayList;
  * If a match is found then the first substituted class is returned as the normalization.
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.3.2.1 $
  */
 public class ListedClassNormalizer extends ClassNormalizer {
 
