@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.6 2002/10/14 01:55:38 dion Exp $
- * $Revision: 1.6 $
- * $Date: 2002/10/14 01:55:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.7 2002/12/15 19:03:34 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2002/12/15 19:03:34 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.6 2002/10/14 01:55:38 dion Exp $
+ * $Id: AbstractBeanWriter.java,v 1.7 2002/12/15 19:03:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,6 +72,8 @@ import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.collections.ArrayStack;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -93,7 +95,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -104,6 +106,8 @@ abstract public class AbstractBeanWriter {
     private Log log = LogFactory.getLog( AbstractBeanWriter.class );
     /** Map containing ID attribute values for beans */
     protected HashMap idMap = new HashMap();
+    /** Stack containing beans - used to detect cycles */
+    private ArrayStack beanStack = new ArrayStack();
     /** Used to generate ID attribute values*/
     protected IDGenerator idGenerator = new SequentialIDGenerator();
     /** Should generated <code>ID</code> attribute values be added to the elements? */
@@ -205,8 +209,10 @@ abstract public class AbstractBeanWriter {
                         context );
                 } 
                 else {
-                
-                    ref = (String) idMap.get( context.getBean() );
+                    pushBean ( context.getBean() );
+                    if ( writeIDs ) {
+                        ref = (String) idMap.get( context.getBean() );
+                    }
                     if ( ref == null ) {
                         // this is the first time that this bean has be written
                         AttributeDescriptor idAttribute = beanInfo.getIDAttribute();
@@ -256,11 +262,6 @@ abstract public class AbstractBeanWriter {
                         }
                     } 
                     else {
-                        // we have a cyclic reference
-                        if ( !writeIDs ) {
-                            // if we're not writing IDs, then throw exception
-                            throw new CyclicReferenceException();
-                        }
                         
                         // we've already written this bean so write an IDREF
                         writeIDREFElement( 
@@ -268,6 +269,7 @@ abstract public class AbstractBeanWriter {
                                         beanInfo.getIDREFAttributeName(), 
                                         ref);
                     }
+                    popBean();
                 }
             }
         }
@@ -332,20 +334,18 @@ abstract public class AbstractBeanWriter {
     }
 
     /**
-     * <p> Get the current level for logging. </p>
-     *
-     * @return a <code>org.apache.commons.logging.Log</code> level constant
+     * <p> Get the current logging implementation. </p>
      */ 
-    public Log getLog() {
+    public final Log getAbstractBeanWriterLog() {
         return log;
     }
 
     /**
-     * <p> Set the current logging level. </p>
+     * <p> Set the current logging implementation. </p>
      *
-     * @param level a <code>org.apache.commons.logging.Log</code> level constant
+     * @param log <code>Log</code> implementation to use
      */ 
-    public void setLog(Log log) {
+    public final void setAbstractBeanWriterLog(Log log) {
         this.log = log;
     }
     
@@ -596,4 +596,39 @@ abstract public class AbstractBeanWriter {
 
     protected void writePrintln() throws IOException {}
     protected void writeIndent() throws IOException {}
+    
+    protected void pushBean( Object bean ) throws CyclicReferenceException {
+        // check that we don't have a cyclic reference when we're not writing IDs
+        if ( !writeIDs ) {
+            Iterator it = beanStack.iterator();
+            while ( it.hasNext() ) {
+                Object next = it.next();
+                // use absolute equality rather than equals
+                // we're only really bothered if objects are actually the same
+                if ( bean == next ) {
+                    if ( log.isDebugEnabled() ) {
+                        log.debug("Element stack: ");
+                        Iterator debugStack = beanStack.iterator();
+                        while ( debugStack.hasNext() ) {
+                            log.debug(debugStack.next());
+                        }
+                    }
+                    log.error("Cyclic reference at bean: " + bean);
+                    throw new CyclicReferenceException();
+                }
+            }
+        }
+        if (log.isTraceEnabled()) {
+            log.trace( "Pushing onto object stack: " + bean );
+        }
+        beanStack.push( bean );
+    }
+    
+    protected Object popBean() {
+        Object bean = beanStack.pop();
+        if (log.isTraceEnabled()) {
+            log.trace( "Popped from object stack: " + bean );
+        }
+        return bean;
+    }
 }

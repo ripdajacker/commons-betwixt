@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.3 2002/11/30 17:16:37 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/11/30 17:16:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.4 2002/12/15 19:03:34 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/12/15 19:03:34 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.3 2002/11/30 17:16:37 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.4 2002/12/15 19:03:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -107,10 +107,10 @@ public class TestBeanToXml extends XmlTestCase {
     public void testSimpleBean() throws Exception {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
-        SimpleLog log = new SimpleLog("LOG");
-        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        SimpleLog log = new SimpleLog("LOG");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         BeanWriter writer = new BeanWriter(out);
-        writer.getXMLIntrospector().setLog(log);
+//        writer.getXMLIntrospector().setLog(log);
     
         writer.setWriteIDs(false);
 	SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.9 2002/08/01 03:58:01 jstrachan Exp $
- * $Revision: 1.9 $
- * $Date: 2002/08/01 03:58:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.10 2002/12/15 19:03:34 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2002/12/15 19:03:34 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.9 2002/08/01 03:58:01 jstrachan Exp $
+ * $Id: BeanWriter.java,v 1.10 2002/12/15 19:03:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -128,7 +128,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -260,7 +260,7 @@ public class BeanWriter extends AbstractBeanWriter {
     }
 
     /**
-     * <p> Get the current level for logging. </p>
+     * <p> Set the log implementation used. </p>
      *
      * @return a <code>org.apache.commons.logging.Log</code> level constant
      */ 
@@ -269,11 +269,11 @@ public class BeanWriter extends AbstractBeanWriter {
     }
 
     /**
-     * <p> Set the current logging level. </p>
+     * <p> Set the log implementation used. </p>
      *
-     * @param level a <code>org.apache.commons.logging.Log</code> level constant
+     * @param log <code>Log</code> implementation to use
      */ 
-    public void setLog(Log log) {
+    public void setLog( Log log ) {
         this.log = log;
     }
     

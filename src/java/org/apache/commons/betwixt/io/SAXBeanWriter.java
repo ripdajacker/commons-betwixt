@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2002/11/08 22:09:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/12/15 19:03:34 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $
+ * $Id: SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -107,18 +107,16 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     }
 
     /**
-     * <p> Get the current level for logging. </p>
-     *
-     * @return a <code>org.apache.commons.logging.Log</code> level constant
+     * <p> Set the log implementation used. </p>
      */ 
     public Log getLog() {
         return log;
     }
 
     /**
-     * <p> Set the current logging level. </p>
+     * <p> Set the log implementation used. </p>
      *
-     * @param level a <code>org.apache.commons.logging.Log</code> level constant
+     * @param log <code>Log</code> implementation to use
      */ 
     public void setLog(Log log) {
         this.log = log;

@@ -110,8 +110,20 @@ public class TestBeanWriter extends AbstractTestCase {
     
     
     public void testLooping() throws Exception {
-        
         BeanWriter writer = new BeanWriter();
+        
+        // logging for debugging jsut this method 
+//        SimpleLog log = new SimpleLog("[testLooping:BeanWriter]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        writer.setLog(log);
+        
+//        log = new SimpleLog("[testLooping:AbstractBeanWriter]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        writer.setAbstractBeanWriterLog(log);
+        
+//        log = new SimpleLog("[testLooping]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
         writer.enablePrettyPrint();
         writer.write( LoopBean.createNoLoopExampleBean() );    
         writer.write( LoopBean.createLoopExampleBean() );   
@@ -119,11 +131,16 @@ public class TestBeanWriter extends AbstractTestCase {
         // test not writing IDs
         writer.setWriteIDs(false);
         
+//        log.info("Writing LoopBean.createNoLoopExampleBean...");
+        
         writer.write( LoopBean.createNoLoopExampleBean() );
+        
+//        log.info("Writing LoopBean.createIdOnlyLoopExampleBean...");
         
         writer.write( LoopBean.createIdOnlyLoopExampleBean() );
         
         try {   
+//            log.info("Writing LoopBean.createLoopExampleBean...");
             writer.write( LoopBean.createLoopExampleBean() );   
             fail("CyclicReferenceException not thrown!");
             

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/Element.java,v 1.1 2002/07/30 22:47:41 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2002/07/30 22:47:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/15 19:03:34 $
  *
  * ====================================================================
  *
@@ -57,17 +57,18 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Element.java,v 1.1 2002/07/30 22:47:41 mvdb Exp $
+ * $Id: Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * This is just a simple element bean..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Element.java,v 1.1 2002/07/30 22:47:41 mvdb Exp $
+ * @version $Id: Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
  */
 public class Element
 {
@@ -82,6 +83,13 @@ public class Element
     {
         elements = new ArrayList();
     }
+    
+    public Element(String name) 
+    {
+        this();
+        setName(name);
+    }
+    
     public void addElement(Element element)
     {
         elements.add(element);
@@ -104,7 +112,19 @@ public class Element
     
     public String toString()
     {
-       return getName()+"==>list : "+getElements();
+        StringBuffer buffer = new StringBuffer(getName() + "==>list: ");
+        Iterator it = getElements().iterator();
+        boolean first=true;
+        while (it.hasNext()) {
+            Element element = (Element) it.next();
+            if (first) {
+                first = false;
+            } else {
+                buffer.append(",");
+            }
+            buffer.append(element.getName());
+        }	
+        return buffer.toString();
     }
         
 
