@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>Derived Beans</title>
+  <author email="rdonkin at apache dot org">Robert Burrell Donkin</author>
+ </properties>
+
+<body>
+<section name='Derived Beans'>
+        <subsection name='What Is A Derived Bean?'>
+            <p>
+A derived bean has the implementating class specified as an xml attribute.
+Instances will be created of this type (rather than the mapped property type).
+                </p>
+    </subsection>
+        <subsection name='Reading Derived Bean'>
+            <p>
+If the <code>classname</code> attribute is present then a class matching this will be created
+                </p>
+    </subsection>        
+</section>
+</body>
+</document>
