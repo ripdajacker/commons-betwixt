@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4.2.3 2004/04/19 21:31:13 rdonkin Exp $
- * $Revision: 1.4.2.3 $
- * $Date: 2004/04/19 21:31:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4.2.4 2004/04/27 20:00:04 rdonkin Exp $
+ * $Revision: 1.4.2.4 $
+ * $Date: 2004/04/27 20:00:04 $
  *
  * ====================================================================
  * 
@@ -68,7 +68,7 @@ import junit.textui.TestRunner;
 /** Test harness for the Descriptors (ElementDescriptor and so on).
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.3 $
+  * @version $Revision: 1.4.2.4 $
   */
 public class TestDescriptors extends AbstractTestCase {
     
@@ -156,6 +156,19 @@ public class TestDescriptors extends AbstractTestCase {
         
         returned = descriptor.getElementDescriptor("Barney");
         assertTrue("Barney is not a Flintstone", returned == null);
+    }
+    
+    public void testGetElementDescriptorByNameNullMatch() 
+    {
+        ElementDescriptor descriptor = new ElementDescriptor("Flintstones");
+        descriptor.addElementDescriptor(new ElementDescriptor("Freddy"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Wilma"));
+        descriptor.addElementDescriptor(new ElementDescriptor("Pebbles"));
+        descriptor.addElementDescriptor(new ElementDescriptor());
+        
+        ElementDescriptor returned = descriptor.getElementDescriptor("NotFreddy");
+        assertTrue("NotFreddy matched", returned != null);
+        assertEquals("NotFreddy match by null descriptor", null, returned.getLocalName());
     }
 }
 

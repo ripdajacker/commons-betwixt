@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ActionMappingStrategy.java,v 1.1.2.2 2004/04/18 17:34:38 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/04/18 17:34:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ActionMappingStrategy.java,v 1.1.2.3 2004/04/27 20:00:15 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/04/27 20:00:15 $
  *
  * ====================================================================
  * 
@@ -61,11 +61,8 @@
 
 package org.apache.commons.betwixt.strategy;
 
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.io.read.BeanBindAction;
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadContext;
-import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.xml.sax.Attributes;
 
 /**
@@ -80,11 +77,17 @@ import org.xml.sax.Attributes;
  * customize the mapping. 
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
-public class ActionMappingStrategy {
+public abstract class ActionMappingStrategy {
     
-
+    /**
+     * Default <code>ActionMappingStrategy</code>
+     * used by betwixt
+     */
+    public static final ActionMappingStrategy DEFAULT 
+                        = new DefaultActionMappingStrategy();
+    
     /**
      * Gets the mapping action to map the given element.
      * @param namespace not null
@@ -94,25 +97,10 @@ public class ActionMappingStrategy {
      * @return <code>MappingAction</code>, not null
      * @throws Exception
      */
-    public MappingAction getMappingAction(    
+    public abstract MappingAction getMappingAction(    
                             String namespace,
                             String name,
                             Attributes attributes,
                             ReadContext context)
-        throws Exception {
-        MappingAction result = MappingAction.EMPTY;
-            
-        ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
-        if (activeDescriptor != null) {
-            if (activeDescriptor.isHollow())
-            {
-                result = BeanBindAction.INSTANCE;
-            }
-            else if (activeDescriptor.isSimple())
-            {
-                result = SimpleTypeBindAction.INSTANCE;
-            }
-        }
-        return result;
-    }
+        throws Exception;
 }

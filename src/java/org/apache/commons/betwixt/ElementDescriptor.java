@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.6 2004/04/19 21:31:13 rdonkin Exp $
- * $Revision: 1.14.2.6 $
- * $Date: 2004/04/19 21:31:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.7 2004/04/27 20:01:33 rdonkin Exp $
+ * $Revision: 1.14.2.7 $
+ * $Date: 2004/04/27 20:01:33 $
  *
  * ====================================================================
  * 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14.2.6 $
+  * @version $Revision: 1.14.2.7 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -335,6 +335,11 @@ public class ElementDescriptor extends NodeDescriptor {
     
     /**
       * Gets a child ElementDescriptor matching the given name if one exists.
+      * Note that (so long as there are no better matches), a null name
+      * acts as a wildcard. In other words, an 
+      * <code>ElementDescriptor</code> the first descriptor 
+      * with a null name will match any name
+      * passed in, unless some other matches the name exactly.
       *
       * @param name the localname to be matched, not null
       * @returns the child ElementDescriptor with the given name if one exists, 
@@ -343,25 +348,20 @@ public class ElementDescriptor extends NodeDescriptor {
     public ElementDescriptor getElementDescriptor(String name) {
     
         ElementDescriptor elementDescriptor = null;
+        ElementDescriptor descriptorWithNullName = null;
         ElementDescriptor[] elementDescriptors = getElementDescriptors();
         for (int i=0, size=elementDescriptors.length; i<size; i++) {
-            if (name.equals(elementDescriptors[i].getQualifiedName())) {
+            String elementName = elementDescriptors[i].getQualifiedName();
+            if (name.equals(elementName)) {
                 elementDescriptor = elementDescriptors[i];
                 break;
             }
-            else {
-                // workaround for wrapped collections
-                // really, should probably have silent elements (which aren't expressed)
-                if (!elementDescriptors[i].isWrapCollectionsInElement() && 
-                    elementDescriptors[i].isCollective()) {
-
-                    ElementDescriptor grandchild = elementDescriptors[i].getElementDescriptor(name);
-                    if (grandchild != null) {
-                        elementDescriptor = grandchild;
-                        break;
-                    }
-                }
+            if (descriptorWithNullName == null && elementName == null) {
+                descriptorWithNullName = elementDescriptors[i];
             }
+        }
+        if (elementDescriptor == null) {
+            elementDescriptor = descriptorWithNullName;
         }
         return elementDescriptor;
     }

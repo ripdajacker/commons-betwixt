@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadConfiguration.java,v 1.3.2.2 2004/03/13 18:36:33 rdonkin Exp $
- * $Revision: 1.3.2.2 $
- * $Date: 2004/03/13 18:36:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadConfiguration.java,v 1.3.2.3 2004/04/27 20:00:28 rdonkin Exp $
+ * $Revision: 1.3.2.3 $
+ * $Date: 2004/04/27 20:00:28 $
  *
  * ====================================================================
  * 
@@ -66,14 +66,14 @@ import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
   * Stores mapping phase configuration settings that apply only for bean reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3.2.2 $
+  * @version $Revision: 1.3.2.3 $
   */
 public class ReadConfiguration {
     
     /** Chain used to create beans defaults to BeanCreationChain.createDefaultChain() */
     private BeanCreationChain beanCreationChain = BeanCreationChain.createDefaultChain();
-    
-    private ActionMappingStrategy actionMappingStrategy = new ActionMappingStrategy();
+    /** Pluggable strategy used to determine free mappings */
+    private ActionMappingStrategy actionMappingStrategy = ActionMappingStrategy.DEFAULT;
     
     /**
       * Gets the BeanCreationChain that should be used to construct beans.

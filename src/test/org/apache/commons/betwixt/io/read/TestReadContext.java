@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/04/19 21:31:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.5 2004/04/27 19:59:48 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/04/27 19:59:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
+ * $Id: TestReadContext.java,v 1.1.2.5 2004/04/27 19:59:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -66,12 +66,13 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.LibraryBeanWithArraySetter;
 
 /** 
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
+ * @version $Id: TestReadContext.java,v 1.1.2.5 2004/04/27 19:59:48 rdonkin Exp $
  */
 public class TestReadContext extends AbstractTestCase {
 
@@ -178,6 +179,21 @@ public class TestReadContext extends AbstractTestCase {
         context.markClassMap(Integer.class);
         assertEquals("Top class", Integer.class, context.getLastMappedClass());
     }
+    
+    
+    public void testNullElementNameMatchesAll() throws Exception {
+        
+        ReadContext context = new ReadContext(
+                    new BindingConfiguration(), 
+                    new ReadConfiguration()); 
+                    
+        context.pushElement("LibraryBeanWithArraySetter");   
+        context.markClassMap(LibraryBeanWithArraySetter.class); 
+        context.pushElement("books");
+        context.pushElement("whatever");
+        assertNotNull("Null name should match any new element", context.getCurrentDescriptor());
+    }
+    
     
 /* Sad to say that the method tested has had to be made private.
  * Maybe would be good to find a way to test the

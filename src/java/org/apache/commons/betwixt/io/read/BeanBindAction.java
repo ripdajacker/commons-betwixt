@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.11 2004/04/18 19:47:22 rdonkin Exp $
- * $Revision: 1.1.2.11 $
- * $Date: 2004/04/18 19:47:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.12 2004/04/27 20:00:54 rdonkin Exp $
+ * $Revision: 1.1.2.12 $
+ * $Date: 2004/04/27 20:00:54 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.11 2004/04/18 19:47:22 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.12 2004/04/27 20:00:54 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.11 $
+ * @version $Revision: 1.1.2.12 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -236,6 +236,9 @@ public class BeanBindAction extends MappingAction.Base {
         // Maybe should move the current mapping into the context
         ElementMapping mapping = new ElementMapping();
         Class beanClass = descriptor.getSingularPropertyType();
+        if (beanClass != null && beanClass.isArray()) {
+            beanClass = beanClass.getComponentType();
+        }
 
         // TODO: beanClass can be deduced from descriptor
         // so probably 
@@ -267,6 +270,9 @@ public class BeanBindAction extends MappingAction.Base {
         Log log = context.getLog();
         Class beanClass = propertyDescriptor.getSingularPropertyType();
         if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
+            if (beanClass.isArray()) {
+                beanClass = beanClass.getComponentType();
+            }
             if (log.isTraceEnabled()) {
                 log.trace("Filling descriptor for: " + beanClass);
             }

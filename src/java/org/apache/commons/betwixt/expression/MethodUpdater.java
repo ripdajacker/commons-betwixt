@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.11 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.11.2.1 2004/04/27 20:01:10 rdonkin Exp $
+ * $Revision: 1.11.2.1 $
+ * $Date: 2004/04/27 20:01:10 $
  *
  * ====================================================================
  * 
@@ -60,7 +60,9 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,7 +72,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.11.2.1 $
   */
 public class MethodUpdater implements Updater {
 
@@ -131,7 +133,18 @@ public class MethodUpdater implements Updater {
                     return;
                 }
 */                
-            }                    
+            }
+            // special case for collection objects into arrays                    
+            if (newValue instanceof Collection && valueType.isArray()) {
+                Collection valuesAsCollection = (Collection) newValue;
+                Class componentType = valueType.getComponentType();
+                if (componentType != null) {
+                    Object[] valuesAsArray = 
+                        (Object[]) Array.newInstance(componentType, valuesAsCollection.size());
+                    newValue = valuesAsCollection.toArray(valuesAsArray);
+                }
+            }
+            
             Object[] arguments = { newValue };
             try {
                 if ( log.isDebugEnabled() ) {

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.8 2004/02/03 22:29:15 rdonkin Exp $
- * $Revision: 1.4.2.8 $
- * $Date: 2004/02/03 22:29:15 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.9 2004/04/27 20:01:46 rdonkin Exp $
+ * $Revision: 1.4.2.9 $
+ * $Date: 2004/04/27 20:01:46 $
  *
  * ====================================================================
  * 
@@ -83,7 +83,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.8 2004/02/03 22:29:15 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.9 2004/04/27 20:01:46 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -244,7 +244,7 @@ public class BeanProperty {
             } else {
             
                 descriptor 
-                    = createDescriptorForCollective( configuration, propertyExpression );
+                    = createDescriptorForCollective( configuration, propertyUpdater, propertyExpression );
             }
         } else {
             if (log.isTraceEnabled()) {
@@ -365,11 +365,13 @@ public class BeanProperty {
     /**
      * Creates an <code>ElementDescriptor</code> for a collective type property
      * @param configuration
+     * @param propertyUpdater, <code>Updater</code> for the property, possibly null
      * @param propertyExpression
      * @return
      */
     private ElementDescriptor createDescriptorForCollective(
         IntrospectionConfiguration configuration,
+        Updater propertyUpdater,
         Expression propertyExpression) {
             
         ElementDescriptor result;
@@ -381,6 +383,9 @@ public class BeanProperty {
         loopDescriptor.setPropertyName(getPropertyName());
         loopDescriptor.setPropertyType(getPropertyType());
         loopDescriptor.setHollow(true);
+        // set the property updater (if it exists)
+        // may be overridden later by the adder
+        loopDescriptor.setUpdater(propertyUpdater);
         
         if ( configuration.isWrapCollectionsInElement() ) {
             // create wrapping desctiptor
