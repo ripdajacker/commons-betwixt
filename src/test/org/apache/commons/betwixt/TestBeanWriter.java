@@ -65,6 +65,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
 
+import java.util.ArrayList;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -73,6 +75,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 
 
 /** Test harness for the BeanWriter
@@ -460,6 +463,108 @@ public class TestBeanWriter extends AbstractTestCase {
          + "<name><name>Harry</name></name>" 
          + "</names>"
          +"</Names>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+    }
+    
+    public void testWriteNameMapperStrategy() throws Exception {
+        ListOfNames names = new ListOfNames();
+        names.addName(new NameBean("Sid James"));
+        names.addName(new NameBean("Kenneth Williams"));
+        names.addName(new NameBean("Joan Simms"));
+        names.addName(new NameBean("Charles Hawtrey"));
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.write("CarryOn", names);
+        
+        String xml = "<?xml version='1.0'?><CarryOn><names>"
+         + "<name><name>Sid James</name></name>" 
+         + "<name><name>Kenneth Williams</name></name>" 
+         + "<name><name>Joan Simms</name></name>" 
+         + "<name><name>Charles Hawtrey</name></name>" 
+         + "</names>"
+         +"</CarryOn>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.getXMLIntrospector().setElementNameMapper(new CapitalizeNameMapper());
+        writer.write("CarryOn", names);
+        
+        xml = "<?xml version='1.0'?><CarryOn><Names>"
+         + "<Name><Name>Sid James</Name></Name>" 
+         + "<Name><Name>Kenneth Williams</Name></Name>" 
+         + "<Name><Name>Joan Simms</Name></Name>" 
+         + "<Name><Name>Charles Hawtrey</Name></Name>" 
+         + "</Names>"
+         +"</CarryOn>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        ArrayList things = new ArrayList();
+        things.add(new NameBean("Sugar"));
+        things.add(new NameBean("Spice"));
+        things.add(new NameBean("All Things Nice"));
+        
+        NoAdderBean bean = new NoAdderBean();
+        bean.setThings(things);
+        
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.write(bean);
+        
+        xml = "<?xml version='1.0'?><NoAdderBean><things>"
+         + "<NameBean><name>Sugar</name></NameBean>" 
+         + "<NameBean><name>Spice</name></NameBean>" 
+         + "<NameBean><name>All Things Nice</name></NameBean>" 
+         + "</things>"
+         +"</NoAdderBean>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+        
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.getXMLIntrospector().setElementNameMapper(new CapitalizeNameMapper());
+        writer.write(bean);
+        
+        xml = "<?xml version='1.0'?><NoAdderBean><Things>"
+         + "<NameBean><Name>Sugar</Name></NameBean>" 
+         + "<NameBean><Name>Spice</Name></NameBean>" 
+         + "<NameBean><Name>All Things Nice</Name></NameBean>" 
+         + "</Things>"
+         +"</NoAdderBean>";
          
         xmlAssertIsomorphicContent(
                             parseString(out.getBuffer().toString()),
