@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.7 2002/06/15 23:24:32 mvdb Exp $
- * $Revision: 1.7 $
- * $Date: 2002/06/15 23:24:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.8 2002/07/18 23:19:07 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/07/18 23:19:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.7 2002/06/15 23:24:32 mvdb Exp $
+ * $Id: BeanWriter.java,v 1.8 2002/07/18 23:19:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -81,6 +81,7 @@ import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
 
+import org.xml.sax.SAXException;
 
 /** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
   *
@@ -127,9 +128,9 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
-public class BeanWriter {
+public class BeanWriter extends AbstractBeanWriter {
 
     /** Escaped <code>&lt;</code> entity */
     private final static String LESS_THAN_ENTITY = "&lt;";
@@ -142,8 +143,6 @@ public class BeanWriter {
     /** Escaped <code>"</code> entity */
     private final static String QUOTE_ENTITY = "&quot;";
 
-    /** Introspector used */
-    private XMLIntrospector introspector = new XMLIntrospector();
     /** Where the output goes */
     private Writer writer;    
     /** text used for end of lines. Defaults to <code>\n</code>*/
@@ -152,18 +151,11 @@ public class BeanWriter {
     private String endOfLine = EOL;
     /** indentation text */
     private String indent;
-    /** indentation level */
-    private int indentLevel;
+
     /** should we flush after writing bean */
     private boolean autoFlush;
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( BeanWriter.class );
-    /** Map containing ID attribute values for beans */
-    private HashMap idMap = new HashMap();
-    /** Used to generate ID attribute values*/
-    private IDGenerator idGenerator = new SequentialIDGenerator();
-    /** Should generated <code>ID</code> attribute values be added to the elements? */
-    private boolean writeIDs = true;
     
     /**
      * <p> Constructor uses <code>System.out</code> for output.</p>
@@ -191,136 +183,16 @@ public class BeanWriter {
         this.writer = writer;
     }
 
-    /** 
-     * <p> Writes the given bean to the current stream using the XML introspector.</p>
-     * 
-     * <p> This writes an xml fragment representing the bean to the current stream.</p>
-     *
-     * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
-     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
-     * property is false.</p>
-     *
-     * @throws CyclicReferenceException when a cyclic reference is encountered 
-     *
-     * @param bean write out representation of this bean
-     */
-    public void write(Object bean) throws IOException, IntrospectionException  {
-        log.debug( "Writing bean graph..." );
-        log.debug( bean );
-        
-        write( null, bean );
+    public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
+
+        super.write(bean);
 
         if ( autoFlush ) {
             writer.flush();
         }
-        
-        log.debug( "Finished writing bean graph." );
     }
     
-    /** 
-     * <p>Writes the given bean to the current stream using the given <code>qualifiedName</code>.</p>
-     *
-     * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
-     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
-     * property is false.</p>
-     *
-     * @throws CyclicReferenceException when a cyclic reference is encountered 
-     */
-    public void write(
-                String qualifiedName, 
-                Object bean) 
-                    throws 
-                        IOException, 
-                        IntrospectionException {
-                    
-        
-        if ( log.isTraceEnabled() ) {
-            log.trace( "Writing bean graph (qualified name '" + qualifiedName + "'" );
-        }
-        
-        // introspect to obtain bean info
-        XMLBeanInfo beanInfo = introspector.introspect( bean );
-        if ( beanInfo != null ) {
-            ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
-            if ( elementDescriptor != null ) {
-                Context context = new Context( bean, log );
-                if ( qualifiedName == null ) {
-                    qualifiedName = elementDescriptor.getQualifiedName();
-                }
-                
-                Object ref = null;
-                Object id = null;
-                
-                // only give id's to non-primatives
-                if ( elementDescriptor.isPrimitiveType() ) {
-                    // write without an id
-                    write( 
-                        qualifiedName, 
-                        elementDescriptor, 
-                        context );
-                } 
-                else {
-                
-                    ref = idMap.get( context.getBean() );
-                    if ( ref == null ) {
-                        // this is the first time that this bean has be written
-                        AttributeDescriptor idAttribute = beanInfo.getIDAttribute();
-                        if (idAttribute == null) {
-                            // use a generated id
-                            id = new Integer( idGenerator.nextId() );
-                            idMap.put( bean, id);
-                            
-                            if ( writeIDs ) {
-                                // write element with id
-                                write( 
-                                    qualifiedName, 
-                                    elementDescriptor, 
-                                    context , 
-                                    beanInfo.getIDAttributeName(),
-                                    id.toString());
-                                    
-                            } else {    
-                                // write element without ID
-                                write( 
-                                    qualifiedName, 
-                                    elementDescriptor, 
-                                    context );
-                            }
-                                                        
-                        } else {
-                            // use id from bean property
-                            // it's up to the user to ensure uniqueness
-                            // XXX should we trap nulls?
-                            id = idAttribute.getTextExpression().evaluate( context );
-                            idMap.put( bean, id);
-                            
-                            // the ID attribute should be written automatically
-                            write( 
-                                qualifiedName, 
-                                elementDescriptor, 
-                                context );
-                        }
-                    } 
-                    else {
-                        // we have a cyclic reference
-                        if ( !writeIDs ) {
-                            // if we're not writing IDs, then throw exception
-                            throw new CyclicReferenceException();
-                        }
-                        
-                        // we've already written this bean so write an IDREF
-                        writeIDREFElement( 
-                                        qualifiedName,  
-                                        beanInfo.getIDREFAttributeName(), 
-                                        ref.toString());
-                    }
-                }
-            }
-        }
-        
-        log.trace( "Finished writing bean graph." );
-    }
-
+ 
     /**
      * <p> Switch on formatted output.
      * This sets the end of line and the indent.
@@ -360,62 +232,6 @@ public class BeanWriter {
     public void setIndent(String indent) {
         this.indent = indent;
     }
-    
-    /** 
-      * Get <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values .
-      *
-      * @return implementation used for <code>ID</code> attribute generation
-      */
-    public IDGenerator getIdGenerator() {
-        return idGenerator;
-    }
-    
-    /** 
-      * Set <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values.
-      * This property can be used to customize the algorithm used for generation.
-      *
-      * @param idGenerator use this implementation for <code>ID</code> attribute generation
-      */
-    public void setIdGenerator(IDGenerator idGenerator) {
-        this.idGenerator = idGenerator;
-    }
-    
-    /** Get whether generated <code>ID</code> attribute values should be added to the elements */
-    public boolean getWriteIDs() {
-        return writeIDs;
-    }
-
-    /** 
-     * Set whether generated <code>ID</code> attribute values should be added to the elements 
-     * If this property is set to false, then <code>CyclicReferenceException</code> 
-     * will be thrown whenever a cyclic occurs in the bean graph.
-     */
-    public void setWriteIDs(boolean writeIDs) {
-        this.writeIDs = writeIDs;
-    }
-
-    /**
-     * <p> Get the introspector used. </p>
-     *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
-     */
-    public XMLIntrospector getXMLIntrospector() {
-        return introspector;
-    }
-    
-
-    /**
-     * <p> Set the introspector to be used. </p>
-     *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
-     *
-     * @param introspector use this introspector
-     */
-    public void  setXMLIntrospector(XMLIntrospector introspector) {
-        this.introspector = introspector;
-    }
 
     /**
      * <p> Get the current level for logging. </p>
@@ -453,6 +269,10 @@ public class BeanWriter {
         writer.write( qualifiedName );
     }
     
+    protected void expressTagClose() throws IOException {
+        writer.write( '>' );
+    }
+    
     /** Express an element end tag using given qualifiedName */
     protected void expressElementEnd(String qualifiedName) throws IOException {
         if (qualifiedName == null) {
@@ -478,7 +298,7 @@ public class BeanWriter {
             log.error( "[expressBodyText]Body text is null" );
             
         } else {
-            writer.write( text );
+            writer.write( escapeBodyValue(text) );
         }
     }
     
@@ -503,218 +323,14 @@ public class BeanWriter {
         writer.write( ' ' );
         writer.write( qualifiedName );
         writer.write( "=\"" );
-        writer.write( value );
+        writer.write( escapeAttributeValue(value) );
         writer.write( '\"' );
     }
 
 
     // Implementation methods
     //-------------------------------------------------------------------------    
-    
-
-    /** Writes the given element */
-    protected void write( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context ) 
-                                throws 
-                                    IOException, 
-                                    IntrospectionException {
-                                        
-        if (elementDescriptor.isWrapCollectionsInElement()) {
-            expressElementStart( qualifiedName );
-        }
-        
-        writeRestOfElement( qualifiedName, elementDescriptor, context);
-    }
-    
-    
-
-    /** Writes the given element adding an ID attribute */
-    protected void write( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context,
-                            String idAttribute,
-                            String idValue ) 
-                                throws 
-                                    IOException, 
-                                    IntrospectionException {
-                                  
-        expressElementStart( qualifiedName );
-             
-        expressAttribute( idAttribute, idValue );        
-        
-        writeRestOfElement( qualifiedName, elementDescriptor, context );
-    }
-    
-    /** Write attributes, child elements and element end */
-    protected void writeRestOfElement( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context ) 
-                                throws 
-                                    IOException, 
-                                    IntrospectionException {
-
-        if (elementDescriptor.isWrapCollectionsInElement()) {
-            writeAttributes( elementDescriptor, context );
-        }
-
-        if ( writeContent( elementDescriptor, context ) ) {
-            if (elementDescriptor.isWrapCollectionsInElement()) {
-                expressElementEnd( qualifiedName );
-            }
-        }  
-        else {
-            if (elementDescriptor.isWrapCollectionsInElement()) {
-                expressElementEnd();
-            }
-        }
-    }
-    
-
-    
-    
-    protected void writeIDREFElement( 
-                                    String qualifiedName, 
-                                    String idrefAttributeName,
-                                    String idrefAttributeValue ) 
-                                        throws 
-                                            IOException, 
-                                            IntrospectionException {
-
-        // write IDREF element
-        expressElementStart( qualifiedName );
-        
-        expressAttribute( idrefAttributeName, idrefAttributeValue );
-                             
-        expressElementEnd();
-    }
-        
-    /** Writes the element content.
-     *
-     * @return true if some content was written
-     */
-    protected boolean writeContent( 
-                        ElementDescriptor elementDescriptor, 
-                        Context context ) 
-                            throws 
-                                IOException, 
-                                IntrospectionException {        
-        ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
-        boolean writtenContent = false;
-        if ( childDescriptors != null && childDescriptors.length > 0 ) {
-            // process child elements
-            for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
-                ElementDescriptor childDescriptor = childDescriptors[i];
-                Context childContext = context;
-                Expression childExpression = childDescriptor.getContextExpression();
-                if ( childExpression != null ) {
-                    Object childBean = childExpression.evaluate( context );
-                    if ( childBean != null ) {
-                        String qualifiedName = childDescriptor.getQualifiedName();
-                        // XXXX: should we handle nulls better
-                        if ( childBean instanceof Iterator ) {
-                            for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
-                                if ( ! writtenContent ) {
-                                    writtenContent = true;
-                                    writer.write( '>' );
-                                }
-                                ++indentLevel;
-                                write( qualifiedName, iter.next() );
-                                --indentLevel;
-                            }
-                        }
-                        else {
-                            if ( ! writtenContent ) {
-                                writtenContent = true;
-                                writer.write( '>' );
-                            }
-                            ++indentLevel;
-                            write( qualifiedName, childBean );
-                            --indentLevel;
-                        }
-                    }                    
-                }
-                else {
-                    if ( ! writtenContent ) {
-                        writtenContent = true;
-                        writer.write( '>' );
-                    }
-                    if (childDescriptor.isWrapCollectionsInElement()) {
-                        ++indentLevel;
-                    }
-
-                     write( childDescriptor.getQualifiedName(), childDescriptor, childContext );
-
-                    if (childDescriptor.isWrapCollectionsInElement()) {
-                        --indentLevel;
-                    }
-                }
-            }
-            if ( writtenContent ) {
-                writePrintln();
-                writeIndent();
-            }
-        }
-        else {
-            // evaluate the body text 
-            Expression expression = elementDescriptor.getTextExpression();
-            if ( expression != null ) {
-                Object value = expression.evaluate( context );
-                if ( value != null ) {
-                    String text = escapeBodyValue(value);
-                    if ( text != null && text.length() > 0 ) {
-                        if ( ! writtenContent ) {
-                            writtenContent = true;
-                            writer.write( '>' );
-                        }
-                        expressBodyText(text);
-                    }
-                }                
-            }
-        }
-        return writtenContent;
-    }
-    
-    /** Writes the attribute declarations */
-    protected void writeAttributes( 
-                    ElementDescriptor elementDescriptor, 
-                    Context context ) 
-                        throws 
-                            IOException {
-        if (!elementDescriptor.isWrapCollectionsInElement()) 
-            return;
             
-        AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
-        if ( attributeDescriptors != null ) {
-            for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
-                AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
-                writeAttribute( attributeDescriptor, context );
-            }
-        }
-    }
-
-    
-    /** Writes an attribute declaration */
-    protected void writeAttribute( 
-                        AttributeDescriptor attributeDescriptor, 
-                        Context context ) 
-                            throws 
-                                IOException {
-        Expression expression = attributeDescriptor.getTextExpression();
-        if ( expression != null ) {
-            Object value = expression.evaluate( context );
-            if ( value != null ) {
-                String text = escapeAttributeValue(value);
-                if ( text != null && text.length() > 0 ) {
-                    expressAttribute(attributeDescriptor.getQualifiedName(), text);
-                }
-            }                
-        }
-    }
-    
     /** Writes out an empty line.
      * Uses current <code>endOfLine</code>.
      */
