@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/IDBean.java,v 1.2 2002/12/11 22:12:11 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/11 22:12:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/IDBean.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -58,12 +58,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IDBean.java,v 1.2 2002/12/11 22:12:11 rdonkin Exp $
+ * $Id: IDBean.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +71,7 @@ import org.apache.commons.logging.LogFactory;
 /** Bean for testing ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class IDBean {
     

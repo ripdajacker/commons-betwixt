@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
- * $Revision: 1.2 $
- * $Date: 2002/09/20 14:00:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDefaultPluralStemmer.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,21 +57,23 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
+ * $Id: TestDefaultPluralStemmer.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
-import junit.framework.TestCase;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import org.apache.commons.betwixt.ElementDescriptor;
 import java.util.HashMap;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Tests the defaultPluralStemmer
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
+ * @version $Id: TestDefaultPluralStemmer.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
  */
 public class TestDefaultPluralStemmer extends TestCase
 {

@@ -9,18 +9,12 @@
  */
 package org.apache.commons.betwixt;
 
-import java.net.URL;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
+import java.net.URL;
 
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-
 import org.apache.commons.digester.rss.Channel;
 import org.apache.commons.digester.rss.RSSDigester;
 

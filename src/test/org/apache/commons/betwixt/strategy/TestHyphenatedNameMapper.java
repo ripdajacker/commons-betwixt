@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.4 2002/12/16 21:59:21 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/12/16 21:59:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.5 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,25 +57,25 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestHyphenatedNameMapper.java,v 1.4 2002/12/16 21:59:21 rdonkin Exp $
+ * $Id: TestHyphenatedNameMapper.java,v 1.5 2002/12/30 18:16:48 mvdb Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
 
 import java.util.ArrayList;
 
-import org.apache.commons.betwixt.XMLIntrospector;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.apache.commons.betwixt.XMLIntrospector;
 
 /** Test harness for the HyphenatedNameMapper
   *
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class TestHyphenatedNameMapper extends TestCase {
     

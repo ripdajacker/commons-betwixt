@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.1 2002/12/16 21:59:21 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/12/16 21:59:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,29 +57,20 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestElementsIO.java,v 1.1 2002/12/16 21:59:21 rdonkin Exp $
+ * $Id: TestElementsIO.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
 
-import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.impl.SimpleLog;
-
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.io.BeanCreateRule;
-import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
-import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
-import org.apache.commons.betwixt.strategy.DefaultNameMapper;
-import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
-import org.apache.commons.betwixt.strategy.NameMapper;
 
 
 /** 

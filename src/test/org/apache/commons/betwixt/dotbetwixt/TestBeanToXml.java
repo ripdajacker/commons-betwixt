@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.5 2002/12/23 19:26:53 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/23 19:26:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.5 2002/12/23 19:26:53 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -66,12 +66,8 @@ import java.io.StringWriter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-
-import org.apache.commons.logging.impl.SimpleLog;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 
 
 /** 

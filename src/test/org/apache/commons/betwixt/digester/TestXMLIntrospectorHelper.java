@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.1 2002/08/14 20:26:22 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/08/14 20:26:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -58,13 +58,13 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospectorHelper.java,v 1.1 2002/08/14 20:26:22 rdonkin Exp $
+ * $Id: TestXMLIntrospectorHelper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
 import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 import junit.framework.Test;
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 

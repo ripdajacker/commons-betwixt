@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/15 19:03:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/Element.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,18 +57,18 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
+ * $Id: Element.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This is just a simple element bean..
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Element.java,v 1.2 2002/12/15 19:03:34 rdonkin Exp $
+ * @version $Id: Element.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
  */
 public class Element
 {

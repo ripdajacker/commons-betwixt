@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.3 2002/12/11 22:12:11 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/12/11 22:12:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.4 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -58,32 +58,25 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestIDRead.java,v 1.3 2002/12/11 22:12:11 rdonkin Exp $
+ * $Id: TestIDRead.java,v 1.4 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.apache.commons.betwixt.expression.MethodUpdater;
-
-import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.io.BeanReader;
-import org.apache.commons.betwixt.io.BeanCreateRule;
-
-import org.apache.commons.betwixt.AbstractTestCase;
-
-import org.apache.commons.logging.impl.SimpleLog;
-
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
+import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.io.BeanReader;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class TestIDRead extends AbstractTestCase {
 

@@ -69,19 +69,13 @@ import java.io.Writer;
 import java.net.URL;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-
 import org.apache.commons.digester.rss.Channel;
 import org.apache.commons.digester.rss.RSSDigester;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.SimpleLog;
 
 
 /** Test harness which parses an RSS document using Digester

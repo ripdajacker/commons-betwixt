@@ -10,8 +10,8 @@
 package org.apache.commons.betwixt;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -22,21 +22,12 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.apache.commons.beanutils.ConvertUtils;
-
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.io.BeanCreateRule;
-
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.impl.SimpleLog;
 
 
 /** Test harness for the BeanReader

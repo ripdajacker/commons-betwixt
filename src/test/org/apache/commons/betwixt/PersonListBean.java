@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/PersonListBean.java,v 1.1 2002/12/11 22:12:39 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/12/11 22:12:39 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/PersonListBean.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:47 $
  *
  * ====================================================================
  *
@@ -57,17 +57,17 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: PersonListBean.java,v 1.1 2002/12/11 22:12:39 rdonkin Exp $
+ * $Id: PersonListBean.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
  */
 package org.apache.commons.betwixt;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /** <p>Bean to test lists of people</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class PersonListBean {
     

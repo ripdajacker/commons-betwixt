@@ -12,13 +12,7 @@ package org.apache.commons.betwixt;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
-
 import org.apache.commons.betwixt.io.BeanWriter;
-
 import org.apache.commons.digester.rss.RSSDigester;
 
 /** Reads an RSS file using Digesters's RSS demo then uses Betwixt

@@ -61,15 +61,12 @@
  */
 package org.apache.commons.betwixt;
 
-import java.io.StringWriter;
-
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.apache.commons.betwixt.registry.NoCacheRegistry;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+import org.apache.commons.betwixt.registry.NoCacheRegistry;
 
 
 /** Test harness for the XMLIntrospector

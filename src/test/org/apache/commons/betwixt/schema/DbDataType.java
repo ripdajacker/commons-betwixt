@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/DbDataType.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/DbDataType.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:47 $
  *
  * ====================================================================
  *
@@ -57,17 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DbDataType.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: DbDataType.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
  */
 
 package org.apache.commons.betwixt.schema;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: DbDataType.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * @version $Id: DbDataType.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
  */
 public class DbDataType
 {

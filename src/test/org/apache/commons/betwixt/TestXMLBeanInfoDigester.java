@@ -65,12 +65,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
-import org.apache.commons.digester.rss.Channel;
 
 /** Test harness for the Digester of XMLBeanInfo
   *

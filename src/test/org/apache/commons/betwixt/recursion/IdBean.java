@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/IdBean.java,v 1.1 2002/09/26 20:00:10 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/09/26 20:00:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/IdBean.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,19 +57,18 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IdBean.java,v 1.1 2002/09/26 20:00:10 rdonkin Exp $
+ * $Id: IdBean.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
  
 package org.apache.commons.betwixt.recursion;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Used to test mapping of id's to 
  * 
  * @author Robert Burrell Donkin
- * @version $Id: IdBean.java,v 1.1 2002/09/26 20:00:10 rdonkin Exp $
+ * @version $Id: IdBean.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 public class IdBean
 {

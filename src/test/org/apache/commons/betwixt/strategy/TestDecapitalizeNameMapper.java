@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDecapitalizeNameMapper.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDecapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,19 +57,19 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestDecapitalizeNameMapper.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: TestDecapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.framework.Test;
 
 /**
  * Test that harnasses the DecapitlizeNameMapper
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDecapitalizeNameMapper.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * @version $Id: TestDecapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 public class TestDecapitalizeNameMapper extends TestCase
 {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/registry/TestXMLBeanInfoRegistry.java,v 1.1 2002/11/27 22:19:12 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/11/27 22:19:12 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/registry/TestXMLBeanInfoRegistry.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,25 +57,21 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLBeanInfoRegistry.java,v 1.1 2002/11/27 22:19:12 rdonkin Exp $
+ * $Id: TestXMLBeanInfoRegistry.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.registry;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.XMLBeanInfo;
 
 /** Test harness for the XMLBeanInfoRegistry
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestXMLBeanInfoRegistry extends AbstractTestCase {
     

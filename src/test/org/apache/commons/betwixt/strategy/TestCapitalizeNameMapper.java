@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestCapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2002/07/02 21:21:19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestCapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:16:48 $
  *
  * ====================================================================
  *
@@ -57,19 +57,19 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestCapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
+ * $Id: TestCapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.framework.Test;
 
 /**
  * Test that harnasses the CapitlizeNameMapper
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestCapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
+ * @version $Id: TestCapitalizeNameMapper.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
  */
 public class TestCapitalizeNameMapper extends TestCase
 {

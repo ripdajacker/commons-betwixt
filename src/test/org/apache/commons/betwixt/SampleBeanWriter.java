@@ -61,13 +61,6 @@
  */
 package org.apache.commons.betwixt;
 
-import java.io.StringWriter;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
-
 import org.apache.commons.betwixt.io.BeanWriter;
 
 
