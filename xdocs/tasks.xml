@@ -65,7 +65,7 @@
             Dynabeans are a feature of <code>commons-beanutils</code> that allows data in non-beans to be
             wrapped into pseudo-beans. If betwixt supported dynabeans then you could do cool stuff like 
             SQL -&gt; DynaBeans -&gt; XML. Probably a good way to do this would be to ensure that all property
-            intrspection is done by dyanbeans-aware methods of beanutils.
+            introspection is done by dyanbeans-aware methods of beanutils.
         </li>
         <li>
             <strong>Update RSS example application.</strong>
@@ -227,6 +227,11 @@
             <strong>Basic Support For Reading Mixed Content</strong>
             This is the basic case where all of the content is read into a single property.
             </li>
+            <li>
+            <strong>Basic Support For Writing DynaBeans</strong>
+            Basic support for writing DynaBeans has been added. This was implemented by using an additional 
+            layer of abstraction in the introspector. 
+            </li>
         </ul>
     </subsection>
 </section>
@@ -325,6 +330,18 @@
                 The AbstractBeanWriter refactoring means that SAXBeanWriter now has a much cleaner
                 internal API. If anyone out there has been doing funky stuff by extending SAXBeanWriter
                 then i'm afraid that you'll need to rewrite.
+            </li>
+            <li>
+                <strong>Refactored Introspection</strong>
+                XMLIntrospector has been refactored to add an extra level of introspection indirection.
+                The results of introspection are now given in a BeanProperty. This allows support for
+                introspection alternatives to be added.
+            </li>
+            <li>
+                <strong>DynaBean Implementations</strong>
+                DynaBean's are now mapped using the properties found via the pseudo-introspection process
+                defined in BeanUtils. If you don't wish for DynaBeans implementations to be introspected
+                in this way then provide a <code>.betwixt</code> file to specify the mapping.
             </li>
         </ul>
     </subsection>
