@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.2 2003/08/16 06:28:42 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/08/16 06:28:42 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.3 2003/08/21 22:41:50 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/08/21 22:41:50 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ObjectStringConverter.java,v 1.2 2003/08/16 06:28:42 rdonkin Exp $
+ * $Id: ObjectStringConverter.java,v 1.3 2003/08/21 22:41:50 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -79,6 +79,8 @@ import org.apache.commons.betwixt.expression.Context;
  * objectToString to the result of stringToObject should be equal to the 
  * original input.
  * </p>
+ * @author Robert Burrell Donkin 
+ * @version
  */
 public class ObjectStringConverter implements Serializable {
     
@@ -106,8 +108,9 @@ public class ObjectStringConverter implements Serializable {
       * This basic implementation just returns a string.
       * 
       * @param value the String to be converted
-      * @param the property class to be returned (if possible), not null
+      * @param type the property class to be returned (if possible), not null
       * @param flavour a string allow symantic differences in formatting to be communicated
+      * @param context not null
       * @return an Object converted from the String, not null
       */
     public Object stringToObject(String value, Class type, String flavour, Context context) {

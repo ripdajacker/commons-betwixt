@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.java,v 1.1 2003/07/31 21:38:08 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/31 21:38:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.java,v 1.2 2003/08/21 22:41:50 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/21 22:41:50 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ConvertUtilsObjectStringConverter.java,v 1.1 2003/07/31 21:38:08 rdonkin Exp $
+ * $Id: ConvertUtilsObjectStringConverter.java,v 1.2 2003/08/21 22:41:50 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -67,6 +67,9 @@ import org.apache.commons.betwixt.expression.Context;
 
 /** 
  * String &lt;-&gt; object conversion strategy that delegates to ConvertUtils.
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision: 1.2 $
  */
 public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
     
@@ -75,7 +78,9 @@ public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
       *
       * @param object the object to be converted, possibly null
       * @param type the property class of the object, not null
-      * @param flavour a string allow symantic differences in formatting to be communicated (ignored)
+      * @param flavour a string allow symantic differences in formatting 
+      * to be communicated (ignored)
+      * @param context not null
       * @return a String representation, not null
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
@@ -92,8 +97,10 @@ public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
       * Converts an object to a string representation using ConvertUtils.
       * 
       * @param value the String to be converted, not null
-      * @param the property class to be returned (if possible), not null
-      * @param flavour a string allow symantic differences in formatting to be communicated (ignored)
+      * @param type the property class to be returned (if possible), not null
+      * @param flavour a string allow symantic differences in formatting 
+      * to be communicated (ignored)
+      * @param context not null
       * @return an Object converted from the String, not null
       */
     public Object stringToObject(String value, Class type, String flavour, Context context) {
