@@ -14,12 +14,17 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
+import org.apache.commons.beanutils.ConvertUtils;
 
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
@@ -142,6 +147,9 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals( "locations[0]", "London", locations.get(0) );
         assertEquals( "locations[1]", "Bath", locations.get(1) );
         
+        assertEquals( ConvertUtils.convert("2002-03-17", Date.class), customer.getDate());
+        assertEquals( ConvertUtils.convert("20:30:40", Time.class), customer.getTime());
+        assertEquals( ConvertUtils.convert("2002-03-17 20:30:40.0", Timestamp.class), customer.getTimestamp());
         
     }
     

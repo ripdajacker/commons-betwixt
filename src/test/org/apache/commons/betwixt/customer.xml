@@ -45,4 +45,8 @@
     <location>London</location>
     <location>Bath</location>
   </locations>
+  
+  <date>2002-03-17</date>
+  <time>20:30:40</time>
+  <timestamp>2002-03-17 20:30:40.0</timestamp>
 </CustomerBean>

@@ -64,11 +64,16 @@ package org.apache.commons.betwixt;
 import java.io.File;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.apache.commons.beanutils.ConvertUtils;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 
@@ -123,6 +128,11 @@ public abstract class AbstractTestCase extends TestCase {
         address.setCode( "N5" );
         
         bean.setAddress( address );
+        
+        bean.setDate((Date) ConvertUtils.convert("2002-03-17", Date.class));
+        bean.setTime((Time) ConvertUtils.convert("20:30:40", Time.class));
+        bean.setTimestamp((Timestamp) ConvertUtils.convert("2002-03-17 20:30:40.0", Timestamp.class));
+        
         return bean;
     }
 }

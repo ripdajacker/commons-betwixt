@@ -62,6 +62,10 @@
 package org.apache.commons.betwixt;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -91,7 +95,10 @@ public class CustomerBean implements Serializable {
     private AddressBean address;
     private Map projectMap;
     private List locations = new ArrayList();
-    
+	private Date date;
+	private Time time;
+	private Timestamp timestamp;
+	    
     public CustomerBean() {
     }
 
@@ -218,4 +225,52 @@ public class CustomerBean implements Serializable {
     public String toString() {
         return super.toString() + "[ID=" + id + ", name=" + name + ",address=" + address + "]";
     }
+	/**
+	 * Returns the date.
+	 * @return Date
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * Returns the time.
+	 * @return Time
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * Returns the timestamp.
+	 * @return Timestamp
+	 */
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * Sets the date.
+	 * @param date The date to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
+	 * Sets the time.
+	 * @param time The time to set
+	 */
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
+	/**
+	 * Sets the timestamp.
+	 * @param timestamp The timestamp to set
+	 */
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 }
