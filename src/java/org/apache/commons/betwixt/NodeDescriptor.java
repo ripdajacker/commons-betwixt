@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.5 2003/01/13 18:07:52 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/01/13 18:07:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.6 2003/03/19 22:59:01 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/03/19 22:59:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.5 2003/01/13 18:07:52 rdonkin Exp $
+ * $Id: NodeDescriptor.java,v 1.6 2003/03/19 22:59:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -71,9 +71,9 @@ import org.apache.commons.betwixt.expression.Updater;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
-public class NodeDescriptor {
+public class NodeDescriptor extends Descriptor {
 
     /** The local name of this node without any namespace prefix */
     private String localName;
@@ -81,17 +81,6 @@ public class NodeDescriptor {
     private String qualifiedName;
     /** The namespace URI of this node */
     private String uri = "";
-    /** the expression used to evaluate the text value of this node */
-    private Expression textExpression;
-    /** the updater used to update the current bean from the text value of this node */
-    private Updater updater;
-    /** The property expression to which this node refers to, or null if it is just a constant */
-    private String propertyName;
-    /** the property type associated with this node, if any */
-    private Class propertyType;
-    /** the singular property type (i.e. the type ignoring the Collection or Array */
-    private Class singularPropertyType;
-    
     
     /** Base constructor */
     public NodeDescriptor() {
@@ -179,99 +168,4 @@ public class NodeDescriptor {
         }
         this.uri = uri;
     }
-    
-    /** 
-     * Gets the expression used to evaluate the text value of this node 
-     * for a particular <code>Context</code>.
-     * @return the expression used to evaluate the text value of this node 
-     */
-    public Expression getTextExpression() {
-        return textExpression;
-    }
-    
-    /** 
-     * Sets the expression used to evaluate the text value of this node
-     * for a particular <code>Context</code>
-     * @param textExpression the Expression to be used to evaluate the value of this node
-     */
-    public void setTextExpression(Expression textExpression) {
-        this.textExpression = textExpression;
-    }
-    
-    /** 
-     * Gets the <code>Updater</code> used to update a <code>Context</code> from the text value
-     * corresponding to this node in an xml document
-     * @return the Update that should be used to update the value of this node
-     */
-    public Updater getUpdater() {
-        return updater;
-    }
-    
-    /**
-     * Sets the <code>Updater</code> used to update a <code>Context</code> from the text value
-     * corresponding to this node in an xml document
-     * @param updater the Updater to be used to update the values of this node
-     */
-    public void setUpdater(Updater updater) {
-        this.updater = updater;
-    }
-    
-    /** 
-     * Gets the type of the bean property associated with this node, if any
-     * @return the property type associated with this node, if any 
-     */
-    public Class getPropertyType() {
-        return propertyType;
-    }
-    
-    /** 
-     * Sets the type of the bean property associated with this node, if any 
-     * @param propertyType the Class of the bean property
-     */
-    public void setPropertyType(Class propertyType) {
-        this.propertyType = propertyType;
-    }
-
-    
-    /** 
-     * Gets the name of the bean property to which this node refers
-     * @return the name of the bean property to which this node refers to, 
-     * or null if it is just a constant 
-     */
-    public String getPropertyName() {
-        return propertyName;
-    }
-    
-    /** 
-     * Sets the name of the bean property to which this node refers
-     * @param propertyName the name of the bean property. 
-     * Or null, if this node is not mapped to to a bean property
-     */
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-    
-    /** 
-     * Gets the underlying type ignoring any wrapping a Collection or Array.
-     *
-     * @return if this property is a 1-N relationship then this returns the type
-     * of a single property value.
-     */
-    public Class getSingularPropertyType() {
-        if ( singularPropertyType == null ) {
-            return getPropertyType();
-        }
-        return singularPropertyType;
-    }
-    
-    /** 
-     * Sets the underlying type ignoring any wrapping Collection or Array.
-     *
-     * @param singularPropertyType the Class of the items in the Collection or Array. 
-     * If node is associated with a collective bean property, then this should not be null.
-     */
-    public void setSingularPropertyType(Class singularPropertyType) {
-        this.singularPropertyType = singularPropertyType;
-    }
-
 }

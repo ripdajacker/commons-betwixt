@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.14 2003/02/27 19:20:17 rdonkin Exp $
- * $Revision: 1.14 $
- * $Date: 2003/02/27 19:20:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.15 2003/03/19 22:59:02 rdonkin Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/03/19 22:59:02 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.14 2003/02/27 19:20:17 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.15 2003/03/19 22:59:02 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -68,6 +68,7 @@ import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
@@ -94,7 +95,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.14 $
+  * @version $Revision: 1.15 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -688,39 +689,55 @@ public abstract class AbstractBeanWriter {
                                 SAXException,
                                 IntrospectionException {     
                                 
-        ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
+        Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors();
         if ( childDescriptors != null && childDescriptors.length > 0 ) {
             // process child elements
             for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
-                ElementDescriptor childDescriptor = childDescriptors[i];
-                Context childContext = context;
-                Expression childExpression = childDescriptor.getContextExpression();
-                if ( childExpression != null ) {
-                    Object childBean = childExpression.evaluate( context );
-                    if ( childBean != null ) {
-                        String qualifiedName = childDescriptor.getQualifiedName();
-                        String namespaceUri = childDescriptor.getURI();
-                        String localName = childDescriptor.getLocalName();
-                        // XXXX: should we handle nulls better
-                        if ( childBean instanceof Iterator ) {
-                            for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
-                                Object object = iter.next();
-                                if (object == null) {
-                                    continue;
+                if (childDescriptors[i] instanceof ElementDescriptor) {
+                    // Element content
+                    ElementDescriptor childDescriptor = (ElementDescriptor) childDescriptors[i];
+                    Context childContext = context;
+                    Expression childExpression = childDescriptor.getContextExpression();
+                    if ( childExpression != null ) {
+                        Object childBean = childExpression.evaluate( context );
+                        if ( childBean != null ) {
+                            String qualifiedName = childDescriptor.getQualifiedName();
+                            String namespaceUri = childDescriptor.getURI();
+                            String localName = childDescriptor.getLocalName();
+                            // XXXX: should we handle nulls better
+                            if ( childBean instanceof Iterator ) {
+                                for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
+                                    Object object = iter.next();
+                                    if (object == null) {
+                                        continue;
+                                    }
+                                    writeBean( namespaceUri, localName, qualifiedName, object );
                                 }
-                                writeBean( namespaceUri, localName, qualifiedName, object );
+                            } else {
+                                writeBean( namespaceUri, localName, qualifiedName, childBean );
                             }
-                        } else {
-                            writeBean( namespaceUri, localName, qualifiedName, childBean );
-                        }
-                    }                    
+                        }                    
+                    } else {
+                        writeElement(
+                                    childDescriptor.getURI(), 
+                                    childDescriptor.getLocalName(), 
+                                    childDescriptor.getQualifiedName(), 
+                                    childDescriptor, 
+                                    childContext );
+                    }
                 } else {
-                     writeElement(
-                                childDescriptor.getURI(), 
-                                childDescriptor.getLocalName(), 
-                                childDescriptor.getQualifiedName(), 
-                                childDescriptor, 
-                                childContext );
+                    // Mixed text content
+                    // evaluate the body text 
+                    Expression expression = childDescriptors[i].getTextExpression();
+                    if ( expression != null ) {
+                        Object value = expression.evaluate( context );
+                        if ( value != null ) {
+                            String text = value.toString();
+                            if ( text != null && text.length() > 0 ) {
+                                bodyText(text);
+                            }
+                        }                
+                    }
                 }
             }
         } else {

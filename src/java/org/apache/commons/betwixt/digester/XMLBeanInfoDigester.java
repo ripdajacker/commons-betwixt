@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/07 22:32:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.4 2003/03/19 22:59:01 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/03/19 22:59:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfoDigester.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
+ * $Id: XMLBeanInfoDigester.java,v 1.4 2003/03/19 22:59:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -76,7 +76,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -204,6 +204,7 @@ public class XMLBeanInfoDigester extends Digester {
             
             addRule( "info", new InfoRule() );
             addRule( "*/element", new ElementRule() );
+            addRule( "*/text", new TextRule() );
             addRule( "*/attribute", new AttributeRule() );
             addRule( "*/hide", new HideRule() );
             addRule( "*/addDefaults", new AddDefaultsRule() );

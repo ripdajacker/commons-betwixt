@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.7 2003/01/29 18:55:09 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/01/29 18:55:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.8 2003/03/19 22:59:01 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/03/19 22:59:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.7 2003/01/29 18:55:09 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.8 2003/03/19 22:59:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -90,6 +90,12 @@ public class ElementDescriptor extends NodeDescriptor {
     private ElementDescriptor[] elementDescriptors;
     
     /** 
+     * Descriptors for child content
+     * Constructed lazily on demand from a List.
+     */
+    private Descriptor[] contentDescriptors;
+    
+    /** 
      * The List used on construction. It will be GC'd
      * after initilization and the array is lazily constructed
      */
@@ -100,6 +106,12 @@ public class ElementDescriptor extends NodeDescriptor {
      * after initilization and the array is lazily constructed
      */
     private List elementList;
+    
+    /** 
+     * The list used o construct array. It will be GC'd after
+     * initialization when the array is lazily constructed.
+     */
+    private List contentList;
         
     /** the expression used to evaluate the new context of this node 
      * or null if the same context is to be used */
@@ -167,6 +179,16 @@ public class ElementDescriptor extends NodeDescriptor {
     public boolean hasAttributes() {
         return attributeDescriptors != null && attributeDescriptors.length > 0;
     }
+    
+    /** 
+     * Returns true if this element has child content.
+     * @return true if this element has either child mixed content or child elements
+     * @see #getContentDescriptors
+     */
+    public boolean hasContent() {
+        return contentDescriptors != null && contentDescriptors.length > 0; 
+     } 
+    
     
     /** 
      * Sets whether <code>Collection</code> bean properties should wrap items in a parent element.
@@ -253,6 +275,7 @@ public class ElementDescriptor extends NodeDescriptor {
         }
         getElementList().add( descriptor );
         elementDescriptors = null;
+        addContentDescriptor( descriptor );
     }
     
     /** 
@@ -277,12 +300,58 @@ public class ElementDescriptor extends NodeDescriptor {
 
     /** 
      * Sets the descriptors for the child element of the element this describes. 
+     * Also sets the child content descriptors for this element
+     *
      * @param elementDescriptors the <code>ElementDescriptor</code>s of the element 
      * that this describes
      */
     public void setElementDescriptors(ElementDescriptor[] elementDescriptors) {
         this.elementDescriptors = elementDescriptors;
         this.elementList = null;
+        setContentDescriptors( elementDescriptors );
+    }
+    
+    /**
+     * Adds a descriptor for child content.
+     * 
+     * @param descriptor the <code>Descriptor</code> describing the child content to add
+     */
+    public void addContentDescriptor(Descriptor descriptor) {
+        if ( contentList == null ) {
+            contentList = new ArrayList();
+        }
+        getContentList().add( descriptor );
+        contentDescriptors = null;
+    }
+    
+    /** 
+     * Returns descriptors for the child content of the element this describes.
+     * @return the <code>Descriptor</code> describing the child elements
+     * of the element that this <code>ElementDescriptor</code> describes
+     */
+    public Descriptor[] getContentDescriptors() {
+        if ( contentDescriptors == null ) {
+            if ( contentList == null ) {
+                contentDescriptors = new Descriptor[0];
+            } else {
+                contentDescriptors = new Descriptor[ contentList.size() ];
+                contentList.toArray( contentDescriptors );
+                
+                // allow GC of List when initialized
+                contentList = null;
+            }
+        }
+        return contentDescriptors;
+    }
+
+    /** 
+     * Sets the descriptors for the child content of the element this describes. 
+     * @param contentDescriptors the <code>Descriptor</code>s of the element 
+     * that this describes
+     */
+    public void setContentDescriptors(Descriptor[] contentDescriptors) {
+        this.contentDescriptors = contentDescriptors;
+        this.contentList = null;
     }
     
     /** 
@@ -370,6 +439,32 @@ public class ElementDescriptor extends NodeDescriptor {
             }            
         }
         return elementList;
+    }
+    
+    /**  
+     * Lazily creates the mutable List of child content descriptors.
+     * This nullifies the contentDescriptors array so that
+     * as items are added to the list the Array is ignored until it is
+     * explicitly asked for.
+     *
+     * @return list of <code>Descriptor</code>'s describe the child content of 
+     * the element that this <code>Descriptor</code> describes
+     */
+    protected List getContentList() {
+        if ( contentList == null ) {
+            if ( contentDescriptors != null ) {
+                int size = contentDescriptors.length;
+                contentList = new ArrayList( size );
+                for ( int i = 0; i < size; i++ ) {
+                    contentList.add( contentDescriptors[i] );
+                }
+                // force lazy recreation later
+                contentDescriptors = null;
+            } else {
+                contentList = new ArrayList();
+            }            
+        }
+        return contentList;
     }
     
     /**
