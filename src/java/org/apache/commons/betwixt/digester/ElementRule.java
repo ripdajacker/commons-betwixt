@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.7 2003/01/19 23:25:52 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.8 2003/03/18 22:30:43 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
@@ -99,9 +99,15 @@ public class ElementRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws SAXException 1. If this tag's parent is not either an info or element tag.
      * 2. If the name attribute is not valid XML element name.
+     * 3. If the name attribute is not present 
      */
     public void begin(Attributes attributes) throws SAXException {
         String name = attributes.getValue( "name" );
+        
+        // check that the name attribute is present 
+        if ( name == null || name.trim().equals( "" ) ) {
+            throw new SAXException("Name attribute is required.");
+        }
         
         // check that name is well formed 
         if ( !XMLUtils.isWellFormedXMLName( name ) ) {
