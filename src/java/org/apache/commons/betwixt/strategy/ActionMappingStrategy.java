@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ActionMappingStrategy.java,v 1.1.2.1 2004/02/21 17:20:19 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/21 17:20:19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ActionMappingStrategy.java,v 1.1.2.2 2004/04/18 17:34:38 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/04/18 17:34:38 $
  *
  * ====================================================================
  * 
@@ -69,13 +69,31 @@ import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.xml.sax.Attributes;
 
 /**
+ * <p>
+ * Pluggable strategy interface used for free mappings.
+ * </p>
+ * <p>
+ * Free mappings (ones where the current mapping ) 
+ * are executed by calling a <code>ActionMappingStrategy</code> 
+ * implementation.
+ * So, using a custom strategy is an easy way to 
+ * customize the mapping. 
+ * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class ActionMappingStrategy {
     
 
-    
+    /**
+     * Gets the mapping action to map the given element.
+     * @param namespace not null
+     * @param name not null
+     * @param attributes <code>Attributes</code>, not null
+     * @param context <code>ReadContext</code>, not null
+     * @return <code>MappingAction</code>, not null
+     * @throws Exception
+     */
     public MappingAction getMappingAction(    
                             String namespace,
                             String name,
