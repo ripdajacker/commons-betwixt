@@ -63,6 +63,7 @@ import java.lang.reflect.Method;
 
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
@@ -81,7 +82,7 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.3 2003/06/11 21:29:32 rdonkin Exp $
+  * @version $Id: TextRule.java,v 1.4 2003/07/13 21:28:10 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 
@@ -137,6 +138,10 @@ public class TextRule extends MappedPropertyRule {
                 if ( propertyDescriptor != null ) { 
                         Method readMethod = propertyDescriptor.getReadMethod();
                         descriptor.setTextExpression( new MethodExpression( readMethod ) );
+                        Method writeMethod = propertyDescriptor.getWriteMethod();
+                        if (writeMethod != null) {
+                            descriptor.setUpdater( new MethodUpdater(writeMethod));
+                        }
                         getProcessedPropertyNameSet().add( name );
                 }
             }

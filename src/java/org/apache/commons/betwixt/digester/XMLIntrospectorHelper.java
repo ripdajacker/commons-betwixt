@@ -85,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.22 2003/07/01 19:09:49 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.23 2003/07/13 21:28:10 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -115,6 +115,7 @@ public class XMLIntrospectorHelper {
     }
     
 
+
     /** 
      * Process a property. 
      * Go through and work out whether it's a loop property, a primitive or a standard.
@@ -125,6 +126,7 @@ public class XMLIntrospectorHelper {
      * @param introspector use this <code>XMLIntrospector</code>
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      * @throws IntrospectionException when bean introspection fails
+     * @deprecated this method has been replaced by {@link XMLIntrospector#createDescriptor}
      */
     public static NodeDescriptor createDescriptor( 
         PropertyDescriptor propertyDescriptor, 

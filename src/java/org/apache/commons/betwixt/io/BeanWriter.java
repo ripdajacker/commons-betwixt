@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.17 2003/04/11 21:47:12 rdonkin Exp $
- * $Revision: 1.17 $
- * $Date: 2003/04/11 21:47:12 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.18 2003/07/13 21:28:24 rdonkin Exp $
+ * $Revision: 1.18 $
+ * $Date: 2003/07/13 21:28:24 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.17 2003/04/11 21:47:12 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.18 2003/07/13 21:28:24 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -121,7 +121,7 @@ import org.apache.commons.betwixt.XMLUtils;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.17 $
+  * @version $Revision: 1.18 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -169,8 +169,9 @@ public class BeanWriter extends AbstractBeanWriter {
      * and allows encoding to be set.</p>
      *
      * @param out write out representations to this stream
-     * @param end the name of the encoding to be used. This should be compatible
+     * @param enc the name of the encoding to be used. This should be compatible
      * with the encoding types described in <code>java.io</code>
+     * @throws UnsupportedEncodingException if the given encoding is not supported
      */
     public BeanWriter(OutputStream out, String enc) throws UnsupportedEncodingException {
         this.writer = new BufferedWriter( new OutputStreamWriter( out, enc ) );

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/07 22:32:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.7 2003/07/13 21:28:10 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/07/13 21:28:10 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddDefaultsRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
+ * $Id: AddDefaultsRule.java,v 1.7 2003/07/13 21:28:10 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -66,10 +66,11 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
-import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
+import org.apache.commons.betwixt.Descriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -79,7 +80,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -115,9 +116,8 @@ public class AddDefaultsRule extends RuleSupport {
                         if ( procesedProperties.contains( name ) ) {
                             continue;
                         }
-                        NodeDescriptor nodeDescriptor = XMLIntrospectorHelper.createDescriptor( 
-                            descriptor, attributesForPrimitives, getXMLIntrospector()
-                        );
+                        Descriptor nodeDescriptor = getXMLIntrospector().createDescriptor(
+                                    descriptor, attributesForPrimitives);
                         if ( nodeDescriptor != null ) {
                             addDescriptor( nodeDescriptor );
                         }
@@ -138,7 +138,20 @@ public class AddDefaultsRule extends RuleSupport {
 
     // Implementation methods
     //-------------------------------------------------------------------------    
-    
+   
+    /**
+    * Add a desciptor to the top object on the Digester stack.
+    * 
+    * @param nodeDescriptor add this <code>NodeDescriptor</code>. Must not be null.
+    * @throws SAXException if the parent for the addDefaults element is not a <element> 
+    * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
+    * <code>ElementDescriptor</code>
+    * @deprecated replaced {@link #addDescriptor( Descriptor )} 
+    */
+    protected void addDescriptor( NodeDescriptor nodeDescriptor ) throws SAXException {
+        addDescriptor( (Descriptor) nodeDescriptor );
+    }
+      
     /**
     * Add a desciptor to the top object on the Digester stack.
     * 
@@ -147,7 +160,7 @@ public class AddDefaultsRule extends RuleSupport {
     * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
     * <code>ElementDescriptor</code>
     */
-    protected void addDescriptor( NodeDescriptor nodeDescriptor ) throws SAXException {
+    protected void addDescriptor( Descriptor nodeDescriptor ) throws SAXException {
         Object top = digester.peek();
         if ( top instanceof XMLBeanInfo ) {
             log.warn( "It is advisable to put an <addDefaults/> element inside an <element> tag" );

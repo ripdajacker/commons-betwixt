@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.6 2003/07/01 19:10:45 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/07/01 19:10:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.7 2003/07/13 21:28:24 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/07/13 21:28:24 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.6 2003/07/01 19:10:45 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.7 2003/07/13 21:28:24 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -67,6 +67,7 @@ import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
@@ -83,7 +84,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -314,7 +315,9 @@ public class BeanRuleSet implements RuleSet {
                                     if (childDescriptor.isWrapCollectionsInElement()) {
                                         path += '/' + grandChildQName;
                                         if (log.isTraceEnabled()) {
-                                            log.trace("Descriptor wraps elements in collection, path:" + path);
+                                            log.trace(
+                                    "Descriptor wraps elements in collection, path:" 
+                                                + path);
                                         }
                                         
                                     } else {
@@ -322,8 +325,8 @@ public class BeanRuleSet implements RuleSet {
                                             + (prefix.endsWith("/")?"":"/") + grandChildQName;
                                         if (log.isTraceEnabled()) {
                                             log.trace(
-                                                "Descriptor does not wrap elements in collection, path:" 
-                                                + path);
+                                    "Descriptor does not wrap elements in collection, path:" 
+                                            + path);
                                         }
                                     }
                                 }
@@ -664,7 +667,35 @@ public class BeanRuleSet implements RuleSet {
                     }
                 }
             }
-        
+            
+            /**
+              * Called by digester with the (concatinated) body text.
+              *
+              * @param text the String comprising all the body text
+              */
+            public void body(String text) {
+                
+                log.trace("Body with text " + text);
+                if ( digester.getCount() > 0 ) {
+                    Context bodyContext = context.newContext( digester.peek() );
+                    // Take the first content descriptor
+                    ElementDescriptor typeDescriptor = getElementDescriptor( descriptor );
+                    TextDescriptor descriptor = typeDescriptor.getPrimaryBodyTextDescriptor();
+                    if ( descriptor != null ) {
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Setting mixed content for:");
+                            log.trace(descriptor);
+                        }
+                        Updater updater = descriptor.getUpdater();
+                        log.trace( "Updating mixed content with:" );
+                        log.trace( updater );
+                        if ( updater != null && text != null ) {
+                            updater.update( bodyContext, text );
+                        }
+                    }
+                }
+            }
+
             /**
             * Process the end of this element.
             */
@@ -766,6 +797,7 @@ public class BeanRuleSet implements RuleSet {
                     
                 } catch (Exception e) {
                     log.warn( "Could not create instance of type: " + theClass.getName() );
+                    log.debug( "Create new instance failed: ", e );
                     return null;
                 }
             }    

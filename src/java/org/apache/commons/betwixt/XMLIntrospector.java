@@ -61,6 +61,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,8 @@ import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.StringExpression;
+import org.apache.commons.betwixt.expression.MethodExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
@@ -98,7 +101,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.20 2003/04/15 21:51:44 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.21 2003/07/13 21:28:35 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -292,7 +295,7 @@ public class XMLIntrospector {
         Class beanClass = beanDescriptor.getBeanClass();
         String name = beanDescriptor.getName();
         // Array's contain a bad character
-        if (beanClass.isArray()) {	
+        if (beanClass.isArray()) {
             // called all array's Array
             name = "Array";
         }
@@ -328,14 +331,15 @@ public class XMLIntrospector {
         } else {
             List elements = new ArrayList();
             List attributes = new ArrayList();
+            List contents = new ArrayList();
 
-            addProperties( beanInfo, elements, attributes );
+            addProperties( beanInfo, elements, attributes, contents );
 
             BeanInfo[] additionals = beanInfo.getAdditionalBeanInfo();
             if ( additionals != null ) {
                 for ( int i = 0, size = additionals.length; i < size; i++ ) {
                     BeanInfo otherInfo = additionals[i];
-                    addProperties( otherInfo, elements, attributes );
+                    addProperties( otherInfo, elements, attributes, contents );
                 }            
             }        
 
@@ -350,6 +354,14 @@ public class XMLIntrospector {
                 AttributeDescriptor[] descriptors = new AttributeDescriptor[size];
                 attributes.toArray( descriptors );
                 elementDescriptor.setAttributeDescriptors( descriptors );
+            }
+            size = contents.size();
+            if ( size > 0 ) {
+                if ( size > 0 ) {
+                    Descriptor[] descriptors = new Descriptor[size];
+                    contents.toArray( descriptors );
+                    elementDescriptor.setContentDescriptors( descriptors );
+                }
             }
         }
         
@@ -489,6 +501,132 @@ public class XMLIntrospector {
     }
 
  
+    /** 
+     * Create a XML descriptor from a bean one. 
+     * Go through and work out whether it's a loop property, a primitive or a standard.
+     * The class property is ignored.
+     *
+     * @param propertyDescriptor create a <code>NodeDescriptor</code> for this property
+     * @param useAttributesForPrimitives write primitives as attributes (rather than elements)
+     * @return a correctly configured <code>NodeDescriptor</code> for the property
+     * @throws IntrospectionException when bean introspection fails
+     */
+    public Descriptor createDescriptor(
+        PropertyDescriptor propertyDescriptor, 
+        boolean useAttributesForPrimitives
+    ) throws IntrospectionException {
+        String name = propertyDescriptor.getName();
+        Class type = propertyDescriptor.getPropertyType();
+       
+        if (log.isTraceEnabled()) {
+            log.trace("Creating descriptor for property: name="
+                + name + " type=" + type);
+        }
+        
+        Descriptor descriptor = null;
+        Method readMethod = propertyDescriptor.getReadMethod();
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        
+        if ( readMethod == null ) {
+            if (log.isTraceEnabled()) {
+                log.trace( "No read method for property: name="
+                    + name + " type=" + type);
+            }
+            return null;
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Read method=" + readMethod.getName() );
+        }
+        
+        // choose response from property type
+        
+        // XXX: ignore class property ??
+        if ( Class.class.equals( type ) && "class".equals( name ) ) {
+            log.trace( "Ignoring class property" );
+            return null;
+        }
+        if ( isPrimitiveType( type ) ) {
+            if (log.isTraceEnabled()) {
+                log.trace( "Primitive type: " + name);
+            }
+            if ( useAttributesForPrimitives ) {
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as attribute: " + name );
+                }
+                descriptor = new AttributeDescriptor();
+            } else {
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as element: " + name );
+                }
+                descriptor = new ElementDescriptor(true);
+            }
+            descriptor.setTextExpression( new MethodExpression( readMethod ) );
+            if ( writeMethod != null ) {
+                descriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
+        } else if ( isLoopType( type ) ) {
+            if (log.isTraceEnabled()) {
+                log.trace("Loop type: " + name);
+                log.trace("Wrap in collections? " + isWrapCollectionsInElement());
+            }
+            ElementDescriptor loopDescriptor = new ElementDescriptor();
+            loopDescriptor.setContextExpression(
+                new IteratorExpression( new MethodExpression( readMethod ) )
+            );
+            loopDescriptor.setWrapCollectionsInElement( isWrapCollectionsInElement() );
+            // XXX: need to support some kind of 'add' or handle arrays, Lists or indexed properties
+            //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            if ( Map.class.isAssignableFrom( type ) ) {
+                loopDescriptor.setQualifiedName( "entry" );
+                // add elements for reading
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
+            }
+
+            ElementDescriptor elementDescriptor = new ElementDescriptor();
+            elementDescriptor.setWrapCollectionsInElement( isWrapCollectionsInElement() );
+            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+            
+            descriptor = elementDescriptor;
+        } else {
+            if (log.isTraceEnabled()) {
+                log.trace( "Standard property: " + name);
+            }
+            ElementDescriptor elementDescriptor = new ElementDescriptor();
+            elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
+            if ( writeMethod != null ) {
+                elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
+            
+            descriptor = elementDescriptor;
+        }
+
+        if (descriptor instanceof NodeDescriptor) {
+            NodeDescriptor nodeDescriptor = (NodeDescriptor) descriptor;
+            if (descriptor instanceof AttributeDescriptor) {
+            // we want to use the attributemapper only when it is an attribute.. 
+            nodeDescriptor.setLocalName( 
+                getAttributeNameMapper().mapTypeToElementName( name ) );
+        } else {
+            nodeDescriptor.setLocalName( 
+                getElementNameMapper().mapTypeToElementName( name ) );
+        }        
+        }
+  
+        descriptor.setPropertyName( propertyDescriptor.getName() );
+        descriptor.setPropertyType( type );
+        
+        // XXX: associate more bean information with the descriptor?
+        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
+        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+        
+        if (log.isTraceEnabled()) {
+            log.trace("Created descriptor:");
+            log.trace(descriptor);
+        }
+        return descriptor;
+    }
 
 
 
@@ -566,7 +704,74 @@ public class XMLIntrospector {
      * @param beanInfo the BeanInfo whose properties will be processed
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
+     * @param contents Descriptor list to which mixed content will be added
      * @throws IntrospectionException if the bean introspection fails
+     */
+    protected void addProperties(
+                                    BeanInfo beanInfo, 
+                                    List elements, 
+                                    List attributes,
+                                    List contents)
+                                        throws 
+                                            IntrospectionException {
+        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+        if ( descriptors != null ) {
+            for ( int i = 0, size = descriptors.length; i < size; i++ ) {
+                addProperty(beanInfo, descriptors[i], elements, attributes, contents);
+            }
+        }
+        if (log.isTraceEnabled()) {
+            log.trace(elements);
+            log.trace(attributes);
+            log.trace(contents);
+        }
+    }
+    
+    /** 
+     * Process a property. 
+     * Go through and work out whether it's a loop property, a primitive or a standard.
+     * The class property is ignored.
+     *
+     * @param beanInfo the BeanInfo whose property is being processed
+     * @param propertyDescriptor the PropertyDescriptor to process
+     * @param elements ElementDescriptor list to which elements will be added
+     * @param attributes AttributeDescriptor list to which attributes will be added
+     * @param contents Descriptor list to which mixed content will be added
+     * @throws IntrospectionException if the bean introspection fails
+     */
+    protected void addProperty(
+                                BeanInfo beanInfo, 
+                                PropertyDescriptor propertyDescriptor, 
+                                List elements, 
+                                List attributes,
+                                List contents)
+                                    throws 
+                                        IntrospectionException {
+        Descriptor nodeDescriptor = XMLIntrospectorHelper
+            .createDescriptor(propertyDescriptor,
+                                 isAttributesForPrimitives(),
+                                 this);
+        if (nodeDescriptor == null) {
+           return;
+        }
+        if (nodeDescriptor instanceof ElementDescriptor) {
+           elements.add(nodeDescriptor);
+        } else if (nodeDescriptor instanceof AttributeDescriptor) {
+           attributes.add(nodeDescriptor);
+        } else {
+           contents.add(nodeDescriptor);
+        }
+    }
+    
+    /** 
+     * Loop through properties and process each one 
+     *
+     * @param beanInfo the BeanInfo whose properties will be processed
+     * @param elements ElementDescriptor list to which elements will be added
+     * @param attributes AttributeDescriptor list to which attributes will be added
+     * @throws IntrospectionException if the bean introspection fails
+     * @deprecated this method does not support mixed content. 
+     * Use {@link #addProperties(BeanInfo, List, List, List)} instead.
      */
     protected void addProperties(
                                     BeanInfo beanInfo, 
@@ -596,6 +801,8 @@ public class XMLIntrospector {
      * @param elements ElementDescriptor list to which elements will be added
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @throws IntrospectionException if the bean introspection fails
+     * @deprecated this method does not support mixed content. 
+     * Use {@link #addProperty(BeanInfo, PropertyDescriptor, List, List, List)} instead.
      */
     protected void addProperty(
                                 BeanInfo beanInfo, 
@@ -617,6 +824,7 @@ public class XMLIntrospector {
            attributes.add(nodeDescriptor);
         }
     }
+
     
     /** 
      * Factory method to create XMLBeanInfo instances 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.10 2003/07/01 19:10:45 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2003/07/01 19:10:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.11 2003/07/13 21:28:35 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/07/13 21:28:35 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.10 2003/07/01 19:10:45 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.11 2003/07/13 21:28:35 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -348,6 +348,30 @@ public class ElementDescriptor extends NodeDescriptor {
             }
         }
         return contentDescriptors;
+    }
+    
+    /**
+     * <p>Gets the primary descriptor for body text of this element. 
+     * Betwixt collects all body text for any element together.
+     * This makes it rounds tripping difficult for beans that write more than one
+     * mixed content property.
+     * </p><p>
+     * The algorithm used in the default implementation is that the first TextDescriptor
+     * found amongst the descriptors is returned.
+     *
+     * @return the primary descriptor or null if this element has no mixed body content
+     */
+    public TextDescriptor getPrimaryBodyTextDescriptor() {
+        // todo: this probably isn't the most efficent algorithm
+        // but should avoid premature optimization
+        Descriptor[] descriptors = getContentDescriptors();
+        for (int i=0, size=descriptors.length; i<size; i++) {
+            if (descriptors[i] instanceof TextDescriptor) {
+                return (TextDescriptor) descriptors[i];
+            }
+        }
+        // if we haven't found anything, return null.
+        return null;
     }
 
     /** 
