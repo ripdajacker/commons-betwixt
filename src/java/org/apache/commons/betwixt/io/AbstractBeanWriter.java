@@ -272,6 +272,7 @@ public abstract class AbstractBeanWriter {
                                     beanInfo.getIDAttributeName(),
                                     id);
                                     
+
                             } else {    
                                 // write element without ID
                                 writeElement( 
@@ -285,8 +286,13 @@ public abstract class AbstractBeanWriter {
                         } else {
                             // use id from bean property
                             // it's up to the user to ensure uniqueness
-                            // XXX should we trap nulls?
-                            Object exp = idAttribute.getTextExpression().evaluate( context );
+                            Expression idExpression = idAttribute.getTextExpression();
+                            if(idExpression == null) {
+                                   throw new IntrospectionException(
+                                         "The specified id property wasn't found in the bean ("
+                                        + idAttribute + ").");
+                            }
+                            Object exp = idExpression.evaluate( context );
                             if (exp == null) {
                                 // we'll use a random id
                                 log.debug("Using random id");
@@ -1206,7 +1212,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.28 $
+     * @version $Revision: 1.29 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */
