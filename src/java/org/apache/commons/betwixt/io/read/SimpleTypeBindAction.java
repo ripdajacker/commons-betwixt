@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/Attic/BodyUpdateAction.java,v 1.1.2.1 2004/01/13 22:24:59 rdonkin Exp $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.1 2004/02/21 13:39:36 rdonkin Exp $
  * $Revision: 1.1.2.1 $
- * $Date: 2004/01/13 22:24:59 $
+ * $Date: 2004/02/21 13:39:36 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BodyUpdateAction.java,v 1.1.2.1 2004/01/13 22:24:59 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.1 2004/02/21 13:39:36 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -69,13 +69,13 @@ import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.collections.IteratorUtils;
 
 /** 
-  * This is an action that 
+  * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @version $Revision: 1.1.2.1 $
   */
-public class BodyUpdateAction extends MappingAction.Base {
+public class SimpleTypeBindAction extends MappingAction.Base {
 
-    public static final BodyUpdateAction INSTANCE = new BodyUpdateAction();
+    public static final SimpleTypeBindAction INSTANCE = new SimpleTypeBindAction();
 
     public void body(String text, ReadContext context) throws Exception {
         // add dyna-bean support!

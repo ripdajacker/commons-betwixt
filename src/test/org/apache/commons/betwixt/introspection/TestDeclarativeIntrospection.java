@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.6 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.7 2004/02/21 13:39:06 rdonkin Exp $
+ * $Revision: 1.1.2.7 $
+ * $Date: 2004/02/21 13:39:06 $
  *
  * ====================================================================
  * 
@@ -72,7 +72,7 @@ import org.apache.commons.betwixt.examples.rss.Channel;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.7 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
@@ -297,6 +297,68 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
                 assertFalse("hour is not hollow", childNodesOfChannel[i].getElementDescriptors()[0].isHollow());
             }    
         }
+    }
+    
+    /** Tests for setting for map with a simple key */
+    public void testMapWithSimpleKey() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        XMLBeanInfo out = introspector.introspect(AddressBook.class);
+        
+        ElementDescriptor formatterDescriptor = out.getElementDescriptor();
+        ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+        
+        assertEquals("Two top level children", 2, formatterChildDescriptors.length);
+        
+        ElementDescriptor entryDescriptor = formatterChildDescriptors[0];
+        assertEquals("Must be called entry", "entry" , entryDescriptor.getLocalName());
+        assertFalse("Is not hollow",  entryDescriptor.isHollow());
+        assertNull("No updater for entry spacer",  entryDescriptor.getUpdater());
+        
+        ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
+        assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+        
+        ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+        assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
+        assertFalse("Is simple therefore not hollow",  keyDescriptor.isHollow());
+        assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
+        
+        ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+        assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
+        assertTrue("Is not simple therefore hollow",  valueDescriptor.isHollow());
+        assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
+    }
+    
+    /** Tests introspector of map with simple entries */
+    public void testMapWithSimpleEntry() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        XMLBeanInfo out = introspector.introspect(AddressBook.class);
+        
+        ElementDescriptor formatterDescriptor = out.getElementDescriptor();
+        ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+        
+        assertEquals("Two top level children", 2, formatterChildDescriptors.length);
+        
+        ElementDescriptor entryDescriptor = formatterChildDescriptors[1];
+        assertEquals("Must be called entry", "entry" , entryDescriptor.getLocalName());
+        assertFalse("Is not hollow",  entryDescriptor.isHollow());
+        assertNull("No updater for entry spacer",  entryDescriptor.getUpdater());
+        
+        ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
+        assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+        
+        ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+        assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
+        assertTrue("Is not simple therefore hollow",  keyDescriptor.isHollow());
+        assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
+        
+        ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+        assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
+        assertFalse("Is simple therefore not hollow",  valueDescriptor.isHollow());
+        assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
     }
     
 }

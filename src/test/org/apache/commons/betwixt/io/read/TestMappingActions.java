@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestMappingActions.java,v 1.1.2.1 2004/01/13 22:08:04 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/13 22:08:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestMappingActions.java,v 1.1.2.2 2004/02/21 13:39:06 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/21 13:39:06 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestMappingActions.java,v 1.1.2.1 2004/01/13 22:08:04 rdonkin Exp $
+ * $Id: TestMappingActions.java,v 1.1.2.2 2004/02/21 13:39:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -77,7 +77,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * Test harness for Mapping Actions.
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestMappingActions.java,v 1.1.2.1 2004/01/13 22:08:04 rdonkin Exp $
+ * @version $Id: TestMappingActions.java,v 1.1.2.2 2004/02/21 13:39:06 rdonkin Exp $
  */
 public class TestMappingActions extends AbstractTestCase {
 
@@ -146,7 +146,7 @@ public class TestMappingActions extends AbstractTestCase {
         context.markClassMap(AddressBean.class);
         context.pushElement("NoMatch");
         context.setXMLIntrospector(introspector);
-        BodyUpdateAction action = new BodyUpdateAction();
+        SimpleTypeBindAction action = new SimpleTypeBindAction();
         action.body("Street value", context);
         assertEquals("Street is unset", "DEFAULT", bean.getStreet());
         assertEquals("Country is unset", "DEFAULT", bean.getCountry());
@@ -166,7 +166,7 @@ public class TestMappingActions extends AbstractTestCase {
         context.markClassMap(AddressBean.class);
         context.pushElement("street");
         context.setXMLIntrospector(introspector);
-        BodyUpdateAction action = new BodyUpdateAction();
+        SimpleTypeBindAction action = new SimpleTypeBindAction();
         action.body("Street value", context);
         assertEquals("Street is set", "Street value", bean.getStreet());
         assertEquals("Country is unset", "DEFAULT", bean.getCountry());

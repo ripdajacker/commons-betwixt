@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.4 2004/01/18 22:25:22 rdonkin Exp $
- * $Revision: 1.16.2.4 $
- * $Date: 2004/01/18 22:25:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.5 2004/02/21 13:39:06 rdonkin Exp $
+ * $Revision: 1.16.2.5 $
+ * $Date: 2004/02/21 13:39:06 $
  *
  * ====================================================================
  * 
@@ -60,6 +60,7 @@
  */
 package org.apache.commons.betwixt.io;
 
+import java.beans.IntrospectionException;
 import java.util.Map;
 
 import org.apache.commons.betwixt.BindingConfiguration;
@@ -69,7 +70,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.io.read.BeanBindAction;
-import org.apache.commons.betwixt.io.read.BodyUpdateAction;
+import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
@@ -84,7 +85,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.4 $
+  * @version $Revision: 1.16.2.5 $
   */
 public class BeanRuleSet implements RuleSet {
 
@@ -287,100 +288,34 @@ public class BeanRuleSet implements RuleSet {
             Attributes attributes,
             ReadContext context)
             throws Exception {
-            MappingAction result = MappingAction.EMPTY;
+                
+            MappingAction result = null;
+            if (context.currentMappingAction() == null)
+            {
+                result =  BeanBindAction.INSTANCE;   
+            } else {
+                
+                result = createAction(name, context);
+            }
+            return result.begin(namespace, name, attributes, context);
+        }
 
-            // TODO: replace with declarative system
-            // this is rubbish and needs to be replaced with something more declarative
-            // may need to think about whether ElementDescritor would be the right place for this information
+        private MappingAction createAction(String name, ReadContext context)
+            throws Exception, IntrospectionException {
+            MappingAction result = MappingAction.EMPTY;
+            
             ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
             if (activeDescriptor != null) {
-                Class lastMapped = context.getLastMappedClass();
-                if (context.getXMLIntrospector().
-                    isPrimitiveType(activeDescriptor.getPropertyType())) {
-                    // primitives are mapped to body update actions
-                    result = BodyUpdateAction.INSTANCE;
-                } else if (lastMapped == null) {
-                    // The basic action must be a bean bind
+                if (activeDescriptor.isHollow())
+                {
                     result = BeanBindAction.INSTANCE;
-
-                } else if (activeDescriptor.getUpdater() != null) {
-                    Class singular = activeDescriptor.getPropertyType();
-                    // TODO: this is a workaround and needs to be fixed!
-                    // really, need a marker to indicate whether a element descriptor 
-                    // is hollow
-                    if (activeDescriptor.getElementDescriptors().length != 0
-                        && context.getXMLIntrospector().isLoopType(singular)) {
-                        result = MappingAction.EMPTY;
-                    } else if (singular == null) {
-                        // workaround for map support
-                        if ("value".equals(name)) {
-                            result = BeanBindAction.INSTANCE;
-                        } else {
-
-                            result = BodyUpdateAction.INSTANCE;
-                        }
-                    } else {
-                        if (XMLIntrospectorHelper
-                            .isPrimitiveType(
-                                activeDescriptor.getSingularPropertyType())) {
-                            result = BodyUpdateAction.INSTANCE;
-
-                        } else {
-                            result = BeanBindAction.INSTANCE;
-                        }
-                    }
-
-                } else if (context.currentMappingAction() == null) {
-                    // the basic action is bean bind
-                    result = BeanBindAction.INSTANCE;
-
-                } else {
-                    boolean isElementWithinLoop = false;
-                    Class singularType = null;
-                    Class loopType = null;
-                    // TODO: this seems wrong to me
-                    // the structure of the element descriptors should reflect
-                    // the structure of the xml
-                    XMLBeanInfo childXMLBeanInfo =
-                        context.getLastMappedClassXMLBeanInfo();
-                    ElementDescriptor parentDescriptor =
-                        childXMLBeanInfo.getElementDescriptor().findParent(
-                            activeDescriptor);
-                    Class parent = parentDescriptor.getPropertyType();
-                    if (XMLIntrospectorHelper.isLoopType(parent)) {
-                        isElementWithinLoop = true;
-                        singularType =
-                            parentDescriptor.getSingularPropertyType();
-                        loopType = parent;
-                    }
-
-                    //TODO: this is too much work to discover whether an element
-                    //      is within a loop
-                    //      should probably just mark extra elements in loops
-                    //      as unmapped elements (to be ignored)
-                    if (isElementWithinLoop) {
-                    	//TODO: the ElementDescriptor.isPrimitiveType
-                        //      does seems to work in the same way as
-                    	//      the XMLIntrospectorHelper version
-                    	//      Need to generalize 
-                        if (XMLIntrospectorHelper
-                            .isPrimitiveType(singularType)) {
-
-                            result = BodyUpdateAction.INSTANCE;
-                            
-                        } else if (Map.class.isAssignableFrom(loopType)) {
-                            //TODO: this is needed because there's no marking
-                            // 		for element descriptors that have no
-                            //		mapping  
-                            result = MappingAction.EMPTY;
-                        } else {
-                            result = BeanBindAction.INSTANCE;
-                        }
-                    }
+                }
+                else if (activeDescriptor.isSimple())
+                {
+                    result = SimpleTypeBindAction.INSTANCE;
                 }
             }
-
-            return result.begin(namespace, name, attributes, context);
+            return result;
         }
 
         /**

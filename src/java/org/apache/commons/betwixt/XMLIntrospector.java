@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.9 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.27.2.9 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.10 2004/02/21 13:39:06 rdonkin Exp $
+ * $Revision: 1.27.2.10 $
+ * $Date: 2004/02/21 13:39:06 $
  *
  * ====================================================================
  * 
@@ -111,7 +111,7 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.9 2004/02/08 12:11:17 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.10 2004/02/21 13:39:06 rdonkin Exp $
   */
 public class XMLIntrospector {
     
@@ -820,14 +820,20 @@ public class XMLIntrospector {
                                       
                         children[n].setUpdater( adder.getKeyUpdater() );
                         children[n].setSingularPropertyType(  keyType );
+                        if ( isPrimitiveType(keyType) ) {
+                            children[n].setHollow(false);
+                        }
                         if ( getLog().isTraceEnabled() ) {
                             getLog().trace( "Key descriptor: " + children[n]);
                         }                                               
                                                 
                     } else if ( "value".equals( children[n].getLocalName() ) ) {
 
-                            children[n].setUpdater( adder.getValueUpdater() );
-                            children[n].setSingularPropertyType( valueType );
+                        children[n].setUpdater( adder.getValueUpdater() );
+                        children[n].setSingularPropertyType( valueType );
+                        if ( isPrimitiveType( valueType) ) {
+                            children[n].setHollow(false);
+                        }
                         if ( getLog().isTraceEnabled() ) { 
                             getLog().trace( "Value descriptor: " + children[n]);
                         }

@@ -166,6 +166,14 @@
                 </resource>
             </resources>
         </unitTest>
+        <resources>
+            <resource>
+                <directory>${pom.build.unitTestSourceDirectory}</directory>
+                <includes>
+                    <include>**/*.betwixt</include>
+                </includes>
+            </resource>
+        </resources>
   </build>
 
 </project>
