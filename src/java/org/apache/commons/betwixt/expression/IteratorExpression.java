@@ -1,7 +1,7 @@
  /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.2 2002/07/01 18:55:39 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/01 18:55:39 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.3 2002/12/30 17:33:48 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/12/30 17:33:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IteratorExpression.java,v 1.2 2002/07/01 18:55:39 rdonkin Exp $
+ * $Id: IteratorExpression.java,v 1.3 2002/12/30 17:33:48 mvdb Exp $
  */
 
 package org.apache.commons.betwixt.expression;
@@ -68,14 +68,13 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.ArrayIterator;
-import org.apache.commons.collections.EnumerationIterator;
-import org.apache.commons.collections.SingletonIterator;
+import org.apache.commons.collections.iterators.ArrayIterator;
+import org.apache.commons.collections.iterators.EnumerationIterator;
 
 /** <p><code>IteratorExpression</code> returns an iterator over the current context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class IteratorExpression implements Expression {
     
