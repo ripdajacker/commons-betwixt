@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 22:45:05 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.3 2003/01/01 21:41:13 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/01 21:41:13 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.2 2002/12/30 22:45:05 rdonkin Exp $
+ * $Id: TestXMLIntrospector.java,v 1.3 2003/01/01 21:41:13 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -88,7 +88,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -216,12 +216,13 @@ public class TestXMLIntrospector extends AbstractTestCase {
         assertEquals("Wrong number of elements", 2 , elementDescriptors.length);
 
         // order of properties isn't guarenteed 
+        boolean alphaFirst = true;
         if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-        
+            
             assertEquals("Second element name", "gamma" , elementDescriptors[1].getPropertyName());
             
         } else {
-        
+            alphaFirst = false;
             assertEquals("First element name", "gamma" , elementDescriptors[0].getPropertyName());
             assertEquals("Second element name", "alpha" , elementDescriptors[1].getPropertyName());
         }
@@ -233,9 +234,17 @@ public class TestXMLIntrospector extends AbstractTestCase {
         BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value","beta value","gamma value");
         writer.write(bean);
         
-        xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output.xml"),
+        if (alphaFirst) {
+        
+            xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-a.xml"),
                     parseString(out.toString()));
+        
+        } else {
+            xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-g.xml"),
+                    parseString(out.toString()));
+        }
     }
 }
 

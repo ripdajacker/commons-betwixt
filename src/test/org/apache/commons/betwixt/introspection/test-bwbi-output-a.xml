@@ -1,0 +1,5 @@
+<?xml version='1.0'?>
+<BeanWithBeanInfoBean>
+        <alpha>alpha value</alpha>
+	<gamma>gamma value</gamma>
+</BeanWithBeanInfoBean>
