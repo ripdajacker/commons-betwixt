@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.15 2003/02/27 19:20:17 rdonkin Exp $
- * $Revision: 1.15 $
- * $Date: 2003/02/27 19:20:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.16 2003/03/04 21:48:10 rdonkin Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/03/04 21:48:10 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.15 2003/02/27 19:20:17 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.16 2003/03/04 21:48:10 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -120,7 +120,7 @@ import org.apache.commons.betwixt.XMLUtils;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.15 $
+  * @version $Revision: 1.16 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -139,6 +139,8 @@ public class BeanWriter extends AbstractBeanWriter {
     private Log log = LogFactory.getLog( BeanWriter.class );
     /** Has any content (excluding attributes) been written to the current element */
     private boolean currentElementIsEmpty = false;
+    /** Has the current element written any body text */
+    private boolean currentElementHasBodyText = false;
     /** Has the last start tag been closed */
     private boolean closedStartTag = true;
     /** Current level of indentation (starts at 1 with the first element) */
@@ -334,6 +336,7 @@ public class BeanWriter extends AbstractBeanWriter {
         }
         closedStartTag = false;
         currentElementIsEmpty = true;
+        currentElementHasBodyText = false;
     }
     
     /**
@@ -360,15 +363,19 @@ public class BeanWriter extends AbstractBeanWriter {
             closedStartTag = true;
             
         } else {
-        
+            if (!currentElementHasBodyText) {
+                indent();
+            }
             writer.write( "</" );
             writer.write( qualifiedName );
             writer.write( '>' );
-        
+            
         }
         
         indentLevel--;
         printLine();
+        
+        currentElementHasBodyText = false;
     }
 
     /** 
@@ -390,6 +397,7 @@ public class BeanWriter extends AbstractBeanWriter {
             }
             writer.write( XMLUtils.escapeBodyValue(text) );
             currentElementIsEmpty = false;
+            currentElementHasBodyText = true;
         }
     }
     

@@ -77,6 +77,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.digester.rss.Channel;
 import org.apache.commons.digester.rss.RSSDigester;
 
+import org.apache.commons.logging.impl.SimpleLog;
 
 /** Test harness which parses an RSS document using Digester
   * then outputs it using Betwixt, then parses it again with Digester
@@ -220,11 +221,17 @@ public class TestRSSRoundTrip extends AbstractTestCase {
         xmlAssertIsomorphic(
             parseString( xml ), 
             parseFile( "src/test/org/apache/commons/betwixt/rss-example.xml" ));
-    */
+        */
     }
     
     protected void write(Object bean, Writer out) throws Exception {
+        //SimpleLog log = new SimpleLog("[TestRSSRoundTrip:BeanWriter]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         BeanWriter writer = new BeanWriter(out);
+        //writer.setLog(log);
+        //log = new SimpleLog("[TestRSSRoundTrip:AbstractBeanWriter]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //writer.setAbstractBeanWriterLog(log);
         writer.setWriteEmptyElements(true);
         writer.getXMLIntrospector().setAttributesForPrimitives(false);
         writer.setWriteIDs(false);
