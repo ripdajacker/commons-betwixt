@@ -7,6 +7,16 @@
   </properties>
 
   <body>
+    <section name="On The Apache Wiki">
+        <p>
+The Apache Wiki is a Wiki run by Apache for the Apache community. The Betwixt Wiki home page is
+<a href='http://nagoya.apache.org/wiki/apachewiki.cgi?BetwixtComponentPage'>here</a>.
+            </p>
+        <p>
+Anyone is welcome to create new content about Betwixt providing that they 
+observe the usual rules of netiquette.
+            </p>
+        </section>
     <section name="IRC">
       <p>
       The Werken Company runs an IRC server with a permenant Betwixt channel. 
