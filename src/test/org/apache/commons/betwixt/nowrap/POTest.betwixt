@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="content">
+    <element name="printingno" property="printingNumber"/>
+    <addDefaults/>
+  </element>
+</info>
