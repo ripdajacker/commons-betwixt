@@ -57,8 +57,6 @@ package org.apache.commons.betwixt.digester;
  * 
  */
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 import java.lang.reflect.Method;
@@ -68,7 +66,6 @@ import org.apache.commons.betwixt.expression.ConstantExpression;
 import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -79,12 +76,12 @@ import org.xml.sax.SAXException;
   * These allow mixed content text to be specified.
   * A mixed content element example:
   * <pre>
-  * 	&lt;foo&gt;text&lt;bar/&gt;&lt;/foo&gt;
+  *     &lt;foo&gt;text&lt;bar/&gt;&lt;/foo&gt;
   * </pre>
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.1 2003/03/19 22:59:01 rdonkin Exp $
+  * @version $Id: TextRule.java,v 1.2 2003/04/08 13:39:03 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 
@@ -117,8 +114,9 @@ public class TextRule extends MappedPropertyRule {
         if ( value != null) {
             if ( propertyName != null || propertyType != null ) {
                 // not allowed
-                throw new SAXException("You cannot specify attribute 'value' together with either " +
-                    " the 'property' or 'type' attributes");                
+                throw new SAXException(
+                    "You cannot specify attribute 'value' together with either " 
+                    + " the 'property' or 'type' attributes");                
             }
             // fixed value text
             descriptor.setTextExpression( new ConstantExpression( value ) );
