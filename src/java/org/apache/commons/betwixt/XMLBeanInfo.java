@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfo.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: XMLBeanInfo.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -67,8 +67,16 @@ package org.apache.commons.betwixt;
   * which can be customized through some mechansim, either via Java code 
   * or XSLT for example.</p>
   *
+  * <h4><code>ID</code> and <code>IDREF</code> Attribute Names</h4>
+  * <p>These special attributes are defined in the xml specification.
+  * They are used by Betwixt to write bean graphs with cyclic references.
+  * In most cases, these will take the values 'id' and 'idref' respectively 
+  * but these names can be varied in the DTD.
+  * Therefore, these names are specified by this class but default to the
+  * usual values.</p>
+  *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class XMLBeanInfo {
     /** Descriptor for main element */
@@ -143,22 +151,52 @@ public class XMLBeanInfo {
         return null;
     }
     
-    /** Get name of <code>ID</code> attribute */
+    /** 
+      * <p>Get name of <code>ID</code> attribute.
+      * This is used to write (for example) automatic <code>ID</code>
+      * attribute values.</p>
+      * 
+      * <p>The default name is 'id'.</p>
+      *
+      * @return name for the special <code>ID</code> attribute
+      */
     public String getIDAttributeName() {
         return idAttributeName;
     }
-    /** Set name of <code>ID</code> attribute */
+    /** 
+      * Set name of <code>ID</code> attribute 
+      * This is used to write (for example) automatic <code>ID</code>
+      * attribute values.</p>
+      * 
+      * <p>The default name is 'id'.</p>
+      *
+      * @param idAttributeName the attribute name for the special <code>ID</code> attribute
+      */
     public void setIDAttributeName(String idAttributeName) {
         this.idAttributeName = idAttributeName;
     }
     
-    /** Get <code>IDREF</code> attribute name */
+    /** 
+      * <p>Get <code>IDREF</code> attribute name 
+      * This is used (for example) to deal with cyclic references.
+      *
+      * <p>The default name is 'idref'.</p>
+      *
+      * @return name for the special <code>IDREF</code> attribute
+      */
     public String getIDREFAttributeName() {
         return idrefAttributeName;
     }
     
-    /** Set <code>IDREF</code> attribute name */
-    public void setIDREFAttributeName() {
+    /** 
+      * Set <code>IDREF</code> attribute name 
+      * This is used (for example) to deal with cyclic references.
+      *
+      * <p>The default name is 'idref'.</p>
+      *
+      * @param idrefAttributeName the attribute name for the special <code>IDREF</code> attribute
+      */
+    public void setIDREFAttributeName(String idrefAttributeName) {
         this.idrefAttributeName = idrefAttributeName;
     }
 }

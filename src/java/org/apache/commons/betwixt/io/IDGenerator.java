@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/IDGenerator.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/IDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,25 +57,32 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IDGenerator.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
+ * $Id: IDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
 
-/** <p>Interface allowing pluggable <code>ID</code> generators.</p>
+/** <p>Interface allowing pluggable <code>ID</code> attribute value generators.</p>
   *
   * <p> <code>IDGenerator</code>'s are used to generate <code>ID</code>
   * attribute values by <code>BeanWriter</code>. 
-  * Generators have been created that supply random and sequantial values.</p>
+  * A user can specify the generation mechanism by passing an implementation to 
+  * {@link BeanWriter#setIdGenerator}.</p>
+  *
+  * <p>Standard implementations are included with that supply random and sequantial values.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public interface IDGenerator {
     
-    /** Get the last id produced */
+    /** 
+      * Get the last <code>ID</code> value generated.
+      */
     public int getLastId();
     
-    /** Generate id */
+    /** 
+      * Generate a new  <code>ID</code> attribute value.
+      */
     public int nextId();
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,35 +57,49 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: AbstractIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
 import org.apache.commons.betwixt.io.IDGenerator;
 
-/** <p> Abstract superclass for id generator implementations.
-  * Provides utility methods that store the last id generated.
-  * Sub class should override {@link #nextIdImpl}.</p>
+/** <p>Abstract superclass for {@link IDGenerator} implementations.</p>
+  *
+  * <p>It implements the entire <code>IDGenerator</code> interface.
+  * When <code>nextId</code> is called, 
+  * this class sets the <code>LastId</code> property (as well
+  * as returning the value).
+  * Subclasses should override {@link #nextIdImpl}.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public abstract class AbstractIDGenerator implements IDGenerator {
     
-    /** Last id returned */
+    /** Last <code>ID</code> returned */
     private int lastId = 0;
     
-    /** Get last if implementation */
+    /** Get last <code>ID</code> returned. */
     public final int getLastId() {
         return lastId;
     }
     
-    /** Generate next id */
+    /** 
+      * <p>Generate next <code>ID</code>.</p>
+      *
+      * <p>This method obtains the next <code>ID</code> from subclass
+      * and then uses this to set the <code>LastId</code> property.</p>
+      */
     public final int nextId() {
         lastId = nextIdImpl();
         return lastId;
     }
     
-    /** Subclasses overried this method */
+    /** 
+      * Subclasses should <strong>provide an implementation</strong> for this method.
+      * This implementation needs only provide the next <code>ID</code>
+      * value (according to it's algorithm).
+      * Setting the <code>LastId</code> property can be left to this class.
+      */
     protected abstract int nextIdImpl();
 }

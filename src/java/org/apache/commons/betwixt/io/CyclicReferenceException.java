@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/CyclicReferenceException.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/CyclicReferenceException.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,15 +57,26 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: CyclicReferenceException.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
+ * $Id: CyclicReferenceException.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
 /**
   * <p>Thrown when bean evaluation finds a cycle reference.</p>
   *
+  * <p>There are two possible behaviours that <code>Betwixt</code> adopts when 
+  * a cycle in the object graph is encountered.
+  *
+  * <p>If <code>ID</code> attributes are being generated, 
+  * then the recursion will stop and the <code>IDREF</code> attribute will be
+  * written. 
+  * In this case, <em>no exception will be thrown</em>.</p>
+  *
+  * <p>If <code>ID</code> are <strong>not</strong> being generated, 
+  * then this exception will be thrown.</p>
+  *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class CyclicReferenceException extends RuntimeException {
     

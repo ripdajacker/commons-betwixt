@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,18 +57,29 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: RandomIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: RandomIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
 import java.util.Random;
 
-/** <p>Generates random ids.
-  * This class can generate positive-only ids (the default)
+/** <p>Generates <code>ID</code>'s at random.
+  * The random number source is <code>java.util.Random</code>.</p>
+  *
+  * <p>Random <code>ID</code>'s are very useful if you're inserting 
+  * elements created by <code>Betwixt</code> into a stream with existing
+  * elements.
+  * Using random <code>ID</code>'s should reduce the danger of collision
+  * with existing element <code>ID</code>'s.</p>
+  * 
+  * <p>This class can generate positive-only ids (the default)
   * or it can generate a mix of negative and postive ones.
+  * This behaviour can be set by {@link #setPositiveIds} 
+  * or by using the {@link #RandomIDGenerator(boolean onlyPositiveIds)} 
+  * constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public final class RandomIDGenerator extends AbstractIDGenerator {
     
@@ -77,15 +88,27 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
     /** Should only positive id's be generated? */
     private boolean onlyPositiveIds = true;
         
-    /** Base constructor */
+    /** 
+      * Constructor sets the <code>PositiveIds</code> property to <code>true</code>.
+      */
     public RandomIDGenerator() {} 
     
-    /** Construct sets PositiveIds property */
+    /** 
+      * Constructor sets <code>PositiveIds</code> property.
+      *
+      * @param onlyPositiveIds set <code>PositiveIds</code> property to this value
+      */
     public RandomIDGenerator(boolean onlyPositiveIds) {
         setPositiveIds(onlyPositiveIds);
     }
     
-    /** Next id implementation */
+    /** 
+      * <p>Provide a random <code>ID</code><p>
+      * 
+      * <p>If the <code>PositiveIds</code> property is true, 
+      * then this method will recursively call itself if the random
+      * <code>ID</code> is less than zero.</p>
+      */
     public int nextIdImpl() {
         int next = random.nextInt();
         if (onlyPositiveIds && next<0) {
@@ -95,12 +118,12 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
         return next;
     }
     
-    /** Get whether only positive id's should be generated */
+    /** Get whether only positive <code>ID</code>'s should be generated */
     public boolean getPositiveIds() {
         return onlyPositiveIds;
     }
     
-    /** Set whether only positive id's should be generated */
+    /** Set whether only positive <code>ID</code>'s should be generated */
     public void setPositiveIds(boolean onlyPositiveIds) {
         this.onlyPositiveIds = onlyPositiveIds;
     }

@@ -35,6 +35,29 @@
         </a>
       </li>
     </ol>
+    <p><strong>Writing Beans</strong></p>
+    <ol>
+      <li>
+        <a href="#output-options">
+          In what forms can Betwixt output the xml?
+        </a>
+      </li>
+      <li>
+        <a href="#pretty-print">
+          Can <code>BeanWriter</code> produce xml that's easy (for a human ;) to read?
+        </a>
+      </li>
+      <li>
+        <a href="#cycles">
+          How does Betwixt cope with beans which have cyclic reference graphs?
+        </a>
+      </li>
+      <li>
+        <a href="#stop-generating-ids">
+          How can I stop Betwixt generating <code>ID</code> attribute values for my beans?
+        </a>
+      </li>
+    </ol>
     <p><strong>Building Betwixt</strong></p>
     <ol>
       <li>
@@ -97,7 +120,69 @@
 			to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
         </dd>
       </dl>
+    </section>
+    <section name="Writing Beans">     
+      <dl>
+        <dt>
+          <a name="output-options">
+          	In what forms can Betwixt output the xml?
+          </a>
+        </dt>
+        <dd>
+            At the moment,  <code>BeanWriter</code> is the only way to output the xml.
+            This writes the xml (as characters) to standard java io streams. 
+            Work will begin on a SAX-based writer (which will generate SAX events)
+            very soon.
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <a name="pretty-print">
+          	Can <code>BeanWriter</code> produce xml that's easy (for a human ;) to read?
+          </a>
+        </dt>
+        <dd>
+            Yes! Call
+<pre>
+beanWriter.enablePrettyPrint();
+</pre>
+            (For those who are extra picky, how this is done can also be adjusted.
+            See java docs for details.)
+        </dd>
+      </dl>      
       
+      <dl>
+        <dt>
+          <a name="cycles">
+          	How does Betwixt cope with beans which have cyclic reference graphs?
+          </a>
+        </dt>
+        <dd>
+            The default behaviour is to use the <code>ID</code>-<code>IDREF</code> mechanism
+            (described in the xml specification). Betwixt will automatically assign <code>ID</code>
+            values to beans as it write out the graph. If it comes to a bean that it's written
+            before, it will write an <code>IDREF</code> value matching the original.
+        </dd>
+      </dl>  
+      
+      <dl>
+        <dt>
+          <a name="stop-generating-ids">
+          	How can I stop Betwixt generating <code>ID</code> attribute values for my beans?
+          </a>
+        </dt>
+        <dd>
+            This is controlled by a property on <code>BeanWriter</code>. Call
+<pre>
+beanWriter.setWriteIDs(false);
+</pre>
+            and then Betwixt will no longer automatically add <code>ID</code> attributes.
+            Once this property is set (to false), BeanWroter will throw a 
+            <code>CyclicReferenceException</code> when any cyclic references which are 
+            encountered in the bean graph.
+        </dd>
+      </dl>   
+          
     </section>
     <section name="Building Betwixt">
       <dl>

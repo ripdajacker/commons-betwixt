@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,35 +57,58 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SequentialIDGenerator.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: SequentialIDGenerator.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
 
-/** <p>This simply uses a counting mechanism to assign id's</p>
+/** <p>Generates <code>ID</code>'s in numeric sequence.
+  * A simple counter is used.
+  * Every time that {@link #nextIdImpl} is called, 
+  * this counter is incremented.</p>
+  *
+  * <p>By default, the counter starts at zero.
+  * A user can set the initial value by using the 
+  * {@link #SequentialIDGenerator(int start)} constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public final class SequentialIDGenerator extends AbstractIDGenerator {
     
-    /** Counter used to assign id's */
+    /** Counter used to assign <code>ID</code>'s */
     private int counter = 0;
         
-    /** Base constructor */
+    /** 
+      * Base constructor.
+      * Counter starts at zero.
+      */
     public SequentialIDGenerator() {} 
     
-    /** Set the start value for the sequence */
+    /** 
+     * Constructor sets the start value for the counter.
+     * 
+     * <p><strong>Note</strong> since the counter increments
+     * before returning the next value, 
+     * first <code>ID</code> generated will be <em>one more</em>
+     * than the given <code>start</code> parameter.</p>
+     * 
+     * @param start start the counting at this value
+     */
     public SequentialIDGenerator(int start) {
         this.counter = start;
     }
     
-    /** Next id implementation */
+    /** 
+      * Increment counter and then return value.
+      */
     public int nextIdImpl() {
         return ++counter;
     }
     
-    /** Get the current counter value */
+    /** 
+      * Get the current counter value 
+      */
     public int getCount() {
         return counter;
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.3 2002/06/12 21:40:06 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/06/12 21:40:06 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: BeanWriter.java,v 1.3 2002/06/12 21:40:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -82,8 +82,9 @@ import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
 
 
-/** <p><code>BeanWriter</code> output beans as XML.</p>
-  * The output for each bean is an xml fragment
+/** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
+  *
+  * <p>The output for each bean is an xml fragment
   * (rather than a well-formed xml-document).
   * This allows bean representations to be appended to a document 
   * by writing each in turn to the stream.
@@ -126,7 +127,7 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class BeanWriter {
 
@@ -348,12 +349,21 @@ public class BeanWriter {
         this.indent = indent;
     }
     
-    /** Get IDGenerator used to generate ID attribute values */
+    /** 
+      * Get <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values .
+      *
+      * @return implementation used for <code>ID</code> attribute generation
+      */
     public IDGenerator getIdGenerator() {
         return idGenerator;
     }
     
-    /** Set IDGenerator used to generate ID attribute values */
+    /** 
+      * Set <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values.
+      * This property can be used to customize the algorithm used for generation.
+      *
+      * @param idGenerator use this implementation for <code>ID</code> attribute generation
+      */
     public void setIdGenerator(IDGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
