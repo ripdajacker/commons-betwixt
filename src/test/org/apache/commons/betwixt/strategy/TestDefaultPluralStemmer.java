@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDefaultPluralStemmer.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/09/20 14:00:41 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestDefaultPluralStemmer.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -71,7 +71,7 @@ import java.util.HashMap;
  * Tests the defaultPluralStemmer
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDefaultPluralStemmer.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * @version $Id: TestDefaultPluralStemmer.java,v 1.2 2002/09/20 14:00:41 jvanzyl Exp $
  */
 public class TestDefaultPluralStemmer extends TestCase
 {
@@ -151,7 +151,7 @@ public class TestDefaultPluralStemmer extends TestCase
         ElementDescriptor result = dps.findPluralDescriptor("y", map);
         assertEquals(des, result);
     }
-    
+   
     /**
      * Tests to see if you get warned when there are multiple matches
      * found
@@ -178,7 +178,31 @@ public class TestDefaultPluralStemmer extends TestCase
         result = dps.findPluralDescriptor("yesno", map);
         assertEquals(desyesno, result);
     }
-    
+   
+    /**
+     *  Test to find matched where plural ending is "es" 
+     */
+    public void testESPluralEndingMatch() {
+        HashMap map = new HashMap();
+
+        ElementDescriptor index = new ElementDescriptor("index", "index","");
+        map.put("index", index);
+        ElementDescriptor indexes = new ElementDescriptor("indexes", "indexes","");
+        map.put("indexes", indexes);
+
+        ElementDescriptor patch = new ElementDescriptor("patch", "patch","");
+        map.put("patch", patch);
+        ElementDescriptor patches = new ElementDescriptor("patches", "patches","");
+        map.put("patches", patches);
+
+        DefaultPluralStemmer stemmer = new DefaultPluralStemmer();
+        ElementDescriptor result = stemmer.findPluralDescriptor("index", map);
+        assertEquals(indexes, result);
+
+        result = stemmer.findPluralDescriptor("patches", map);
+        assertEquals(patches, result);
+    }
+ 
     /**
      *  Test if the closest match mechanisme is working
      */
