@@ -17,11 +17,13 @@
 package org.apache.commons.betwixt.dotbetwixt;
 
 
-import junit.framework.TestCase;
-import java.io.StringWriter;
 import java.io.StringReader;
-import org.apache.commons.betwixt.io.BeanWriter;
+import java.io.StringWriter;
+
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.io.BeanReader;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author Brian Pugh

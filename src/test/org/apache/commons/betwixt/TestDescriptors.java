@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4.2.2 2004/04/18 20:29:07 rdonkin Exp $
- * $Revision: 1.4.2.2 $
- * $Date: 2004/04/18 20:29:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDescriptors.java,v 1.4.2.3 2004/04/19 21:31:13 rdonkin Exp $
+ * $Revision: 1.4.2.3 $
+ * $Date: 2004/04/19 21:31:13 $
  *
  * ====================================================================
  * 
@@ -60,8 +60,6 @@
  */ 
 package org.apache.commons.betwixt;
 
-import java.util.ArrayList;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -70,7 +68,7 @@ import junit.textui.TestRunner;
 /** Test harness for the Descriptors (ElementDescriptor and so on).
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.2 $
+  * @version $Revision: 1.4.2.3 $
   */
 public class TestDescriptors extends AbstractTestCase {
     

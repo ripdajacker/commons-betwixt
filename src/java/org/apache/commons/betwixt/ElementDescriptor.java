@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.5 2004/04/18 20:29:07 rdonkin Exp $
- * $Revision: 1.14.2.5 $
- * $Date: 2004/04/18 20:29:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.6 2004/04/19 21:31:13 rdonkin Exp $
+ * $Revision: 1.14.2.6 $
+ * $Date: 2004/04/19 21:31:13 $
  *
  * ====================================================================
  * 
@@ -61,7 +61,6 @@
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
@@ -75,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14.2.5 $
+  * @version $Revision: 1.14.2.6 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 

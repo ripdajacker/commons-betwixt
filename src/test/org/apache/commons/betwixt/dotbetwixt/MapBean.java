@@ -16,8 +16,8 @@
  
 package org.apache.commons.betwixt.dotbetwixt;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Brian Pugh

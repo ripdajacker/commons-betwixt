@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/04/18 20:20:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/04/19 21:31:13 $
  *
  * ====================================================================
  *
@@ -57,24 +57,21 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
+ * $Id: TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
-
-import java.util.ArrayList;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.BindingConfiguration;
-import org.apache.commons.collections.CollectionUtils;
 
 /** 
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.1.2.3 2004/04/18 20:20:31 rdonkin Exp $
+ * @version $Id: TestReadContext.java,v 1.1.2.4 2004/04/19 21:31:13 rdonkin Exp $
  */
 public class TestReadContext extends AbstractTestCase {
 
