@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/19 00:52:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/07/19 00:54:55 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $
+ * $Id: SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -93,7 +93,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.2 2002/07/19 00:52:41 mvdb Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -107,8 +107,6 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     private AttributesImpl attributes;
     
     private boolean elementWaiting = false;
-    
-    private boolean isDocumentStarted = false;
     
     /**
      * <p> Constructor sets writer used for output.</p>
@@ -146,7 +144,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         // make sure any previous elements have been sent
         sendElementStart();
         // ok prepare for new one
-	    elementWaiting = true;
+        elementWaiting = true;
         attributes = new AttributesImpl();
         lastElementName = qualifiedName;
     }
@@ -195,11 +193,6 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     //-------------------------------------------------------------------------    
     
     private void sendElementStart() throws SAXException {
-        if (!this.isDocumentStarted)
-        {
-            contentHandler.startDocument();
-            this.isDocumentStarted = true;
-        }
         if (elementWaiting) {
             contentHandler.startElement("","",lastElementName,attributes);
             elementWaiting = false;
