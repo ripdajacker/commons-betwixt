@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.4 2003/08/24 16:54:56 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/08/24 16:54:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.5 2003/09/09 22:57:00 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/09/09 22:57:00 $
  *
  * ====================================================================
  *
@@ -57,12 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultObjectStringConverter.java,v 1.4 2003/08/24 16:54:56 rdonkin Exp $
+ * $Id: DefaultObjectStringConverter.java,v 1.5 2003/09/09 22:57:00 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+
+import java.util.Locale;
 
 import org.apache.commons.beanutils.ConversionException;
 
@@ -83,13 +85,13 @@ import org.apache.commons.betwixt.expression.Context;
  * (given the default settings).
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     
     /** Formats Dates to Strings and Strings to Dates */
     private static final SimpleDateFormat formatter 
-        = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.UK);
     
     /**
       * Converts an object to a string representation using ConvertUtils.
