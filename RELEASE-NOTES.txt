@@ -1,7 +1,7 @@
 $Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
 
 			 Commons Betwixt Package
-			   Version 1.0-dev
+			   Version 1.0-Alpha-1
 			    Release Notes
 
 
