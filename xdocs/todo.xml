@@ -15,6 +15,10 @@
       
       <ul>
         <li>
+		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
+		  We should patch the way betwixt uses digester to avoid this warning message.
+		</li>
+        <li>
 		  Consider allowing the parsing of XML to order the properties/elements in the XMLBeanInfo
 		  so that when the XML is output again it follows the same XML ordering again.
 		  There is an example describing this 
@@ -26,14 +30,14 @@
 		  This will allow Betwixt to work nicely in XML pipelining environments like Cocoon and Jelly.
 		</li>
         <li>
-		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
-		  be transformed in XSLT engines as XML.
-		</li>
-        <li>
 		  Improved documentation! Improve package level documentation so that new developers can get up 
           to speed more quickly. Ensure all betwixt features have good user documentation. 
           More good code examples.
         </li>
+        <li>
+		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
+		  be transformed in XSLT engines as XML.
+		</li>
        </ul>
     </section>
   </body>
