@@ -76,7 +76,7 @@ import org.apache.commons.betwixt.strategy.MixedContentEncodingStrategy;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.22 $
+  * @version $Revision: 1.23 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -304,6 +304,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @since 1.0 Alpha 1
      */
     protected void startElement(
+                                WriteContext context,
                                 String uri, 
                                 String localName, 
                                 String qualifiedName, 
@@ -346,6 +347,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @since 1.0 Alpha 1
      */
     protected void endElement(
+                                WriteContext context,
                                 String uri, 
                                 String localName, 
                                 String qualifiedName)
@@ -380,7 +382,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @throws IOException when the stream write fails
      * @since 1.0 Alpha 1
      */
-    protected void bodyText(String text) throws IOException {
+    protected void bodyText(WriteContext context, String text) throws IOException {
         if ( text == null ) {
             // XXX This is probably a programming error
             log.error( "[expressBodyText]Body text is null" );
@@ -390,7 +392,10 @@ public class BeanWriter extends AbstractBeanWriter {
                 writer.write( '>' );
                 closedStartTag = true;
             }
-            writer.write( mixedContentEncodingStrategy.encode(text, currentDescriptor) );
+            writer.write( 
+                mixedContentEncodingStrategy.encode(
+                    text, 
+                    context.getCurrentDescriptor()) );
             currentElementIsEmpty = false;
             currentElementHasBodyText = true;
         }

@@ -49,9 +49,40 @@ import org.xml.sax.helpers.AttributesImpl;
   * <p>Abstract superclass for bean writers.
   * This class encapsulates the processing logic. 
   * Subclasses provide implementations for the actual expression of the xml.</p>
+  * <h5>SAX Inspired Writing API</h5>
+  * <p>
+  * This class is intended to be used by subclassing: 
+  * concrete subclasses perform the actual writing by providing
+  * suitable implementations for the following methods inspired 
+  * by <a href='http://www.saxproject.org'>SAX</a>:
+  * </p>
+  * <ul>
+  *     <li> {@link #start} - called when processing begins</li>
+  *     <li> {@link #startElement(WriteContext, String, String, String, Attributes)} 
+  *     - called when the start of an element 
+  *     should be written</li> 
+  *     <li> {@link #bodyText(WriteContext, String)} 
+  *     - called when the start of an element 
+  *     should be written</li> 
+  *     <li> {@link #endElement(WriteContext, String, String, String)} 
+  *     - called when the end of an element 
+  *     should be written</li> 
+  *     <li> {@link #end} - called when processing has been completed</li>
+  * </ul>
+  * <p>
+  * <strong>Note</strong> that this class contains many deprecated 
+  * versions of the writing API. These will be removed soon so care
+  * should be taken to use the latest version.
+  * </p>
+  * <p>
+  * <strong>Note</strong> that this class is designed to be used
+  * in a single threaded environment. When used in multi-threaded
+  * environments, use of a common <code>XMLIntrospector</code>
+  * and pooled writer instances should be considered. 
+  * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.24 $
+  * @version $Revision: 1.25 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -70,8 +101,8 @@ public abstract class AbstractBeanWriter {
     private boolean writeEmptyElements = true;
     /** Dynamic binding configuration settings */
     private BindingConfiguration bindingConfiguration = new BindingConfiguration();
-    // TODO: consider whether this should be replaced by a passed through context 
-    protected ElementDescriptor currentDescriptor;
+    /** <code>WriteContext</code> implementation reused curing writing */
+    private WriteContextImpl writeContext = new WriteContextImpl();
     
     /**
      * Marks the start of the bean writing.
@@ -275,6 +306,7 @@ public abstract class AbstractBeanWriter {
                         if ( !ignoreElement( elementDescriptor, context )) {
                             // we've already written this bean so write an IDREF
                             writeIDREFElement( 
+                                            elementDescriptor,
                                             namespaceUri,
                                             localName,
                                             qualifiedName,  
@@ -443,6 +475,73 @@ public abstract class AbstractBeanWriter {
      * @since 1.0 Alpha-1
      */
     protected void startElement(
+                                WriteContext context,
+                                String uri, 
+                                String localName, 
+                                String qName, 
+                                Attributes attr)
+                                    throws
+                                        IOException,
+                                        SAXException {
+        // for backwards compatbility call older methods
+        startElement(uri, localName, qName, attr);                                    
+    }
+    
+    /**
+     * Writes the end tag for an element
+     *
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha-1
+     */
+    protected void endElement(
+                                WriteContext context,
+                                String uri, 
+                                String localName, 
+                                String qName)
+                                    throws
+                                        IOException,
+                                        SAXException {
+        // for backwards compatibility call older interface
+        endElement(uri, localName, qName);                                    
+    }
+    
+    /** 
+     * Writes body text
+     *
+     * @param text the body text to be written
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
+     */
+    protected void bodyText(WriteContext context, String text) 
+                                throws IOException, SAXException {
+        // for backwards compatibility call older interface
+        bodyText(text);                            
+    }
+        
+    // Older SAX-style methods
+    //-------------------------------------------------------------------------    
+        
+    /**
+     * Writes the start tag for an element.
+     *
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     * @param attr the element's attributes
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha-1
+     * @deprecated use {@link #startElement(WriteContext, String, String, String, Attributes)}
+     */
+    protected void startElement(
                                 String uri, 
                                 String localName, 
                                 String qName, 
@@ -461,6 +560,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @since 1.0 Alpha-1
+     * @deprecated use {@link #endElement(WriteContext, String, String, String)}
      */
     protected void endElement(
                                 String uri, 
@@ -478,6 +578,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @since 1.0 Alpha 1
+     * @deprecated use {@link #bodyText(WriteContext, String)}
      */
     protected void bodyText(String text) throws IOException, SAXException {}
     
@@ -516,7 +617,9 @@ public abstract class AbstractBeanWriter {
             }
         
             if (elementDescriptor.isWrapCollectionsInElement()) {
+                writeContext.setCurrentDescriptor(elementDescriptor);
                 startElement( 
+                            writeContext,
                             namespaceUri, 
                             localName, 
                             qualifiedName,
@@ -525,7 +628,8 @@ public abstract class AbstractBeanWriter {
     
             writeElementContent( elementDescriptor, context ) ;
             if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                endElement( namespaceUri, localName, qualifiedName );
+                writeContext.setCurrentDescriptor(elementDescriptor);
+                endElement( writeContext, namespaceUri, localName, qualifiedName );
             }
         }
     }
@@ -558,8 +662,9 @@ public abstract class AbstractBeanWriter {
                                     IntrospectionException {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
-        
+            writeContext.setCurrentDescriptor(elementDescriptor);
             startElement( 
+                        writeContext,
                         namespaceUri, 
                         localName, 
                         qualifiedName,
@@ -570,7 +675,8 @@ public abstract class AbstractBeanWriter {
                                                 idValue ));
     
             writeElementContent( elementDescriptor, context ) ;
-            endElement( namespaceUri, localName, qualifiedName );
+            writeContext.setCurrentDescriptor(elementDescriptor);
+            endElement( writeContext, namespaceUri, localName, qualifiedName );
 
         } else if ( log.isTraceEnabled() ) {
             log.trace( "Element " + qualifiedName + " is empty." );
@@ -607,7 +713,7 @@ public abstract class AbstractBeanWriter {
 
         writeElementContent( elementDescriptor, context );
         if ( elementDescriptor.isWrapCollectionsInElement() ) {
-            endElement( uri, localName, qualifiedName );
+            endElement( writeContext, uri, localName, qualifiedName );
         }
     }
 
@@ -624,6 +730,7 @@ public abstract class AbstractBeanWriter {
      * @throws IntrospectionException if a java beans introspection problem occurs
      */
     private void writeIDREFElement( 
+                                    ElementDescriptor elementDescriptor,
                                     String uri,
                                     String localName,
                                     String qualifiedName, 
@@ -645,8 +752,9 @@ public abstract class AbstractBeanWriter {
                                 idrefAttributeName,
                                 "IDREF",
                                 idrefAttributeValue);
-        startElement( uri, localName, qualifiedName, attributes);        
-        endElement( uri, localName, qualifiedName );
+        writeContext.setCurrentDescriptor(elementDescriptor);
+        startElement( writeContext, uri, localName, qualifiedName, attributes);        
+        endElement( writeContext, uri, localName, qualifiedName );
     }
     
     /** 
@@ -666,7 +774,7 @@ public abstract class AbstractBeanWriter {
                                 IOException, 
                                 SAXException,
                                 IntrospectionException {     
-        currentDescriptor = elementDescriptor;               
+        writeContext.setCurrentDescriptor( elementDescriptor );              
         Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors();
         if ( childDescriptors != null && childDescriptors.length > 0 ) {
             // process child elements
@@ -723,8 +831,8 @@ public abstract class AbstractBeanWriter {
                                                         value, 
                                                         childDescriptors[i], 
                                                         context );
-                        if ( text != null && text.length() > 0 ) {
-                            bodyText(text);
+                        if ( text != null && text.length() > 0 ) {;
+                            bodyText( writeContext, text );
                         }               
                     }
                 }
@@ -736,7 +844,7 @@ public abstract class AbstractBeanWriter {
                 Object value = expression.evaluate( context );
                 String text = convertToString( value, elementDescriptor, context );
                 if ( text != null && text.length() > 0 ) {
-                    bodyText(text);
+                    bodyText( writeContext, text );
                 }
             }
         }
@@ -1338,12 +1446,16 @@ public abstract class AbstractBeanWriter {
                                             IOException, 
                                             SAXException,
                                             IntrospectionException {
-        writeIDREFElement( 
-                            "", 
-                            qualifiedName, 
-                            qualifiedName, 
-                            idrefAttributeName, 
-                            idrefAttributeValue );
+        // deprecated
+       AttributesImpl attributes = new AttributesImpl();
+       attributes.addAttribute( 
+                               "",
+                               idrefAttributeName, 
+                               idrefAttributeName,
+                               "IDREF",
+                               idrefAttributeValue);
+       startElement( "", qualifiedName, qualifiedName, attributes);        
+       endElement( "", qualifiedName, qualifiedName );
     }
 
         
@@ -1466,5 +1578,29 @@ public abstract class AbstractBeanWriter {
       */
     private Context makeContext(Object bean) {
         return new Context( bean, log, bindingConfiguration );
+    }
+    
+    /**
+     * Basic mutable implementation of <code>WriteContext</code>.
+     */
+    private static class WriteContextImpl extends WriteContext {
+
+        private ElementDescriptor currentDescriptor;
+
+        /**
+         * @see org.apache.commons.betwixt.io.WriteContext#getCurrentDescriptor()
+         */
+        public ElementDescriptor getCurrentDescriptor() {
+            return currentDescriptor;
+        }
+        
+        /**
+         * Sets the descriptor for the current element.
+         * @param currentDescriptor
+         */
+        public void setCurrentDescriptor(ElementDescriptor currentDescriptor) {
+            this.currentDescriptor = currentDescriptor;
+        }
+        
     }
 }
