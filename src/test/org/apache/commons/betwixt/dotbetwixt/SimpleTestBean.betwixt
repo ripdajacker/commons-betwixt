@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+    <element name='foo'>
+        <attribute name='version' value='1.0'/>
+        <element name='bar'>
+            <attribute name='attribute-one' value='value one'/>
+            <attribute name='attribute-two' value='value two'/>
+            <element name='pub' property='alpha'/>
+        </element>
+        <hide property='gamma'/>
+        <addDefaults/>
+    </element>
+</info>

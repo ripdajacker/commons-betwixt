@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<foo version="1.0">
+    <bar attribute-one="value one" attribute-two="value two">
+        <pub>alpha-value</pub>
+    </bar>
+    <beta>beta-value</beta>
+</foo>

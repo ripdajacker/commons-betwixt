@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.2 2002/10/28 21:13:34 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/10/28 21:13:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.3 2002/11/30 17:16:37 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/11/30 17:16:37 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.2 2002/10/28 21:13:34 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.3 2002/11/30 17:16:37 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -70,6 +70,7 @@ import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
 
 import org.apache.commons.logging.impl.SimpleLog;
+import org.apache.commons.logging.LogFactory;
 
 
 /** 
@@ -103,6 +104,30 @@ public class TestBeanToXml extends XmlTestCase {
             parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/rbean-result.xml"));
     }
     
+    public void testSimpleBean() throws Exception {
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0' encoding='UTF-8'?>");
+        SimpleLog log = new SimpleLog("LOG");
+        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().setLog(log);
+    
+        writer.setWriteIDs(false);
+	SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");
+        writer.write(bean);
+        out.flush();
+        String xml = out.toString();
+
+        if (debug) {
+            System.out.println("************testSimpleBean************");
+            System.out.println(xml);
+        }
+        
+        xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/simpletestone.xml"),
+                    parseString(xml));
+
+    }
     
     public void testWriteRecursiveBean() throws Exception {
         /*

@@ -103,7 +103,7 @@ import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.11 2002/11/27 22:19:12 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.12 2002/11/30 17:16:37 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -479,6 +479,10 @@ public class XMLIntrospector {
             catch (Exception e) {
                 log.warn( "Caught exception trying to parse: " + name, e );
             }
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Could not find betwixt file " + name );
         }
         return null;
     }
