@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: BeanCreateRule.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: BeanCreateRule.java,v 1.3 2002/06/14 21:39:16 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -36,7 +36,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -169,7 +169,11 @@ public class BeanCreateRule extends Rule {
             Object instance = context.getBean();
 
             Object top = digester.pop();
-            context.setBean( digester.peek() );
+            if (digester.getCount() == 0) {
+                context.setBean(null);
+            }else{
+                context.setBean( digester.peek() );
+            }
 
             if ( updater != null ) {
                 if ( log.isDebugEnabled() ) {

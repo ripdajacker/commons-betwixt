@@ -14,12 +14,13 @@
       </p>
       
     
-    <secton name="High priority"> 
+    <section name="High priority"> 
       <ul>
         <li>
 		  If an addFoo() method is found with no matching getFoos() then a warning should be generated.
 		</li>
         <li>
+		  <b>Fixed.</b> digester.peek() was giving warning. Now checking if it still has something to peek.
 		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
 		  We should patch the way betwixt uses digester to avoid this warning message.
 		</li>
