@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: InfoRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: InfoRule.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -65,20 +65,21 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class InfoRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( InfoRule.class );
-    
+    /** <code>XMLBeanInfo</code> being created */
     private XMLBeanInfo xmlBeanInfo;
     
-    
+    /** Base constructor */
     public InfoRule() {
     }
     
@@ -89,8 +90,9 @@ public class InfoRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
+     * @throws SAXException if the primitiveTypes attribute contains an invalid value
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(Attributes attributes) throws SAXException {
         Class beanClass = getBeanClass();
         
         xmlBeanInfo = new XMLBeanInfo( beanClass );
@@ -104,8 +106,7 @@ public class InfoRule extends RuleSupport {
                 getXMLInfoDigester().setAttributesForPrimitives( true );
                 
             } else {
-                // XXX Should this be a checked exception?
-                throw new Exception( 	
+                throw new SAXException(
                     "Invalid value inside element <info> for attribute 'primitiveTypes'."
                     + " Value should be 'element' or 'attribute'" );
             }
@@ -118,7 +119,7 @@ public class InfoRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() throws Exception {
+    public void end() {
         Object top = getDigester().pop();
     }
 }

@@ -72,17 +72,18 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( AttributeRule.class );
-    
+    /** This loads all classes created by name. Defaults to this class's classloader */
     private ClassLoader classLoader;
-    
+    /** The <code>Class</code> whose .betwixt file is being digested */
     private Class beanClass;
     
+    /** Base constructor */
     public AttributeRule() {
         this.classLoader = getClass().getClassLoader();
     }
@@ -94,8 +95,9 @@ public class AttributeRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
+     * @throws SAXException if the attribute tag is not inside an element tag
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(Attributes attributes) throws SAXException {
         
         AttributeDescriptor descriptor = new AttributeDescriptor();
         String name = attributes.getValue( "name" );
@@ -134,13 +136,19 @@ public class AttributeRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() throws Exception {
+    public void end() {
         Object top = digester.pop();
     }
 
     
     // Implementation methods
     //-------------------------------------------------------------------------    
+    /**
+     * Loads a class (using the appropriate classloader)
+     *
+     * @param name the name of the class to load
+     * @return the class instance loaded by the appropriate classloader
+     */
     protected Class loadClass( String name ) {
         // XXX: should use a ClassLoader to handle complex class loading situations
         if ( name != null ) {
@@ -152,7 +160,11 @@ public class AttributeRule extends RuleSupport {
         return null;            
     }
     
-    /** Set the Expression and Updater from a bean property name */
+    /** 
+     * Set the Expression and Updater from a bean property name 
+     * @param attributeDescriptor configure this <code>AttributeDescriptor</code> 
+     * from the property with a matching name in the bean class
+     */
     protected void configureDescriptor(AttributeDescriptor attributeDescriptor) {
         Class beanClass = getBeanClass();
         if ( beanClass != null ) {

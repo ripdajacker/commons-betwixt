@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.4 2002/09/26 19:29:33 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/09/26 19:29:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfo.java,v 1.4 2002/09/26 19:29:33 rdonkin Exp $
+ * $Id: XMLBeanInfo.java,v 1.5 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -76,7 +76,7 @@ package org.apache.commons.betwixt;
   * usual values.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class XMLBeanInfo {
     /** Descriptor for main element */
@@ -93,17 +93,28 @@ public class XMLBeanInfo {
     /** Cached <code>ID</code> attribute descriptor */
     private AttributeDescriptor idAttributeDescriptor;
     
-    /** Base constructor */
+    /** 
+     * Base constructor 
+     * @param beanClass for this Class
+     */
     public XMLBeanInfo( Class beanClass ) {
         this.beanClass = beanClass;        
     }
 
-    /** Get descriptor for bean represention */
+    /** 
+     * Gets descriptor for bean represention 
+     *
+     * @return ElementDescriptor describing root element
+     */
     public ElementDescriptor getElementDescriptor() {
         return elementDescriptor;
     }
 
-    /** Set descriptor for bean represention */
+    /** 
+     * Sets descriptor for bean represention 
+     *
+     * @param elementDescriptor descriptor for bean
+     */
     public void setElementDescriptor(ElementDescriptor elementDescriptor) {
         this.elementDescriptor = elementDescriptor;
     }    
@@ -117,12 +128,20 @@ public class XMLBeanInfo {
         return beanClass;
     }
     
-    /** Sets the beans class that this XML info refers to */
+    /** 
+     * Sets the beans class that this XML info refers to 
+     *
+     * @param beanClass the class that this refers to
+     */
     public void setBeanClass(Class beanClass) {
         this.beanClass = beanClass;
     }
     
-    /** Search attributes for one matching <code>ID</code> attribute name */
+    /** 
+     * Search attributes for one matching <code>ID</code> attribute name 
+     *
+     * @return the xml ID attribute
+     */
     public AttributeDescriptor getIDAttribute() {
         //
         // XXX for some reason caching isn't working at the moment
@@ -170,6 +189,7 @@ public class XMLBeanInfo {
     public String getIDAttributeName() {
         return idAttributeName;
     }
+    
     /** 
       * Set name of <code>ID</code> attribute 
       * This is used to write (for example) automatic <code>ID</code>
@@ -207,6 +227,11 @@ public class XMLBeanInfo {
         this.idrefAttributeName = idrefAttributeName;
     }
     
+    /**
+     * Gets log-friendly string representation.
+     *
+     * @return something useful for logging
+     */
     public String toString() {
         return 
                 "XMLBeanInfo [class=" + getBeanClass() 

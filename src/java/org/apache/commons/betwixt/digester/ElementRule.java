@@ -74,17 +74,17 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( ElementRule.class );
-    
+    /** Classloader used to load classes by name */
     private ClassLoader classLoader;
-    
+    /** Class for which the .bewixt file is being digested */
     private Class beanClass;
-    
+    /** Base constructor */
     public ElementRule() {
         this.classLoader = getClass().getClassLoader();
     }
@@ -96,8 +96,9 @@ public class ElementRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
+     * @throws SAXException when this tag's parent is not either an info or element tag
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(Attributes attributes) throws SAXException {
         String name = attributes.getValue( "name" );
         
         ElementDescriptor descriptor = new ElementDescriptor();
@@ -157,13 +158,22 @@ public class ElementRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() throws Exception {
+    public void end() {
         Object top = digester.pop();
     }
 
     
     // Implementation methods
     //-------------------------------------------------------------------------    
+    
+    /**
+     * Gets the type of a property
+     *
+     * @param propertyClassName class name for property type (may be null)
+     * @param beanClass class that has property 
+     * @param propertyName the name of the property whose type is to be determined
+     * @return property type 
+     */
     protected Class getPropertyType( String propertyClassName, 
                                      Class beanClass, String propertyName ) {
         // XXX: should use a ClassLoader to handle 
@@ -196,7 +206,11 @@ public class ElementRule extends RuleSupport {
         return null;            
     }
     
-    /** Set the Expression and Updater from a bean property name */
+    /** 
+     * Set the Expression and Updater from a bean property name 
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     */
     protected void configureDescriptor(ElementDescriptor elementDescriptor) {
         Class beanClass = getBeanClass();
         if ( beanClass != null ) {
@@ -215,6 +229,10 @@ public class ElementRule extends RuleSupport {
      * Returns the property descriptor for the class and property name.
      * Note that some caching could be used to improve performance of 
      * this method. Or this method could be added to PropertyUtils.
+     *
+     * @param beanClass descriptor for property in this class
+     * @param propertyName descriptor for property with this name
+     * @return property descriptor for the named property in the given class 
      */
     protected PropertyDescriptor getPropertyDescriptor( Class beanClass, 
                                                         String propertyName ) {

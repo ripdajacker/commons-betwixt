@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/AttributeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/AttributeDescriptor.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- * $Id: AttributeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: AttributeDescriptor.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt;
   * to be created for a bean instance.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class AttributeDescriptor extends NodeDescriptor {
 
@@ -73,17 +73,31 @@ public class AttributeDescriptor extends NodeDescriptor {
     public AttributeDescriptor() {
     }
 
-    /** Creates a AttributeDescriptor with no namespace URI or prefix */
+    /** 
+     * Creates a AttributeDescriptor with no namespace URI or prefix 
+     *
+     * @param localName the local name for the attribute, excluding any namespace prefix
+     */
     public AttributeDescriptor(String localName) {
         super( localName );
     }
 
-    /** Creates a AttributeDescriptor with namespace URI and qualified name */
-    public AttributeDescriptor(String localName,String qualifiedName,String uri) {
+    /** 
+     * Creates a AttributeDescriptor with namespace URI and qualified name 
+     *
+     * @param localName the local name for the attribute, excluding any namespace prefix
+     * @param qualifiedName the fully quanified name, including the namespace prefix
+     * @param uri the namespace for the attribute - or "" for no namespace
+     */
+    public AttributeDescriptor(String localName, String qualifiedName, String uri) {
         super(localName, qualifiedName, uri);
     }
     
-    /** Return something useful for logging */
+    /** 
+     * Return something useful for logging 
+     *
+     * @return something useful for logging
+     */
     public String toString() {
         return "AttributeDescriptor[qname=" + getQualifiedName() 
             + ",class=" + getPropertyType() + "]";

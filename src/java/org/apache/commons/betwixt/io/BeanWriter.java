@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.12 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.13 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.12 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.13 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -117,7 +117,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision: 1.13 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -178,6 +178,8 @@ public class BeanWriter extends AbstractBeanWriter {
      * 
      * @param xmlDeclaration is the XML declaration string typically of
      *  the form "&lt;xml version='1.0' encoding='UTF-8' ?&gt;
+     *
+     * @throws IOException when declaration cannot be written
      */
     public void writeXmlDeclaration(String xmlDeclaration) throws IOException {
         writer.write( xmlDeclaration );
@@ -186,6 +188,8 @@ public class BeanWriter extends AbstractBeanWriter {
     
     /**
      * Allows output to be flushed on the underlying output stream
+     * 
+     * @throws IOException when the flush cannot be completed
      */
     public void flush() throws IOException {
         writer.flush();
@@ -193,11 +197,21 @@ public class BeanWriter extends AbstractBeanWriter {
     
     /**
      * Closes the underlying output stream
+     *
+     * @throws IOException when writer cannot be closed
      */
     public void close() throws IOException {
         writer.close();
     }
     
+    /**
+     * Write the given object to the stream (and then flush).
+     * 
+     * @param bean write this <code>Object</code> to the stream
+     * @throws IOException if an IO problem causes failure
+     * @throws SAXException if a SAX problem causes failure
+     * @throws IntrospectionException if bean cannot be introspected
+     */
     public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
 
         super.write(bean);
@@ -218,7 +232,11 @@ public class BeanWriter extends AbstractBeanWriter {
         indent = "  ";
     }
 
-    /** Returns the string used for end of lines */
+    /** 
+     * Gets the string used to mark end of lines.
+     *
+     * @return the string used for end of lines 
+     */
     public String getEndOfLine() {
         return endOfLine;
     }
@@ -226,6 +244,8 @@ public class BeanWriter extends AbstractBeanWriter {
     /** 
      * Sets the string used for end of lines 
      * Produces a warning the specified value contains an invalid whitespace character
+     *
+     * @param endOfLine the <code>String</code to use 
      */
     public void setEndOfLine(String endOfLine) {
         this.endOfLine = endOfLine;
@@ -238,12 +258,19 @@ public class BeanWriter extends AbstractBeanWriter {
         
     }
 
-    /** Returns the string used for indentation */
+    /** 
+     * Gets the indent string 
+     *
+     * @return the string used for indentation 
+     */
     public String getIndent() {
         return indent;
     }
     
-    /** Sets the string used for end of lines */
+    /** 
+     * Sets the string used for pretty print indents  
+     * @param indent use this <code>string</code> for indents
+     */
     public void setIndent(String indent) {
         this.indent = indent;
     }
@@ -270,7 +297,12 @@ public class BeanWriter extends AbstractBeanWriter {
     // Expression methods
     //-------------------------------------------------------------------------    
 
-    /** Express an element tag start using given qualified name */
+    /** 
+     * Express an element tag start using given qualified name 
+     *
+     * @param qualifiedName the fully qualified name of the element to write
+     * @throws IOException when stream write fails
+     */
     protected void expressElementStart(String qualifiedName) throws IOException {
         if ( qualifiedName == null ) {
             // XXX this indicates a programming error
@@ -284,11 +316,21 @@ public class BeanWriter extends AbstractBeanWriter {
         writer.write( qualifiedName );
     }
     
+    /** 
+     * Write a tag close to the stream
+     *
+     * @throws IOException when stream write fails
+     */
     protected void expressTagClose() throws IOException {
         writer.write( '>' );
     }
     
-    /** Express an element end tag using given qualifiedName */
+    /** 
+     * Write an element end tag to the stream
+     *
+     * @param qualifiedName the name of the element
+     * @throws IOException when stream write fails
+     */
     protected void expressElementEnd(String qualifiedName) throws IOException {
         if (qualifiedName == null) {
             // XXX this indicates a programming error
@@ -301,12 +343,21 @@ public class BeanWriter extends AbstractBeanWriter {
         writer.write( '>' );
     }    
     
-    /** Express an empty element end */
+    /**  
+     * Write an empty element end to the stream
+     *
+     * @throws IOException when stream write fails
+     */
     protected void expressElementEnd() throws IOException {
         writer.write( "/>" );
     }
 
-    /** Express body text */
+    /** 
+     * Write element body text 
+     *
+     * @param text write out this body text
+     * @throws IOException when the stream write fails
+     */
     protected void expressBodyText(String text) throws IOException {
         if ( text == null ) {
             // XXX This is probably a programming error
@@ -317,7 +368,13 @@ public class BeanWriter extends AbstractBeanWriter {
         }
     }
     
-    /** Express an attribute */
+    /** 
+     * Writes an attribute to the stream.
+     *
+     * @param qualifiedName fully qualified attribute name
+     * @param value attribute value
+     * @throws IOException when the stream write fails
+     */
     protected void expressAttribute(
                                 String qualifiedName, 
                                 String value) 
@@ -348,6 +405,8 @@ public class BeanWriter extends AbstractBeanWriter {
             
     /** Writes out an empty line.
      * Uses current <code>endOfLine</code>.
+     *
+     * @throws IOException when stream write fails
      */
     protected void writePrintln() throws IOException {
         if ( endOfLine != null ) {
@@ -355,7 +414,10 @@ public class BeanWriter extends AbstractBeanWriter {
         }
     }
     
-    /** Writes out <code>indent</code>'s to the current <code>indentLevel</code>
+    /** 
+     * Writes out <code>indent</code>'s to the current <code>indentLevel</code>
+     *
+     * @throws IOException when stream write fails
      */
     protected void writeIndent() throws IOException {
         if ( indent != null ) {
@@ -368,6 +430,9 @@ public class BeanWriter extends AbstractBeanWriter {
     /** 
      * <p>Escape the <code>toString</code> of the given object.
      * For use as body text.</p>
+     *
+     * @param value escape <code>value.toString()</code>
+     * @return text with escaped delimiters 
      */
     protected String escapeBodyValue(Object value) {
         StringBuffer buffer = new StringBuffer(value.toString());
@@ -396,6 +461,9 @@ public class BeanWriter extends AbstractBeanWriter {
     /** 
      * <p>Escape the <code>toString</code> of the given object.
      * For use in an attribute value.</p>
+     *
+     * @param value escape <code>value.toString()</code>
+     * @return text with characters restricted (for use in attributes) escaped
      */
     protected String escapeAttributeValue(Object value) {
         StringBuffer buffer = new StringBuffer(value.toString());

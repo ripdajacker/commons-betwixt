@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfoDigester.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: XMLBeanInfoDigester.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -76,7 +76,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -107,6 +107,8 @@ public class XMLBeanInfoDigester extends Digester {
      * JAXP1.1 (such as WebLogic 6.0).  Thanks for the request to change go to
      * James House (james@interobjective.com).  This may help in places where
      * you are able to load JAXP 1.1 classes yourself.
+     *
+     * @param parser the <code>SAXParser</code> to be used to parse the xml
      */
     public XMLBeanInfoDigester(SAXParser parser) {
         super(parser);
@@ -118,34 +120,54 @@ public class XMLBeanInfoDigester extends Digester {
      * JAXP1.1 (such as WebLogic 6.0).  Note that if you use this option you
      * have to configure namespace and validation support yourself, as these
      * properties only affect the SAXParser and emtpy constructor.
+     *
+     * @param reader the <code>XMLReader</code> to be used to parse the xml
      */
     public XMLBeanInfoDigester(XMLReader reader) {
         super(reader);
     }
     
-    /** @return the beans class for this XML descriptor */
+    /**
+     * Gets the class of the bean whose .betwixt file is being processed 
+     *
+     * @return the beans class for this XML descriptor 
+     */
     public Class getBeanClass() {
         return beanClass;
     }
     
-    /** Sets the beans class for this XML descriptor */
+    /** 
+     * Sets the beans class for this XML descriptor 
+     *
+     * @param beanClass the <code>Class</code> of the bean being processed
+     */
     public void setBeanClass(Class beanClass) {
         this.beanClass = beanClass;
     }
     
     
-    /** @return the set of property names that have been processed so far */
+    /** 
+     * Gets the property names already processed
+     *
+     * @return the set of property names that have been processed so far 
+     */
     public Set getProcessedPropertyNameSet() {
         return processedPropertyNameSet;
     }
     
-    /** Should attributes (or elements) be used for primitive types.
+    /** 
+     * Should attributes (or elements) be used for primitive types?
+     * @return true if primitive properties should be written as attributes in the xml
      */
     public boolean isAttributesForPrimitives() {
         return attributesForPrimitives;
     }
 
-    /** Set whether attributes (or elements) should be used for primitive types. */
+    /** 
+     * Set whether attributes (or elements) should be used for primitive types. 
+     * @param attributesForPrimitives pass true if primitive properties should be 
+     * written as attributes
+     */
     public void setAttributesForPrimitives(boolean attributesForPrimitives) {
         this.attributesForPrimitives = attributesForPrimitives;
         if ( introspector != null ) {
@@ -153,18 +175,27 @@ public class XMLBeanInfoDigester extends Digester {
         }
     }
 
-    /** @return the introspector that is using me */
+    /** 
+     * Gets the XMLIntrospector that's using this digester.
+     *
+     * @return the introspector that is using me 
+     */
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
     }
     
-    /** Sets the introspector that is using me */
+    /** 
+     * Sets the introspector that is using me 
+     * @param introspector the <code>XMLIntrospector</code> that using this for .betwixt 
+     * digestion
+     */
     public void setXMLIntrospector(XMLIntrospector introspector) {
         this.introspector = introspector;
     }
     
     // Implementation methods
     //-------------------------------------------------------------------------        
+    /** Reset configure for new digestion */
     protected void configure() {
         if (! configured) {
             configured = true;

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HideRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: HideRule.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -71,14 +71,14 @@ import org.xml.sax.SAXException;
 /** <p><code>HideRule</code> hides the property of the given name.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class HideRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( HideRule.class );
     
-    
+    /** Base constructor */    
     public HideRule() {
     }
     
@@ -89,8 +89,9 @@ public class HideRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
+     * @throws SAXException when the mandatory 'property' attribute is missing
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(Attributes attributes) throws SAXException {
         String name = attributes.getValue( "property" );
         if ( name == null || name.length() == 0 ) {
             throw new SAXException( 
@@ -104,6 +105,6 @@ public class HideRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() throws Exception {
+    public void end() {
     }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddDefaultsRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: AddDefaultsRule.java,v 1.6 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -79,14 +79,14 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( AddDefaultsRule.class );
     
-    
+    /** Base constructor */
     public AddDefaultsRule() {
     }
     
@@ -97,6 +97,7 @@ public class AddDefaultsRule extends RuleSupport {
      * Process the beginning of this element.
      *
      * @param attributes The attribute list of this element
+     * @throws Exception generally this will indicate an unrecoverable error 
      */
     public void begin(Attributes attributes) throws Exception {
         Class beanClass = getBeanClass();
@@ -137,6 +138,15 @@ public class AddDefaultsRule extends RuleSupport {
 
     // Implementation methods
     //-------------------------------------------------------------------------    
+    
+    /**
+    * Add a desciptor to the top object on the Digester stack.
+    * 
+    * @param nodeDescriptor add this <code>NodeDescriptor</code>. Must not be null.
+    * @throws SAXException if the parent for the addDefaults element is not a <element> 
+    * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
+    * <code>ElementDescriptor</code>
+    */
     protected void addDescriptor( NodeDescriptor nodeDescriptor ) throws SAXException {
         Object top = digester.peek();
         if ( top instanceof XMLBeanInfo ) {
@@ -169,7 +179,14 @@ public class AddDefaultsRule extends RuleSupport {
                 "Invalid use of <addDefaults>. It should be nested inside <element> element" );
         }            
     }     
-    
+
+    /**
+     * Gets an <code>ElementDescriptor</code> for the top on digester's stack.
+     *
+     * @return the top object or the element description if the top object 
+     * is an <code>ElementDescriptor</code> or a <code>XMLBeanInfo</code> class (respectively)
+     * Otherwise null.
+     */
     protected ElementDescriptor getRootElementDescriptor() {
         Object top = digester.peek();
         if ( top instanceof XMLBeanInfo ) {

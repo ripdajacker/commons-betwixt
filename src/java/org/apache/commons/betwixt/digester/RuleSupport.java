@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/RuleSupport.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/RuleSupport.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: RuleSupport.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: RuleSupport.java,v 1.3 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -72,13 +72,13 @@ import org.apache.commons.logging.LogFactory;
   * helper methods.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class RuleSupport extends Rule {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( RuleSupport.class );
-    
+    /** Base constructor */
     public RuleSupport() {
     }
     
@@ -86,18 +86,38 @@ public class RuleSupport extends Rule {
 
     // Implementation methods
     //-------------------------------------------------------------------------    
+    /** 
+     * Gets <code>XMLBeanInfoDigester</code> using this rule.
+     *
+     * @return <code>XMLBeanInfoDigester</code> for this rule
+     */
     protected XMLBeanInfoDigester getXMLInfoDigester() {
         return (XMLBeanInfoDigester) getDigester();
     }
     
+     /** 
+     * Gets <code>XMLIntrospector</code> to be used for introspection
+     *
+     * @return <code>XMLIntrospector</code> to use
+     */
     protected XMLIntrospector getXMLIntrospector() {
         return getXMLInfoDigester().getXMLIntrospector();
     }
     
+    /** 
+     * Gets the class of the bean whose .betwixt file is being digested
+     *
+     * @return the <code>Class</code> of the bean being processed 
+     */
     protected Class getBeanClass() {
         return getXMLInfoDigester().getBeanClass();
     }
     
+    /** 
+     * Gets the property names already processed
+     *
+     * @return the set of property names that have been processed so far 
+     */
     protected Set getProcessedPropertyNameSet() {
         return getXMLInfoDigester().getProcessedPropertyNameSet();
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/IDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/08/14 18:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/IDGenerator.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/07 22:32:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Id: IDGenerator.java,v 1.4 2003/01/07 22:32:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,17 +72,21 @@ package org.apache.commons.betwixt.io;
   * <p>Standard implementations are included with that supply random and sequantial values.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public interface IDGenerator {
     
     /** 
       * Get the last <code>ID</code> value generated.
+      *
+      * @return the last value generated
       */
     public String getLastId();
     
     /** 
       * Generate a new  <code>ID</code> attribute value.
+      *
+      * @return next value
       */
     public String nextId();
 }

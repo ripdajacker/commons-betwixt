@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.14 2003/01/06 22:50:44 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.15 2003/01/07 22:32:57 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -96,14 +96,18 @@ public class XMLIntrospectorHelper {
     }
     
     /**
-     * <p> Get the current logging implementation. </p>
+     * <p>Gets the current logging implementation.</p>
+     *
+     * @return current log
      */ 
     public static Log getLog() {
         return log;
     }
 
     /**
-     * <p> Set the current logging implementation. </p>
+     * <p>Sets the current logging implementation.</p>
+     *
+     * @param aLog use this <code>Log</code>
      */ 
     public static void setLog(Log aLog) {
         log = aLog;
@@ -114,6 +118,12 @@ public class XMLIntrospectorHelper {
      * Process a property. 
      * Go through and work out whether it's a loop property, a primitive or a standard.
      * The class property is ignored.
+     *
+     * @param propertyDescriptor create a <code>NodeDescriptor</code> for this property
+     * @param useAttributesForPrimitives write primitives as attributes (rather than elements)
+     * @param introspector use this <code>XMLIntrospector</code>
+     * @return a correctly configured <code>NodeDescriptor</code> for the property
+     * @throws IntrospectionException when bean introspection fails
      */
     public static NodeDescriptor createDescriptor( 
         PropertyDescriptor propertyDescriptor, 
@@ -222,7 +232,12 @@ public class XMLIntrospectorHelper {
         return nodeDescriptor;
     }
     
-    
+    /**
+     * Configure an <code>ElementDescriptor</code> from a <code>PropertyDescriptor</code>
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     */
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
                                     PropertyDescriptor propertyDescriptor ) {
@@ -276,7 +291,12 @@ public class XMLIntrospectorHelper {
         }
     }
     
-    
+    /**
+     * Configure an <code>AttributeDescriptor</code> from a <code>PropertyDescriptor</code>
+     *
+     * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     */
     public static void configureProperty( 
                                     AttributeDescriptor attributeDescriptor, 
                                     PropertyDescriptor propertyDescriptor ) {
@@ -334,6 +354,10 @@ public class XMLIntrospectorHelper {
      * and find the first ElementDescriptor that matches the property starting with
      * the string. This should work for most use cases. 
      * e.g. addChild() would match the children property.
+     *
+     * @param introspector use this <code>XMLIntrospector</code> for introspection
+     * @param rootDescriptor add defaults to this descriptor
+     * @param beanClass the <code>Class</code> to which descriptor corresponds
      */
     public static void defaultAddMethods( 
                                             XMLIntrospector introspector, 
@@ -365,7 +389,7 @@ public class XMLIntrospectorHelper {
                                                         introspector, 
                                                         rootDescriptor, 
                                                         propertyName );
-                            
+
                         if ( log.isDebugEnabled() ) {	
                             log.debug( "!! " + propertyName + " -> " + descriptor );
                             log.debug( "!! " + name + " -> " + descriptor.getPropertyName() );
@@ -405,7 +429,12 @@ public class XMLIntrospectorHelper {
         }
     }
     
-    /** Returns true if the type is a loop type */
+    /** 
+     * Is this a loop type class?
+     *
+     * @param type is this <code>Class</code> a loop type?
+     * @return true if the type is a loop type 
+     */
     public static boolean isLoopType(Class type) {
         return type.isArray() 
             || Map.class.isAssignableFrom( type ) 
@@ -415,7 +444,12 @@ public class XMLIntrospectorHelper {
     }
     
     
-    /** Returns true for primitive types */
+    /**
+     * Is this a primitive type? 
+     * 
+     * @param type is this <code>Class<code> a primitive type?
+     * @return true for primitive types 
+     */
     public static boolean isPrimitiveType(Class type) {
         if ( type == null ) {
             return false;
@@ -445,6 +479,12 @@ public class XMLIntrospectorHelper {
      * typically matches a collection or array. The property name is used
      * to match. e.g. if an addChild() method is detected the 
      * descriptor for the 'children' getter property should be returned.
+     *
+     * @param introspector use this <code>XMLIntrospector</code>
+     * @param rootDescriptor the <code>ElementDescriptor</code> whose child element will be
+     * searched for a match
+     * @param propertyName the name of the 'adder' method to match
+     * @return <code>ElementDescriptor</code> for the matching getter 
      */
     protected static ElementDescriptor findGetCollectionDescriptor( 
                                                 XMLIntrospector introspector, 
@@ -477,6 +517,10 @@ public class XMLIntrospectorHelper {
 
     /**
      * Creates a map where the keys are the property names and the values are the ElementDescriptors
+     * 
+     * @param rootDescriptor the values of the maps are the children of this 
+     * <code>ElementDescriptor</code> index by their property names
+     * @param map the map to which the elements will be added
      */
     protected static void makeElementDescriptorMap( ElementDescriptor rootDescriptor, Map map ) {
         ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
@@ -495,6 +539,10 @@ public class XMLIntrospectorHelper {
     /**
      * Traverse the tree of element descriptors and find the oldValue and swap it with the newValue.
      * This would be much easier to do if ElementDescriptor supported a parent relationship.
+     *
+     * @param rootDescriptor traverse child graph for this <code>ElementDescriptor</code>
+     * @param oldValue replace this <code>ElementDescriptor</code>
+     * @param newValue replace with this <code>ElementDescriptor</code>
      */     
     protected static void swapDescriptor( 
                                 ElementDescriptor rootDescriptor, 
