@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Expression.java,v 1.2 2003/01/09 22:34:07 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/09 22:34:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Expression.java,v 1.3 2003/02/10 20:19:28 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/02/10 20:19:28 $
  *
  * ====================================================================
  *
@@ -57,14 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Expression.java,v 1.2 2003/01/09 22:34:07 rdonkin Exp $
+ * $Id: Expression.java,v 1.3 2003/02/10 20:19:28 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>Expression</code> represents an arbitrary expression on a bean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public interface Expression {
 
@@ -89,6 +89,7 @@ public interface Expression {
      *
      * @param context update this <code>Context</code> 
      * @param newValue the new value for this expression
+     * @deprecated use {@link Updater} instead
      */
     public void update(Context context, String newValue);
 }

@@ -207,6 +207,9 @@
             <li> 
                 <code>BeanCreateRule</code> has been replaced by BeanRuleSet
             </li>
+            <li> 
+                <code>Expression.update</code> has been replaced by Updater
+            </li>
         </ul>
     </subsection>
 </section>
