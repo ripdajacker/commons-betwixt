@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.6 2003/01/12 13:52:03 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/12 13:52:03 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.6 2003/01/12 13:52:03 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -114,56 +114,91 @@ public class ElementDescriptor extends NodeDescriptor {
      */
     private boolean wrapCollectionsInElement = true;
     
-    /** Base constructor */
+    /**  
+     * Constructs an <code>ElementDescriptor</code> that refers to a primitive type.
+     */
     public ElementDescriptor() {
     }
-
+    
+    /**
+     * Base constructor.
+     * @param primitiveType if true, this element refers to a primitive type
+     */
     public ElementDescriptor(boolean primitiveType) {
         this.primitiveType = primitiveType;
     }
 
-    /** Creates a <code>ElementDescriptor</code> with no namespace URI or prefix */
+    /** 
+     * Creates a ElementDescriptor with no namespace URI or prefix.
+     *
+     * @param localName the (xml) local name of this node. 
+     * This will be used to set both qualified and local name for this name.
+     */
     public ElementDescriptor(String localName) {
         super( localName );
     }
 
-    public String toString() {
-        return 
-            "ElementDescriptor[qname=" + getQualifiedName() + ",pname=" + getPropertyName() 
-            + ",class=" + getPropertyType() + ",singular=" + getSingularPropertyType()
-            + ",updater=" + getUpdater() + "]";
-    }
+
     
-    /** Creates a <code>ElementDescriptor</code> with namespace URI and qualified name */
+    /** 
+     * Creates a <code>ElementDescriptor</code> with namespace URI and qualified name
+     * @param localName the (xml) local name of this  node
+     * @param qualifiedName the (xml) qualified name of this node
+     * @param uri the (xml) namespace prefix of this node
+     */
     public ElementDescriptor(String localName, String qualifiedName, String uri) {
         super(localName, qualifiedName, uri);
     }
 
-    /** Returns true if this element has child elements */
+    /** 
+     * Returns true if this element has child <code>ElementDescriptors</code>
+     * @return true if this element has child elements 
+     * @see #getElementDescriptors
+     */
     public boolean hasChildren() {
         return elementDescriptors != null && elementDescriptors.length > 0;
     }
     
-    /** Returns true if this element has attributes */
+    /** 
+     * Returns true if this element has <code>AttributeDescriptors</code>
+     * @return true if this element has attributes
+     * @see #getAttributeDescriptors
+     */
     public boolean hasAttributes() {
         return attributeDescriptors != null && attributeDescriptors.length > 0;
     }
     
-    /** Specifies if this is a collection element
-     * Normally only used with the WrapCollectionsInElement setting
-     * @param isCollection
+    /** 
+     * Sets whether <code>Collection</code> bean properties should wrap items in a parent element.
+     * In other words, should the mapping for bean properties which are <code>Collection</code>s 
+     * enclosed the item elements within a parent element.
+     * Normally only used when this describes a collection bean property.
+     *
+     * @param wrapCollectionsInElement true if the elements for the items in the collection 
+     * should be contained in a parent element
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
         this.wrapCollectionsInElement = wrapCollectionsInElement;
     }
 
     /**
-     * Returns if this element is a collection element
+     * Returns true if collective bean properties should wrap the items in a parent element.
+     * In other words, should the mapping for bean properties which are <code>Collection</code>s 
+     * enclosed the item elements within a parent element.
+     * Normally only used when this describes a collection bean property.
+     *
+     * @return true if the elements for the items in the collection should be contained 
+     * in a parent element
      */
     public boolean isWrapCollectionsInElement() {
         return this.wrapCollectionsInElement;
     }
 
+    /**
+     * Adds an attribute to the element this <code>ElementDescriptor</code> describes
+     * @param descriptor the <code>AttributeDescriptor</code> that will be added to the 
+     * attributes associated with element this <code>ElementDescriptor</code> describes
+     */
     public void addAttributeDescriptor(AttributeDescriptor descriptor) {
         if ( attributeList == null ) {
             attributeList = new ArrayList();
@@ -173,7 +208,12 @@ public class ElementDescriptor extends NodeDescriptor {
     }
     
     
-    /** Returns the attribute descriptors for this element */
+    /** 
+     * Returns the attribute descriptors for this element 
+     *
+     * @return descriptors for the attributes of the element that this 
+     * <code>ElementDescriptor</code> describes
+     */
     public AttributeDescriptor[] getAttributeDescriptors() {
         if ( attributeDescriptors == null ) {
             if ( attributeList == null ) {
@@ -189,12 +229,24 @@ public class ElementDescriptor extends NodeDescriptor {
         return attributeDescriptors;
     }
     
-    /** Set <code>AttributesDescriptors</code> for this element */
+    /** 
+     * Sets the <code>AttributesDescriptors</code> for this element.
+     * This sets descriptors for the attributes of the element describe by the 
+     * <code>ElementDescriptor</code>.
+     *
+     * @param attributeDescriptors the <code>AttributeDescriptor</code> describe the attributes
+     * of the element described by this <code>ElementDescriptor</code>
+     */
     public void setAttributeDescriptors(AttributeDescriptor[] attributeDescriptors) {
         this.attributeDescriptors = attributeDescriptors;
         this.attributeList = null;
     }
     
+    /**
+     * Adds a descriptor for a child element.
+     * 
+     * @param descriptor the <code>ElementDescriptor</code> describing the child element to add
+     */
     public void addElementDescriptor(ElementDescriptor descriptor) {
         if ( elementList == null ) {
             elementList = new ArrayList();
@@ -203,7 +255,11 @@ public class ElementDescriptor extends NodeDescriptor {
         elementDescriptors = null;
     }
     
-    /** Returns the child element descriptors for this element */
+    /** 
+     * Returns descriptors for the child elements of the element this describes.
+     * @return the <code>ElementDescriptor</code> describing the child elements
+     * of the element that this <code>ElementDescriptor</code> describes
+     */
     public ElementDescriptor[] getElementDescriptors() {
         if ( elementDescriptors == null ) {
             if ( elementList == null ) {
@@ -219,28 +275,44 @@ public class ElementDescriptor extends NodeDescriptor {
         return elementDescriptors;
     }
 
-    /** Set descriptors for child element of this element */
+    /** 
+     * Sets the descriptors for the child element of the element this describes. 
+     * @param elementDescriptors the <code>ElementDescriptor</code>s of the element 
+     * that this describes
+     */
     public void setElementDescriptors(ElementDescriptor[] elementDescriptors) {
         this.elementDescriptors = elementDescriptors;
         this.elementList = null;
     }
     
-    /** Returns the expression used to evaluate the new context of this element */
+    /** 
+     * Returns the expression used to evaluate the new context of this element.
+     * @return the expression used to evaluate the new context of this element
+     */
     public Expression getContextExpression() {
         return contextExpression;
     }
     
-    /** Sets the expression used to evaluate the new context of this element */
+    /** 
+     * Sets the expression used to evaluate the new context of this element 
+     * @param contextExpression the expression used to evaluate the new context of this element 
+     */
     public void setContextExpression(Expression contextExpression) {
         this.contextExpression = contextExpression;
     }
     
-    /** @return whether this element refers to a primitive type (or property of a parent object) */
+    /** 
+     * Returns true if this element refers to a primitive type property
+     * @return whether this element refers to a primitive type (or property of a parent object) 
+     */
     public boolean isPrimitiveType() {
         return primitiveType;
     }
     
-    /** Sets whether this element refers to a primitive type (or property of a parent object) */
+    /** 
+     * Sets whether this element refers to a primitive type (or property of a parent object) 
+     * @param primitiveType true if this element refers to a primitive type
+     */
     public void setPrimitiveType(boolean primitiveType) {
         this.primitiveType = primitiveType;
     }
@@ -249,9 +321,13 @@ public class ElementDescriptor extends NodeDescriptor {
     //-------------------------------------------------------------------------    
         
     /** 
-     * Lazily creates the mutable List, nullifiying the array so that
+     * Lazily creates the mutable List.
+     * This nullifies {@link #attributeDescriptors} so that
      * as items are added to the list the Array is ignored until it is
-     * explicitly asked for
+     * explicitly asked for.
+     * 
+     * @return list of <code>AttributeDescriptors</code>'s describing the attributes
+     * of the element that this <code>ElementDescriptor</code> describes
      */
     protected List getAttributeList() {
         if ( attributeList == null ) {
@@ -270,7 +346,15 @@ public class ElementDescriptor extends NodeDescriptor {
         return attributeList;
     }
     
-    /** Lazily creates the mutable List */
+    /**  
+     * Lazily creates the mutable List of child elements.
+     * This nullifies {@link #elementDescriptors} so that
+     * as items are added to the list the Array is ignored until it is
+     * explicitly asked for.
+     *
+     * @return list of <code>ElementDescriptor</code>'s describe the child elements of 
+     * the element that this <code>ElementDescriptor</code> describes
+     */
     protected List getElementList() {
         if ( elementList == null ) {
             if ( elementDescriptors != null ) {
@@ -288,4 +372,15 @@ public class ElementDescriptor extends NodeDescriptor {
         return elementList;
     }
     
+    /**
+     * Returns something useful for logging.
+     *
+     * @return a string useful for logging
+     */ 
+    public String toString() {
+        return 
+            "ElementDescriptor[qname=" + getQualifiedName() + ",pname=" + getPropertyName() 
+            + ",class=" + getPropertyType() + ",singular=" + getSingularPropertyType()
+            + ",updater=" + getUpdater() + "]";
+    }    
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.3 2003/01/08 22:07:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/08 22:07:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/12 13:52:03 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.3 2003/01/08 22:07:21 rdonkin Exp $
+ * $Id: NodeDescriptor.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -71,12 +71,13 @@ import org.apache.commons.betwixt.expression.Updater;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class NodeDescriptor {
 
     /** The local name of this node without any namespace prefix */
     private String localName;
+    /** The qualified name of the xml node associated with this descriptor. */
     private String qualifiedName;
     /** The namespace URI of this node */
     private String uri = "";
@@ -96,34 +97,50 @@ public class NodeDescriptor {
     public NodeDescriptor() {
     }
 
-    /** Creates a NodeDescriptor with no namespace URI or prefix */
+    /** 
+     * Creates a NodeDescriptor with no namespace URI or prefix.
+     *
+     * @param localName the (xml) local name of this node. 
+     * This will be used to set both qualified and local name for this name.
+     */
     public NodeDescriptor(String localName) {
         this.localName = localName;
         this.qualifiedName = localName;
     }
 
 
-    /** Creates a NodeDescriptor with namespace URI and qualified name */
+    /**  
+     * Creates a NodeDescriptor with namespace URI and qualified name 
+     * @param localName the (xml) local name of this  node
+     * @param qualifiedName the (xml) qualified name of this node
+     * @param uri the (xml) namespace prefix of this node
+     */
     public NodeDescriptor(String localName, String qualifiedName, String uri) {
         this.localName = localName;
         this.qualifiedName = qualifiedName;
         this.uri = uri;
     }
 
-    /** Returns the local name, excluding any namespace prefix 
-      */
+    /** 
+     * Gets the local name, excluding any namespace prefix 
+     * @return the (xml) local name of this node
+     */
     public String getLocalName() {
         return localName;
     }
 
-    /** Sets the local name 
-      */
+    /** 
+     * Sets the local name 
+     * @param localName the (xml) local name of this node
+     */
     public void setLocalName(String localName) {
         this.localName = localName;
     }    
     
-    /** Returns the qualified name, including any namespace prefix 
-      */
+    /** 
+     * Gets the qualified name, including any namespace prefix 
+     * @return the (xml) qualified name of this node. This may be null.
+     */
     public String getQualifiedName() {
         if ( qualifiedName == null ) {
             qualifiedName = localName;
@@ -131,14 +148,17 @@ public class NodeDescriptor {
         return qualifiedName;
     }
     
-    /** Sets the qualified name
-      */
+    /** 
+     * Sets the qualified name
+     * @param qualifiedName the new (xml) qualified name for this node
+     */
     public void setQualifiedName(String qualifiedName) {
         this.qualifiedName = qualifiedName;
     }    
     
     /**  
-     * Returns the namespace URI that this node belongs to 
+     * Gets the (xml) namespace URI prefix for this node.
+     * @return the namespace URI that this node belongs to 
      * or "" if there is no namespace defined 
      */
     public String getURI() {
@@ -146,7 +166,9 @@ public class NodeDescriptor {
     }
     
 
-    /** Sets the namespace URI that this node belongs to.
+    /** 
+     * Sets the namespace URI that this node belongs to.
+     * @param uri the new namespace uri for this node
      */
     public void setURI(String uri) {
         if ( uri == null ) {
@@ -158,39 +180,62 @@ public class NodeDescriptor {
         this.uri = uri;
     }
     
-    /** Returns the expression used to evaluate the text value of this node */
+    /** 
+     * Gets the expression used to evaluate the text value of this node 
+     * for a particular <code>Context</code>.
+     * @return the expression used to evaluate the text value of this node 
+     */
     public Expression getTextExpression() {
         return textExpression;
     }
     
-    /** Sets the expression used to evaluate the text value of this node */
+    /** 
+     * Sets the expression used to evaluate the text value of this node
+     * for a particular <code>Context</code>
+     * @param textExpression the Expression to be used to evaluate the value of this node
+     */
     public void setTextExpression(Expression textExpression) {
         this.textExpression = textExpression;
     }
     
-    /** the updater used to update the current bean from the text value of this node */
+    /** 
+     * Gets the <code>Updater</code> used to update a <code>Context</code> from the text value
+     * corresponding to this node in an xml document
+     * @return the Update that should be used to update the value of this node
+     */
     public Updater getUpdater() {
         return updater;
     }
     
-    /** sets the updater used to update the current bean from the text value of this node */
+    /**
+     * Sets the <code>Updater</code> used to update a <code>Context</code> from the text value
+     * corresponding to this node in an xml document
+     * @param updater the Updater to be used to update the values of this node
+     */
     public void setUpdater(Updater updater) {
         this.updater = updater;
     }
     
-    /** @return the property type associated with this node, if any */
+    /** 
+     * Gets the type of the bean property associated with this node, if any
+     * @return the property type associated with this node, if any 
+     */
     public Class getPropertyType() {
         return propertyType;
     }
     
-    /** Sets the property type associated with this node, if any */
+    /** 
+     * Sets the type of the bean property associated with this node, if any 
+     * @param propertyType the Class of the bean property
+     */
     public void setPropertyType(Class propertyType) {
         this.propertyType = propertyType;
     }
 
     
     /** 
-     * @return the property expression to which this node refers to, 
+     * 
+     * @return the name of the bean property to which this node refers to, 
      * or null if it is just a constant 
      */
     public String getPropertyName() {
@@ -198,16 +243,16 @@ public class NodeDescriptor {
     }
     
     /** 
-     * Sets the property expression to which this node refers to, 
-     * or null if it is just a constant 
+     * Sets the name of the bean property to which this node refers to,
+     * @param propertyName the name of the bean property. 
+     * Or null, if this node is not mapped to to a bean property
      */
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
     
     /** 
-     * Gets the singular property type.
-     * That is, the type ignoring the Collection or Array.
+     * Gets the underlying type ignoring any wrapping a Collection or Array.
      *
      * @return if this property is a 1-N relationship then this returns the type
      * of a single property value.
@@ -220,10 +265,10 @@ public class NodeDescriptor {
     }
     
     /** 
-     * Sets the singular property type.
-     * That is, the type ignoring the Collection or Array.
+     * Sets the underlying type ignoring any wrapping Collection or Array.
      *
-     * @param singularPropertyType 
+     * @param singularPropertyType the Class of the items in the Collection or Array. 
+     * If node is associated with a collective bean property, then this should not be null.
      */
     public void setSingularPropertyType(Class singularPropertyType) {
         this.singularPropertyType = singularPropertyType;

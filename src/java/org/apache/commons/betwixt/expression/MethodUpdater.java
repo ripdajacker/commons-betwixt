@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.6 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.7 2003/01/12 13:52:03 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/01/12 13:52:03 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.6 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: MethodUpdater.java,v 1.7 2003/01/12 13:52:03 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -72,14 +72,17 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class MethodUpdater implements Updater {
 
     /** Logger */
     private static Log log = LogFactory.getLog( MethodUpdater.class );
 
-    /** Programmatically set log */
+    /** 
+     * Programmatically set log 
+     * @param aLog the implementation to which this class should log
+     */
     public static void setLog( Log aLog ) {
         log = aLog;
     }
@@ -93,12 +96,19 @@ public class MethodUpdater implements Updater {
     public MethodUpdater() {
     }
     
-    /** Convenience constructor sets method property */
+    /** 
+     * Convenience constructor sets method property 
+     * @param method the Method to be invoked on the context's bean in the update
+     */
     public MethodUpdater(Method method) {
         setMethod( method );
     }
 
-    /** Updates the current bean context with the given String value */
+    /** 
+     * Updates the current bean context with the given String value 
+     * @param context the Context to be updated
+     * @param newValue the update to this new value 
+     */
     public void update(Context context, Object newValue) {
         Object bean = context.getBean();
         if ( bean != null ) {
@@ -142,12 +152,19 @@ public class MethodUpdater implements Updater {
         }
     }
 
-    /** Gets the constant value of this expression */
+    /** 
+     * Gets the method which will be invoked by the update
+     *
+     * @return the Method to be invoked by the update
+     */
     public Method getMethod() {
         return method;
     }
     
-    /** Sets the constant value of this expression */
+    /** 
+     * Sets the constant value of this expression 
+     * @param method the Method to be invoked by the update
+     */
     public void setMethod(Method method) {
         this.method = method;
         Class[] types = method.getParameterTypes();
@@ -162,11 +179,17 @@ public class MethodUpdater implements Updater {
     
     /** 
      * Strategy method to allow derivations to handle exceptions differently.
+     * @param context the Context being updated when this exception occured
+     * @param e the Exception that occured during the update
      */
     protected void handleException(Context context, Exception e) {
         log.info( "Caught exception: " + e, e );
     }
     
+    /**
+     * Returns something useful for logging.
+     * @return something useful for logging
+     */
     public String toString() {
         return "MethodUpdater [method=" + method + "]";
     }

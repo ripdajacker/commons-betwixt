@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.3 2003/01/11 10:38:55 dion Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/11 10:38:55 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/12 13:52:03 $
  *
  * ====================================================================
  *
@@ -56,7 +56,7 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- * $Id: Context.java,v 1.3 2003/01/11 10:38:55 dion Exp $
+ * $Id: Context.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -86,7 +86,7 @@ import org.apache.commons.logging.LogFactory;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class Context {
 
@@ -130,54 +130,75 @@ public class Context {
     /** Returns a new child context with the given bean but the same log and variables. 
      *
      * @param newBean create a child context for this bean
+     * @return new Context with new bean but shared variables 
      */
     public Context newContext(Object newBean) {
         return new Context(newBean, variables, log);
     }
     
-    /** Returns the current bean.
-      */
+    /** 
+     * Gets the current bean.
+     * @return the bean against which expressions are evaluated
+     */
     public Object getBean() {
         return bean;
     }
 
-    /** Set the current bean.
+    /** 
+     * Set the current bean.
+     * @param bean the Object against which expressions will be evaluated
      */
     public void setBean(Object bean) {
         this.bean = bean;
     }    
     
-    /** Get context variables.
-     */
+    /** 
+      * Gets context variables.
+      * @return map containing variable values keyed by variable name
+      */
     public Map getVariables() {
         return variables;
     }
 
-    /** Set context variables. 
+    /** 
+     * Sets context variables. 
+     * @param variables map containing variable values indexed by varibable name Strings
      */
     public void setVariables(Map variables) {
         this.variables = variables;
     }    
 
-    /** Get the value of a particular context variable.
+    /** 
+     * Gets the value of a particular context variable.
+     * @param name the name of the variable whose value is to be returned
+     * @return the variable value or null if the variable isn't set
      */
     public Object getVariable(String name) {
         return variables.get( name );
     }
 
-    /** Set the value of a particular context variable.
+    /** 
+     * Sets the value of a particular context variable.
+     * @param name the name of the variable
+     * @param value the value of the variable
      */    
     public void setVariable(String name, Object value) {
         variables.put( name, value );
     }
     
-    /** Get the current log.  
-      */
+    /** 
+     * Gets the current log.  
+     *
+     * @return the implementation to which this class logs
+     */
     public Log getLog() {
         return log;
     }
 
-    /** Set the logger used to log (Doh!).
+    /** 
+     * Set the log implementation to which this class logs
+     * 
+     * @param log the implemetation that this class should log to
      */
     public void setLog(Log log) {
         this.log = log;
