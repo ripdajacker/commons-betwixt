@@ -134,9 +134,9 @@
     <integrationUnitTestPatterns></integrationUnitTestPatterns>
     
     <resources>
-      <includes>
-        <include>**/*.properties</include>
-      </includes>
+      <excludes>
+        <exclude>**/*.java</exclude>
+      </excludes>
     </resources>
     
     <jars></jars>
