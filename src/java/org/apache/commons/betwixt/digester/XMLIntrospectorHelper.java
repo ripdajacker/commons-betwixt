@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.4 2002/07/08 16:51:38 jvanzyl Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.5 2002/07/08 22:34:34 mvdb Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -125,7 +125,9 @@ public class XMLIntrospectorHelper {
     ) throws IntrospectionException {
         Class type = propertyDescriptor.getPropertyType();
         
-        System.out.println(propertyDescriptor.getPropertyType());
+        if (log.isTraceEnabled()) {
+            log.trace(propertyDescriptor.getPropertyType());
+        }
         
         NodeDescriptor nodeDescriptor = null;
         Method readMethod = propertyDescriptor.getReadMethod();
