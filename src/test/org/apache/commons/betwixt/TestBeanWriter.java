@@ -76,7 +76,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
 import org.apache.commons.logging.impl.SimpleLog;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
-
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 /** Test harness for the BeanWriter
   *
@@ -565,6 +565,27 @@ public class TestBeanWriter extends AbstractTestCase {
          + "<NameBean><Name>All Things Nice</Name></NameBean>" 
          + "</Things>"
          +"</NoAdderBean>";
+         
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+                            
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.getXMLIntrospector().setWrapCollectionsInElement(true);
+        writer.setWriteIDs(false);
+        writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper(false));
+        writer.write(bean);
+        
+        xml = "<?xml version='1.0'?><no-adder-bean><things>"
+         + "<name-bean><name>Sugar</name></name-bean>" 
+         + "<name-bean><name>Spice</name></name-bean>" 
+         + "<name-bean><name>All Things Nice</name></name-bean>" 
+         + "</things>"
+         +"</no-adder-bean>";
          
         xmlAssertIsomorphicContent(
                             parseString(out.getBuffer().toString()),
