@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.3 2002/07/02 11:24:49 mvdb Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -144,7 +144,7 @@ public class XMLIntrospectorHelper {
             return null;
         }
         if ( isPrimitiveType( type ) ) {
-            log.trace( "Primative type" );
+            log.trace( "Primitive type" );
             if ( useAttributesForPrimitives ) {
                 log.trace( "Added attribute" );
                 nodeDescriptor = new AttributeDescriptor();
