@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.7 2003/07/13 21:28:24 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/07/13 21:28:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.8 2003/07/27 17:53:57 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/07/27 17:53:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.7 2003/07/13 21:28:24 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.8 2003/07/27 17:53:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -379,7 +379,8 @@ public class BeanRuleSet implements RuleSet {
                 try {
                     XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
                     if (log.isTraceEnabled()) {
-                        log.trace("Is wrapped? " + xmlInfo.getElementDescriptor().isWrapCollectionsInElement());
+                        log.trace("Is wrapped? " 
+                        + xmlInfo.getElementDescriptor().isWrapCollectionsInElement());
                     }
                     return xmlInfo.getElementDescriptor();
                     

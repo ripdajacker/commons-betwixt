@@ -1,0 +1,6 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+<element name='bean'>
+    <element property='notDynaProperty' name='ndp'/>
+</element>
+</info>

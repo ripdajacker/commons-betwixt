@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.4 2003/01/11 10:38:55 dion Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/11 10:38:55 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.5 2003/07/27 17:55:51 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/07/27 17:55:51 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.4 2003/01/11 10:38:55 dion Exp $
+ * $Id: TestXMLIntrospector.java,v 1.5 2003/07/27 17:55:51 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -82,11 +82,13 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 
+import org.apache.commons.logging.impl.SimpleLog;
+
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -103,7 +105,11 @@ public class TestXMLIntrospector extends AbstractTestCase {
     }
     
     public void testIntrospector() throws Exception {
+        //SimpleLog log = new SimpleLog("testIntrospector:introspector");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         XMLIntrospector introspector = new XMLIntrospector();
+        //introspector.setLog(log);
+        
         introspector.setAttributesForPrimitives(true);
         
         Object bean = createBean();
