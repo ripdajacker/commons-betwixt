@@ -62,7 +62,6 @@
 package org.apache.commons.betwixt;
 
 import java.io.File;
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
@@ -72,13 +71,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.apache.commons.beanutils.ConvertUtils;
-
-import org.apache.commons.betwixt.io.BeanWriter;
-
 import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 
 /** Abstract base class for test cases.

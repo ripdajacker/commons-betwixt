@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.3 2003/01/01 21:41:13 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/01 21:41:13 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.4 2003/01/11 10:38:55 dion Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/11 10:38:55 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.3 2003/01/01 21:41:13 rdonkin Exp $
+ * $Id: TestXMLIntrospector.java,v 1.4 2003/01/11 10:38:55 dion Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -70,8 +70,6 @@ import java.beans.BeanInfo;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-
-import org.apache.commons.logging.impl.SimpleLog;
 
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.NoCacheRegistry;
@@ -88,7 +86,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     

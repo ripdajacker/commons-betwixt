@@ -61,8 +61,6 @@
  */
 package org.apache.commons.betwixt;
 
-import java.io.Serializable;
-
 /** <p> This is a bean specifically designed to test cyclic references. 
   * The idea is that there's a count that counts every time <code>getFriend</code>
   * gets called and throws a <code>RuntimeException</code> if the count gets too high.</p>
