@@ -29,7 +29,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class XMLUtils {
 
@@ -328,6 +328,49 @@ public class XMLUtils {
         }
         return buffer.toString();
     }    
+    
+    
+    /**
+     * Escapes the given content suitable for insertion within a
+     * <code>CDATA</code> sequence.
+     * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
+     * string ']]>' is recognized as markup.
+     * @param content the body content whose character data should 
+     * be escaped in a way appropriate for use within a <code>CDATA</code>
+     * section of xml.
+     * @return escaped character data, not null
+     */
+    public static final String escapeCDATAContent(String content) {
+        StringBuffer buffer = new StringBuffer(content);
+        escapeCDATAContent(buffer);
+        return buffer.toString();
+    }
+     
+    /**
+     * Escapes the given content suitable for insertion within a
+     * <code>CDATA</code> sequence.
+     * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
+     * string ']]>' is recognized as markup.
+     * @param bufferedContent the body content within a buffer 
+     * whose character data should 
+     * be escaped in a way appropriate for use within a <code>CDATA</code>
+     * section of xml.
+     * @return escaped character data, not null
+     */
+    public static final void escapeCDATAContent(StringBuffer bufferedContent) {
+        for (int i=2, size = bufferedContent.length(); i<size; i++) {
+            char at = bufferedContent.charAt(i);
+            if ( at == '>' 
+                && bufferedContent.charAt(i-1) == ']' 
+                && bufferedContent.charAt(i-2) == ']') {
+                    
+                    bufferedContent.replace(i, i+1, GREATER_THAN_ENTITY);
+                size += 3;
+                i+=3;
+            }
+        }
+    }    
+ 
     
     /**
      * <p>Is this string a well formed xml name?</p>

@@ -23,7 +23,7 @@ import junit.textui.TestRunner;
 /** Test harness for the XMLUtils
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestXMLUtils extends AbstractTestCase {
     
@@ -88,5 +88,28 @@ public class TestXMLUtils extends AbstractTestCase {
             XMLUtils.escapeAttributeValue("a<>b''c\"e>f'&g"));
         
     }
+    
+    /** 
+     * Test CDATA escaping 
+     * Within a CDATA section, only the CDEnd
+     * string ']]>' is recognized as markup.
+     * Angle brackets and amphersands may occur in their literal form.
+     */
+    public void testCDATAEscaping() {
+        assertEquals("Escaping: <", "<", XMLUtils.escapeCDATAContent("<"));
+        assertEquals("Escaping: >", ">", XMLUtils.escapeCDATAContent(">"));
+        assertEquals("Escaping: '", "'", XMLUtils.escapeCDATAContent("'"));
+        assertEquals("Escaping: \"", "\"", XMLUtils.escapeCDATAContent("\""));
+        assertEquals("Escaping: &", "&", XMLUtils.escapeCDATAContent("&"));
+        assertEquals("Escaping: ]]", "]]", XMLUtils.escapeCDATAContent("]]"));
+        assertEquals("Escaping: ]>", "]>", XMLUtils.escapeCDATAContent("]>"));
+        assertEquals("Escaping: ]]>", "]]&gt;", XMLUtils.escapeCDATAContent("]]>"));
+        assertEquals("Escaping: ]]>]]>", "]]&gt;]]&gt;", XMLUtils.escapeCDATAContent("]]>]]>"));
+        assertEquals("Escaping: ]>]]>", "]>]]&gt;", XMLUtils.escapeCDATAContent("]>]]>"));
+        assertEquals("Escaping: ]]>]]]>", "]]&gt;]]]&gt;", XMLUtils.escapeCDATAContent("]]>]]]>"));
+        assertEquals("Escaping: ", "", XMLUtils.escapeCDATAContent(""));     
+    }
+    
+    
 }
 
