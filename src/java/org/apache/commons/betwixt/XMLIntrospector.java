@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.15 2003/01/05 15:47:45 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.16 2003/01/05 16:27:16 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -351,7 +351,11 @@ public class XMLIntrospector {
         this.attributesForPrimitives = attributesForPrimitives;
     }
 
-    /** @return whether we should we wrap collections in an extra element? */
+    /**
+     * Should collections be wrapped in an extra element?
+     * 
+     * @return whether we should we wrap collections in an extra element? 
+     */
     public boolean isWrapCollectionsInElement() {
         return wrapCollectionsInElement;
     }
@@ -362,6 +366,8 @@ public class XMLIntrospector {
     }
 
     /** 
+     * Get singular and plural matching strategy.
+     *
      * @return the strategy used to detect matching singular and plural properties 
      */
     public PluralStemmer getPluralStemmer() {

@@ -19,11 +19,6 @@
                 <strong>Create DTD for .betwixt files.</strong>
             </li>
             <li>
-                <strong>Add XMLIntrospector Setting Documentation. </strong>
-                Add documentation about the XMLIntrospector settings to main documentation.
-                Make sure that warnings are added about consequences of changing settings.
-            </li>
-            <li>
                 <strong>Improve Java Docs. </strong>
                 Go through java docs, add any which are missing, correct any mistakes etc.
             </li>
@@ -224,6 +219,11 @@
             <li>
                 <strong>Add XMLRegistry documentation. </strong>
                 Add documentation about XMLRegistry to main documentation.
+            </li>
+            <li>
+                <strong>Add XMLIntrospector Setting Documentation. </strong>
+                Add documentation about the XMLIntrospector settings to main documentation.
+                Make sure that warnings are added about consequences of changing settings.
             </li>
         </ul>
     </subsection>

@@ -355,9 +355,38 @@ public class NameMapperExampleApp {
 <subsection name="Other XMLIntrospector Settings">
     
     <p>
-    Here are discussed the important settings that haven't been covered already.
+    Here are discussed the important settings that haven't been covered already. 
     </p>
     
+    <p>
+    The <strong><code>AttributesForPrimitives</code></strong> property determines whether a primitive
+    type (including strings) should be - by default - mapped to elements or attributes. For example, a
+    property called <code>Age</code> of a bean called <code>PersonBean</code> would be mapped to something
+    like:
+    
+<source><![CDATA[
+        <PersonBean>
+            <age>21</age>
+            ...
+]]></source>
+    
+    when <code>isAttributesForPrimitives</code> is false but to 
+    
+<source><![CDATA[
+        <PersonBean age='21'>
+            ...
+]]></source>
+    
+    when it is true.
+    </p>
+    
+    <p>
+    The <strong><code>WrapCollectionsInElement</code></strong> property determines whether the elements 
+    for a composite property (ie one that returns a collection or iterator) should be wrapped in a parent
+    element. For example, if <code>isWrapCollectionsInElement</code> is true then a property with signature 
+    <code>List getChildren()</code> would wrap a <code>&lt;children&gt;</code> element around the elements
+    representing the contents of the list.
+    </p>
 </subsection>
 
 </section>
