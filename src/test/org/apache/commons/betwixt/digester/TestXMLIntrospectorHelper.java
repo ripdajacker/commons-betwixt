@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.5 2003/10/05 13:53:43 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/05 13:53:43 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.6 2003/10/09 20:52:08 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/10/09 20:52:08 $
  *
  * ====================================================================
  * 
@@ -27,8 +27,8 @@
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -79,7 +79,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 

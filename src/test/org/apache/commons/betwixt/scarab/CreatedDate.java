@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.scarab;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/scarab/CreatedDate.java,v 1.3 2003/10/05 13:54:41 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/05 13:54:41 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/scarab/CreatedDate.java,v 1.4 2003/10/09 20:52:10 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/09 20:52:10 $
  *
  * ====================================================================
  * 
@@ -28,8 +28,8 @@ package org.apache.commons.betwixt.scarab;
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -70,7 +70,7 @@ import org.apache.commons.logging.LogFactory;
  * <p><code>CreatedDate</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jon@latchkey.com">Jon Scott Stevens</a>
- * @version $Id: CreatedDate.java,v 1.3 2003/10/05 13:54:41 rdonkin Exp $
+ * @version $Id: CreatedDate.java,v 1.4 2003/10/09 20:52:10 rdonkin Exp $
  */
 public class CreatedDate implements Serializable
 {

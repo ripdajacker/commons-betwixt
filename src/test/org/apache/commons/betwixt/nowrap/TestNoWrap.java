@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.7 2003/10/05 13:56:18 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/10/05 13:56:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.8 2003/10/09 20:52:09 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/10/09 20:52:09 $
  *
  * ====================================================================
  * 
@@ -26,8 +26,8 @@
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -81,7 +81,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.7 2003/10/05 13:56:18 rdonkin Exp $
+ * @version $Id: TestNoWrap.java,v 1.8 2003/10/09 20:52:09 rdonkin Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase

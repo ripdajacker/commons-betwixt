@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.6 2003/10/05 14:21:03 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/10/05 14:21:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.7 2003/10/09 20:52:03 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/10/09 20:52:03 $
  *
  * ====================================================================
  * 
@@ -26,8 +26,8 @@
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class XMLUtils {
 

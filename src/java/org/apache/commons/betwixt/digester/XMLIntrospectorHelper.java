@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.25 2003/10/05 14:12:38 rdonkin Exp $
- * $Revision: 1.25 $
- * $Date: 2003/10/05 14:12:38 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.26 2003/10/09 20:52:04 rdonkin Exp $
+ * $Revision: 1.26 $
+ * $Date: 2003/10/09 20:52:04 $
  *
  * ====================================================================
  * 
@@ -28,8 +28,8 @@ package org.apache.commons.betwixt.digester;
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.25 2003/10/05 14:12:38 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.26 2003/10/09 20:52:04 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.6 2003/10/05 14:24:31 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/10/05 14:24:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.7 2003/10/09 20:52:09 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/10/09 20:52:09 $
  *
  * ====================================================================
  * 
@@ -26,8 +26,8 @@
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -86,7 +86,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.6 2003/10/05 14:24:31 rdonkin Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.7 2003/10/09 20:52:09 rdonkin Exp $
  */
 public class TestSAXBeanWriter extends AbstractTestCase {
     

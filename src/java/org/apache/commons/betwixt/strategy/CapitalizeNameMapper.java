@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.5 2003/10/05 14:10:35 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/05 14:10:35 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.6 2003/10/09 20:52:06 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/10/09 20:52:06 $
  *
  * ====================================================================
  * 
@@ -26,8 +26,8 @@
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -66,7 +66,7 @@ package org.apache.commons.betwixt.strategy;
  * So eg elementName should return ElementName
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CapitalizeNameMapper.java,v 1.5 2003/10/05 14:10:35 rdonkin Exp $
+ * @version $Id: CapitalizeNameMapper.java,v 1.6 2003/10/09 20:52:06 rdonkin Exp $
  */
 public class CapitalizeNameMapper implements NameMapper {
 

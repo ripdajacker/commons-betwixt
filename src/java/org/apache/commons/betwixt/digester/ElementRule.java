@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.12 2003/10/05 14:15:57 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/10/05 14:15:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13 2003/10/09 20:52:04 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/10/09 20:52:04 $
  *
  * ====================================================================
  * 
@@ -27,8 +27,8 @@ package org.apache.commons.betwixt.digester;
  *    if any, must include the following acknowledgement:  
  *       "This product includes software developed by the 
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Apache", "The Jakarta Project", "Commons", and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.12 2003/10/05 14:15:57 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13 2003/10/09 20:52:04 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
