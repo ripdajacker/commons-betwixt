@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/VariableExpression.java,v 1.2 2002/07/01 18:58:53 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/01 18:58:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/VariableExpression.java,v 1.3 2003/01/11 09:14:01 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/11 09:14:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: VariableExpression.java,v 1.2 2002/07/01 18:58:53 rdonkin Exp $
+ * $Id: VariableExpression.java,v 1.3 2003/01/11 09:14:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt.expression;
   * <code>$foo</code> which returns the value of the given variable.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class VariableExpression implements Expression {
 
@@ -76,7 +76,11 @@ public class VariableExpression implements Expression {
     public VariableExpression() {
     }
     
-    /** Convenience constructor sets <code>VariableName</code> property */
+    /** 
+     * Convenience constructor sets <code>VariableName</code> property 
+     * @param variableName the name of the context variable 
+     * whose value will be returned by an evaluation 
+     */
     public VariableExpression(String variableName) {
         this.variableName = variableName;
     }
@@ -90,20 +94,35 @@ public class VariableExpression implements Expression {
         return context.getVariable( variableName );
     }
     
-    /** Gets the variable name */
+    /** 
+     * Gets the variable name 
+     * @return the name of the context variable whose value will be returned by an evaluation
+     */
     public String getVariableName() {
         return variableName;
     }
     
-    /** Sets the variable name */
+    /** 
+     * Sets the variable name 
+     * @param variableName the name of the context variable 
+     * whose value will be returned by an evaluation
+     */
     public void setVariableName(String variableName) {
         this.variableName = variableName;
     }
     
+    /**
+     * Do nothing
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
     public void update(Context context, String newValue) {
         // do nothing
     }
 
+    /**
+     * Returns something useful for logging
+     * @return something useful for logging
+     */
     public String toString() {
         return "VariableExpression [variable name=" + variableName + "]";
     }

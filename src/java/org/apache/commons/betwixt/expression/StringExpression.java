@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/StringExpression.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/StringExpression.java,v 1.4 2003/01/11 09:14:01 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/11 09:14:01 $
  *
  * ====================================================================
  *
@@ -57,26 +57,29 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: StringExpression.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: StringExpression.java,v 1.4 2003/01/11 09:14:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>StringExpression</code> returns the current context object as a string.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class StringExpression implements Expression {
     
     /** We only need only <code>StringExpression</code> */
     private static final StringExpression singleton = new StringExpression();
     
-    /** Get the singleton */
+    /** 
+     * Gets the singleton 
+     * @return the singleton <code>StringExpression</code> instance
+     */
     public static StringExpression getInstance() {
         return singleton;
     }
     
-    /** Should this be private? */
+    /** Base constructor. Should this be private? */
     public StringExpression() {
     }
     
@@ -93,10 +96,18 @@ public class StringExpression implements Expression {
         return null;
     }
     
+    /**
+     * Do nothing 
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
     public void update(Context context, String newValue) {
         // do nothing
     }
     
+    /**
+     * Returns something useful for logging.
+     * @return the (short) class name
+     */
     public String toString() {
         return "StringExpression";
     }
