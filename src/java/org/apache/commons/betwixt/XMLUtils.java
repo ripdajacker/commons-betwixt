@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.3 2003/02/20 18:06:59 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/02/20 18:06:59 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.4 2003/05/26 10:46:57 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/05/26 10:46:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLUtils.java,v 1.3 2003/02/20 18:06:59 rdonkin Exp $
+ * $Id: XMLUtils.java,v 1.4 2003/05/26 10:46:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
  /**
@@ -75,7 +75,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class XMLUtils {
 
@@ -362,8 +362,8 @@ public class XMLUtils {
                     break;
                  case '\'':
                     buffer.replace(i, i+1, APOSTROPHE_ENTITY);
-                    size += 4;
-                    i += 4;
+                    size += 5;
+                    i += 5;
                     break;
                  case '\"':
                     buffer.replace(i, i+1, QUOTE_ENTITY);

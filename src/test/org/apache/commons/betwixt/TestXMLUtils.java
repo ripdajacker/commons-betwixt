@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestXMLUtils.java,v 1.1 2003/01/19 23:21:31 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/01/19 23:21:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestXMLUtils.java,v 1.2 2003/05/26 10:46:58 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/05/26 10:46:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLUtils.java,v 1.1 2003/01/19 23:21:31 rdonkin Exp $
+ * $Id: TestXMLUtils.java,v 1.2 2003/05/26 10:46:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -68,7 +68,7 @@ import junit.textui.TestRunner;
 /** Test harness for the XMLUtils
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestXMLUtils extends AbstractTestCase {
     
@@ -98,6 +98,40 @@ public class TestXMLUtils extends AbstractTestCase {
         assertEquals("Testing name ':Name'", true, XMLUtils.isWellFormedXMLName(":Name"));
         assertEquals("Testing name '_Name'", true, XMLUtils.isWellFormedXMLName("_Name"));
         assertEquals("Testing name 'A0123456789Name", true, XMLUtils.isWellFormedXMLName("A0123456789Name"));
+    }
+    
+    /** Test attribute escaping */
+    public void testAttributeEscaping() {
+        assertEquals("Escaping: <", "&lt;", XMLUtils.escapeAttributeValue("<"));
+        assertEquals("Escaping: >", "&gt;", XMLUtils.escapeAttributeValue(">"));
+        assertEquals("Escaping: '", "&apos;", XMLUtils.escapeAttributeValue("'"));
+        assertEquals("Escaping: \"", "&quot;", XMLUtils.escapeAttributeValue("\""));
+        assertEquals("Escaping: &", "&amp;", XMLUtils.escapeAttributeValue("&"));
+        assertEquals("Escaping: 1<", "1&lt;", XMLUtils.escapeAttributeValue("1<"));
+        assertEquals("Escaping: 1>", "1&gt;", XMLUtils.escapeAttributeValue("1>"));
+        assertEquals("Escaping: 1'", "1&apos;", XMLUtils.escapeAttributeValue("1'"));
+        assertEquals("Escaping: 1\"", "1&quot;", XMLUtils.escapeAttributeValue("1\""));
+        assertEquals("Escaping: 1&", "1&amp;", XMLUtils.escapeAttributeValue("1&"));
+        assertEquals("Escaping: <2", "&lt;2", XMLUtils.escapeAttributeValue("<2"));
+        assertEquals("Escaping: >2", "&gt;2", XMLUtils.escapeAttributeValue(">2"));
+        assertEquals("Escaping: '2", "&apos;2", XMLUtils.escapeAttributeValue("'2"));
+        assertEquals("Escaping: \"2", "&quot;2", XMLUtils.escapeAttributeValue("\"2"));
+        assertEquals("Escaping: &2", "&amp;2", XMLUtils.escapeAttributeValue("&2"));
+        assertEquals("Escaping: a<b", "a&lt;b", XMLUtils.escapeAttributeValue("a<b"));
+        assertEquals("Escaping: a>b", "a&gt;b", XMLUtils.escapeAttributeValue("a>b"));
+        assertEquals("Escaping: a'b", "a&apos;b", XMLUtils.escapeAttributeValue("a'b"));
+        assertEquals("Escaping: a\"b", "a&quot;b", XMLUtils.escapeAttributeValue("a\"b"));
+        assertEquals("Escaping: a&b", "a&amp;b", XMLUtils.escapeAttributeValue("a&b"));
+        assertEquals("Escaping: <<abba", "&lt;&lt;abba", XMLUtils.escapeAttributeValue("<<abba"));
+        assertEquals("Escaping: >>abba", "&gt;&gt;abba", XMLUtils.escapeAttributeValue(">>abba"));
+        assertEquals("Escaping: ''abba", "&apos;&apos;abba", XMLUtils.escapeAttributeValue("''abba"));
+        assertEquals("Escaping: \"\"abba", "&quot;&quot;abba", XMLUtils.escapeAttributeValue("\"\"abba"));
+        assertEquals("Escaping: &&abba", "&amp;&amp;abba", XMLUtils.escapeAttributeValue("&&abba"));
+        assertEquals(
+            "Escaping: a<>b''c\"e>f'&g", 
+            "a&lt;&gt;b&apos;&apos;c&quot;e&gt;f&apos;&amp;g", 
+            XMLUtils.escapeAttributeValue("a<>b''c\"e>f'&g"));
+        
     }
 }
 
