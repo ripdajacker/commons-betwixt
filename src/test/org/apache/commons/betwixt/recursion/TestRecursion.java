@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.9 2003/07/06 21:10:34 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/07/06 21:10:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.10 2003/07/07 18:44:55 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/07/07 18:44:55 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestRecursion.java,v 1.9 2003/07/06 21:10:34 rdonkin Exp $
+ * $Id: TestRecursion.java,v 1.10 2003/07/07 18:44:55 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
@@ -84,7 +84,7 @@ import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.9 2003/07/06 21:10:34 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.10 2003/07/07 18:44:55 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -275,11 +275,18 @@ public class TestRecursion extends AbstractTestCase
     public void testBeanWithIdProperty() throws Exception
     {
         IdBean bean = new IdBean("Hello, World");
-        BeanWriter writer = new BeanWriter();
+        bean.setNotId("Not ID");
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
         writer.setWriteIDs(true);
         writer.write(bean);
+        
+        String xml = "<?xml version='1.0'?><IdBean notId='Not ID' id='Hello, World'/>";
+        
+        xmlAssertIsomorphic(parseString(xml), parseString(out.getBuffer().toString()), true);
     }    
     
     /**
@@ -302,6 +309,14 @@ public class TestRecursion extends AbstractTestCase
         writer.setWriteEmptyElements( true );
         writer.setWriteIDs(false);
         writer.write(alpha);
+
+        String xml = "<?xml version='1.0'?><Element><name>Alpha</name><elements><element>"
+                    + "<name>Beta</name><elements><element><name>Gamma</name><elements>"
+                    + "<element><name>Epsilon</name><elements/></element></elements>"
+                    + "</element></elements></element><element><name>Epsilon</name>"
+                    + "<elements/></element></elements></Element>";
+        
+        xmlAssertIsomorphic(parseString(xml), parseString(stringWriter.getBuffer().toString()), true);
     }    
 
     /**
