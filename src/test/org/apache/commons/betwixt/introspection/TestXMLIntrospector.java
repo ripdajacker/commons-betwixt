@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.2 2004/01/15 21:57:18 rdonkin Exp $
- * $Revision: 1.10.2.2 $
- * $Date: 2004/01/15 21:57:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.3 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.10.2.3 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
@@ -86,7 +86,7 @@ import org.apache.commons.digester.rss.Channel;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10.2.2 $
+  * @version $Revision: 1.10.2.3 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -313,6 +313,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setClassNormalizer( classNormalizer );
         FaceImpl bean = new FaceImpl();
         bean.setName("Old Tom Cobbly");

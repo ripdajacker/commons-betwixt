@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.22.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.2 2004/01/15 23:34:22 rdonkin Exp $
+ * $Revision: 1.22.2.2 $
+ * $Date: 2004/01/15 23:34:22 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -96,7 +96,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22.2.1 $
+  * @version $Revision: 1.22.2.2 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -606,7 +606,7 @@ public abstract class AbstractBeanWriter {
                         namespaceUri, 
                         localName, 
                         qualifiedName,
-                        new ElementAttributes( 
+                        new IDElementAttributes( 
                                                 elementDescriptor, 
                                                 context, 
                                                 idAttribute, 
@@ -900,21 +900,16 @@ public abstract class AbstractBeanWriter {
         return true;
     }
     
-    
-    
-    
     /**
-     * Attributes backed by attribute descriptors
+     * Attributes backed by attribute descriptors.
+     * ID/IDREFs not set.
      */
     private class ElementAttributes implements Attributes {
         /** Attribute descriptors backing the <code>Attributes</code> */
         private AttributeDescriptor[] attributes;
         /** Context to be evaluated when finding values */
         private Context context;
-        /** ID attribute value */
-        private String idValue;
-        /** ID attribute name */
-        private String idAttributeName;
+
         
         
         /** 
@@ -926,25 +921,6 @@ public abstract class AbstractBeanWriter {
         ElementAttributes( ElementDescriptor descriptor, Context context ) {
             attributes = descriptor.getAttributeDescriptors();
             this.context = context;
-        }
-        
-        /** 
-         * Construct attributes for element and context.
-         *
-         * @param descriptor the <code>ElementDescriptor</code> describing the element
-         * @param context evaluate against this context
-         * @param idAttributeName the name of the id attribute 
-         * @param idValue the ID attribute value
-         */
-        ElementAttributes( 
-                            ElementDescriptor descriptor, 
-                            Context context, 
-                            String idAttributeName,
-                            String idValue) {
-            attributes = descriptor.getAttributeDescriptors();
-            this.context = context;
-            this.idValue = idValue;
-            this.idAttributeName = idAttributeName;
         }
         
         /**
@@ -1078,19 +1054,12 @@ public abstract class AbstractBeanWriter {
          */
         public String getValue( int index ) {
             if ( indexInRange( index )) {
-                if (
-                    idAttributeName != null 
-                    && idAttributeName.equals(attributes[index].getLocalName())) {
-                        
-                    return idValue;
-                    
-                } else {
-                    Expression expression = attributes[index].getTextExpression();
-                    if ( expression != null ) {
-                        Object value = expression.evaluate( context );
-                        return convertToString( value, attributes[index], context );
-                    }
+                Expression expression = attributes[index].getTextExpression();
+                if ( expression != null ) {
+                    Object value = expression.evaluate( context );
+                    return convertToString( value, attributes[index], context );
                 }
+                
                 return "";
             }
             return null;
@@ -1130,6 +1099,132 @@ public abstract class AbstractBeanWriter {
         private boolean indexInRange( int index ) {
             return ( index >= 0 && index < attributes.length );
         }
+    }
+    
+    /**
+     * Attributes with generate ID/IDREF attributes
+     * //TODO: refactor the ID/REF generation so that it's fixed at introspection
+     * and the generators are placed into the Context.
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @version $Revision: 1.22.2.2 $
+     */
+    private class IDElementAttributes extends ElementAttributes {
+		/** ID attribute value */
+		private String idValue;
+		/** ID attribute name */
+		private String idAttributeName;
+
+		private boolean matchingAttribute = false;
+		private int length;
+		private int idIndex;
+		
+		/** 
+		 * Construct attributes for element and context.
+		 *
+		 * @param descriptor the <code>ElementDescriptor</code> describing the element
+		 * @param context evaluate against this context
+		 * @param idAttributeName the name of the id attribute 
+		 * @param idValue the ID attribute value
+		 */
+		IDElementAttributes( 
+							ElementDescriptor descriptor, 
+							Context context, 
+							String idAttributeName,
+							String idValue) {
+			super(descriptor, context);
+			this.idValue = idValue;
+			this.idAttributeName = idAttributeName;
+			
+			// see if we have already have a matching attribute descriptor
+			AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors();
+			length = attributeDescriptors.length;
+			for (int i=0; i<length; i++) {
+				if (idAttributeName.equals(attributeDescriptors[i])) {
+					matchingAttribute = true;
+					idIndex = i;
+					break;
+				}
+			}
+			if (!matchingAttribute) {
+				length += 1;
+				idIndex = length-1;
+			}
+		}    	
+		
+        public int getIndex(String uri, String localName) {
+            if (localName.equals(idAttributeName)) {
+            	return idIndex;
+            }
+        	
+            return super.getIndex(uri, localName);
+        }
+
+        public int getIndex(String qName) {
+			if (qName.equals(idAttributeName)) {
+				return idIndex;
+			}
+			
+            return super.getIndex(qName);
+        }
+
+        public int getLength() {
+            return length;
+        }
+
+        public String getLocalName(int index) {
+            if (index == idIndex) {
+            	return idAttributeName;
+            }
+            return super.getLocalName(index);
+        }
+
+        public String getQName(int index) {
+			if (index == idIndex) {
+				return idAttributeName;
+			}
+            return super.getQName(index);
+        }
+
+        public String getType(int index) {
+			if (index == idIndex) {
+				return "ID";
+			}
+            return super.getType(index);
+        }
+
+        public String getType(String uri, String localName) {
+            return getType(getIndex(uri, localName));
+        }
+
+        public String getType(String qName) {
+            return getType(getIndex(qName));
+        }
+
+        public String getURI(int index) {
+        	//TODO: this is probably wrong
+        	// probably need to move ID management into introspection
+        	// before we can handle this namespace bit correctly
+			if (index == idIndex) {
+				return "";
+			}
+            return super.getURI(index);
+        }
+
+        public String getValue(int index) {
+            if (index == idIndex) {
+            	return idValue;
+            }
+            return super.getValue(index);
+        }
+
+        public String getValue(String uri, String localName) {
+            return getValue(getIndex(uri, localName));
+        }
+
+        public String getValue(String qName) {
+            return getValue(getIndex(qName));
+        }
+
     }
     
     

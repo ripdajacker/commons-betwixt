@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.8 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.8.2.1 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.8.2.1 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
@@ -83,7 +83,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.8.2.1 $
   */
 public class TestIDRead extends AbstractTestCase {
 
@@ -103,6 +103,7 @@ public class TestIDRead extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
         IDBean bean = new IDBean("alpha","one");
         bean.addChild(new IDBean("beta","two"));
         bean.addChild(new IDBean("gamma","three"));

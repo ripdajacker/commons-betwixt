@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15.2.1 2004/01/15 22:01:56 rdonkin Exp $
- * $Revision: 1.15.2.1 $
- * $Date: 2004/01/15 22:01:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15.2.2 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.15.2.2 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
@@ -174,6 +174,7 @@ public class TestBeanToXml extends XmlTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write( new MixedContentBean("First", "Last", "Always") );
         
         String xml = "<?xml version='1.0' encoding='UTF-8'?><foo version='1.0'>"
@@ -189,6 +190,7 @@ public class TestBeanToXml extends XmlTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write( new MixedContentOne("Life,", "The Universe And Everything", 42) );
         
         String xml = "<?xml version='1.0' encoding='UTF-8'?><deep-thought alpha='Life,' gamma='42'>"
@@ -210,6 +212,7 @@ public class TestBeanToXml extends XmlTestCase {
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         
         BeanWriter writer = new BeanWriter( out );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
         writer.getXMLIntrospector().setWrapCollectionsInElement(false);
         

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.9 2003/10/19 14:58:24 mvdb Exp $
- * $Revision: 1.9 $
- * $Date: 2003/10/19 14:58:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.9.2.1 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.9.2.1 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
@@ -85,7 +85,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.9 2003/10/19 14:58:24 mvdb Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.9.2.1 2004/01/15 23:34:23 rdonkin Exp $
  */
 public class TestSAXBeanWriter extends AbstractTestCase {
     
@@ -106,6 +106,7 @@ public class TestSAXBeanWriter extends AbstractTestCase {
         
         SAXBeanWriter writer = new SAXBeanWriter(new SAXContentHandler(out));
         //writer.setLog(log);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
         String beanString = out.getBuffer().toString();
         String xml = "<?xml version='1.0'?><PersonBean><age>35</age>"

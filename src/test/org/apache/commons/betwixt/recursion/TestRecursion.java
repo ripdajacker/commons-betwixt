@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.2 2004/01/15 20:41:29 rdonkin Exp $
- * $Revision: 1.13.2.2 $
- * $Date: 2004/01/15 20:41:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13.2.3 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.13.2.3 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
@@ -61,6 +61,7 @@
  
 package org.apache.commons.betwixt.recursion;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
@@ -79,7 +80,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.13.2.2 2004/01/15 20:41:29 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.13.2.3 2004/01/15 23:34:23 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -378,5 +379,42 @@ public class TestRecursion extends AbstractTestCase
 			fail("Expected registration to succeed");
 		}
 	}
+	
+	public void  testCycleReferences() throws Exception {
+	  PersonTest person = new PersonTest();
+	  person.setName("John Doe");
+	  AddressTest address = new AddressTest();
+	  address.setStreetAddress("1221 Washington Street");
+	  person.setAddress(address);
+	  ReferenceTest reference = new ReferenceTest();
+	  reference.setPerson(person);
+	  address.setReference(reference);
+	
+	  StringWriter outputWriter = new StringWriter();
+	
+	  outputWriter.write("<?xml version='1.0' ?>\n");
+	  BeanWriter beanWriter = new BeanWriter(outputWriter);
+	  beanWriter.enablePrettyPrint();
+	  beanWriter.getBindingConfiguration().setMapIDs(true);
+	  beanWriter.write(person);   
+	
+	  BeanReader beanReader = new BeanReader();
+	  beanReader.getBindingConfiguration().setMapIDs(true);
+	
+	  // Configure the reader
+	  beanReader.registerBeanClass(PersonTest.class);
+	  beanReader.registerBeanClass(AddressTest.class);
+	  beanReader.registerBeanClass(ReferenceTest.class);
+	
+	  String out = outputWriter.toString();
+	  StringReader xmlReader = new StringReader(out);
+	
+	  //Parse the xml
+	  PersonTest result = (PersonTest)beanReader.parse(xmlReader);
+	  assertSame("Cycle did not result in the same reference", result, result.getAddress().getReference().getPerson());
+	
+	  }
+	
+
 }
 

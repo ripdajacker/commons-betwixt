@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.12.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.12.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.12.2.2 2004/01/15 23:34:22 rdonkin Exp $
+ * $Revision: 1.12.2.2 $
+ * $Date: 2004/01/15 23:34:22 $
  *
  * ====================================================================
  * 
@@ -74,7 +74,7 @@ import org.xml.sax.SAXException;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.12.2.1 2004/01/13 21:49:46 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.12.2.2 2004/01/15 23:34:22 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -192,6 +192,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @since 1.0 Alpha 1
      */
     protected void bodyText(String text) throws SAXException  {
+    	//TODO:
         // FIX ME
         // CHECK UNICODE->CHAR CONVERSION!
         // THIS WILL QUITE POSSIBLY BREAK FOR NON-ROMAN

@@ -130,13 +130,14 @@ public class TestBeanWriter extends AbstractTestCase {
         writer.enablePrettyPrint();
         writer.write( LoopBean.createNoLoopExampleBean() );    
         
-        String xml ="<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name>"
-                + "<friend><name>level2</name><friend><name>level3</name><friend><name>level4</name>"
-                + "<friend><name>level5</name></friend></friend></friend></friend></friend></LoopBean>";
+        String xml ="<?xml version='1.0'?><LoopBean id='1'><name>Root</name><friend id='2'><name>level1</name>"
+                + "<friend id='3'><name>level2</name><friend id='4'><name>level3</name><friend id='5'><name>level4</name>"
+                + "<friend id='6'><name>level5</name></friend></friend></friend></friend></friend></LoopBean>";
       
+      	String xmlOut = out.getBuffer().toString();
         xmlAssertIsomorphicContent(
                             "Test no loop",
-                            parseString(out.getBuffer().toString()),
+                            parseString(xmlOut),
                             parseString(xml), 
                             true);        
         
@@ -145,9 +146,9 @@ public class TestBeanWriter extends AbstractTestCase {
         writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
         writer.write( LoopBean.createLoopExampleBean() );  
-        xml ="<?xml version='1.0'?><LoopBean><name>Root</name><friend><name>level1</name>"
-                + "<friend><name>level2</name><friend><name>level3</name><friend><name>level4</name>"
-                + "<friend><name>level5</name><friend idref='1'/></friend></friend></friend>"
+        xml ="<?xml version='1.0'?><LoopBean id='1'><name>Root</name><friend id='2'><name>level1</name>"
+                + "<friend id='3'><name>level2</name><friend id='4'><name>level3</name><friend id='5'><name>level4</name>"
+                + "<friend id='6'><name>level5</name><friend idref='1'/></friend></friend></friend>"
                 + "</friend></friend></LoopBean>";
         xmlAssertIsomorphicContent(
                             "Test loop",
@@ -216,6 +217,7 @@ public class TestBeanWriter extends AbstractTestCase {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint(); 
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.setAttributesForPrimitives(true);

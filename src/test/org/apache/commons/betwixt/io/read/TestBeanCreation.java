@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestBeanCreation.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:44:54 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestBeanCreation.java,v 1.4.2.1 2004/01/15 23:34:23 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/15 23:34:23 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Test harness for bean creation (during reading).
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestBeanCreation.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
+ * @version $Id: TestBeanCreation.java,v 1.4.2.1 2004/01/15 23:34:23 rdonkin Exp $
  */
 public class TestBeanCreation extends AbstractTestCase {
 
@@ -105,6 +105,7 @@ public class TestBeanCreation extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
         writer.getXMLIntrospector().setWrapCollectionsInElement(false);
         writer.write("houses", houses);
@@ -188,6 +189,7 @@ public class TestBeanCreation extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
         writer.getXMLIntrospector().setWrapCollectionsInElement(false);
         writer.write("houses", houses);

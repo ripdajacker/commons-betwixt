@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDynaBeanSupport.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestDynaBeanSupport.java,v 1.4.2.1 2004/01/15 23:34:22 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/15 23:34:22 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 /** Test harness for the DynaBeans support
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public class TestDynaBeanSupport extends AbstractTestCase {
     
@@ -135,6 +135,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write(dynasaur);
         
@@ -153,6 +154,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().setElementNameMapper(new DecapitalizeNameMapper());
         writer.write("bean", bean);
         

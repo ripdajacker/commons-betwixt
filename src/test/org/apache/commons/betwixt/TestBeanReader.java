@@ -7,7 +7,7 @@
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -179,6 +179,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint();
         writer.write( bean );
         return out.getBuffer().toString();
@@ -391,6 +392,7 @@ public class TestBeanReader extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
         introspector.setElementNameMapper(new HyphenatedNameMapper());
         introspector.setAttributesForPrimitives(false);
@@ -444,6 +446,7 @@ public class TestBeanReader extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         
         BeanWriter writer = new BeanWriter(out);
+		writer.getBindingConfiguration().setMapIDs(false);
         XMLIntrospector introspector = writer.getXMLIntrospector();
         introspector.setElementNameMapper(new HyphenatedNameMapper());
         introspector.setAttributesForPrimitives(false);
