@@ -10,32 +10,15 @@
 <body>
 
 <section name="Getting Started">
-
-    <p>Probably the best way to get started is to look at some examples. The best 
-    example to start with is the Ant target <code>'demo.rss'</code>
-    which runs the RSSBeanWriter sample program in the src/test directory. Once you've
-    got the Jakarta Commons build system working, by installing Ant and creating your own build.properties 
-    to point to the required JARs type the following at a command line</p>
-    
-<source><![CDATA[ant demo.rss]]></source>
-    
-    <p>This uses the Commons Digester RSSDigester example to parse an RSS document, 
-    create a Channel bean and then write it out again as XML using the default 
-    XMLIntrospector and the BeanWriter. You should see the XML come out from the 
-    Channel bean which looks similar to a real RSS document.</p>
-    
-    <p>The next example to look at is</p>
-    
-<source><![CDATA[ant demo.rss2]]></source>
-    
-    <p>This is similar to the above but uses a BeanReader to parse the RSS file. So 
-    this is Betwixt defaulting the Digester rules required to parse the XML document. 
-    Then the BeanWriter is used to output the beans that get created.</p>
+    <p>
+    Probably the best way to get started is to look at some examples. 
+    <a href='#simple-example'>Here</a> is some simple example code that reads and writes a bean (together
+    with some comments). It's a good place to start. 
+    </p>
 </section>
 
 <section name="Mapping beans to XML">
 
-    
     <p>There are various ways of mapping beans to an XML structure. For example 
     consider a simple bean</p>
     
@@ -198,6 +181,154 @@
 </section>
 
 <section name="Examples">
+<a name="simple-example"/>
+<subsection name='A Simple Example'>
+    <p>
+    This is a simple example to help those new to betwixt. It shows how a simple bean can be converted to
+    xml and back again. A round trip, no less!
+    </p>
+    <p>
+    In order to run these simple examples, the classpath needs to contain Betwixt and all it's 
+    <a href='dependencies'>dependencies</a>. Note that any 
+    <a href='http://java.sun.com/xml/jaxp/index.html'>JAXP (1.1 or later)</a> compliant parser 
+    can be used to replace xerces and xml-apis. JUnit is not required to run betwixt (but is needed
+    if you want to run the unit tests in CVS).
+    </p>
+    <p>
+    This example is based around a very simple bean representing a person:
+    
+<source><![CDATA[
+public class PersonBean {
+    
+    private String name;
+    private int age;
+    
+    /** Need to allow bean to be created via reflection */
+    public PersonBean() {}
+    
+    public PersonBean(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }	
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public String toString() {
+        return "PersonBean[name='" + name + "',age='" + age + "']";
+    }
+}
+]]></source>
+    </p>
+    <p>
+    The basic usage pattern for writing beans using Betwixt is to create a BeanWriter, configure it 
+    and then pass a bean into the <code>write</code> method. Pretty easy. 
+    </p>
+    <p>
+    Here's a simple application which converts a person bean to xml which is then sent to <code>System.out</code>:
+    
+<source><![CDATA[
+import java.io.StringWriter;
+
+import org.apache.commons.betwixt.io.BeanWriter;
+
+public class WriteExampleApp {
+
+    /** 
+     * Create an example bean and then convert it to xml.
+     */
+    public static final void main(String [] args) throws Exception {
+        
+        // Start by preparing the writer
+        // We'll write to a string 
+        StringWriter outputWriter = new StringWriter(); 
+        
+        // Betwixt just writes out the bean as a fragment
+        // So if we want well-formed xml, we need to add the prolog
+        outputWriter.write("<?xml version='1.0' ?>");
+        
+        // Create a BeanWriter which writes to our prepared stream
+        BeanWriter beanWriter = new BeanWriter(outputWriter);
+        
+        // Configure betwixt
+        // For more details see java docs or later in the main documentation
+        beanWriter.getXMLIntrospector().setAttributesForPrimitives(false);
+        beanWriter.setWriteIDs(false);
+        beanWriter.enablePrettyPrint();
+        
+        // Write example bean as base element 'person'
+        beanWriter.write("person", new PersonBean("John Smith", 21));
+        
+        // Write to System.out
+        // (We could have used the empty constructor for BeanWriter 
+        // but this way is more instructive)
+        System.out.println(outputWriter.toString());
+    }
+}
+
+]]></source>
+    </p>
+    <p>
+    Ths basic usage pattern for reading beans is only a little more complex. This time, you need to
+    create a BeanReader, configure it, register the bean classes that the xml will be mapped to and 
+    then parse should be called.
+    </p>
+    <p>
+    Here's a simple application that converts some xml to a person bean. The bean is then converted
+    to string and the result sent to <code>System.out</code>:
+    
+<source><![CDATA[
+import java.io.StringReader;
+
+import org.apache.commons.betwixt.io.BeanReader;
+
+public class ReadExampleApp {
+    
+    public static final void main(String args[]) throws Exception{
+        
+        // First construct the xml which will be read in
+        // For this example, read in from a hard coded string
+        StringReader xmlReader = new StringReader(
+                    "<?xml version='1.0' ?><person><age>25</age><name>James Smith</name></person>");
+        
+        // Now convert this to a bean using betwixt
+        // Create BeanReader
+        BeanReader beanReader  = new BeanReader();
+        
+        // Configure the reader
+        // If you're round-tripping, make sure that the configurations are compatible!
+        beanReader.getXMLIntrospector().setAttributesForPrimitives(false);
+        beanReader.setMatchIDs(false);
+        
+        // Register beans so that betwixt knows what the xml is to be converted to
+        // Since the element mapped to a PersonBean isn't called the same, 
+        // need to register the path as well
+        beanReader.registerBeanClass("person", PersonBean.class);
+        
+        // Now we parse the xml
+        PersonBean person = (PersonBean) beanReader.parse(xmlReader);
+        
+        // send bean to system out
+        System.out.println(person);
+    }
+    
+}
+]]></source>
+    </p>
+</subsection>
 <subsection name='A Rich Site Summary Mapping'>
 
     <p>In the RSS example from Digester there's a bean which matches this pattern.</p>

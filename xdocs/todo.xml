@@ -45,10 +45,6 @@
                 <strong>Investigate Swing XML'ization Issues</strong>
                 Investigate and document. <em>(MVDB will probably need to handle this.)</em>
             </li>
-            <li>
-                <strong>Add read and write examples</strong>
-                Add simple read and write examples to getting started section.
-            </li>
         </ul>
     </subsection>
     
@@ -105,11 +101,20 @@
             This should also allow updaters to be ignored for certain properties.
         </li>
         <li>
-            <strong>Add dynabeans support</strong> 
+            <strong>Add dynabeans support.</strong> 
             Dynabeans are a feature of <code>commons-beanutils</code> that allows data in non-beans to be
             wrapped into pseudo-beans. If betwixt supported dynabeans then you could do cool stuff like 
             SQL -&gt; DynaBeans -&gt; XML. Probably a good way to do this would be to ensure that all property
             intrspection is done by dyanbeans-aware methods of beanutils.
+        </li>
+        <li>
+            <strong>Update RSS example application.</strong>
+            The original betwixt documentation made use of a good example application based on RSS.
+            Unfortunately, this no longer works since the build was updated to maven.
+            The instructions and means of running are linked to the CVS version.
+            New instructions - and probably movement of some of the code - is needed to support
+            a release distribution. The example also needs some more work - better java docs and also
+            more features.
         </li>
        </ul>
     </subsection>
@@ -207,6 +212,10 @@
                 <strong>Upgrade To Latest Dependencies</strong>
                 Check that betwixt works with the latest versions of the dependent 
                 Replace all references to deprecated methods. 
+            </li>
+            <li>
+                <strong>Add read and write examples</strong>
+                Add simple read and write examples to getting started section.
             </li>
         </ul>
     </subsection>
