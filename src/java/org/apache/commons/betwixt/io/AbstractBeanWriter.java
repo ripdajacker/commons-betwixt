@@ -19,7 +19,6 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
@@ -92,8 +91,6 @@ public abstract class AbstractBeanWriter {
 
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( AbstractBeanWriter.class );
-    /** Map containing ID attribute values for beans */
-    private HashMap idMap = new HashMap();
     /** Stack containing beans - used to detect cycles */
     private ArrayStack beanStack = new ArrayStack();
     /** Used to generate ID attribute values*/
@@ -345,7 +342,7 @@ public abstract class AbstractBeanWriter {
                 } else {
                     pushBean ( context.getBean() );
                     if ( getBindingConfiguration().getMapIDs() ) {
-                        ref = (String) idMap.get( context.getBean() );
+                       ref = getBindingConfiguration().getIdMappingStrategy().getReferenceFor(context, context.getBean());
                     }
                     if ( ref == null ) {
                         // this is the first time that this bean has be written
@@ -353,7 +350,7 @@ public abstract class AbstractBeanWriter {
                         if (idAttribute == null) {
                             // use a generated id
                             id = idGenerator.nextId();
-                            idMap.put( bean, id );
+                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id);
                             
                             if ( getBindingConfiguration().getMapIDs() ) {
                                 // write element with id
@@ -396,7 +393,7 @@ public abstract class AbstractBeanWriter {
                                 // convert to string
                                 id = exp.toString();
                             }
-                            idMap.put( bean, id);
+                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id);
                             
                             // the ID attribute should be written automatically
                             writeElement( 

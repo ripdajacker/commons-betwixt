@@ -16,7 +16,6 @@
 package org.apache.commons.betwixt.io.read;
 
 import java.beans.IntrospectionException;
-import java.util.HashMap;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
@@ -49,9 +48,7 @@ import org.xml.sax.Attributes;
   * @since 0.5
   */
 public class ReadContext extends Context {
-
-	/** Beans indexed by ID strings */
-	private HashMap beansById = new HashMap();
+;
 	/** Classloader to be used to load beans during reading */
 	private ClassLoader classLoader;
 	/** The read specific configuration */
@@ -117,7 +114,6 @@ public class ReadContext extends Context {
 	  */
 	public ReadContext(ReadContext readContext) {
 		super(readContext);
-		beansById = readContext.beansById;
 		classLoader = readContext.classLoader;
 		readConfiguration = readContext.readConfiguration;
 	}
@@ -129,7 +125,7 @@ public class ReadContext extends Context {
 	 * @param bean the Object to store, not null
 	 */
 	public void putBean(String id, Object bean) {
-		beansById.put(id, bean);
+		getIdMappingStrategy().setReference(this, bean, id);
 	}
 
 	/**
@@ -139,14 +135,14 @@ public class ReadContext extends Context {
 	 * @return the Object that the ID references, otherwise null
 	 */
 	public Object getBean(String id) {
-		return beansById.get(id);
+		return getIdMappingStrategy().getReferenced(this, id);
 	}
 
 	/** 
 	 * Clears the beans indexed by id.
 	 */
 	public void clearBeans() {
-		beansById.clear();
+        getIdMappingStrategy().reset();
 	}
 
 	/**

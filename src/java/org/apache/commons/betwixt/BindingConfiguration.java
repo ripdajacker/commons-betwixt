@@ -18,6 +18,7 @@ package org.apache.commons.betwixt;
 import java.io.Serializable;
 
 import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
+import org.apache.commons.betwixt.strategy.IdStoringStrategy;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 
@@ -48,6 +49,8 @@ public class BindingConfiguration implements Serializable {
     private String classNameAttribute = "className";
     /** Strategy for suppressing attributes with certain values when writing */
     private ValueSuppressionStrategy valueSuppressionStrategy  = ValueSuppressionStrategy.DEFAULT;
+    /** Strategy for storing and accessing ID values */
+    private IdStoringStrategy idStoringStrategy = IdStoringStrategy.DEFAULT;
     
     /**
      * Constructs a BindingConfiguration with default properties.
@@ -147,5 +150,24 @@ public class BindingConfiguration implements Serializable {
     public void setValueSuppressionStrategy(
             ValueSuppressionStrategy valueSuppressionStrategy) {
         this.valueSuppressionStrategy = valueSuppressionStrategy;
+    }
+    
+	/**
+     * Gets the strategy used to manage storage and retrieval of id's.
+     * 
+     * @return Returns the idStoringStrategy, not null
+     */
+    public IdStoringStrategy getIdMappingStrategy() {
+        return idStoringStrategy;
+    }
+
+    /**
+     * Sets the strategy used to manage storage and retrieval of id's.
+     * 
+     * @param idStoringStrategy
+     *            The idStoringStrategy to set, not null
+     */
+    public void setIdMappingStrategy(IdStoringStrategy idMappingStrategy) {
+        this.idStoringStrategy = idMappingStrategy;
     }
 }

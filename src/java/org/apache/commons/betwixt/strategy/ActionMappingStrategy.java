@@ -19,6 +19,7 @@ package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadContext;
+import org.apache.commons.betwixt.strategy.DefaultActionMappingStrategy;
 import org.xml.sax.Attributes;
 
 /**

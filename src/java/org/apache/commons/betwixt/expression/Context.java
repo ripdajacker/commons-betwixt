@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.strategy.IdStoringStrategy;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 import org.apache.commons.logging.Log;
@@ -269,4 +270,14 @@ public class Context {
             ValueSuppressionStrategy valueSuppressionStrategy) {
         bindingConfiguration.setValueSuppressionStrategy(valueSuppressionStrategy);
     }
+    
+    /**
+     * Gets the strategy used to manage storage and retrieval of id's.
+     * 
+     * @return Returns the idStoringStrategy, not null
+     */
+    public IdStoringStrategy getIdMappingStrategy() {
+        return bindingConfiguration.getIdMappingStrategy();
+    }
+    
 }
