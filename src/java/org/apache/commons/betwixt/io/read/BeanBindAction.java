@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.5 2004/02/21 16:58:58 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/21 16:58:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.6 2004/02/22 17:09:08 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/22 17:09:08 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.5 2004/02/21 16:58:58 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.6 2004/02/22 17:09:08 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -176,8 +176,9 @@ public class BeanBindAction extends MappingAction.Base {
 
         Object instance = null;
         Class beanClass = computedDescriptor.getSingularPropertyType();
-
-        if (beanClass != null) {
+        // TODO: this is a bit of a workaround 
+        // need to come up with a better way of doing maps
+        if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
 
             instance =
                 createBean(

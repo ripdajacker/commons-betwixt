@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.7 2004/02/21 13:39:06 rdonkin Exp $
- * $Revision: 1.1.2.7 $
- * $Date: 2004/02/21 13:39:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.8 2004/02/22 17:09:08 rdonkin Exp $
+ * $Revision: 1.1.2.8 $
+ * $Date: 2004/02/22 17:09:08 $
  *
  * ====================================================================
  * 
@@ -72,7 +72,7 @@ import org.apache.commons.betwixt.examples.rss.Channel;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.7 $
+ * @version $Revision: 1.1.2.8 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
@@ -361,4 +361,38 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
         assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
     }
     
+    public void testConcreteMapNoWrap() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setWrapCollectionsInElement(false);
+        XMLBeanInfo beanInfo = introspector.introspect(BeanWithConcreteMap.class);
+        ElementDescriptor beanDescriptor = beanInfo.getElementDescriptor();
+        
+        ElementDescriptor[] beanChildDescriptors = beanDescriptor.getElementDescriptors();
+        assertEquals("One Entry element", 1, beanChildDescriptors.length);
+        
+        ElementDescriptor entry = beanChildDescriptors[0];
+        ElementDescriptor[] entryChildren = entry.getElementDescriptors();
+        assertEquals("Expected key and entry elements", 2 , entryChildren.length);        
+    }
+    
+    public void testConcreteMapWithWrap() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setWrapCollectionsInElement(true);
+        XMLBeanInfo beanInfo = introspector.introspect(BeanWithConcreteMap.class);
+        
+        ElementDescriptor beanDescriptor = beanInfo.getElementDescriptor();
+        
+        ElementDescriptor[] beanChildDescriptors = beanDescriptor.getElementDescriptors();
+        assertEquals("One wrapper element", 1, beanChildDescriptors.length);
+        
+        ElementDescriptor wrapper = beanChildDescriptors[0];
+        ElementDescriptor[] wrapperChildren = wrapper.getElementDescriptors();
+        assertEquals("One Entry element", 1, wrapperChildren.length);
+        
+        ElementDescriptor entry = wrapperChildren[0];
+        ElementDescriptor[] entryChildren = entry.getElementDescriptors();
+        assertEquals("Expected key and entry elements", 2 , entryChildren.length);
+        
+        
+    }
 }
