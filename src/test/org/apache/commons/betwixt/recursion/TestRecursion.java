@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
- * $Revision: 1.3 $
- * $Date: 2002/10/27 00:39:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.4 2002/11/06 18:31:26 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/11/06 18:31:26 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
+ * $Id: TestRecursion.java,v 1.4 2002/11/06 18:31:26 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
@@ -80,7 +80,7 @@ import org.apache.commons.logging.impl.SimpleLog;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
+ * @version $Id: TestRecursion.java,v 1.4 2002/11/06 18:31:26 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -169,7 +169,6 @@ public class TestRecursion extends AbstractTestCase
      */
     public void testBeanWithIdProperty() throws Exception
     {
-        System.out.println("****************************************************");
         IdBean bean = new IdBean("Hello, World");
         BeanWriter writer = new BeanWriter();
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
