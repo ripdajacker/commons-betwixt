@@ -51,7 +51,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.23 $
+  * @version $Revision: 1.24 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -70,6 +70,8 @@ public abstract class AbstractBeanWriter {
     private boolean writeEmptyElements = true;
     /** Dynamic binding configuration settings */
     private BindingConfiguration bindingConfiguration = new BindingConfiguration();
+    // TODO: consider whether this should be replaced by a passed through context 
+    protected ElementDescriptor currentDescriptor;
     
     /**
      * Marks the start of the bean writing.
@@ -664,7 +666,7 @@ public abstract class AbstractBeanWriter {
                                 IOException, 
                                 SAXException,
                                 IntrospectionException {     
-                                
+        currentDescriptor = elementDescriptor;               
         Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors();
         if ( childDescriptors != null && childDescriptors.length > 0 ) {
             // process child elements
