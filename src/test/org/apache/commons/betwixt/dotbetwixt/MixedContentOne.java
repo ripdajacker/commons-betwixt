@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/MixedContentBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/07/13 21:30:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/MixedContentOne.java,v 1.1 2003/07/13 21:30:13 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2003/07/13 21:30:13 $
  *
  * ====================================================================
  *
@@ -57,30 +57,31 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MixedContentBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
+ * $Id: MixedContentOne.java,v 1.1 2003/07/13 21:30:13 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
 /** 
-  * This is a simple bean used in testing id-attribute custom mapping.
+  * This is a simple bean used in testing mixed content.
+  * This bean has the simpliest mapping.
   *
   * @author Robert Burrell Donkin
   */
-public class MixedContentBean {
+public class MixedContentOne {
     
 //-------------------------- Attributes
     private String alpha;
     private String beta;
-    private String gamma;
+    private int gamma;
     
 //-------------------------- Constructors
-    public MixedContentBean(String alpha, String beta, String gamma) {
+    public MixedContentOne(String alpha, String beta, int gamma) {
         setAlpha(alpha);
         setBeta(beta);
         setGamma(gamma);
     }
     
-    public MixedContentBean() {}
+    public MixedContentOne() {}
         
 //--------------------------- Properties
 
@@ -100,11 +101,11 @@ public class MixedContentBean {
         this.beta = beta;
     }
     
-    public String getGamma() {
+    public int getGamma() {
         return gamma;
     }
     
-    public void setGamma(String gamma) {
+    public void setGamma(int gamma) {
         this.gamma = gamma;
     }
 }

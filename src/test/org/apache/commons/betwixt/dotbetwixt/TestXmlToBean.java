@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.1 2003/04/08 13:42:48 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/08 13:42:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/07/13 21:30:27 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXmlToBean.java,v 1.1 2003/04/08 13:42:48 rdonkin Exp $
+ * $Id: TestXmlToBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -162,6 +162,30 @@ public class TestXmlToBean extends XmlTestCase {
         assertEquals("Bad item two wrong", "Death", badItems.get(1));       
         
     }
+
     
+    /** Test output of bean with mixed content */
+    public void testMixedContent() throws Exception {
+        
+        StringReader xml = new StringReader(
+            "<?xml version='1.0' encoding='UTF-8'?><deep-thought alpha='Life' gamma='42'>"
+            + "The Universe And Everything</deep-thought>");
+
+        //SimpleLog log = new SimpleLog("[testMixedContent:BeanRuleSet]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //BeanRuleSet.setLog(log);
+        //log = new SimpleLog("[testMixedContent:BeanReader]");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+            
+        BeanReader reader = new BeanReader();
+        //reader.setLog(log);
+        reader.registerBeanClass(MixedContentOne.class);
+        Object resultObject = reader.parse(xml);
+        assertEquals("Object is MixedContentOne", true, resultObject instanceof MixedContentOne);
+        MixedContentOne result = (MixedContentOne) resultObject;
+        assertEquals("Property Alpha matches", "Life", result.getAlpha());
+        assertEquals("Property Beta matches", "The Universe And Everything", result.getBeta());
+        assertEquals("Property Gamma matches", 42, result.getGamma());
+    }
 }
 

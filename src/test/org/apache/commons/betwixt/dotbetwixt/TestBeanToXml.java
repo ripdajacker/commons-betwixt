@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.10 2003/03/19 22:57:40 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2003/03/19 22:57:40 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.11 2003/07/13 21:30:27 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/07/13 21:30:27 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.10 2003/03/19 22:57:40 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.11 2003/07/13 21:30:27 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -182,5 +182,21 @@ public class TestBeanToXml extends XmlTestCase {
                     parseString(xml),
                     parseString(out.toString()));
         }
+        
+    /** Test output of bean with mixed content */
+    public void testSimpleMixedContent() throws Exception {
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0' encoding='UTF-8'?>");
+        BeanWriter writer = new BeanWriter( out );
+        writer.write( new MixedContentOne("Life,", "The Universe And Everything", 42) );
+        
+        String xml = "<?xml version='1.0' encoding='UTF-8'?><deep-thought alpha='Life,' gamma='42'>"
+            + "The Universe And Everything</deep-thought>";
+        
+        xmlAssertIsomorphicContent(
+                    parseString(xml),
+                    parseString(out.toString()));
+        }
+    
 }
 

@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.3 2003/06/05 20:59:16 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/06/05 20:59:16 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.4 2003/07/13 21:30:27 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/07/13 21:30:27 $
  *
  * ====================================================================
  *
@@ -58,7 +58,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospectorHelper.java,v 1.3 2003/06/05 20:59:16 rdonkin Exp $
+ * $Id: TestXMLIntrospectorHelper.java,v 1.4 2003/07/13 21:30:27 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 
@@ -127,10 +127,9 @@ public class TestXMLIntrospectorHelper extends TestCase {
         PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
         for (int i=0; i<properties.length; i++) {
             if (propertyName.equals(properties[i].getName())) {
-                NodeDescriptor desc = XMLIntrospectorHelper
+                NodeDescriptor desc = (NodeDescriptor) introspector
                     .createDescriptor(properties[i],
-                                      introspector.isAttributesForPrimitives(),
-                                      introspector);
+                                      introspector.isAttributesForPrimitives());
                 return desc;
             } 
         }
