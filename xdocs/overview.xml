@@ -12,7 +12,7 @@
 <section name="Getting Started">
 
 <p>Probably the best way to get started is to look at some examples. The best 
-example to start with is the Ant target &quot;demo.rss&quot; which runs the RSSBeanWriter 
+example to start with is the Ant target &amp;quot;demo.rss&amp;quot; which runs the RSSBeanWriter 
 sample program in the src/test directory. Once you've got the Jakarta Commons 
 build system working, by installing Ant and creating your own build.properties 
 to point to the required JARs type the following at a command line</p>
@@ -52,11 +52,11 @@ consider a simple bean</p>
 
 <p>This example uses attributes for primitive types.</p>
 
-<pre>&lt;CustomerBean name=&quot;James&quot;&gt;
-    &lt;order id=&quot;1&quot;&gt;...&lt;/order&gt;
-    &lt;order id=&quot;2&quot;&gt;...&lt;/order&gt;
-    &lt;emailAddress&gt;jstrachan@apache.org&lt;/emailAddress&gt;
-&lt;/CustomerBean&gt;</pre>
+<pre>&amp;lt;CustomerBean name=&amp;quot;James&amp;quot;&amp;gt;
+    &amp;lt;order id=&amp;quot;1&amp;quot;&amp;gt;...&amp;lt;/order&amp;gt;
+    &amp;lt;order id=&amp;quot;2&amp;quot;&amp;gt;...&amp;lt;/order&amp;gt;
+    &amp;lt;emailAddress&amp;gt;jstrachan@apache.org&amp;lt;/emailAddress&amp;gt;
+&amp;lt;/CustomerBean&amp;gt;</pre>
 </section>
 
 
@@ -66,16 +66,16 @@ consider a simple bean</p>
 extra element (which can be quite common in XML schemas). Also note that some 
 element names have been changed.</p>
 
-<pre>&lt;customer&gt;
-    &lt;name&gt;James&lt;/name&gt;
-    &lt;orders&gt;
-        &lt;order id=&quot;1&quot;&gt;...&lt;/order&gt;
-        &lt;order id=&quot;2&quot;&gt;...&lt;/order&gt;
-    &lt;/orders&gt;
-    &lt;email-addresses&gt;
-        &lt;email-address&gt;jstrachan@apache.org&lt;/email-address&gt;
-    &lt;/email-addresses&gt;
-&lt;/customer&gt;    </pre>
+<pre>&amp;lt;customer&amp;gt;
+    &amp;lt;name&amp;gt;James&amp;lt;/name&amp;gt;
+    &amp;lt;orders&amp;gt;
+        &amp;lt;order id=&amp;quot;1&amp;quot;&amp;gt;...&amp;lt;/order&amp;gt;
+        &amp;lt;order id=&amp;quot;2&amp;quot;&amp;gt;...&amp;lt;/order&amp;gt;
+    &amp;lt;/orders&amp;gt;
+    &amp;lt;email-addresses&amp;gt;
+        &amp;lt;email-address&amp;gt;jstrachan@apache.org&amp;lt;/email-address&amp;gt;
+    &amp;lt;/email-addresses&amp;gt;
+&amp;lt;/customer&amp;gt;    </pre>
 
 <p>Betwixt aims to provide a diversity of possible mappings such that the 
 developer can choose, if they wish, how their beans appear as XML to support 
@@ -97,57 +97,57 @@ that document to specify the mapping to XML. If this file does not exist
 then the default introspection rules are used.</p>
 <p>The simplest possible file may just set the name of the element. e.g.</p>
 
-<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;info&gt;
-  &lt;element name=&quot;channel&quot;/&gt;
-  &lt;addDefaults/&gt;
-&lt;/info&gt;</pre>
+<pre>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;info&amp;gt;
+  &amp;lt;element name=&amp;quot;channel&amp;quot;/&amp;gt;
+  &amp;lt;addDefaults/&amp;gt;
+&amp;lt;/info&amp;gt;</pre>
 
 <p>The above means to use the name 'channel' for the outer most element for the 
-given type. The &lt;addDefaults&gt; means to add the defaults from the introspector. 
+given type. The &amp;lt;addDefaults&amp;gt; means to add the defaults from the introspector. 
 This allows you to just rename a few properties then let the introspector do the 
-rest. There is also a &lt;hide&gt; element which allows one or more properties to be 
-hidden. Also note that the &lt;element&gt; and &lt;attribute&gt; tags can be 
+rest. There is also a &amp;lt;hide&amp;gt; element which allows one or more properties to be 
+hidden. Also note that the &amp;lt;element&amp;gt; and &amp;lt;attribute&amp;gt; tags can be 
 nested to any 
 kind of depth allowing whatever XML structure you wish. This can be useful if 
 you wish to wrap collections in some arbitrary collection tags or to group 
 properties of a bean together in some XML structure. e.g.</p>
 
-<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;info primitiveTypes=&quot;attribute&quot;&gt;
-  &lt;element name=&quot;channel&quot;/&gt;
-    &lt;element name=&quot;customerList&quot;&gt;
-      &lt;element name=&quot;customer&quot; property=&quot;customers&quot;/&gt;
-    &lt;/element&gt;
-    &lt;element name=&quot;foo&quot;&gt;
-      &lt;attribute name=&quot;qqq&quot; property=&quot;ppp&quot;/&gt;
-      &lt;element name=&quot;bar&quot; property=&quot;xyz&quot;/&gt;
-    &lt;hide property=&quot;something&quot;/&gt;
-    &lt;addDefaults/&gt;
-  &lt;/element&gt;
-&lt;/info&gt;
+<pre>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;info primitiveTypes=&amp;quot;attribute&amp;quot;&amp;gt;
+  &amp;lt;element name=&amp;quot;channel&amp;quot;/&amp;gt;
+    &amp;lt;element name=&amp;quot;customerList&amp;quot;&amp;gt;
+      &amp;lt;element name=&amp;quot;customer&amp;quot; property=&amp;quot;customers&amp;quot;/&amp;gt;
+    &amp;lt;/element&amp;gt;
+    &amp;lt;element name=&amp;quot;foo&amp;quot;&amp;gt;
+      &amp;lt;attribute name=&amp;quot;qqq&amp;quot; property=&amp;quot;ppp&amp;quot;/&amp;gt;
+      &amp;lt;element name=&amp;quot;bar&amp;quot; property=&amp;quot;xyz&amp;quot;/&amp;gt;
+    &amp;lt;hide property=&amp;quot;something&amp;quot;/&amp;gt;
+    &amp;lt;addDefaults/&amp;gt;
+  &amp;lt;/element&amp;gt;
+&amp;lt;/info&amp;gt;
 </pre>
 
 <p>Note that the <code>.betwixt</code> file specifies the mapping for a single bean.
 So, whilst you can add extra elements (as above), it can't be used to specify 
 to names for child beans through nesting <code>element</code> elements.</p>
 
-<p>The primitiveTypes attribute in the &lt;info&gt; element is optional and can be 
+<p>The primitiveTypes attribute in the &amp;lt;info&amp;gt; element is optional and can be 
 used to specify whether primitive java types (strings, numbers, dates etc) are 
 specified as attributes or elements by default.</p>
 <p>Finally static text can be specified using a value attribute inside an 
-&lt;element&gt; or &lt;attribute&gt; tag. e.g. to add constant attributes such 
+&amp;lt;element&amp;gt; or &amp;lt;attribute&amp;gt; tag. e.g. to add constant attributes such 
 as a version label to the 
 generated XML...</p>
 
-<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
-&lt;info primitiveTypes=&quot;element&quot;&gt;
-  &lt;element name=&quot;rss&quot;/&gt;
-    &lt;attribute name=&quot;version&quot; value=&quot;0.91&quot;/&gt;
-    &lt;element name=&quot;channel&quot;/&gt;
-    &lt;addDefaults/&gt;
-  &lt;/element&gt;
-&lt;/info&gt;
+<pre>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; ?&amp;gt;
+&amp;lt;info primitiveTypes=&amp;quot;element&amp;quot;&amp;gt;
+  &amp;lt;element name=&amp;quot;rss&amp;quot;/&amp;gt;
+    &amp;lt;attribute name=&amp;quot;version&amp;quot; value=&amp;quot;0.91&amp;quot;/&amp;gt;
+    &amp;lt;element name=&amp;quot;channel&amp;quot;/&amp;gt;
+    &amp;lt;addDefaults/&amp;gt;
+  &amp;lt;/element&amp;gt;
+&amp;lt;/info&amp;gt;
 </pre>
 </section>
 
@@ -155,7 +155,7 @@ generated XML...</p>
 
 <p>The Java Beans specification contains various naming conventions that should 
 be used when writing beans that will allow the beans introspector to 
-automatically guess the properties in a bean and their getters &amp; setter methods 
+automatically guess the properties in a bean and their getters &amp;amp; setter methods 
 etc. Betwixt will use these same naming conventions to deduce how to make the 
 beans appear as XML. There are some other naming conventions that you can use to 
 make your beans easier to output as XML or parse.</p>
@@ -169,8 +169,8 @@ make your beans easier to output as XML or parse.</p>
 properties'.</p>
 
 <pre>public class SomeBean {
-    public &lt;CollectionType&gt; getFoo*();
-    public void addFoo(&lt;SingularType&gt; foo);
+    public &amp;lt;CollectionType&amp;gt; getFoo*();
+    public void addFoo(&amp;lt;SingularType&amp;gt; foo);
 }</pre>
 
 <p>Where CollectionType can be an array, a Collection, Enumeration, Iterator, 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.1 2002/08/07 16:37:47 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/08/07 16:37:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.2 2002/10/28 21:13:34 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/10/28 21:13:34 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.1 2002/08/07 16:37:47 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.2 2002/10/28 21:13:34 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -97,12 +97,10 @@ public class TestBeanToXml extends XmlTestCase {
 //---------------------------------- Tests
     
     public void testOne() throws Exception {
-        /* 
         // THIS TEST FAILS IN MAVEN
         xmlAssertIsomorphicContent(	
             parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/rbean-result.xml"), 
             parseFile("src/test/org/apache/commons/betwixt/dotbetwixt/rbean-result.xml"));
-        */
     }
     
     
