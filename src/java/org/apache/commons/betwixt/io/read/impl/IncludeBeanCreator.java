@@ -149,7 +149,10 @@ public class IncludeBeanCreator implements ChainedBeanCreator {
             }
             String name = elementMapping.getName();
             Class clazz = elementMapping.getType();
-            ClassLoader loader = getClass().getClassLoader();
+            ClassLoader loader = context.getClassLoader();
+            if (loader == null) {
+                loader = getClass().getClassLoader();
+            }
             URL url = loader.getResource(file);
             if (url == null) {
                 url = loader.getResource("/" + file);
