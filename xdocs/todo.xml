@@ -185,6 +185,14 @@
         <li>
             Create a funky image for the betwixt home page.
         </li>
+        <li>
+            <strong>Element ordering strategies</strong>
+            The ordering of the elements for a bean which doesn't have a .betwixt file associated
+            is fixed by the order of the properties in the BeanInfo. If the class doesn't have a
+            custom BeanInfo class then this order is arbitrary. This is unfortunate since often xml
+            elements need a definite and predicatable ordering. Pluggable element ordering strategies
+            would order the elements according to some algorithm eg. alphabetic.
+        </li>
        </ul>
     </subsection>
     
