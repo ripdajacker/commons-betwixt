@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.5 2003/04/11 21:27:42 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/04/11 21:27:42 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.6 2003/07/01 19:10:45 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/07/01 19:10:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.5 2003/04/11 21:27:42 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.6 2003/07/01 19:10:45 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -83,7 +83,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -180,6 +180,9 @@ public class BeanRuleSet implements RuleSet {
      * @param digester the <code>Digester</code> to which the rules for the bean will be added
      */
     public void addRuleInstances(Digester digester) {
+        if (log.isTraceEnabled()) {
+            log.trace("Adding rules to:" + digester);
+        }
         ReadContext readContext = new ReadContext( digester );
     }
     
@@ -273,11 +276,17 @@ public class BeanRuleSet implements RuleSet {
                             }
                             int removeSlash = prefix.endsWith("/")?1:0;
                             path = "*/" + prefix.substring(index, prefix.length()-removeSlash);
-                        }else{
+                            if (log.isTraceEnabled()) {
+                                log.trace("Added wrapped rule for " + childDescriptor);
+                            }
+                        } else {
                             // we have a element/element type of thing..
                             ElementDescriptor[] desc = currentDescriptor.getElementDescriptors();
                             if (desc.length == 1) {
                                 path = "*/"+desc[0].getQualifiedName();
+                            }
+                            if (log.isTraceEnabled()) {
+                                log.trace("Added not wrapped rule for " + childDescriptor);
                             }
                         }
                         addRule( path, childDescriptor, context );
@@ -304,10 +313,18 @@ public class BeanRuleSet implements RuleSet {
                                 if ( grandChildQName != null && grandChildQName.length() > 0 ) {
                                     if (childDescriptor.isWrapCollectionsInElement()) {
                                         path += '/' + grandChildQName;
+                                        if (log.isTraceEnabled()) {
+                                            log.trace("Descriptor wraps elements in collection, path:" + path);
+                                        }
                                         
                                     } else {
                                         path = prefix 
                                             + (prefix.endsWith("/")?"":"/") + grandChildQName;
+                                        if (log.isTraceEnabled()) {
+                                            log.trace(
+                                                "Descriptor does not wrap elements in collection, path:" 
+                                                + path);
+                                        }
                                     }
                                 }
                             }
@@ -353,8 +370,14 @@ public class BeanRuleSet implements RuleSet {
         ElementDescriptor getElementDescriptor( ElementDescriptor propertyDescriptor ) {
             Class beanClass = propertyDescriptor.getSingularPropertyType();
             if ( beanClass != null && !Map.class.isAssignableFrom( beanClass ) ) {
+                if (log.isTraceEnabled()) {
+                    log.trace("Filling descriptor for: " + beanClass);
+                }
                 try {
                     XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
+                    if (log.isTraceEnabled()) {
+                        log.trace("Is wrapped? " + xmlInfo.getElementDescriptor().isWrapCollectionsInElement());
+                    }
                     return xmlInfo.getElementDescriptor();
                     
                 } catch (Exception e) {
@@ -431,6 +454,9 @@ public class BeanRuleSet implements RuleSet {
             if ( ! rulesByPath.containsKey( path ) ) {
                 if ( log.isDebugEnabled() ) {
                     log.debug( "Added rule for path: " + path + " rule: " + rule );
+                    if (log.isTraceEnabled()) {
+                        log.trace( rulesByPath );
+                    }
                 }
                 rulesByPath.put( path, rule );
                 return true;
@@ -620,6 +646,11 @@ public class BeanRuleSet implements RuleSet {
                             }
                         }
                         
+                        if (log.isTraceEnabled()) {
+                            log.trace("Created bean " + instance);
+                            log.trace("Path prefix: " + pathPrefix);
+                        }
+                        
                         // add bean for ID matching
                         if ( matchIDs ) {
                             // XXX need to support custom ID attribute names
@@ -645,6 +676,9 @@ public class BeanRuleSet implements RuleSet {
                     Object instance = context.getBean();
         
                     Object top = digester.pop();
+                    if (log.isTraceEnabled()) {
+                        log.trace("Popped " + top);
+                    }
                     if (digester.getCount() == 0) {
                         context.setBean(null);
                     }else{

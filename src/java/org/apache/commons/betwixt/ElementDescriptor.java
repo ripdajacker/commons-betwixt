@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.9 2003/05/16 13:32:00 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/05/16 13:32:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.10 2003/07/01 19:10:45 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/07/01 19:10:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.9 2003/05/16 13:32:00 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.10 2003/07/01 19:10:45 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -482,6 +482,6 @@ public class ElementDescriptor extends NodeDescriptor {
         return 
             "ElementDescriptor[qname=" + getQualifiedName() + ",pname=" + getPropertyName() 
             + ",class=" + getPropertyType() + ",singular=" + getSingularPropertyType()
-            + ",updater=" + getUpdater() + "]";
+            + ",updater=" + getUpdater() + ",wrap=" + isWrapCollectionsInElement() + "]";
     }    
 }
