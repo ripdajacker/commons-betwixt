@@ -420,7 +420,7 @@ searching for an <code>add*</code> method that takes a single parameter, now Bet
     </p>
 </subsection>
 
-<subsection name="Using .betwixt files To Write Mixed Content">
+<subsection name="Using .betwixt files To Read And Write Mixed Content">
     <p>
     An element with mixed content contains child elements and text. 
     For example, element <code>foo</code> has mixed content in the following:
@@ -464,10 +464,11 @@ searching for an <code>add*</code> method that takes a single parameter, now Bet
 </foo>
 ]]></source>
     </p>
-    
-    <p><strong>Note</strong>Betwixt does not (at the moment) support reading mixed 
-    content elements.</p>
-
+        <p>
+Betwixt supports reading back mixed content in one special situation which happily is also a common 
+use case. Betwixt will call a single property with all the mixed content text. So, only one mixed content
+property is specified then the bean can be written and then read back.
+    </p>
 </subsection>
 
 </section>

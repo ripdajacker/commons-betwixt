@@ -162,6 +162,7 @@
             <strong>Support Mixed Content Round Tripping</strong>
             This is actually has some conceptual problems. What happens when you have two text
             descriptors mapped to properties next to each other?
+            This would probably require some enhancements to Digester.
         </li>
        </ul>
     </subsection>
@@ -222,6 +223,10 @@
                 <strong>Fixed bug when writing Array's</strong>
                 When an array was pass to a write call, invalid XML used to be produced. This has been fixed.
             </li>
+            <li>
+            <strong>Basic Support For Reading Mixed Content</strong>
+            This is the basic case where all of the content is read into a single property.
+            </li>
         </ul>
     </subsection>
 </section>
@@ -270,6 +275,21 @@
                             <li><code>expressElementEnd</code> removed</li>
                             <li><code>expressBodyText</code> removed</li>
                             <li><code>expressAttribute</code> removed</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Adding support for reading mixed content</strong>
+                <ul>	
+                    <li><strong>XMLIntrospectorHelper</strong>
+                        <ul>
+                            <li><code>createDescriptor</code> refactored into XMLIntrospector</li>
+                        </ul>
+                    </li>
+                    <li><strong>XMLIntrospector</strong>
+                        <ul>
+                            <li><code>addProperty</code> replaced by overloaded method</li>
+                            <li><code>addProperties</code> replaced by overloaded method</li>
                         </ul>
                     </li>
                 </ul>
