@@ -221,7 +221,18 @@ public class ReadContext extends Context {
      * or null if there has been no element mapped 
      */
 	public String getCurrentElement() {
-		return (String) elementMappingStack.peek();
+	    String result = null;
+	    int stackSize = elementMappingStack.size();
+	    int i = 0;
+	    while ( i < stackSize ) {
+	        Object mappedElement = elementMappingStack.peek(i);
+	        if (mappedElement instanceof String) {
+	            result  = (String) mappedElement;
+	            break;
+	        }
+	        --i;
+	    }
+	    return result;
 	}
 
 	/**
