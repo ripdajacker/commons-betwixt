@@ -52,6 +52,9 @@
       <item name="Examples"                href="/guide/examples.html"/>
       <item name="Tutorial"                href="/guide/tutorial.html"/>
     </menu>
+    <menu name='Release Documentation'>
+        <item name='0.5' href='http://jakarta.apache.org/commons/betwixt/betwixt-0.5'/>
+    </menu>
     
     &common-menus;
 

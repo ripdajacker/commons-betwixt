@@ -43,10 +43,12 @@
 <section name="Releases">
   <subsection name="Betwixt 0.5">
     <p>
-Betwixt release 0.5 is currently in preparation. This is intended to consolidate
-the Alpha 1 codebase for those users who want or need an official release of this
-code. This numbering system more accurately reflects the current state of the codebase
-- stable, mature but limited with APIs that will need to change.
+Betwixt release 0.5 is intended to consolidate the codebase released as 1.0 Alpha 1. 
+It is a service release for those users who want or need an official release of this 
+codebase. This numbering system more accurately reflects the current state of the codebase 
+- stable, mature but limited with APIs that may be subject to change in future releases. 
+It is unlikely that active ASF development will continue for this released codebase 
+since further development efforts are already focussed on newer designs.
     </p>
     <p>
 The current CVS HEAD code now contains the merged refactoring branch. A 
@@ -56,6 +58,12 @@ baseline 0.6 release is planned for this code once 0.5 has been released.
 For more information, see the road map <a href='http://wiki.apache.org/jakarta-commons/Betwixt'>
 on the wiki</a>.
     </p>
+    <ul>
+      <li>Download the binary distribution through 
+      <a href='http://jakarta.apache.org/site/binindex.cgi#commons-betwixt'>a mirror here</a></li>
+      <li>Download the source distribution through
+      <a href='http://jakarta.apache.org/site/sourceindex.cgi#commons-betwixt'>a mirror here</a></li>
+    </ul>
   </subsection>
   <subsection name="Betwixt 1.0 Alpha 1">
     <p>
