@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.5 2004/02/01 22:55:47 rdonkin Exp $
- * $Revision: 1.13.2.5 $
- * $Date: 2004/02/01 22:55:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.6 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.13.2.6 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.5 2004/02/01 22:55:47 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.6 2004/02/08 12:11:17 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -270,10 +270,13 @@ public class ElementRule extends MappedPropertyRule {
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
         
-        elementDescriptor.setLocalName( propertyDescriptor.getName() );
+        String existingLocalName = elementDescriptor.getLocalName();
+        if (existingLocalName == null || "".equals(existingLocalName)) {
+            elementDescriptor.setLocalName( propertyDescriptor.getName() );
+        }
         elementDescriptor.setPropertyType( type );        
         
-        // XXX: associate more bean information with the descriptor?
+        // TODO: associate more bean information with the descriptor?
         //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
         //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
         
@@ -288,7 +291,7 @@ public class ElementRule extends MappedPropertyRule {
         
         // choose response from property type
         
-        // XXX: ignore class property ??
+        // TODO: ignore class property ??
         if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
             log.trace( "Ignoring class property" );
             return;
@@ -304,10 +307,12 @@ public class ElementRule extends MappedPropertyRule {
             elementDescriptor.setContextExpression(
                 new IteratorExpression( new MethodExpression( readMethod ) )
             );
+            elementDescriptor.setHollow(true);
 
             writeMethod = null;
         } else {
             log.trace( "Standard property" );
+            elementDescriptor.setHollow(true);
             elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
         }
     

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.4 2004/02/07 14:44:45 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/02/07 14:44:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.5 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -62,10 +62,11 @@
 package org.apache.commons.betwixt.schema;
 
 
+
 /**
  * Models the Element tag in the XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.4 $
+ * @version $Revision: 1.1.2.5 $
  */
 public class Element {
 	//TODO: going to ignore the issue of namespacing for the moment
@@ -74,7 +75,7 @@ public class Element {
 	private String name;
 	private String type;
 
-    private ComplexType complexType;
+    private GlobalComplexType complexType;
 	
 	public Element() {}
     
@@ -83,7 +84,7 @@ public class Element {
         setType(type);
     }
     
-    public Element(String name, ComplexType complexType) {
+    public Element(String name, GlobalComplexType complexType) {
         setName(name);
         setComplexType(complexType);
     }
@@ -128,7 +129,7 @@ public class Element {
      * Gets the anonymous type definition for this element, if one exists.
      * @return ComplexType, null if there is no associated anonymous type definition
      */
-    public ComplexType getComplexType() {
+    public GlobalComplexType getComplexType() {
         return complexType;
     }
 
@@ -137,7 +138,7 @@ public class Element {
      * @param type ComplexType to be set as the anonymous type definition, 
      * null if the type is to be referenced
      */
-    public void setComplexType(ComplexType type) {
+    public void setComplexType(GlobalComplexType type) {
         this.type = type.getName();
         complexType = type;
     }    

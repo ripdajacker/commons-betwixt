@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.6 2004/02/07 14:44:45 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/07 14:44:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.7 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.7 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -63,35 +63,24 @@ package org.apache.commons.betwixt.schema;
 
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.collections.CollectionUtils;
 
 /**
- * Models a <code>complexType</code> from an XML schema.
- * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.7 $
  */
-public class ComplexType {
-	
-	private String name;
-	
-	private List elements = new ArrayList();
-	private List attributes = new ArrayList();
-	
+public abstract class ComplexType {
 
+    protected List elements = new ArrayList();
+
+    protected List attributes = new ArrayList();
 
     public ComplexType() {}
-    
-    /**
-     * Constructs a new ComplexType from the descriptor given.
-     * @param elementDescriptor
-     */
+
     public ComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         if (elementDescriptor.isHollow()) {
             // need to introspector for filled descriptor
@@ -105,8 +94,8 @@ public class ComplexType {
         init(elementDescriptor, schema);      
     }
 
-    private void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        setName(elementDescriptor.getPropertyType().getName());
+    protected void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         for (int i=0,length=attributeDescriptors.length; i<length ; i++) {
             //TODO: need to think about computing schema types from descriptors
@@ -120,108 +109,55 @@ public class ComplexType {
         //TODO: add support for spacing elements
         ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();
         for (int i=0,length=elementDescriptors.length; i<length ; i++) {
-                elements.add(new LocalElement(elementDescriptors[i], schema));
+            if (elementDescriptors[i].isHollow()) {
+                elements.add(new ElementReference(elementDescriptors[i], schema));
+            } else if (elementDescriptors[i].isSimple()){
+                elements.add(new SimpleLocalElement(elementDescriptors[i], schema));
+            } else {
+                elements.add(new ComplexLocalElement(elementDescriptors[i], schema));
+            }
         } 
     }
 
-	/**
-	 * Gets the elements contained by this type
-	 * @return 
-	 */
-	public List getElements() {
-		return elements;
-	}
-
-	/**
-	 * Adds an element to those contained by this type
-	 * @param element
-	 */
-	public void addElement(LocalElement element) {
-		elements.add(element);
-	}
-	
-	/**
-	 * Gets the attributes contained by this type.
-	 * @return
-	 */
-	public List getAttributes() {
-		return attributes;
-	}
-	
-	/**
-	 * Adds an attribute to those contained by this type
-	 * @param attribute
-	 */
-	public void addAttribute(Attribute attribute) {
-		attributes.add(attribute);
-	}
-	
     /**
-     * Gets the name of this type.
-     * @return
-     */
-    public String getName() {
-        return name;
+    	 * Gets the elements contained by this type
+    	 * @return 
+    	 */
+    public List getElements() {
+    	return elements;
     }
 
     /**
-     * Sets the name of this type.
-     * @param string
-     */
-    public void setName(String string) {
-        name = string;
+    	 * Adds an element to those contained by this type
+    	 * @param element
+    	 */
+    public void addElement(ElementReference element) {
+    	elements.add(element);
+    }
+    
+    /**
+          * Adds an element to those contained by this type
+          * @param element
+          */
+     public void addElement(LocalElement element) {
+         elements.add(element);
+     }
+
+
+    /**
+    	 * Gets the attributes contained by this type.
+    	 * @return
+    	 */
+    public List getAttributes() {
+    	return attributes;
     }
 
-    public boolean equals(Object obj) {
-          boolean result = false;
-          if (obj instanceof ComplexType) {
-              ComplexType complexType = (ComplexType) obj;
-              result =  isEqual(name, complexType.name) &&
-                        CollectionUtils.isEqualCollection(attributes, complexType.attributes) &&
-                        CollectionUtils.isEqualCollection(elements, complexType.elements);
-                                   
-          }
-          return result;
-      }
-
-    public int hashCode() {
-        return 0;
+    /**
+    	 * Adds an attribute to those contained by this type
+    	 * @param attribute
+    	 */
+    public void addAttribute(Attribute attribute) {
+    	attributes.add(attribute);
     }
 
-      /**
-       * Null safe equals method
-       * @param one
-       * @param two
-       * @return
-       */
-      private boolean isEqual(String one, String two) {
-          boolean result = false;
-          if (one == null) {
-              result = (two == null); 
-          }
-          else
-          {
-              result = one.equals(two);
-          }
-        
-          return result;
-      }
-      
-      public String toString() {
-          StringBuffer buffer = new StringBuffer();
-          buffer.append("<xsd:complexType name='");
-          buffer.append(name);
-          buffer.append("'>");
-          buffer.append("<xsd:sequence>");
-          for (Iterator it=elements.iterator(); it.hasNext();) {
-                buffer.append(it.next());    
-          }
-          buffer.append("</xsd:sequence>");
-          
-          for (Iterator it=attributes.iterator(); it.hasNext();) {
-                buffer.append(it.next());    
-          }
-          buffer.append("</xsd:complexType>");
-          return buffer.toString();
-      }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.5 2004/02/07 14:44:45 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/07 14:44:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.6 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -69,7 +69,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /**
  * Tests for the SchemaTranscriber.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class TestSchemaTranscriber extends AbstractTestCase {
     
@@ -82,7 +82,7 @@ public class TestSchemaTranscriber extends AbstractTestCase {
     public void testSimplestBeanAttribute() throws Exception {
         Schema expected = new Schema();
         
-        ComplexType simplestBeanType = new ComplexType();
+        GlobalComplexType simplestBeanType = new GlobalComplexType();
         simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestBean");
         simplestBeanType.addAttribute(new Attribute("name", "xsd:string"));
         
@@ -100,9 +100,9 @@ public class TestSchemaTranscriber extends AbstractTestCase {
     public void testSimplestBeanElement() throws Exception {
         Schema expected = new Schema();
         
-        ComplexType simplestBeanType = new ComplexType();
+        GlobalComplexType simplestBeanType = new GlobalComplexType();
         simplestBeanType.setName("org.apache.commons.betwixt.schema.SimplestElementBean");
-        simplestBeanType.addElement(new LocalElement("name", "xsd:string"));
+        simplestBeanType.addElement(new SimpleLocalElement("name", "xsd:string"));
         
         Element root = new Element("SimplestBean", "org.apache.commons.betwixt.schema.SimplestElementBean");
         expected.addComplexType(simplestBeanType);
@@ -120,12 +120,12 @@ public class TestSchemaTranscriber extends AbstractTestCase {
 		Schema out = transcriber.generate(SimpleBean.class);
 		
 		Schema expected = new Schema();
-		ComplexType simpleBeanType = new ComplexType();
+		GlobalComplexType simpleBeanType = new GlobalComplexType();
 		simpleBeanType.setName("org.apache.commons.betwixt.schema.SimpleBean");
 		simpleBeanType.addAttribute(new Attribute("one", "xsd:string"));
 		simpleBeanType.addAttribute(new Attribute("two", "xsd:string"));
-		simpleBeanType.addElement(new LocalElement("three", "xsd:string"));
-		simpleBeanType.addElement(new LocalElement("four", "xsd:string"));
+		simpleBeanType.addElement(new SimpleLocalElement("three", "xsd:string"));
+		simpleBeanType.addElement(new SimpleLocalElement("four", "xsd:string"));
 		expected.addComplexType(simpleBeanType);
         expected.addElement(new Element("simple", "org.apache.commons.betwixt.schema.SimpleBean"));
         
@@ -141,7 +141,7 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         
         Schema expected = new Schema();
         
-        ComplexType productBeanType = new ComplexType();
+        GlobalComplexType productBeanType = new GlobalComplexType();
         productBeanType.setName(ProductBean.class.getName());
         productBeanType.addAttribute(new Attribute("barcode", "xsd:string"));
         productBeanType.addAttribute(new Attribute("code", "xsd:string"));
@@ -149,10 +149,10 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         productBeanType.addAttribute(new Attribute("display-name", "xsd:string"));
         expected.addComplexType(productBeanType);
         
-        ComplexType orderLineType = new ComplexType();       
+        GlobalComplexType orderLineType = new GlobalComplexType();       
         orderLineType.setName(OrderLineBean.class.getName());
         orderLineType.addAttribute(new Attribute("quantity", "xsd:string"));
-        orderLineType.addElement(new LocalElement("product", productBeanType));
+        orderLineType.addElement(new ElementReference("product", productBeanType));
         expected.addComplexType(orderLineType);
         expected.addElement(new Element("OrderLineBean", OrderLineBean.class.getName()));
         
@@ -171,7 +171,7 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         Schema expected = new Schema();
         
         
-        ComplexType customerBeanType = new ComplexType();
+        GlobalComplexType customerBeanType = new GlobalComplexType();
         customerBeanType.setName(CustomerBean.class.getName());
         customerBeanType.addAttribute(new Attribute("code", "xsd:string"));
         customerBeanType.addAttribute(new Attribute("name", "xsd:string"));
@@ -181,7 +181,7 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         customerBeanType.addAttribute(new Attribute("postcode", "xsd:string"));
         expected.addComplexType(customerBeanType);
         
-        ComplexType productBeanType = new ComplexType();
+        GlobalComplexType productBeanType = new GlobalComplexType();
         productBeanType.setName(ProductBean.class.getName());
         productBeanType.addAttribute(new Attribute("barcode", "xsd:string"));
         productBeanType.addAttribute(new Attribute("code", "xsd:string"));
@@ -189,17 +189,17 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         productBeanType.addAttribute(new Attribute("display-name", "xsd:string"));
         expected.addComplexType(productBeanType);
         
-        ComplexType orderLineType = new ComplexType();       
+        GlobalComplexType orderLineType = new GlobalComplexType();       
         orderLineType.setName(OrderLineBean.class.getName());
         orderLineType.addAttribute(new Attribute("quantity", "xsd:string"));
-        orderLineType.addElement(new LocalElement("product", productBeanType));
+        orderLineType.addElement(new ElementReference("product", productBeanType));
         expected.addComplexType(orderLineType);
         
-        ComplexType orderType = new ComplexType();       
+        GlobalComplexType orderType = new GlobalComplexType();       
         orderType.setName(OrderBean.class.getName());
         orderType.addAttribute(new Attribute("code", "xsd:string"));
-        orderType.addElement(new LocalElement("customer", customerBeanType));
-        orderType.addElement(new LocalElement("line", orderLineType));
+        orderType.addElement(new ElementReference("customer", customerBeanType));
+        orderType.addElement(new ElementReference("line", orderLineType));
         expected.addComplexType(orderType);
         expected.addElement(new Element("order-bean", OrderBean.class.getName()));
         
@@ -208,11 +208,11 @@ public class TestSchemaTranscriber extends AbstractTestCase {
     
     private void printDifferences(Schema one, Schema two) {
         for( Iterator it=one.getComplexTypes().iterator();it.hasNext(); ) {
-            ComplexType complexType = (ComplexType)it.next();
+            GlobalComplexType complexType = (GlobalComplexType)it.next();
             if (!two.getComplexTypes().contains(complexType)) {
                 boolean matched = false;
                 for (Iterator otherIter=two.getComplexTypes().iterator(); it.hasNext();) {
-                    ComplexType otherType = (ComplexType) otherIter.next();
+                    GlobalComplexType otherType = (GlobalComplexType) otherIter.next();
                     if (otherType.getName().equals(complexType.getName())) {
                         printDifferences(complexType, otherType);
                         matched = true;
@@ -227,7 +227,7 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         
     }
     
-    private void printDifferences(ComplexType one, ComplexType two) {
+    private void printDifferences(GlobalComplexType one, GlobalComplexType two) {
         System.err.println("Type " + one + " is not equal to " + two);
         for (Iterator it = one.getElements().iterator(); it.hasNext();) {
             Element elementOne = (Element) it.next();

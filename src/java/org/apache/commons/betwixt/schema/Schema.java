@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.5 2004/02/07 14:44:45 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/02/07 14:44:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.6 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class Schema {
 	
@@ -116,7 +116,7 @@ public class Schema {
 	 * Adds a new complex type to those defined
 	 * @param complexType not null
 	 */
-	public void addComplexType(ComplexType complexType) {
+	public void addComplexType(GlobalComplexType complexType) {
 		complexTypes.add(complexType);
 	}
 	
@@ -166,7 +166,7 @@ public class Schema {
                             elementDescriptor.getPropertyType().getName());
         addElement(element);
         
-        ComplexType type = new ComplexType(elementDescriptor, this);
+        GlobalComplexType type = new GlobalComplexType(elementDescriptor, this);
         addComplexType(type);
     }	
 	

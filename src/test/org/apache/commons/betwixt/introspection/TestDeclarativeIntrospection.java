@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.5 2004/01/29 22:15:22 rdonkin Exp $
- * $Revision: 1.1.2.5 $
- * $Date: 2004/01/29 22:15:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.6 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.6 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -67,11 +67,12 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
+import org.apache.commons.betwixt.examples.rss.Channel;
 
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.5 $
+ * @version $Revision: 1.1.2.6 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
@@ -261,4 +262,41 @@ public class TestDeclarativeIntrospection extends AbstractTestCase{
         assertTrue("Descriptor " + phoneNumberChildDescriptors[2] + " should be simple", 
                     phoneNumberChildDescriptors[2].isSimple());
     }
+    
+    public void testSimpleForRSS() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setWrapCollectionsInElement(true);
+        introspector.getConfiguration().setAttributesForPrimitives(false);
+        XMLBeanInfo out = introspector.introspect(Channel.class);
+        
+        ElementDescriptor channelDescriptor = out.getElementDescriptor();
+        ElementDescriptor[] childNodesOfRSS = channelDescriptor.getElementDescriptors();
+        assertEquals("RSS has only one child, channel", 1, childNodesOfRSS.length);
+        ElementDescriptor[] childNodesOfChannel = childNodesOfRSS[0].getElementDescriptors();
+        
+        boolean matched = false;
+        for (int i=0, size=childNodesOfChannel.length; i<size; i++) {
+            if ("item".equals(childNodesOfChannel[i].getLocalName())) {
+                matched = true;   
+            }   
+        }
+        assertTrue("Local element named item", matched);
+        
+        for (int i=0, size=childNodesOfChannel.length; i<size; i++) {
+            if ("title".equals(childNodesOfChannel[i].getLocalName())) {
+                assertFalse("Title is not hollow", childNodesOfChannel[i].isHollow());
+            } else if ("item".equals(childNodesOfChannel[i].getLocalName())) {
+                assertTrue("Item is hollow", childNodesOfChannel[i].isHollow());
+            } else if ("textinput".equals(childNodesOfChannel[i].getLocalName())) {
+                assertTrue("TextInput is hollow", childNodesOfChannel[i].isHollow());
+            } else if ("skipDays".equals(childNodesOfChannel[i].getLocalName())) {
+                assertFalse("skipDays is not hollow", childNodesOfChannel[i].isHollow());
+                assertFalse("day is not hollow", childNodesOfChannel[i].getElementDescriptors()[0].isHollow());
+            } else if ("skipHours".equals(childNodesOfChannel[i].getLocalName())) {
+                assertFalse("skipHours is not hollow", childNodesOfChannel[i].isHollow());
+                assertFalse("hour is not hollow", childNodesOfChannel[i].getElementDescriptors()[0].isHollow());
+            }    
+        }
+    }
+    
 }

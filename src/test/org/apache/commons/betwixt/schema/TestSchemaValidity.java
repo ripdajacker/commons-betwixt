@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.6 2004/02/07 14:44:45 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/07 14:44:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.7 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.7 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -65,6 +65,10 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.examples.rss.Channel;
+import org.apache.commons.betwixt.examples.rss.Image;
+import org.apache.commons.betwixt.examples.rss.Item;
+import org.apache.commons.betwixt.examples.rss.TextInput;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 import org.xml.sax.InputSource;
@@ -72,7 +76,7 @@ import org.xml.sax.InputSource;
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.7 $
  */
 public class TestSchemaValidity extends AbstractTestCase {
 
@@ -223,6 +227,72 @@ public class TestSchemaValidity extends AbstractTestCase {
               new OrderLineBean(5, new ProductBean("00112235", "A13", "Black Sheep Special", "Black Sheep Special")));
         writer.write(bean);
        
+        String xml = out.getBuffer().toString();
+       
+        xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));  
+        
+    }
+    
+    
+    private String generateRSSSchema() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        Schema schema = transcriber.generate(Channel.class);
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
+        writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+        writer.write(schema);
+        
+        String xsd = out.getBuffer().toString();
+        return xsd;
+    }
+    
+    public void testRSS() throws Exception {
+        String xsd = generateRSSSchema();
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
+        
+        Channel channel = new Channel();
+        channel.setTitle("Betwixt News");
+        channel.setLink("http://jakarta.apache.org/commons/betwixt");
+        channel.setDescription("Example feed themed on Betwixt news.");
+        channel.setRating("(PICS-1.1 'http://www.rsac.org/ratingsv01.html'" +            " 2 gen true comment 'RSACi North America Server'" +            " for 'http://www.rsac.org' on '1996.04.16T08:15-0500'" +            " r (n 0 s 0 v 0 l 0))");
+        channel.setLanguage("en-UK");
+        
+        Image image = new Image();
+        image.setTitle("Apache Feather");
+        image.setURL("http://www.apache.org/images/asf_logo_wide.gif");
+        image.setLink("http://www.apache.org");
+        image.setWidth(100);
+        image.setHeight(30);
+        image.setDescription("Example image");
+        channel.setImage(image);
+
+        Item itemOne = new Item();
+        itemOne.setTitle("Betwixt now generates w3c schema!");
+        itemOne.setLink("http://jakarta.apache.org/commons/betwixt");
+        itemOne.setDescription("Example description");
+        channel.addItem(itemOne);
+
+        Item itemTwo = new Item();
+        itemTwo.setTitle("Another News Item");
+        itemTwo.setLink("http://jakarta.apache.org/commons/betwixt");
+        itemTwo.setDescription("Blah Blah Blah");
+        channel.addItem(itemTwo);        
+
+        TextInput textInput = new TextInput();
+        textInput.setTitle("Send");
+        textInput.setDescription("Comments about Betwixt news");
+        textInput.setName("Response text");
+        textInput.setLink("http://jakarta.apache.org/commons/betwixt");
+        channel.setTextInput(textInput);
+
+        writer.write(channel);
+
         String xml = out.getBuffer().toString();
        
         xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));  

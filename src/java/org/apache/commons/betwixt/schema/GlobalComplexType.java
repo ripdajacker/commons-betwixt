@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalElement.java,v 1.1.2.2 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/GlobalComplexType.java,v 1.1.2.1 2004/02/08 12:13:41 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/08 12:13:41 $
  *
  * ====================================================================
  * 
@@ -62,54 +62,102 @@
 package org.apache.commons.betwixt.schema;
 
 import java.beans.IntrospectionException;
+import java.util.Iterator;
 
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.collections.CollectionUtils;
 
 /**
+ * Models a <code>complexType</code> from an XML schema.
+ * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.1 $
  */
-public class LocalElement {
-
-    protected String name;
+public class GlobalComplexType extends ComplexType {
+	
+	private String name;
+	
+	public GlobalComplexType() {}
     
-    protected String maxOccurs = "1";
-
-    protected int minOccurs = 0;
-    
-    public LocalElement(String name) {
-        this.name = name;
+    /**
+     * Constructs a new ComplexType from the descriptor given.
+     * @param elementDescriptor
+     */
+    public GlobalComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        super(elementDescriptor, schema);    
     }
 
-    public LocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
-        setName(descriptor.getLocalName());
-        if (descriptor.isCollective()) {
-            setMaxOccurs("unbounded");
-        }
+    protected void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        setName(elementDescriptor.getPropertyType().getName());
+        super.init(elementDescriptor, schema);
     }
 
+	/**
+     * Gets the name of this type.
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of this type.
+     * @param string
+     */
     public void setName(String string) {
         name = string;
     }
 
-    public int getMinOccurs() {
-        return minOccurs;
+    public boolean equals(Object obj) {
+          boolean result = false;
+          if (obj instanceof GlobalComplexType) {
+              GlobalComplexType complexType = (GlobalComplexType) obj;
+              result =  isEqual(name, complexType.name) &&
+                        CollectionUtils.isEqualCollection(attributes, complexType.attributes) &&
+                        CollectionUtils.isEqualCollection(elements, complexType.elements);
+                                   
+          }
+          return result;
+      }
+
+    public int hashCode() {
+        return 0;
     }
 
-    public void setMinOccurs(int minOccurs) {
-        this.minOccurs = minOccurs;
-    }
-
-    public String getMaxOccurs() {
-        return maxOccurs;
-    }
-
-    public void setMaxOccurs(String maxOccurs) {
-        this.maxOccurs = maxOccurs;
-    }
-
+      /**
+       * Null safe equals method
+       * @param one
+       * @param two
+       * @return
+       */
+      private boolean isEqual(String one, String two) {
+          boolean result = false;
+          if (one == null) {
+              result = (two == null); 
+          }
+          else
+          {
+              result = one.equals(two);
+          }
+        
+          return result;
+      }
+      
+      public String toString() {
+          StringBuffer buffer = new StringBuffer();
+          buffer.append("<xsd:complexType name='");
+          buffer.append(name);
+          buffer.append("'>");
+          buffer.append("<xsd:sequence>");
+          for (Iterator it=elements.iterator(); it.hasNext();) {
+                buffer.append(it.next());    
+          }
+          buffer.append("</xsd:sequence>");
+          
+          for (Iterator it=attributes.iterator(); it.hasNext();) {
+                buffer.append(it.next());    
+          }
+          buffer.append("</xsd:complexType>");
+          return buffer.toString();
+      }
 }

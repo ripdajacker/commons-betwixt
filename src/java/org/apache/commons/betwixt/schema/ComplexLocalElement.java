@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalElement.java,v 1.1.2.2 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexLocalElement.java,v 1.1.2.1 2004/02/08 12:12:18 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/08 12:12:18 $
  *
  * ====================================================================
  * 
@@ -67,49 +67,22 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.1 $
  */
-public class LocalElement {
-
-    protected String name;
+public class ComplexLocalElement extends LocalElement {
     
-    protected String maxOccurs = "1";
-
-    protected int minOccurs = 0;
+    private LocalComplexType type;
+    public ComplexLocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
+        super(descriptor, schema);
+        setType(new LocalComplexType(descriptor, schema));
+    }
     
-    public LocalElement(String name) {
-        this.name = name;
+    public LocalComplexType getType() {
+        return type;
     }
 
-    public LocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
-        setName(descriptor.getLocalName());
-        if (descriptor.isCollective()) {
-            setMaxOccurs("unbounded");
-        }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String string) {
-        name = string;
-    }
-
-    public int getMinOccurs() {
-        return minOccurs;
-    }
-
-    public void setMinOccurs(int minOccurs) {
-        this.minOccurs = minOccurs;
-    }
-
-    public String getMaxOccurs() {
-        return maxOccurs;
-    }
-
-    public void setMaxOccurs(String maxOccurs) {
-        this.maxOccurs = maxOccurs;
+    public void setType(LocalComplexType type) {
+        this.type = type;
     }
 
 }

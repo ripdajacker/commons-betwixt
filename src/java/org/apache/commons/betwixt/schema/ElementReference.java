@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/LocalElement.java,v 1.1.2.2 2004/02/08 12:11:17 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/08 12:11:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ElementReference.java,v 1.1.2.1 2004/02/08 12:12:50 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/08 12:12:50 $
  *
  * ====================================================================
  * 
@@ -67,33 +67,35 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.1 $
  */
-public class LocalElement {
+public class ElementReference extends Element {
 
-    protected String name;
-    
     protected String maxOccurs = "1";
 
     protected int minOccurs = 0;
-    
-    public LocalElement(String name) {
-        this.name = name;
+
+    public ElementReference(String string, GlobalComplexType complexType) {
+        
+        super(string, complexType);
     }
 
-    public LocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
-        setName(descriptor.getLocalName());
-        if (descriptor.isCollective()) {
-            setMaxOccurs("unbounded");
+    public ElementReference(String name, String type) {
+        super(name, type);
+    }
+
+    public ElementReference(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        setName(elementDescriptor.getLocalName());
+        if (elementDescriptor.isHollow()) {
+            setComplexType( new GlobalComplexType(elementDescriptor, schema));
+            schema.addComplexType(getComplexType());
+            if (elementDescriptor.isCollective()) {
+                maxOccurs = "unbounded";
+            }
+        } else {
+            
+            setType("xsd:string");
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String string) {
-        name = string;
     }
 
     public int getMinOccurs() {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestCollectives.java,v 1.1.2.1 2004/02/07 16:31:58 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/07 16:31:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/TestCollectives.java,v 1.1.2.2 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class TestCollectives extends AbstractTestCase{
     
@@ -118,7 +118,7 @@ public class TestCollectives extends AbstractTestCase{
         beanReader.getXMLIntrospector().setConfiguration(categoriesIntrospectionConfiguration);
         beanReader.setBindingConfiguration(noIDsBindingConfiguration);
         beanReader.registerBeanClass(Categories.class);
-        
+
         String xml = "<?xml version='1.0'?><Categories>" +
             "<Category><Name>Runs</Name></Category>" +
             "<Category><Name>Innings</Name></Category>" +

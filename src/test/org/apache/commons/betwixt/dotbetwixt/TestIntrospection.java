@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestIntrospection.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestIntrospection.java,v 1.4.2.1 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -100,7 +100,7 @@ public class TestIntrospection extends XmlTestCase {
         ElementDescriptor[] elementDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
         ElementDescriptor elementsElementDescriptor = null;
         for ( int i=0, size = elementDescriptors.length; i<size ; i++ ) {
-            if ( "examples".equals( elementDescriptors[i].getLocalName() ) ) {
+            if ( "example".equals( elementDescriptors[i].getLocalName() ) ) {
                 elementsElementDescriptor = elementDescriptors[i];
             }
         }

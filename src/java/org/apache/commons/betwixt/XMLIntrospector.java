@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.8 2004/01/29 22:15:22 rdonkin Exp $
- * $Revision: 1.27.2.8 $
- * $Date: 2004/01/29 22:15:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.9 2004/02/08 12:11:17 rdonkin Exp $
+ * $Revision: 1.27.2.9 $
+ * $Date: 2004/02/08 12:11:17 $
  *
  * ====================================================================
  * 
@@ -111,7 +111,7 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.8 2004/01/29 22:15:22 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.9 2004/02/08 12:11:17 rdonkin Exp $
   */
 public class XMLIntrospector {
     
@@ -703,7 +703,7 @@ public class XMLIntrospector {
                 Method method = methods[i];
                 String name = method.getName();
                 if ( name.startsWith( "add" )) {
-                    // XXX: should we filter out non-void returning methods?
+                    // TODO: should we filter out non-void returning methods?
                     // some beans will return something as a helper
                     Class[] types = method.getParameterTypes();
                     if ( types != null) {
@@ -765,6 +765,7 @@ public class XMLIntrospector {
                                     
             matchingDescriptor.setUpdater( new MethodUpdater( singleParameterAdderMethod ) );
             matchingDescriptor.setSingularPropertyType( singularType );
+            matchingDescriptor.setHollow(!isPrimitiveType(singularType));
             String localName = matchingDescriptor.getLocalName();
             if ( localName == null || localName.length() == 0 ) {
                 matchingDescriptor.setLocalName( 
