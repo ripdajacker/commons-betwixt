@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/02 22:21:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaValidity.java,v 1.1.2.3 2004/02/03 19:43:55 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/03 19:43:55 $
  *
  * ====================================================================
  * 
@@ -71,7 +71,7 @@ import org.xml.sax.InputSource;
 /**
  * Tests for the validity of the schema produced.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class TestSchemaValidity extends AbstractTestCase {
 
@@ -105,6 +105,24 @@ public class TestSchemaValidity extends AbstractTestCase {
        writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI, "xsi");
        writer.getBindingConfiguration().setMapIDs(false);
        SimplestBean bean = new SimplestBean("Simon");
+       writer.write(bean);
+       
+       String xml = out.getBuffer().toString();
+       
+       xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));
+    }   
+    
+    
+    public void testSimplestBeanWithElements() throws Exception {
+       String xsd = generateSchema(SimplestElementBean.class);
+            
+       StringWriter out = new StringWriter();
+       out.write("<?xml version='1.0'?>");
+       BeanWriter writer = new BeanWriter(out);
+       writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+       writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI, "xsi");
+       writer.getBindingConfiguration().setMapIDs(false);
+       SimplestElementBean bean = new SimplestElementBean("Simon");
        writer.write(bean);
        
        String xml = out.getBuffer().toString();

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaGeneration.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/02 22:21:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaGeneration.java,v 1.1.2.3 2004/02/03 19:43:55 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/03 19:43:55 $
  *
  * ====================================================================
  * 
@@ -69,7 +69,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /**
  * Tests for the generation of schema from the object models.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class TestSchemaGeneration extends AbstractTestCase {
 
@@ -96,6 +96,33 @@ public class TestSchemaGeneration extends AbstractTestCase {
         "<xsd:complexType name='org.apache.commons.betwixt.schema.SimplestBean'>" +
         "<xsd:sequence/>" +
         "<xsd:attribute name='name' type='xsd:string'/>" +
+        "</xsd:complexType>" +
+        "</xsd:schema>";
+            
+        xmlAssertIsomorphicContent(parseString(expected), parseString(xsd));
+    }
+    
+    
+    public void testSimplestBeanWithElement() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        Schema schema = transcriber.generate(SimplestElementBean.class);
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
+        writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+        writer.write(schema);
+        
+        String xsd = out.getBuffer().toString();
+        
+        String expected ="<?xml version='1.0'?><xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
+        "<xsd:element name='SimplestBean' type='org.apache.commons.betwixt.schema.SimplestElementBean'/>" +
+        "<xsd:complexType name='org.apache.commons.betwixt.schema.SimplestElementBean'>" +
+        "<xsd:sequence>" +
+        "<xsd:element name='name' type='xsd:string'/>" +
+        "</xsd:sequence>" +
         "</xsd:complexType>" +
         "</xsd:schema>";
             
