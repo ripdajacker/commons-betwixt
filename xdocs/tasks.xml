@@ -208,6 +208,12 @@
                 Added code that reads entries for composite map properties and adds then correctly.
                 This code relies on the Betwixt map element mapping format.
             </li>
+            <li>
+                <strong>Added setter for bean writing encoding type</strong>
+                Added an additional constructor which takes an encoding type which is used to set the 
+                encoding type on the output stream. This allows xml with different encoding types to
+                be written.
+            </li>
         </ul>
     </subsection>
 </section>
