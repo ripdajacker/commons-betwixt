@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/TextDescriptor.java,v 1.1 2003/03/19 22:59:01 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/03/19 22:59:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/TextDescriptor.java,v 1.2 2003/04/08 13:38:32 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/04/08 13:38:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TextDescriptor.java,v 1.1 2003/03/19 22:59:01 rdonkin Exp $
+ * $Id: TextDescriptor.java,v 1.2 2003/04/08 13:38:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt;
   * A mixed content element contains elements mixed with text.
   * For example:
   * <pre>
-  * 	&lt;foo&gt;middle&lt;bar/&gt;&lt;/foo&gt;
+  *    &lt;foo&gt;middle&lt;bar/&gt;&lt;/foo&gt;
   * </pre>
   * In the above example, a <code>TextDescriptor</code> could be used
   * to allow the mixed content text <code>middle</code> to be mapped.</p>
@@ -73,7 +73,7 @@ package org.apache.commons.betwixt;
   * <p>This is really just a marker class - all functionality is inherited.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TextDescriptor extends Descriptor {
     
