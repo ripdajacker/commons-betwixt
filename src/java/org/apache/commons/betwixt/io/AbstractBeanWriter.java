@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.16 2003/04/24 08:52:20 rdonkin Exp $
- * $Revision: 1.16 $
- * $Date: 2003/04/24 08:52:20 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.17 2003/07/29 21:32:15 rdonkin Exp $
+ * $Revision: 1.17 $
+ * $Date: 2003/07/29 21:32:15 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.16 2003/04/24 08:52:20 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.17 2003/07/29 21:32:15 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -66,6 +66,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.Descriptor;
@@ -96,7 +97,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.16 $
+  * @version $Revision: 1.17 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -732,12 +733,10 @@ public abstract class AbstractBeanWriter {
                     Expression expression = childDescriptors[i].getTextExpression();
                     if ( expression != null ) {
                         Object value = expression.evaluate( context );
-                        if ( value != null ) {
-                            String text = value.toString();
-                            if ( text != null && text.length() > 0 ) {
-                                bodyText(text);
-                            }
-                        }                
+                        String text = convertToString( value );
+                        if ( text != null && text.length() > 0 ) {
+                            bodyText(text);
+                        }               
                     }
                 }
             }
@@ -746,12 +745,10 @@ public abstract class AbstractBeanWriter {
             Expression expression = elementDescriptor.getTextExpression();
             if ( expression != null ) {
                 Object value = expression.evaluate( context );
-                if ( value != null ) {
-                    String text = value.toString();
-                    if ( text != null && text.length() > 0 ) {
-                        bodyText(text);
-                    }
-                }                
+                String text = convertToString(value);
+                if ( text != null && text.length() > 0 ) {
+                    bodyText(text);
+                }
             }
         }
     }
@@ -843,12 +840,10 @@ public abstract class AbstractBeanWriter {
         Expression expression = descriptor.getTextExpression();
         if ( expression != null ) {
             Object value = expression.evaluate( context );
-            if ( value != null ) {
-                String text = value.toString();
-                if ( text != null && text.length() > 0 ) {
-                    log.trace( "Element has body text which isn't empty." );
-                    return false;
-                }
+            String text = convertToString(value);
+            if ( text != null && text.length() > 0 ) {
+                log.trace( "Element has body text which isn't empty." );
+                return false;
             }
         }
         
@@ -1061,9 +1056,7 @@ public abstract class AbstractBeanWriter {
                     Expression expression = attributes[index].getTextExpression();
                     if ( expression != null ) {
                         Object value = expression.evaluate( context );
-                        if (value != null) {
-                            return value.toString();
-                        }
+                        return convertToString( value );
                     }
                 }
                 return "";
@@ -1461,4 +1454,20 @@ public abstract class AbstractBeanWriter {
      * @deprecated after 1.0-Alpha-1 replaced by new BeanWriter API
      */
     protected void writeIndent() throws IOException {}
+    
+    /**
+      * Converts an object to a string.
+      *
+      * @param value the Object to represent as a String, possibly null
+      * @return String representation, not null
+      */
+    private String convertToString(Object value) {
+        if ( value != null ) {
+            String text = ConvertUtils.convert( value );
+            if ( text != null ) {
+                return text;
+            }
+        }
+        return "";
+    }
 }
