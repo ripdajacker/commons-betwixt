@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.5 2002/06/14 23:05:26 mvdb Exp $
- * $Revision: 1.5 $
- * $Date: 2002/06/14 23:05:26 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.6 2002/06/15 03:27:53 jon Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/06/15 03:27:53 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.5 2002/06/14 23:05:26 mvdb Exp $
+ * $Id: BeanWriter.java,v 1.6 2002/06/15 03:27:53 jon Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -127,7 +127,7 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class BeanWriter {
 
@@ -147,7 +147,9 @@ public class BeanWriter {
     /** Where the output goes */
     private Writer writer;    
     /** text used for end of lines. Defaults to <code>\n</code>*/
-    private String endOfLine = "\n";
+    private static final String EOL = "\n";
+    /** text used for end of lines. Defaults to <code>\n</code>*/
+    private String endOfLine = EOL;
     /** indentation text */
     private String indent;
     /** indentation level */
@@ -325,7 +327,7 @@ public class BeanWriter {
      * The default is adding 2 spaces and a newline
      */
     public void enablePrettyPrint() {
-        endOfLine = "\n";
+        endOfLine = EOL;
         indent = "  ";
     }
 
@@ -437,7 +439,7 @@ public class BeanWriter {
         
         writePrintln();
         writeIndent();
-        writer.write( "<" );
+        writer.write( '<' );
         writer.write( qualifiedName );
     }
     
@@ -451,7 +453,7 @@ public class BeanWriter {
         
         writer.write( "</" );
         writer.write( qualifiedName );
-        writer.write( ">" );
+        writer.write( '>' );
     }    
     
     /** Express an empty element end */
@@ -488,11 +490,11 @@ public class BeanWriter {
             return;
         }
                 
-        writer.write( " " );
+        writer.write( ' ' );
         writer.write( qualifiedName );
         writer.write( "=\"" );
         writer.write( value );
-        writer.write( "\"" );
+        writer.write( '\"' );
     }
 
 
@@ -607,7 +609,7 @@ public class BeanWriter {
                             for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
                                 if ( ! writtenContent ) {
                                     writtenContent = true;
-                                    writer.write( ">" );
+                                    writer.write( '>' );
                                 }
                                 ++indentLevel;
                                 write( qualifiedName, iter.next() );
@@ -617,7 +619,7 @@ public class BeanWriter {
                         else {
                             if ( ! writtenContent ) {
                                 writtenContent = true;
-                                writer.write( ">" );
+                                writer.write( '>' );
                             }
                             ++indentLevel;
                             write( qualifiedName, childBean );
@@ -628,7 +630,7 @@ public class BeanWriter {
                 else {
                     if ( ! writtenContent ) {
                         writtenContent = true;
-                        writer.write( ">" );
+                        writer.write( '>' );
                     }
                     if (childDescriptor.isWrapCollectionsInElement()) {
                         ++indentLevel;
@@ -656,7 +658,7 @@ public class BeanWriter {
                     if ( text != null && text.length() > 0 ) {
                         if ( ! writtenContent ) {
                             writtenContent = true;
-                            writer.write( ">" );
+                            writer.write( '>' );
                         }
                         expressBodyText(text);
                     }
