@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.3 2004/02/21 16:34:57 rdonkin Exp $
- * $Revision: 1.4.2.3 $
- * $Date: 2004/02/21 16:34:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.4 2004/02/21 17:20:06 rdonkin Exp $
+ * $Revision: 1.4.2.4 $
+ * $Date: 2004/02/21 17:20:06 $
  *
  * ====================================================================
  * 
@@ -72,6 +72,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Updater;
+import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,7 +82,7 @@ import org.xml.sax.Attributes;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.3 $
+  * @version $Revision: 1.4.2.4 $
   */
 public class ReadContext extends Context {
 
@@ -204,6 +205,10 @@ public class ReadContext extends Context {
 	public BeanCreationChain getBeanCreationChain() {
 		return readConfiguration.getBeanCreationChain();
 	}
+
+    public ActionMappingStrategy getActionMappingStrategy() {
+        return readConfiguration.getActionMappingStrategy();
+    }
 
 	/**
 	  * Pops the top element from the element mapping stack.
@@ -617,6 +622,5 @@ public class ReadContext extends Context {
 			}
 		}
 	}
-
 
 }

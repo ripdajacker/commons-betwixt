@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.6 2004/02/21 16:58:58 rdonkin Exp $
- * $Revision: 1.16.2.6 $
- * $Date: 2004/02/21 16:58:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.7 2004/02/21 17:20:06 rdonkin Exp $
+ * $Revision: 1.16.2.7 $
+ * $Date: 2004/02/21 17:20:06 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.6 $
+  * @version $Revision: 1.16.2.7 $
   */
 public class BeanRuleSet implements RuleSet {
 
@@ -287,33 +287,18 @@ public class BeanRuleSet implements RuleSet {
             throws Exception {
                 
             MappingAction result = null;
-            if (context.currentMappingAction() == null)
+            MappingAction lastAction = context.currentMappingAction();
+            if (lastAction == null)
             {
                 result =  BeanBindAction.INSTANCE;   
             } else {
                 
-                result = createAction(name, context);
+                result = lastAction.next(namespace, name, attributes, context);
             }
             return result.begin(namespace, name, attributes, context);
         }
 
-        private MappingAction createAction(String name, ReadContext context)
-            throws Exception, IntrospectionException {
-            MappingAction result = MappingAction.EMPTY;
-            
-            ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
-            if (activeDescriptor != null) {
-                if (activeDescriptor.isHollow())
-                {
-                    result = BeanBindAction.INSTANCE;
-                }
-                else if (activeDescriptor.isSimple())
-                {
-                    result = SimpleTypeBindAction.INSTANCE;
-                }
-            }
-            return result;
-        }
+
 
         /**
           * @see Rule#body(String, String, String)

@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadConfiguration.java,v 1.3.2.1 2004/02/21 17:20:06 rdonkin Exp $
- * $Revision: 1.3.2.1 $
- * $Date: 2004/02/21 17:20:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ActionMappingStrategy.java,v 1.1.2.1 2004/02/21 17:20:19 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/02/21 17:20:19 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +34,8 @@
  *    from this software without prior written permission. For written 
  *    permission, please contact apache@apache.org.
  *
- * 5. Products derived from this software may not be called "Apache",
- *    "Apache" nor may "Apache" appear in their names without prior 
+ * 5. Products derived from this software may not be called "Apache"
+ *    nor may "Apache" appear in their names without prior 
  *    written permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -58,46 +58,43 @@
  * <http://www.apache.org/>.
  *
  */ 
-package org.apache.commons.betwixt.io.read;
 
-import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
+package org.apache.commons.betwixt.strategy;
 
-/**  
-  * Stores mapping phase configuration settings that apply only for bean reading.
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision: 1.3.2.1 $
-  */
-public class ReadConfiguration {
-    
-    /** Chain used to create beans defaults to BeanCreationChain.createDefaultChain() */
-    private BeanCreationChain beanCreationChain = BeanCreationChain.createDefaultChain();
-    
-    private ActionMappingStrategy actionMappingStrategy = new ActionMappingStrategy();
-    
-    /**
-      * Gets the BeanCreationChain that should be used to construct beans.
-      * @return the BeanCreationChain to use, not null
-      */
-    public BeanCreationChain getBeanCreationChain() {
-        return beanCreationChain;
-    }
-    
-    /**
-      * Sets the BeanCreationChain that should be used to construct beans.
-      * @param beanCreationChain the BeanCreationChain to use, not null
-      */
-    public void setBeanCreationChain( BeanCreationChain beanCreationChain ) {
-        this.beanCreationChain = beanCreationChain;
-    }
-    
-    
-    public ActionMappingStrategy getActionMappingStrategy() {
-        return actionMappingStrategy;
-    }
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.io.read.BeanBindAction;
+import org.apache.commons.betwixt.io.read.MappingAction;
+import org.apache.commons.betwixt.io.read.ReadContext;
+import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
+import org.xml.sax.Attributes;
 
-    public void setActionMappingStrategy(ActionMappingStrategy actionMappingStrategy) {
-        this.actionMappingStrategy = actionMappingStrategy;
-    }
+/**
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1.2.1 $
+ */
+public class ActionMappingStrategy {
+    
 
+    
+    public MappingAction getMappingAction(    
+                            String namespace,
+                            String name,
+                            Attributes attributes,
+                            ReadContext context)
+        throws Exception {
+        MappingAction result = MappingAction.EMPTY;
+            
+        ElementDescriptor activeDescriptor = context.getCurrentDescriptor();
+        if (activeDescriptor != null) {
+            if (activeDescriptor.isHollow())
+            {
+                result = BeanBindAction.INSTANCE;
+            }
+            else if (activeDescriptor.isSimple())
+            {
+                result = SimpleTypeBindAction.INSTANCE;
+            }
+        }
+        return result;
+    }
 }

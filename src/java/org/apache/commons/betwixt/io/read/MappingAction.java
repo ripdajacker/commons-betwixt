@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/15 20:21:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/MappingAction.java,v 1.1.2.3 2004/02/21 17:20:06 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/21 17:20:06 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MappingAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
+ * $Id: MappingAction.java,v 1.1.2.3 2004/02/21 17:20:06 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -70,9 +70,17 @@ import org.xml.sax.Attributes;
  * It is intended that most MappingAction's will not need to maintain state.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public abstract class MappingAction {
+
+       
+    public abstract MappingAction next(
+        String namespace,
+        String name,
+        Attributes attributes,
+        ReadContext context)
+        throws Exception;
 
     /**
      * Executes mapping action on new element.
@@ -113,10 +121,20 @@ public abstract class MappingAction {
      * Basic action.
      * 
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.1.2.2 $
+     * @version $Revision: 1.1.2.3 $
      */
     public static class Base extends MappingAction {
-
+        
+        public MappingAction next(
+            String namespace,
+            String name,
+            Attributes attributes,
+            ReadContext context)
+            throws Exception {       
+        
+            return context.getActionMappingStrategy().getMappingAction(namespace, name, attributes, context);
+        }
+        
         /* (non-Javadoc)
          * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
          */
