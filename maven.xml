@@ -1,6 +1,6 @@
 <project default="java:jar" xmlns:j="jelly:core">
 
-  <preGoal name="test:test">
+  <preGoal name="test:compile">
     
     <echo>Copying test resources ...</echo>
     
@@ -12,5 +12,118 @@
     </copy>
     
   </preGoal>
+
+  <goal name="test:classpath" prereqs="java:compile, test:compile"
+        description="Compiles the tests and sets the testing classpath">
+	<path id="test.classpath">
+	    <pathelement path="${maven.build.dest}"/>
+	    <pathelement path="target/classes"/>
+	    <pathelement path="target/test-classes"/>
+	    <path refid="maven.dependency.classpath"/>
+	</path>
+  </goal>
+  
+          
+  <goal name="test:writer" prereqs="test:classpath" 
+      description="Runs sample bean write">
+    <java classname="org.apache.commons.betwixt.TestBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="info"/>
+    </java>
+  </goal>
+
+  <goal name="test:reader" prereqs="test:classpath" 
+      description="Runs test of bean reader">
+    <java classname="org.apache.commons.betwixt.TestBeanReader" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
+
+  <goal name="test:digester" prereqs="test:classpath" 
+      description="Runs the test of the XMLBeanInfo digester">
+    <java classname="org.apache.commons.betwixt.TestXMLBeanInfoDigester" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
+
+  <goal name="test:rss" prereqs="test:classpath" 
+      description="Runs the RSS round trip unit tests">
+    <java classname="org.apache.commons.betwixt.TestRSSRoundTrip" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="info"/>
+    </java>
+  </goal>
+
+  <goal name="test:rss.debug" prereqs="test:classpath" 
+      description="Runs the RSS round trip unit tests with debugging on">
+    <java classname="org.apache.commons.betwixt.TestRSSRoundTrip" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+  </goal>
+
+  <goal name="test:maven.debug" prereqs="test:classpath" 
+      description="Runs the Maven unit test with debugging on">
+    <java classname="org.apache.commons.betwixt.TestMavenProject" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+    </java>
+  </goal>
+
+  <goal name="test:scarab"
+      description="Runs the Scarab unit test">
+    <property name="maven.testcase" value="org.apache.commons.betwixt.scarab.TestScarabSettings"/>   
+    <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="run-singletest"/>
+  </goal>
+
+  <goal name="test:scarab.debug" prereqs="test:classpath"
+      description="Runs the Scarab unit test with debugging on">
+    <java classname="org.apache.commons.betwixt.scarab.TestScarabSettings" fork="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="error"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.betwixt" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.betwixt.scarab" value="debug"/>
+    </java>
+  </goal>
+
+
+<!-- ========== Sample Program Targets ==================================== -->
+
+  <goal name="demo:writer" prereqs="test:classpath" 
+      description="Runs sample bean writer">
+    <echo message="Running sample bean writer..."/>
+    <java classname="org.apache.commons.betwixt.SampleBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
+
+  <goal name="demo:sys" prereqs="test:classpath" 
+      description="Runs system properties sample">
+    <echo message="Running system properties sample..."/>
+    <java classname="org.apache.commons.betwixt.SystemProperties" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
+
+  <goal name="demo:rss" prereqs="test:classpath" 
+      description="Runs the RSS sample">
+    <echo message="Running the RSS sample..."/>
+    <java classname="org.apache.commons.betwixt.RSSBeanWriter" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
+
+  <goal name="demo:rss2" prereqs="test:classpath" 
+      description="Runs the RSS read and write sample">
+    <echo message="Running the RSS read and write sample..."/>
+    <java classname="org.apache.commons.betwixt.RSSBeanReader" fork="yes">
+      <classpath refid="test.classpath"/>
+    </java>
+  </goal>
 
 </project>
