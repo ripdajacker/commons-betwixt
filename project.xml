@@ -60,6 +60,12 @@
       <email>jon@latchkey.com</email>
       <organization>CollabNet</organization>
     </developer>
+    <developer>
+      <name>Martin van den Bemt</name>
+      <id>mvdb</id>
+      <email>martin@mvdb.net</email>
+      <organization>mvdb.com</organization>
+    </developer>
   </developers>
   
   <dependencies>
