@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/ElementBean.java,v 1.2 2002/09/26 19:29:34 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/09/26 19:29:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/ElementBean.java,v 1.3 2003/07/01 19:12:36 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/07/01 19:12:36 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementBean.java,v 1.2 2002/09/26 19:29:34 rdonkin Exp $
+ * $Id: ElementBean.java,v 1.3 2003/07/01 19:12:36 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
@@ -91,7 +91,7 @@ public class ElementBean
 
     public String toString()
     {
-       return "list : "+getElements();
+       return "list : " + getElements();
     }
     
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/02/13 18:41:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.8 2003/07/01 19:12:36 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/07/01 19:12:36 $
  *
  * ====================================================================
  *
@@ -57,9 +57,11 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
+ * $Id: TestRecursion.java,v 1.8 2003/07/01 19:12:36 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
+
+import java.util.List;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -72,13 +74,17 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
+import org.apache.commons.betwixt.io.BeanRuleSet;
+
+import org.apache.commons.logging.impl.SimpleLog;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 
 
 /**
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.8 2003/07/01 19:12:36 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -119,15 +125,68 @@ public class TestRecursion extends AbstractTestCase
     public void testReadWithoutCollectionsInElementRoundTrip()
     throws Exception
     {
-        System.out.println("\ntestReadWithoutCollectionsInElement()\n");
+//        SimpleLog log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:BeanRuleSet]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanRuleSet.setLog(log);
+        
+//	log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:XMLIntrospector]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+ 
         XMLIntrospector intro = createXMLIntrospector();
+        intro.setWrapCollectionsInElement(false);
+//        intro.setLog(log);
+//        log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:XMLIntrospectorHelper]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        XMLIntrospectorHelper.setLog(log);
         BeanReader reader = new BeanReader();
-        reader.registerBeanClass(ElementBean.class);
+//        log = new SimpleLog("[testReadWithoutCollectionsInElementRoundTrip:BeanReader]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        reader.setLog(log);
         reader.setXMLIntrospector(intro);
-        Object object = reader.parse(getTestFileURL("src/test/org/apache/commons/betwixt/recursion/recursion2.xml"));
+        reader.registerBeanClass(ElementBean.class);
+        ElementBean bean = (ElementBean) reader.
+                        parse(getTestFileURL("src/test/org/apache/commons/betwixt/recursion/recursion2.xml"));
+        List elements = bean.getElements();
+        assertEquals("Number of elements in root bean", 2, elements.size());
+        Element elementOne = (Element) bean.elements.get(0);
+        assertEquals("First element name", "element1", elementOne.getName());
+        Element elementTwo = (Element) bean.elements.get(1);
+        assertEquals("Second element name", "element2", elementTwo.getName());
+        
+        elements = elementOne.getElements();
+        assertEquals("Number of child elements in first element", 2, elements.size());
+        Element elementOneOne = (Element) elements.get(0);
+        assertEquals("11 element name", "element11", elementOneOne.getName());
+        Element elementOneTwo = (Element) elements.get(1);
+        assertEquals("12 element name", "element12", elementOneTwo.getName());
+        
+        elements = elementOneOne.getElements();
+        assertEquals("Number of child elements in element 11", 2, elements.size());
+        Element elementOneOneOne = (Element) elements.get(0);
+        assertEquals("111 element name", "element111", elementOneOneOne.getName());
+
+        assertEquals("111 child elements ", 0, elementOneOneOne.getElements().size());
+        
+        Element elementOneOneTwo = (Element) elements.get(1);
+        assertEquals("112 element name", "element112", elementOneOneTwo.getName());
+        assertEquals("112 child elements ", 0, elementOneOneTwo.getElements().size());
+        
+        elements = elementOneTwo.getElements();
+        assertEquals("Number of child elements in element 12", 0, elements.size());
+        
+        elements = elementTwo.getElements();
+        assertEquals("Number of child elements in element 2", 0, elements.size());
+        
         StringWriter buffer = new StringWriter();
-        write (object, buffer, false);
-        System.out.println("buffer : "+buffer);
+        buffer.write("<?xml version='1.0'?>");
+        write (bean, buffer, false);
+ 
+        String xml = "<ElementBean><element name='element1'><element name='element11'><element name='element111' />"
+                + "<element name='element112' /> </element><element name='element12' /> </element>"
+                + "<element name='element2' /> </ElementBean>";
+        
+        xmlAssertIsomorphic(parseString(xml), parseString(buffer.getBuffer().toString()), true);
+        
     }
     
     /**
