@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.6 2003/03/24 20:22:21 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/03/24 20:22:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.7 2003/07/01 21:39:31 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/07/01 21:39:31 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XmlTestCase.java,v 1.6 2003/03/24 20:22:21 rdonkin Exp $
+ * $Id: XmlTestCase.java,v 1.7 2003/07/01 21:39:31 rdonkin Exp $
  */
 package org.apache.commons.betwixt.xmlunit;
 
@@ -70,6 +70,7 @@ import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -321,7 +322,8 @@ public class XmlTestCase extends TestCase {
             }
 
             assertEquals(
-                        (null == message ? "(Unequal child nodes)" : message + "(Unequal child nodes)"), 
+                        (null == message ? "(Unequal child nodes@" + nodeOne.getNodeName() +")": 
+                                message + "(Unequal child nodes @" + nodeOne.getNodeName() +")"), 
                         listOne.size(), 
                         listTwo.size());           
                         
@@ -361,6 +363,22 @@ public class XmlTestCase extends TestCase {
         }
         
         return domFactory;
+    }
+    
+    protected Document parseString(StringWriter writer) {
+        try { 
+        
+            return createDocumentBuilder().parse(new InputSource(new StringReader(writer.getBuffer().toString())));
+        
+        } catch (SAXException e) {
+            fail("Cannot create parse string: " + e.toString());
+        
+        } catch (IOException e) {
+            fail("Cannot create parse string: " + e.toString());
+        
+        } 
+        // just to keep the compiler happy
+        return null;
     }
     
     protected Document parseString(String string) {
