@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.10 2004/02/21 13:39:06 rdonkin Exp $
- * $Revision: 1.27.2.10 $
- * $Date: 2004/02/21 13:39:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.11 2004/04/18 09:48:06 rdonkin Exp $
+ * $Revision: 1.27.2.11 $
+ * $Date: 2004/04/18 09:48:06 $
  *
  * ====================================================================
  * 
@@ -92,6 +92,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /** 
   * <p><code>XMLIntrospector</code> an introspector of beans to create a 
@@ -111,9 +112,14 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.10 2004/02/21 13:39:06 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.11 2004/04/18 09:48:06 rdonkin Exp $
   */
 public class XMLIntrospector {
+    /** 
+     * Log used for logging (Doh!) 
+     * @deprecated use the {@link #getLog()} property instead
+     */    
+    protected Log log = LogFactory.getLog( XMLIntrospector.class );
     
     /** Maps classes to <code>XMLBeanInfo</code>'s */
     private XMLBeanInfoRegistry registry = new DefaultXMLBeanInfoRegistry();
