@@ -237,6 +237,9 @@
                 <strong>Improve Java Docs. </strong>
                 Go through java docs, add any which are missing, correct any mistakes etc.
             </li>
+            <li>
+                <strong>Create DTD for .betwixt files.</strong>
+            </li>
         </ul>
     </subsection>
     </section>
