@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Mixed content encoding is the process by which body content
  * is written out (in an escaped form) into a textual output stream. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TestMixedContentEncoding extends AbstractTestCase {
 
@@ -86,6 +86,22 @@ public class TestMixedContentEncoding extends AbstractTestCase {
             "Default implementation uses character escaping",
             "&lt;proclaim&gt;The King Is Dead, Long Live The King&lt;/proclaim&gt;",
             MixedContentEncodingStrategy.DEFAULT.encode("<proclaim>The King Is Dead, Long Live The King</proclaim>", descriptor));
+    }
+    
+    public void testEscapedCharactersImplementation() {
+        ElementDescriptor descriptor = new ElementDescriptor();
+        assertEquals(
+            "Default implementation uses character escaping",
+            "&lt;proclaim&gt;The King Is Dead, Long Live The King&lt;/proclaim&gt;",
+            MixedContentEncodingStrategy.ESCAPED_CHARACTERS.encode("<proclaim>The King Is Dead, Long Live The King</proclaim>", descriptor));
+    }
+    
+    public void testCDATAImplementation() {
+        ElementDescriptor descriptor = new ElementDescriptor();
+        assertEquals(
+            "Default implementation uses character escaping",
+            "<![CDATA[<proclaim>The King Is Dead, Long Live The King</proclaim>]]>",
+            MixedContentEncodingStrategy.CDATA.encode("<proclaim>The King Is Dead, Long Live The King</proclaim>", descriptor));
     }
     
     public void testdefaultOutput() throws Exception {

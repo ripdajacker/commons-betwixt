@@ -32,13 +32,12 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * in the sense of escaping a sequence of character data.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class MixedContentEncodingStrategy {
 
     /**
-     * The default implementation used by Betwixt.
-     * This always encodes by escaping character data.
+     * The standard implementation used by Betwixt by default.
      * This is a singleton.
      */
     public static final MixedContentEncodingStrategy DEFAULT 
@@ -50,6 +49,35 @@ public abstract class MixedContentEncodingStrategy {
             return false;       
         }
     };
+    
+    /**
+     * Encodes element content within a <code>CDATA</code> section.
+     * This is a singleton.
+     */
+    public static final MixedContentEncodingStrategy CDATA 
+            = new BaseMixedContentEncodingStrategy() {
+        /**
+         * Always encode by escaping character data.
+         */
+        protected boolean encodeAsCDATA(ElementDescriptor element) {
+            return true;       
+        }
+    };    
+
+    /**
+      * Encodes by escaping character data.
+      * This is a singleton.
+      */
+     public static final MixedContentEncodingStrategy ESCAPED_CHARACTERS 
+             = new BaseMixedContentEncodingStrategy() {
+         /**
+          * Always encode by escaping character data.
+          */
+         protected boolean encodeAsCDATA(ElementDescriptor element) {
+             return false;       
+         }
+     };
+    
 
     /**
      * Encodes the body content into a form suitable for output as 
