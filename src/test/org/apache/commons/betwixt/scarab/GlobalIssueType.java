@@ -58,16 +58,6 @@ package org.apache.commons.betwixt.scarab;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.IteratorEnumeration;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p><code>GlobalIssueType</code> is a sample bean for use by the test cases.</p>

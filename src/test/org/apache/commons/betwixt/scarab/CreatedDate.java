@@ -57,13 +57,6 @@ package org.apache.commons.betwixt.scarab;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.IteratorEnumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +65,7 @@ import org.apache.commons.logging.LogFactory;
  * <p><code>CreatedDate</code> is a sample bean for use by the test cases.</p>
  *
  * @author <a href="mailto:jon@latchkey.com">Jon Scott Stevens</a>
- * @version $Id: CreatedDate.java,v 1.1 2002/06/12 22:25:32 jon Exp $
+ * @version $Id: CreatedDate.java,v 1.2 2002/12/30 18:00:16 mvdb Exp $
  */
 public class CreatedDate implements Serializable
 {

@@ -58,16 +58,11 @@ package org.apache.commons.betwixt.scarab;
  */
 
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.util.List;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
