@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.24 $
+  * @version $Revision: 1.25 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -98,6 +98,8 @@ public class BeanWriter extends AbstractBeanWriter {
     private boolean currentElementHasBodyText = false;
     /** Has the last start tag been closed */
     private boolean closedStartTag = true;
+    /** Should an end tag be added for empty elements? */
+    private boolean addEndTagForEmptyElement = false;
     /** Current level of indentation (starts at 1 with the first element) */
     private int indentLevel;
     /** USed to determine how body content should be encoded before being output*/
@@ -286,6 +288,34 @@ public class BeanWriter extends AbstractBeanWriter {
         mixedContentEncodingStrategy = strategy;
     }
     
+    /**
+     * Should an end tag be added for each empty element?
+     * When this property is false then empty elements will
+     * be written as <code>&lt;<em>element-name</em>/gt;</code>.
+     * When this property is true then empty elements will
+     * be written as <code>&lt;<em>element-name</em>gt;
+     * &lt;/<em>element-name</em>gt;</code>.
+     * @return true if an end tag should be added
+     */
+    public boolean isEndTagForEmptyElement() {
+        return addEndTagForEmptyElement;
+    }
+    
+    /**
+     * Sets when an an end tag be added for each empty element?
+     * When this property is false then empty elements will
+     * be written as <code>&lt;<em>element-name</em>/gt;</code>.
+     * When this property is true then empty elements will
+     * be written as <code>&lt;<em>element-name</em>gt;
+     * &lt;/<em>element-name</em>gt;</code>.
+     * @param addEndTagForEmptyElement true if an end tag should be 
+     * written for each empty element, false otherwise
+     */
+    public void setEndTagForEmptyElement(boolean addEndTagForEmptyElement) {
+        this.addEndTagForEmptyElement = addEndTagForEmptyElement;
+    }
+    
+    
     
     // New API
     //------------------------------------------------------------------------------
@@ -353,7 +383,10 @@ public class BeanWriter extends AbstractBeanWriter {
                                     throws
                                         IOException,
                                         SAXException {
-        if ( ( !closedStartTag ) && currentElementIsEmpty ) {
+        if ( 
+            !addEndTagForEmptyElement
+            && !closedStartTag 
+            && currentElementIsEmpty ) {
         
             writer.write( "/>" );
             closedStartTag = true;
@@ -361,6 +394,12 @@ public class BeanWriter extends AbstractBeanWriter {
         } else {
             if (!currentElementHasBodyText) {
                 indent();
+            }
+            if (
+                    addEndTagForEmptyElement
+                    && !closedStartTag ) {
+                 writer.write( ">" );
+                 closedStartTag = true;                 
             }
             writer.write( "</" );
             writer.write( qualifiedName );
