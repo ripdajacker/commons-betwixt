@@ -102,6 +102,11 @@ How can I make Betwixt match adders to collective properties when using
 a <code>.betwixt</code> file <em>without</em> also adding default propertes?
       	</a>
       </li>
+      <li>
+        <a href="#read-validation">
+          Does Betwixt Validate Values Read?
+        </a>
+      </li>
     </ol>
     <p><strong>Building Betwixt</strong></p>
     <ol>
@@ -298,8 +303,18 @@ a <code>.betwixt</code> file <em>without</em> also adding default propertes?
         <dd>
 Add the <code>&lt;addDefaults&gt;</code> and to it add an attribute 
 <code>add-properties=&quot;false&quot;</code>.
+        </dd>    
+         <dt>
+          <a name="read-validation">
+Does Betwixt Validate Values Read?
+          </a>
+        </dt>
+        <dd>
+Betwixt does not directly validate any property values read. The convertion of the string
+in the xml to values suitable for setting on the bean property is delegated to the 
+ObjectStringConverter. The converter may - or may not - validate values (and throw exceptions 
+when they fall outside acceptable ranges).
         </dd>       
-        
       </dl>
       
     </subsection>
