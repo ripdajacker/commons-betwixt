@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/15 19:03:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/08 22:07:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $
+ * $Id: SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.5 2002/12/15 19:03:34 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -86,21 +86,19 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( SAXBeanWriter.class );
     
-    private String lastElementName;
-    
     /**
      * Place holder for elements that are started.
      */
     private Stack elementStack;
-    
+    /** Current element's attributes. */
     private AttributesImpl attributes;
-    
+    /** Is there a element currently waiting to be written out? */
     private boolean elementWaiting = false;
     
     /**
      * <p> Constructor sets writer used for output.</p>
      *
-     * @param writer write out representations to this writer
+     * @param contentHandler feed events to this content handler
      */
     public SAXBeanWriter(ContentHandler contentHandler) {
         this.contentHandler = contentHandler;
@@ -108,6 +106,8 @@ public class SAXBeanWriter extends AbstractBeanWriter {
 
     /**
      * <p> Set the log implementation used. </p>
+     *
+     * @return <code>Log</code> implementation that this class logs to
      */ 
     public Log getLog() {
         return log;
@@ -126,7 +126,12 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     // Expression methods
     //-------------------------------------------------------------------------    
     
-    /** Express an element tag start using given qualified name */
+    /** 
+     * Express an element tag start using given qualified name 
+     *
+     * @param qualifiedName the fully qualified element name
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     protected void expressElementStart(String qualifiedName) throws SAXException  {
         if (elementStack == null) {
             elementStack = new Stack();
@@ -139,12 +144,18 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         elementWaiting = true;
     }
     
+    /** Element end */
     protected void expressTagClose() {
         // using this could probably make life easier
         // but i only know that i needed it after i'd written the rest
     }
     
-    /** Express an element end tag using given qualifiedName */
+    /** 
+     * Express an element end tag
+     *
+     * @param qualifiedName the fully qualified name of the element
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     protected void expressElementEnd(String qualifiedName) throws SAXException  {
         if (elementWaiting) {
             elementWaiting = false;
@@ -154,14 +165,21 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         contentHandler.endElement("","",qualifiedName);
     }    
     
-    /** Express an empty element end */
+    /** 
+     * Express an empty element end 
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     protected void expressElementEnd() throws SAXException  {
         // last element name must be correct since there haven't been any tag in between
         String lastElement = (String) elementStack.peek();
         contentHandler.endElement("","",lastElement);
     }
 
-    /** Express body text */
+    /** 
+     * Express body text 
+     * @param text the element body text 
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     protected void expressBodyText(String text) throws SAXException  {
         // FIX ME
         // CHECK UNICODE->CHAR CONVERSION!
@@ -174,7 +192,12 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         contentHandler.characters(body, 0, body.length);
     }
     
-    /** Express an attribute */
+    /** 
+     * Express an attribute 
+     * @param qualifiedName the fully qualified attribute name
+     * @param value the attribute value
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     protected void expressAttribute(
                                 String qualifiedName, 
                                 String value) 
@@ -189,6 +212,10 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     // Implementation methods
     //-------------------------------------------------------------------------    
     
+    /**
+     * Send the start element event to the <code>ContentHandler</code> 
+     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     */
     private void sendElementStart() throws SAXException {
         String lastElement = (String)elementStack.peek();
         contentHandler.startElement("","",lastElement,attributes);
@@ -199,7 +226,6 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * 
      * @see org.apache.commons.betwixt.io.AbstractBeanWriter#end()
      */
-    
     public void start() throws SAXException {
         contentHandler.startDocument();
     }

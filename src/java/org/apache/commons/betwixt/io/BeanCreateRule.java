@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.16 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.16 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.17 2003/01/08 22:07:21 rdonkin Exp $
+ * $Revision: 1.17 $
+ * $Date: 2003/01/08 22:07:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.16 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.17 2003/01/08 22:07:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,14 +84,17 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16 $
+  * @version $Revision: 1.17 $
   */
 public class BeanCreateRule extends Rule {
 
     /** Logger */
     private static Log log = LogFactory.getLog( BeanCreateRule.class );
     
-    /** Set log to be used by <code>BeanCreateRule</code> instances */
+    /** 
+     * Set log to be used by <code>BeanCreateRule</code> instances 
+     * @param aLog the <code>Log</code> implementation for this class to log to
+     */
     public static void setLog(Log aLog) {
         log = aLog;
     }
@@ -113,6 +116,10 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Convenience constructor which uses <code>ID's</code> for matching.
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param beanClass the <code>Class</code> to be created
+     * @param pathPrefix the digester style path
      */
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
@@ -123,6 +130,11 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Constructor taking a class.
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param beanClass the <code>Class</code> to be created
+     * @param pathPrefix the digester style path
+     * @param matchIDs should <code>ID</code>/<code>IDREF</code>'s be used for matching
      */
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
@@ -139,6 +151,9 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Convenience constructor which uses <code>ID's</code> for matching.
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param beanClass the <code>Class</code> to be created
      */    
     public BeanCreateRule( ElementDescriptor descriptor, Class beanClass ) {
         this( descriptor, beanClass, true );
@@ -146,6 +161,10 @@ public class BeanCreateRule extends Rule {
     
     /** 
      * Constructor uses standard qualified name.
+     * 
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param beanClass the <code>Class</code> to be created
+     * @param matchIDs should <code>ID</code>/<code>IDREF</code>'s be used for matching
      */
     public BeanCreateRule( ElementDescriptor descriptor, Class beanClass, boolean matchIDs ) {
         this( descriptor, beanClass, descriptor.getQualifiedName() + "/" , matchIDs );
@@ -153,6 +172,10 @@ public class BeanCreateRule extends Rule {
   
     /**
      * Convenience constructor which uses <code>ID's</code> for match.
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param context the <code>Context</code> to be used to evaluate expressions
+     * @param pathPrefix the digester path prefix
      */   
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
@@ -163,6 +186,11 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Constructor taking a context.
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param context the <code>Context</code> to be used to evaluate expressions
+     * @param pathPrefix the digester path prefix
+     * @param matchIDs should <code>ID</code>/<code>IDREF</code>'s be used for matching
      */
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
@@ -179,6 +207,12 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Base constructor (used by other constructors).
+     *
+     * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
+     * @param beanClass the <code>Class</code> of the bean to be created
+     * @param context the <code>Context</code> to be used to evaluate expressions
+     * @param pathPrefix the digester path prefix
+     * @param matchIDs should <code>ID</code>/<code>IDREF</code>'s be used for matching
      */
     private BeanCreateRule(
                             ElementDescriptor descriptor, 
@@ -209,7 +243,7 @@ public class BeanCreateRule extends Rule {
      *
      * @param attributes The attribute list of this element
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(Attributes attributes) {
         log.debug( "Called with descriptor: " + descriptor 
                     + " propertyType: " + descriptor.getPropertyType() );
         
@@ -301,7 +335,7 @@ public class BeanCreateRule extends Rule {
     /**
      * Process the end of this element.
      */
-    public void end() throws Exception {
+    public void end() {
         if ( createdBean ) {
             
             // force any setters of the parent bean to be called for this new bean instance
@@ -339,8 +373,13 @@ public class BeanCreateRule extends Rule {
     // Implementation methods
     //-------------------------------------------------------------------------    
     
-    /** Factory method to create new bean instances */
-    protected Object createBean(Attributes attributes) throws Exception {
+    /** 
+     * Factory method to create new bean instances 
+     *
+     * @param attributes the <code>Attributes</code> used to match <code>ID/IDREF</code>
+     * @return the created bean
+     */
+    protected Object createBean(Attributes attributes) {
         //
         // See if we've got an IDREF
         //
@@ -386,7 +425,12 @@ public class BeanCreateRule extends Rule {
         }
     }
                         
-    /** Add child rules for given descriptor at given prefix */
+    /** 
+     * Add child rules for given descriptor at given prefix 
+     *
+     * @param prefix add child rules at this (digester) path prefix
+     * @param currentDescriptor add child rules for this descriptor
+     */
     protected void addChildRules(String prefix, ElementDescriptor currentDescriptor ) {
         BeanReader digester = getBeanReader();            
         
@@ -496,6 +540,8 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Get the associated bean reader.
+     *
+     * @return the <code>BeanReader</code digesting the xml
      */
     protected BeanReader getBeanReader() {
         // XXX this breaks the rule contact
@@ -506,6 +552,9 @@ public class BeanCreateRule extends Rule {
     /** Allows the navigation from a reference to a property object to the descriptor defining what 
      * the property is. i.e. doing the join from a reference to a type to lookup its descriptor.
      * This could be done automatically by the NodeDescriptors. Refer to TODO.txt for more info.
+     *
+     * @param propertyDescriptor find descriptor for property object referenced by this descriptor
+     * @return descriptor for the singular property class type referenced.
      */
     protected ElementDescriptor getElementDescriptor( ElementDescriptor propertyDescriptor ) {
         Class beanClass = propertyDescriptor.getSingularPropertyType();
@@ -525,6 +574,9 @@ public class BeanCreateRule extends Rule {
     
     /** 
      * Adds a new Digester rule to process the text as a primitive type
+     *
+     * @param path digester path where this rule will be attached
+     * @param childDescriptor update this <code>ElementDescriptor</code> with the body text
      */
     protected void addPrimitiveTypeRule(String path, final ElementDescriptor childDescriptor) {
         Rule rule = new Rule() {
@@ -537,6 +589,9 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Safely add a rule with given path.
+     *
+     * @param path the digester path to add rule at
+     * @param rule the <code>Rule</code> to add
      */
     protected void addRule(String path, Rule rule) {
         Rules rules = digester.getRules();
@@ -560,6 +615,8 @@ public class BeanCreateRule extends Rule {
     /**
      * Get the map used to index beans (previously read in) by id.
      * This is stored in the evaluation context.
+     *
+     * @return map indexing beans created by id
      */
     protected Map getBeansById() {
         //
@@ -580,6 +637,8 @@ public class BeanCreateRule extends Rule {
     
     /**
      * Return something meaningful for logging.
+     *
+     * @return something useful for logging
      */
     public String toString() {
         return "BeanCreateRule [path prefix=" + pathPrefix + " descriptor=" + descriptor + "]";

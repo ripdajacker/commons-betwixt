@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.10 2003/01/08 22:07:21 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/01/08 22:07:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.10 2003/01/08 22:07:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -79,7 +79,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class BeanReader extends Digester {
 
@@ -104,6 +104,8 @@ public class BeanReader extends Digester {
      * JAXP1.1 (such as WebLogic 6.0).  Thanks for the request to change go to
      * James House (james@interobjective.com).  This may help in places where
      * you are able to load JAXP 1.1 classes yourself.
+     *
+     * @param parser use this <code>SAXParser</code>
      */
     public BeanReader(SAXParser parser) {
         super(parser);
@@ -115,6 +117,8 @@ public class BeanReader extends Digester {
      * JAXP1.1 (such as WebLogic 6.0).  Note that if you use this option you
      * have to configure namespace and validation support yourself, as these
      * properties only affect the SAXParser and emtpy constructor.
+     *
+     * @param reader use this <code>XMLReader</code> as source for SAX events
      */
     public BeanReader(XMLReader reader) {
         super(reader);
@@ -124,6 +128,9 @@ public class BeanReader extends Digester {
     /** 
      * Registers a bean class which is used by the reader
      * to deduce the digester rules.
+     *
+     * @param beanClass the <code>Class</code> to be registered
+     * @throws IntrospectionException if the bean introspection fails
      */
     public void registerBeanClass(Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
@@ -148,6 +155,11 @@ public class BeanReader extends Digester {
     /** 
      * Registers a bean class at the given path expression 
      * which is used by the reader to deduce the digester rules.
+     *
+     * @param path the xml path expression where the class is to registered. 
+     * This should be in digester path notation
+     * @param beanClass the <code>Class</code> to be registered
+     * @throws IntrospectionException if the bean introspection fails
      */
     public void registerBeanClass(String path, Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
@@ -173,6 +185,8 @@ public class BeanReader extends Digester {
      * created by the <code>XMLIntrospector</code>.
      * One way in which the mapping can be customized is by 
      * altering the <code>XMLIntrospector</code>. </p>
+     * 
+     * @return the <code>XMLIntrospector</code> used for the introspection
      */
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
@@ -196,7 +210,7 @@ public class BeanReader extends Digester {
     /**
      * <p> Get the current level for logging. </p>
      *
-     * @return a <code>org.apache.commons.logging.Log</code> level constant
+     * @return the <code>Log</code> implementation this class logs to
      */ 
     public Log getLog() {
         return log;
@@ -205,7 +219,7 @@ public class BeanReader extends Digester {
     /**
      * <p> Set the current logging level. </p>
      *
-     * @param level a <code>org.apache.commons.logging.Log</code> level constant
+     * @param log the <code>Log</code>implementation to use for logging
      */ 
     public void setLog(Log log) {
         this.log = log;
@@ -214,6 +228,9 @@ public class BeanReader extends Digester {
     
     /** 
      * Should the reader use <code>ID</code> attributes to match beans.
+     *
+     * @return true if <code>ID</code> and <code>IDREF</code> 
+     * attributes should be used to match instances
      */
     public boolean getMatchIDs() {
         return matchIDs;
@@ -221,6 +238,8 @@ public class BeanReader extends Digester {
     
     /**
      * Set whether the read should use <code>ID</code> attributes to match beans.
+     *
+     * @param matchIDs pass true if <code>ID</code>'s should be matched
      */
     public void setMatchIDs(boolean matchIDs) {
         this.matchIDs = matchIDs;
@@ -231,6 +250,10 @@ public class BeanReader extends Digester {
     
     /** 
      * Adds a new bean create rule for the specified path
+     *
+     * @param path the digester path at which this rule should be added
+     * @param elementDescriptor the <code>ElementDescriptor</code> describes the expected element 
+     * @param beanClass the <code>Class</code> of the bean created by this rule
      */
     protected void addBeanCreateRule( 
                                     String path, 

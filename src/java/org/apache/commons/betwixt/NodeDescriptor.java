@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.3 2003/01/08 22:07:21 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/08 22:07:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: NodeDescriptor.java,v 1.3 2003/01/08 22:07:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -71,7 +71,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class NodeDescriptor {
 
@@ -206,6 +206,9 @@ public class NodeDescriptor {
     }
     
     /** 
+     * Gets the singular property type.
+     * That is, the type ignoring the Collection or Array.
+     *
      * @return if this property is a 1-N relationship then this returns the type
      * of a single property value.
      */
@@ -217,7 +220,10 @@ public class NodeDescriptor {
     }
     
     /** 
-     * Sets the singular property type (i.e. the type ignoring the Collection or Array
+     * Sets the singular property type.
+     * That is, the type ignoring the Collection or Array.
+     *
+     * @param singularPropertyType 
      */
     public void setSingularPropertyType(Class singularPropertyType) {
         this.singularPropertyType = singularPropertyType;
