@@ -7,15 +7,19 @@ $Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
 
 INTRODUCTION:
 
-This document contains the release notes for this version of the Commons
-Betwixt package, and highlights changes since the previous version.  The
-current release adds new features and bug fixes, and is being done now to
-follow the release early/release often mentality.
+This is the first release for betwixt. Betwixt provides a flexible way to map beans into XML - and vice versa. 
 
+There's quite a lot of work to be done before Betwixt is ready for a full release - but it's already used by other projects. This alpha will give a versioned release for these projects to depend on. A word of warning - though the developers take backwards compatible very seriously, it's likely that some parts of the internal API are going to have to change - and some of these changes may break compatibility. Obviously, these changes will be kept to a minimum.
 
 NEW FEATURES:
 
-* 
+Everything :)
+
+But here's some features you might like to take a look at:
+
+* Betwixt can write beans to character streams or as SAX events
+* Betwixt builds on Digester (http://jakarta.apache.org/commons/digester.html) to allow xml to be read (using SAX) and mapping into beans in a compatible way
+* Betwixt supports powerful pluggable general strategies but also allows mappings to be customized at the bean level.
 
 
 BUG FIXES:

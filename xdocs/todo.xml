@@ -13,23 +13,6 @@
         Betwixt.  Contributions are welcome! 
       </p>
     
-    <subsection name='For 1.0 Alpha 1 Release'>
-        <ul>
-            <li>
-                <strong>Create DTD for .betwixt files.</strong>
-            </li>
-
-            <li>
-                <strong>Test Against Powered By Projects. </strong>
-                Make sure release works with maven (done) and scarab.
-            </li>
-            <li>
-                <strong>Investigate Swing XML'ization Issues</strong>
-                Investigate and document. <em>(MVDB will probably need to handle this.)</em>
-            </li>
-        </ul>
-    </subsection>
-    
     <subsection name="High priority"> 
       <ul>
         <li>
