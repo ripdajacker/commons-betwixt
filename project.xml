@@ -99,17 +99,20 @@
 
   </dependencies>
   <build>
-    
-        <!-- T E S T  R E S O U R C E S -->
-        <!-- Resources that are copied into the test-classes directory -->
-        <testResources>
-        <testResource>
+        <unitTest>
             <directory>${pom.build.unitTestSourceDirectory}</directory>
             <includes>
-            <include>**/*.betwixt</include>
+                <include>**/Test*</include>
             </includes>
-        </testResource>
-        </testResources>
+            <resources>
+                <resource>
+                    <directory>${pom.build.unitTestSourceDirectory}</directory>
+                    <includes>
+                        <include>**/*.betwixt</include>
+                    </includes>
+                </resource>
+            </resources>
+        </unitTest>
   </build>
 
 </project>
