@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt.xmlunit;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/TestXmlTestCase.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/TestXmlTestCase.java,v 1.4.2.1 2004/02/01 13:48:27 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/02/01 13:48:27 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,13 +61,18 @@ package org.apache.commons.betwixt.xmlunit;
  *
  */ 
 
+import java.io.File;
+import java.io.FileInputStream;
+
 import junit.framework.AssertionFailedError;
+
+import org.xml.sax.InputSource;
 
 /**
  * Test harness which test xml unit
  *
  * @author Robert Burrell Donkin
- * @version $Id: TestXmlTestCase.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
+ * @version $Id: TestXmlTestCase.java,v 1.4.2.1 2004/02/01 13:48:27 rdonkin Exp $
  */
  public class TestXmlTestCase extends XmlTestCase {
  
@@ -152,5 +157,43 @@ import junit.framework.AssertionFailedError;
         if (failed) {
             fail("Expected unit test to fail!");
         }
+    }
+    
+    public void testValidateSchemaValidOne() throws Exception {
+        String basedir = System.getProperty("basedir");
+        InputSource document = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/valid.xml")));
+        InputSource schema = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
+        assertTrue(isValid(document, schema));
+    }
+  
+   
+    public void testValidateSchemaInvalidOne() throws Exception {
+        String basedir = System.getProperty("basedir");
+        InputSource document = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/invalid.xml")));
+        InputSource schema = new InputSource(new FileInputStream( 
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
+        assertFalse(isValid(document, schema));
+    }
+    
+    public void testValidateSchemaValidTwo() throws Exception {
+        String basedir = System.getProperty("basedir");
+        InputSource document = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/valid-personnel-schema.xml")));
+        InputSource schema = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
+        assertTrue(isValid(document, schema));
+    }
+  
+   
+    public void testValidateSchemaInvalidTwo() throws Exception {
+        String basedir = System.getProperty("basedir");
+        InputSource document = new InputSource(new FileInputStream(
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/invalid-personnel-schema.xml")));
+        InputSource schema = new InputSource(new FileInputStream( 
+            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
+        assertFalse(isValid(document, schema));
     }
 }
