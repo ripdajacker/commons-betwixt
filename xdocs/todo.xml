@@ -47,6 +47,10 @@
         <li>
                   Add support for IDREF's to BeanReader. At the moment, round tripping break when cycles exist.
         </li>
+        <li>
+           Add testcase for the BeanReader(SAXParser) and BeanReader(XMLReader). They should behave
+           the same in all cases.
+        </li>
        </ul>
     </section>
     
