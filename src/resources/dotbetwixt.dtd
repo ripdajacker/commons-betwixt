@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!-- $Id: dotbetwixt.dtd,v 1.4 2003/03/18 22:30:42 rdonkin Exp $ -->
+<!-- $Id: dotbetwixt.dtd,v 1.5 2003/03/19 22:54:29 rdonkin Exp $ -->
 <!-- The DTD for .betwixt files -->
 
 <!ELEMENT attribute EMPTY>
@@ -14,11 +14,20 @@
 
 <!ELEMENT addDefaults EMPTY>
 
-<!ELEMENT element (attribute|addDefaults|element)*>
+<!ELEMENT element (attribute|addDefaults|element|text)*>
 <!ATTLIST element
     name CDATA #REQUIRED
     type CDATA #IMPLIED
     uri CDATA #IMPLIED
+    value CDATA #IMPLIED
+    property CDATA #IMPLIED
+  >
+
+<!-- Use for mixed content text -->
+<!ELEMENT text EMPTY>
+<!-- If you specify value, you cannot specify type or property -->
+<!ATTLIST text
+    type CDATA #IMPLIED
     value CDATA #IMPLIED
     property CDATA #IMPLIED
   >
