@@ -513,6 +513,150 @@ is a good please to start when creating your own implementation.
         </p>
     </subsection>
 </section>
+    <section name='Multi Mapping'>
+        <subsection name='Custom Dot Betwixt Documents'>
+            <p>
+There are occasions when it proves useful to be able to override the standard 
+loading behaviour for <code>.betwixt</code> mapping file. For example, this is 
+one way in which multiple mapping for the same object can be supported (but see
+later sections for more sophisticated solutions to this problem). 
+        </p>
+            <p>
+Betwixt supports this by providing writing and reading methods which allow
+an <code>InputSource</code> specifying a <code>.betwixt</code> document to be passed in.
+For example:
+        </p>
+            <source>
+<![CDATA[     
+        StringReader dotBetwixtDocument = new StringReader(
+                "<?xml version='1.0' ?>" +
+                "<info>" +
+                "    <element name='address'>" +
+...
+                "    </element>" +
+                "</info>");
+
+        BeanReader reader = new BeanReader();
+        reader.registerBeanClass(new InputSource(dotBetwixtDocument), Address.class);
+        Address address = reader.parse(in);
+]]>
+        </source>
+            <p>
+parses the input document using the mapping specified in the string whilst:
+        </p>
+            <source>
+<![CDATA[     
+        StringReader reader = new StringReader(
+                "<?xml version='1.0' ?>" +
+                "<info>" +
+                "    <element name='address'>" +
+...
+                "    </element>" +
+                "</info>");
+
+        	
+        BeanWriter writer;
+...
+        writer.write(bean, new InputSource(reader));
+]]>
+        </source>
+            <p>
+writes out a bean according to the mapping given in the string.
+        </p>
+    </subsection>
+        <subsection name='Multi Mapping Document Format'>
+            <p>
+This xml document format extends the <code>.betwixt</code> vocabulary so that several
+different classes mapping can be registered by a single document.  
+The mapping file format is an intuitive extension to the standard .betwixt format.
+The root elements is <code>&lt;betwixt-config&gt;</code> which contains one or more
+<code>&lt;class&gt;</code> elements. Each of these specifies a class and contains
+a mapping definition for that class (as found in a standard dot betwixt document).
+        </p>
+            <p>
+For example:
+        </p>
+<source>
+<![CDATA[     
+  <?xml version="1.0"?>
+  <betwixt-config>
+  <!--name of the class to map -->
+   <class name="org.some.package.MyClass">
+   <!-- standard definations (same as in standard .betwixt file)    -->
+     <element name="repository-registration-result">
+       <element name="repository-id" property="repositoryId"/>
+       <element name="id-mapping" property="idMapping" class="org.some.package.SomeOtherClass"/>
+       <element name="status" property="status"/>
+       <element name="exception" property="exception"/>
+       <element name="primary-luid" property="primaryLuid"/>
+       <addDefaults add-properties='false'/>
+     </element>
+   </class>
+  ...
+   <!--additional class mappings -->
+   <class>
+  ...
+   </class>
+  ...
+  </betwixt-config>
+]]>
+    </source>
+            <p>
+Multi mappings are used directly to register multiple mappings with a single introspector.
+For example,
+        </p>
+            <source>
+<![CDATA[     
+    String MAPPING = "<?xml version='1.0'?>" +
+    		"     <betwixt-config>" +
+    		"            <class name='org.apache.commons.betwixt.PartyBean'>" +
+    		"    		    	<element name='party'>" +
+...
+    		"            </class>" +
+...
+    		"     </betwixt-config>";
+    BeanReader beanReader = new BeanReader();
+	beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+    ...
+    PartyBean result = (PartyBean)beanReader.parse(xmlReader);
+]]>
+        </source>
+            <p>
+registers all mappings in the file then reads beans according to those settings.
+The following does something similar for writing:
+        </p>
+<source>
+<![CDATA[     
+    String MAPPING = "<?xml version='1.0'?>" +
+    		"     <betwixt-config>" +
+    		"            <class name='org.apache.commons.betwixt.PartyBean'>" +
+    		"    		    	<element name='party'>" +
+...
+    		"            </class>" +
+...
+    		"     </betwixt-config>";
+		    BeanWriter beanWriter = new BeanWriter(outputWriter);
+...
+		    beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+		    beanWriter.write(partyBean);
+]]>
+        </source>
+    </subsection>
+        <subsection name='Multiple Mappings For The Same Object'>
+            <p>
+Betwixt maps an entire object graph. So, though it might see (at first) that specifying
+a custom dot betwixt is all that's required, for all (but the most simple cases)
+several mappings must be specified to map the graph corrected. This is where multi mapping
+documents become very useful.
+        </p>
+            <p>
+A common usage pattern for this problem is to use one <code>XMLIntrospector</code>
+for each of the different ways that the mappings should be done and register the mappings
+through a multi mapping file. All the reader and writers for that particular type can
+then share the same introspector.
+        </p>
+    </subsection>
+</section>
     <section name='(Brief) Guide To Creating Custom Strategy Plugins'>
             <p>
 It is common for users of Betwixt to need to develop their own custom strategies

@@ -95,7 +95,9 @@
     <p>The XMLIntrospector will look for files of the form <i>className.betwixt</i> 
     on the classpath using the same ClassLoader used to load the given class and use 
     that document to specify the mapping to XML. If this file does not exist 
-    then the default introspection rules are used.</p>
+    then the default introspection rules are used. (Note that there are also various
+    more advanced ways to vary this rule. For more details see 
+    <a href='binding.html#Multi%20Mapping'>multi mapping</a> for more details)</p>
     <p>The simplest possible file may just set the name of the element. e.g.</p>
     
 <source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>

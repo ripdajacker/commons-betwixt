@@ -189,7 +189,11 @@ Create a strategy which allow general implementation rules to be specified.
             <li><strong>Improved introspection for interfaces</strong> superinterface 
             properties now checked.</li>
             <li><strong>Attribute suppression</strong> - Betwixt now allows the 
-            expression of certain values to be suppressed through a custom strategy.</li>    
+            expression of certain values to be suppressed through a custom strategy.</li>  
+            <li><strong>Custom Dot Betwixt Documents</strong> - custom dot betwixt
+            documents can be passed in directly.</li>
+            <li><strong>Multi mapping</strong> documents allowing several mappings to be
+            specified within a single document.</li>
         </ul>
     </subsection>
     <subsection name='0.6'>
