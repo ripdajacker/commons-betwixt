@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.expression.DynaBeanExpression;
+import org.apache.commons.betwixt.expression.DynaBeanUpdater;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
@@ -97,7 +98,7 @@ public class BeanProperty {
         this.propertyName = dynaProperty.getName();
         this.propertyType = dynaProperty.getType();
         this.propertyExpression = new DynaBeanExpression( propertyName );
-        // todo: add updater
+        this.propertyUpdater = new DynaBeanUpdater( propertyName, propertyType );
     }
 
     /**

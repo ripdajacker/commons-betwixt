@@ -15,9 +15,8 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
-import java.lang.reflect.Array;
+
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,9 +26,9 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision: 1.14 $
   */
-public class MethodUpdater implements Updater {
+public class MethodUpdater extends TypedUpdater {
 
     /** Logger */
     private static Log log = LogFactory.getLog( MethodUpdater.class );
@@ -44,9 +43,6 @@ public class MethodUpdater implements Updater {
     
     /** The method to call on the bean */
     private Method method;
-    /** The type of the first parameter of the method */
-    private Class valueType;
-    
     /** Base constructor */
     public MethodUpdater() {
     }
@@ -57,69 +53,6 @@ public class MethodUpdater implements Updater {
      */
     public MethodUpdater(Method method) {
         setMethod( method );
-    }
-
-    /** 
-     * Updates the current bean context with the given String value 
-     * @param context the Context to be updated
-     * @param newValue the update to this new value 
-     */
-    public void update(Context context, Object newValue) {
-        Object bean = context.getBean();
-        if ( bean != null ) {
-            if ( newValue instanceof String ) {
-                // try to convert into primitive types
-                if ( log.isTraceEnabled() ) {
-                    log.trace("Converting primitive to " + valueType);
-                }
-                newValue = context.getObjectStringConverter()
-                    .stringToObject( (String) newValue, valueType, null, context );
-            }
-            if ( newValue != null ) {
-                // check that it is of the correct type
-/*                
-                if ( ! valueType.isAssignableFrom( newValue.getClass() ) ) {
-                    log.warn( 
-                        "Cannot call setter method: " + method.getName() + " on bean: " + bean
-                        + " with type: " + bean.getClass().getName() 
-                        + " as parameter should be of type: " + valueType.getName() 
-                        + " but is: " + newValue.getClass().getName() 
-                    );
-                    return;
-                }
-*/                
-            }
-            // special case for collection objects into arrays                    
-            if (newValue instanceof Collection && valueType.isArray()) {
-                Collection valuesAsCollection = (Collection) newValue;
-                Class componentType = valueType.getComponentType();
-                if (componentType != null) {
-                    Object[] valuesAsArray = 
-                        (Object[]) Array.newInstance(componentType, valuesAsCollection.size());
-                    newValue = valuesAsCollection.toArray(valuesAsArray);
-                }
-            }
-            
-            Object[] arguments = { newValue };
-            try {
-                if ( log.isDebugEnabled() ) {
-                    log.debug( 
-                        "Calling setter method: " + method.getName() + " on bean: " + bean 
-                        + " with new value: " + newValue 
-                    );
-                }
-                method.invoke( bean, arguments );
-                
-            } catch (Exception e) {
-                String valueTypeName = (newValue != null) ? newValue.getClass().getName() : "null";
-                log.warn( 
-                    "Cannot evaluate method: " + method.getName() + " on bean: " + bean 
-                    + " of type: " + bean.getClass().getName() + " with value: " + newValue 
-                    + " of type: " + valueTypeName 
-                );
-                handleException(context, e);
-            }
-        }
     }
 
     /** 
@@ -141,20 +74,13 @@ public class MethodUpdater implements Updater {
         if ( types == null || types.length <= 0 ) {
             throw new IllegalArgumentException( "The Method must have at least one parameter" );
         }
-        this.valueType = types[0];
+        setValueType(types[0]);
     }
     
     // Implementation methods
     //-------------------------------------------------------------------------    
     
-    /** 
-     * Strategy method to allow derivations to handle exceptions differently.
-     * @param context the Context being updated when this exception occured
-     * @param e the Exception that occured during the update
-     */
-    protected void handleException(Context context, Exception e) {
-        log.info( "Caught exception: " + e, e );
-    }
+    
     
     /**
      * Returns something useful for logging.
@@ -162,5 +88,19 @@ public class MethodUpdater implements Updater {
      */
     public String toString() {
         return "MethodUpdater [method=" + method + "]";
+    }
+
+    /**
+     * Updates the bean by method invocation.    
+     */
+    protected void executeUpdate(Context context, Object bean, Object newValue) throws Exception {
+        if ( log.isDebugEnabled() ) {
+            log.debug( 
+                "Calling setter method: " + method.getName() + " on bean: " + bean 
+                + " with new value: " + newValue 
+            );
+        }
+        Object[] arguments = { newValue };
+        method.invoke( bean, arguments );
     }
 }
