@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/PhysicalSchema.java,v 1.5 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/PhysicalSchema.java,v 1.6 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -62,12 +62,12 @@
 package org.apache.commons.betwixt.schema;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PhysicalSchema.java,v 1.5 2003/10/09 20:52:10 rdonkin Exp $
+ * @version $Id: PhysicalSchema.java,v 1.6 2003/10/19 14:44:54 mvdb Exp $
  */
 public class PhysicalSchema
 {

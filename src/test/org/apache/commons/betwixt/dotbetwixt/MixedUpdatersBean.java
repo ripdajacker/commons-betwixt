@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/MixedUpdatersBean.java,v 1.3 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/MixedUpdatersBean.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -61,8 +61,8 @@
  
 package org.apache.commons.betwixt.dotbetwixt;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /** 
   * This is a simple bean used to test customized updaters.

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.8 2003/10/09 20:52:09 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/09 20:52:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.9 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -64,7 +64,6 @@ package org.apache.commons.betwixt.nowrap;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
-
 import java.util.List;
 
 import junit.framework.Test;
@@ -81,7 +80,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.8 2003/10/09 20:52:09 rdonkin Exp $
+ * @version $Id: TestNoWrap.java,v 1.9 2003/10/19 14:44:54 mvdb Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase

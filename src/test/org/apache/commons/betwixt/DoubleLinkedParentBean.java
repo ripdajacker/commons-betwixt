@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/DoubleLinkedParentBean.java,v 1.3 2003/10/09 20:52:07 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/DoubleLinkedParentBean.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -61,13 +61,13 @@
  
 package org.apache.commons.betwixt;
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /** This is a child that has a property containing it's parent.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class DoubleLinkedParentBean {
 

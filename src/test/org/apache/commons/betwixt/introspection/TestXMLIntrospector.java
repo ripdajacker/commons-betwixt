@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.9 2003/10/09 20:52:09 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/10/09 20:52:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -61,37 +61,31 @@
  
 package org.apache.commons.betwixt.introspection;
 
-import java.io.StringWriter;
-
+import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.beans.BeanInfo;
+import java.io.StringWriter;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
-import org.apache.commons.betwixt.registry.NoCacheRegistry;
-
+import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.AbstractTestCase;
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.AttributeDescriptor;
-
+import org.apache.commons.betwixt.io.BeanWriter;
+import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+import org.apache.commons.betwixt.registry.NoCacheRegistry;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.ListedClassNormalizer;
-
-import org.apache.commons.betwixt.io.BeanWriter;
-
-import org.apache.commons.logging.impl.SimpleLog;
 
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.10 2003/10/09 20:52:11 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2003/10/09 20:52:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.11 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -61,20 +61,20 @@
  
 package org.apache.commons.betwixt.xmlunit;
 
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Iterator;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -82,8 +82,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestBeanCreation.java,v 1.3 2003/10/09 20:52:09 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestBeanCreation.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -60,25 +60,22 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
-import java.util.ArrayList;
-
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 
-import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.io.BeanReader;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /** 
  * Test harness for bean creation (during reading).
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestBeanCreation.java,v 1.3 2003/10/09 20:52:09 rdonkin Exp $
+ * @version $Id: TestBeanCreation.java,v 1.4 2003/10/19 14:44:54 mvdb Exp $
  */
 public class TestBeanCreation extends AbstractTestCase {
 

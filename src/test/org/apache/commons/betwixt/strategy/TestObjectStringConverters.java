@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestObjectStringConverters.java,v 1.4 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestObjectStringConverters.java,v 1.5 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -65,21 +65,15 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Calendar;
-import java.util.Locale;
-
-import java.text.SimpleDateFormat;
-
-import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.ConvertUtils;
-
+import org.apache.commons.beanutils.Converter;
 import org.apache.commons.betwixt.expression.Context;
 
 /**
  * Test harness for ObjectStringConverter implementations
  * 
  * @author <a href="mailto:rdonkin at apache.org">Robert Burrell Donkin</a>
- * @version $Id: TestObjectStringConverters.java,v 1.4 2003/10/09 20:52:10 rdonkin Exp $
+ * @version $Id: TestObjectStringConverters.java,v 1.5 2003/10/19 14:44:54 mvdb Exp $
  */
 public class TestObjectStringConverters extends TestCase
 {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.14 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.14 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -67,8 +67,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 
 
 /** 

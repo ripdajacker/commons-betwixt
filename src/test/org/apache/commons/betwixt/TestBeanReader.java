@@ -71,40 +71,26 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.ArrayList;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.apache.commons.beanutils.Converter;
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConversionException;
-
-import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.Converter;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.apache.commons.betwixt.io.BeanRuleSet;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-import org.apache.commons.betwixt.expression.MapEntryAdder;
-import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 import org.apache.commons.betwixt.strategy.ConvertUtilsObjectStringConverter;
-
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 import org.apache.commons.collections.CollectionUtils;
-
-import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.ExtendedBaseRules;
-
-import org.apache.commons.logging.impl.SimpleLog;
-
+import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
 
 

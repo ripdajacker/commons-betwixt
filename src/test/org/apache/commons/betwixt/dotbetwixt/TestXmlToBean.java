@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.6 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.7 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -61,24 +61,17 @@
  
 package org.apache.commons.betwixt.dotbetwixt;
 
-import java.util.List;
-
-import java.io.StringWriter;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.commons.betwixt.digester.ElementRule;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.BeanReader;
-import org.apache.commons.betwixt.io.BeanRuleSet;
+import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
-
 import org.apache.commons.betwixt.xmlunit.XmlTestCase;
-
-import org.apache.commons.logging.impl.SimpleLog;
 
 /** 
   * Test customization of xml to bean mapping using .betwixt files.

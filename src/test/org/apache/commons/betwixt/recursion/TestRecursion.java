@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.12 2003/10/09 20:52:10 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/10/09 20:52:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.13 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -61,10 +61,9 @@
  
 package org.apache.commons.betwixt.recursion;
 
-import java.util.List;
-
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -74,17 +73,13 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
-import org.apache.commons.betwixt.io.BeanRuleSet;
-
-import org.apache.commons.logging.impl.SimpleLog;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 
 
 /**
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.12 2003/10/09 20:52:10 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.13 2003/10/19 14:44:54 mvdb Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {

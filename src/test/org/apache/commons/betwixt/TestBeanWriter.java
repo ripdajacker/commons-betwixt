@@ -64,7 +64,6 @@ package org.apache.commons.betwixt;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -74,9 +73,9 @@ import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
-import org.apache.commons.logging.impl.SimpleLog;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+import org.apache.commons.logging.impl.SimpleLog;
 
 /** Test harness for the BeanWriter
   *

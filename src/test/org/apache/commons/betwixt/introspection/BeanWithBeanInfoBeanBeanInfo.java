@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/BeanWithBeanInfoBeanBeanInfo.java,v 1.3 2003/10/09 20:52:09 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/BeanWithBeanInfoBeanBeanInfo.java,v 1.4 2003/10/19 14:44:53 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/19 14:44:53 $
  *
  * ====================================================================
  * 
@@ -61,15 +61,15 @@
  
 package org.apache.commons.betwixt.introspection;
 
-import java.beans.SimpleBeanInfo;
-import java.beans.PropertyDescriptor;
 import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 
 /** <p>Bean info for exmaple bean used in introspection.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class BeanWithBeanInfoBeanBeanInfo extends SimpleBeanInfo {
     

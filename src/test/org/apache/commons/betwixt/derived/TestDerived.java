@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/derived/TestDerived.java,v 1.4 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/derived/TestDerived.java,v 1.5 2003/10/19 14:44:54 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/10/19 14:44:54 $
  *
  * ====================================================================
  * 
@@ -61,38 +61,20 @@
 package org.apache.commons.betwixt.derived;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanReader;
-import org.apache.commons.betwixt.io.BeanWriter;
-
-import org.apache.commons.logging.impl.SimpleLog;
-
-import org.apache.commons.digester.Rule;
-import org.apache.commons.digester.ExtendedBaseRules;
-
-import org.xml.sax.Attributes;
 
 
 /** Test harness for the BeanReader
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class TestDerived extends AbstractTestCase {
     

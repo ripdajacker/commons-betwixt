@@ -76,8 +76,6 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.digester.rss.Channel;
 import org.apache.commons.digester.rss.RSSDigester;
 
-import org.apache.commons.logging.impl.SimpleLog;
-
 /** Test harness which parses an RSS document using Digester
   * then outputs it using Betwixt, then parses it again with Digester
   * to check that the document is parseable again.

@@ -67,14 +67,12 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
