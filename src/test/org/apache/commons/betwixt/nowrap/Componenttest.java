@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/Componenttest.java,v 1.2 2002/12/30 18:16:47 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:16:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/Componenttest.java,v 1.3 2003/07/08 22:02:55 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/07/08 22:02:55 $
  *
  * ====================================================================
  *
@@ -62,23 +62,23 @@ package org.apache.commons.betwixt.nowrap;
 
 public class Componenttest
 {
-
+    private boolean debug = false;
     private String compDescription = "";
 
     public Componenttest()
     {
-        System.out.println("-- INSTANTIATING NEW COMPONENTTEST");
+        if (debug) System.out.println("-- INSTANTIATING NEW COMPONENTTEST");
     }
 
     public void setCompDescription(String s)
     {
-        System.out.println("SET component description");
+        if (debug) System.out.println("SET component description");
         compDescription = s;
     }
 
     public String getCompDescription()
     {
-        System.out.println("GET component description");
+        if (debug) System.out.println("GET component description");
         return compDescription;
     }
 }
