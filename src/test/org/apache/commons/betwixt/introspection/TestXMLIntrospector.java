@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.6 2003/09/08 14:00:47 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/09/08 14:00:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.7 2003/09/08 14:20:07 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/09/08 14:20:07 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.6 2003/09/08 14:00:47 rdonkin Exp $
+ * $Id: TestXMLIntrospector.java,v 1.7 2003/09/08 14:20:07 rdonkin Exp $
  */
 package org.apache.commons.betwixt.introspection;
 
@@ -91,7 +91,7 @@ import org.apache.commons.logging.impl.SimpleLog;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -310,5 +310,24 @@ public class TestXMLIntrospector extends AbstractTestCase {
         assertEquals("Expected one elements", 1, children.length);
         assertEquals("Expected element", "name", children[0].getLocalName());
     }	    
+    
+    public void testListedClassNormalizerWrite() throws Exception {
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution( IFace.class );
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter( out );
+        writer.getXMLIntrospector().setClassNormalizer( classNormalizer );
+        FaceImpl bean = new FaceImpl();
+        bean.setName("Old Tom Cobbly");
+        writer.write(bean);
+        
+        String xml="<?xml version='1.0'?><IFace><name>Old Tom Cobbly</name></IFace>";
+        xmlAssertIsomorphicContent(
+                            parseString(out.getBuffer().toString()),
+                            parseString(xml), 
+                            true);
+    }	
 }
 
