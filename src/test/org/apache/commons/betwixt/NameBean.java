@@ -1,6 +1,6 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/PhysicalSchema.java,v 1.3 2003/02/09 22:27:18 rdonkin Exp $
- * $Revision: 1.3 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/NameBean.java,v 1.1 2003/02/09 22:27:18 rdonkin Exp $
+ * $Revision: 1.1 $
  * $Date: 2003/02/09 22:27:18 $
  *
  * ====================================================================
@@ -57,82 +57,43 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: PhysicalSchema.java,v 1.3 2003/02/09 22:27:18 rdonkin Exp $
+ * $Id: NameBean.java,v 1.1 2003/02/09 22:27:18 rdonkin Exp $
  */
+package org.apache.commons.betwixt;
 
-package org.apache.commons.betwixt.schema;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
-
-/**
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: PhysicalSchema.java,v 1.3 2003/02/09 22:27:18 rdonkin Exp $
- */
-public class PhysicalSchema
-{
+/** <p><code>NameBean</code> very simple bean (useful to debug complex test cases).</p>
+  *
+  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+  */
+public class NameBean {
     
-    private ArrayList dbmsCollection;
+    private String name;
     
+    public NameBean() {}
     
-    private boolean autoCreate = false;
-    
-    public PhysicalSchema()
+    public NameBean(String name) 
     {
-        dbmsCollection = new ArrayList();
-    }
-    public PhysicalSchema(String autoCreate)
-    {
-        this.autoCreate = autoCreate.equalsIgnoreCase("yes");
-    }
-    public void setAutocreate(String autoCreate)
-    {
-        this.autoCreate = (autoCreate.equalsIgnoreCase("yes"));
+        setName(name);
     }
     
-    public String getAutocreate() 
-    {
-        return this.autoCreate?"yes":"no";
+    public String getName() {
+        return name;
     }
     
-    public void addDbms(Dbms dbms)
-    {
-        dbmsCollection.add(dbms);
+    public void setName(String name) {
+        this.name = name;
     }
     
-    public List getDbmss()
-    {
-        return dbmsCollection;
+    public String toString() {  
+        return "[" + this.getClass().getName() + ": name=" + name + "]";
     }
     
-    public boolean equals(Object object) 
-    {
-        if (object == null) { 
-            return false;
+    public boolean equals( Object obj ) {
+        if ( obj == null ) return false;
+        if ( obj instanceof NameBean && getName() != null ) {
+            return getName().equals(((NameBean) obj).getName());
         }
-        if (object instanceof PhysicalSchema) {
-            PhysicalSchema schema = (PhysicalSchema) object;
-            if (schema.getAutocreate().equals(this.getAutocreate())) {
-                int count = 0;
-                Iterator it = schema.getDbmss().iterator();
-                while ( it.hasNext() ) {
-                    if (count >= dbmsCollection.size() ) {
-                        return false;
-                    }
-                    if (! it.next().equals( dbmsCollection.get(count++) ) ) {
-                        return false;
-                    }
-                }
-                
-                return true;
-            }
-        }
+        
         return false;
     }
-    
-    public String toString() {
-        return "[PhysicalSchema] autocreate=" + getAutocreate() + " dbmass=" + getDbmss();
-    }	
 }
-

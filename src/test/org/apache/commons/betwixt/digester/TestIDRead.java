@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.4 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.5 2003/02/09 22:27:18 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/02/09 22:27:18 $
  *
  * ====================================================================
  *
@@ -58,7 +58,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestIDRead.java,v 1.4 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestIDRead.java,v 1.5 2003/02/09 22:27:18 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -73,10 +73,17 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.impl.SimpleLog;
+//import org.apache.commons.betwixt.expression.MethodUpdater;
+//import org.apache.commons.betwixt.io.BeanCreateRule;
+//import org.apache.commons.betwixt.io.BeanRuleSet;
+
+
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class TestIDRead extends AbstractTestCase {
 
@@ -105,7 +112,7 @@ public class TestIDRead extends AbstractTestCase {
 //        SimpleLog log = new SimpleLog("[testSimpleRead:XMLIntrospectorHelper]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        XMLIntrospectorHelper.setLog(log);
-//        
+        
 //        log = new SimpleLog("[testSimpleRead:MethodUpdater]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        MethodUpdater.setLog(log);
@@ -113,6 +120,10 @@ public class TestIDRead extends AbstractTestCase {
 //        log = new SimpleLog("[testSimpleRead:BeanCreateRule]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        BeanCreateRule.setLog(log);
+        
+//        log = new SimpleLog("[testSimpleRead:BeanRuleSet]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanRuleSet.setLog(log);        
 
 //        log = new SimpleLog("[testSimpleRead:IDBean]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);

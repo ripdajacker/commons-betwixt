@@ -392,6 +392,37 @@ public class NameMapperExampleApp {
 
 </section>
 
+<section name='Reading Beans (Advanced)'>
+<subsection name='Adding Custom Digestion Rules'>
+    <p>
+    Betwixt builds on <code>Apache Digester</code> for bean reading. 
+    <code>BeanReader</code> extends <code>Digester</code> 
+    and this makes a wide range of functionality available.
+    </p>
+    
+    <p>
+    Digester uses <code>Rule</code>'s to specify the xml mapping (for more details see the 
+    <a href='http://jakarta.apache.org/commons/digester.html'>Digester documentation</a>).
+    Betwixt provides a custom ruleset (<code>BeanRuleSet</code>). This creates <code>Rule</code>'s that
+    implement the standard Betwixt mapping for a class. <code>BeanReader.registerBeanClass</code> 
+    uses this <code>RuleSet</code> to add these standard betwixt mapping <code>Rule</code>'s
+    for the bean class.
+    </p>
+    
+    <p>
+    These standard Betwixt mapping rules can be integrated with other Digester <code>Rule</code>'s.
+    <code>Rule</code>'s added before <code>registerBeanClass</code> is called will come before (in a 
+    Digester sense) the standard betwixt <code>Rule</code>'s. Those added after will come afterwards.
+    </p>
+    
+    <p>
+    <strong>Note</strong> that care must be taken with the patterns for additional <code>Rule</code>'s.
+    The standard Betwixt mapping will only work if all it's <code>Rule</code>'s are matched.
+    </p>
+    
+</subsection>
+</section>
+
 <section name="Examples">
 <a name="simple-example"/>
 <subsection name='A Simple Example'>

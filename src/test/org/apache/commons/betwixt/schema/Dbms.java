@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/Dbms.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/11 16:05:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/Dbms.java,v 1.2 2003/02/09 22:27:18 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/02/09 22:27:18 $
  *
  * ====================================================================
  *
@@ -57,17 +57,18 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: Dbms.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: Dbms.java,v 1.2 2003/02/09 22:27:18 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: Dbms.java,v 1.1 2002/06/11 16:05:21 jstrachan Exp $
+ * @version $Id: Dbms.java,v 1.2 2003/02/09 22:27:18 rdonkin Exp $
  */
 public class Dbms
 {
@@ -113,12 +114,25 @@ public class Dbms
         if (object instanceof Dbms) {
             Dbms dbms = (Dbms) object;
             if (dbms.getKind().equals(this.getKind())) {
-                if (dbms.getDbids().equals(this.getDbids())) {
-                    return true;
+                int count = 0;
+                Iterator it = dbms.getDbids().iterator();
+                while ( it.hasNext() ) {
+                    if (count >= dbidCollection.size() ) {
+                        return false;
+                    }
+                    if (! it.next().equals( dbidCollection.get(count++) ) ) {
+                        return false;
+                    }
                 }
+                
+                return true;
             }
         }
         return false;
+    }
+    
+    public String toString() {
+        return "[DBMS: name='" + getKind() + "']";
     }
 }
 

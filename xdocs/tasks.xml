@@ -149,11 +149,6 @@
                   files should use the <code>XMLBeanInfoDigester</code> classloader property which should
                   be set by the <code>XMLIntrospector</code>.
 		</li>
-         <li>
-                   Improve integration with digester. At the moment, bean reading is all or nothing. You 
-                   either use betwixt to do everything or you use digester to specify rules. It'd be nice
-                   to be able to mix and match.
-                </li>
         <li>
             Create utility methods in BeanWriter to write stuff like prologs and doctype definitions to the 
             stream.
@@ -190,6 +185,13 @@
                 Separated out basic xml utilty methods into a static utility class called XMLUtils.
                 This should allow them to be reused in isolation.
             </li>
+            <li>
+                <strong>Improved digester integration</strong>
+                Improved integration with digester. <code>BeanRuleSet</code> is a digester ruleset
+                which sets up all the rules required to digester a bean. When a bean is registered,
+                a <code>BeanRuleSet</code> instance is used to set up the required rule on digester.
+                Standard digester rules can be added before and after registration.
+            </li>
         </ul>
     </subsection>
 </section>
@@ -201,6 +203,9 @@
             </li>
             <li> 
                 <code>BeanWriter.escapeBodyValue()</code> moved into XMLUtils
+            </li>
+            <li> 
+                <code>BeanCreateRule</code> has been replaced by BeanRuleSet
             </li>
         </ul>
     </subsection>

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.10 2003/01/08 22:07:21 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2003/01/08 22:07:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.11 2003/02/09 22:27:17 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/02/09 22:27:17 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.10 2003/01/08 22:07:21 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.11 2003/02/09 22:27:17 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,14 +72,18 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
+import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.XMLReader;
 
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
+  * <p>Call {@link #registerBeanClass(Class)} or {@link #registerBeanClass(String, Class)}
+  * to add rules to map a bean class.</p>
+  *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class BeanReader extends Digester {
 
@@ -126,8 +130,23 @@ public class BeanReader extends Digester {
 
     
     /** 
-     * Registers a bean class which is used by the reader
-     * to deduce the digester rules.
+     * <p>Register a bean class and add mapping rules for this bean class.</p>
+     * 
+     * <p>A bean class is introspected when it is registered.
+     * It will <strong>not</strong> be introspected again even if the introspection
+     * settings are changed.
+     * If re-introspection is required, then {@link #deregisterBeanClass} must be called 
+     * and the bean re-registered.</p>
+     *
+     * <p>A bean class can only be registered once. 
+     * If the same class is registered a second time, this registration will be ignored.
+     * In order to change a registration, call {@link #deregisterBeanClass} 
+     * before calling this method.</p>
+     *
+     * <p>All the rules required to digest this bean are added when this method is called.
+     * Other rules that you want to execute before these should be added before this
+     * method is called. 
+     * Those that should be executed afterwards, should be added afterwards.</p>
      *
      * @param beanClass the <code>Class</code> to be registered
      * @throws IntrospectionException if the bean introspection fails
@@ -149,12 +168,34 @@ public class BeanReader extends Digester {
             }
             addBeanCreateRule( path, elementDescriptor, beanClass );
             addBeanCreateRule( "*/" + path, elementDescriptor, beanClass );
+            
+        } else {
+            if ( log.isWarnEnabled() ) {
+                log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");
+            }
         }
     }
     
     /** 
-     * Registers a bean class at the given path expression 
-     * which is used by the reader to deduce the digester rules.
+     * <p>Registers a bean class  
+     * and add mapping rules for this bean class at the given path expression.</p>
+     * 
+     * 
+     * <p>A bean class is introspected when it is registered.
+     * It will <strong>not</strong> be introspected again even if the introspection
+     * settings are changed.
+     * If re-introspection is required, then {@link #deregisterBeanClass} must be called 
+     * and the bean re-registered.</p>
+     *
+     * <p>A bean class can only be registered once. 
+     * If the same class is registered a second time, this registration will be ignored.
+     * In order to change a registration, call {@link #deregisterBeanClass} 
+     * before calling this method.</p>
+     *
+     * <p>All the rules required to digest this bean are added when this method is called.
+     * Other rules that you want to execute before these should be added before this
+     * method is called. 
+     * Those that should be executed afterwards, should be added afterwards.</p>
      *
      * @param path the xml path expression where the class is to registered. 
      * This should be in digester path notation
@@ -171,8 +212,38 @@ public class BeanReader extends Digester {
 
             addBeanCreateRule( path, elementDescriptor, beanClass );
         } else {
-            log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");
+            if ( log.isWarnEnabled() ) {
+                log.warn("Cannot add class "  + beanClass.getName() + " since it already exists");
+            }
         }
+    }
+    
+    /**
+     * <p>Flush all registered bean classes.
+     * This allows all bean classes to be re-registered 
+     * by a subsequent calls to <code>registerBeanClass</code>.</p>
+     *
+     * <p><strong>Note</strong> that deregistering a bean does <strong>not</strong>
+     * remove the Digester rules associated with that bean.</p>
+     */
+    public void flushRegisteredBeanClasses() {    
+        registeredClasses.clear();
+    }
+    
+    /**
+     * <p>Remove the given class from the register.
+     * Calling this method will allow the bean class to be re-registered 
+     * by a subsequent call to <code>registerBeanClass</code>.
+     * This allows (for example) a bean to be reintrospected after a change
+     * to the introspection settings.</p>
+     *
+     * <p><strong>Note</strong> that deregistering a bean does <strong>not</strong>
+     * remove the Digester rules associated with that bean.</p>
+     *
+     * @param beanClass the <code>Class</code> to remove from the set of registered bean classes
+     */
+    public void deregisterBeanClass( Class beanClass ) {
+        registeredClasses.remove( beanClass );
     }
     
     // Properties
@@ -259,12 +330,8 @@ public class BeanReader extends Digester {
                                     String path, 
                                     ElementDescriptor elementDescriptor, 
                                     Class beanClass ) {
-        Rule rule = new BeanCreateRule( elementDescriptor, beanClass, path + "/" , matchIDs);
-        addRule( path, rule );
-
-        if ( log.isDebugEnabled() ) {
-            log.debug( "Added root rule to path: " + path + " rule: " + rule );
-        }
+        RuleSet ruleSet = new BeanRuleSet( introspector, path ,  elementDescriptor, beanClass, matchIDs);
+        addRuleSet( ruleSet );
     }
         
 }

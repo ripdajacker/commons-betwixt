@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.5 2002/12/30 18:16:47 mvdb Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/30 18:16:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/02/09 22:27:18 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSchema.java,v 1.5 2002/12/30 18:16:47 mvdb Exp $
+ * $Id: TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
  */
 package org.apache.commons.betwixt.schema;
 
@@ -76,13 +76,15 @@ import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
+//import org.apache.commons.logging.impl.SimpleLog;
+//import org.apache.commons.betwixt.io.BeanRuleSet;
 
 /**
  * This will test betwixt on handling a different kind of xml file, without
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.5 2002/12/30 18:16:47 mvdb Exp $
+ * @version $Id: TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -106,12 +108,23 @@ public class TestSchema extends AbstractTestCase
      */
     public void testCombinedRoundTrip()
     throws Exception
-    {
+    {	
+//        SimpleLog log = new SimpleLog("[CombinedRoundTrip:BeanRuleSet]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanRuleSet.setLog(log);
+        
+//        log = new SimpleLog("[CombinedRoundTrip]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
         BeanReader reader = createBeanReader();
+        
         PhysicalSchema schema = (PhysicalSchema) reader.parse(
             getTestFileURL("src/test/org/apache/commons/betwixt/schema/schema.xml"));
         StringWriter buffer = new StringWriter();
         write(schema, buffer, true);
+        
+//        log.debug(buffer.getBuffer().toString());
+        
         StringReader in = new StringReader(buffer.getBuffer().toString());
         reader = createBeanReader();
         XMLIntrospector intro = createXMLIntrospector();
@@ -126,10 +139,12 @@ public class TestSchema extends AbstractTestCase
         registry.flush();
         // set the xmlIntrospector back to the reader
         reader.setXMLIntrospector(intro);
+        reader.deregisterBeanClass(PhysicalSchema.class);
+        reader.registerBeanClass(PhysicalSchema.class);
         PhysicalSchema schemaSecond = (PhysicalSchema) reader.parse(in);
         buffer.close();
         write(schema,buffer, true);
-        assertEquals(schemaSecond, schema);
+        assertEquals(schema, schemaSecond);
     }
     /**
      * Tests we can round trip from the XML -> bean -> XML -> bean.
