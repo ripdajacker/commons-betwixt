@@ -28,9 +28,9 @@ import java.util.HashMap;
  * DTDs are not namespace aware and so a fixed prefixed must be chosen 
  * and used consistently.
  * This class is used to supply consistent, user specified prefixes.
- * </p><
+ * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class NamespacePrefixMapper {
     
