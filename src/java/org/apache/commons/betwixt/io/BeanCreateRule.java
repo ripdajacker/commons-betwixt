@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.20 2003/02/09 22:27:17 rdonkin Exp $
- * $Revision: 1.20 $
- * $Date: 2003/02/09 22:27:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.21 2003/02/24 18:21:29 rdonkin Exp $
+ * $Revision: 1.21 $
+ * $Date: 2003/02/24 18:21:29 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.20 2003/02/09 22:27:17 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.21 2003/02/24 18:21:29 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.20 $
+  * @version $Revision: 1.21 $
   * @deprecated this Rule does not allowed good integration with other Rules -
   * use {@link BeanRuleSet} instead.
   */
@@ -454,7 +454,6 @@ public class BeanCreateRule extends Rule {
                     log.trace("Processing child " + childDescriptor);
                 }
                 
-                String propertyName = childDescriptor.getPropertyName();
                 String qualifiedName = childDescriptor.getQualifiedName();
                 if ( qualifiedName == null ) {
                     log.trace( "Ignoring" );

@@ -385,7 +385,6 @@ public class TestBeanReader extends AbstractTestCase {
         
         public void begin(Attributes attributes) {
             top = getDigester().peek();
-            this.name = name;
             called = true;
         }
     }
