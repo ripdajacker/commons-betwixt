@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/VariableExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/VariableExpression.java,v 1.2 2002/07/01 18:58:53 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/01 18:58:53 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: VariableExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: VariableExpression.java,v 1.2 2002/07/01 18:58:53 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt.expression;
   * <code>$foo</code> which returns the value of the given variable.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class VariableExpression implements Expression {
 
@@ -104,4 +104,7 @@ public class VariableExpression implements Expression {
         // do nothing
     }
 
+    public String toString() {
+        return "VariableExpression [variable name=" + variableName + "]";
+    }
 }
