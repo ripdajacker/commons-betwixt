@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadConfiguration.java,v 1.3.2.1 2004/02/21 17:20:06 rdonkin Exp $
- * $Revision: 1.3.2.1 $
- * $Date: 2004/02/21 17:20:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadConfiguration.java,v 1.3.2.2 2004/03/13 18:36:33 rdonkin Exp $
+ * $Revision: 1.3.2.2 $
+ * $Date: 2004/03/13 18:36:33 $
  *
  * ====================================================================
  * 
@@ -66,7 +66,7 @@ import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
   * Stores mapping phase configuration settings that apply only for bean reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.3.2.1 $
+  * @version $Revision: 1.3.2.2 $
   */
 public class ReadConfiguration {
     
@@ -91,11 +91,20 @@ public class ReadConfiguration {
         this.beanCreationChain = beanCreationChain;
     }
     
-    
+    /**
+     * Gets the <code>ActionMappingStrategy</code> used to define
+     * default mapping actions. 
+     * @return <code>ActionMappignStrategy</code>, not null
+     */
     public ActionMappingStrategy getActionMappingStrategy() {
         return actionMappingStrategy;
     }
 
+   /**
+    * Sets the <code>ActionMappingStrategy</code> used to define
+    * default mapping acitons.
+    * @param actionMappingStrategy <code>ActionMappignStrategy</code>, not null
+    */
     public void setActionMappingStrategy(ActionMappingStrategy actionMappingStrategy) {
         this.actionMappingStrategy = actionMappingStrategy;
     }

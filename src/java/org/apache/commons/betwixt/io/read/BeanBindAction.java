@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.6 2004/02/22 17:09:08 rdonkin Exp $
- * $Revision: 1.1.2.6 $
- * $Date: 2004/02/22 17:09:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.7 2004/03/13 18:36:33 rdonkin Exp $
+ * $Revision: 1.1.2.7 $
+ * $Date: 2004/03/13 18:36:33 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.6 2004/02/22 17:09:08 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.7 2004/03/13 18:36:33 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,12 +75,94 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.6 $
+ * @version $Revision: 1.1.2.7 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
     /** Singleton instance */
     public static final BeanBindAction INSTANCE = new BeanBindAction();
+
+    /**
+     * Begins a new element which is to be bound to a bean.
+     */
+    public MappingAction begin(
+        String namespace,
+        String name,
+        Attributes attributes,
+        ReadContext context)
+                    throws Exception {
+                        
+        Log log = context.getLog();
+
+        ElementDescriptor computedDescriptor = context.getActiveDescriptor();
+
+        if (computedDescriptor == null) {
+            log.trace("No Descriptor");
+        }
+
+        if (log.isTraceEnabled()) {
+            log.trace("Element Pushed: " + name);
+        }
+
+        // default to ignoring the current element
+        MappingAction action = MappingAction.EMPTY;
+
+        Object instance = null;
+        Class beanClass = computedDescriptor.getSingularPropertyType();
+        // TODO: this is a bit of a workaround 
+        // need to come up with a better way of doing maps
+        if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
+
+            instance =
+                createBean(
+                    namespace,
+                    name,
+                    attributes,
+                    computedDescriptor,
+                    context);
+                    
+            if (instance != null) {
+                action = this;
+                context.markClassMap(beanClass);
+
+                if (log.isTraceEnabled()) {
+                    log.trace("Marked: " + beanClass);
+                }
+
+                context.pushBean(instance);
+
+                // if we are a reference to a type we should lookup the original
+                // as this ElementDescriptor will be 'hollow' 
+                // and have no child attributes/elements.
+                // XXX: this should probably be done by the NodeDescriptors...
+                ElementDescriptor typeDescriptor =
+                    getElementDescriptor(computedDescriptor, context);
+                //ElementDescriptor typeDescriptor = descriptor;
+
+                // iterate through all attributes        
+                AttributeDescriptor[] attributeDescriptors =
+                    typeDescriptor.getAttributeDescriptors();
+                context.populateAttributes(attributeDescriptors, attributes);
+
+                if (log.isTraceEnabled()) {
+                    log.trace("Created bean " + instance);
+                }
+
+                // add bean for ID matching
+                if (context.getMapIDs()) {
+                    // XXX need to support custom ID attribute names
+                    // XXX i have a feeling that the current mechanism might need to change
+                    // XXX so i'm leaving this till later
+                    String id = attributes.getValue("id");
+                    if (id != null) {
+                        context.putBean(id, instance);
+                    }
+                }
+            }
+        }
+        return action;
+    }
+
 
     public void body(String text, ReadContext context) throws Exception {
         Log log = context.getLog();
@@ -151,83 +233,6 @@ public class BeanBindAction extends MappingAction.Base {
     }
 
 
-    /* (non-Javadoc)
-     * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext)
-     */
-    public MappingAction begin(
-        String namespace,
-        String name,
-        Attributes attributes,
-        ReadContext context)
-        throws Exception {
-        Log log = context.getLog();
-
-        ElementDescriptor computedDescriptor = context.getActiveDescriptor();
-
-        if (computedDescriptor == null) {
-            log.trace("No Descriptor");
-        }
-
-        if (log.isTraceEnabled()) {
-            log.trace("Element Pushed: " + name);
-        }
-
-        MappingAction action = MappingAction.EMPTY;
-
-        Object instance = null;
-        Class beanClass = computedDescriptor.getSingularPropertyType();
-        // TODO: this is a bit of a workaround 
-        // need to come up with a better way of doing maps
-        if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
-
-            instance =
-                createBean(
-                    namespace,
-                    name,
-                    attributes,
-                    computedDescriptor,
-                    context);
-            if (instance != null) {
-                action = this;
-                context.markClassMap(beanClass);
-
-                if (log.isTraceEnabled()) {
-                    log.trace("Marked: " + beanClass);
-                }
-
-                context.pushBean(instance);
-
-                // if we are a reference to a type we should lookup the original
-                // as this ElementDescriptor will be 'hollow' 
-                // and have no child attributes/elements.
-                // XXX: this should probably be done by the NodeDescriptors...
-                ElementDescriptor typeDescriptor =
-                    getElementDescriptor(computedDescriptor, context);
-                //ElementDescriptor typeDescriptor = descriptor;
-
-                // iterate through all attributes        
-                AttributeDescriptor[] attributeDescriptors =
-                    typeDescriptor.getAttributeDescriptors();
-                context.populateAttributes(attributeDescriptors, attributes);
-
-                if (log.isTraceEnabled()) {
-                    log.trace("Created bean " + instance);
-                }
-
-                // add bean for ID matching
-                if (context.getMapIDs()) {
-                    // XXX need to support custom ID attribute names
-                    // XXX i have a feeling that the current mechanism might need to change
-                    // XXX so i'm leaving this till later
-                    String id = attributes.getValue("id");
-                    if (id != null) {
-                        context.putBean(id, instance);
-                    }
-                }
-            }
-        }
-        return action;
-    }
 
 
     /** 

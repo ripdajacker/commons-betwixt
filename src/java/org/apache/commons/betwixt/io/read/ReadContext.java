@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.4 2004/02/21 17:20:06 rdonkin Exp $
- * $Revision: 1.4.2.4 $
- * $Date: 2004/02/21 17:20:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.5 2004/03/13 18:36:33 rdonkin Exp $
+ * $Revision: 1.4.2.5 $
+ * $Date: 2004/03/13 18:36:33 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.xml.sax.Attributes;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.4 $
+  * @version $Revision: 1.4.2.5 $
   */
 public class ReadContext extends Context {
 
@@ -206,6 +206,11 @@ public class ReadContext extends Context {
 		return readConfiguration.getBeanCreationChain();
 	}
 
+    /**
+     * Gets the strategy used to define default mappings actions
+     * for elements.
+     * @return <code>ActionMappingStrategy</code>. not null
+     */
     public ActionMappingStrategy getActionMappingStrategy() {
         return readConfiguration.getActionMappingStrategy();
     }

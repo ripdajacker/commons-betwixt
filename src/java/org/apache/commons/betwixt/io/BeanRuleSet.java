@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.8 2004/02/22 17:09:08 rdonkin Exp $
- * $Revision: 1.16.2.8 $
- * $Date: 2004/02/22 17:09:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.9 2004/03/13 18:36:33 rdonkin Exp $
+ * $Revision: 1.16.2.9 $
+ * $Date: 2004/03/13 18:36:33 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.8 $
+  * @version $Revision: 1.16.2.9 $
   */
 public class BeanRuleSet implements RuleSet {
 
@@ -251,6 +251,8 @@ public class BeanRuleSet implements RuleSet {
     private final class ActionMappingRule extends Rule {
 
         /**
+          * Processes the start of a new <code>Element</code>.
+          * The actual processing is delegated to <code>MappingAction</code>'s.
           * @see Rule#begin(String, String, Attributes)
           */
         public void begin(String namespace, String name, Attributes attributes)
@@ -269,14 +271,23 @@ public class BeanRuleSet implements RuleSet {
             }
 
             context.pushElement(name);
-            //TODO: we should probably create the next action from the last
-            MappingAction action =
-                createAction(namespace, name, attributes, context);
+            
+            MappingAction nextAction =
+                nextAction(namespace, name, attributes, context);
 
-            context.pushMappingAction(action);
+            context.pushMappingAction(nextAction);
         }
 
-        private MappingAction createAction(
+        /**
+         * Gets the next action to be executed 
+         * @param namespace the element's namespace, not null
+         * @param name the element name, not null
+         * @param attributes the element's attributes, not null
+         * @param context the <code>ReadContext</code> against which the xml is being mapped.
+         * @return the initialized <code>MappingAction</code>, not null
+         * @throws Exception
+         */
+        private MappingAction nextAction(
             String namespace,
             String name,
             Attributes attributes,
@@ -298,8 +309,10 @@ public class BeanRuleSet implements RuleSet {
 
 
         /**
-          * @see Rule#body(String, String, String)
-          */
+        * Processes the body text for the current element.
+        * This is delegated to the current <code>MappingAction</code>.
+        * @see Rule#body(String, String, String)
+        */
         public void body(String namespace, String name, String text)
             throws Exception {
 
@@ -314,13 +327,12 @@ public class BeanRuleSet implements RuleSet {
 
         /**
         * Process the end of this element.
+        * This is delegated to the current <code>MappingAction</code>.
         */
         public void end(String namespace, String name) throws Exception {
 
             MappingAction action = context.popMappingAction();
             action.end(context);
-            // TODO: need to think about the contract
-            // should the rule or the action mapping manage the element stack?
         }
 
         /** 
@@ -335,6 +347,11 @@ public class BeanRuleSet implements RuleSet {
 
     }
 
+    /**
+     * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
+     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @version $Revision: 1.16.2.9 $
+     */
     private static class DigesterReadContext extends ReadContext {
 
         private Digester digester;
