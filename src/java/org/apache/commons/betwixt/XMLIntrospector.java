@@ -91,10 +91,17 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * This means that the first time that a request is made for a <code>XMLBeanInfo</code>
   * for a particular class, the <code>XMLBeanInfo</code> is cached.
   * Later requests for the same class will return the cached value.</p>
-  *
+  * 
+  * <p>Note :</p>
+  * <p>This class makes use of the <code>java.bean.Introspector</code>
+  * class, which comtains a BeanInfoSearchPath. To make sure betwixt can
+  * do his work correctly, this searchpath is completely ignored during 
+  * processing. The original values will be restored after processing finished
+  * </p>
+  * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.5 2002/07/02 11:24:49 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.6 2002/07/02 16:35:42 mvdb Exp $
   */
 public class XMLIntrospector {
 
@@ -186,6 +193,10 @@ public class XMLIntrospector {
         associated with the bean.        
       */
     public XMLBeanInfo introspect(Class aClass) throws IntrospectionException {
+        // we first reset the beaninfo searchpath.
+        String[] searchPath = Introspector.getBeanInfoSearchPath();
+        Introspector.setBeanInfoSearchPath(new String[] { });
+        
         XMLBeanInfo xmlInfo = null;
         if ( cachingEnabled ) {
             // if caching is enabled, try in caching first
@@ -213,6 +224,8 @@ public class XMLIntrospector {
         if (log.isTraceEnabled()) {
             log.trace(xmlInfo);
         }
+        // we restore the beaninfo searchpath.
+        Introspector.setBeanInfoSearchPath(searchPath);
         
         return xmlInfo;
     }
