@@ -246,10 +246,7 @@ public class TestBeanWriter extends AbstractTestCase {
         
         writer.write(bean);
         out.flush();
-        String result = out.toString();
-        
-        System.out.println( "Created..." );
-        System.out.println( result );
+        String result = "<?xml version='1.0'?><beans>" + out.toString() + "</beans>";
         
         // check for the elemant content..
         assertTrue(result.indexOf("<email>Escape&lt;LessThan</email>") > -1 );
@@ -263,6 +260,25 @@ public class TestBeanWriter extends AbstractTestCase {
         assertTrue(result.indexOf("country=\"Escape&amp;amphersand\"") != -1);
         assertTrue(result.indexOf("city=\"Escape&apos;apostrophe\"") != -1);
         assertTrue(result.indexOf("street=\"Escape&quot;Quote\"") != -1);
+        
+        String xml="<?xml version='1.0'?><beans>  <LoopBean name='Escape&lt;LessThan'/>"
+            + "<LoopBean name='Escape&gt;GreaterThan'/><LoopBean name='Escape&amp;amphersand'/>"
+            + "<LoopBean name='Escape&apos;apostrophe'/><LoopBean name='Escape&quot;Quote'/>"
+            + "<CustomerBean name='Escape&lt;LessThan' time='' date='' bigDecimal='' "
+            + "bigInteger='' timestamp='' ID='' nickName=''>"
+            + "<projectMap/><projectNames/><emails><email>Escape&lt;LessThan</email>"
+            + "<email>Escape&gt;GreaterThan</email><email>Escape&amp;amphersand</email>"
+            + "<email>Escape'apostrophe</email><email>Escape\"Quote</email></emails>"
+            + "<locations/><projectURLs/>"
+            + "<address code='Escape&gt;GreaterThan' city='Escape&apos;apostrophe' "
+            + "country='Escape&amp;amphersand' street='Escape&quot;Quote'/>"
+            + "<numbers/></CustomerBean></beans>";
+            
+        xmlAssertIsomorphicContent(
+                            "Test escaping ",
+                            parseString(result),
+                            parseString(xml), 
+                            true);  
     }
     /**
      * Testing valid endofline characters.
@@ -529,6 +545,7 @@ public class TestBeanWriter extends AbstractTestCase {
                             parseString(out.getBuffer().toString()),
                             parseString(xml), 
                             true);
+                            
     }
     
     public void testWriteNameMapperStrategy() throws Exception {
