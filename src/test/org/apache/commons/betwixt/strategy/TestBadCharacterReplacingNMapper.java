@@ -1,6 +1,6 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestDefaultNameMapper.java,v 1.3 2003/09/08 21:44:08 rdonkin Exp $
- * $Revision: 1.3 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestBadCharacterReplacingNMapper.java,v 1.1 2003/09/08 21:44:08 rdonkin Exp $
+ * $Revision: 1.1 $
  * $Date: 2003/09/08 21:44:08 $
  *
  * ====================================================================
@@ -57,72 +57,99 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestDefaultNameMapper.java,v 1.3 2003/09/08 21:44:08 rdonkin Exp $
+ * $Id: TestBadCharacterReplacingNMapper.java,v 1.1 2003/09/08 21:44:08 rdonkin Exp $
  */
+
 package org.apache.commons.betwixt.strategy;
+
+import java.beans.BeanDescriptor;
+import java.util.ArrayList;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/**
- * Testcase that covers the DefaultNameMapper.
- * 
- * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestDefaultNameMapper.java,v 1.3 2003/09/08 21:44:08 rdonkin Exp $
- */
-public class TestDefaultNameMapper extends TestCase
-{
-    
-    public static Test suite() {
-        return new TestSuite(TestDefaultNameMapper.class);
-    }
+import org.apache.commons.betwixt.XMLIntrospector;
 
-    public TestDefaultNameMapper(String testName)
-    {
+/** Test harness for the BadCharacterReplacingNMapper
+  *
+  * @author Robert Burrell Donkin
+  * @version $Revision: 1.1 $
+  */
+public class TestBadCharacterReplacingNMapper extends TestCase {
+    
+        
+    public static Test suite() {
+        return new TestSuite(TestBadCharacterReplacingNMapper.class);
+    }
+    
+    public TestBadCharacterReplacingNMapper(String testName) {
         super(testName);
     }
-    /**
-     * Just put in some strings and expect them back unchanged.
-     * This looks stupid, but enables us to check for unexpected
-     * changes, which breaks the orignal behaviour.
-     */
-    public void testDefault() {
-        String[] values = { "foo", "Foo", "FooBar", "fooBar", 
-                            "FOOBAR", "FOOBar", "FoOBaR"};
-        DefaultNameMapper mapper = new DefaultNameMapper();
-        for (int i=0; i < values.length; i++) {
-            String result = mapper.mapTypeToElementName(values[i]);
-            assertEquals(values[i], result);
+    
+    public void testNoReplacementBadFirstNoChainedMapper() {
+        String name="$LoadsOfMoney";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(null);
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "LoadsOfMoney", out);
+    }
+    
+    public void testNoReplacementBadFirstWithChainedMapper() {
+        String name="$LOADS£OF$MONEY";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "LOADSOFMONEY", out);
+    }
+    
+    public void testNoReplacementGoodFirstNoChainedMapper() {
+        String name="L$oads%OfMone$y$";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(null);
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "LoadsOfMoney", out);
+    }
+    
+    public void testNoReplacementGoodFirstWithChainedMapper() {
+        String name="LOADSOFMONE$$Y";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "LOADSOFMONEY", out);
+    }
+    
+    public void testReplacementBadFirstNoChainedMapper() {
+        String name="$LoadsOfMoney$";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(null);
+        mapper.setReplacement(new Character('_'));
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "_LoadsOfMoney_", out);
+    }
+    
+    public void testReplacementBadFirstWithChainedMapper() {
+        String name="$LOADS£OF$MONEY";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
+        mapper.setReplacement(new Character('_'));
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "_LOADS_OF_MONEY", out);
+    }
+    
+    public void testReplacementGoodFirstNoChainedMapper() {
+        String name="L$$$$$oads%OfMone$y$";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(null);
+        mapper.setReplacement(new Character('_'));
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "L_____oads_OfMone_y_", out);
+    }
+    
+    public void testReplacementGoodFirstWithChainedMapper() {
+        String name="L$OADSOFMONE$$$$$Y";
+        BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
+        mapper.setReplacement(new Character('_'));
+        String out = mapper.mapTypeToElementName(name);
+        assertEquals("Expected", "L_OADSOFMONE_____Y", out);
+    }
+    
+    private class PlainMapper implements NameMapper {
+        public String mapTypeToElementName(String typeName) {
+            return typeName;
         }
     }
-    
-    public void testBadCharBadFirstOne() {
-        String name="$LoadsOfMoney";
-        DefaultNameMapper mapper = new DefaultNameMapper();
-        String out = mapper.mapTypeToElementName(name);
-        assertEquals("Expected", "LoadsOfMoney", out);
-    }
-    
-    public void testBadCharBadFirstTwo() {
-        String name="$LOADS£OF$MONEY";
-        DefaultNameMapper mapper = new DefaultNameMapper();        
-        String out = mapper.mapTypeToElementName(name);
-        assertEquals("Expected", "LOADSOFMONEY", out);
-    }
-    
-    public void testBadCharGoodFirstOne() {
-        String name="L$oads%OfMone$y$";
-        DefaultNameMapper mapper = new DefaultNameMapper();        
-        String out = mapper.mapTypeToElementName(name);
-        assertEquals("Expected", "LoadsOfMoney", out);
-    }
-    
-    public void testBadCharGoodFirstTwo() {
-        String name="LOADSOFMONE$$Y";
-        DefaultNameMapper mapper = new DefaultNameMapper();        
-        String out = mapper.mapTypeToElementName(name);
-        assertEquals("Expected", "LOADSOFMONEY", out);
-    }
 }
-
