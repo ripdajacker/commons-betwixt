@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.9.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.2 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.9.2.2 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,7 @@ import java.beans.PropertyDescriptor;
 import java.util.Set;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.BeanProperty;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
@@ -79,7 +80,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9.2.1 $
+  * @version $Revision: 1.9.2.2 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -99,9 +100,9 @@ public class AddDefaultsRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws Exception generally this will indicate an unrecoverable error 
      */
-    public void begin(Attributes attributes) throws Exception {
+    public void begin(String name, String namespace, Attributes attributes) throws Exception {
         Class beanClass = getBeanClass();
-        Set procesedProperties = getProcessedPropertyNameSet();
+        Set processedProperties = getProcessedPropertyNameSet();
         if ( beanClass != null ) {
             try {
                 boolean attributesForPrimitives = getXMLInfoDigester().isAttributesForPrimitives();
@@ -111,12 +112,12 @@ public class AddDefaultsRule extends RuleSupport {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {
                         PropertyDescriptor descriptor = descriptors[i];
                         // have we already created a property for this
-                        String name = descriptor.getName();
-                        if ( procesedProperties.contains( name ) ) {
+                        String propertyName = descriptor.getName();
+                        if ( processedProperties.contains( propertyName ) ) {
                             continue;
                         }
-                        Descriptor nodeDescriptor = getXMLIntrospector().createDescriptor(
-                                    descriptor, attributesForPrimitives);
+                        Descriptor nodeDescriptor = 
+                        	getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
                         if ( nodeDescriptor != null ) {
                             addDescriptor( nodeDescriptor );
                         }

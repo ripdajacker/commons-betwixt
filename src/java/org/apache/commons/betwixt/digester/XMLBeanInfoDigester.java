@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.6 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.6.2.1 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.6.2.1 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.xml.sax.XMLReader;
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.6.2.1 $
   */
 public class XMLBeanInfoDigester extends Digester {
 
@@ -210,7 +210,7 @@ public class XMLBeanInfoDigester extends Digester {
         }
         
         // now initialize
-        attributesForPrimitives = true;
+        setAttributesForPrimitives(attributesForPrimitives);
         processedPropertyNameSet.clear();
     }
     

@@ -1,14 +1,14 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.13.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.2 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.13.2.2 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.1 2004/01/13 21:49:46 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.2 2004/01/15 19:50:56 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -107,22 +107,22 @@ public class ElementRule extends MappedPropertyRule {
      * 3. If the name attribute is not present 
      * 4. If the class attribute is not a loadable (fully qualified) class name
      */
-    public void begin(Attributes attributes) throws SAXException {
-        String name = attributes.getValue( "name" );
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
+        String nameAttributeValue = attributes.getValue( "name" );
         
         // check that the name attribute is present 
-        if ( name == null || name.trim().equals( "" ) ) {
+        if ( nameAttributeValue == null || nameAttributeValue.trim().equals( "" ) ) {
             throw new SAXException("Name attribute is required.");
         }
         
         // check that name is well formed 
-        if ( !XMLUtils.isWellFormedXMLName( name ) ) {
-            throw new SAXException("'" + name + "' would not be a well formed xml element name.");
+        if ( !XMLUtils.isWellFormedXMLName( nameAttributeValue ) ) {
+            throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml element name.");
         }
         
         ElementDescriptor descriptor = new ElementDescriptor();
-        descriptor.setQualifiedName( name );
-        descriptor.setLocalName( name );
+        descriptor.setQualifiedName( nameAttributeValue );
+        descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
         if ( uri != null ) {
             descriptor.setURI( uri );        
@@ -135,7 +135,7 @@ public class ElementRule extends MappedPropertyRule {
         
         if (log.isTraceEnabled()) {
             log.trace(
-                    "(BEGIN) name=" + name + " uri=" + uri 
+                    "(BEGIN) name=" + nameAttributeValue + " uri=" + uri 
                     + " property=" + propertyName + " type=" + propertyType);
         }
         
@@ -195,7 +195,7 @@ public class ElementRule extends MappedPropertyRule {
     /**
      * Process the end of this element.
      */
-    public void end() {
+    public void end(String name, String namespace) {
         Object top = digester.pop();
     }
 

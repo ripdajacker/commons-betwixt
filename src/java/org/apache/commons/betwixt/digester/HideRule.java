@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.7 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/HideRule.java,v 1.7.2.1 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.7.2.1 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,7 @@ import org.xml.sax.SAXException;
 /** <p><code>HideRule</code> hides the property of the given name.</p>
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.7.2.1 $
   */
 public class HideRule extends RuleSupport {
 
@@ -90,20 +90,13 @@ public class HideRule extends RuleSupport {
      * @param attributes The attribute list of this element
      * @throws SAXException when the mandatory 'property' attribute is missing
      */
-    public void begin(Attributes attributes) throws SAXException {
-        String name = attributes.getValue( "property" );
-        if ( name == null || name.length() == 0 ) {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
+        String propertyAttributeValue = attributes.getValue( "property" );
+        if ( propertyAttributeValue == null || propertyAttributeValue.length() == 0 ) {
             throw new SAXException( 
                 "<hide> element is missing the mandatory attribute 'property'" );
         }
         Set propertySet = getProcessedPropertyNameSet();
-        propertySet.add( name );
-    }
-
-
-    /**
-     * Process the end of this element.
-     */
-    public void end() {
+        propertySet.add( propertyAttributeValue );
     }
 }

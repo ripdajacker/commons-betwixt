@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1 2003/11/24 02:02:19 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2003/11/24 02:02:19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1.2.1 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.1.2.1 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
@@ -73,7 +73,7 @@ import junit.framework.TestCase;
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.1 2003/11/24 02:02:19 mvdb Exp $
+ * @version $Id: TestMsgParser.java,v 1.1.2.1 2004/01/15 19:50:56 rdonkin Exp $
  */
 public class TestMsgParser extends TestCase
 {
@@ -144,7 +144,7 @@ public class TestMsgParser extends TestCase
         // Configure betwixt
         // For more details see java docs or later in the main documentation
         beanWriter.getXMLIntrospector().setAttributesForPrimitives(true);
-        beanWriter.setWriteIDs(false);
+        beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
 
         // Write example bean as base element 'person'

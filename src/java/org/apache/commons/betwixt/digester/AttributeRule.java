@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.1 2004/01/15 19:50:56 rdonkin Exp $
+ * $Revision: 1.8.2.1 $
+ * $Date: 2004/01/15 19:50:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.8 2003/10/09 20:52:04 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.8.2.1 2004/01/15 19:50:56 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -104,18 +104,18 @@ public class AttributeRule extends RuleSupport {
      * @throws SAXException 1. If the attribute tag is not inside an element tag.
      * 2. If the name attribute is not valid XML attribute name.
      */
-    public void begin(Attributes attributes) throws SAXException {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         
         AttributeDescriptor descriptor = new AttributeDescriptor();
-        String name = attributes.getValue( "name" );
+        String nameAttributeValue = attributes.getValue( "name" );
 
         // check that name is well formed 
-        if ( !XMLUtils.isWellFormedXMLName( name ) ) {
-            throw new SAXException("'" + name + "' would not be a well formed xml attribute name.");
+        if ( !XMLUtils.isWellFormedXMLName( nameAttributeValue ) ) {
+            throw new SAXException("'" + nameAttributeValue + "' would not be a well formed xml attribute name.");
         }
         
-        descriptor.setQualifiedName( name );
-        descriptor.setLocalName( name );
+        descriptor.setQualifiedName( nameAttributeValue );
+        descriptor.setLocalName( nameAttributeValue );
         String uri = attributes.getValue( "uri" );
         if ( uri != null ) {
             descriptor.setURI( uri );        
@@ -149,7 +149,7 @@ public class AttributeRule extends RuleSupport {
     /**
      * Process the end of this element.
      */
-    public void end() {
+    public void end(String name, String namespace) {
         Object top = digester.pop();
     }
 
