@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.13 2002/12/16 21:59:21 rdonkin Exp $
- * $Revision: 1.13 $
- * $Date: 2002/12/16 21:59:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.14 2002/12/30 18:18:36 mvdb Exp $
+ * $Revision: 1.14 $
+ * $Date: 2002/12/30 18:18:36 $
  *
  * ====================================================================
  *
@@ -57,12 +57,11 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.13 2002/12/16 21:59:21 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.14 2002/12/30 18:18:36 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,18 +69,14 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.Rules;
-import org.apache.commons.digester.Digester;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.xml.sax.Attributes;
 
 /** <p><code>BeanCreateRule</code> is a Digester Rule for creating beans
@@ -89,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision: 1.14 $
   */
 public class BeanCreateRule extends Rule {
 

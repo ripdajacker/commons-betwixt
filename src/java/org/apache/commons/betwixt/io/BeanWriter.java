@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.10 2002/12/15 19:03:34 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2002/12/15 19:03:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.11 2002/12/30 18:18:36 mvdb Exp $
+ * $Revision: 1.11 $
+ * $Date: 2002/12/30 18:18:36 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.10 2002/12/15 19:03:34 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.11 2002/12/30 18:18:36 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -67,20 +67,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Iterator;
-import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.expression.Context;
-import org.apache.commons.betwixt.expression.Expression;
-import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
-
 import org.xml.sax.SAXException;
 
 /** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
@@ -128,7 +117,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 

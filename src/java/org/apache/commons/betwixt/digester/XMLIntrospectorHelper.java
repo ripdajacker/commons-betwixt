@@ -56,8 +56,8 @@ package org.apache.commons.betwixt.digester;
  * <http://www.apache.org/>.
  */
 
-import java.beans.Introspector;
 import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -67,19 +67,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
-
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
-
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
-
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /** 
   * <p><code>XMLIntrospectorHelper</code> a helper class for 
@@ -87,7 +84,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.11 2002/12/15 15:03:45 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.12 2002/12/30 18:18:37 mvdb Exp $
   */
 public class XMLIntrospectorHelper {
 

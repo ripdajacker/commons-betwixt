@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/PluralStemmer.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/PluralStemmer.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,13 +57,13 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: PluralStemmer.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: PluralStemmer.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
-import org.apache.commons.betwixt.ElementDescriptor;
-
 import java.util.Map;
+
+import org.apache.commons.betwixt.ElementDescriptor;
 
 /** 
  * A plugin Strategy pattern which will detect the plural property which
@@ -74,7 +74,7 @@ import java.util.Map;
  * This interface allows a variety of different implementations to be used.
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface PluralStemmer {
 

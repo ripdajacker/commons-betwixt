@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/RuleSupport.java,v 1.1 2002/06/10 17:53:35 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:35 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/RuleSupport.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,39 +57,22 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: RuleSupport.java,v 1.1 2002/06/10 17:53:35 jstrachan Exp $
+ * $Id: RuleSupport.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.Set;
 
-import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.expression.Context;
-import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.betwixt.expression.MethodExpression;
-import org.apache.commons.betwixt.expression.MethodUpdater;
-
 import org.apache.commons.digester.Rule;
-import org.apache.commons.digester.Digester;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 /** <p><code>RuleSupport</code> is an abstract base class containing useful
   * helper methods.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class RuleSupport extends Rule {
 

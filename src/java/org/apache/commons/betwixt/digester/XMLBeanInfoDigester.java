@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLBeanInfoDigester.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfoDigester.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: XMLBeanInfoDigester.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -67,20 +67,16 @@ import java.util.Set;
 import javax.xml.parsers.SAXParser;
 
 import org.apache.commons.betwixt.XMLIntrospector;
-
-import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.Digester;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.xml.sax.XMLReader;
 
 /** <p><code>XMLBeanInfoDigester</code> is a digester of XML files
   * containing XMLBeanInfo definitions for a JavaBean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class XMLBeanInfoDigester extends Digester {
 

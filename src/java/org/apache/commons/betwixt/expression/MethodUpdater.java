@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.4 2002/12/11 22:12:11 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/12/11 22:12:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,14 +57,13 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.4 2002/12/11 22:12:11 rdonkin Exp $
+ * $Id: MethodUpdater.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 import java.lang.reflect.Method;
 
 import org.apache.commons.beanutils.ConvertUtils;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -73,7 +72,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class MethodUpdater implements Updater {
 

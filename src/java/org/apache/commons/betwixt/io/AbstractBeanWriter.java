@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.7 2002/12/15 19:03:34 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2002/12/15 19:03:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/12/30 18:18:36 $
  *
  * ====================================================================
  *
@@ -57,23 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.7 2002/12/15 19:03:34 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Iterator;
 import java.util.HashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.apache.commons.collections.ArrayStack;
+import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -82,7 +73,9 @@ import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
-
+import org.apache.commons.collections.ArrayStack;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
 // FIX ME!!!
@@ -95,7 +88,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 abstract public class AbstractBeanWriter {
 

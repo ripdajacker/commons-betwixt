@@ -56,8 +56,8 @@ package org.apache.commons.betwixt.registry;
  * <http://www.apache.org/>.
  */
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.betwixt.XMLBeanInfo;
 
@@ -65,7 +65,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * A hashmap is used.
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: DefaultXMLBeanInfoRegistry.java,v 1.1 2002/11/27 22:19:12 rdonkin Exp $
+  * @version $Id: DefaultXMLBeanInfoRegistry.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
   */
 public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
 

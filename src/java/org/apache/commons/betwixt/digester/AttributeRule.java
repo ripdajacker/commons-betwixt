@@ -62,10 +62,8 @@ import java.beans.PropertyDescriptor;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.expression.ConstantExpression;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -74,7 +72,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.1 2002/06/10 17:53:35 jstrachan Exp $
+  * @version $Id: AttributeRule.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
   */
 public class AttributeRule extends RuleSupport {
 

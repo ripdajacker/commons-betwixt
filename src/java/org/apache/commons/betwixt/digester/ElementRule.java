@@ -64,10 +64,8 @@ import java.beans.PropertyDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.expression.ConstantExpression;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -76,7 +74,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.2 2002/07/01 18:52:21 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
   */
 public class ElementRule extends RuleSupport {
 

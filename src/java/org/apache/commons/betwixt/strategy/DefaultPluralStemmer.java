@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.4 2002/11/08 23:08:31 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2002/11/08 23:08:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,15 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultPluralStemmer.java,v 1.4 2002/11/08 23:08:31 mvdb Exp $
+ * $Id: DefaultPluralStemmer.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
-
-import org.apache.commons.betwixt.ElementDescriptor;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -76,7 +75,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultPluralStemmer implements PluralStemmer {
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.2 2002/09/12 13:49:03 jstrachan Exp $
- * $Revision: 1.2 $
- * $Date: 2002/09/12 13:49:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/12/30 18:18:37 $
  *
  * ====================================================================
  *
@@ -57,11 +57,11 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.2 2002/09/12 13:49:03 jstrachan Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
-import java.beans.Introspector;
+
 
 /** 
  * A name mapper which converts types to a hypenated String. So
@@ -74,7 +74,7 @@ import java.beans.Introspector;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
