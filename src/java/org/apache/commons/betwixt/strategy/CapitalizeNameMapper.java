@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
- * $Revision: 1.1 $
- * $Date: 2002/07/02 21:21:19 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.2 2002/07/08 23:35:18 mvdb Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/08 23:35:18 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: CapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
+ * $Id: CapitalizeNameMapper.java,v 1.2 2002/07/08 23:35:18 mvdb Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
@@ -67,7 +67,7 @@ package org.apache.commons.betwixt.strategy;
  * So eg elementName should return ElementName
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CapitalizeNameMapper.java,v 1.1 2002/07/02 21:21:19 mvdb Exp $
+ * @version $Id: CapitalizeNameMapper.java,v 1.2 2002/07/08 23:35:18 mvdb Exp $
  */
 public class CapitalizeNameMapper implements NameMapper
 {
@@ -78,6 +78,9 @@ public class CapitalizeNameMapper implements NameMapper
      */
     public String mapTypeToElementName(String typeName)
     {
+        if (typeName == null || typeName.length() ==0) {
+            return typeName;
+        }
         StringBuffer sb = new StringBuffer(typeName);
         char upperChar = Character.toUpperCase(typeName.charAt(0));
         sb.delete(0,1);
