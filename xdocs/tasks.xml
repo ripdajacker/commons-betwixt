@@ -185,6 +185,7 @@ Create a strategy which allow general implementation rules to be specified.
 </section>
 <section name='Completed'>
     <subsection name='0.6'>
+        <ul>
             <li><strong>Improved empty element rendering</strong></li>
             <li>
 <strong>Extended betwixt file</strong> by adding two new properties 
@@ -199,6 +200,7 @@ binding.
 <strong>Improved support for reading arrays.</strong> In particular added code to support
 reading of array valued property setters and for array valued adders.
             </li>
+        </ul>
     </subsection>
     <subsection name='0.5'>
         <ul>
