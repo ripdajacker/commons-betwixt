@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/derived/TestDerived.java,v 1.1 2003/03/20 19:29:00 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2003/03/20 19:29:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/derived/TestDerived.java,v 1.2 2003/08/21 22:46:27 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/21 22:46:27 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestDerived.java,v 1.1 2003/03/20 19:29:00 jstrachan Exp $
+ * $Id: TestDerived.java,v 1.2 2003/08/21 22:46:27 rdonkin Exp $
  */
 package org.apache.commons.betwixt.derived;
 
@@ -82,6 +82,8 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 
+import org.apache.commons.logging.impl.SimpleLog;
+
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.ExtendedBaseRules;
 
@@ -91,7 +93,7 @@ import org.xml.sax.Attributes;
 /** Test harness for the BeanReader
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestDerived extends AbstractTestCase {
     
@@ -112,7 +114,7 @@ public class TestDerived extends AbstractTestCase {
         BeanReader reader = new BeanReader();
 //        reader.getXMLIntrospector().setLog(log);
               
-//        log = new SimpleLog("[TestPersonList:BeanReader]");
+//        SimpleLog log = new SimpleLog("[TestPersonList:BeanReader]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         
 //        reader.setLog(log);
