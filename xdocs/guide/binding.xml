@@ -465,13 +465,13 @@ ConvertUtilsObjectStringConverter</a>. This is set though a <code>BindingConfigu
 For example, to delegate to <code>ConvertUtils</code> for <em>all</em> conversions in a read:
 <code><pre>
     BeanReader reader = new BeanReader();
-    reader.getBindingConfiguration(new ConvertUtilsObjectStringConverter());
+    reader.getBindingConfiguration().setObjectStringConverter(new ConvertUtilsObjectStringConverter());
     reader.parse...
 </pre></code>
 and in a write:
 <code><pre>
     BeanWriter writer = new BeanWriter();
-    writer.getBindingConfiguration(new ConvertUtilsObjectStringConverter());
+    writer.getBindingConfiguration().setObjectStringConverter(new ConvertUtilsObjectStringConverter());
     writer.write...
 </pre></code>
         </p>
