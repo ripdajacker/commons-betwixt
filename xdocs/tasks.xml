@@ -257,6 +257,10 @@ add their own custom creation steps or replace the defaults with new functionali
 Added (optional) 'class' attribute to .betwixt files. The attribute value should be a fully qualfied java classname. 
 When set, the named class will be used to instantiate beans mapped to this element.
             </li>
+            <li>
+<strong>Improved Support For Interfaces including Entity Beans (ClassNormalizer)</strong>
+Added ClassNormalizer strategy. This allows the Class introspector to differ from that of the Object.
+            </li>
         </ul>
     </subsection>
 </section>
