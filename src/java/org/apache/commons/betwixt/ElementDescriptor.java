@@ -98,6 +98,13 @@ public class ElementDescriptor extends NodeDescriptor {
       * or null if there is no separate implementation */
     private Class implementationClass = null;
     
+    /** 
+     * Should the bind time type determine the mapping? 
+     * (As opposed to the introspection time type.)
+     * Note that this attribute is write once, read many (WORM). 
+     */
+    private Boolean useBindTimeTypeForMapping = null;
+    
     /**  
      * Constructs an <code>ElementDescriptor</code> that refers to a primitive type.
      */
@@ -617,4 +624,40 @@ public class ElementDescriptor extends NodeDescriptor {
     public void setHollow(boolean isHollow) {
         this.isHollow = isHollow;
     }  
+    
+    /**
+     * Is the bind time type to be used to determine the mapping?
+     * The mapping for an object property value can either be the 
+     * introspection time type (based on the logical type of the property)
+     * or the bind time type (based on the type of the actual instance).
+     * 
+     * @return true if the bind time type is to be used to determine the mapping,
+     * false if the introspection time type is to be used
+     */
+    public boolean isUseBindTimeTypeForMapping() {
+        boolean result = true;
+        if ( this.useBindTimeTypeForMapping != null ) {
+            result = this.useBindTimeTypeForMapping.booleanValue();
+        }
+        return result;
+    }
+
+    /**
+     * <p>Sets whether the bind time type to be used to determine the mapping?
+     * The mapping for an object property value can either be the 
+     * introspection time type (based on the logical type of the property)
+     * or the bind time type (based on the type of the actual instance).
+     * </p><p>
+     * <strong>Note:</strong> this property is write once, read many.
+     * So, the first time that this method is called the value will be set
+     * but subsequent calls will be ignored.
+     * </p>
+     * @param useBindTimeTypeForMapping true if the bind time type is to be used to 
+     * determine the mapping, false if the introspection time type is to be used
+     */
+    public void setUseBindTimeTypeForMapping(boolean useBindTimeTypeForMapping) {
+        if ( this.useBindTimeTypeForMapping == null ) {
+            this.useBindTimeTypeForMapping = new Boolean(useBindTimeTypeForMapping);
+        }
+    }
 }

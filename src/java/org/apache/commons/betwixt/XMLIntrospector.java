@@ -674,7 +674,6 @@ public class XMLIntrospector {
             getLog().trace(elementDescriptor);
         }
     }
-
     
     /**
      * Creates XMLBeanInfo for the given DynaClass.
@@ -802,6 +801,26 @@ public class XMLIntrospector {
                 Method twinParameterAdder = (Method) it.next();
                 setMapAdder(elementsByPropertyName, twinParameterAdder);
             }
+            
+            // need to call this once all the defaults have been added
+            // so that all the singular types have been set correctly
+            configureMappingDerivation( rootDescriptor );
+        }
+    }
+    
+    /**
+     * Configures the mapping derivation according to the current
+     * <code>MappingDerivationStrategy</code> implementation.
+     * This method acts recursively.
+     * @param rootDescriptor <code>ElementDescriptor</code>, not null
+     */
+    private void configureMappingDerivation(ElementDescriptor descriptor) {
+        boolean useBindTime = getConfiguration().getMappingDerivationStrategy()
+        		.useBindTimeTypeForMapping(descriptor.getPropertyType(), descriptor.getSingularPropertyType());
+        descriptor.setUseBindTimeTypeForMapping(useBindTime);
+        ElementDescriptor[] childDescriptors = descriptor.getElementDescriptors();
+        for (int i=0, size=childDescriptors.length; i<size; i++) {
+            configureMappingDerivation(childDescriptors[i]);
         }
     }
     

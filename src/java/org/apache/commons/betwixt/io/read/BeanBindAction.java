@@ -29,7 +29,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -78,6 +78,10 @@ public class BeanBindAction extends MappingAction.Base {
                     
             if (instance != null) {
                 action = this;
+                if (computedDescriptor.isUseBindTimeTypeForMapping())
+                {
+                    beanClass = instance.getClass();
+                }
                 context.markClassMap(beanClass);
 
                 if (log.isTraceEnabled()) {
@@ -92,7 +96,6 @@ public class BeanBindAction extends MappingAction.Base {
                 // XXX: this should probably be done by the NodeDescriptors...
                 ElementDescriptor typeDescriptor =
                     getElementDescriptor(computedDescriptor, context);
-                //ElementDescriptor typeDescriptor = descriptor;
 
                 // iterate through all attributes        
                 AttributeDescriptor[] attributeDescriptors =
@@ -196,7 +199,7 @@ public class BeanBindAction extends MappingAction.Base {
         }
 
         // TODO: beanClass can be deduced from descriptor
-        // so probably 
+        // so this feels a little over-engineered
         mapping.setType(beanClass);
         mapping.setNamespace(namespace);
         mapping.setName(name);
@@ -219,15 +222,25 @@ public class BeanBindAction extends MappingAction.Base {
     * referenced by this descriptor
     * @return descriptor for the singular property class type referenced.
     */
-    ElementDescriptor getElementDescriptor(
+    private ElementDescriptor getElementDescriptor(
         ElementDescriptor propertyDescriptor,
         ReadContext context) {
         Log log = context.getLog();
         Class beanClass = propertyDescriptor.getSingularPropertyType();
+        if (propertyDescriptor.isUseBindTimeTypeForMapping()) {
+            // use the actual bind time type
+            Object current = context.getBean();
+            if (current != null) {
+                beanClass = current.getClass();
+            }
+        }
         if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
             if (beanClass.isArray()) {
                 beanClass = beanClass.getComponentType();
             }
+            // support for derived beans
+            
+            
             if (log.isTraceEnabled()) {
                 log.trace("Filling descriptor for: " + beanClass);
             }

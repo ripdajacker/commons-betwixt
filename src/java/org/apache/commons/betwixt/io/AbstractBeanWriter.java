@@ -225,6 +225,8 @@ public abstract class AbstractBeanWriter {
      * @param namespaceUri the namespace uri
      * @param localName the local name
      * @param qualifiedName the string naming root element
+     * @param introspectedBindType the <code>Class</code> of the bean 
+     * as resolved at introspection time, or null if the type has not been resolved
      * @param bean the <code>Object</code> to write out as xml
      * @param context not null
      * 
@@ -253,6 +255,39 @@ public abstract class AbstractBeanWriter {
         
         log.trace( "Finished writing bean graph." );
     }
+    
+    
+    private void writeBean (
+            String namespaceUri,
+            String localName,
+            String qualifiedName, 
+            Object bean,
+            ElementDescriptor parentDescriptor,
+            Context context) 
+                throws 
+                    IOException, 
+                    SAXException,
+                    IntrospectionException {                    
+    
+    if ( log.isTraceEnabled() ) {
+        log.trace( "Writing bean graph (qualified name '" + qualifiedName + "'" );
+    }
+    
+    // introspect to obtain bean info
+    XMLBeanInfo beanInfo = null;
+    Class introspectedBindType = parentDescriptor.getSingularPropertyType();
+    if ( introspectedBindType == null ) {
+        introspectedBindType = parentDescriptor.getPropertyType();
+    }
+    if ( parentDescriptor.isUseBindTimeTypeForMapping() || introspectedBindType == null ) {
+        beanInfo = introspector.introspect( bean );
+    } else {
+        beanInfo = introspector.introspect( introspectedBindType );
+    }
+    writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo);
+    
+    log.trace( "Finished writing bean graph." );
+}
     
     /**
      * <p>Writes the given bean to the current stream 
@@ -900,6 +935,7 @@ public abstract class AbstractBeanWriter {
                                             localName, 
                                             qualifiedName, 
                                             object, 
+                                            childDescriptor,
                                             context );
                                 }
                             } else {
@@ -908,6 +944,7 @@ public abstract class AbstractBeanWriter {
                                             localName, 
                                             qualifiedName, 
                                             childBean, 
+                                            childDescriptor,
                                             context );
                             }
                         }                    
@@ -1295,7 +1332,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.31 $
+     * @version $Revision: 1.32 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

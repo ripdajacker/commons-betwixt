@@ -194,6 +194,8 @@ Create a strategy which allow general implementation rules to be specified.
             documents can be passed in directly.</li>
             <li><strong>Multi mapping</strong> documents allowing several mappings to be
             specified within a single document.</li>
+            <li><strong>Improved support for derived beans</strong> bind time type
+            population now supported and enabled by default</li>
         </ul>
     </subsection>
     <subsection name='0.6'>
@@ -440,6 +442,12 @@ Betwixt now (by default) suppresses the expression of all empty attributes.
 The old behaviour can be restored by setting the <code>ValueSuppressionStrategy</code>
 of the <code>BindingConfiguration</code> used by the writer to 
 <code>ValueSuppressionStrategy.ALLOW_ALL_VALUES</code>.
+            </li>
+            <li>
+Betwixt now defaults to bind time type mapping. Now read beans will (by default)
+be populated by their bind time type (as opposed to their introspection time type).
+Most users should notice no negative effects from this change. The previous behaviour
+can be enabled by setting an introspection configuration property.
             </li>
         </ul>
     </subsection>

@@ -102,6 +102,14 @@ public class ElementRule extends MappedPropertyRule {
                     + " property=" + propertyName + " type=" + propertyType);
         }
         
+        // set mapping derivation
+        String mappingDerivation = attributes.getValue( "mappingDerivation" );
+        if ( "introspection".equals(mappingDerivation) ) {
+            descriptor.setUseBindTimeTypeForMapping( false );
+        } else if ( "bind".equals(mappingDerivation) ) {
+            descriptor.setUseBindTimeTypeForMapping( true );
+        }
+        
         // set the property type using reflection
         descriptor.setPropertyType( 
             getPropertyType( propertyType, beanClass, propertyName ) 

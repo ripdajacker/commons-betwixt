@@ -44,7 +44,7 @@
     <menu name="User guide">
       <item name="Getting Started"         href="/guide/start.html"/>
       <item name="Binding Beans"           href="/guide/binding.html"/>
-      <item name="Derived Beans"           href="/guide/derived.html"/>
+      <item name="Derived Bindings"        href="/guide/derived.html"/>
       <item name="Writing Beans(Advanced)" href="/guide/writing.html"/>
       <item name="Outputing The Results"   href="/guide/output.html"/>
       <item name="Reading Beans(Advanced)" href="/guide/reading.html"/>

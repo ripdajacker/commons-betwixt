@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.io.BeanReader;
 /** Test harness for the BeanReader
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class TestDerived extends AbstractTestCase {
     
@@ -48,12 +48,6 @@ public class TestDerived extends AbstractTestCase {
     public void testPersonList() throws Exception {
 
         BeanReader reader = new BeanReader();
-//        reader.getXMLIntrospector().setLog(log);
-              
-//        SimpleLog log = new SimpleLog("[TestPersonList:BeanReader]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        
-//        reader.setLog(log);
         reader.registerBeanClass( PersonListBean.class );
         
         InputStream in =  
@@ -87,11 +81,8 @@ public class TestDerived extends AbstractTestCase {
         PersonBean manager = (PersonBean) bean.getPersonList().get(2);
         assertEquals("should be derived class", "org.apache.commons.betwixt.derived.ManagerBean", manager.getClass().getName());
 
-        // derived properties are not implemented yet...        
-/*
-        ManagerBean manager2 = (ManagerBean) manager;
-        assertEquals("should have a derived property", 12, manager2.getCheeseSize());
-*/        
+        // test derived properties       
+        //assertEquals("should have a derived property", 12, ((ManagerBean) manager).getCheeseSize());
     }
     
 }

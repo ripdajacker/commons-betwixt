@@ -19,6 +19,7 @@ package org.apache.commons.betwixt;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
+import org.apache.commons.betwixt.strategy.MappingDerivationStrategy;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
@@ -44,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class IntrospectionConfiguration {
 
@@ -82,6 +83,11 @@ public class IntrospectionConfiguration {
     private SimpleTypeMapper simpleTypeMapper = new StandardSimpleTypeMapper();
     /** Binding strategy for Java type */
     private TypeBindingStrategy typeBindingStrategy = TypeBindingStrategy.DEFAULT;
+    /** 
+     * Strategy used to determine whether the bind or introspection time type is to be used to  
+     * determine the mapping.
+     */
+    	private MappingDerivationStrategy mappingDerivationStrategy = MappingDerivationStrategy.DEFAULT;
     
     /**
       * Gets the <code>ClassNormalizer</code> strategy.
@@ -320,5 +326,26 @@ public class IntrospectionConfiguration {
      */
     public void setTypeBindingStrategy(TypeBindingStrategy typeBindingStrategy) {
         this.typeBindingStrategy = typeBindingStrategy;
+    }
+    
+    
+    /**
+     * Gets the <code>MappingDerivationStrategy</code>
+     * used to determine whether the bind or introspection time
+     * type should determine the mapping.
+     * @return <code>MappingDerivationStrategy</code>, not null
+     */
+    public MappingDerivationStrategy getMappingDerivationStrategy() {
+        return mappingDerivationStrategy;
+    }
+    /**
+     * Sets the <code>MappingDerivationStrategy</code>
+     * used to determine whether the bind or introspection time
+     * type should determine the mapping.
+     * @param mappingDerivationStrategy <code>MappingDerivationStrategy</code>, not null
+     */
+    public void setMappingDerivationStrategy(
+            MappingDerivationStrategy mappingDerivationStrategy) {
+        this.mappingDerivationStrategy = mappingDerivationStrategy;
     }
 }
