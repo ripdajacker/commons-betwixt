@@ -391,8 +391,6 @@ public class TestBeanReader extends AbstractTestCase {
         writer.setWriteIDs(false);
         writer.write("address-book", bean);
         
-        System.out.println(out.toString());
-        
         String xml = "<?xml version='1.0'?><address-book><title>drinkers</title>"
             + "<addresses>"
             + "<entry><key>Alex Compbell</key><value><country>United Kingdom</country>"
