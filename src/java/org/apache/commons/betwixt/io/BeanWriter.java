@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.6 2002/06/15 03:27:53 jon Exp $
- * $Revision: 1.6 $
- * $Date: 2002/06/15 03:27:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.7 2002/06/15 23:24:32 mvdb Exp $
+ * $Revision: 1.7 $
+ * $Date: 2002/06/15 23:24:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.6 2002/06/15 03:27:53 jon Exp $
+ * $Id: BeanWriter.java,v 1.7 2002/06/15 23:24:32 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -127,7 +127,7 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class BeanWriter {
 
@@ -336,9 +336,19 @@ public class BeanWriter {
         return endOfLine;
     }
     
-    /** Sets the string used for end of lines */
+    /** 
+     * Sets the string used for end of lines 
+     * Produces a warning the specified value contains an invalid whitespace character
+     */
     public void setEndOfLine(String endOfLine) {
         this.endOfLine = endOfLine;
+        for (int i = 0; i < endOfLine.length(); i++) {
+            if (!Character.isWhitespace(endOfLine.charAt(i))) {
+                log.warn("Invalid EndOfLine character(s)");
+                break;
+            }
+        }
+        
     }
 
     /** Returns the string used for indentation */

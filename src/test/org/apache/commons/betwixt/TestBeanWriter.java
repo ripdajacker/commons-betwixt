@@ -61,6 +61,8 @@
  */
 package org.apache.commons.betwixt;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.StringWriter;
 
 import junit.framework.Test;
@@ -79,6 +81,7 @@ import org.apache.commons.logging.impl.SimpleLog;
 /** Test harness for the BeanWriter
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
   * @version $Revision: 1.13 $
   */
 public class TestBeanWriter extends AbstractTestCase {
@@ -129,12 +132,16 @@ public class TestBeanWriter extends AbstractTestCase {
     
     public void testEscaping() throws Exception {
         //XXX find a way to automatically verify test
-        BeanWriter writer = new BeanWriter();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        BeanWriter writer = new BeanWriter(out);
         writer.enablePrettyPrint(); 
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.setAttributesForPrimitives(true);
+        writer.setXMLIntrospector(introspector);
         writer.write(new LoopBean("Escape<LessThan"));
         writer.write(new LoopBean("Escape>GreaterThan"));
         writer.write(new LoopBean("Escape&amphersand"));
-        writer.write(new LoopBean("Escape'apostoaphe"));
+        writer.write(new LoopBean("Escape'apostrophe"));
         writer.write(new LoopBean("Escape\"Quote"));
         
         CustomerBean bean = new CustomerBean();
@@ -142,9 +149,59 @@ public class TestBeanWriter extends AbstractTestCase {
                                         "Escape<LessThan",
                                         "Escape>GreaterThan",
                                         "Escape&amphersand",
-                                        "Escape'apostoaphe",
+                                        "Escape'apostrophe",
                                         "Escape\"Quote"} );
+                                        
+        // The attribute value escaping needs test too..
+        bean.setName("Escape<LessThan");
+        AddressBean address = new AddressBean();
+        address.setCode("Escape>GreaterThan");
+        address.setCountry("Escape&amphersand");
+        address.setCity("Escape'apostrophe");
+        address.setStreet("Escape\"Quote");
+        bean.setAddress(address);
+        
         writer.write(bean);
+        out.flush();
+        String result = out.toString();
+        // check for the elemant content..
+        assertTrue(result.indexOf("<String>Escape&lt;LessThan</String>") > -1 );
+        assertTrue(result.indexOf("<String>Escape&gt;GreaterThan</String>") > -1);
+        assertTrue(result.indexOf("<String>Escape&amp;amphersand</String>") != -1);
+        assertTrue(result.indexOf("<String>Escape'apostrophe</String>") != -1);
+        assertTrue(result.indexOf("<String>Escape\"Quote</String>") != -1);
+        // check for the attributes..
+        assertTrue(result.indexOf("name=\"Escape&lt;LessThan\"") > -1 );
+        assertTrue(result.indexOf("code=\"Escape&gt;GreaterThan\"") > -1);
+        assertTrue(result.indexOf("country=\"Escape&amp;amphersand\"") != -1);
+        assertTrue(result.indexOf("city=\"Escape&apos;apostrophe\"") != -1);
+        assertTrue(result.indexOf("street=\"Escape&quot;Quote\"") != -1);
+    }
+    /**
+     * Testing valid endofline characters.
+     * It tests if there is a warning on System.err
+     */
+    public void testValidEndOfLine() throws Exception {
+        BeanWriter writer = new BeanWriter();
+        // store the system err
+        PrintStream errStream = System.err;
+        ByteArrayOutputStream warning = new ByteArrayOutputStream();
+        System.setErr(new PrintStream(warning));
+        writer.setEndOfLine("X");
+        warning.flush();
+        assertTrue(warning.toString().startsWith("[WARN]"));
+        warning.reset();
+        writer.setEndOfLine("\tX");
+        warning.flush();
+        assertTrue(warning.toString().startsWith("[WARN]"));
+        warning.reset();
+        // now test a valid value..
+        writer.setEndOfLine(" ");
+        warning.flush();
+        assertTrue(warning.toString().equals(""));
+        warning.reset();
+        // set the System.err back again..
+        System.setErr(errStream);
     }
 }
 
