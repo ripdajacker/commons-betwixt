@@ -81,14 +81,12 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.2 2003/04/08 13:39:03 rdonkin Exp $
+  * @version $Id: TextRule.java,v 1.3 2003/06/11 21:29:32 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( TextRule.class );
-    /** Class for which the .bewixt file is being digested */
-    private Class beanClass;
     /** Base constructor */
     public TextRule() {}
     
@@ -125,13 +123,13 @@ public class TextRule extends MappedPropertyRule {
             // property based text
             descriptor.setPropertyName( propertyName );
             
+            Class beanClass = getBeanClass();
             
             // set the property type using reflection
             descriptor.setPropertyType( 
                 getPropertyType( propertyType, beanClass, propertyName ) 
             );
             
-            Class beanClass = getBeanClass();
             if ( beanClass != null ) {
                 String name = descriptor.getPropertyName();
                 PropertyDescriptor propertyDescriptor = 
@@ -151,7 +149,6 @@ public class TextRule extends MappedPropertyRule {
             if (elementDescriptor == null) {
                 elementDescriptor.addContentDescriptor( descriptor );
             }
-            beanClass = beanInfo.getBeanClass();
             
         } else if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;
