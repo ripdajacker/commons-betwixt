@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.2 2003/02/13 18:41:47 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/02/13 18:41:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.3 2003/02/20 18:06:59 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/02/20 18:06:59 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLUtils.java,v 1.2 2003/02/13 18:41:47 rdonkin Exp $
+ * $Id: XMLUtils.java,v 1.3 2003/02/20 18:06:59 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
  /**
@@ -75,7 +75,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class XMLUtils {
 
@@ -110,23 +110,6 @@ public class XMLUtils {
     //
 
     static {
-        
-        //
-        // [2] Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] |
-        //              [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-        //
-
-        int charRange[] = { 
-            0x0009, 0x000A, 0x000D, 0x000D, 0x0020, 0xD7FF, 0xE000, 0xFFFD,
-        };
-
-        //
-        // [3] S ::= (#x20 | #x9 | #xD | #xA)+
-        //
-
-        int spaceChar[] = { 
-            0x0020, 0x0009, 0x000D, 0x000A,
-        };
 
         //
         // [4] NameChar ::= Letter | Digit | '.' | '-' | '_' | ':' |
@@ -143,19 +126,6 @@ public class XMLUtils {
 
         int nameStartChar[] = { 
             0x003A, 0x005F, // ':' and '_'
-        };
-
-        //
-        // [13] PubidChar ::= #x20 | 0xD | 0xA | [a-zA-Z0-9] | [-'()+,./:=?;!*#@$_%]
-        //
-
-        int pubidChar[] = {
-            0x000A, 0x000D, 0x0020, 0x0021, 0x0023, 0x0024, 0x0025, 0x003D,
-            0x005F
-        };
-
-        int pubidRange[] = {
-            0x0027, 0x003B, 0x003F, 0x005A, 0x0061, 0x007A
         };
 
         //
