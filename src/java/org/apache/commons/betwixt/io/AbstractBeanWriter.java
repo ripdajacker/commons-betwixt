@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.3 2004/01/18 12:30:58 rdonkin Exp $
- * $Revision: 1.22.2.3 $
- * $Date: 2004/01/18 12:30:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.4 2004/01/26 22:20:01 rdonkin Exp $
+ * $Revision: 1.22.2.4 $
+ * $Date: 2004/01/26 22:20:01 $
  *
  * ====================================================================
  * 
@@ -96,7 +96,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22.2.3 $
+  * @version $Revision: 1.22.2.4 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -558,18 +558,16 @@ public abstract class AbstractBeanWriter {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
         
-            if (elementDescriptor.isWrapCollectionsInElement()) {
-                startElement( 
+            startElement( 
                             namespaceUri, 
                             localName, 
                             qualifiedName,
                             new ElementAttributes( elementDescriptor, context ));
-            }
-    
+           
             writeElementContent( elementDescriptor, context ) ;
-            if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                endElement( namespaceUri, localName, qualifiedName );
-            }
+            
+            endElement( namespaceUri, localName, qualifiedName );
+            
         }
     }
     
@@ -644,14 +642,7 @@ public abstract class AbstractBeanWriter {
                                     SAXException,
                                     IntrospectionException {
 
-        if ( elementDescriptor.isWrapCollectionsInElement() ) {
-            writeAttributes( elementDescriptor, context );
-        }
-
         writeElementContent( elementDescriptor, context );
-        if ( elementDescriptor.isWrapCollectionsInElement() ) {
-            endElement( uri, localName, qualifiedName );
-        }
     }
 
     /**
@@ -1106,7 +1097,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.22.2.3 $
+     * @version $Revision: 1.22.2.4 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

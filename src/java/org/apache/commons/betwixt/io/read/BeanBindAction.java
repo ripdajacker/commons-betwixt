@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/15 20:21:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.3 2004/01/26 22:20:01 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/01/26 22:20:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.2 2004/01/15 20:21:21 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.3 2004/01/26 22:20:01 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -79,7 +79,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -430,13 +430,6 @@ public class BeanBindAction extends MappingAction.Base {
             try {
                 XMLBeanInfo xmlInfo =
                     context.getXMLIntrospector().introspect(beanClass);
-                if (log.isTraceEnabled()) {
-                    log.trace(
-                        "Is wrapped? "
-                            + xmlInfo
-                                .getElementDescriptor()
-                                .isWrapCollectionsInElement());
-                }
                 return xmlInfo.getElementDescriptor();
 
             } catch (Exception e) {

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.5 2004/01/24 13:36:17 rdonkin Exp $
- * $Revision: 1.4.2.5 $
- * $Date: 2004/01/24 13:36:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.6 2004/01/26 22:20:01 rdonkin Exp $
+ * $Revision: 1.4.2.6 $
+ * $Date: 2004/01/26 22:20:01 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.5 2004/01/24 13:36:17 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.6 2004/01/26 22:20:01 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -325,13 +325,13 @@ public class BeanProperty {
         IntrospectionConfiguration configuration,
         Expression propertyExpression) {
             
+        //TODO: need to clean the element descriptors so that the wrappers are plain
         ElementDescriptor result;
         
         ElementDescriptor loopDescriptor = new ElementDescriptor();
         loopDescriptor.setContextExpression(
             new IteratorExpression( propertyExpression )
         );
-        loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
 
         loopDescriptor.setQualifiedName( "entry" );
         // add elements for reading
@@ -340,7 +340,6 @@ public class BeanProperty {
         
         
         ElementDescriptor elementDescriptor = new ElementDescriptor();
-        elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
         elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
         
         result = elementDescriptor;

@@ -128,7 +128,7 @@ public class RSSBeanReader extends AbstractTestCase {
             throw new Exception( "No bean read from the XML document!" );
         }
         BeanWriter writer = new BeanWriter();
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.enablePrettyPrint();
         writer.write( bean );
     }
