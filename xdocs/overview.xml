@@ -28,7 +28,8 @@
     public String[] getEmailAddresses();
 }]]></source>
     
-    <p>This could be mapped to XML as these various ways</p>
+    <p>This could be mapped to XML in various ways. 
+    A couple of examples of these different ways follow.</p>
 
 
 <subsection name="Example 1">
@@ -100,6 +101,7 @@
     
 <source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
 <info primitiveTypes='attribute'>
+<hide property='something'/>
 <element name='channel'/>
     <element name='customerList'>
     <element name='customer' property='customers'/>
@@ -107,7 +109,6 @@
     <element name='foo'>
     <attribute name='qqq' property='ppp'/>
     <element name='bar' property='xyz'/>
-    <hide property='something'/>
     <addDefaults/>
 </element>
 </info>

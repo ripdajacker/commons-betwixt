@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.6 2003/01/12 13:52:03 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/12 13:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.7 2003/01/29 18:55:09 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/01/29 18:55:09 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.6 2003/01/12 13:52:03 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.7 2003/01/29 18:55:09 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.7 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -322,7 +322,7 @@ public class ElementDescriptor extends NodeDescriptor {
         
     /** 
      * Lazily creates the mutable List.
-     * This nullifies {@link #attributeDescriptors} so that
+     * This nullifies the attributeDescriptors array so that
      * as items are added to the list the Array is ignored until it is
      * explicitly asked for.
      * 
@@ -348,7 +348,7 @@ public class ElementDescriptor extends NodeDescriptor {
     
     /**  
      * Lazily creates the mutable List of child elements.
-     * This nullifies {@link #elementDescriptors} so that
+     * This nullifies the elementDescriptors array so that
      * as items are added to the list the Array is ignored until it is
      * explicitly asked for.
      *
