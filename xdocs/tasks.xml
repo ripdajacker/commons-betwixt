@@ -187,6 +187,10 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 1.0-Alpha 1 Release'>
         <ul>
             <li>
+                <strong>Added support for CDATA encoding</strong> through strategy
+                for mixed content encoding.
+            </li>
+            <li>
                 <strong>Created DTD for .betwixt files.</strong>
             </li>
             <li>
@@ -285,6 +289,11 @@ Added ClassNormalizer strategy. This allows the Class introspector to differ fro
 <section name='Deprecated'>
     <subsection name='Since 1.0-Alpha 1 Release'>
         <ul>
+            <li><strong>Adding context parameter to SAX style API</strong>
+                <ul>
+                    
+                </ul>
+            </li>
             <li> 
                 <code>BeanWriter.escapeAttributeValue()</code> moved into XMLUtils
             </li>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!--
+   Copyright 2004 The Apache Software Foundation
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<document>
+
+ <properties>
+  <title>Outputing Results</title>
+  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+ </properties>
+
+<body>
+<section name='Outputing Results (Of Bean Writing)'>
+        <p>
+Betwixt is flexible when it comes to outputing the results of bean writing.
+The abstract <code>AbstractBeanWriter</code> class provides a basic framework
+with an implementation API inspired by <a href='http://www.saxproject.org/'>SAX</a>.
+Betwixt ships with writers that support SAX and textual streams
+but others can be created with relative ease.
+    </p>
+</section>
+<section name='Pushing Results to a Textual Stream'>
+        <p>
+<code>BeanWriter</code> push results to a textual stream. This can be used
+to efficiently push content through a socket or just to create a simple String.
+Note that only document fragments are created so you may need to append any
+prologs before writing the bean.
+    </p>
+        <subsection name='Content Encoding'>
+            <p>
+When writing character data (the content between markup tags) to a textual stream,
+sections of character data can be processed in various ways by Betwixt with the
+aim of easily producing valid xml from beans. In particular, Betwixt assumes that
+bean's property values are plain java rather than pre-processed xml and so
+may contain characters that should be escaped.
+        </p>
+            <p>
+There are two primary use cases for this processing: 
+        </p>
+            <ul>    
+                <li>
+Escaping the character data
+            </li>
+                <li>
+Wrapping the entire section as <code>CDATA</code>
+            </li>
+        </ul>
+            <p>
+Betwixt provides a plug-in 
+<a href='../apidocs/org/apache/commons/betwixt/strategy/MixedContentEncodingStrategy.html'>
+MixedCharacterEncodingStrategy</a>
+and a property on
+<a href='../apidocs/org/apache/commons/betwixt/io/BeanWriter.html'>BeanWriter</a>
+which allows the processing to be varied.
+Factory constants are provided on <code>MixedCharacterEncodingStrategy</code>
+for the two common use cases above.
+        </p>
+            <p>
+For example, to have all content wrapped in <code>CDATA</code> sections:
+        </p>
+<source>
+        BeanWriter writer = ... 
+        writer.setMixedContentEncodingStrategy(MixedContentEncodingStrategy.CDATA);
+</source>
+            <p>
+By default, Betwixt using escaping and produces no CDATA sections.
+        </p>
+    </subsection>
+</section>
+<section name='Pushing Results to SAX'>
+        <p>
+<code>SAXBeanWriter</code> push results to a SAX content handler. 
+This allows Betwixt to efficiently participate as a content generator
+in SAX-based pipelines such as <a href='http://cocoon.apache.org/'>cocoon</a>.
+    </p>
+</section>
+</body>
+</document>

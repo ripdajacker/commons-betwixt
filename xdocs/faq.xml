@@ -77,6 +77,12 @@
           How can I stop Betwixt write out empty elements?
         </a>
       </li>
+      <li>
+        <a href="#cdata">
+          How can I stop Betwixt escaping my character data?
+        </a>
+      </li>      
+      
     </ol>
     <p><strong>Reading Beans</strong></p>
     <ol>
@@ -227,6 +233,20 @@ beanWriter.setWriteEmptyElements(false);
             (before writing your bean).
         </dd>
       </dl>   
+
+      <dl>
+        <dt>
+          <a name="cdata">
+          	How can I stop Betwixt escaping my character data?
+          </a>
+        </dt>
+        <dd>
+Betwixt processes the character data so that valid xml is created.
+The detault is to escape all character data but this can be changed
+by plugging in a new <a href='guide/output.html#Content%20Encoding'>mixed context 
+encoding strategy</a>.
+        </dd>
+      </dl> 
           
     </subsection>
     <subsection name="Reading Beans">
