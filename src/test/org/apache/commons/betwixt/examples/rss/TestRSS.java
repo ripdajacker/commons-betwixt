@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/TestRSS.java,v 1.1 2004/01/12 20:33:01 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2004/01/12 20:33:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/TestRSS.java,v 1.2 2004/01/12 22:16:08 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2004/01/12 22:16:08 $
  *
  * ====================================================================
  * 
@@ -69,7 +69,7 @@ import java.io.File;
  * <p>Test case for example.</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.1 $ $Date: 2004/01/12 20:33:01 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/12 22:16:08 $
  */
 
 public class TestRSS extends AbstractTestCase {
@@ -101,8 +101,6 @@ public class TestRSS extends AbstractTestCase {
                             "title: The Animation Contest is Now Closed\n" +
                             "link: http://www.mozillazine.org/talkback.html?article=603\n" +
                             "description: \n";
-        System.out.println("******************************");
-        System.out.println(output);
         assertEquals(output, expected);
     }
 }

@@ -12,7 +12,7 @@
 <section name="Tutorial">
         <p>
 This is a simple step-by-step <code>Betwixt</code> tutorial focussing 
-on creating a mapping for a RSS application. 
+on creating a mapping for an RSS 0.91 application. 
     </p>
     
 <subsection name='The Object Model'>
@@ -23,11 +23,214 @@ defining a binding from an existing group of java objects into xml (and back aga
 without the use of code generation.
     </p>
         <p>
+So, the place we'll start is with an 
+<a href=
+'http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/package-summary.html'>
+object model</a> for 
+RSS 0.91. This was originally created for 
+<a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> 
+by Craig R. McClanahan and Ted Husted with a few ammendments for this tutorial.
+There are only four main objects in the model: 
+    </p>
+        <ul>
+            <li>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
+Channel</a>
+        </li>
+            <li>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Image.html'>
+Image</a>
+        </li>
+            <li>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>
+Item</a>
+        </li>
+            <li>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>
+TextInput</a>
+        </li>
+    </ul>
+        <p>
+The 
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
+application</a> simply processes an xml file in RSS format and creates a plain text version.
+This isn't really very useful but is a good demonstration of bean reading.
     </p>
 </subsection>
 
+    <subsection name='The XML'>
+        <p>
+RSS 0.91 is an XML vocabulary for describing metadata about websites commonly used
+to supply news channels. RSS 0.91 is a little elderly and has quite a simple 
+- but elegant - DTD:
+    </p>
+<source>
+<![CDATA[
+<!ELEMENT rss (channel)>
+<!ATTLIST rss
+          version     CDATA #REQUIRED> <!-- must be "0.91"> -->
+
+<!ELEMENT channel (
+                    title | 
+                    description | 
+                    link | 
+                    language | 
+                    item+ | 
+                    rating? | 
+                    image? | 
+                    textinput? | 
+                    copyright? | 
+                    pubDate? | 
+                    lastBuildDate? | 
+                    docs? | 
+                    managingEditor? | 
+                    webMaster? | 
+                    skipHours? | 
+                    skipDays?)*>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT link (#PCDATA)>
+<!ELEMENT image (title | url | link | width? | height? | description?)*>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT item (title | link | description)*>
+<!ELEMENT textinput (title | description | name | link)*>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT rating (#PCDATA)>
+<!ELEMENT language (#PCDATA)>
+<!ELEMENT width (#PCDATA)>
+<!ELEMENT height (#PCDATA)>
+<!ELEMENT copyright (#PCDATA)>
+<!ELEMENT pubDate (#PCDATA)>
+<!ELEMENT lastBuildDate (#PCDATA)>
+<!ELEMENT docs (#PCDATA)>
+<!ELEMENT managingEditor (#PCDATA)>
+<!ELEMENT webMaster (#PCDATA)>
+<!ELEMENT hour (#PCDATA)>
+<!ELEMENT day (#PCDATA)>
+<!ELEMENT skipHours (hour+)>
+<!ELEMENT skipDays (day+)>
+]]>
+</source>
+        <p>
+Since <code>Betwixt</code> is start-from-java, a DTD is not required.
+This has many advantages during prototyping but this tutorial will
+concentrate on a target specified by DTD (since it's a little more instructive).
+What's probably needed in both cases is a good understanding of the xml
+that the object model maps to.
+    </p>
+</subsection>
+    
+    <subsection name='Mapping Channel and Image'>
+        <p>
+Every xml document has a root node. 
+Every <code>Betwixt</code> mapping starts from a root object.
+The process of creating a mapping between the xml document and the object model
+in <code>Betwixt</code> typically begins by working out the structural relationship
+between the elements in the xml and the objects in the property subgraph of that root object.
+    </p>
+        <p>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
+Channel</a> is the root object mapping to the <code>&lt;channel&gt;</code> root element
+of the xml. There are several ways that a mapping for an object can be defined in 
+<code>Betwixt</code>. In this case, a <code>.betwixt</code> xml file will be used.
+This following file is built into the jar in the package containing <code>Channel</code>:
+    </p>
+<source>
+<![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="rss">
+    <attribute name="version" property="version"/>
+    <element name="channel">
+      <element name="title"  property="title"/>
+      <element name="item"  property="items"/>
+      <element name="textinput"  property="textInput"/>
+      <element name="skipDays">
+        <element name="day" property="skipDays"/>
+      </element>
+      <element name="skipHours">
+        <element name="hour" property="skipHours"/>
+      </element>
+      <addDefaults/>
+    </element>
+  </element>
+</info>
+]]>
+</source>
+        <p>
+This describes how elements and attributes in the xml are mapped to properties
+in a Channel object. <code>Betwixt</code> uses the type of the properties to
+determine how to map the sub-graph under an element mapped to a property. 
+So, for example the <code>textInput</code> property gets and sets a <code>TextInput</code>
+object so the mapping for <code>TextInput</code> is used.
+    </p>
+        <p>
+There are a number of collective properties: those that are mapped to a many 
+objects (rather than just one). For example, the 
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html#96'>items</a>
+property is backed by an <code>List</code> and is mapped to zero, one or more <code>&lt;item&gt;</code> tags.
+<code>Betwixt</code> looks for an adder method (something like <code>addItem</code>) which matches
+the collective property (which should return something like a Collection) 
+and uses that to add instances of the object created from the xml contained.
+This mechanism can be customized but the defaults are fine in this case.
+The standard mapping for the class contained with the collection is used.
+    </p>
+        <p>
+Notice the <code>&lt;addDefaults/&gt;</code> tag. This tells <code>Betwixt</code>
+to use it's introspection system to automagically determine the mappings
+for all other properties. <code>Betwixt</code> has a number of powerful
+strategy plugins which allow the introspection process to be controlled
+in a finely-grained manner but in this case, the default mappings of the
+remaining properties work fine :)
+    </p>
+        <p>
+See 
+<a href='http://jakarta.apache.org/commons/betwixt/guide/binding.html'>binding</a>
+for more details.
+    </p>
+        <p>
+Image uses a smaller <code>.betwixt</code> file:
+    </p>
+<source>
+<![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="image">
+    <element name="url" property="URL"/>
+    <addDefaults/>
+  </element>
+</info>
+]]>
+</source>
+</subsection>    
+    <subsection name='Mapping Item and TextInput'>    
+        <p>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>Item</a>
+is an example of the other (main) way that mappings are created for objects.
+There is no <code>.betwixt</code> file so <code>Betwixt</code> introspects the 
+class using reflection and determines a mapping based on the current introspector 
+configuration. In this case, it's exactly what's required so there's no need to change
+    </p>
+        <p>
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>TextInput</a>
+is also mapped by using introspection.
+    </p>
+</subsection>
+
+    <subsection name='Reading A Bean From XML'>
+        <p>
+<code>org.apache.commons.betwixt.io.BeanReader</code> reads beans from xml documents.
+The 
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
+tutorial application</a> reads an xml file (specified on the command line) 
+and prints a plain text version. The root object (in this case <code>Channel</code>) 
+needs to be 
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#104'>
+registered</a> first. Then 
+<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#112'>
+parse</a> can be used to parse an XML document and produce a bean.
+    </p>
+</subsection>
 </section>
-
-
 </body>
 </document>

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/RSSApplication.java,v 1.1 2004/01/12 20:32:37 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2004/01/12 20:32:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/examples/rss/RSSApplication.java,v 1.2 2004/01/12 22:16:08 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2004/01/12 22:16:08 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * rather than providing a .</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.1 $ $Date: 2004/01/12 20:32:37 $
+ * @version $Revision: 1.2 $ $Date: 2004/01/12 22:16:08 $
  */
 
 public class RSSApplication {
@@ -110,7 +110,6 @@ public class RSSApplication {
     
     public String plainTextSummary(File file) throws Exception {
         Channel channel = (Channel) reader.parse(file);
-        System.out.println("@@@@@@@@@@@" + channel);
         return plainTextSummary(channel);
     } 
     
