@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- $Id: dotbetwixt.dtd,v 1.1.2.1 2003/01/25 20:15:21 rdonkin Exp $ -->
+<!-- 
+    The (experimental) DTD for .betwixt files.
+-->
+
+<!ELEMENT attribute EMPTY>
+<!ATTLIST attribute
+    name CDATA #IMPLIED
+    type CDATA #IMPLIED
+    uri CDATA #IMPLIED
+    value CDATA #IMPLIED
+    property CDATA #IMPLIED
+  >
+
+<!ELEMENT addDefaults EMPTY>
+
+<!ELEMENT element (attribute|addDefaults|element)*>
+<!ATTLIST element
+    name CDATA #IMPLIED
+    type CDATA #IMPLIED
+    uri CDATA #IMPLIED
+    value CDATA #IMPLIED
+    property CDATA #IMPLIED
+  >
+
+<!ELEMENT hide EMPTY>
+<!ATTLIST hide
+    property CDATA #REQUIRED
+  >
+  
+<!ELEMENT info (hide|element)*>
+<!ATTLIST info
+    primitiveTypes (element|attribute) "attribute"
+  >

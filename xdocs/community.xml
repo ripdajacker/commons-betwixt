@@ -15,15 +15,11 @@
       <p>
       To access the IRC server, point an appropriate IRC client at:
       </p>
-      
-      <blockquote>
-        <pre>
-             server: <b>irc.werken.com</b>
-               port: <b>6667</b>
-            channel: <b>#betwixt</b>
-        </pre>
-      </blockquote>
-      
+        <source>
+            server: irc.werken.com
+              port: 6667
+           channel: #betwixt
+        </source>
       <p>
       For those who use <a href="http://www.mozilla.org/">Mozilla</a>, here's a 
       <a href="irc://irc.werken.com:6667/#betwixt">quick link to #betwixt</a>.
