@@ -78,63 +78,40 @@
     
     <dependency>
       <id>commons-logging</id>
-      <type>required</type>
       <version>1.0</version>
-      <jar>commons-logging-1.0.jar</jar>
     </dependency>
 
     <dependency>
       <id>commons-beanutils</id>
-      <type>required</type>
       <version>1.3</version>
-      <jar>commons-beanutils-1.3.jar</jar>
     </dependency>
 
     <dependency>
       <id>commons-collections</id>
-      <type>required</type>
       <version>2.0</version>
-      <jar>commons-collections-2.0.jar</jar>
     </dependency>
 
     <dependency>
       <id>commons-digester</id>
-      <type>required</type>
       <version>1.2</version>
-      <jar>commons-digester-1.2.jar</jar>
     </dependency>
 
 <!-- runtime dependencies only required for testing and sample programs -->
     <dependency>
-      <id>xercesImpl</id>
-      <type>required</type>
+      <id>xerces</id>
       <version>2.0.0</version>
-      <jar>xercesImpl-2.0.0.jar</jar>
     </dependency>
 
     <dependency>
-      <id>xmlParseAPIs</id>
-      <type>required</type>
-      <version>2.0.0</version>
-      <jar>xmlParserAPIs-2.0.0.jar</jar>
+      <id>xml-apis</id>
+      <version>2.0.2</version>
     </dependency>
 
 	<!-- for unit tests -->
     <dependency>
       <id>junit</id>
-      <type>required</type>
       <version>3.7</version>
       <url>http://www.junit.org</url>
-      <jar>junit-3.7.jar</jar>
-    </dependency>
-     <!-- some testcases need maven 
-          we should get rid of that dependency
-     -->          
-    <dependency>
-      <id>maven</id>
-      <type>required</type>
-      <version>1.0</version>
-      <jar>maven.jar</jar>
     </dependency>
 
   </dependencies>
