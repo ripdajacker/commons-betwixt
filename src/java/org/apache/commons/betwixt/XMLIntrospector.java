@@ -105,7 +105,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.22 2003/07/27 17:53:57 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.23 2003/07/27 18:47:39 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -869,7 +869,7 @@ public class XMLIntrospector {
      * @param attributes AttributeDescriptor list to which attributes will be added
      * @param contents Descriptor list to which mixed content will be added
      * @throws IntrospectionException if the bean introspection fails
-     * @deprecated use {@link addProperty(BeanProperty, List, List, List} instead
+     * @deprecated use {@link #addProperty(BeanProperty, List, List, List)} instead
      */
     protected void addProperty(
                                 PropertyDescriptor propertyDescriptor, 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/DynaBeanExpression.java,v 1.1 2003/07/27 17:53:11 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/27 17:53:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/DynaBeanExpression.java,v 1.2 2003/07/27 18:47:39 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/07/27 18:47:39 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- * $Id: DynaBeanExpression.java,v 1.1 2003/07/27 17:53:11 rdonkin Exp $
+ * $Id: DynaBeanExpression.java,v 1.2 2003/07/27 18:47:39 rdonkin Exp $
  *
  */
 
@@ -114,7 +114,7 @@ public class DynaBeanExpression implements Expression {
 
     /**
      * Do nothing.
-     * @see {@link Expression#update}
+     * @see Expression#update
      */
     public void update(Context context, String newValue) {
         // do nothing
