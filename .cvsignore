@@ -7,3 +7,4 @@ velocity.log
 foo.txt
 maven.log
 .classpath
+lib
