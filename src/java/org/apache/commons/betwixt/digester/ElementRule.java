@@ -57,8 +57,6 @@ package org.apache.commons.betwixt.digester;
  * 
  */
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -75,12 +73,20 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.9 2003/03/19 22:59:01 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.10 2003/04/08 13:41:40 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
     /** Logger */
-    private static final Log log = LogFactory.getLog( ElementRule.class );
+    private static Log log = LogFactory.getLog( ElementRule.class );
+    /** 
+     * Sets the log for this class 
+     * 
+     * @param newLog the new Log implementation for this class to use
+     */
+    public static final void setLog(Log newLog) {
+        log = newLog;
+    }
 
     /** Class for which the .bewixt file is being digested */
     private Class beanClass;
@@ -137,7 +143,7 @@ public class ElementRule extends MappedPropertyRule {
         
         
         if ( propertyName != null && propertyName.length() > 0 ) {
-            configureDescriptor(descriptor);
+            configureDescriptor(descriptor, attributes.getValue( "updater" ));
             
         } else {
             String value = attributes.getValue( "value" );
@@ -177,21 +183,41 @@ public class ElementRule extends MappedPropertyRule {
     //-------------------------------------------------------------------------    
     
     /** 
-     * Set the Expression and Updater from a bean property name 
+     * Sets the Expression and Updater from a bean property name 
+     * Uses the default updater (from the standard java bean property).
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      */
     protected void configureDescriptor(ElementDescriptor elementDescriptor) {
+        configureDescriptor( elementDescriptor, null );
+    }       
+    
+    /** 
+     * Sets the Expression and Updater from a bean property name 
+     * Allows a custom updater to be passed in.
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @param updateMethodName custom update method. If null, then use standard
+     */
+    protected void configureDescriptor(
+                                        ElementDescriptor elementDescriptor,
+                                        String updateMethodName) {
         Class beanClass = getBeanClass();
         if ( beanClass != null ) {
             String name = elementDescriptor.getPropertyName();
             PropertyDescriptor descriptor = 
                 getPropertyDescriptor( beanClass, name );
+            
             if ( descriptor != null ) { 
                 XMLIntrospectorHelper
-                    .configureProperty( elementDescriptor, descriptor );
+                    .configureProperty( 
+                                        elementDescriptor, 
+                                        descriptor, 
+                                        updateMethodName, 
+                                        beanClass );
+                
                 getProcessedPropertyNameSet().add( name );
             }
         }
-    }        
+    }  
 }

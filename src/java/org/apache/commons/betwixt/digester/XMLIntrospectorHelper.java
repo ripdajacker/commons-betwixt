@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.18 2003/02/13 18:41:48 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.19 2003/04/08 13:41:40 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -233,7 +233,8 @@ public class XMLIntrospectorHelper {
     }
     
     /**
-     * Configure an <code>ElementDescriptor</code> from a <code>PropertyDescriptor</code>
+     * Configure an <code>ElementDescriptor</code> from a <code>PropertyDescriptor</code>.
+     * This uses default element updater (the write method of the property).
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
@@ -241,6 +242,27 @@ public class XMLIntrospectorHelper {
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
                                     PropertyDescriptor propertyDescriptor ) {
+                                    
+        configureProperty( elementDescriptor, propertyDescriptor, null, null);
+    }
+                                    
+    /**
+     * Configure an <code>ElementDescriptor</code> from a <code>PropertyDescriptor</code>.
+     * A custom update method may be set.
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     * @param updateMethodName the name of the custom updater method to user. 
+     * If null, then then 
+     * @param beanClass the <code>Class</code> from which the update method should be found.
+     * This may be null only when <code>updateMethodName</code> is also null.
+     */
+    public static void configureProperty( 
+                                    ElementDescriptor elementDescriptor, 
+                                    PropertyDescriptor propertyDescriptor,
+                                    String updateMethodName,
+                                    Class beanClass ) {
+        
         Class type = propertyDescriptor.getPropertyType();
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -285,9 +307,54 @@ public class XMLIntrospectorHelper {
             log.trace( "Standard property" );
             elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
         }
-        
-        if ( writeMethod != null ) {
-            elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+    
+        // see if we have a custom method update name
+        if (updateMethodName == null) {
+            // set standard write method
+            if ( writeMethod != null ) {
+                elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
+            
+        } else {
+            // see if we can find and set the custom method
+            if ( log.isTraceEnabled() ) {
+                log.trace( "Finding custom method: " );
+                log.trace( "  on:" + beanClass );
+                log.trace( "  name:" + updateMethodName );
+            }
+            
+            Method updateMethod = null;
+            Method[] methods = beanClass.getMethods();
+            for ( int i = 0, size = methods.length; i < size; i++ ) {
+                Method method = methods[i];
+                if ( updateMethodName.equals( method.getName() ) ) {
+                    // we have a matching name
+                    // check paramters are correct
+                    if (methods[i].getParameterTypes().length == 1) {
+                        // we'll use first match
+                        updateMethod = methods[i];
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Matched method:" + updateMethod);
+                        } 
+                        // done since we're using the first match
+                        break;
+                    }
+                }
+            }
+            
+            if (updateMethod == null) {
+                if ( log.isInfoEnabled() ) {
+                    
+                    log.info("No method with name '" + updateMethodName + "' found for update");
+                }
+            } else {
+    
+                elementDescriptor.setUpdater( new MethodUpdater( updateMethod ) );
+                elementDescriptor.setSingularPropertyType( updateMethod.getParameterTypes()[0] );
+                if ( log.isTraceEnabled() ) {
+                    log.trace( "Set custom updater on " + elementDescriptor);
+                }
+            }
         }
     }
     

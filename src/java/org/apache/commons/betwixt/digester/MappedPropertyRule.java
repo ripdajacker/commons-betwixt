@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/MappedPropertyRule.java,v 1.1 2003/03/19 22:59:01 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/03/19 22:59:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/MappedPropertyRule.java,v 1.2 2003/04/08 13:41:40 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/04/08 13:41:40 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MappedPropertyRule.java,v 1.1 2003/03/19 22:59:01 rdonkin Exp $
+ * $Id: MappedPropertyRule.java,v 1.2 2003/04/08 13:41:40 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -72,9 +72,9 @@ import org.apache.commons.logging.LogFactory;
   * Maybe a lot of this should be moved into <code>BeanUtils</code>.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
-abstract public class MappedPropertyRule extends RuleSupport {
+public abstract class MappedPropertyRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( MappedPropertyRule.class );   

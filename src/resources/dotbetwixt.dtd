@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!-- $Id: dotbetwixt.dtd,v 1.5 2003/03/19 22:54:29 rdonkin Exp $ -->
+<!-- $Id: dotbetwixt.dtd,v 1.6 2003/04/08 13:41:40 rdonkin Exp $ -->
 <!-- The DTD for .betwixt files -->
 
 <!ELEMENT attribute EMPTY>
@@ -14,6 +14,16 @@
 
 <!ELEMENT addDefaults EMPTY>
 
+<!--
+    Represents an element in the xml.
+    An element may be mapped to properties of the bean
+    (when it has a property attribute)
+    or it can be purely structure (when it does not)
+    
+    the updater attribute can be used 
+    (in conjunction with the property attribute) to specify a custom update
+    method.
+-->
 <!ELEMENT element (attribute|addDefaults|element|text)*>
 <!ATTLIST element
     name CDATA #REQUIRED
@@ -21,6 +31,7 @@
     uri CDATA #IMPLIED
     value CDATA #IMPLIED
     property CDATA #IMPLIED
+    updater CDATA #IMPLIED
   >
 
 <!-- Use for mixed content text -->
