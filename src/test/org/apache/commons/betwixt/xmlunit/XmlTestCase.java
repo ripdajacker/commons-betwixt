@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.5 2003/03/19 21:56:29 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/03/19 21:56:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.6 2003/03/24 20:22:21 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/03/24 20:22:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XmlTestCase.java,v 1.5 2003/03/19 21:56:29 rdonkin Exp $
+ * $Id: XmlTestCase.java,v 1.6 2003/03/24 20:22:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.xmlunit;
 
@@ -331,7 +331,7 @@ public class XmlTestCase extends TestCase {
                 Node nextOne = ((Node)it.next());
                 Node nextTwo = ((Node)iter2.next());
                 log(nextOne.getNodeName() + " vs " + nextTwo.getNodeName());
-                testIsomorphic(message, nextOne, nextTwo);
+                testIsomorphic(message, nextOne, nextTwo, orderIndependent);
             
             }
         
