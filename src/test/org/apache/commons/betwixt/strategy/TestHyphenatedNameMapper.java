@@ -5,9 +5,13 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: TestHyphenatedNameMapper.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
+ * $Id: TestHyphenatedNameMapper.java,v 1.3 2002/09/26 21:20:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
+
+import java.util.ArrayList;
+
+import org.apache.commons.betwixt.XMLIntrospector;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -18,7 +22,7 @@ import junit.framework.TestSuite;
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class TestHyphenatedNameMapper extends TestCase {
     
@@ -59,5 +63,18 @@ public class TestHyphenatedNameMapper extends TestCase {
         assertEquals("FOO__BAR__FOO__BAR", result);
 
      }
+     
+    
+    public void testBeanWithAdd() throws Exception {	
+        //
+        // simple test this one
+        // a problem was reported when introspecting classes with 'add' properties
+        // when using the HyphenatedNameMapper
+        // basically, the test is that no exception is thrown
+        //
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.introspect(new ArrayList());
+    }
 }
 
