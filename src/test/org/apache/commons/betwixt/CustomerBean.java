@@ -82,6 +82,7 @@ import org.apache.commons.logging.LogFactory;
 /** <p><code>CustomerBean</code> is a sample bean for use by the test cases.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+  * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
   * @version $Revision: 1.10 $
   */
 public class CustomerBean implements Serializable {
@@ -227,7 +228,17 @@ public class CustomerBean implements Serializable {
     }
 
     public String toString() {
-        return super.toString() + "[ID=" + id + ", name=" + name + ",address=" + address + "]";
+        return "[" + this.getClass().getName() + ": ID=" + id + ", name=" + name
+                + ", address=" + address + "]";
+    }
+    
+    public boolean equals( Object obj ) {
+        if ( obj == null ) return false;
+        return this.hashCode() == obj.hashCode();
+    }
+    
+    public int hashCode() {
+        return toString().hashCode();
     }
 	/**
 	 * Returns the date.

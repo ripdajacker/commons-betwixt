@@ -66,6 +66,7 @@ import java.io.Serializable;
 /** <p><code>CustomerBean</code> is a sample bean for use by the test cases.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+  * @author <a href="mailto:michael.davey@coderage.org">Michael Davey</a>
   * @version $Revision: 1.4 $
   */
 public class AddressBean implements Serializable {
@@ -111,6 +112,16 @@ public class AddressBean implements Serializable {
     }
     
     public String toString() {
-        return super.toString() + "[street=" + street + ", city=" + city+ ",country=" + country + "]";
+        return "[" + this.getClass().getName() + ": street=" + street + ", city="
+                + city+ ", country=" + country + "]";
+    }
+    
+    public boolean equals( Object obj ) {
+        if ( obj == null ) return false;
+        return this.hashCode() == obj.hashCode();
+    }
+    
+    public int hashCode() {
+        return toString().hashCode();
     }
 }

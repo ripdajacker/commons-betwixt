@@ -64,6 +64,7 @@ package org.apache.commons.betwixt;
 /** <p><code>PersonBean</code> is a sample bean for use with the test cases.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+  * @author <a href="mailto:Michael.Davey@coderage.org">Michael Davey</a>
   * @version $Revision: 1.2 $
   */
 public class PersonBean {
@@ -97,6 +98,15 @@ public class PersonBean {
     }
     
     public String toString() {  
-        return "[PersonBean] age=" + age + " name=" + name;
+        return "[" + this.getClass().getName() + ": age=" + age + " name=" + name + "]";
+    }
+    
+    public boolean equals( Object obj ) {
+        if ( obj == null ) return false;
+        return this.hashCode() == obj.hashCode();
+    }
+    
+    public int hashCode() {
+        return toString().hashCode();
     }
 }
