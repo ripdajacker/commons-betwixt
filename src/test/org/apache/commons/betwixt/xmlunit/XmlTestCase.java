@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.4 2003/02/13 18:41:49 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/02/13 18:41:49 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.5 2003/03/19 21:56:29 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/03/19 21:56:29 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XmlTestCase.java,v 1.4 2003/02/13 18:41:49 rdonkin Exp $
+ * $Id: XmlTestCase.java,v 1.5 2003/03/19 21:56:29 rdonkin Exp $
  */
 package org.apache.commons.betwixt.xmlunit;
 
@@ -94,7 +94,7 @@ import org.xml.sax.SAXException;
   */
 public class XmlTestCase extends TestCase {
 
-    private static final boolean debug = false;
+    protected static boolean debug = false;
 
     DocumentBuilderFactory domFactory;
 
@@ -114,6 +114,8 @@ public class XmlTestCase extends TestCase {
                                 org.w3c.dom.Document documentTwo)
                                     throws 
                                         AssertionFailedError {
+        log("Testing documents:" + documentOne.getDocumentElement().getNodeName() 
+            + " and " + documentTwo.getDocumentElement().getNodeName());
         xmlAssertIsomorphicContent(documentOne, documentTwo, false);
     }
 
@@ -149,7 +151,8 @@ public class XmlTestCase extends TestCase {
         xmlAssertIsomorphic(
                             message, 
                             documentOne.getDocumentElement(), 
-                            documentTwo.getDocumentElement());
+                            documentTwo.getDocumentElement(),
+                            orderIndependent);
     }
  
     
@@ -302,13 +305,14 @@ public class XmlTestCase extends TestCase {
             List listTwo = sanitize(nodeTwo.getChildNodes());
 
             if (orderIndependent) {
+                log("[Order Independent]");
                 Comparator nodeByName = new NodeByNameComparator();
                 Collections.sort(listOne, nodeByName);
                 Collections.sort(listTwo, nodeByName);
             }
             
             Iterator it = listOne.iterator();
-            Iterator iter2 = listOne.iterator();
+            Iterator iter2 = listTwo.iterator();
             while (it.hasNext() & iter2.hasNext()) {
                 Node nextOne = ((Node)it.next());
                 Node nextTwo = ((Node)iter2.next());
@@ -322,7 +326,7 @@ public class XmlTestCase extends TestCase {
                         listTwo.size());           
                         
             it = listOne.iterator();
-            iter2 = listOne.iterator();
+            iter2 = listTwo.iterator();
             while (it.hasNext() & iter2.hasNext()) {	
                 Node nextOne = ((Node)it.next());
                 Node nextTwo = ((Node)iter2.next());
@@ -416,6 +420,8 @@ public class XmlTestCase extends TestCase {
                 if ( !( nodes.item(i).getNodeValue() == null ||  
                         nodes.item(i).getNodeValue().trim().length() == 0 )) {
                     list.add(nodes.item(i));
+                } else {
+                    log("Ignoring text node:" + nodes.item(i).getNodeValue());
                 }
             } else {
                 list.add(nodes.item(i));
