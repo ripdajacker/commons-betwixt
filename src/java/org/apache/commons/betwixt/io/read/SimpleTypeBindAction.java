@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.3 2004/02/21 14:39:12 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/21 14:39:12 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.4 2004/02/21 16:58:58 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/21 16:58:58 $
  *
  * ====================================================================
  *
@@ -57,21 +57,17 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SimpleTypeBindAction.java,v 1.1.2.3 2004/02/21 14:39:12 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.4 2004/02/21 16:58:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
-import java.util.List;
-
 import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.collections.IteratorUtils;
 
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1.2.3 $
+  * @version $Revision: 1.1.2.4 $
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 

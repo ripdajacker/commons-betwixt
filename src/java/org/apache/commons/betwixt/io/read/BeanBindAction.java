@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.4 2004/02/21 16:34:57 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/02/21 16:34:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.5 2004/02/21 16:58:58 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/02/21 16:58:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.4 2004/02/21 16:34:57 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.5 2004/02/21 16:58:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -67,7 +67,6 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.logging.Log;
 import org.xml.sax.Attributes;
@@ -76,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.4 $
+ * @version $Revision: 1.1.2.5 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -86,26 +85,26 @@ public class BeanBindAction extends MappingAction.Base {
     public void body(String text, ReadContext context) throws Exception {
         Log log = context.getLog();
         // Take the first content descriptor
-        ElementDescriptor pathDescriptor = context.getCurrentDescriptor();
-        if (pathDescriptor == null) {
+        ElementDescriptor currentDescriptor = context.getCurrentDescriptor();
+        if (currentDescriptor == null) {
             if (log.isTraceEnabled()) {
                 log.trace("path descriptor is null:");
             }
         } else {
-            ElementDescriptor typeDescriptor =
-                getElementDescriptor(
-                    pathDescriptor,
-                    context.getXMLIntrospector());
-            TextDescriptor descriptor =
-                typeDescriptor.getPrimaryBodyTextDescriptor();
-            if (descriptor != null) {
+            TextDescriptor bodyTextdescriptor =
+                currentDescriptor.getPrimaryBodyTextDescriptor();
+            if (bodyTextdescriptor != null) {
                 if (log.isTraceEnabled()) {
                     log.trace("Setting mixed content for:");
-                    log.trace(descriptor);
+                    log.trace(bodyTextdescriptor);
                 }
-                Updater updater = descriptor.getUpdater();
-                log.trace("Updating mixed content with:");
-                log.trace(updater);
+                Updater updater = bodyTextdescriptor.getUpdater();
+                if (log.isTraceEnabled())
+                {
+                
+                    log.trace("Updating mixed content with:");
+                    log.trace(updater);
+                }
                 if (updater != null && text != null) {
                     updater.update(context, text);
                 }
@@ -151,30 +150,6 @@ public class BeanBindAction extends MappingAction.Base {
         }
     }
 
- 
-
-    ElementDescriptor getElementDescriptor(
-        ElementDescriptor propertyDescriptor,
-        XMLIntrospector introspector) {
-        if (propertyDescriptor == null) {
-            throw new RuntimeException("Property descriptor is null");
-        }
-        Class beanClass = propertyDescriptor.getSingularPropertyType();
-        if (beanClass != null && !Map.class.isAssignableFrom(beanClass)) {
-            try {
-                XMLBeanInfo xmlInfo = introspector.introspect(beanClass);
-
-                return xmlInfo.getElementDescriptor();
-
-            } catch (Exception e) {
-                // TODO: WORK OUT EXCEPTION HANDLING STRATEGY
-                System.out.println(
-                    "Could not introspect class: " + beanClass + e);
-            }
-        }
-        // could not find a better descriptor so use the one we've got
-        return propertyDescriptor;
-    }
 
     /* (non-Javadoc)
      * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext)

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.5 2004/02/21 13:39:06 rdonkin Exp $
- * $Revision: 1.16.2.5 $
- * $Date: 2004/02/21 13:39:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16.2.6 2004/02/21 16:58:58 rdonkin Exp $
+ * $Revision: 1.16.2.6 $
+ * $Date: 2004/02/21 16:58:58 $
  *
  * ====================================================================
  * 
@@ -61,19 +61,16 @@
 package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
-import java.util.Map;
 
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.io.read.BeanBindAction;
-import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
+import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.RuleSet;
@@ -85,7 +82,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.16.2.5 $
+  * @version $Revision: 1.16.2.6 $
   */
 public class BeanRuleSet implements RuleSet {
 
