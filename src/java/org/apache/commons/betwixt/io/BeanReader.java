@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.3 2002/08/29 19:28:50 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/08/29 19:28:50 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.4 2002/08/29 21:22:52 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/08/29 21:22:52 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.3 2002/08/29 19:28:50 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.4 2002/08/29 21:22:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -86,7 +86,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class BeanReader extends Digester {
 
@@ -96,6 +96,8 @@ public class BeanReader extends Digester {
     private Log log = LogFactory.getLog( BeanReader.class );
     /** The registered classes */
     private Set registeredClasses = new HashSet();
+    /** Should the reader use <code>ID</code>'s to match */
+    private boolean matchIDs = true;
     
     /**
      * Construct a new BeanReader with default properties.
@@ -203,6 +205,20 @@ public class BeanReader extends Digester {
         this.log = log;
         setLogger(log);
     }
+    
+    /** 
+     * Should the reader use <code>ID</code> attributes to match beans.
+     */
+    public boolean getMatchIDs() {
+        return matchIDs;
+    }
+    
+    /**
+     * Set whether the read should use <code>ID</code> attributes to match beans.
+     */
+    public void setMatchIDs(boolean matchIDs) {
+        this.matchIDs = matchIDs;
+    }
         
     // Implementation methods
     //-------------------------------------------------------------------------    
@@ -211,7 +227,7 @@ public class BeanReader extends Digester {
      * Adds a new bean create rule for the specified path
      */
     protected void addBeanCreateRule( String path, ElementDescriptor elementDescriptor, Class beanClass ) {
-        Rule rule = new BeanCreateRule( elementDescriptor, beanClass, path + "/" );
+        Rule rule = new BeanCreateRule( elementDescriptor, beanClass, path + "/" , matchIDs);
         addRule( path, rule );
 
         if ( log.isDebugEnabled() ) {

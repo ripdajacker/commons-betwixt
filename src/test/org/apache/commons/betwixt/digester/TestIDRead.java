@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.1 2002/08/29 19:28:50 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2002/08/29 19:28:50 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.2 2002/08/29 21:22:52 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/08/29 21:22:52 $
  *
  * ====================================================================
  *
@@ -58,7 +58,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestIDRead.java,v 1.1 2002/08/29 19:28:50 rdonkin Exp $
+ * $Id: TestIDRead.java,v 1.2 2002/08/29 21:22:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -81,7 +81,7 @@ import junit.textui.TestRunner;
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class TestIDRead extends AbstractTestCase {
 
@@ -124,9 +124,6 @@ public class TestIDRead extends AbstractTestCase {
 //        reader.getXMLIntrospector().setLog(log);
         
         reader.registerBeanClass( IDBean.class );
-        //reader.registerBeanClass( "IDBean/children/IDBean", IDBean.class );
-
-        System.out.println(reader.getRules().rules());
 
         InputStream in = new FileInputStream( 
             getTestFile("src/test/org/apache/commons/betwixt/digester/SimpleReadTest.xml") );
@@ -144,6 +141,58 @@ public class TestIDRead extends AbstractTestCase {
             
             IDBean gamma = (IDBean) alpha.getChildren().get(1);
             assertEquals("Wrong name (B)", "gamma" ,  gamma.getName());
+        }
+        finally {
+            in.close();
+        }
+    }
+    
+    public void testIDRead() throws Exception {
+        
+        BeanReader reader = new BeanReader();
+        
+//         logging just for this method
+//        SimpleLog log = new SimpleLog("[XMLIntrospectorHelper]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        XMLIntrospectorHelper.setLog(log);
+//        
+//        log = new SimpleLog("[BeanCreateRule]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanCreateRule.setLog(log);
+//
+//        log = new SimpleLog("[BeanReader]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);        
+//        reader.setLog(log);
+//
+//        log = new SimpleLog("[XMLIntrospector]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        reader.getXMLIntrospector().setLog(log);
+        
+        reader.registerBeanClass( IDBean.class );
+
+        InputStream in = new FileInputStream( 
+            getTestFile("src/test/org/apache/commons/betwixt/digester/IDTest1.xml") );
+            
+        try {
+            Object obj = reader.parse( in );
+            
+            assertEquals("Read bean type is incorrect", true, (obj instanceof IDBean) );
+            IDBean alpha = (IDBean) obj;
+            
+            assertEquals("Wrong list size (A)", 2 ,  alpha.getChildren().size());
+            
+            IDBean beta = (IDBean) alpha.getChildren().get(0);
+            assertEquals("Wrong name (A)", "beta" ,  beta.getName());
+            
+            IDBean gamma = (IDBean) alpha.getChildren().get(1);
+            assertEquals("Wrong name (B)", "gamma" ,  gamma.getName());
+            assertEquals("Wrong list size (B)", 2 ,  gamma.getChildren().size());
+            
+            IDBean sonOfGamma = (IDBean) gamma.getChildren().get(1);
+            assertEquals("Wrong id (A)", "two" ,  sonOfGamma.getId());
+            assertEquals("Wrong name (C)", "beta" ,  sonOfGamma.getName());
+            
+            assertEquals("IDREF bean not equal to ID bean", beta,  sonOfGamma);
         }
         finally {
             in.close();

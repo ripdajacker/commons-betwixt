@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.9 2002/08/29 19:16:17 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2002/08/29 19:16:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.10 2002/08/29 21:22:52 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2002/08/29 21:22:52 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.9 2002/08/29 19:16:17 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.10 2002/08/29 21:22:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,7 +89,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -113,29 +113,52 @@ public class BeanCreateRule extends Rule {
     private Class beanClass;
     /** The prefix added to digester rules */
     private String pathPrefix;
+    /** Beans digested indexed by <code>ID</code> */
+    private Map beansById = new HashMap();
+    /** Use id's to match beans */
+    private boolean matchIDs = true;
     
-    public BeanCreateRule(ElementDescriptor descriptor, Class beanClass, String pathPrefix) {
-        this.descriptor = descriptor;
-        this.context = new Context();
-        this.beanClass = beanClass;
-        this.pathPrefix = pathPrefix;
-        if (log.isTraceEnabled()) {
-            log.trace("Created bean create rule");
-            log.trace("Descriptor=" + descriptor);
-            log.trace("Class=" + beanClass);
-            log.trace("Path prefix=" + pathPrefix);
-        }
+    public BeanCreateRule(
+                            ElementDescriptor descriptor, 
+                            Class beanClass, 
+                            String pathPrefix, 
+                            boolean matchIDs) {
+        this( 
+                descriptor, 
+                beanClass, 
+                new Context(), 
+                pathPrefix,
+                matchIDs);
     }
     
-    public BeanCreateRule(ElementDescriptor descriptor, Class beanClass) {
-        this( descriptor, beanClass, descriptor.getQualifiedName() + "/" );
+    public BeanCreateRule(ElementDescriptor descriptor, Class beanClass, boolean matchIDs) {
+        this( descriptor, beanClass, descriptor.getQualifiedName() + "/" , matchIDs);
     }
     
-    public BeanCreateRule(ElementDescriptor descriptor, Context context, String pathPrefix) {
+    public BeanCreateRule(
+                            ElementDescriptor descriptor, 
+                            Context context, 
+                            String pathPrefix,
+                            boolean matchIDs) {
+        this( 
+                descriptor, 
+                descriptor.getSingularPropertyType(), 
+                context, 
+                pathPrefix,
+                matchIDs);
+    }
+    
+    private BeanCreateRule(
+                            ElementDescriptor descriptor, 
+                            Class beanClass,
+                            Context context, 
+                            String pathPrefix,
+                            boolean matchIDs) {
         this.descriptor = descriptor;        
         this.context = context;
-        this.beanClass = descriptor.getSingularPropertyType();
+        this.beanClass = beanClass;
         this.pathPrefix = pathPrefix;
+        this.matchIDs = matchIDs;
         if (log.isTraceEnabled()) {
             log.trace("Created bean create rule");
             log.trace("Descriptor=" + descriptor);
@@ -143,6 +166,7 @@ public class BeanCreateRule extends Rule {
             log.trace("Path prefix=" + pathPrefix);
         }
     }
+    
     
         
     // Rule interface
@@ -167,6 +191,8 @@ public class BeanCreateRule extends Rule {
                 log.trace("QName:" + attributes.getQName(i));
             }
         }
+        
+
         
         // XXX: if a single rule instance gets reused and nesting occurs
         // XXX: we should probably use a stack of booleans to test if we created a bean
@@ -223,6 +249,17 @@ public class BeanCreateRule extends Rule {
                 }
                 
                 addChildRules();
+                
+                // add bean for ID matching
+                if ( matchIDs ) {
+                    // XXX need to support custom ID attribute names
+                    // XXX i have a feeling that the current mechanism might need to change
+                    // XXX so i'm leaving this till later
+                    String id = attributes.getValue( "id" );
+                    if ( id != null ) {
+                        beansById.put( id, instance );
+                    }
+                }
             }
         }
     }
@@ -254,12 +291,39 @@ public class BeanCreateRule extends Rule {
         }
     }
 
+    /** 
+     * Tidy up.
+     */
+    public void finish() {
+        // clear beans map
+        beansById.clear();
+    }
+
 
     // Implementation methods
     //-------------------------------------------------------------------------    
     
     /** Factory method to create new bean instances */
     protected Object createBean(Attributes attributes) throws Exception {
+        //
+        // See if we've got an IDREF
+        //
+        // XXX This should be customizable but i'm not really convinced by the existing system
+        // XXX maybe it's going to have to change so i'll use 'idref' for nows
+        //
+        if ( matchIDs ) {
+            String idref = attributes.getValue( "idref" );
+            if ( idref != null ) {
+                // XXX need to check up about ordering
+                // XXX this is a very simple system that assumes that id occurs before idrefs
+                // XXX would need some thought about how to implement a fuller system
+                Object bean = beansById.get( idref );
+                if ( bean != null ) {
+                    return bean;
+                }
+            }
+        }
+        
         try {
             return beanClass.newInstance();
         }
@@ -327,7 +391,7 @@ public class BeanCreateRule extends Rule {
                             path = "*/"+desc[0].getQualifiedName();
                         }
                     }
-                    Rule rule = new BeanCreateRule( childDescriptor, context, path);
+                    Rule rule = new BeanCreateRule( childDescriptor, context, path, matchIDs);
                     addRule(path, rule);
                     continue;
                 }
@@ -361,7 +425,7 @@ public class BeanCreateRule extends Rule {
                             addPrimitiveTypeRule(path, childDescriptor);
                         }
                         else {
-                            Rule rule = new BeanCreateRule( childDescriptor, context, path + '/' );
+                            Rule rule = new BeanCreateRule( childDescriptor, context, path + '/', matchIDs );
                             addRule( path, rule );
                         }
                     }
