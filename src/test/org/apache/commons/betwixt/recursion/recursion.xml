@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
-<!-- $Id: recursion.xml,v 1.1 2002/07/30 22:47:41 mvdb Exp $ -->
+<!-- $Id: recursion.xml,v 1.2 2003/07/06 21:10:34 rdonkin Exp $ -->
 <ElementBean>
   <elements>
     <element name="element1">
       <elements>
         <element name="element11">
-          <element name="element111"/>
-          <element name="element112"/>
+          <elements>
+            <element name="element111"/>
+            <element name="element112"/>
+          </elements>
         </element>
         <element name="element12"/>
       </elements>
