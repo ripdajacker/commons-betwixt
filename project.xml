@@ -17,7 +17,7 @@
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
   <url>http://jakarta.apache.org/commons/betwixt/</url>
-  <package>org.apache.commons.betwixt.*</package>
+  <package>org.apache.commons.*</package>
 
   <repository>
     <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons/betwxit/</connection>
