@@ -195,7 +195,10 @@
     other encoding, though the plural name should start with the singular name for 
     auto-detection to work properly.</p>
 
+</section>
+
 <section name="Examples">
+<subsection name='A Rich Site Summary Mapping'>
 
     <p>In the RSS example from Digester there's a bean which matches this pattern.</p>
 
@@ -258,7 +261,7 @@ public class Foo {
   </tr>
 </table>
 
-</section>
+</subsection>
 
 </section>
 
