@@ -50,7 +50,7 @@ public abstract class TypedUpdater implements Updater {
                         log.trace("Converting primitive to " + valueType);
                     }
                     newValue = context.getObjectStringConverter()
-                        .stringToObject( (String) newValue, valueType, null, context );
+                        .stringToObject( (String) newValue, valueType, context );
                 }
                 if ( newValue != null ) {
                     // check that it is of the correct type

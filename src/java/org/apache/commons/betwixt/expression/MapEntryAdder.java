@@ -192,13 +192,13 @@ public class MapEntryAdder {
             if ( key instanceof String ) {
                 // try to convert into primitive types
                 key = context.getObjectStringConverter()
-                        .stringToObject( (String) key, keyType, null, context );
+                        .stringToObject( (String) key, keyType, context );
             }
             
             if ( value instanceof String ) {
                 // try to convert into primitive types
                 value = context.getObjectStringConverter()
-                        .stringToObject( (String) value, valueType, null, context );
+                        .stringToObject( (String) value, valueType, context );
             }
             
             // special case for collection objects into arrays                    

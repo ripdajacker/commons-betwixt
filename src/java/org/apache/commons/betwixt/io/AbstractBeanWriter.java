@@ -718,7 +718,8 @@ public abstract class AbstractBeanWriter {
             if ( log.isTraceEnabled() ) {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
-        
+            context.pushOptions(elementDescriptor.getOptions());
+            
             Attributes attributes = addNamespaceDeclarations(
                 new ElementAttributes( elementDescriptor, context ), namespaceUri);
             writeContext.setCurrentDescriptor(elementDescriptor);
@@ -732,7 +733,7 @@ public abstract class AbstractBeanWriter {
             writeElementContent( elementDescriptor, context ) ;
             writeContext.setCurrentDescriptor(elementDescriptor);
             endElement( writeContext, namespaceUri, localName, qualifiedName );
-            
+            context.popOptions();
         }
     }
     
@@ -797,6 +798,7 @@ public abstract class AbstractBeanWriter {
                                     IntrospectionException {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
+            context.pushOptions(elementDescriptor.getOptions());
             writeContext.setCurrentDescriptor(elementDescriptor);
             Attributes attributes = new IDElementAttributes( 
                         elementDescriptor, 
@@ -813,7 +815,7 @@ public abstract class AbstractBeanWriter {
             writeElementContent( elementDescriptor, context ) ;
             writeContext.setCurrentDescriptor(elementDescriptor);
             endElement( writeContext, namespaceUri, localName, qualifiedName );
-
+            context.popOptions();
         } else if ( log.isTraceEnabled() ) {
             log.trace( "Element " + qualifiedName + " is empty." );
         }
@@ -879,7 +881,7 @@ public abstract class AbstractBeanWriter {
                                 "",
                                 idrefAttributeName, 
                                 idrefAttributeName,
-                                "IDREF",
+                                "IDREF",    
                                 idrefAttributeValue);
         writeContext.setCurrentDescriptor(elementDescriptor);
         startElement( writeContext, uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri));        
@@ -1819,7 +1821,7 @@ public abstract class AbstractBeanWriter {
     private String convertToString( Object value , Descriptor descriptor, Context context ) {
         return getBindingConfiguration()
             .getObjectStringConverter()
-                .objectToString( value, descriptor.getPropertyType(), null, context );
+                .objectToString( value, descriptor.getPropertyType(), context );
     }
     
     /**

@@ -17,6 +17,7 @@ package org.apache.commons.betwixt.strategy;
 
 import java.io.Serializable;
 
+import org.apache.commons.betwixt.Options;
 import org.apache.commons.betwixt.expression.Context;
 
 /** 
@@ -38,6 +39,10 @@ import org.apache.commons.betwixt.expression.Context;
  */
 public class ObjectStringConverter implements Serializable {
     
+    /** Standard name for option giving flavour */
+    public static final String FLAVOUR_OPTION_NAME 
+        = "org.apache.commons.betwixt.flavour";
+    
     /**
       * Converts an object to a string representation.
       * This basic implementation returns object.toString() 
@@ -47,6 +52,10 @@ public class ObjectStringConverter implements Serializable {
       * @param type the property class of the object, not null
       * @param flavour a string allow symantic differences in formatting to be communicated
       * @param context the context, not null
+      * @deprecated  use {@link #objectToString(Object, Class, Context)} instead. 
+      * The preferred way to support flavours is by setting the
+      * <code>org.apache.commons.betwixt.FLAVOUR</code> option.
+      * This can then be retrieved by calling {@link Context#getOptions()}
       * @return a String representation, not null
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
@@ -66,9 +75,58 @@ public class ObjectStringConverter implements Serializable {
       * @param type the property class to be returned (if possible), not null
       * @param flavour a string allow symantic differences in formatting to be communicated
       * @param context the context, not null
+      * @deprecated use {@link #stringToObject(String, Class, Context)} instead.
+      * The preferred way to support flavours is by setting the
+      * <code>org.apache.commons.betwixt.FLAVOUR</code> option.
+      * This can then be retrieved by calling {@link Context#getOptions()}
       * @return an Object converted from the String, not null
       */
     public Object stringToObject(String value, Class type, String flavour, Context context) {
         return value;
+    }
+
+    
+    /**
+      * Converts an object to a string representation.
+      * This basic implementation returns object.toString() 
+      * or an empty string if the given object is null.
+      *
+      * @param object the object to be converted, possibly null
+      * @param type the property class of the object, not null
+      * @param context the context, not null
+      * @return a String representation, not null
+      */
+    public String objectToString(Object object, Class type, Context context) {
+        String flavour = getFlavour(context);
+        return objectToString(object, type, flavour, context);
+    }
+    
+    /**
+      * Converts a string representation to an object.
+      * It is acceptable for an implementation to return the string if it cannot convert 
+      * the string to the given class type.
+      * This basic implementation just returns a string.
+      * 
+      * @param value the String to be converted
+      * @param type the property class to be returned (if possible), not null
+      * @param context the context, not null
+      * @return an Object converted from the String, not null
+      */
+    public Object stringToObject(String value, Class type, Context context) {
+        String flavour = getFlavour(context);
+        return stringToObject(value, type, flavour, context);
+    }
+
+    /**
+     * Gets the current flavour from the context.
+     * @param context <code>Context</code>, not null
+     */
+    private String getFlavour(Context context) {
+        String flavour = null;
+        Options options = context.getOptions();
+        if (options != null) {
+            flavour = options.getValue(FLAVOUR_OPTION_NAME);
+        }
+        return flavour;
     }
 }

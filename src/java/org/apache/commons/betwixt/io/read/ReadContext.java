@@ -20,6 +20,7 @@ import java.beans.IntrospectionException;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.Options;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
@@ -59,9 +60,9 @@ public class ReadContext extends Context {
 	private ArrayStack actionMappingStack = new ArrayStack();
 	/** Stack contains all beans created */
 	private ArrayStack objectStack = new ArrayStack();
-    
+    /** Stack contains element descriptors */
     private ArrayStack descriptorStack = new ArrayStack();
-    
+    /** Stack contains updaters */
     private ArrayStack updaterStack = new ArrayStack();
 
 	private Class rootClass;
@@ -198,6 +199,8 @@ public class ReadContext extends Context {
             updaterStack.pop();
         }
         
+        popOptions();
+        
 		Object top = null;
 		if (!elementMappingStack.isEmpty()) {
 			top = elementMappingStack.pop();
@@ -284,11 +287,14 @@ public class ReadContext extends Context {
             }
         }
         Updater updater = null;
+        Options options = null;
         if (nextDescriptor != null) {
             updater = nextDescriptor.getUpdater();
+            options = nextDescriptor.getOptions();
         }
         updaterStack.push(updater);
         descriptorStack.push(nextDescriptor);
+        pushOptions(options);
 	}
 
 	/**

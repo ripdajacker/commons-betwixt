@@ -19,9 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.Options;
 import org.apache.commons.betwixt.strategy.IdStoringStrategy;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
+import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -52,6 +54,8 @@ public class Context {
     private Object bean;
     /** Variables map */
     private Map variables;
+    /** Store options */
+    private ArrayStack optionStack = new ArrayStack();
     /** 
      * Logging uses commons-logging <code>Log</code> 
      * named <code>org.apache.commons.betwixt</code> 
@@ -278,6 +282,48 @@ public class Context {
      */
     public IdStoringStrategy getIdMappingStrategy() {
         return bindingConfiguration.getIdMappingStrategy();
+    }
+    
+    /**
+     * Gets the current <code>Options</code>.
+     * @return <code>Options</code> that currently apply
+     * or null if there are no current options.
+     */
+    public Options getOptions() {
+        Options results = null;
+        if (!optionStack.isEmpty()) {
+            results = (Options) optionStack.peek();
+        }
+        return results;
+    }
+
+    /**
+     * <p>Pushes the given <code>Options</code> onto the stack.
+     * </p><p>
+     * <strong>Note</strong> that code calling push should ensure that {@link #popOptions}
+     * is called once the options are no longer current.
+     * This ensures that the previous options are reinstated.
+     * </p>
+     * @param options newly current <code>Options</code>, not null 
+     */
+    public void pushOptions(Options options) {
+        optionStack.push(options);
+    }
+
+    /**
+     * <p>Pops the current options from the stack.
+     * The previously current options (if any exist)
+     * will be reinstated by this method.
+     * </p><p>
+     * <stong>Note</strong> code calling this method should
+     * have previsouly called {@link #popOptions}.
+     */
+    public void popOptions() {
+        if (optionStack.isEmpty()) {
+            log.info("Cannot pop options off empty stack");
+        } else {
+            optionStack.pop();
+        }
     }
     
 }
