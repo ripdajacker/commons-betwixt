@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.3 2004/01/26 22:20:01 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/01/26 22:20:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.4 2004/02/21 16:34:57 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/21 16:34:57 $
  *
  * ====================================================================
  *
@@ -57,12 +57,10 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.3 2004/01/26 22:20:01 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.4 2004/02/21 16:34:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
@@ -71,7 +69,6 @@ import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.logging.Log;
 import org.xml.sax.Attributes;
 
@@ -79,7 +76,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -122,110 +119,31 @@ public class BeanBindAction extends MappingAction.Base {
         update(context, instance);
     }
 
-    private void updateCurrentDescriptor(ReadContext context, Object value)
-        throws Exception {
-        ElementDescriptor childDescriptor = context.getCurrentDescriptor();
-        if (childDescriptor != null) {
-            Updater updater = childDescriptor.getUpdater();
-            if (updater != null) {
-                updater.update(context, value);
-            }
-        }
-    }
-
     private void update(ReadContext context, Object value) throws Exception {
         Log log = context.getLog();
         boolean popped = false;
         //TODO: add dyna-bean support!
         // probably refactoring needed
-        Iterator relativePathIterator =
-            context.getRelativeElementPathIterator();
-        if (relativePathIterator.hasNext()) {
-            ElementDescriptor childDescriptor = context.getCurrentDescriptor();
-            if (childDescriptor != null) {
-                Updater updater = childDescriptor.getUpdater();
-                if (updater != null) {
-                    updater.update(context, value);
-                } else {
-                    // this is a workaround to make the tests run
-                    // it will be replaced when proper support for maps is added
-                    List list =
-                        IteratorUtils.toList(
-                            context.getRelativeElementPathIterator());
-                    if (list.size() > 0) {
-                        list.remove(list.size() - 1);
-                        XMLBeanInfo lastMappedClazzInfo =
-                            context.getLastMappedClassXMLBeanInfo();
-                        childDescriptor =
-                            lastMappedClazzInfo
-                                .getElementDescriptor()
-                                .getElementDescriptor(
-                                list.iterator());
-                        updater = childDescriptor.getUpdater();
-                        if (updater != null) {
-
-                            updater.update(context, value);
-
-                        } else {
-
-                            String poppedElement = context.popElement();
-                            popped = true;
-                            updateCurrentDescriptor(context, value);
-                        }
-
-                    } else {
-                        String poppedElement = context.popElement();
-                        popped = true;
-                        updateCurrentDescriptor(context, value);
-                    }
+        
+        ElementDescriptor currentDescriptor = context.getCurrentDescriptor();
+        ElementDescriptor parentDescriptor = context.getParentElementDescriptor();
+        Updater updater = currentDescriptor.getUpdater();
+        if (updater == null) {
+            if (parentDescriptor != null) {
+                updater = parentDescriptor.getUpdater();         
+            }
+            String poppedElement = context.popElement();
+            popped = true;
+        }
+        
+        if ( updater == null ) {
+            if (!context.isAtRootElement() && !context.isStackEmpty()) {
+                if ( context.getLog().isDebugEnabled() ) {
+                    context.getLog().debug("Cannot find updater for " + context.getCurrentElement());
                 }
             }
         } else {
-            // in here when we need to get hold of the parent class
-            String element = context.popElement();
-            popped = true;
-            XMLBeanInfo lastMappedClazzInfo =
-                context.getLastMappedClassXMLBeanInfo();
-            if (lastMappedClazzInfo != null) {
-
-                ElementDescriptor baseDescriptor =
-                    lastMappedClazzInfo.getElementDescriptor();
-                List list =
-                    IteratorUtils.toList(
-                        context.getRelativeElementPathIterator());
-                list.add(element);
-                ElementDescriptor childDescriptor =
-                    lastMappedClazzInfo
-                        .getElementDescriptor()
-                        .getElementDescriptor(
-                        list.iterator());
-
-                if (childDescriptor != null) {
-                    list.remove(element);
-                    Iterator iterator = list.iterator();
-                    updateChild(
-                        context,
-                        value,
-                        lastMappedClazzInfo,
-                        childDescriptor,
-                        iterator,
-                        true);
-                } else {
-                    childDescriptor =
-                        context.getRelativePathElementDescriptor();
-                    Iterator iterator = context.getParentElementPathIterator();
-
-                    if (childDescriptor != null) {
-                        updateChild(
-                            context,
-                            value,
-                            lastMappedClazzInfo,
-                            childDescriptor,
-                            iterator,
-                            false);
-                    }
-                }
-            }
+            updater.update(context, value);
         }
 
         if (!popped) {
@@ -233,46 +151,7 @@ public class BeanBindAction extends MappingAction.Base {
         }
     }
 
-    private void updateChild(
-        ReadContext context,
-        Object value,
-        XMLBeanInfo lastMappedClazzInfo,
-        ElementDescriptor descriptor,
-        Iterator iterator,
-        boolean useOriginal) {
-
-        Updater updater = descriptor.getUpdater();
-        if (updater != null) {
-            updater.update(context, value);
-
-        } else {
-
-            ElementDescriptor childDescriptor =
-                lastMappedClazzInfo
-                    .getElementDescriptor()
-                    .getElementDescriptor(
-                    iterator);
-            if (childDescriptor == null
-                || childDescriptor.getUpdater() == null) {
-                if (useOriginal) {
-
-                    childDescriptor =
-                        lastMappedClazzInfo.getElementDescriptor().findParent(
-                            descriptor);
-                } else {
-                    childDescriptor =
-                        lastMappedClazzInfo.getElementDescriptor().findParent(
-                            childDescriptor);
-                }
-            }
-            if (childDescriptor != null) {
-                updater = childDescriptor.getUpdater();
-                if (updater != null) {
-                    updater.update(context, value);
-                }
-            }
-        }
-    }
+ 
 
     ElementDescriptor getElementDescriptor(
         ElementDescriptor propertyDescriptor,

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.2 2004/01/15 20:21:21 rdonkin Exp $
- * $Revision: 1.4.2.2 $
- * $Date: 2004/01/15 20:21:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.3 2004/02/21 16:34:57 rdonkin Exp $
+ * $Revision: 1.4.2.3 $
+ * $Date: 2004/02/21 16:34:57 $
  *
  * ====================================================================
  * 
@@ -81,7 +81,7 @@ import org.xml.sax.Attributes;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.2 $
+  * @version $Revision: 1.4.2.3 $
   */
 public class ReadContext extends Context {
 
@@ -281,11 +281,12 @@ public class ReadContext extends Context {
 		ElementDescriptor result = null;
 		XMLBeanInfo lastMappedClazzInfo = getLastMappedClassXMLBeanInfo();
 		if (lastMappedClazzInfo != null) {
+            Iterator it = getParentElementPathIterator();
+            Object test = it.next();
 			result =
 				lastMappedClazzInfo
 					.getElementDescriptor()
-					.getElementDescriptor(
-					getParentElementPathIterator());
+					.getElementDescriptor(it);
 		}
 		return result;
 	}
@@ -312,6 +313,56 @@ public class ReadContext extends Context {
 		}
 		return lastMapped;
 	}
+    
+    
+    private Class getParentClass()
+    {
+        Class result = null;
+        boolean first = true;
+        for (int i = 0, size = elementMappingStack.size();
+            i < size;
+            i++) {
+            Object entry = elementMappingStack.peek(i);
+            if (entry instanceof Class) {
+                if (first) {
+                    first = false;
+                } else {
+                
+                    result = (Class) entry;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    
+    private XMLBeanInfo getParentXMLBeanInfo() throws IntrospectionException {
+        XMLBeanInfo result = null;
+        Class parentClass = getParentClass();
+        if ( parentClass != null ) {
+            result = getXMLIntrospector().introspect(parentClass);
+        }
+        return result;
+    }
+    
+
+    /**
+     * @return
+     */
+    public ElementDescriptor getParentElementDescriptor() throws IntrospectionException {
+        ElementDescriptor parentDescriptor = null;
+        XMLBeanInfo parentInfo = getParentXMLBeanInfo();
+        if ( parentInfo != null ) {
+            Iterator it = getParentElementPathIterator();
+            parentDescriptor =
+                parentInfo
+                    .getElementDescriptor()
+                    .getElementDescriptor(it);            
+        }
+        
+        return parentDescriptor;
+    }
+    
 
 	public XMLBeanInfo getLastMappedClassXMLBeanInfo()
 		throws IntrospectionException {
@@ -347,6 +398,10 @@ public class ReadContext extends Context {
 	public boolean isAtRootElement() {
 		return (elementMappingStack.size() == 1);
 	}
+
+    public boolean isStackEmpty() {
+        return (elementMappingStack.size() == 0);
+    }
 
 
 	/**
@@ -562,5 +617,6 @@ public class ReadContext extends Context {
 			}
 		}
 	}
+
 
 }
