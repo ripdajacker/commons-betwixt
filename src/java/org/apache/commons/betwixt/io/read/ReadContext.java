@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.6 2004/03/13 19:19:43 rdonkin Exp $
- * $Revision: 1.4.2.6 $
- * $Date: 2004/03/13 19:19:43 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.7 2004/04/18 16:43:10 rdonkin Exp $
+ * $Revision: 1.4.2.7 $
+ * $Date: 2004/04/18 16:43:10 $
  *
  * ====================================================================
  * 
@@ -79,10 +79,21 @@ import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 
 /**  
-  * Extends <code>Context</code> to provide read specific functionality. 
-  *
+  * <p>Extends <code>Context</code> to provide read specific functionality.</p> 
+  * <p>
+  * Three stacks are used to manage the reading:
+  * </p>
+  * <ul>
+  *     <li><strong>Action mapping stack</strong> contains the {@link MappingAction}'s
+  * used to execute the mapping of the current element and it's ancesters back to the 
+  * document root.</li>
+  *     <li><strong>Result stack</strong> contains the objects which are bound
+  * to the current element and to each of it's ancester's back to the root</li>
+  *     <li><strong>Element mapping stack</strong> records the names of the element
+  * and the classes to which they are bound</li>
+  * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.6 $
+  * @version $Revision: 1.4.2.7 $
   */
 public class ReadContext extends Context {
 
@@ -256,7 +267,7 @@ public class ReadContext extends Context {
 	  *
 	  * @return an Iterator over String's
 	  */
-	public Iterator getRelativeElementPathIterator() {
+	private Iterator getRelativeElementPathIterator() {
 		return new RelativePathIterator();
 	}
 
@@ -361,24 +372,6 @@ public class ReadContext extends Context {
 			markClassMap(rootClass);
 		}
 	}
-
-    /**
-     * Is the root element currently being mapped?
-     * @return true if the element being mapped is the root element
-     * but false if the stack is empty
-     */    
-	public boolean isAtRootElement() {
-		return (elementMappingStack.size() == 1);
-	}
-
-    /**
-     * Is the element mapping stack empty?
-     * @return true if the element mapping stack is empty
-     */
-    public boolean isStackEmpty() {
-        return (elementMappingStack.size() == 0);
-    }
-
 
 	/**
 	  * Marks the element name stack with a class mapping.

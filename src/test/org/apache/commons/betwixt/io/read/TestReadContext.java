@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.1 2004/01/13 21:53:18 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/13 21:53:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/read/TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/04/18 16:43:10 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestReadContext.java,v 1.1.2.1 2004/01/13 21:53:18 rdonkin Exp $
+ * $Id: TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -74,7 +74,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Test harness for ReadContext
  * 
  * @author Robert Burrell Donkin
- * @version $Id: TestReadContext.java,v 1.1.2.1 2004/01/13 21:53:18 rdonkin Exp $
+ * @version $Id: TestReadContext.java,v 1.1.2.2 2004/04/18 16:43:10 rdonkin Exp $
  */
 public class TestReadContext extends AbstractTestCase {
 
@@ -181,7 +181,9 @@ public class TestReadContext extends AbstractTestCase {
         context.markClassMap(Integer.class);
         assertEquals("Top class", Integer.class, context.getLastMappedClass());
     }
-
+    
+/* Sad to say that the method tested has had to be made private.
+ * Maybe would be good to find a way to test the
     public void testRelativeElementPathBase()
     {
         ReadContext context = new ReadContext(
@@ -282,4 +284,5 @@ public class TestReadContext extends AbstractTestCase {
         assertEquals("Element name (3)", "gamma", elements.get(3));
 
     }
+    */
 }

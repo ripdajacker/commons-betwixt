@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.8 2004/03/13 19:19:43 rdonkin Exp $
- * $Revision: 1.1.2.8 $
- * $Date: 2004/03/13 19:19:43 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.9 2004/04/18 16:43:10 rdonkin Exp $
+ * $Revision: 1.1.2.9 $
+ * $Date: 2004/04/18 16:43:10 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.8 2004/03/13 19:19:43 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.9 2004/04/18 16:43:10 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.8 $
+ * @version $Revision: 1.1.2.9 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -182,8 +182,7 @@ public class BeanBindAction extends MappingAction.Base {
                 }
                 Updater updater = bodyTextdescriptor.getUpdater();
                 if (log.isTraceEnabled())
-                {
-                
+                {    
                     log.trace("Updating mixed content with:");
                     log.trace(updater);
                 }
@@ -218,10 +217,8 @@ public class BeanBindAction extends MappingAction.Base {
         }
         
         if ( updater == null ) {
-            if (!context.isAtRootElement() && !context.isStackEmpty()) {
-                if ( context.getLog().isDebugEnabled() ) {
-                    context.getLog().debug("Cannot find updater for " + context.getCurrentElement());
-                }
+            if ( context.getLog().isTraceEnabled() ) {
+                context.getLog().trace("No updater for " + context.getCurrentElement());
             }
         } else {
             updater.update(context, value);
