@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.7 2003/07/01 21:39:31 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/07/01 21:39:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.8 2003/07/02 19:55:02 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/07/02 19:55:02 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XmlTestCase.java,v 1.7 2003/07/01 21:39:31 rdonkin Exp $
+ * $Id: XmlTestCase.java,v 1.8 2003/07/02 19:55:02 rdonkin Exp $
  */
 package org.apache.commons.betwixt.xmlunit;
 
@@ -103,12 +103,7 @@ public class XmlTestCase extends TestCase {
     public XmlTestCase(String testName) {
         super(testName);
     }
-    
-    public void testXMLUnit() throws Exception {
-        xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"));
-    }
+
     
     public void xmlAssertIsomorphicContent(
                                 org.w3c.dom.Document documentOne, 
