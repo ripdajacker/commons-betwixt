@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+	<element name="message">
+		<attribute name="type" property="type"/>
+		<attribute name="to" property="toAddress"/>
+		<attribute name="from" property="fromAddress"/>		
+		<element name="body">
+			<attribute name="name" property="name"/>
+			<attribute name="status" property="status"/>
+			<element name="description" property="description"/>
+			<element name="optional">
+				<element name="field-1">
+					<attribute name="value" property="optionalField1"/>
+				</element>
+				<element name="field-2">
+					<attribute name="value" property="optionalField2"/>
+				</element>
+			</element>
+		</element>
+	</element>
+</info>

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.15 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.15 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.16 2003/11/24 01:58:24 mvdb Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/11/24 01:58:24 $
  *
  * ====================================================================
  * 
@@ -89,7 +89,8 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.15 $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Revision: 1.16 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -405,6 +406,13 @@ public class BeanRuleSet implements RuleSet {
                         if ( log.isTraceEnabled() ) {
                             log.trace("Element does not have updater: " + childDescriptor);
                         }
+                        if (childDescriptor.hasAttributes()) {
+                            if ( log.isTraceEnabled() ) {
+                                log.trace( "Element has attributes, so adding rule anyway : "
+                                            + childDescriptor );
+                            }
+                            addRule(path,childDescriptor, context);
+                        }
                     }
     
                     ElementDescriptor[] grandChildren = childDescriptor.getElementDescriptors();
@@ -618,8 +626,10 @@ public class BeanRuleSet implements RuleSet {
               * @see Rule#begin(String, String, Attributes)
               */
             public void begin(String namespace, String name, Attributes attributes) {
-                log.debug( "Called with descriptor: " + descriptor 
-                            + " propertyType: " + descriptor.getPropertyType() );
+                if ( log.isDebugEnabled() ) {
+                    log.debug( "Called with descriptor: " + descriptor 
+                                + " propertyType: " + descriptor.getPropertyType() );
+                }
                 
                 if (log.isTraceEnabled()) {
                     int attributesLength = attributes.getLength();
@@ -633,81 +643,86 @@ public class BeanRuleSet implements RuleSet {
                     }
                 }
                 
-        
-                
                 // XXX: if a single rule instance gets reused and nesting occurs
                 // XXX: we should probably use a stack of booleans to test if we created a bean
                 // XXX: or let digester take nulls, which would be easier for us ;-)
                 createdBean = false;
-                        
                 Object instance = null;
-                if ( beanClass != null ) {
+                // if we are a reference to a type we should lookup the original
+                // as this ElementDescriptor will be 'hollow' 
+                // and have no child attributes/elements.
+                // XXX: this should probably be done by the NodeDescriptors...
+                ElementDescriptor typeDescriptor = getElementDescriptor( descriptor );
+                if ( typeDescriptor.getUpdater() == null && beanClass == null ) {
+                    // we try to get the instance from the context.
+                    instance = context.getBean();
+                    if ( instance == null ) {
+                        return;
+                    }
+                } else {
                     instance = createBean( namespace, name, attributes );
                     if ( instance != null ) {
                         createdBean = true;
                         context.setBean( instance );
                         digester.push( instance );
+                    } else {
+                        // we don't do anything if the instance is null.
+                        return;
+                    }
+                }
+        
+                // iterate through all attributes        
+                AttributeDescriptor[] attributeDescriptors 
+                    = typeDescriptor.getAttributeDescriptors();
+                if ( attributeDescriptors != null ) {
+                    for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
+                        AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
                         
+                        // The following isn't really the right way to find the attribute
+                        // but it's quite robust.
+                        // The idea is that you try both namespace and local name first
+                        // and if this returns null try the qName.
+                        String value = attributes.getValue( 
+                            attributeDescriptor.getURI(),
+                            attributeDescriptor.getLocalName() 
+                        );
+                        
+                        if ( value == null ) {
+                            value = attributes.getValue(
+                                attributeDescriptor.getQualifiedName());
+                        }
+                        
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Attr URL:" + attributeDescriptor.getURI());
+                            log.trace(
+                                        "Attr LocalName:" 
+                                        + attributeDescriptor.getLocalName() );
+                            log.trace(value);
+                        }
+                        
+                        Updater updater = attributeDescriptor.getUpdater();
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Updater : "+updater);
+                        }
+                        if ( updater != null && value != null ) {
+                            updater.update( context, value );
+                        }
+                    }
+                }
                 
-                        // if we are a reference to a type we should lookup the original
-                        // as this ElementDescriptor will be 'hollow' 
-                        // and have no child attributes/elements.
-                        // XXX: this should probably be done by the NodeDescriptors...
-                        ElementDescriptor typeDescriptor = getElementDescriptor( descriptor );
-                        //ElementDescriptor typeDescriptor = descriptor;
+                if ( log.isTraceEnabled() ) {
+                    log.trace("Created bean " + instance);
+                    log.trace("Path prefix: " + pathPrefix);
+                }
                 
-                        // iterate through all attributes        
-                        AttributeDescriptor[] attributeDescriptors 
-                            = typeDescriptor.getAttributeDescriptors();
-                        if ( attributeDescriptors != null ) {
-                            for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
-                                AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
-                                
-                                // The following isn't really the right way to find the attribute
-                                // but it's quite robust.
-                                // The idea is that you try both namespace and local name first
-                                // and if this returns null try the qName.
-                                String value = attributes.getValue( 
-                                    attributeDescriptor.getURI(),
-                                    attributeDescriptor.getLocalName() 
-                                );
-                                
-                                if (value == null) {
-                                    value = attributes.getValue(
-                                        attributeDescriptor.getQualifiedName());
-                                }
-                                
-                                if (log.isTraceEnabled()) {
-                                    log.trace("Attr URL:" + attributeDescriptor.getURI());
-                                    log.trace(
-                                                "Attr LocalName:" 
-                                                + attributeDescriptor.getLocalName() );
-                                    log.trace(value);
-                                }
-                                
-                                Updater updater = attributeDescriptor.getUpdater();
-                                log.trace(updater);
-                                if ( updater != null && value != null ) {
-                                    updater.update( context, value );
-                                }
-                            }
-                        }
-                        
-                        if (log.isTraceEnabled()) {
-                            log.trace("Created bean " + instance);
-                            log.trace("Path prefix: " + pathPrefix);
-                        }
-                        
-                        // add bean for ID matching
-                        if ( context.getMapIDs() ) {
-                            // XXX need to support custom ID attribute names
-                            // XXX i have a feeling that the current mechanism might need to change
-                            // XXX so i'm leaving this till later
-                            String id = attributes.getValue( "id" );
-                            if ( id != null ) {
-                                context.putBean( id, instance );
-                            }
-                        }
+                // add bean for ID matching
+                if ( context.getMapIDs() ) {
+                    // XXX need to support custom ID attribute names
+                    // XXX i have a feeling that the current mechanism might need to change
+                    // XXX so i'm leaving this till later
+                    String id = attributes.getValue( "id" );
+                    if ( id != null ) {
+                        context.putBean( id, instance );
                     }
                 }
             }
@@ -717,7 +732,9 @@ public class BeanRuleSet implements RuleSet {
               */
             public void body(String namespace, String name, String text) {
                 
-                log.trace("Body with text " + text);
+                if ( log.isTraceEnabled() ) {
+                    log.trace("Body with text " + text);
+                }
                 if ( digester.getCount() > 0 ) {
                     Context bodyContext = context.newContext( digester.peek() );
                     // Take the first content descriptor
@@ -729,8 +746,10 @@ public class BeanRuleSet implements RuleSet {
                             log.trace(descriptor);
                         }
                         Updater updater = descriptor.getUpdater();
-                        log.trace( "Updating mixed content with:" );
-                        log.trace( updater );
+                        if ( log.isTraceEnabled() ) {
+                            log.trace( "Updating mixed content with:" );
+                            log.trace( updater );
+                        }
                         if ( updater != null && text != null ) {
                             updater.update( bodyContext, text );
                         }
