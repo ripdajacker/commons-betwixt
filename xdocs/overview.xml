@@ -72,8 +72,10 @@
 
 </section>
 
-<section name="Customizing the mapping of a bean to XML">
+<section name="Customizing the mapping of a bean to XML (basic)">
     
+<subsection name=".betwixt files">
+
     <p>The XMLIntrospector will look for files of the form <i>className.betwixt</i> 
     on the classpath using the same ClassLoader used to load the given class and use 
     that document to specify the mapping to XML. If this file does not exist 
@@ -132,7 +134,9 @@
 </element>
 </info>
 ]]></source>
-    
+
+</subsection>
+
 </section>
 
 <section name="Bean naming conventions">
@@ -304,6 +308,56 @@ public class NameMapperExampleApp {
     any property that starts with the singular name. For example, it will match a plural property called
     <code>FooBars</code> for a singular property called <code>FooBar</code>. 
     </p>
+</subsection>
+
+</section>
+
+<section name="Customizing the mapping of a bean to XML (advanced)">
+
+<subsection name="Caching and XMLRegistry">
+    
+    <p>
+    Introspection is slow and so caching the results improves preformance. Though the writers 
+    and readers can - by nature - only be used safely in a single thread, a single 
+    <code>XMLIntrospector</code> instance can be safely shared amongst multiple threads. Sharing a
+    single instance will improve performance by sharing it's <code>XMLBeanInfo</code> cache.
+    </p>
+    
+    <p>
+    The <code>XMLBeanInfoRegistry</code> interface allows finely grained, pluggable control over 
+    the caching strategy used by a <code>XMLIntrospector</code>. The implementation used can be set
+    by passing an instance to <code>XMLIntrospector.setRegistry</code>.
+    </p>
+    
+    <p>
+    Before using the standard introspection techniques to create a new <code>XMLBeanInfo</code> instance
+    for a bean, the current <code>XMLBeanInfoRegistry</code> is first checked. Only if the registry 
+    does not return an <code>XMLBeanInfo</code> will a new one be created. Once a new instance has been
+    created by introspection, the <code>XMLBeanInfoRegistry</code> implementation will be called so that
+    the <code>XMLBeanInfo</code> can (if required) be cached.
+    </p>
+    
+    <p>
+    The default strategy caches everything and supports flushes. Betwixt contains an alternative 
+    implementation that does not cache anything. Users that require more sophisticated caching 
+    strategies should create custom implementations.
+    </p>
+    
+    <p>
+    The <code>XMLBeanInfoRegistry</code> can also be used to override the standard introspection mechanism
+    on a per class basis. The safest way to do this is to create a custom <code>XMLBeanInfoRegistry</code> 
+    implementation that pre-loads <code>XMLBeanInfo</code>'s for the required classes. If flush is called, 
+    the cache should be reset that it contains only those that it contained at the start. 
+    </p>
+
+</subsection>
+
+<subsection name="Other XMLIntrospector Settings">
+    
+    <p>
+    Here are discussed the important settings that haven't been covered already.
+    </p>
+    
 </subsection>
 
 </section>

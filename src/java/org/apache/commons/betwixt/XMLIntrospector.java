@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.14 2003/01/05 09:52:22 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.15 2003/01/05 15:47:45 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -151,10 +151,28 @@ public class XMLIntrospector {
         this.log = log;
     }
     
+    /** 
+     * <p>Get current registry implementation used.
+     * The registry is checked to see if it has an <code>XMLBeanInfo</code> for a class
+     * before introspecting. 
+     * After standard introspection is complete, the instance will be passed to the registry.</p>
+     *
+     * <p>This allows finely grained control over the caching strategy.
+     * It also allows the standard introspection mechanism to be overridden on a per class basis.</p>
+     */
     public XMLBeanInfoRegistry getRegistry() {
         return registry;
     }
     
+    /** 
+     * <p>Set current registry implementation used.
+     * The registry is checked to see if it has an <code>XMLBeanInfo</code> for a class
+     * before introspecting. 
+     * After standard introspection is complete, the instance will be passed to the registry.</p>
+     *
+     * <p>This allows finely grained control over the caching strategy.
+     * It also allows the standard introspection mechanism to be overridden on a per class basis.</p>
+     */
     public void setRegistry(XMLBeanInfoRegistry registry) {
         this.registry = registry;
     }

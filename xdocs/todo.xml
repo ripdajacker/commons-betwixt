@@ -24,10 +24,6 @@
                 Make sure that warnings are added about consequences of changing settings.
             </li>
             <li>
-                <strong>Add XMLRegistry documentation. </strong>
-                Add documentation about XMLRegistry to main documentation.
-            </li>
-            <li>
                 <strong>Improve Java Docs. </strong>
                 Go through java docs, add any which are missing, correct any mistakes etc.
             </li>
@@ -224,6 +220,10 @@
                 This needs to be added to the main documentation.
                 Example code needs to be created.
                 This code can also be used for more test cases.
+            </li>
+            <li>
+                <strong>Add XMLRegistry documentation. </strong>
+                Add documentation about XMLRegistry to main documentation.
             </li>
         </ul>
     </subsection>
