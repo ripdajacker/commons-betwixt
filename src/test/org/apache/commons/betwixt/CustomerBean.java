@@ -190,7 +190,9 @@ public class CustomerBean implements Serializable {
     }
 
     public void addNumber(int number) {
-        System.out.println( "Adding number: " + number );
+        if ( log.isDebugEnabled() ) {
+            log.debug( "Adding number: " + number );
+        }
         
         int newLength = (numbers == null) ? 1 : numbers.length+1;
         int[] newArray = new int[newLength];
