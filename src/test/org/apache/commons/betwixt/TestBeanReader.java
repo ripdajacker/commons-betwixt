@@ -686,7 +686,27 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Bad address (11)",  "United Kingdom", address.getCountry());
         assertEquals("Bad address (12)", "BD18 2BJ", address.getCode());
     }
-    
+
+  public void testReadMap2() throws Exception{
+    IdMap idMap = new IdMap();
+    String id ="3920";
+    idMap.addId(id, new Integer(1));
+    StringWriter outputWriter = new StringWriter();
+    outputWriter.write("<?xml version='1.0' ?>\n");
+    BeanWriter beanWriter = new BeanWriter(outputWriter);
+    beanWriter.write(idMap);
+    String xml = outputWriter.toString();
+    System.out.println("Map test: " + xml);
+
+    BeanReader beanReader = new BeanReader();
+    beanReader.registerBeanClass(IdMap.class);
+    IdMap result = (IdMap)beanReader.parse(new StringReader(xml));
+    assertNotNull("didn't get an object back!", result);
+    assertNotNull("didn't get a Map out of the IdMap!", result.getIds());
+    assertEquals("Got the Map, but doesn't have an entry!", 1, result.getIds().size());
+    assertNotNull("Got the Map, but doesn't have correct values!", result.getIds().get(id));
+  }
+
     public void testIndirectReference() throws Exception
     {	
         Tweedledum dum = new Tweedledum();

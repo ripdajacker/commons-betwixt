@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.4 2003/10/09 20:52:04 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:04 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.4.2.1 2004/03/29 20:50:21 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/03/29 20:50:21 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.apache.commons.logging.LogFactory;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.4.2.1 $
   */
 public class MapEntryAdder {
 
@@ -235,13 +235,13 @@ public class MapEntryAdder {
             if ( key instanceof String ) {
                 // try to convert into primitive types
                 key = context.getObjectStringConverter()
-                        .stringToObject( (String) key, valueType, null, context );
+                        .stringToObject( (String) key, keyType, null, context );
             }
             
             if ( value instanceof String ) {
                 // try to convert into primitive types
                 value = context.getObjectStringConverter()
-                        .stringToObject( (String) value, keyType, null, context );
+                        .stringToObject( (String) value, valueType, null, context );
             }
                  
             Object[] arguments = { key, value };
