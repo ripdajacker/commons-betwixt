@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/NodeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,20 +57,21 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: NodeDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: NodeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.Updater;
 
-/** <p> Common superclass for <code>ElementDescriptor</code> and <code>AttributeDescriptor</code>.</p>
+/** <p> Common superclass for <code>ElementDescriptor</code> 
+  * and <code>AttributeDescriptor</code>.</p>
   *
   * <p> Nodes can have just a local name
   * or they can have a local name, qualified name and a namespace uri.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class NodeDescriptor {
 
@@ -136,7 +137,10 @@ public class NodeDescriptor {
         this.qualifiedName = qualifiedName;
     }    
     
-    /** Returns the namespace URI that this node belongs to or "" if there is no namespace defined */
+    /**  
+     * Returns the namespace URI that this node belongs to 
+     * or "" if there is no namespace defined 
+     */
     public String getURI() {
         return uri;
     }
@@ -185,12 +189,18 @@ public class NodeDescriptor {
     }
 
     
-    /** @return the property expression to which this node refers to, or null if it is just a constant */
+    /** 
+     * @return the property expression to which this node refers to, 
+     * or null if it is just a constant 
+     */
     public String getPropertyName() {
         return propertyName;
     }
     
-    /** Sets the property expression to which this node refers to, or null if it is just a constant */
+    /** 
+     * Sets the property expression to which this node refers to, 
+     * or null if it is just a constant 
+     */
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
- * $Revision: 1.8 $
- * $Date: 2002/12/30 18:18:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
+ * $Id: AbstractBeanWriter.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -88,7 +88,7 @@ import org.xml.sax.SAXException;
 
 /**
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 abstract public class AbstractBeanWriter {
 
@@ -159,7 +159,8 @@ abstract public class AbstractBeanWriter {
     
     
     /** 
-     * <p>Writes the given bean to the current stream using the given <code>qualifiedName</code>.</p>
+     * <p>Writes the given bean to the current stream 
+     * using the given <code>qualifiedName</code>.</p>
      *
      * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
      * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
@@ -271,7 +272,8 @@ abstract public class AbstractBeanWriter {
     }
     
     /** 
-      * Get <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values .
+      * Get <code>IDGenerator</code> implementation used to 
+      * generate <code>ID</code> attribute values .
       *
       * @return implementation used for <code>ID</code> attribute generation
       */
@@ -280,7 +282,8 @@ abstract public class AbstractBeanWriter {
     }
     
     /** 
-      * Set <code>IDGenerator</code> implementation used to generate <code>ID</code> attribute values.
+      * Set <code>IDGenerator</code> implementation 
+      * used to generate <code>ID</code> attribute values.
       * This property can be used to customize the algorithm used for generation.
       *
       * @param idGenerator use this implementation for <code>ID</code> attribute generation
@@ -306,8 +309,10 @@ abstract public class AbstractBeanWriter {
     /**
      * <p> Get the introspector used. </p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
+     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * created by the <code>XMLIntrospector</code>.
+     * One way in which the mapping can be customized is 
+     * by altering the <code>XMLIntrospector</code>. </p>
      */
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
@@ -317,8 +322,10 @@ abstract public class AbstractBeanWriter {
     /**
      * <p> Set the introspector to be used. </p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
+     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * created by the <code>XMLIntrospector</code>.
+     * One way in which the mapping can be customized is by 
+     * altering the <code>XMLIntrospector</code>. </p>
      *
      * @param introspector use this introspector
      */
@@ -347,7 +354,8 @@ abstract public class AbstractBeanWriter {
     //-------------------------------------------------------------------------    
 
     /** Express an element tag start using given qualified name */
-    abstract protected void expressElementStart(String qualifiedName) throws IOException, SAXException;
+    abstract protected void expressElementStart(String qualifiedName) 
+                                        throws IOException, SAXException;
         
     abstract protected void expressTagClose() throws IOException, SAXException;
     

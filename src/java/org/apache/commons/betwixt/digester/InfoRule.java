@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: InfoRule.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: InfoRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -69,7 +69,7 @@ import org.xml.sax.Attributes;
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class InfoRule extends RuleSupport {
 
@@ -105,7 +105,10 @@ public class InfoRule extends RuleSupport {
                 getXMLInfoDigester().setAttributesForPrimitives( true );
             }
             else {
-                throw new Exception( "Invalid value inside element <info> for attribute 'primitiveTypes'. Value should be 'element' or 'attribute'" );
+                // XXX Should this be a checked exception?
+                throw new Exception( 	
+                    "Invalid value inside element <info> for attribute 'primitiveTypes'."
+                    + " Value should be 'element' or 'attribute'" );
             }
         }
         

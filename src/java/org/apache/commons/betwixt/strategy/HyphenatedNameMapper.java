@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.4 2003/01/05 09:52:22 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/05 09:52:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.5 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.4 2003/01/05 09:52:22 rdonkin Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.5 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -84,7 +84,10 @@ public class HyphenatedNameMapper implements NameMapper {
     /** whether upper or lower case conversions should be performed */
     private boolean upperCase = false;
     
-    /** Construct a hyphenated name mapper that converts the name to lower case and uses the default separator. */
+    /** 
+     * Construct a hyphenated name mapper that converts the name to lower case 
+     * and uses the default separator. 
+     */
     public HyphenatedNameMapper() {
     }
     

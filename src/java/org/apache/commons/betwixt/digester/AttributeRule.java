@@ -72,7 +72,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+  * @version $Id: AttributeRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -125,8 +125,8 @@ public class AttributeRule extends RuleSupport {
             parent.addAttributeDescriptor( descriptor );
         }
         else {
-            throw new SAXException( "Invalid use of <attribute>. It should " +
-                "be nested inside an <element> element" );
+            throw new SAXException( "Invalid use of <attribute>. It should " 
+                + "be nested inside an <element> element" );
         }            
 
         digester.push(descriptor);        
@@ -149,7 +149,7 @@ public class AttributeRule extends RuleSupport {
             try {
                 return classLoader.loadClass(name);
             }
-            catch (Exception e) {
+            catch (Exception e) { // SWALLOW
             }
         }
         return null;            

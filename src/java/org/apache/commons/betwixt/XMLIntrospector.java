@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.16 2003/01/05 16:27:16 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.17 2003/01/05 17:18:32 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -158,7 +158,8 @@ public class XMLIntrospector {
      * After standard introspection is complete, the instance will be passed to the registry.</p>
      *
      * <p>This allows finely grained control over the caching strategy.
-     * It also allows the standard introspection mechanism to be overridden on a per class basis.</p>
+     * It also allows the standard introspection mechanism 
+     * to be overridden on a per class basis.</p>
      */
     public XMLBeanInfoRegistry getRegistry() {
         return registry;
@@ -171,7 +172,8 @@ public class XMLIntrospector {
      * After standard introspection is complete, the instance will be passed to the registry.</p>
      *
      * <p>This allows finely grained control over the caching strategy.
-     * It also allows the standard introspection mechanism to be overridden on a per class basis.</p>
+     * It also allows the standard introspection mechanism 
+     * to be overridden on a per class basis.</p>
      */
     public void setRegistry(XMLBeanInfoRegistry registry) {
         this.registry = registry;
@@ -272,7 +274,8 @@ public class XMLIntrospector {
         Class beanClass = beanDescriptor.getBeanClass();
         
         ElementDescriptor elementDescriptor = new ElementDescriptor();
-        elementDescriptor.setLocalName( getElementNameMapper().mapTypeToElementName( beanDescriptor.getName() ) );
+        elementDescriptor.setLocalName( 
+            getElementNameMapper().mapTypeToElementName( beanDescriptor.getName() ) );
         elementDescriptor.setPropertyType( beanInfo.getBeanDescriptor().getBeanClass() );
         
         if (log.isTraceEnabled()) {
@@ -386,7 +389,8 @@ public class XMLIntrospector {
 
     /** 
      * @return the strategy used to convert bean type names into element names
-     * @deprecated getNameMapper is split up in {@link #getElementNameMapper()} and {@link #getAttributeNameMapper()}
+     * @deprecated getNameMapper is split up in 
+     * {@link #getElementNameMapper()} and {@link #getAttributeNameMapper()}
      */
     public NameMapper getNameMapper() {
         return getElementNameMapper();
@@ -395,7 +399,8 @@ public class XMLIntrospector {
     /** 
      * Sets the strategy used to convert bean type names into element names
      * @param nameMapper
-     * @deprecated setNameMapper is split up in {@link #setElementNameMapper(NameMapper)} and {@link #setAttributeNameMapper(NameMapper)}
+     * @deprecated setNameMapper is split up in 
+     * {@link #setElementNameMapper(NameMapper)} and {@link #setAttributeNameMapper(NameMapper)}
      */
     public void setNameMapper(NameMapper nameMapper) {
         setElementNameMapper(nameMapper);
@@ -455,14 +460,16 @@ public class XMLIntrospector {
     //-------------------------------------------------------------------------        
     
     /** 
-     * A Factory method to lazily create a new strategy to detect matching singular and plural properties 
+     * A Factory method to lazily create a new strategy 
+     * to detect matching singular and plural properties.
      */
     protected PluralStemmer createPluralStemmer() {
         return new DefaultPluralStemmer();
     }
     
     /** 
-     * A Factory method to lazily create a strategy used to convert bean type names into element names
+     * A Factory method to lazily create a strategy 
+     * used to convert bean type names into element names.
      */
     protected NameMapper createNameMapper() {
         return new DefaultNameMapper();

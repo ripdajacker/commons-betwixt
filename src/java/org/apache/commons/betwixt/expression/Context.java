@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -56,7 +56,7 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- * $Id: Context.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: Context.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -86,7 +86,7 @@ import org.apache.commons.logging.LogFactory;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class Context {
 
@@ -94,7 +94,10 @@ public class Context {
     private Object bean;
     /** Variables map */
     private Map variables = new HashMap();
-    /** Logging uses commons-logging <code>Log</code> named <code>org.apache.commons.betwixt</code> */
+    /** 
+     * Logging uses commons-logging <code>Log</code> 
+     * named <code>org.apache.commons.betwixt</code> 
+     */
     private Log log; 
     
     /** Construct context with default log */

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
- * $Revision: 1.8 $
- * $Date: 2002/12/30 18:18:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.8 2002/12/30 18:18:36 mvdb Exp $
+ * $Id: BeanReader.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -79,7 +79,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class BeanReader extends Digester {
 
@@ -169,8 +169,10 @@ public class BeanReader extends Digester {
     /**
      * <p> Get the introspector used. </p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
+     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * created by the <code>XMLIntrospector</code>.
+     * One way in which the mapping can be customized is by 
+     * altering the <code>XMLIntrospector</code>. </p>
      */
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
@@ -180,8 +182,10 @@ public class BeanReader extends Digester {
     /**
      * <p> Set the introspector to be used. </p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by altering the <code>XMLIntrospector</code>. </p>
+     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * created by the <code>XMLIntrospector</code>.
+     * One way in which the mapping can be customized is by 
+     * altering the <code>XMLIntrospector</code>. </p>
      *
      * @param introspector use this introspector
      */
@@ -228,7 +232,10 @@ public class BeanReader extends Digester {
     /** 
      * Adds a new bean create rule for the specified path
      */
-    protected void addBeanCreateRule( String path, ElementDescriptor elementDescriptor, Class beanClass ) {
+    protected void addBeanCreateRule( 
+                                    String path, 
+                                    ElementDescriptor elementDescriptor, 
+                                    Class beanClass ) {
         Rule rule = new BeanCreateRule( elementDescriptor, beanClass, path + "/" , matchIDs);
         addRule( path, rule );
 

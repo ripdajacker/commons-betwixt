@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/AttributeDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/AttributeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- * $Id: AttributeDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: AttributeDescriptor.java,v 1.2 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt;
   * to be created for a bean instance.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class AttributeDescriptor extends NodeDescriptor {
 
@@ -85,6 +85,7 @@ public class AttributeDescriptor extends NodeDescriptor {
     
     /** Return something useful for logging */
     public String toString() {
-        return "AttributeDescriptor[qname=" + getQualifiedName() + ",class=" + getPropertyType() + "]";
+        return "AttributeDescriptor[qname=" + getQualifiedName() 
+            + ",class=" + getPropertyType() + "]";
     }
 }

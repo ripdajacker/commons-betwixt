@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.14 2002/12/30 18:18:36 mvdb Exp $
- * $Revision: 1.14 $
- * $Date: 2002/12/30 18:18:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.15 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.14 2002/12/30 18:18:36 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.15 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14 $
+  * @version $Revision: 1.15 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -211,7 +211,8 @@ public class BeanCreateRule extends Rule {
      * @param attributes The attribute list of this element
      */
     public void begin(Attributes attributes) throws Exception {
-        log.debug( "Called with descriptor: " + descriptor + " propertyType: " + descriptor.getPropertyType() );
+        log.debug( "Called with descriptor: " + descriptor 
+                    + " propertyType: " + descriptor.getPropertyType() );
         
         if (log.isTraceEnabled()) {
             int attributesLength = attributes.getLength();
@@ -249,7 +250,8 @@ public class BeanCreateRule extends Rule {
                 //ElementDescriptor typeDescriptor = descriptor;
         
                 // iterate through all attributes        
-                AttributeDescriptor[] attributeDescriptors = typeDescriptor.getAttributeDescriptors();
+                AttributeDescriptor[] attributeDescriptors 
+                    = typeDescriptor.getAttributeDescriptors();
                 if ( attributeDescriptors != null ) {
                     for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
                         AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
@@ -445,7 +447,7 @@ public class BeanCreateRule extends Rule {
                 if ( childDescriptor.getUpdater() != null ) {
                     if (log.isTraceEnabled()) {
                         log.trace("Element has updater "
-                                +((MethodUpdater) childDescriptor.getUpdater()).getMethod().getName());
+                         + ((MethodUpdater) childDescriptor.getUpdater()).getMethod().getName());
                     }
                     if ( childDescriptor.isPrimitiveType() ) {
                         addPrimitiveTypeRule(path, childDescriptor);
@@ -472,7 +474,11 @@ public class BeanCreateRule extends Rule {
                             addPrimitiveTypeRule(path, childDescriptor);
                         }
                         else {
-                            Rule rule = new BeanCreateRule( childDescriptor, context, path + '/', matchIDs );
+                            Rule rule = new BeanCreateRule( 
+                                                        childDescriptor, 
+                                                        context, 
+                                                        path + '/', 
+                                                        matchIDs );
                             addRule( path, rule );
                         }
                     }
@@ -544,7 +550,8 @@ public class BeanCreateRule extends Rule {
         }
         else {
             if ( log.isDebugEnabled() ) {
-                log.debug( "Ignoring duplicate digester rule for path: " + path + " rule: " + rule );
+                log.debug( "Ignoring duplicate digester rule for path: " 
+                            + path + " rule: " + rule );
                 log.debug( "New rule (not added): " + rule );
                 log.debug( "Existing rule:" + matches.get(0) );
             }

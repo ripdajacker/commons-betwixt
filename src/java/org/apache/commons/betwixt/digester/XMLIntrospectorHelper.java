@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.12 2002/12/30 18:18:37 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.13 2003/01/05 17:18:32 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -188,7 +188,8 @@ public class XMLIntrospectorHelper {
             }
 
             ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setWrapCollectionsInElement(introspector.isWrapCollectionsInElement());
+            elementDescriptor.setWrapCollectionsInElement(
+                        introspector.isWrapCollectionsInElement());
             elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
             
             nodeDescriptor = elementDescriptor;            
@@ -208,10 +209,12 @@ public class XMLIntrospectorHelper {
 
         if (nodeDescriptor instanceof AttributeDescriptor) {
             // we want to use the attributemapper only when it is an attribute.. 
-            nodeDescriptor.setLocalName( introspector.getAttributeNameMapper().mapTypeToElementName( name ) );
+            nodeDescriptor.setLocalName( 
+                introspector.getAttributeNameMapper().mapTypeToElementName( name ) );
         }
         else {
-            nodeDescriptor.setLocalName( introspector.getElementNameMapper().mapTypeToElementName( name ) );
+            nodeDescriptor.setLocalName( 
+                introspector.getElementNameMapper().mapTypeToElementName( name ) );
         }        
   
         nodeDescriptor.setPropertyName( propertyDescriptor.getName() );
@@ -224,7 +227,9 @@ public class XMLIntrospectorHelper {
     }
     
     
-    public static void configureProperty( ElementDescriptor elementDescriptor, PropertyDescriptor propertyDescriptor ) {
+    public static void configureProperty( 
+                                    ElementDescriptor elementDescriptor, 
+                                    PropertyDescriptor propertyDescriptor ) {
         Class type = propertyDescriptor.getPropertyType();
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -278,7 +283,9 @@ public class XMLIntrospectorHelper {
     }
     
     
-    public static void configureProperty( AttributeDescriptor attributeDescriptor, PropertyDescriptor propertyDescriptor ) {
+    public static void configureProperty( 
+                                    AttributeDescriptor attributeDescriptor, 
+                                    PropertyDescriptor propertyDescriptor ) {
         Class type = propertyDescriptor.getPropertyType();
         Method readMethod = propertyDescriptor.getReadMethod();
         Method writeMethod = propertyDescriptor.getWriteMethod();
@@ -300,7 +307,8 @@ public class XMLIntrospectorHelper {
             return;
         }
         if ( isLoopType( type ) ) {
-            log.warn( "Using loop type for an attribute. Type = " + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );
+            log.warn( "Using loop type for an attribute. Type = " 
+                    + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );
         }
 
         log.trace( "Standard property" );
@@ -333,7 +341,10 @@ public class XMLIntrospectorHelper {
      * the string. This should work for most use cases. 
      * e.g. addChild() would match the children property.
      */
-    public static void defaultAddMethods( XMLIntrospector introspector, ElementDescriptor rootDescriptor, Class beanClass ) {
+    public static void defaultAddMethods( 
+                                            XMLIntrospector introspector, 
+                                            ElementDescriptor rootDescriptor, 
+                                            Class beanClass ) {
         // lets iterate over all methods looking for one of the form
         // add*(PropertyType)
         if ( beanClass != null ) {
@@ -356,7 +367,10 @@ public class XMLIntrospectorHelper {
                         // and if so, we'll set a new Updater on it if there
                         // is not one already
                         ElementDescriptor descriptor = 
-                            findGetCollectionDescriptor( introspector, rootDescriptor, propertyName );
+                            findGetCollectionDescriptor( 
+                                                        introspector, 
+                                                        rootDescriptor, 
+                                                        propertyName );
                             
                         if ( log.isDebugEnabled() ) {	
                             log.debug( "!! " + propertyName + " -> " + descriptor );
@@ -378,7 +392,9 @@ public class XMLIntrospectorHelper {
                                 ElementDescriptor child = children[0];
                                 String localName = child.getLocalName();
                                 if ( localName == null || localName.length() == 0 ) {
-                                    child.setLocalName( introspector.getElementNameMapper().mapTypeToElementName( propertyName ) );
+                                    child.setLocalName( 
+                                        introspector.getElementNameMapper()
+                                            .mapTypeToElementName( propertyName ) );
                                 }
                             }
                         }
@@ -437,7 +453,10 @@ public class XMLIntrospectorHelper {
      * to match. e.g. if an addChild() method is detected the 
      * descriptor for the 'children' getter property should be returned.
      */
-    protected static ElementDescriptor findGetCollectionDescriptor( XMLIntrospector introspector, ElementDescriptor rootDescriptor, String propertyName ) {
+    protected static ElementDescriptor findGetCollectionDescriptor( 
+                                                XMLIntrospector introspector, 
+                                                ElementDescriptor rootDescriptor, 
+                                                String propertyName ) {
         // create the Map of propertyName -> descriptor that the PluralStemmer will choose
         Map map = new HashMap();
         //String propertyName = rootDescriptor.getPropertyName();
@@ -455,7 +474,8 @@ public class XMLIntrospectorHelper {
         ElementDescriptor elementDescriptor = stemmer.findPluralDescriptor( propertyName, map );
         
         if ( log.isTraceEnabled() ) {
-            log.trace( "findPluralDescriptor( " + propertyName + " ):ElementDescriptor=" + elementDescriptor );
+            log.trace( 
+                "findPluralDescriptor( " + propertyName + " ):ElementDescriptor=" + elementDescriptor );
         }
         
         return elementDescriptor;
@@ -482,7 +502,10 @@ public class XMLIntrospectorHelper {
      * Traverse the tree of element descriptors and find the oldValue and swap it with the newValue.
      * This would be much easier to do if ElementDescriptor supported a parent relationship.
      */     
-    protected static void swapDescriptor( ElementDescriptor rootDescriptor, ElementDescriptor oldValue, ElementDescriptor newValue ) {
+    protected static void swapDescriptor( 
+                                ElementDescriptor rootDescriptor, 
+                                ElementDescriptor oldValue, 
+                                ElementDescriptor newValue ) {
         ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
         if ( children != null ) {
             for ( int i = 0, size = children.length; i < size; i++ ) {

@@ -74,7 +74,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
+  * @version $Id: ElementRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
@@ -146,8 +146,8 @@ public class ElementRule extends RuleSupport {
             parent.addElementDescriptor( descriptor );
         }
         else {
-            throw new SAXException( "Invalid use of <element>. It should " + 
-                "be nested inside <info> or other <element> nodes" );
+            throw new SAXException( "Invalid use of <element>. It should " 
+                + "be nested inside <info> or other <element> nodes" );
         }
 
         digester.push(descriptor);        
@@ -191,7 +191,8 @@ public class ElementRule extends RuleSupport {
         
         if (log.isTraceEnabled()) {
             log.trace("Cannot find property type.");
-            log.trace("  className=" + propertyClassName + " base=" + beanClass + " name=" + propertyName);
+            log.trace("  className=" + propertyClassName 
+                        + " base=" + beanClass + " name=" + propertyName);
         }
         return null;            
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/05 17:18:32 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddDefaultsRule.java,v 1.3 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: AddDefaultsRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -129,7 +129,10 @@ public class AddDefaultsRule extends RuleSupport {
         }
         
         // default any addProperty() methods
-        XMLIntrospectorHelper.defaultAddMethods( getXMLIntrospector(), getRootElementDescriptor(), beanClass );
+        XMLIntrospectorHelper.defaultAddMethods( 
+                                            getXMLIntrospector(), 
+                                            getRootElementDescriptor(), 
+                                            beanClass );
     }
 
 
@@ -154,7 +157,8 @@ public class AddDefaultsRule extends RuleSupport {
                 }
             }
             else { 
-                throw new SAXException( "the <addDefaults> element should be within an <element> tag" );
+                throw new SAXException( 
+                    "the <addDefaults> element should be within an <element> tag" );
             }
         }
         else if ( top instanceof ElementDescriptor ) {
@@ -167,7 +171,8 @@ public class AddDefaultsRule extends RuleSupport {
             }
         }
         else {
-            throw new SAXException( "Invalid use of <addDefaults>. It should be nested inside <element> element" );
+            throw new SAXException( 
+                "Invalid use of <addDefaults>. It should be nested inside <element> element" );
         }            
     }     
     
