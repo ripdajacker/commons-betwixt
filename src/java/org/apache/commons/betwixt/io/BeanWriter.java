@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.8 2002/07/18 23:19:07 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2002/07/18 23:19:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.9 2002/08/01 03:58:01 jstrachan Exp $
+ * $Revision: 1.9 $
+ * $Date: 2002/08/01 03:58:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.8 2002/07/18 23:19:07 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.9 2002/08/01 03:58:01 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -128,7 +128,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -183,6 +183,32 @@ public class BeanWriter extends AbstractBeanWriter {
         this.writer = writer;
     }
 
+    /**
+     * A helper method that allows you to write the XML Declaration.
+     * This should only be called once before you output any beans.
+     * 
+     * @param xmlDeclaration is the XML declaration string typically of
+     *  the form "&lt;xml version='1.0' encoding='UTF-8' ?&gt;
+     */
+    public void writeXmlDeclaration(String xmlDeclaration) throws IOException {
+        writer.write( xmlDeclaration );
+        writePrintln();
+    }
+    
+    /**
+     * Allows output to be flushed on the underlying output stream
+     */
+    public void flush() throws IOException {
+        writer.flush();
+    }
+    
+    /**
+     * Closes the underlying output stream
+     */
+    public void close() throws IOException {
+        writer.close();
+    }
+    
     public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
 
         super.write(bean);
