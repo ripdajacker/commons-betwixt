@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.2 2003/02/13 18:41:48 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/02/13 18:41:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.3 2003/02/20 18:20:41 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/02/20 18:20:41 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.2 2003/02/13 18:41:48 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.3 2003/02/20 18:20:41 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -83,7 +83,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -222,7 +222,6 @@ public class BeanRuleSet implements RuleSet {
                         log.trace("Processing child " + childDescriptor);
                     }
                     
-                    String propertyName = childDescriptor.getPropertyName();
                     String qualifiedName = childDescriptor.getQualifiedName();
                     if ( qualifiedName == null ) {
                         log.trace( "Ignoring" );
