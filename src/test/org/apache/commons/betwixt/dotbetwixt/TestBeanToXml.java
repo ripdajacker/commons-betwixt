@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.11 2003/07/13 21:30:27 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/07/13 21:30:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.12 2003/08/24 16:57:40 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/08/24 16:57:40 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.11 2003/07/13 21:30:27 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.12 2003/08/24 16:57:40 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -68,6 +68,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.xmlunit.XmlTestCase;
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 
 /** 
@@ -198,5 +199,33 @@ public class TestBeanToXml extends XmlTestCase {
                     parseString(out.toString()));
         }
     
+    /** Tests basic use of an implementation for an interface */
+    public void testBasicInterfaceImpl() throws Exception {
+        ExampleBean bean = new ExampleBean("Alice");
+        bean.addExample(new ExampleImpl(1, "Mad Hatter"));
+        bean.addExample(new ExampleImpl(2, "March Hare"));
+        bean.addExample(new ExampleImpl(3, "Dormouse"));
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0' encoding='UTF-8'?>");
+        
+        BeanWriter writer = new BeanWriter( out );
+        writer.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
+        writer.getXMLIntrospector().setWrapCollectionsInElement(false);
+        
+        writer.write( bean );
+        
+        String xml = "<?xml version='1.0' encoding='UTF-8'?>"
+            + "<example-bean><name>Alice</name>"
+            + "<example><id>1</id><name>Mad Hatter</name></example>"
+            + "<example><id>2</id><name>March Hare</name></example>"
+            + "<example><id>3</id><name>Dormouse</name></example>"
+            + "</example-bean>";
+        
+        xmlAssertIsomorphicContent(
+                    parseString(xml),
+                    parseString(out.toString()),
+                    true);
+    }        
 }
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/07/13 21:30:27 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.3 2003/08/24 16:57:40 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/08/24 16:57:40 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXmlToBean.java,v 1.2 2003/07/13 21:30:27 rdonkin Exp $
+ * $Id: TestXmlToBean.java,v 1.3 2003/08/24 16:57:40 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -74,6 +74,8 @@ import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanRuleSet;
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+
 import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 
 import org.apache.commons.logging.impl.SimpleLog;
@@ -187,5 +189,39 @@ public class TestXmlToBean extends XmlTestCase {
         assertEquals("Property Beta matches", "The Universe And Everything", result.getBeta());
         assertEquals("Property Gamma matches", 42, result.getGamma());
     }
+    
+    
+    /** Tests basic use of an implementation for an interface */
+    public void testBasicInterfaceImpl() throws Exception {
+        SimpleLog log = new SimpleLog("[testBasicInterfaceImpl:BeanRuleSet]");
+        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        BeanRuleSet.setLog(log);
+        log = new SimpleLog("[testBasicInterfaceImpl:BeanReader]");
+        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+    
+        ExampleBean bean = new ExampleBean("Alice");
+        bean.addExample(new ExampleImpl(1, "Mad Hatter"));
+        bean.addExample(new ExampleImpl(2, "March Hare"));
+        bean.addExample(new ExampleImpl(3, "Dormouse"));
+        
+        String xml = "<?xml version='1.0' encoding='UTF-8'?>"
+            + "<example-bean><name>Alice</name>"
+            + "<example><id>1</id><name>Mad Hatter</name></example>"
+            + "<example><id>2</id><name>March Hare</name></example>"
+            + "<example><id>3</id><name>Dormouse</name></example>"
+            + "</example-bean>";
+        
+        
+        BeanReader reader = new BeanReader();
+        reader.setLog(log);
+        reader.getXMLIntrospector().setElementNameMapper(new HyphenatedNameMapper());
+        reader.getXMLIntrospector().setWrapCollectionsInElement(false);
+        reader.registerBeanClass( ExampleBean.class );
+        
+        StringReader in = new StringReader( xml );
+        ExampleBean out = (ExampleBean) reader.parse( in ); 
+        assertEquals("Interface read failed", bean, out);
+        
+    }      
 }
 
