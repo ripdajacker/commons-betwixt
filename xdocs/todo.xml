@@ -42,7 +42,7 @@
     <section name="Medium priority"> 
       <ul>
         <li>
-		  <b>Fixed</b> Was already there. Just added the \n as defeault<br/>
+		  <b>Partly Fixed</b> Was already there. Just added the \n as default<br/> Adding a check to only accept valid characters as lineEndings, so parsers actually won't choke on the output xml.
 		  BeanWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
 		</li>
         <li>
