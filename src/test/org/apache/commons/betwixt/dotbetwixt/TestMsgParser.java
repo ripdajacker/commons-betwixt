@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/Attic/MsgParserTest.java,v 1.1 2003/11/24 01:58:24 mvdb Exp $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestMsgParser.java,v 1.1 2003/11/24 02:02:19 mvdb Exp $
  * $Revision: 1.1 $
- * $Date: 2003/11/24 01:58:24 $
+ * $Date: 2003/11/24 02:02:19 $
  *
  * ====================================================================
  * 
@@ -73,9 +73,9 @@ import junit.framework.TestCase;
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: MsgParserTest.java,v 1.1 2003/11/24 01:58:24 mvdb Exp $
+ * @version $Id: TestMsgParser.java,v 1.1 2003/11/24 02:02:19 mvdb Exp $
  */
-public class MsgParserTest extends TestCase
+public class TestMsgParser extends TestCase
 {
     private static final String XML_PROLOG = "<?xml version='1.0' ?>\n";
     private MsgBean msg;
