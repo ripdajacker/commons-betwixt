@@ -1430,7 +1430,10 @@ public class XMLIntrospector {
                 PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                 if ( descriptors != null ) {
                     for (int i=0, size=descriptors.length; i<size; i++) {
-                        propertyDescriptors.add( descriptors[i] );
+                        if (!getConfiguration().getPropertySuppressionStrategy()
+                                	.suppressProperty( descriptors[i].getPropertyType(),  descriptors[i].getName())) {
+                            propertyDescriptors.add( descriptors[i] );
+                        }
                     }
                 }
                 
@@ -1442,7 +1445,10 @@ public class XMLIntrospector {
                         descriptors = beanInfo.getPropertyDescriptors();
                         if ( descriptors != null ) {
                             for (int j=0, innerSize=descriptors.length; j<innerSize; j++) {
-                                propertyDescriptors.add( descriptors[j] );
+                                if (!getConfiguration().getPropertySuppressionStrategy()
+                                    	.suppressProperty( descriptors[j].getPropertyType(),  descriptors[j].getName())) {
+                                    propertyDescriptors.add( descriptors[j] );
+                                }
                             }
                         }
                     }            
@@ -1477,7 +1483,10 @@ public class XMLIntrospector {
                         BeanInfo beanInfo = Introspector.getBeanInfo(superinterfaces[i]);
                         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                         for (int j=0, descriptorLength=descriptors.length; j<descriptorLength ; j++) {
-                            propertyDescriptors.add(descriptors[j]);
+                            if (!getConfiguration().getPropertySuppressionStrategy()
+                                	.suppressProperty( descriptors[j].getPropertyType(),  descriptors[j].getName())) {
+                                propertyDescriptors.add( descriptors[j] );
+                            }
                         }
                         addAllSuperinterfaces(superinterfaces[i], propertyDescriptors);
                         

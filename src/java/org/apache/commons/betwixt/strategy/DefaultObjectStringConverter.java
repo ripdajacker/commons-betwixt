@@ -42,7 +42,7 @@ import org.apache.commons.betwixt.expression.Context;
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     
     /** Formats Dates to Strings and Strings to Dates */
-    private static final SimpleDateFormat formatter 
+    private final SimpleDateFormat formatter 
         = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.UK);
     
     /**
@@ -63,6 +63,10 @@ public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConver
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
         if ( object != null ) {
+            if ( object instanceof Class) {
+                return ((Class) object).getName();
+            }
+                
             if ( object instanceof java.util.Date && isUtilDate( type ) ) {
                 
                 return formatter.format( (java.util.Date) object );

@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.10 2004/06/13 21:32:45 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.11 2004/10/04 21:50:35 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -186,12 +186,6 @@ public class AttributeRule extends RuleSupport {
         }
         
         // choose response from property type
-        
-        // XXX: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
-            log.trace( "Ignoring class property" );
-            return;
-        }
         if ( getXMLIntrospector().isLoopType( type ) ) {
             log.warn( "Using loop type for an attribute. Type = " 
                     + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );

@@ -169,13 +169,6 @@ public class BeanProperty {
         
         // choose response from property type
         
-        // XXX: ignore class property ??
-        if ( Class.class.equals( getPropertyType() ) && "class".equals( getPropertyName() ) ) {
-            log.trace( "Ignoring class property" );
-            return null;
-            
-        }
-        
         //TODO this big conditional should be replaced with subclasses based
         // on the type
         

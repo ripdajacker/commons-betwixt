@@ -109,10 +109,13 @@ public class AddDefaultsRule extends RuleSupport {
                         if ( processedProperties.contains( propertyName ) ) {
                             continue;
                         }
-                        Descriptor nodeDescriptor = 
-                        	getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
-                        if ( nodeDescriptor != null ) {
-                            addDescriptor( nodeDescriptor );
+                        if (!getXMLIntrospector().getConfiguration().getPropertySuppressionStrategy()
+                                .suppressProperty(descriptor.getPropertyType(), descriptor.getName())) {
+	                        Descriptor nodeDescriptor = 
+	                        		getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
+	                        if ( nodeDescriptor != null ) {
+	                            addDescriptor( nodeDescriptor );
+	                        }
                         }
                     }
                 }

@@ -23,6 +23,7 @@ import org.apache.commons.betwixt.strategy.MappingDerivationStrategy;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
 import org.apache.commons.betwixt.strategy.SimpleTypeMapper;
 import org.apache.commons.betwixt.strategy.StandardSimpleTypeMapper;
 import org.apache.commons.betwixt.strategy.TypeBindingStrategy;
@@ -45,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class IntrospectionConfiguration {
 
@@ -83,12 +84,19 @@ public class IntrospectionConfiguration {
     private SimpleTypeMapper simpleTypeMapper = new StandardSimpleTypeMapper();
     /** Binding strategy for Java type */
     private TypeBindingStrategy typeBindingStrategy = TypeBindingStrategy.DEFAULT;
+    
+    
     /** 
      * Strategy used to determine whether the bind or introspection time type is to be used to  
      * determine the mapping.
      */
     	private MappingDerivationStrategy mappingDerivationStrategy = MappingDerivationStrategy.DEFAULT;
     
+    	/**
+    	 * Strategy used to determine which properties should be ignored
+    	 */
+    	private PropertySuppressionStrategy propertySuppressionStrategy = PropertySuppressionStrategy.DEFAULT;
+    	
     /**
       * Gets the <code>ClassNormalizer</code> strategy.
       * This is used to determine the Class to be introspected
@@ -347,5 +355,22 @@ public class IntrospectionConfiguration {
     public void setMappingDerivationStrategy(
             MappingDerivationStrategy mappingDerivationStrategy) {
         this.mappingDerivationStrategy = mappingDerivationStrategy;
+    }
+
+    /**
+     * Gets the strategy which determines the properties to be ignored.
+     * @return the <code>PropertySuppressionStrategy</code> to be used for introspection, not null
+     */
+    public PropertySuppressionStrategy getPropertySuppressionStrategy() {
+        return propertySuppressionStrategy;
+    }
+    
+    /**
+     * Sets the strategy which determines the properties to be ignored.
+     * @param propertySuppressionStrategy the <code>PropertySuppressionStrategy</code> to be used for introspection, not null
+     */
+    public void setPropertySuppressionStrategy(
+            PropertySuppressionStrategy propertySuppressionStrategy) {
+        this.propertySuppressionStrategy = propertySuppressionStrategy;
     }
 }
