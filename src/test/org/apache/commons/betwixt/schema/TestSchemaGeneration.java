@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaGeneration.java,v 1.1.2.3 2004/02/03 19:43:55 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/03 19:43:55 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaGeneration.java,v 1.1.2.4 2004/02/03 20:44:04 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/03 20:44:04 $
  *
  * ====================================================================
  * 
@@ -69,7 +69,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /**
  * Tests for the generation of schema from the object models.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class TestSchemaGeneration extends AbstractTestCase {
 
@@ -123,6 +123,34 @@ public class TestSchemaGeneration extends AbstractTestCase {
         "<xsd:sequence>" +
         "<xsd:element name='name' type='xsd:string'/>" +
         "</xsd:sequence>" +
+        "</xsd:complexType>" +
+        "</xsd:schema>";
+            
+        xmlAssertIsomorphicContent(parseString(expected), parseString(xsd));
+    }
+    
+    public void testSimpleBean() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        Schema schema = transcriber.generate(SimpleBean.class);
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
+        writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+        writer.write(schema);
+        
+        String xsd = out.getBuffer().toString();
+        
+        String expected ="<?xml version='1.0'?><xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
+        "<xsd:element name='simple' type='org.apache.commons.betwixt.schema.SimpleBean'/>" +
+        "<xsd:complexType name='org.apache.commons.betwixt.schema.SimpleBean'>" +
+        "<xsd:sequence>" +
+        "<xsd:element name='three' type='xsd:string'/>" +
+        "<xsd:element name='four' type='xsd:string'/>" +
+        "</xsd:sequence>" +
+        "<xsd:attribute name='one' type='xsd:string'/>" +
+        "<xsd:attribute name='two' type='xsd:string'/>" +
         "</xsd:complexType>" +
         "</xsd:schema>";
             

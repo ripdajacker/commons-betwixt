@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/SimpleBean.java,v 1.1.2.1 2004/01/18 12:36:30 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 12:36:30 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/SimpleBean.java,v 1.1.2.2 2004/02/03 20:44:03 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/03 20:44:03 $
  *
  * ====================================================================
  * 
@@ -65,7 +65,7 @@ package org.apache.commons.betwixt.schema;
  * Very simple bean to allow basic tests for attribute and element
  * transcription.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class SimpleBean {
 	private String one;
@@ -74,6 +74,13 @@ public class SimpleBean {
 	private String four;
 	
 	public SimpleBean() {}
+
+    public SimpleBean(String one, String two, String three, String four) {
+        setOne(one);
+        setTwo(two);
+        setThree(three);
+        setFour(four);
+    }
 
     public String getOne() {
         return one;
