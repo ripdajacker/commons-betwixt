@@ -74,7 +74,7 @@
       <name>Jon Scott Stevens</name>
       <id>jon</id>
       <email>jon@latchkey.com</email>
-      <organization>CollabNet</organization>
+      <organization>StudioZ</organization>
     </developer>
     <developer>
       <name>Martin van den Bemt</name>
@@ -87,6 +87,12 @@
       <id>dion</id>
       <email>dion@apache.org</email>
       <organization>Multitask Consulting</organization>
+    </developer>
+    <developer>
+      <name>Daniel Rall</name>
+      <id>dlr</id>
+      <email>dlr@apache.org</email>
+      <organization>CollabNet</organization>
     </developer>
   </developers>
   
