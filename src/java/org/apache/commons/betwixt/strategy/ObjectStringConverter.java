@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.3 2003/08/21 22:41:50 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/08/21 22:41:50 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ObjectStringConverter.java,v 1.4 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ObjectStringConverter.java,v 1.3 2003/08/21 22:41:50 rdonkin Exp $
+ * $Id: ObjectStringConverter.java,v 1.4 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -92,6 +92,7 @@ public class ObjectStringConverter implements Serializable {
       * @param object the object to be converted, possibly null
       * @param type the property class of the object, not null
       * @param flavour a string allow symantic differences in formatting to be communicated
+      * @param context the context, not null
       * @return a String representation, not null
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
@@ -110,7 +111,7 @@ public class ObjectStringConverter implements Serializable {
       * @param value the String to be converted
       * @param type the property class to be returned (if possible), not null
       * @param flavour a string allow symantic differences in formatting to be communicated
-      * @param context not null
+      * @param context the context, not null
       * @return an Object converted from the String, not null
       */
     public Object stringToObject(String value, Class type, String flavour, Context context) {

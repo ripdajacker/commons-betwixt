@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.11 2003/08/21 22:42:47 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/08/21 22:42:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.12 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.11 2003/08/21 22:42:47 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.12 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,6 @@ import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.io.read.ReadContext;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
-import org.apache.commons.betwixt.io.read.BeanCreationChain;
 import org.apache.commons.betwixt.io.read.ElementMapping;
 
 
@@ -91,7 +90,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -153,7 +152,7 @@ public class BeanRuleSet implements RuleSet {
      * @param basePath specifies the (Digester-style) path under which the rules will be attached
      * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
-     * @param baseContext the root Context that bean carrying Contexts should be obtained from, 
+     * @param context the root Context that bean carrying Contexts should be obtained from, 
      * not null
      * @deprecated use the constructor which takes a ReadContext instead
      */
@@ -267,7 +266,8 @@ public class BeanRuleSet implements RuleSet {
             if ( context.getClassLoader() == null ) {
                 context.setClassLoader( digester.getClassLoader()  );
             }
-            BeanRule rule = new BeanRule( basePath + "/" , baseElementDescriptor, baseBeanClass, context );
+            BeanRule rule 
+                = new BeanRule( basePath + "/" , baseElementDescriptor, baseBeanClass, context );
             addRule( basePath, rule , baseElementDescriptor, context );
             
             if ( log.isDebugEnabled() ) {
@@ -480,7 +480,10 @@ public class BeanRuleSet implements RuleSet {
         * @param elementDescriptor update this <code>ElementDescriptor</code> with the body text
         * @param context the <code>ReadContext</code> against which the elements will be evaluated 
         */
-        private void addRule( String path, ElementDescriptor elementDescriptor, ReadContext context ) {
+        private void addRule( 
+                            String path, 
+                            ElementDescriptor elementDescriptor, 
+                            ReadContext context ) {
             BeanRule rule = new BeanRule( path + '/', elementDescriptor, context );
             addRule( path, rule, elementDescriptor, context );
         }
@@ -612,10 +615,8 @@ public class BeanRuleSet implements RuleSet {
             //-------------------------------------------------------------------------    
             
             /**
-            * Process the beginning of this element.
-            *
-            * @param attributes The attribute list of this element
-            */
+              * @see Rule#begin(String, String, Attributes)
+              */
             public void begin(String namespace, String name, Attributes attributes) {
                 log.debug( "Called with descriptor: " + descriptor 
                             + " propertyType: " + descriptor.getPropertyType() );
@@ -644,9 +645,8 @@ public class BeanRuleSet implements RuleSet {
                     instance = createBean( namespace, name, attributes );
                     if ( instance != null ) {
                         createdBean = true;
-        
                         context.setBean( instance );
-                        digester.push(instance);
+                        digester.push( instance );
                         
                 
                         // if we are a reference to a type we should lookup the original
@@ -713,9 +713,7 @@ public class BeanRuleSet implements RuleSet {
             }
             
             /**
-              * Called by digester with the (concatinated) body text.
-              *
-              * @param text the String comprising all the body text
+              * @see Rule#body(String, String, String)
               */
             public void body(String namespace, String name, String text) {
                 
@@ -802,12 +800,12 @@ public class BeanRuleSet implements RuleSet {
                 mapping.setNamespace( namespace );
                 mapping.setName( name );
                 mapping.setAttributes( attributes );
+                mapping.setDescriptor( descriptor );
                 
                 Object newInstance = context.getBeanCreationChain().create( mapping, context );
                 
                 return newInstance;
             }    
-
             
             /**
             * Return something meaningful for logging.

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.2 2003/08/21 22:42:47 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/08/21 22:42:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.3 2003/08/24 16:54:55 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/08/24 16:54:55 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BindingConfiguration.java,v 1.2 2003/08/21 22:42:47 rdonkin Exp $
+ * $Id: BindingConfiguration.java,v 1.3 2003/08/24 16:54:55 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -81,7 +81,7 @@ import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
   * can be shared.</p> 
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class BindingConfiguration implements Serializable {
 
@@ -89,7 +89,7 @@ public class BindingConfiguration implements Serializable {
     private boolean mapIDs = true;
     /** Converts objects &lt-&gt; strings */
     private ObjectStringConverter objectStringConverter;
-    
+    /** The name of the classname attribute used when creating derived beans */
     private String classNameAttribute = "className";
     
     /**
@@ -124,7 +124,7 @@ public class BindingConfiguration implements Serializable {
       */
     public void setObjectStringConverter(ObjectStringConverter objectStringConverter) {
         this.objectStringConverter = objectStringConverter;
-    }	
+    }
     
     /** 
      * Should <code>ID</code>'s and <code>IDREF</code> attributes 

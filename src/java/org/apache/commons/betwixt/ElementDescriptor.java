@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.11 2003/07/13 21:28:35 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/07/13 21:28:35 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.12 2003/08/24 16:54:55 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/08/24 16:54:55 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.11 2003/07/13 21:28:35 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.12 2003/08/24 16:54:55 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -131,6 +131,11 @@ public class ElementDescriptor extends NodeDescriptor {
      * as a collection element. Defaults to true
      */
     private boolean wrapCollectionsInElement = true;
+    
+    /** specifies a separate implementation class that should be instantiated
+      * when reading beans
+      * or null if there is no separate implementation */
+    private Class implementationClass = null;
     
     /**  
      * Constructs an <code>ElementDescriptor</code> that refers to a primitive type.
@@ -495,6 +500,24 @@ public class ElementDescriptor extends NodeDescriptor {
             }            
         }
         return contentList;
+    }
+    
+    /**
+      * Gets the class which should be used for instantiation.
+      * @return the class which should be used for instantiation of beans 
+      * mapped from this element, null if the standard class should be used
+      */
+    public Class getImplementationClass() {
+        return implementationClass;
+    }
+    
+    /**
+      * Sets the class which should be used for instantiation.
+      * @param implementationClass the class which should be used for instantiation
+      * or null to use the mapped type
+      */
+    public void setImplementationClass(Class implementationClass) {
+        this.implementationClass = implementationClass;
     }
     
     /**

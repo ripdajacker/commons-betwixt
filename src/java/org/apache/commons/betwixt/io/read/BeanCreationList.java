@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanCreationList.java,v 1.1 2003/08/21 22:38:17 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/08/21 22:38:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanCreationList.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreationList.java,v 1.1 2003/08/21 22:38:17 rdonkin Exp $
+ * $Id: BeanCreationList.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import java.util.Iterator;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class BeanCreationList extends BeanCreationChain {
     
@@ -118,7 +118,7 @@ public class BeanCreationList extends BeanCreationChain {
     
     /**
       * Gets the number of BeanCreators in the wrapped chain.
-      * @param the number of <code>Bean</code> in the current chain
+      * @return the number of <code>ChainedBeanCreator</code>'s in the current chain
       */
     public int getSize() {
         return beanCreators.size();
@@ -131,7 +131,8 @@ public class BeanCreationList extends BeanCreationChain {
       *
       * @param index index at which the creator should be inserted
       * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
-      * @throws IndexOutOfBoundsException if the index is out of the range <code>(index < 0 || index > getSize())
+      * @throws IndexOutOfBoundsException if the index is out of the range 
+      * <code>(index < 0 || index > getSize())
       */
     public void insertBeanCreator(
                                 int index, 
@@ -158,14 +159,14 @@ public class BeanCreationList extends BeanCreationChain {
     /** Worker class walks a chain */
     private class ChainWorker extends BeanCreationChain {
         /** Iterator for the creator list */
-        Iterator iterator;
+        private Iterator iterator;
         /** Creates the iterator */
         ChainWorker() {
             iterator = beanCreators.iterator();
         }
     
         /**
-          * see BeanCreationChain#create
+          * @see BeanCreationChain#create
           */
         public Object create( ElementMapping elementMapping, ReadContext readContext ) {
             if ( iterator.hasNext() ) {

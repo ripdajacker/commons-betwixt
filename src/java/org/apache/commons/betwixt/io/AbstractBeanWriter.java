@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.19 2003/08/21 22:47:40 rdonkin Exp $
- * $Revision: 1.19 $
- * $Date: 2003/08/21 22:47:40 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.20 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.20 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.19 2003/08/21 22:47:40 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.20 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -97,7 +97,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.19 $
+  * @version $Revision: 1.20 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -1498,13 +1498,15 @@ public abstract class AbstractBeanWriter {
       */
     private String convertToString( Object value , Descriptor descriptor, Context context ) {
         return getBindingConfiguration()
-            .getObjectStringConverter().objectToString( value, descriptor.getPropertyType(), null, context );
+            .getObjectStringConverter()
+                .objectToString( value, descriptor.getPropertyType(), null, context );
     }
     
     /**
       * Factory method for new contexts.
       * Ensure that they are correctly configured.
       * @param bean make a new Context for this bean
+      * @return not null
       */
     private Context makeContext(Object bean) {
         return new Context( bean, log, bindingConfiguration );

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreatorFactory.java,v 1.1 2003/08/21 22:39:00 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/08/21 22:39:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ChainedBeanCreatorFactory.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,16 +57,20 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ChainedBeanCreatorFactory.java,v 1.1 2003/08/21 22:39:00 rdonkin Exp $
+ * $Id: ChainedBeanCreatorFactory.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
+
+import org.apache.commons.logging.Log;
+
+import org.apache.commons.betwixt.ElementDescriptor;
 
 /**  
   * Group of factory methods for <code>ChainedBeanCreator</code>'s.
   * The standard implementations used by Betwixt are present here.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class ChainedBeanCreatorFactory {
     
@@ -78,14 +82,16 @@ public class ChainedBeanCreatorFactory {
                                 ReadContext context, 
                                 BeanCreationChain chain) {
                                 
-                String className = elementMapping.getAttributes().getValue( context.getClassNameAttribute() );
+                String className 
+                    = elementMapping
+                        .getAttributes().getValue( context.getClassNameAttribute() );
                 if ( className != null ) {
                     try {
                         // load the class we should instantiate
                         ClassLoader classLoader = context.getClassLoader();
                         if ( classLoader == null ) {
                             context.getLog().warn( 
-                            "Could not create derived instance: read context classloader not set." );
+            "Could not create derived instance: read context classloader not set." );
                         }
                         Class clazz = classLoader.loadClass( className );
                         return clazz.newInstance();
@@ -120,16 +126,35 @@ public class ChainedBeanCreatorFactory {
                                 ElementMapping element, 
                                 ReadContext context, 
                                 BeanCreationChain chain) {
-                                    // create based on type
                 
-                Class theClass = element.getType();
+                Log log = context.getLog();
+                Class theClass = null;
+                
+                ElementDescriptor descriptor = element.getDescriptor();
+                if ( descriptor != null ) {
+                    // created based on implementation class
+                    theClass = descriptor.getImplementationClass();
+                }
+                
+                if ( theClass == null ) {
+                    // create based on type
+                    theClass = element.getType();
+                }
+                
+                if ( log.isTraceEnabled() ) {
+                    log.trace(
+                        "Creating instance of class " + theClass.getName() 
+                        + " for element " + element.getName());
+                }
+                
                 try {
 
                     return theClass.newInstance();
                     
                 } catch (Exception e) {
                     // it would be nice to have a pluggable strategy for exception management
-                    context.getLog().warn( "Could not create instance of type: " + theClass.getName() );
+                    context.getLog().warn( 
+                        "Could not create instance of type: " + theClass.getName() );
                     context.getLog().debug( "Create new instance failed: ", e );
                     return null;
                 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.1 2003/08/21 22:40:03 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/08/21 22:40:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ReadContext.java,v 1.1 2003/08/21 22:40:03 rdonkin Exp $
+ * $Id: ReadContext.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -73,7 +73,7 @@ import org.apache.commons.betwixt.expression.Context;
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class ReadContext extends Context {
 
@@ -103,7 +103,7 @@ public class ReadContext extends Context {
     public ReadContext( 
                     BindingConfiguration bindingConfiguration, 
                     ReadConfiguration readConfiguration ) {
-        this( 	
+        this( 
                 LogFactory.getLog( ReadContext.class ), 
                 bindingConfiguration,  
                 readConfiguration);
@@ -124,9 +124,9 @@ public class ReadContext extends Context {
     }
     
     /** 
-      * Constructs a <code>ReadContext</code> with the same settings as an existing <code>Context</code>.
+      * Constructs a <code>ReadContext</code> 
+      * with the same settings as an existing <code>Context</code>.
       * @param readContext not null
-      * @param readConfiguration not null
       */
     public ReadContext( ReadContext readContext ) {
         super( readContext );
@@ -168,7 +168,7 @@ public class ReadContext extends Context {
       */
     public ClassLoader getClassLoader() {
         return classLoader;
-    }	
+    }
     
     /**
       * Sets the classloader to be used.

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ElementMapping.java,v 1.1 2003/08/21 22:39:22 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/08/21 22:39:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ElementMapping.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/24 16:54:56 $
  *
  * ====================================================================
  *
@@ -57,17 +57,19 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementMapping.java,v 1.1 2003/08/21 22:39:22 rdonkin Exp $
+ * $Id: ElementMapping.java,v 1.2 2003/08/24 16:54:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
 import org.xml.sax.Attributes;
 
+import org.apache.commons.betwixt.ElementDescriptor;
+
 /**  
   * Describes a mapping between an xml element and a betwixt element.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class ElementMapping {
     
@@ -79,6 +81,8 @@ public class ElementMapping {
     private Attributes attributes;
     /** The base type of the mapped bean */
     private Class type;
+    /** The mapped descriptor */
+    private ElementDescriptor descriptor;
    
     /** Base constructor */ 
     public ElementMapping() {}
@@ -122,7 +126,7 @@ public class ElementMapping {
       */
     public Attributes getAttributes() {
         return attributes;
-    }	
+    }
     
     /** 
       * Sets the element's attributes 
@@ -148,5 +152,21 @@ public class ElementMapping {
       */
     public void setType(Class type) {
         this.type = type;
+    }
+    
+    /**
+      * Gets the mapped element descriptor.
+      * @return the mapped ElementDescriptor
+      */
+    public ElementDescriptor getDescriptor() {
+        return descriptor;
+    }
+    
+    /** 
+      * Sets the mapped element descriptor.
+      * @param descriptor set this descriptor
+      */
+    public void setDescriptor(ElementDescriptor descriptor) {
+        this.descriptor = descriptor;
     }
 }

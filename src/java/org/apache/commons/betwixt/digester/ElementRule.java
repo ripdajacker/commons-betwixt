@@ -73,7 +73,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.10 2003/04/08 13:41:40 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.11 2003/08/24 16:54:56 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -103,6 +103,7 @@ public class ElementRule extends MappedPropertyRule {
      * @throws SAXException 1. If this tag's parent is not either an info or element tag.
      * 2. If the name attribute is not valid XML element name.
      * 3. If the name attribute is not present 
+     * 4. If the class attribute is not a loadable (fully qualified) class name
      */
     public void begin(Attributes attributes) throws SAXException {
         String name = attributes.getValue( "name" );
@@ -141,6 +142,23 @@ public class ElementRule extends MappedPropertyRule {
             getPropertyType( propertyType, beanClass, propertyName ) 
         );
         
+        String implementationClass = attributes.getValue( "class" );
+        if ( log.isTraceEnabled() ) {
+            log.trace("'class' attribute=" + implementationClass);
+        }
+        if ( implementationClass != null ) {
+            try {
+                
+                Class clazz = Class.forName(implementationClass);
+                descriptor.setImplementationClass( clazz );
+                
+            } catch (Exception e)  {
+                if ( log.isDebugEnabled() ) {
+                    log.debug("Cannot load class named: " + implementationClass, e);
+                }
+                throw new SAXException("Cannot load class named: " + implementationClass);
+            }
+        }
         
         if ( propertyName != null && propertyName.length() > 0 ) {
             configureDescriptor(descriptor, attributes.getValue( "updater" ));
