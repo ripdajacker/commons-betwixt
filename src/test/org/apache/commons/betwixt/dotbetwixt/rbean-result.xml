@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bill>
+    <ben>alpha</ben>
+    <weed>
+        <pot>beta</pot>
+        <inner-weed>
+            <inner-pot>gamma</inner-pot>
+        </inner-weed>	
+    </weed>
+</bill>

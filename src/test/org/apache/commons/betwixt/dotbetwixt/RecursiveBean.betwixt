@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="bill">
+    <element name="ben" property="name"/>
+    <element name="weed" property="child">
+        <element name="pot" property="name"/>
+        <element name="inner-weed" property="child">
+            <element name="inner-pot" property="name"/>
+        </element>
+    </element>
+  </element>
+</info>
