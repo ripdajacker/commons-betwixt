@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: BeanCreateRule.java,v 1.3 2002/06/14 21:39:16 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.4 2002/07/01 19:00:08 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -36,7 +36,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -61,6 +61,12 @@ public class BeanCreateRule extends Rule {
         this.context = new Context();
         this.beanClass = beanClass;
         this.pathPrefix = pathPrefix;
+        if (log.isTraceEnabled()) {
+            log.trace("Created bean create rule");
+            log.trace("Descriptor=" + descriptor);
+            log.trace("Class=" + beanClass);
+            log.trace("Path prefix=" + pathPrefix);
+        }
     }
     
     public BeanCreateRule(ElementDescriptor descriptor, Class beanClass) {
@@ -72,6 +78,12 @@ public class BeanCreateRule extends Rule {
         this.context = context;
         this.beanClass = descriptor.getSingularPropertyType();
         this.pathPrefix = pathPrefix;
+        if (log.isTraceEnabled()) {
+            log.trace("Created bean create rule");
+            log.trace("Descriptor=" + descriptor);
+            log.trace("Class=" + beanClass);
+            log.trace("Path prefix=" + pathPrefix);
+        }
     }
     
         
@@ -211,26 +223,36 @@ public class BeanCreateRule extends Rule {
                         
     protected void addChildRules(String prefix, ElementDescriptor currentDescriptor ) {
         BeanReader digester = getBeanReader();            
-
+        
+        if (log.isTraceEnabled()) {
+            log.trace("Adding child rules for " + currentDescriptor + "@" + prefix);
+        }
+        
         // if we are a reference to a type we should lookup the original
         // as this ElementDescriptor will be 'hollow' and have no child attributes/elements.
         // XXX: this should probably be done by the NodeDescriptors...
         ElementDescriptor typeDescriptor = getElementDescriptor( currentDescriptor );
         //ElementDescriptor typeDescriptor = descriptor;
 
+        
         ElementDescriptor[] childDescriptors = typeDescriptor.getElementDescriptors();
         if ( childDescriptors != null ) {
             for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
                 final ElementDescriptor childDescriptor = childDescriptors[i];
-
+                if (log.isTraceEnabled()) {
+                    log.trace("Processing child " + childDescriptor);
+                }	
+                
                 String propertyName = childDescriptor.getPropertyName();
                 String qualifiedName = childDescriptor.getQualifiedName();
                 if ( qualifiedName == null ) {
+                    log.trace("Ignoring");
                     continue;
                 }
                 String path = prefix + qualifiedName;
                 
                 if ( childDescriptor.getUpdater() != null ) {
+                    log.trace("Element has updater");
                     if ( childDescriptor.isPrimitiveType() ) {
                         addPrimitiveTypeRule(path, childDescriptor);
                     }
@@ -260,10 +282,13 @@ public class BeanCreateRule extends Rule {
                             addRule( path, rule );
                         }
                     }
+                } else {
+                    log.trace("Element does not have updater");
                 }
 
                 ElementDescriptor[] grandChildren = childDescriptor.getElementDescriptors();
                 if ( grandChildren != null && grandChildren.length > 0 ) {
+                    log.trace("Adding grand children");
                     addChildRules( path + '/', childDescriptor );
                 }
             }
@@ -322,4 +347,8 @@ public class BeanCreateRule extends Rule {
         }
     }
 
+    public String toString() {
+        return "BeanCreateRule [path prefix=" + pathPrefix + " descriptor=" + descriptor + "]";
+    }
+    
 }
