@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Schema {
 	
@@ -120,10 +120,34 @@ public class Schema {
                             elementDescriptor.getLocalName(), 
                             elementDescriptor.getPropertyType().getName());
         addElement(element);
-        
-        GlobalComplexType type = new GlobalComplexType(configuration, elementDescriptor, this);
-        addComplexType(type);
+        addGlobalComplexType(configuration, elementDescriptor);
     }	
+    
+    /**
+     * Adds a new global complex type definition matching the given element descriptor.
+     * If this element descriptor has already been mapped to a global type then 
+     * that is returned.
+     * @param configuration <code>TranscriptionConfiguration</code>, not null
+     * @param elementDescriptor <code>ElementDescriptor</code>, not null
+     * @return <code>GlobalComplexType</code>
+     * @throws IntrospectionException
+     */
+    public GlobalComplexType addGlobalComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor) throws IntrospectionException  {
+        GlobalComplexType type = null;
+        for (Iterator it = complexTypes.iterator(); it.hasNext();) {
+            GlobalComplexType complexType = (GlobalComplexType) it.next();
+            if (complexType.matches( elementDescriptor )) {
+                type = complexType;
+                break;
+            }
+        }
+        if (type == null) {
+             type = new GlobalComplexType(configuration, elementDescriptor, this);
+        		addComplexType(type);
+        		type.fill(configuration, elementDescriptor, this);
+        }
+        return type;
+    }
 	
     public boolean equals(Object obj) {
     	boolean result = false;

@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class GlobalComplexType extends ComplexType {
 	
@@ -43,10 +43,36 @@ public class GlobalComplexType extends ComplexType {
     }
 
     protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        setName(elementDescriptor.getPropertyType().getName());
-        super.init(configuration, elementDescriptor, schema);
+        setName(nameFromDescriptor( elementDescriptor ));
     }
 
+    /**
+     * Fills the complex type description.
+     * @param configuration
+     * @param elementDescriptor
+     * @param schema
+     * @throws IntrospectionException
+     */
+    protected void fill(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException
+    {
+        elementDescriptor = fillDescriptor(elementDescriptor, schema);
+        super.init(configuration, elementDescriptor, schema);
+    }
+    
+    private String nameFromDescriptor( ElementDescriptor elementDescriptor ) {
+        return elementDescriptor.getPropertyType().getName();
+    }
+    
+    /**
+     * Does the given element descriptor match this complex type?
+     * @param elementDescriptor
+     * @return true if the descriptor matches
+     */
+    public boolean matches(ElementDescriptor elementDescriptor) {
+        String nameFromDescriptor = nameFromDescriptor ( elementDescriptor );
+        return nameFromDescriptor.equals(getName());
+    }
+    
 	/**
      * Gets the name of this type.
      * @return

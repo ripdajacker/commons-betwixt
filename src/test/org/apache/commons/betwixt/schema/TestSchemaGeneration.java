@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /**
  * Tests for the generation of schema from the object models.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class TestSchemaGeneration extends AbstractTestCase {
 
@@ -131,21 +131,22 @@ public class TestSchemaGeneration extends AbstractTestCase {
         String xsd = out.getBuffer().toString();
         
         String expected ="<?xml version='1.0'?><xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
-        "<xsd:element name='OrderLineBean' type='org.apache.commons.betwixt.schema.OrderLineBean'/>" +
-        "<xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>" +
-        "<xsd:sequence/>" +
-        "<xsd:attribute name='barcode' type='xsd:string'/>" +
-        "<xsd:attribute name='code' type='xsd:string'/>" +
-        "<xsd:attribute name='display-name' type='xsd:string'/>" +
-        "<xsd:attribute name='name' type='xsd:string'/>" +
-        "</xsd:complexType>" +
-        "<xsd:complexType name='org.apache.commons.betwixt.schema.OrderLineBean'>" +
-        "<xsd:sequence>" +
-        "<xsd:element name='product' type='org.apache.commons.betwixt.schema.ProductBean' minOccurs='0' maxOccurs='1'/>" +
-        "</xsd:sequence>" +
-        "<xsd:attribute name='quantity' type='xsd:string'/>" +
-        "</xsd:complexType>" +
-        "</xsd:schema>";
+        		"<xsd:element name='OrderLineBean' type='org.apache.commons.betwixt.schema.OrderLineBean'/>" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.OrderLineBean'>" +
+        		"<xsd:sequence>" +
+        		"<xsd:element name='product' type='org.apache.commons.betwixt.schema.ProductBean' minOccurs='0' maxOccurs='1'/>" +
+        		"</xsd:sequence>" +
+        		"<xsd:attribute name='quantity' type='xsd:string'/>" +
+        		"</xsd:complexType>" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>" +
+        		"<xsd:sequence/>" +
+        		"<xsd:attribute name='barcode' type='xsd:string'/>" +
+        		"<xsd:attribute name='code' type='xsd:string'/>" +
+        		"<xsd:attribute name='display-name' type='xsd:string'/>" +
+        		"<xsd:attribute name='name' type='xsd:string'/>" +
+        		"</xsd:complexType>" +
+        		"</xsd:schema>";
+
             
         xmlAssertIsomorphicContent(parseString(expected), parseString(xsd), true);
     }
@@ -168,37 +169,42 @@ public class TestSchemaGeneration extends AbstractTestCase {
         String xsd = out.getBuffer().toString();
         
         String expected = "<?xml version='1.0'?><xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" +
-            "        <xsd:element name='order-bean' type='org.apache.commons.betwixt.schema.OrderBean'/>" +
-            "        <xsd:complexType name='org.apache.commons.betwixt.schema.CustomerBean'>" +
-            "        <xsd:sequence/>" +
-            "        <xsd:attribute name='code' type='xsd:string'/>" +
-            "        <xsd:attribute name='country' type='xsd:string'/>" +
-            "        <xsd:attribute name='name' type='xsd:string'/>" +
-            "        <xsd:attribute name='postcode' type='xsd:string'/>" +
-            "        <xsd:attribute name='street' type='xsd:string'/>" +
-            "        <xsd:attribute name='town' type='xsd:string'/>" +
-            "        </xsd:complexType>" +
-            "        <xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>" +
-            "        <xsd:sequence/>" +
-            "        <xsd:attribute name='barcode' type='xsd:string'/>" +
-            "        <xsd:attribute name='code' type='xsd:string'/>" +
-            "        <xsd:attribute name='display-name' type='xsd:string'/>" +
-            "        <xsd:attribute name='name' type='xsd:string'/>" +
-            "        </xsd:complexType>" +
-            "        <xsd:complexType name='org.apache.commons.betwixt.schema.OrderLineBean'>" +
-            "        <xsd:sequence>" +
-            "        <xsd:element name='product' type='org.apache.commons.betwixt.schema.ProductBean' minOccurs='0' maxOccurs='1'/>" +
-            "        </xsd:sequence>" +
-            "        <xsd:attribute name='quantity' type='xsd:string'/>" +
-            "        </xsd:complexType>" +
-            "        <xsd:complexType name='org.apache.commons.betwixt.schema.OrderBean'>" +
-            "        <xsd:sequence>" +
-            "        <xsd:element name='customer' type='org.apache.commons.betwixt.schema.CustomerBean' minOccurs='0' maxOccurs='1'/>" +
-            "        <xsd:element name='line' type='org.apache.commons.betwixt.schema.OrderLineBean' minOccurs='0' maxOccurs='unbounded'/>" +
-            "        </xsd:sequence>" +
-            "        <xsd:attribute name='code' type='xsd:string'/>" +
-            "        </xsd:complexType>" +
-            "        </xsd:schema>";
+        		"<xsd:element name='order-bean' type='org.apache.commons.betwixt.schema.OrderBean'/>" +
+        		"" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.OrderBean'>" +
+        		"	<xsd:sequence>" +
+        		"		<xsd:element name='customer' type='org.apache.commons.betwixt.schema.CustomerBean' minOccurs='0' maxOccurs='1'/>" +
+        		"		<xsd:element name='line' type='org.apache.commons.betwixt.schema.OrderLineBean' minOccurs='0' maxOccurs='unbounded'/>" +
+        		"	</xsd:sequence>" +
+        		"	<xsd:attribute name='code' type='xsd:string'/>" +
+        		"</xsd:complexType>" +
+        		"" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.CustomerBean'>" +
+        		"	<xsd:sequence/>" +
+        		"	<xsd:attribute name='code' type='xsd:string'/>" +
+        		"	<xsd:attribute name='country' type='xsd:string'/>" +
+        		"	<xsd:attribute name='name' type='xsd:string'/>" +
+        		"	<xsd:attribute name='postcode' type='xsd:string'/>" +
+        		"	<xsd:attribute name='street' type='xsd:string'/>" +
+        		"	<xsd:attribute name='town' type='xsd:string'/>" +
+        		"</xsd:complexType>" +
+        		"" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.OrderLineBean'>" +
+        		"	<xsd:sequence>" +
+        		"		<xsd:element name='product' type='org.apache.commons.betwixt.schema.ProductBean' minOccurs='0' maxOccurs='1'/>" +
+        		"	</xsd:sequence>" +
+        		"	<xsd:attribute name='quantity' type='xsd:string'/>" +
+        		"</xsd:complexType>" +
+        		"" +
+        		"<xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>" +
+        		"	<xsd:sequence/>" +
+        		"		<xsd:attribute name='barcode' type='xsd:string'/>" +
+        		"		<xsd:attribute name='code' type='xsd:string'/>" +
+        		"		<xsd:attribute name='display-name' type='xsd:string'/>" +
+        		"		<xsd:attribute name='name' type='xsd:string'/>" +
+        		"	</xsd:complexType>" +
+        		"" +
+        		"</xsd:schema>";
     
          xmlAssertIsomorphicContent(parseString(xsd), parseString(expected));
     }

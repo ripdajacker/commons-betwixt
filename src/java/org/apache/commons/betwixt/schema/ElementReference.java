@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ElementReference extends GlobalElement {
 
@@ -42,8 +42,7 @@ public class ElementReference extends GlobalElement {
     public ElementReference(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         setName(elementDescriptor.getLocalName());
         if (elementDescriptor.isHollow()) {
-            setComplexType( new GlobalComplexType(configuration, elementDescriptor, schema));
-            schema.addComplexType(getComplexType());
+            setComplexType( schema.addGlobalComplexType( configuration, elementDescriptor ));
             if (elementDescriptor.isCollective()) {
                 maxOccurs = "unbounded";
             }

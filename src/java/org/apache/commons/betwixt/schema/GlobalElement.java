@@ -19,9 +19,9 @@ package org.apache.commons.betwixt.schema;
 
 
 /**
- * Models the Element tag in the XML schema.
+ * Models a global definition of an <code>element</code>.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class GlobalElement implements Element {
 	//TODO: going to ignore the issue of namespacing for the moment

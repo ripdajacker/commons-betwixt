@@ -25,8 +25,11 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 
 /**
+ * Models a <code>complexType</code>.
+ * Global (top level) complex types are represented by {@link GlobalComplexType}.
+ * Locally defined or referenced complex types are represented by {@link LocalComplexType}. 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class ComplexType {
 
@@ -37,6 +40,17 @@ public abstract class ComplexType {
     public ComplexType() {}
 
     public ComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        elementDescriptor = fillDescriptor(elementDescriptor, schema);
+        init(configuration, elementDescriptor, schema);      
+    }
+
+    /**
+     * @param elementDescriptor
+     * @param schema
+     * @return
+     * @throws IntrospectionException
+     */
+    protected ElementDescriptor fillDescriptor(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         if (elementDescriptor.isHollow()) {
             // need to introspector for filled descriptor
             Class type = elementDescriptor.getSingularPropertyType();
@@ -46,7 +60,7 @@ public abstract class ComplexType {
             XMLBeanInfo filledBeanInfo = schema.introspect(type);
             elementDescriptor = filledBeanInfo.getElementDescriptor();
         }
-        init(configuration, elementDescriptor, schema);      
+        return elementDescriptor;
     }
 
     protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
@@ -79,7 +93,7 @@ public abstract class ComplexType {
     	 * @return 
     	 */
     public List getElements() {
-    	return elements;
+    		return elements;
     }
 
     /**
@@ -87,7 +101,7 @@ public abstract class ComplexType {
     	 * @param element
     	 */
     public void addElement(ElementReference element) {
-    	elements.add(element);
+        elements.add(element);
     }
     
     /**
@@ -104,7 +118,7 @@ public abstract class ComplexType {
     	 * @return
     	 */
     public List getAttributes() {
-    	return attributes;
+        return attributes;
     }
 
     /**
@@ -112,7 +126,7 @@ public abstract class ComplexType {
     	 * @param attribute
     	 */
     public void addAttribute(Attribute attribute) {
-    	attributes.add(attribute);
+    		attributes.add(attribute);
     }
 
 }

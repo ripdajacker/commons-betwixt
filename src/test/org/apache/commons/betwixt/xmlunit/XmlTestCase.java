@@ -534,6 +534,13 @@ public class XmlTestCase extends TestCase {
         return result;
     }
     
+    
+    public void xmlAssertIsValid(String document, String schema) 
+        throws ParserConfigurationException, IOException
+    {
+        xmlAssertIsValid(new InputSource(new StringReader(document)), new InputSource(new StringReader(schema))); 
+    }
+    
     public void xmlAssertIsValid(InputSource documentSource, InputSource schemaSource) 
         throws ParserConfigurationException, IOException
     {
