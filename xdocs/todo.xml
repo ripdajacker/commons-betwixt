@@ -17,7 +17,12 @@
     <section name="High priority"> 
       <ul>
         <li>
-                  Get an overview of what .betwxixt files should really do. Especially more complicated examples will cause very strange and unexpected results.
+          BeanWriter is writing to sloppy (empty elements, etc). Fixing it in a clean way
+          is almost impossible. 
+          Probably a refactor is best anyway to have a less "sloppy" api.. 
+        </li>
+        <li>
+          Get an overview of what .betwxixt files should really do. Especially more complicated examples will cause very strange and unexpected results.
         </li>
         <li>
 		  If an addFoo() method is found with no matching getFoos() then a warning should be generated.
