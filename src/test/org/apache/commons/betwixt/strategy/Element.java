@@ -1,6 +1,6 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.4 2002/12/16 21:59:21 rdonkin Exp $
- * $Revision: 1.4 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/Element.java,v 1.1 2002/12/16 21:59:21 rdonkin Exp $
+ * $Revision: 1.1 $
  * $Date: 2002/12/16 21:59:21 $
  *
  * ====================================================================
@@ -57,77 +57,34 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestHyphenatedNameMapper.java,v 1.4 2002/12/16 21:59:21 rdonkin Exp $
+ * $Id: Element.java,v 1.1 2002/12/16 21:59:21 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
 
-import java.util.ArrayList;
+/**
+ * <code>Element</code> is a sample bean for use with test cases
+ *
+ * @author <a href="mailto:tima@intalio.com">Tim Anderson</a>
+ * @version $Revision: 1.1 $
+ */
+public class Element {
 
-import org.apache.commons.betwixt.XMLIntrospector;
+    private String value;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+    public Element() {
+    }
 
-/** Test harness for the HyphenatedNameMapper
-  *
-  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.4 $
-  */
-public class TestHyphenatedNameMapper extends TestCase {
-    
-    public static Test suite() {
-        return new TestSuite(TestHyphenatedNameMapper.class);
+    public Element(String value) {
+        this.value = value;
     }
-    
-    public TestHyphenatedNameMapper(String testName) {
-        super(testName);
-    }
-    
-    public void testLowerCase()  {
-        HyphenatedNameMapper mapper = new HyphenatedNameMapper();
-        String result = mapper.mapTypeToElementName("FooBar");
-        assertEquals("foo-bar", result);
-    }
-    
-    public void testUpperCase()  {
-        HyphenatedNameMapper mapper = new HyphenatedNameMapper(true, "_");
-        String result = mapper.mapTypeToElementName("FooBar");
-        assertEquals("FOO_BAR", result);
-    }
-    
-    public void testUpperCaseViaProperties()  {
-        HyphenatedNameMapper mapper = new HyphenatedNameMapper();
-        mapper.setUpperCase(true);
-        mapper.setSeparator("_");
-        String result = mapper.mapTypeToElementName("FooBar");
-        assertEquals("FOO_BAR", result);
-    }
-    
-    /**
-     * A more "complicated" exmple
-     */
-    public void testUpperCaseLongViaProperties() {
-        HyphenatedNameMapper mapper = new HyphenatedNameMapper(true, "__");
-        String result = mapper.mapTypeToElementName("FooBarFooBar");
-        assertEquals("FOO__BAR__FOO__BAR", result);
 
-     }
-     
-    
-    public void testBeanWithAdd() throws Exception {	
-        //
-        // simple test this one
-        // a problem was reported when introspecting classes with 'add' properties
-        // when using the HyphenatedNameMapper
-        // basically, the test is that no exception is thrown
-        //
-        XMLIntrospector introspector = new XMLIntrospector();
-        introspector.setElementNameMapper(new HyphenatedNameMapper());
-        introspector.introspect(new ArrayList());
+    public String getValue() {
+        return value;
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+    
 }
-

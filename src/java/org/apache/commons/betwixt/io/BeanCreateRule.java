@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.12 2002/12/11 22:12:11 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2002/12/11 22:12:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.13 2002/12/16 21:59:21 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2002/12/16 21:59:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.12 2002/12/11 22:12:11 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.13 2002/12/16 21:59:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,7 +89,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision: 1.13 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -423,7 +423,8 @@ public class BeanCreateRule extends Rule {
                 // this code is for making sure that recursive elements
                 // can also be used..
                 
-                if (qualifiedName.equals(currentDescriptor.getQualifiedName())) {
+                if ( qualifiedName.equals( currentDescriptor.getQualifiedName() ) 
+                        && currentDescriptor.getPropertyName() != null ) {
                     log.trace("Creating generic rule for recursive elements");
                     int index = -1;
                     if (childDescriptor.isWrapCollectionsInElement()) {
