@@ -8,3 +8,4 @@ foo.txt
 maven.log
 .classpath
 lib
+junit*.properties
