@@ -20,18 +20,30 @@
     <jar jarfile="target/commons-betwixt-1.0-dev.jar" excludes="**/package.html" basedir="target/classes"></jar>
 
   </target>
+  
+  <target name="clean">
+    <delete dir="target"></delete>
+    <delete dir="dist"></delete>
+  </target>
+
+  <target name="dist" depends="jar">
+    <mkdir dir="dist"></mkdir>
+    <copy todir="dist">
+      <fileset dir="target"></fileset>
+    </copy>
+  </target>
 
   <target name="get-deps">
   
     <mkdir dir="lib"></mkdir>
     
-    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-logging-1.0.jar"></get>
-    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-beanutils-1.3.jar"></get>
-    <get dest="lib/commons-collections-2.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-collections-2.0.jar"></get>
-    <get dest="lib/commons-digester-1.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-digester-1.2.jar"></get>
-    <get dest="lib/xerces-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xerces-2.0.0.jar"></get>
-    <get dest="lib/xml-apis-2.0.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xml-apis-2.0.2.jar"></get>
-    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/junit-3.7.jar"></get>
+    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-logging/jars/commons-logging-1.0.jar"></get>
+    <get dest="lib/commons-beanutils-1.3.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-beanutils/jars/commons-beanutils-1.3.jar"></get>
+    <get dest="lib/commons-collections-2.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-collections/jars/commons-collections-2.0.jar"></get>
+    <get dest="lib/commons-digester-1.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-digester/jars/commons-digester-1.2.jar"></get>
+    <get dest="lib/xerces-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xerces/jars/xerces-2.0.0.jar"></get>
+    <get dest="lib/xml-apis-2.0.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xml-apis/jars/xml-apis-2.0.2.jar"></get>
+    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/junit/jars/junit-3.7.jar"></get>
   
   </target>
 
@@ -48,9 +60,9 @@
 
     
 
-    <get dest="${user.home}/maven-latest-install.jar" usetimestamp="true" src="${maven.repo.remote}maven/maven-latest-install.jar"></get>
+    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${maven.repo.remote}maven/maven-install-latest.jar"></get>
     
-    <unjar dest="${maven.home}" src="${user.home}/maven-latest-install.jar"></unjar>
+    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"></unjar>
     
   </target>
 
