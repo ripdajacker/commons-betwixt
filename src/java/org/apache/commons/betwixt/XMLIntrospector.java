@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.7 2004/01/24 13:36:17 rdonkin Exp $
- * $Revision: 1.27.2.7 $
- * $Date: 2004/01/24 13:36:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.8 2004/01/29 22:15:22 rdonkin Exp $
+ * $Revision: 1.27.2.8 $
+ * $Date: 2004/01/29 22:15:22 $
  *
  * ====================================================================
  * 
@@ -111,7 +111,7 @@ import org.apache.commons.logging.Log;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.7 2004/01/24 13:36:17 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.8 2004/01/29 22:15:22 rdonkin Exp $
   */
 public class XMLIntrospector {
     
@@ -790,7 +790,8 @@ public class XMLIntrospector {
         String adderName = twinParameterAdderMethod.getName();
         String propertyName = Introspector.decapitalize(adderName.substring(3));
         ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
-        if ( matchingDescriptor != null && Map.class.isAssignableFrom( matchingDescriptor.getPropertyType() )) {
+        if ( matchingDescriptor != null 
+            && Map.class.isAssignableFrom( matchingDescriptor.getPropertyType() )) {
             // this may match a map
             getLog().trace("Matching map");
             ElementDescriptor[] children 
@@ -806,39 +807,28 @@ public class XMLIntrospector {
                 Class keyType = types[0];
                 Class valueType = types[1];
                 
-                // loop through grandchildren 
+                // loop through children 
                 // adding updaters for key and value
-                ElementDescriptor[] grandchildren
-                    = children[0].getElementDescriptors();
                 MapEntryAdder adder = new MapEntryAdder(twinParameterAdderMethod);
                 for ( 
                     int n=0, 
-                        noOfGrandChildren = grandchildren.length;
+                        noOfGrandChildren = children.length;
                     n < noOfGrandChildren;
                     n++ ) {
-                    if ( "key".equals( 
-                            grandchildren[n].getLocalName() ) ) {
-                                            
-                        grandchildren[n].setUpdater( 
-                                        adder.getKeyUpdater() );
-                        grandchildren[n].setSingularPropertyType( 
-                                        keyType );
+                    if ( "key".equals( children[n].getLocalName() ) ) {
+                                      
+                        children[n].setUpdater( adder.getKeyUpdater() );
+                        children[n].setSingularPropertyType(  keyType );
                         if ( getLog().isTraceEnabled() ) {
-                            getLog().trace(
-                                "Key descriptor: " + grandchildren[n]);
+                            getLog().trace( "Key descriptor: " + children[n]);
                         }                                               
                                                 
-                    } else if ( 
-                        "value".equals( 
-                            grandchildren[n].getLocalName() ) ) {
+                    } else if ( "value".equals( children[n].getLocalName() ) ) {
 
-                        grandchildren[n].setUpdater( 
-                                            adder.getValueUpdater() );
-                        grandchildren[n].setSingularPropertyType( 
-                                            valueType );
-                        if ( getLog().isTraceEnabled() ) {
-                            getLog().trace(
-                                "Value descriptor: " + grandchildren[n]);
+                            children[n].setUpdater( adder.getValueUpdater() );
+                            children[n].setSingularPropertyType( valueType );
+                        if ( getLog().isTraceEnabled() ) { 
+                            getLog().trace( "Value descriptor: " + children[n]);
                         }
                     }
                 }

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.6 2004/01/26 22:20:01 rdonkin Exp $
- * $Revision: 1.4.2.6 $
- * $Date: 2004/01/26 22:20:01 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.7 2004/01/29 22:15:22 rdonkin Exp $
+ * $Revision: 1.4.2.7 $
+ * $Date: 2004/01/29 22:15:22 $
  *
  * ====================================================================
  * 
@@ -82,7 +82,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.6 2004/01/26 22:20:01 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.7 2004/01/29 22:15:22 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -328,23 +328,36 @@ public class BeanProperty {
         //TODO: need to clean the element descriptors so that the wrappers are plain
         ElementDescriptor result;
         
-        ElementDescriptor loopDescriptor = new ElementDescriptor();
-        loopDescriptor.setContextExpression(
+        ElementDescriptor entryDescriptor = new ElementDescriptor();
+        entryDescriptor.setContextExpression(
             new IteratorExpression( propertyExpression )
         );
 
-        loopDescriptor.setQualifiedName( "entry" );
+        entryDescriptor.setLocalName( "entry" );
+        entryDescriptor.setPropertyName( getPropertyName() );
+        entryDescriptor.setPropertyType( getPropertyType() );
+        
         // add elements for reading
-        loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
-        loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
+        ElementDescriptor keyDescriptor = new ElementDescriptor( "key" );
+        keyDescriptor.setHollow( true );
+        entryDescriptor.addElementDescriptor( keyDescriptor );
+        
+        ElementDescriptor valueDescriptor = new ElementDescriptor( "value" );
+        valueDescriptor.setHollow( true );
+        entryDescriptor.addElementDescriptor( valueDescriptor );
         
         
-        ElementDescriptor elementDescriptor = new ElementDescriptor();
-        elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
-        
-        result = elementDescriptor;
-        
-        configureDescriptor(result, configuration);
+        if ( configuration.isWrapCollectionsInElement() ) {
+            ElementDescriptor wrappingDescriptor = new ElementDescriptor();
+            wrappingDescriptor.setElementDescriptors( new ElementDescriptor[] { entryDescriptor } );
+            NameMapper nameMapper = configuration.getElementNameMapper();   
+            wrappingDescriptor.setLocalName( nameMapper.mapTypeToElementName( propertyName ));           
+            result = wrappingDescriptor;
+                        
+        } else {
+            result = entryDescriptor;
+        }
+
         return result;
     }
 
