@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.12 2003/02/13 18:41:48 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/02/13 18:41:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.13 2003/07/01 19:07:25 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/07/01 19:07:25 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.12 2003/02/13 18:41:48 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.13 2003/07/01 19:07:25 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -82,7 +82,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision: 1.13 $
   */
 public class BeanReader extends Digester {
 
@@ -166,7 +166,6 @@ public class BeanReader extends Digester {
                 log.trace("Added path: " + path + ", mapped to: " + beanClass.getName());
             }
             addBeanCreateRule( path, elementDescriptor, beanClass );
-            addBeanCreateRule( "*/" + path, elementDescriptor, beanClass );
             
         } else {
             if ( log.isWarnEnabled() ) {
@@ -329,6 +328,9 @@ public class BeanReader extends Digester {
                                     String path, 
                                     ElementDescriptor elementDescriptor, 
                                     Class beanClass ) {
+        if (log.isTraceEnabled()) {
+            log.trace("Adding BeanRuleSet for " + beanClass);
+        }
         RuleSet ruleSet = new BeanRuleSet( 
                                             introspector, 
                                             path ,  
