@@ -184,7 +184,12 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 0.5'>
+    <subsection name='since 0.6'>
+            <li><strong>Improved introspection for interfaces</strong> superinterface 
+            properties now checked.</li>
+    
+    </subsection>
+    <subsection name='0.6'>
             <li><strong>Improved empty element rendering</strong></li>
             <li>
 <strong>Extended betwixt file</strong> by adding two new properties 
