@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- $Id: recursion2.xml,v 1.1 2002/07/30 22:47:41 mvdb Exp $ -->
+<ElementBean>
+    <element name="element1">
+        <element name="element11">
+          <element name="element111"/>
+          <element name="element112"/>
+        </element>
+        <element name="element12"/>
+    </element>
+    <element name="element2"/>
+</ElementBean>
