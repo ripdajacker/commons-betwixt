@@ -339,16 +339,97 @@ use case. Betwixt will call a single property with all the mixed content text. S
 property is specified then the bean can be written and then read back.
     </p>
 </subsection>
+</section>
 
-<subsection name='Using ConvertUtils To Customize Conversion Of Primitives'>
-        <p>
+    <section name='Converting Objects And Primitives To Strings (And Back Again)'>
+
+        <subsection name='Using ConvertUtils To Customize Conversion Of Primitives'>
+            <p>
 <code>ConvertUtils</code> is part of <a href='http://jakarta.apache.org/commons/beanutils.html'>commons-beanutils</a>
-and it can be used to flexibly convert strings to objects and back again. Betwixt uses ConvertUtils to 
+and it can be used to flexibly convert strings to objects and back again. By default, Betwixt uses ConvertUtils to 
 perform these conversions and so standard <code>ConvertUtils</code> methods can be called to customize these 
 conversions.
-    </p>
-</subsection>
-
+        </p>	
+    </subsection>
+        <subsection name='Converting Dates (And Other Objects)'>
+            <p>
+There are numerous situations when read beans from xml or writing beans to xml that String to Object 
+or Object to String conversions are required. Betwixt uses a <em>Strategy</em> class to allow a convenient
+default which will work well for most basic users whilst allowing advanced users to fully hook in and
+customize this process.
+        </p>
+            <p>
+The default strategy uses <code>ConvertUtils</code> from  
+<a href='http://jakarta.apache.org/commons/beanutils.html'>commons-beanutils</a> to perform these conversions.
+This is a powerful component that allows flexible customization of the conversion process.
+        </p>
+            <p>
+There is one exception to this rule. If the class is a <code>java.util.Date</code> - or a subclass of <code>java.util.Date</code> which is not a subclass of <code>java.sql.Date</code>, <code>java.sql.Time</code> or <code>java.sql.Timestamp</code> - then this is converted to and from a string following this pattern: 
+<code><pre>
+    EEE MMM dd HH:mm:ss zzz yyyy
+</pre></code>
+(using the SimpleDateFormat notation). Observent readers will realise that this is the same pattern 
+that is returned by <code>java.util.Date.toString</code> - and that's why this pattern was chosen.
+It provides a good default for casual users.
+        </p>
+            <p>
+Advanced users will probably need a particular date format. The recommended way to do this is through
+registering appropriate converters with ConvertUtils. The default conversion strategy must also be 
+replaced with an instance of 
+<a href='../apidocs/org/apache.commons/betwixt/strategy/ConvertUtilsObjectStringConverter.html'>
+ConvertUtilsObjectStringConverter</a>. This is set though a <code>BindingConfiguration</code> property.
+        </p>
+            <p>
+For example, to delegate to <code>ConvertUtils</code> for <em>all</em> conversions in a read:
+<code><pre>
+    BeanReader reader = new BeanReader();
+    reader.getBindingConfiguration(new ConvertUtilsObjectStringConverter());
+    reader.parse...
+</pre></code>
+and in a write:
+<code><pre>
+    BeanWriter writer = new BeanWriter();
+    writer.getBindingConfiguration(new ConvertUtilsObjectStringConverter());
+    writer.write...
+</pre></code>
+        </p>
+    </subsection>
+        <subsection name='Custom ObjectStringConverters (Advanced)'>
+            <p>
+<code>ConvertUtils</code> is flexible and powerful. It comes with a range of <code>Converter</code> 
+implementations which allow quick and easy customization. But, there are occasions where this will
+not suit all the requirements of the user. Betwixt supports this need by allowing a custom 
+<code>ObjectStringConverter</code> to be plugged in.
+        </p>
+            <p>
+The strategy class  
+<a href='../apidocs/org/apache.commons/betwixt/strategy/ObjectStringConverter.html'>ObjectStringConverter</a>
+is simple: containing only two simple methods. For more information about creating subclasses, see the javadocs.
+The implementation to be used is set through the <code>BindingConfiguration</code> 
+<code>ObjectStringConverter</code> property. 
+        </p>
+            <p>
+For example, to set a custom <code>ObjectStringConverter</code> for <em>all</em> conversions in a read:
+<code><pre>
+    ObjectStringConverter converter = new MyObjectStringConverter();
+    BeanReader reader = new BeanReader();
+    reader.getBindingConfiguration(converter);
+    reader.parse...
+</pre></code>
+and in a write:
+<code><pre>
+    ObjectStringConverter converter = new MyObjectStringConverter();
+    BeanWriter writer = new BeanWriter();
+    writer.getBindingConfiguration(converter);
+    writer.write...
+</pre></code>
+        </p>
+            <p>
+Betwixt is distributed with a range of <code>ObjectStringConverter</code>'s in the 
+<code>org.apache.commons.betwixt.strategy</code> package. Examining the source code for these classes
+is a good please to start when creating your own implementation.
+        </p>
+    </subsection>
 </section>
 
 </body>

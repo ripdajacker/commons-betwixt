@@ -236,6 +236,15 @@
             <strong>Support for converting output strings</strong>
             ConvertUtils is now called to convert output strings (as well as input ones).
             </li>
+            <li>
+            <strong>Refactored Object &lt;-&gt; String Conversion</strong>
+            This process has been factored out into a separate pluggable Strategy class 
+            (<code>ObjectStringConverter</code>). A pure <code>ConvertUtils</code> implementation
+            has been created (<code>ConvertUtilsObjectStringConverter</code>). The default implementation
+            (<code>DefaultsObjectStringConverter</code>) delegates most conversions to <code>ConvertUtils</code>
+            but contains a special case that allows the default setting to round trip java.util.Date's 
+            without breaking compatibility.
+            </li>
         </ul>
     </subsection>
 </section>
@@ -352,6 +361,11 @@
                 <code>ConvertUtils</code> from commons-beanutils is now called to performt the object to 
                 string conversions. It is possible that in some circumstances, this change may effect the
                 output.
+            </li>
+            <li>
+                <strong><code>ConvertUtils</code> conversion now ignored (by default) for java.util.Date</strong>
+                If you use a custom <code>ConvertUtils</code> java.util.Date converter then see 
+                <a href='guide/binding.html#Converting Dates (And Other Objects)'>the guide</a>.
             </li>
         </ul>
     </subsection>
