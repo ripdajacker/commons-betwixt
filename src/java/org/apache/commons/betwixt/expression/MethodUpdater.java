@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.3 2002/07/09 21:50:31 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/09 21:50:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.4 2002/12/11 22:12:11 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/12/11 22:12:11 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.3 2002/07/09 21:50:31 mvdb Exp $
+ * $Id: MethodUpdater.java,v 1.4 2002/12/11 22:12:11 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -73,12 +73,17 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class MethodUpdater implements Updater {
 
     /** Logger */
-    private static final Log log = LogFactory.getLog( MethodUpdater.class );
+    private static Log log = LogFactory.getLog( MethodUpdater.class );
+
+    /** Programmatically set log */
+    public static void setLog( Log aLog ) {
+        log = aLog;
+    }
     
     /** The method to call on the bean */
     private Method method;

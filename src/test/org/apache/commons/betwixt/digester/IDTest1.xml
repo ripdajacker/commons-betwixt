@@ -2,23 +2,23 @@
 <IDBean id="1">
     <name>alpha</name>
     <children>
-        <IDBean id="2">
+        <child id="2">
             <name>beta</name>
             <children/>
             <id>two</id>
-        </IDBean>
-        <IDBean id="3">
+        </child>
+        <child id="3">
             <name>gamma</name>
             <children>	
-                <IDBean id="4">
+                <child id="4">
                     <name>epsilon</name>
                     <children/>
                     <id>four</id>	
-                </IDBean>
-                <IDBean idref="2"/>
+                </child>
+                <child idref="2"/>
             </children>
             <id>three</id>
-        </IDBean>
+        </child>
     </children>
     <id>one</id>
 </IDBean>

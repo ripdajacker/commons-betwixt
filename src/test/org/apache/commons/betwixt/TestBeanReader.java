@@ -30,6 +30,9 @@ import org.apache.commons.beanutils.ConvertUtils;
 
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
+import org.apache.commons.betwixt.io.BeanCreateRule;
+
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -198,6 +201,61 @@ public class TestBeanReader extends AbstractTestCase {
     
     private void checkBean(AdderButNoPropertyBean bean) throws Exception {
         assertEquals("Bad addString call count", 3, bean.stringCallCount());
+    }
+    
+    private void checkBean(PersonListBean bean) throws Exception {
+        assertEquals("PersonList size", 4, bean.getPersonList().size());
+        assertEquals("PersonList value (1)", "Athos", ((PersonBean) bean.getPersonList().get(0)).getName());
+        assertEquals("PersonList value (2)", "Porthos", ((PersonBean) bean.getPersonList().get(1)).getName());
+        assertEquals("PersonList value (3)", "Aramis", ((PersonBean) bean.getPersonList().get(2)).getName());
+        assertEquals("PersonList value (4)", "D'Artagnan", ((PersonBean) bean.getPersonList().get(3)).getName());
+    }
+    
+    public void testPersonList() throws Exception {
+
+        PersonListBean people = new PersonListBean();
+        people.addPerson(new PersonBean(22, "Athos"));
+        people.addPerson(new PersonBean(25, "Porthos"));
+        people.addPerson(new PersonBean(23, "Aramis"));
+        people.addPerson(new PersonBean(18, "D'Artagnan"));
+        
+        checkBean(people);
+//
+// Logging and debugging code for this method commented out
+//
+//        writeBean(people);
+
+//        SimpleLog log = new SimpleLog("[TestPersonList:XMLIntrospectorHelper]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        XMLIntrospectorHelper.setLog(log);
+        
+        
+//        log = new SimpleLog("[TestPersonList:BeanCreateRule]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+//        BeanCreateRule.setLog(log);
+        
+//        log = new SimpleLog("[TestPersonList:XMLIntrospector]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
+        BeanReader reader = new BeanReader();
+//        reader.getXMLIntrospector().setLog(log);
+              
+//        log = new SimpleLog("[TestPersonList:BeanReader]");
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
+//        reader.setLog(log);
+        reader.registerBeanClass( PersonListBean.class );
+        
+        InputStream in =  
+            new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/person-list.xml") );
+        try {
+        
+            checkBean((PersonListBean) reader.parse( in ));
+            
+        }
+        finally {
+            in.close();
+        }   
     }
 }
 

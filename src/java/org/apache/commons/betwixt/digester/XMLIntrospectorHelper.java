@@ -87,7 +87,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.9 2002/11/07 16:15:08 jstrachan Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.10 2002/12/11 22:12:11 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -351,16 +351,21 @@ public class XMLIntrospectorHelper {
                     Class[] types = method.getParameterTypes();
                     if ( types != null && types.length == 1 ) {
                         String propertyName = Introspector.decapitalize( name.substring(3) );
+                        if ( log.isTraceEnabled() ) {
+                            log.trace( name + "->" + propertyName );
+                        }
 
                         // now lets try find the ElementDescriptor which displays
                         // a property which starts with propertyName
                         // and if so, we'll set a new Updater on it if there
                         // is not one already
-                        ElementDescriptor descriptor = findGetCollectionDescriptor( introspector, rootDescriptor, propertyName );
+                        ElementDescriptor descriptor = 
+                            findGetCollectionDescriptor( introspector, rootDescriptor, propertyName );
                             
-                            if ( log.isDebugEnabled() ) {
-                                log.debug( "!! " + propertyName + " -> " + descriptor);
-                            }
+                        if ( log.isDebugEnabled() ) {	
+                            log.debug( "!! " + propertyName + " -> " + descriptor );
+                            log.debug( "!! " + name + " -> " + descriptor.getPropertyName() );
+                        }
                         
                         if ( descriptor != null ) {
                             descriptor.setUpdater( new MethodUpdater( method ) );
@@ -440,7 +445,12 @@ public class XMLIntrospectorHelper {
         // create the Map of propertyName -> descriptor that the PluralStemmer will choose
         Map map = new HashMap();
         //String propertyName = rootDescriptor.getPropertyName();
-        if (propertyName != null) {
+        if ( log.isTraceEnabled() ) {
+            log.trace( "findPluralDescriptor( " + propertyName 
+                + " ):root property name=" + rootDescriptor.getPropertyName() );
+        }
+        
+        if (rootDescriptor.getPropertyName() != null) {
             map.put(propertyName, rootDescriptor);
         }
         makeElementDescriptorMap( rootDescriptor, map );

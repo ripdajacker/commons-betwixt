@@ -1,8 +1,7 @@
-
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/IDBean.java,v 1.2 2002/12/11 22:12:11 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/11 22:12:11 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/PersonListBean.java,v 1.1 2002/12/11 22:12:39 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2002/12/11 22:12:39 $
  *
  * ====================================================================
  *
@@ -58,66 +57,30 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IDBean.java,v 1.2 2002/12/11 22:12:11 rdonkin Exp $
+ * $Id: PersonListBean.java,v 1.1 2002/12/11 22:12:39 rdonkin Exp $
  */
-package org.apache.commons.betwixt.digester;
+package org.apache.commons.betwixt;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-/** Bean for testing ID-IDRef reading.
+/** <p>Bean to test lists of people</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.1 $
   */
-public class IDBean {
+public class PersonListBean {
     
-    static Log log = LogFactory.getLog( IDBean.class );
+    private ArrayList people = new ArrayList();
     
-    private String id;
-    private String name;
-    
-    private IDBean child;
-    
-    private List children = new ArrayList();
-    
-    public IDBean() { log.debug("Created"); }
-    
-    public IDBean(String id, String name) {
-        setId(id);
-        setName(name);
-    }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public String getName() {
-        return name;
-    }	
-    
-    public void setName(String name) {
-        log.debug("Set name: " + name);
-        this.name = name;
+    public PersonListBean() {}
+
+    public List getPersonList() {
+        return people;
     }
 
-    public List getChildren() {
-        return children;
+    public void addPerson(PersonBean person) {
+        people.add(person);
     }
     
-    public void addChild(IDBean child) {
-        log.debug("Added child " + child + " to bean " + this);
-        children.add(child);
-    }
-    
-    public String toString() {
-        return "IDBean[name=" + getName() + ",id=" + getId() + "]";
-    }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.11 2002/08/29 21:40:29 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2002/08/29 21:40:29 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.12 2002/12/11 22:12:11 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2002/12/11 22:12:11 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.11 2002/08/29 21:40:29 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.12 2002/12/11 22:12:11 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,16 +89,16 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class BeanCreateRule extends Rule {
 
     /** Logger */
-    private static final Log log = LogFactory.getLog( BeanCreateRule.class );
+    private static Log log = LogFactory.getLog( BeanCreateRule.class );
     
     /** Set log to be used by <code>BeanCreateRule</code> instances */
-    public static void setLog(Log log) {
-        log = log;
+    public static void setLog(Log aLog) {
+        log = aLog;
     }
     
     /** The descriptor of this element */
@@ -113,8 +113,6 @@ public class BeanCreateRule extends Rule {
     private Class beanClass;
     /** The prefix added to digester rules */
     private String pathPrefix;
-    /** Beans digested indexed by <code>ID</code> */
-    private Map beansById = new HashMap();
     /** Use id's to match beans? */
     private boolean matchIDs = true;
     
@@ -297,7 +295,7 @@ public class BeanCreateRule extends Rule {
                     // XXX so i'm leaving this till later
                     String id = attributes.getValue( "id" );
                     if ( id != null ) {
-                        beansById.put( id, instance );
+                        getBeansById().put( id, instance );
                     }
                 }
             }
@@ -323,21 +321,23 @@ public class BeanCreateRule extends Rule {
 
             if ( updater != null ) {
                 if ( log.isDebugEnabled() ) {
-                    log.debug( "Calling updater for: " + descriptor + " with: " + instance + " on bean: " + context.getBean() );
+                    log.debug( "Calling updater for: " + descriptor + " with: " 
+                        + instance + " on bean: " + context.getBean() );
                 }
                 updater.update( context, instance );
+            } else {
+                if ( log.isDebugEnabled() ) {
+                    log.debug( "No updater for: " + descriptor + " with: " 
+                        + instance + " on bean: " + context.getBean() );
+                }
             }
-            
         }
     }
 
     /** 
      * Tidy up.
      */
-    public void finish() {
-        // clear beans map
-        beansById.clear();
-    }
+    public void finish() {}
 
 
     // Implementation methods
@@ -357,14 +357,22 @@ public class BeanCreateRule extends Rule {
                 // XXX need to check up about ordering
                 // XXX this is a very simple system that assumes that id occurs before idrefs
                 // XXX would need some thought about how to implement a fuller system
-                Object bean = beansById.get( idref );
+                log.trace( "Found IDREF" );
+                Object bean = getBeansById().get( idref );
                 if ( bean != null ) {
+                    if (log.isTraceEnabled()) {
+                        log.trace( "Matched bean " + bean );
+                    }
                     return bean;
                 }
+                log.trace( "No match found" );
             }
         }
         
         try {
+            if (log.isTraceEnabled()) {
+                log.trace( "Creating instance of " + beanClass );
+            }
             return beanClass.newInstance();
         }
         catch (Exception e) {
@@ -408,12 +416,13 @@ public class BeanCreateRule extends Rule {
                 String propertyName = childDescriptor.getPropertyName();
                 String qualifiedName = childDescriptor.getQualifiedName();
                 if ( qualifiedName == null ) {
-                    log.trace("Ignoring");
+                    log.trace( "Ignoring" );
                     continue;
                 }
                 String path = prefix + qualifiedName;
                 // this code is for making sure that recursive elements
                 // can also be used..
+                
                 if (qualifiedName.equals(currentDescriptor.getQualifiedName())) {
                     log.trace("Creating generic rule for recursive elements");
                     int index = -1;
@@ -421,6 +430,7 @@ public class BeanCreateRule extends Rule {
                         index = prefix.indexOf(qualifiedName);
                         if (index == -1) {
                             // shouldn't happen.. 
+                            log.debug( "Oops - this shouldn't happen" );
                             continue;
                         }
                         int removeSlash = prefix.endsWith("/")?1:0;
@@ -539,8 +549,31 @@ public class BeanCreateRule extends Rule {
         else {
             if ( log.isDebugEnabled() ) {
                 log.debug( "Ignoring duplicate digester rule for path: " + path + " rule: " + rule );
+                log.debug( "New rule (not added): " + rule );
+                log.debug( "Existing rule:" + matches.get(0) );
             }
         }
+    }    
+
+    /**
+     * Get the map used to index beans (previously read in) by id.
+     * This is stored in the evaluation context.
+     */
+    protected Map getBeansById() {
+        //
+        // we need a single index for beans read in by id
+        // so that we can use them for idref-matching
+        // store this in the context
+        //
+        Map beansById = (Map) context.getVariable( "beans-index" );
+        if ( beansById == null ) {
+            // lazy creation
+            beansById = new HashMap();
+            context.setVariable( "beans-index", beansById );
+            log.trace( "Created new index-by-id map" );
+        }
+        
+        return beansById;
     }
     
     /**

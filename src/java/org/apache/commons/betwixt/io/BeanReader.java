@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.5 2002/10/24 11:13:22 jstrachan Exp $
- * $Revision: 1.5 $
- * $Date: 2002/10/24 11:13:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.6 2002/12/11 22:12:11 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2002/12/11 22:12:11 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.5 2002/10/24 11:13:22 jstrachan Exp $
+ * $Id: BeanReader.java,v 1.6 2002/12/11 22:12:11 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -86,7 +86,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class BeanReader extends Digester {
 
@@ -134,6 +134,9 @@ public class BeanReader extends Digester {
      */
     public void registerBeanClass(Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
+            if ( log.isTraceEnabled() ) {
+                log( "Registering class " + beanClass );
+            }
             registeredClasses.add( beanClass );
             
             // introspect and find the ElementDescriptor to use as the root
