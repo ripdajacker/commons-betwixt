@@ -79,13 +79,14 @@ import org.apache.commons.beanutils.ConvertUtils;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 
+import org.apache.commons.betwixt.xmlunit.XmlTestCase;
 
 /** Abstract base class for test cases.
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision: 1.6 $
   */
-public abstract class AbstractTestCase extends TestCase {
+public abstract class AbstractTestCase extends XmlTestCase {
     
     /**
      * Basedir for all i/o
