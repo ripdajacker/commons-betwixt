@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.27.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27.2.2 2004/01/18 12:30:57 rdonkin Exp $
+ * $Revision: 1.27.2.2 $
+ * $Date: 2004/01/18 12:30:57 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.27.2.1 2004/01/13 21:49:46 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.27.2.2 2004/01/18 12:30:57 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -311,7 +311,7 @@ public class XMLIntrospectorHelper {
         }
         if ( isPrimitiveType( type ) ) {
             elementDescriptor.setTextExpression( new MethodExpression( readMethod ) );
-            elementDescriptor.setPrimitiveType(true);
+            
         } else if ( isLoopType( type ) ) {
             log.trace("Loop type ??");
             
@@ -604,7 +604,11 @@ public class XMLIntrospectorHelper {
     
     /**
      * Is this a primitive type? 
-     * 
+     *      
+     * TODO: this method will probably be removed when primitive types
+     * are subsumed into the simple type concept.
+     * This needs moving into XMLIntrospector so that the list of simple
+     * type can be varied.
      * @param type is this <code>Class<code> a primitive type?
      * @return true for primitive types 
      */

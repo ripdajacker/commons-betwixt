@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27 2003/10/19 14:53:52 mvdb Exp $
- * $Revision: 1.27 $
- * $Date: 2003/10/19 14:53:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.1 2004/01/18 12:30:57 rdonkin Exp $
+ * $Revision: 1.27.2.1 $
+ * $Date: 2004/01/18 12:30:57 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,7 +110,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27 2003/10/19 14:53:52 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.1 2004/01/18 12:30:57 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -391,7 +391,6 @@ public class XMLIntrospector {
         if ( bean.isPrimitiveType() ) {
             log.trace("Bean is primitive");
             elementDescriptor.setTextExpression( StringExpression.getInstance() );
-            elementDescriptor.setPrimitiveType(true);
             
         } else if ( bean.isLoopType() ) {
             log.trace("Bean is loop");
@@ -666,7 +665,7 @@ public class XMLIntrospector {
                 if (log.isTraceEnabled()) {
                     log.trace( "Adding property as element: " + name );
                 }
-                descriptor = new ElementDescriptor(true);
+                descriptor = new ElementDescriptor();
             }
             descriptor.setTextExpression( propertyExpression );
             if ( propertyUpdater != null ) {
@@ -1029,6 +1028,8 @@ public class XMLIntrospector {
     
     /** 
      * Is this class a primitive?
+     * TODO: this method will probably be removed when primitive types
+     * are subsumed into the simple type concept 
      * @param type the Class to test
      * @return true for primitive types 
      */

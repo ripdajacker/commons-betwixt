@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.2 2004/01/15 23:34:22 rdonkin Exp $
- * $Revision: 1.14.2.2 $
- * $Date: 2004/01/15 23:34:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.3 2004/01/18 12:30:57 rdonkin Exp $
+ * $Revision: 1.14.2.3 $
+ * $Date: 2004/01/18 12:30:57 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14.2.2 $
+  * @version $Revision: 1.14.2.3 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -147,6 +147,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Base constructor.
      * @param primitiveType if true, this element refers to a primitive type
+     * @deprecated PrimitiveType property has been removed
      */
     public ElementDescriptor(boolean primitiveType) {
         this.primitiveType = primitiveType;
@@ -201,6 +202,18 @@ public class ElementDescriptor extends NodeDescriptor {
         return getContentDescriptors().length > 0; 
      } 
     
+    /**
+     * Is this a simple element?
+     * A simple element is one without child elements or attributes.
+     * This corresponds to the simple type concept used in XML Schema.
+     * TODO: need to consider whether it's sufficient to calculate
+     * which are simple types (and so don't get IDs assigned etc)
+     * @return true if it is a <code>SimpleType</code> element
+     */
+    public boolean isSimple() {
+        return !(hasAttributes()) && !(hasChildren());
+    }
+    
     
     /** 
      * Sets whether <code>Collection</code> bean properties should wrap items in a parent element.
@@ -210,6 +223,8 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @param wrapCollectionsInElement true if the elements for the items in the collection 
      * should be contained in a parent element
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
         this.wrapCollectionsInElement = wrapCollectionsInElement;
@@ -223,6 +238,8 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @return true if the elements for the items in the collection should be contained 
      * in a parent element
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public boolean isWrapCollectionsInElement() {
         return this.wrapCollectionsInElement;
@@ -468,6 +485,8 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Returns true if this element refers to a primitive type property
      * @return whether this element refers to a primitive type (or property of a parent object) 
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public boolean isPrimitiveType() {
         return primitiveType;
@@ -476,6 +495,8 @@ public class ElementDescriptor extends NodeDescriptor {
     /** 
      * Sets whether this element refers to a primitive type (or property of a parent object) 
      * @param primitiveType true if this element refers to a primitive type
+     * @deprecated moved to a declarative style of descriptors where the alrogithmic should
+     * be done during introspection
      */
     public void setPrimitiveType(boolean primitiveType) {
         this.primitiveType = primitiveType;
@@ -581,7 +602,8 @@ public class ElementDescriptor extends NodeDescriptor {
     }
     
     /**
-     *@todo is this implementation correct?
+     * TODO is this implementation correct?
+     * maybe this method is unnecessary
      */
     public boolean isCollective() {
         boolean result = false;
@@ -624,5 +646,20 @@ public class ElementDescriptor extends NodeDescriptor {
             "ElementDescriptor[qname=" + getQualifiedName() + ",pname=" + getPropertyName() 
             + ",class=" + getPropertyType() + ",singular=" + getSingularPropertyType()
             + ",updater=" + getUpdater() + ",wrap=" + isWrapCollectionsInElement() + "]";
+    }
+
+    /**
+     * Is this decriptor hollow?
+     * A hollow descriptor is one which gives only the class that the subgraph
+     * is mapped to rather than describing the entire subgraph.
+     * A new <code>XMLBeanInfo</code> should be introspected 
+     * and that used to describe the subgraph.
+     * A hollow descriptor should not have any child descriptors. 
+     * TODO: consider whether a subclass would be better
+     * @return true if this is hollow 
+     */
+    public boolean isHollow() {
+        // TODO implementation
+        return false;
     }    
 }

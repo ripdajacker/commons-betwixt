@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.2 2004/01/15 23:34:22 rdonkin Exp $
- * $Revision: 1.22.2.2 $
- * $Date: 2004/01/15 23:34:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.22.2.3 2004/01/18 12:30:58 rdonkin Exp $
+ * $Revision: 1.22.2.3 $
+ * $Date: 2004/01/18 12:30:58 $
  *
  * ====================================================================
  * 
@@ -96,7 +96,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.22.2.2 $
+  * @version $Revision: 1.22.2.3 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -245,8 +245,8 @@ public abstract class AbstractBeanWriter {
                 String ref = null;
                 String id = null;
                 
-                // only give id's to non-primatives
-                if ( elementDescriptor.isPrimitiveType() ) {
+                // simple type should not have IDs
+                if ( elementDescriptor.isSimple() ) {
                     // write without an id
                     writeElement( 
                         namespaceUri,
@@ -1106,7 +1106,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.22.2.2 $
+     * @version $Revision: 1.22.2.3 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

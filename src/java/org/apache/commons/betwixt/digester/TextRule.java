@@ -1,15 +1,15 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/TextRule.java,v 1.6.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.6.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/TextRule.java,v 1.6.2.2 2004/01/18 12:30:57 rdonkin Exp $
+ * $Revision: 1.6.2.2 $
+ * $Date: 2004/01/18 12:30:57 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.6.2.1 2004/01/13 21:49:46 rdonkin Exp $
+  * @version $Id: TextRule.java,v 1.6.2.2 2004/01/18 12:30:57 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 
@@ -105,7 +105,7 @@ public class TextRule extends MappedPropertyRule {
      * 2. If this tag has a value attribute together with either a property
      * or type attribute.
      */
-    public void begin(Attributes attributes) throws SAXException {
+    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
         
         TextDescriptor descriptor = new TextDescriptor();
         
@@ -135,9 +135,9 @@ public class TextRule extends MappedPropertyRule {
             );
             
             if ( beanClass != null ) {
-                String name = descriptor.getPropertyName();
+                String descriptorPropertyName = descriptor.getPropertyName();
                 PropertyDescriptor propertyDescriptor = 
-                    getPropertyDescriptor( beanClass, name );
+                    getPropertyDescriptor( beanClass, descriptorPropertyName );
                 if ( propertyDescriptor != null ) { 
                         Method readMethod = propertyDescriptor.getReadMethod();
                         descriptor.setTextExpression( new MethodExpression( readMethod ) );
@@ -145,7 +145,7 @@ public class TextRule extends MappedPropertyRule {
                         if (writeMethod != null) {
                             descriptor.setUpdater( new MethodUpdater(writeMethod));
                         }
-                        getProcessedPropertyNameSet().add( name );
+                        getProcessedPropertyNameSet().add( descriptorPropertyName );
                 }
             }
         }
