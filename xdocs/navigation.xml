@@ -8,10 +8,16 @@
     <menu name="Betwixt">
       <item name="Overview"                href="/index.html"/>
       <item name="FAQ"                     href="/faq.html"/>
-      <item name="Detail"                  href="/overview.html"/>
       <item name="Community"               href="/community.html"/>
       <item name="To Do List"              href="/tasks.html"/>
       <item name="Powered By"              href="/powered.html"/>
+    </menu>
+    <menu name="Guide">
+      <item name="Getting Started"         href="/guide/start.html"/>
+      <item name="Binding Beans"           href="/guide/binding.html"/>
+      <item name="Writing Beans(Advanced)" href="/guide/writing.html"/>
+      <item name="Reading Beans(Advanced)" href="/guide/reading.html"/>
+      <item name="Examples"                href="/guide/examples.html"/>
     </menu>
   </body>
 </project>
