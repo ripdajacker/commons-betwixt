@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.3 2003/10/09 20:52:03 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/10/09 20:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4 2003/10/19 14:53:52 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/10/19 14:53:52 $
  *
  * ====================================================================
  * 
@@ -62,15 +62,14 @@ package org.apache.commons.betwixt;
  */ 
 
 import java.beans.PropertyDescriptor;
-
 import java.lang.reflect.Method;
 
+import org.apache.commons.beanutils.DynaProperty;
+import org.apache.commons.betwixt.expression.DynaBeanExpression;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.MethodExpression;
-import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.expression.DynaBeanExpression;
-import org.apache.commons.beanutils.DynaProperty;
+import org.apache.commons.betwixt.expression.Updater;
 
 /** 
   * Betwixt-centric view of a bean (or pseudo-bean) property.
@@ -78,7 +77,7 @@ import org.apache.commons.beanutils.DynaProperty;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.3 2003/10/09 20:52:03 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4 2003/10/19 14:53:52 mvdb Exp $
   */
 public class BeanProperty {
 

@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.26 2003/10/09 20:52:03 rdonkin Exp $
- * $Revision: 1.26 $
- * $Date: 2003/10/09 20:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27 2003/10/19 14:53:52 mvdb Exp $
+ * $Revision: 1.27 $
+ * $Date: 2003/10/19 14:53:52 $
  *
  * ====================================================================
  * 
@@ -68,28 +68,27 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 
-import org.apache.commons.beanutils.DynaProperty;
-import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaBean;
-
+import org.apache.commons.beanutils.DynaClass;
+import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
+import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.StringExpression;
-import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
+import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
-import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -111,7 +110,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.26 2003/10/09 20:52:03 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27 2003/10/19 14:53:52 mvdb Exp $
   */
 public class XMLIntrospector {
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.5 2003/10/09 20:52:03 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/10/09 20:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.6 2003/10/19 14:53:52 mvdb Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/10/19 14:53:52 $
  *
  * ====================================================================
  * 
@@ -62,8 +62,8 @@ package org.apache.commons.betwixt;
 
 import java.io.Serializable;
 
-import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
+import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 
 /** <p>Stores mapping phase binding configuration.</p>
   *
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
   * can be shared.</p> 
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class BindingConfiguration implements Serializable {
 

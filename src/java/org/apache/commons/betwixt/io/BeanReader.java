@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.17 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.17 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.18 2003/10/19 14:54:38 mvdb Exp $
+ * $Revision: 1.18 $
+ * $Date: 2003/10/19 14:54:38 $
  *
  * ====================================================================
  * 
@@ -66,7 +66,6 @@ import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 
-import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
@@ -86,7 +85,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.17 $
+  * @version $Revision: 1.18 $
   */
 public class BeanReader extends Digester {
 
