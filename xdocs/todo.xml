@@ -16,12 +16,6 @@
     <subsection name='For 1.0 Alpha 1 Release'>
         <ul>
             <li>
-                <strong>Add strategy documentation. </strong>
-                This needs to be added to the main documentation.
-                Example code needs to be created.
-                This code can also be used for more test cases.
-            </li>
-            <li>
                 <strong>Create DTD for .betwixt files.</strong>
             </li>
             <li>
@@ -224,6 +218,12 @@
             <li>
                 <strong>Add read and write examples</strong>
                 Add simple read and write examples to getting started section.
+            </li>
+            <li>
+                <strong>Add strategy documentation. </strong>
+                This needs to be added to the main documentation.
+                Example code needs to be created.
+                This code can also be used for more test cases.
             </li>
         </ul>
     </subsection>
