@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+    <element name='element' uri='http://www.w3.org/2001/XMLSchema'>
+    	<attribute
+    		name='name'
+    		property='name'/>
+     	<attribute
+     		name='type'
+     		property='type'/>
+    	<attribute 
+    		name='minOccurs' 
+    		property='minOccurs' />
+    	<attribute 
+    		name='maxOccurs' 
+    		property='maxOccurs' />
+    </element>
+</info>

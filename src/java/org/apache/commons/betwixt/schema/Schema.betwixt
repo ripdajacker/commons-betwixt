@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+    <element name='schema' uri='http://www.w3.org/2001/XMLSchema'>
+    	<element
+    		name='element'
+    		property='elements'
+    		uri='http://www.w3.org/2001/XMLSchema'/>
+    	<element 
+    		name='complexType' 
+    		property='complexTypes' 
+    		uri='http://www.w3.org/2001/XMLSchema'/>
+    	<element 
+    		name='simpleType' 
+    		property='simpleTypes' 
+    		uri='http://www.w3.org/2001/XMLSchema'/>    	
+    </element>
+</info>
