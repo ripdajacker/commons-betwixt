@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.2.2.1 $
  */
 public class TuneBean {
 
@@ -74,6 +73,16 @@ public class TuneBean {
     }
 
     public boolean sameComposers(Collection otherComposers) {
-        return CollectionUtils.isEqualCollection(otherComposers, composers);
+                // doesn't check cardinality but should be ok
+        if (otherComposers.size() != composers.size()) {
+            return false;
+        }
+        for (Iterator it=composers.iterator();it.hasNext();) {
+            Object object = it.next();
+            if (!otherComposers.contains(object)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

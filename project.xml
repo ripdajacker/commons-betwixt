@@ -141,17 +141,13 @@
     </dependency>
 
     <dependency>
-      <id>commons-beanutils</id>
-      <version>1.6.1</version>
+      <groupId>commons-beanutils</groupId>
+      <typeId>jar</typeId>
+      <artifactId>commons-beanutils-core</artifactId>
+      <version>1.7.0</version>
       <url>http://jakarta.apache.org/commons/beanutils.html</url>
     </dependency>
-
-    <dependency>
-      <id>commons-collections</id>
-      <version>2.1</version>
-      <url>http://jakarta.apache.org/commons/collections.html</url>
-    </dependency>
-
+    
     <dependency>
       <id>commons-digester</id>
       <version>1.5</version>
