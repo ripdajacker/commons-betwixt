@@ -66,6 +66,7 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -74,7 +75,6 @@ import junit.textui.TestRunner;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
@@ -669,6 +669,33 @@ public class TestBeanWriter extends AbstractTestCase {
                             parseString(out.getBuffer().toString()),
                             parseString(xml), 
                             true);
+    }
+    
+    public void testBeanWriterWorksWithAnAddMethodAndACollection() throws Exception {
+
+        BeanWriter bw = new BeanWriter();
+        try {
+            bw.write(new BeanWithAddMethod());
+        } catch (IllegalArgumentException e) {
+            fail("BeanWriter fails when a method is just called add(<type>) and there is also a collection");
+        }
+    }
+    
+    // used in testBeanWriterWorksWithAnAddMethodAndACollection
+    public static class BeanWithAddMethod {
+        private Collection x;
+        public void add(Object x)
+        {
+            // do nothing
+        }
+
+        public Collection getX() {
+            return x;
+        }
+
+        public void setX(Collection x) {
+            this.x = x;
+        }        
     }
 }
 

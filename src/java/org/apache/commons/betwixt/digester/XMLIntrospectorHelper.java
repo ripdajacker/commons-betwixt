@@ -85,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.23 2003/07/13 21:28:10 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.24 2003/09/17 21:31:58 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -462,6 +462,8 @@ public class XMLIntrospectorHelper {
                         
                         if ( ( types.length == 1 ) || types.length == 2 ) {
                             String propertyName = Introspector.decapitalize( name.substring(3) );
+                            if (propertyName.length() == 0)
+                                continue;
                             if ( log.isTraceEnabled() ) {
                                 log.trace( name + "->" + propertyName );
                             }
