@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.3 2004/01/18 19:21:17 rdonkin Exp $
- * $Revision: 1.9.2.3 $
- * $Date: 2004/01/18 19:21:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.4 2004/01/20 22:59:57 rdonkin Exp $
+ * $Revision: 1.9.2.4 $
+ * $Date: 2004/01/20 22:59:57 $
  *
  * ====================================================================
  * 
@@ -80,7 +80,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9.2.3 $
+  * @version $Revision: 1.9.2.4 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -101,6 +101,45 @@ public class AddDefaultsRule extends RuleSupport {
      * @throws Exception generally this will indicate an unrecoverable error 
      */
     public void begin(String name, String namespace, Attributes attributes) throws Exception {
+        boolean addProperties = true;
+        String addPropertiesAttributeValue = attributes.getValue("add-properties");
+        if (addPropertiesAttributeValue != null)
+        {
+            addProperties = Boolean.valueOf(addPropertiesAttributeValue).booleanValue();
+        }
+        
+        boolean addAdders = true;
+        String addAddersAttributeValue = attributes.getValue("add-adders");
+        if (addAddersAttributeValue != null)
+        {
+            addProperties = Boolean.valueOf(addAddersAttributeValue).booleanValue();
+        }
+        
+        if (addProperties) {
+            addDefaultProperties();
+        }
+        
+        if (addAdders) {
+            addAdders();
+        }
+    }
+
+    /**
+     * Adds default adder methods
+     */
+    private void addAdders() {
+        Class beanClass = getBeanClass();
+        // default any addProperty() methods
+        getXMLIntrospector().defaultAddMethods( 
+                                            getRootElementDescriptor(), 
+                                            beanClass );
+    }
+
+    /**
+     * Adds default property methods
+     *
+     */
+    private void addDefaultProperties() {
         Class beanClass = getBeanClass();
         Set processedProperties = getProcessedPropertyNameSet();
         if ( beanClass != null ) {
@@ -127,11 +166,6 @@ public class AddDefaultsRule extends RuleSupport {
                 log.info( "Caught introspection exception", e );
             }
         }
-        
-        // default any addProperty() methods
-        getXMLIntrospector().defaultAddMethods( 
-                                            getRootElementDescriptor(), 
-                                            beanClass );
     }
 
 
