@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/07/31 21:40:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.10 2003/08/11 23:52:20 dlr Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/08/11 23:52:20 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.10 2003/08/11 23:52:20 dlr Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -86,7 +86,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -110,7 +110,7 @@ public class BeanRuleSet implements RuleSet {
     private ElementDescriptor baseElementDescriptor;
     /** The bean based  */
     private Class baseBeanClass;
-    /** The (empty) base context from which all Contexts with beans are (directly or indirectly) obtain */
+    /** The (empty) base context from which all Contexts with beans are (directly or indirectly) obtained */
     private Context baseContext;
     /** allows an attribute to be specified to overload the types of beans used */
     private String classNameAttribute = "className";
