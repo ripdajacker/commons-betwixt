@@ -110,7 +110,10 @@ public class AddDefaultsRule extends RuleSupport {
                             continue;
                         }
                         if (!getXMLIntrospector().getConfiguration().getPropertySuppressionStrategy()
-                                .suppressProperty(descriptor.getPropertyType(), descriptor.getName())) {
+                                .suppressProperty(
+                                        beanClass,
+                                        descriptor.getPropertyType(),
+                                        descriptor.getName())) {
 	                        Descriptor nodeDescriptor = 
 	                        		getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
 	                        if ( nodeDescriptor != null ) {

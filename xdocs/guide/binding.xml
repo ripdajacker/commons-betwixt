@@ -501,8 +501,39 @@ it is sometimes very useful to be able to ignore all properties with a certain n
 or a certain type. For example, the default Betwixt configuration ignores all properties
 called 'class'. The <code>PropertySuppressionStrategy</code> pluggable strategy can
 be set on the <code>IntrospectionConfiguration</code> and allows course grained rules
-concerning which properties are to be ignored to be set.
-        </p>
+concerning which properties are to be ignored to be set.</p>
+            <p>
+The following example shows a <code>PropertySuppressionStrategy</code> that shows all
+properties, including the class property:
+<source><![CDATA[
+beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+        new PropertySuppressionStrategy() {
+             public boolean suppressProperty(Class clazz, Class type, String name) {
+                 return false;
+             }
+        });
+]]></source></p>
+            <p>
+Here is another example making the choice dependant on what class contains the 
+property. This one shows the class property only for classes like 
+<code>Throwable</code>, <code>Exception</code>, <code>Error</code> and so on: 
+<source><![CDATA[
+beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+        new PropertySuppressionStrategy() {
+             public boolean suppressProperty(Class classContainingTheProperty,
+                     Class propertyType, String propertyName) {
+                 if (Class.class.equals(propertyType) 
+                         && "class".equals(propertyName)) {
+                         
+                     if (!Throwable.class
+                                .isAssignableFrom(classContainingTheProperty)) {
+                        return true;
+                     }
+                 }
+                 return false;
+             }
+         });
+]]></source></p>
     </subsection>
 </section>
 
@@ -548,13 +579,15 @@ ConvertUtilsObjectStringConverter</a>. This is set though a <code>BindingConfigu
 For example, to delegate to <code>ConvertUtils</code> for <em>all</em> conversions in a read:
 <code><pre>
     BeanReader reader = new BeanReader();
-    reader.getBindingConfiguration().setObjectStringConverter(new ConvertUtilsObjectStringConverter());
+    reader.getBindingConfiguration()
+        .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
     reader.parse...
 </pre></code>
 and in a write:
 <code><pre>
     BeanWriter writer = new BeanWriter();
-    writer.getBindingConfiguration().setObjectStringConverter(new ConvertUtilsObjectStringConverter());
+    writer.getBindingConfiguration()
+        .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
     writer.write...
 </pre></code>
         </p>
@@ -720,7 +753,8 @@ The following does something similar for writing:
     		"     </betwixt-config>";
 		    BeanWriter beanWriter = new BeanWriter(outputWriter);
 ...
-		    beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+		    beanWriter.getXMLIntrospector()
+                 .register(new InputSource(new StringReader(MAPPING)));
 		    beanWriter.write(partyBean);
 ]]>
         </source>

@@ -1431,7 +1431,10 @@ public class XMLIntrospector {
                 if ( descriptors != null ) {
                     for (int i=0, size=descriptors.length; i<size; i++) {
                         if (!getConfiguration().getPropertySuppressionStrategy()
-                                	.suppressProperty( descriptors[i].getPropertyType(),  descriptors[i].getName())) {
+                                	.suppressProperty( 
+                                            beanClass,
+                                            descriptors[i].getPropertyType(),
+                                            descriptors[i].getName())) {
                             propertyDescriptors.add( descriptors[i] );
                         }
                     }
@@ -1446,7 +1449,10 @@ public class XMLIntrospector {
                         if ( descriptors != null ) {
                             for (int j=0, innerSize=descriptors.length; j<innerSize; j++) {
                                 if (!getConfiguration().getPropertySuppressionStrategy()
-                                    	.suppressProperty( descriptors[j].getPropertyType(),  descriptors[j].getName())) {
+                                    	.suppressProperty(
+                                    	          beanClass,
+                                                descriptors[j].getPropertyType(),
+                                                descriptors[j].getName())) {
                                     propertyDescriptors.add( descriptors[j] );
                                 }
                             }
@@ -1484,7 +1490,10 @@ public class XMLIntrospector {
                         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                         for (int j=0, descriptorLength=descriptors.length; j<descriptorLength ; j++) {
                             if (!getConfiguration().getPropertySuppressionStrategy()
-                                	.suppressProperty( descriptors[j].getPropertyType(),  descriptors[j].getName())) {
+                                	.suppressProperty(
+                                	          beanClass,
+                                            descriptors[j].getPropertyType(),
+                                            descriptors[j].getName())) {
                                 propertyDescriptors.add( descriptors[j] );
                             }
                         }

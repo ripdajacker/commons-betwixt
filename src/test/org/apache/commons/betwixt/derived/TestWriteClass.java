@@ -63,7 +63,7 @@ public class TestWriteClass extends AbstractTestCase {
         writer.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
                 new PropertySuppressionStrategy() {
 
-                    public boolean suppressProperty(Class propertyType, String propertyName) {
+                    public boolean suppressProperty(Class classContainingThePropety, Class propertyType, String propertyName) {
                         if ("class".equals(propertyName)) {
                             return true;
                         }

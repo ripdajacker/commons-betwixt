@@ -28,7 +28,7 @@ public abstract class PropertySuppressionStrategy {
      * found on every object.
      */
     public static final PropertySuppressionStrategy DEFAULT = new PropertySuppressionStrategy() {
-        public boolean suppressProperty(Class propertyType, String propertyName) {
+        public boolean suppressProperty(Class clazz, Class propertyType, String propertyName) {
             boolean result = false;
             // ignore class properties
             if ( Class.class.equals( propertyType) && "class".equals( propertyName ) ) {
@@ -39,10 +39,11 @@ public abstract class PropertySuppressionStrategy {
     };
     
     /**
-     * Should the given property be supressed?
+     * Should the given property be suppressed?
+     * @param classContainingTheProperty <code>Class</code> giving the type of the bean containing the property <code>propertyName</code>
      * @param propertyType <code>Class</code> giving the type of the property, not null
      * @param propertyName the name of the property, not null
      * @return true when the given property should be suppressed
      */
-    public abstract boolean suppressProperty(Class propertyType, String propertyName);
+    public abstract boolean suppressProperty(Class classContainingTheProperty, Class propertyType, String propertyName);
 }
