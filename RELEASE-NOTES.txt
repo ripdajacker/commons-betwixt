@@ -7,7 +7,7 @@ $Id: RELEASE-NOTES.txt,v 1.2 2002/05/17 15:24:11 jstrachan Exp $
 INTRODUCTION:
 
 Betwixt provides a flexible way to map beans into XML - and vice versa. This is the 
-first betwixt release.
+first full Betwixt release.
 
 This release consolidates the codebase released in Alpha-1.0. It is stable and mature
 but the design is limited. Newer, more sophisticated designs are being introduced 
