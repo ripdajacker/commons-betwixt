@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.2 2004/01/18 22:25:23 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/18 22:25:23 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestDeclarativeIntrospection.java,v 1.1.2.3 2004/01/22 11:00:03 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/01/22 11:00:03 $
  *
  * ====================================================================
  * 
@@ -71,11 +71,48 @@ import org.apache.commons.betwixt.XMLIntrospector;
 /**
  * Tests for the new, more declarative style of introspection.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class TestDeclarativeIntrospection extends AbstractTestCase{
     public TestDeclarativeIntrospection(String name) {
         super(name);
+    }
+    
+    /** Tests whether a standard property's ElementDescriptor is hollow (as expected) */
+    public void testStandardPropertyIsHollow() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        XMLBeanInfo out = introspector.introspect(CompanyBean.class);
+        
+        ElementDescriptor companyBeanDescriptor = out.getElementDescriptor();
+        ElementDescriptor[] childDescriptors = companyBeanDescriptor.getElementDescriptors();
+        assertEquals("Correct number of child descriptors", 1, childDescriptors.length);
+        
+        ElementDescriptor addressDescriptor = childDescriptors[0];
+        assertEquals("standard property is hollow", true, addressDescriptor.isHollow());
+    }
+    
+
+    /** Tests whether a simple element's ElementDescriptor is hollow */
+    public void testSimpleElementIsHollow() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setAttributesForPrimitives(false);
+        XMLBeanInfo out = introspector.introspect(CompanyBean.class);
+        
+        ElementDescriptor companyBeanDescriptor = out.getElementDescriptor();
+        ElementDescriptor[] childDescriptors = companyBeanDescriptor.getElementDescriptors();
+        assertEquals("Correct number of child descriptors", 2, childDescriptors.length);
+        
+        ElementDescriptor nameDescriptor = null;
+        for (int i=0, size=childDescriptors.length; i<size; i++)
+        {
+            if ("name".equals(childDescriptors[i].getLocalName())) {
+                nameDescriptor = childDescriptors[i];
+            }
+        }
+        
+        assertNotNull("Expected to find an element descriptor for 'name'", nameDescriptor);
+        assertFalse("Expected simple element not to be hollow", nameDescriptor.isHollow());
     }
     
     public void _testWrappedCollective() throws Exception {

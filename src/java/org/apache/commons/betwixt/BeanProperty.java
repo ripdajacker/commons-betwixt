@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.3 2004/01/19 22:38:08 rdonkin Exp $
- * $Revision: 1.4.2.3 $
- * $Date: 2004/01/19 22:38:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.4 2004/01/22 11:00:03 rdonkin Exp $
+ * $Revision: 1.4.2.4 $
+ * $Date: 2004/01/22 11:00:03 $
  *
  * ====================================================================
  * 
@@ -82,14 +82,14 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.3 2004/01/19 22:38:08 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.4 2004/01/22 11:00:03 rdonkin Exp $
   */
 public class BeanProperty {
 
     /** The bean name for the property (not null) */
-    private String propertyName;
+    private final String propertyName;
     /** The type of this property (not null) */
-    private Class propertyType;
+    private final Class propertyType;
     /** The Expression used to read values of this property (possibly null) */
     private Expression propertyExpression;
     /** The Updater used to write values of this property (possibly null) */
@@ -189,12 +189,10 @@ public class BeanProperty {
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      */
     public Descriptor createXMLDescriptor( IntrospectionConfiguration configuration ) {
-        String name = getPropertyName();
-        Class type = getPropertyType();
         Log log = configuration.getIntrospectionLog();
         if (log.isTraceEnabled()) {
             log.trace("Creating descriptor for property: name="
-                + name + " type=" + type);
+                + getPropertyName() + " type=" + getPropertyType());
         }
         
         NodeDescriptor descriptor = null;
@@ -204,7 +202,7 @@ public class BeanProperty {
         if ( propertyExpression == null ) {
             if (log.isTraceEnabled()) {
                 log.trace( "No read method for property: name="
-                    + name + " type=" + type);
+                    + getPropertyName() + " type=" + getPropertyType());
             }
             return null;
         }
@@ -216,7 +214,7 @@ public class BeanProperty {
         // choose response from property type
         
         // XXX: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( name ) ) {
+        if ( Class.class.equals( getPropertyType() ) && "class".equals( getPropertyName() ) ) {
             log.trace( "Ignoring class property" );
             return null;
             
@@ -226,54 +224,68 @@ public class BeanProperty {
         // on the type
         
         //TODO replace with simple type support
-        if ( XMLIntrospectorHelper.isPrimitiveType( type ) ) {
+        if ( XMLIntrospectorHelper.isPrimitiveType( getPropertyType() ) ) {
             descriptor =
                 createDescriptorForPrimitive(
                     configuration,
-                    name,
-                    log,
                     propertyExpression,
                     propertyUpdater);
             
-        } else if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+        } else if ( XMLIntrospectorHelper.isLoopType( getPropertyType() ) ) {
             
             if (log.isTraceEnabled()) {
-                log.trace("Loop type: " + name);
+                log.trace("Loop type: " + getPropertyName());
                 log.trace("Wrap in collections? " + configuration.isWrapCollectionsInElement());
             }
             
-            if ( Map.class.isAssignableFrom( type )) {
-                descriptor = createDescriptorForMap(configuration, propertyExpression);
+            if ( Map.class.isAssignableFrom( getPropertyType() )) {
+                descriptor = createDescriptorForMap( configuration, propertyExpression );
             } else {
             
-                descriptor = createDescriptorForCollective( configuration, propertyExpression);
+                descriptor 
+                    = createDescriptorForCollective( configuration, propertyExpression );
             }
         } else {
             if (log.isTraceEnabled()) {
-                log.trace( "Standard property: " + name);
+                log.trace( "Standard property: " + getPropertyName());
             }
             descriptor =
                 createDescriptorForStandard(
                     propertyExpression,
-                    propertyUpdater);
+                    propertyUpdater,
+                    configuration);
         }
-
-        NameMapper nameMapper = configuration.getElementNameMapper();
-        if (descriptor instanceof AttributeDescriptor) {
-            // we want to use the attributemapper only when it is an attribute.. 
-            nameMapper = configuration.getAttributeNameMapper();
-            
-        }  
         
-        descriptor.setLocalName( nameMapper.mapTypeToElementName( name ));
-        descriptor.setPropertyName( name );
-        descriptor.setPropertyType( type );
+        
        
         if (log.isTraceEnabled()) {
             log.trace( "Created descriptor:" );
             log.trace( descriptor );
         }
         return descriptor;
+    }
+
+    /**
+     * Configures descriptor (in the standard way).
+     * This sets the common properties.
+     * 
+     * @param propertyName the name of the property mapped to the Descriptor, not null
+     * @param propertyType the type of the property mapped to the Descriptor, not null
+     * @param descriptor Descriptor to map, not null
+     * @param configuration IntrospectionConfiguration, not null
+     */
+    private void configureDescriptor(
+        NodeDescriptor descriptor,
+        IntrospectionConfiguration configuration) {
+        NameMapper nameMapper = configuration.getElementNameMapper();
+        if (descriptor instanceof AttributeDescriptor) {
+            // we want to use the attributemapper only when it is an attribute.. 
+            nameMapper = configuration.getAttributeNameMapper();
+        
+        }           
+        descriptor.setLocalName( nameMapper.mapTypeToElementName( propertyName ));
+        descriptor.setPropertyName( getPropertyName() );
+        descriptor.setPropertyType( getPropertyType() );
     }
     
     /**
@@ -284,7 +296,8 @@ public class BeanProperty {
      */
     private ElementDescriptor createDescriptorForStandard(
         Expression propertyExpression,
-        Updater propertyUpdater) {
+        Updater propertyUpdater, 
+        IntrospectionConfiguration configuration) {
             
         ElementDescriptor result;
 
@@ -294,7 +307,11 @@ public class BeanProperty {
             elementDescriptor.setUpdater( propertyUpdater );
         }
         
+        elementDescriptor.setHollow(true);
+        
         result = elementDescriptor;
+        
+        configureDescriptor(result, configuration);
         return result;
     }
 
@@ -327,6 +344,8 @@ public class BeanProperty {
         elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
         
         result = elementDescriptor;
+        
+        configureDescriptor(result, configuration);
         return result;
     }
 
@@ -353,6 +372,7 @@ public class BeanProperty {
         elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
         
         result = elementDescriptor;
+        configureDescriptor(result, configuration);
         return result;
     }
 
@@ -367,22 +387,21 @@ public class BeanProperty {
      */
     private NodeDescriptor createDescriptorForPrimitive(
         IntrospectionConfiguration configuration,
-        String name,
-        Log log,
         Expression propertyExpression,
         Updater propertyUpdater) {
+        Log log = configuration.getIntrospectionLog();
         NodeDescriptor descriptor;
         if (log.isTraceEnabled()) {
-            log.trace( "Primitive type: " + name);
+            log.trace( "Primitive type: " + getPropertyName());
         }
         if ( configuration.isAttributesForPrimitives() ) {
             if (log.isTraceEnabled()) {
-                log.trace( "Adding property as attribute: " + name );
+                log.trace( "Adding property as attribute: " + getPropertyName() );
             }
             descriptor = new AttributeDescriptor();
         } else {
             if (log.isTraceEnabled()) {
-                log.trace( "Adding property as element: " + name );
+                log.trace( "Adding property as element: " + getPropertyName() );
             }
             descriptor = new ElementDescriptor();
         }
@@ -390,6 +409,7 @@ public class BeanProperty {
         if ( propertyUpdater != null ) {
             descriptor.setUpdater( propertyUpdater );
         }
+        configureDescriptor(descriptor, configuration);
         return descriptor;
     }
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.3 2004/01/18 12:30:57 rdonkin Exp $
- * $Revision: 1.14.2.3 $
- * $Date: 2004/01/18 12:30:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.4 2004/01/22 11:00:03 rdonkin Exp $
+ * $Revision: 1.14.2.4 $
+ * $Date: 2004/01/22 11:00:03 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14.2.3 $
+  * @version $Revision: 1.14.2.4 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -126,6 +126,13 @@ public class ElementDescriptor extends NodeDescriptor {
 
     /** Whether this element refers to a primitive type (or property of a parent object) */
     private boolean primitiveType;
+    /**
+     * Is this element hollow?
+     * In other words, is this descriptor a place holder indicating the name
+     * and update for a root ElementDescriptor for this type obtained by introspection
+     * TODO: this would probably be better modeled as a separate subclass
+     */
+    private boolean isHollow = false;
     
     /** 
      * Whether this collection element can be used
@@ -659,7 +666,20 @@ public class ElementDescriptor extends NodeDescriptor {
      * @return true if this is hollow 
      */
     public boolean isHollow() {
-        // TODO implementation
-        return false;
+        return isHollow;
     }    
+    
+    /**
+     * Sets whether this descriptor is hollow.
+     * A hollow descriptor is one which gives only the class that the subgraph
+     * is mapped to rather than describing the entire subgraph.
+     * A new <code>XMLBeanInfo</code> should be introspected 
+     * and that used to describe the subgraph.
+     * A hollow descriptor should not have any child descriptors. 
+     * TODO: consider whether a subclass would be better
+     * @param true if this is hollow 
+     */
+    public void setHollow(boolean isHollow) {
+        this.isHollow = isHollow;
+    }  
 }
