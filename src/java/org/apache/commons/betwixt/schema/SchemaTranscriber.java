@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.2 2004/02/02 22:21:44 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/02 22:21:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/SchemaTranscriber.java,v 1.1.2.3 2004/02/04 22:57:41 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/04 22:57:41 $
  *
  * ====================================================================
  * 
@@ -79,7 +79,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * </p>
  * TODO: it's very likely that strategies will be needed to allow flexibility in mapping later
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class SchemaTranscriber {
 	
@@ -126,9 +126,9 @@ public class SchemaTranscriber {
 	 * @param xmlBeanInfo not null
 	 * @return Schema model, not null
 	 */
-	public Schema generate(XMLBeanInfo xmlBeanInfo) {
+	public Schema generate(XMLBeanInfo xmlBeanInfo) throws IntrospectionException {
        ElementDescriptor elementDescriptor = xmlBeanInfo.getElementDescriptor(); 
-	   Schema schema = new Schema();
+	   Schema schema = new Schema(introspector);
        schema.addGlobalElementType(elementDescriptor);
        return schema;
 	}

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.3 2004/02/02 22:21:44 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/02 22:21:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchemaTranscriber.java,v 1.1.2.4 2004/02/04 22:57:41 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/04 22:57:41 $
  *
  * ====================================================================
  * 
@@ -62,11 +62,12 @@
 package org.apache.commons.betwixt.schema;
 
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 /**
  * Tests for the SchemaTranscriber.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class TestSchemaTranscriber extends AbstractTestCase {
     
@@ -129,4 +130,31 @@ public class TestSchemaTranscriber extends AbstractTestCase {
         assertEquals("Simple bean schema", expected, out);
         
 	}
+    
+    public void testOrderLine() throws Exception {
+        SchemaTranscriber transcriber = new SchemaTranscriber();
+        transcriber.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
+        transcriber.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        Schema out = transcriber.generate(OrderLineBean.class);
+        
+        Schema expected = new Schema();
+        
+        ComplexType productBeanType = new ComplexType();
+        productBeanType.setName(ProductBean.class.getName());
+        productBeanType.addAttribute(new Attribute("barcode", "xsd:string"));
+        productBeanType.addAttribute(new Attribute("code", "xsd:string"));
+        productBeanType.addAttribute(new Attribute("name", "xsd:string"));
+        productBeanType.addAttribute(new Attribute("display-name", "xsd:string"));
+        expected.addComplexType(productBeanType);
+        
+        ComplexType orderLineType = new ComplexType();       
+        orderLineType.setName(OrderLineBean.class.getName());
+        orderLineType.addAttribute(new Attribute("quantity", "xsd:string"));
+        orderLineType.addElement(new Element("product", productBeanType));
+        expected.addComplexType(orderLineType);
+        expected.addElement(new Element("OrderLineBean", OrderLineBean.class.getName()));
+        
+        assertEquals("Transcriber schema", expected, out);
+        
+    }
 }

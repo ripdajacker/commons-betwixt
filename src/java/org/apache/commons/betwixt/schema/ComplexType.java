@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.4 2004/02/02 22:21:44 rdonkin Exp $
- * $Revision: 1.1.2.4 $
- * $Date: 2004/02/02 22:21:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/ComplexType.java,v 1.1.2.5 2004/02/04 22:57:41 rdonkin Exp $
+ * $Revision: 1.1.2.5 $
+ * $Date: 2004/02/04 22:57:41 $
  *
  * ====================================================================
  * 
@@ -61,19 +61,21 @@
 
 package org.apache.commons.betwixt.schema;
 
+import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.4 $
+ * @version $Revision: 1.1.2.5 $
  */
 public class ComplexType {
 	
@@ -90,7 +92,16 @@ public class ComplexType {
      * Constructs a new ComplexType from the descriptor given.
      * @param elementDescriptor
      */
-    public ComplexType(ElementDescriptor elementDescriptor) {
+    public ComplexType(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        if (elementDescriptor.isHollow()) {
+            // need to introspector for filled descriptor
+            XMLBeanInfo filledBeanInfo = schema.introspect(elementDescriptor.getPropertyType());
+            elementDescriptor = filledBeanInfo.getElementDescriptor();
+        }
+        init(elementDescriptor, schema);      
+    }
+
+    private void init(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
         setName(elementDescriptor.getPropertyType().getName());
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         for (int i=0,length=attributeDescriptors.length; i<length ; i++) {
@@ -102,11 +113,11 @@ public class ComplexType {
             }
         }
         
+        //TODO: add support for spacing elements
         ElementDescriptor[] elementDescriptors = elementDescriptor.getElementDescriptors();
-        //TODO: add support for referenced complex classes
         for (int i=0,length=elementDescriptors.length; i<length ; i++) {
-            elements.add(new Element(elementDescriptors[i]));
-        }       
+                elements.add(new Element(elementDescriptors[i], schema));
+        } 
     }
 
 	/**

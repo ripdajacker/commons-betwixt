@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.3 2004/02/01 22:55:48 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/01 22:55:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Schema.java,v 1.1.2.4 2004/02/04 22:57:41 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/04 22:57:41 $
  *
  * ====================================================================
  * 
@@ -61,26 +61,48 @@
 
 package org.apache.commons.betwixt.schema;
 
+import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Model for top level element in an XML Schema
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class Schema {
 	
 	private List elements = new ArrayList();
 	private List complexTypes = new ArrayList();
-	private List simpleTypes = new ArrayList();
+	private List simpleTypes = new ArrayList(); 
+    
+    private XMLIntrospector introspector;
 	
-	
+    public Schema() {
+        this(new XMLIntrospector());
+    }
+    
+    public Schema(XMLIntrospector introspector) {
+        this.introspector = introspector;
+    }
+    
+    /**
+     * Introspects the given type giving an <code>XMLBeanInfo</code>.
+     * @param type Class to introspect, not null
+     * @return <code>XMLBeanInfo</code>, not null
+     * @throws IntrospectionException
+     */
+    public XMLBeanInfo introspect(Class type) throws IntrospectionException {
+         return introspector.introspect(type);
+    }
+    
     /**
      * Gets the complex types defined
      * @return list of <code>ComplexType</code>'s not null
@@ -136,7 +158,7 @@ public class Schema {
      * Adds global (top level) element and type declarations matching the given descriptor.
      * @param elementDescriptor ElementDescriptor not null
      */
-    public void addGlobalElementType(ElementDescriptor elementDescriptor) {
+    public void addGlobalElementType(ElementDescriptor elementDescriptor) throws IntrospectionException {
         // need to create a global element declaration and a complex type 
         // use the fully qualified class name as the type name
         Element element = new Element(
@@ -144,7 +166,7 @@ public class Schema {
                             elementDescriptor.getPropertyType().getName());
         addElement(element);
         
-        ComplexType type = new ComplexType(elementDescriptor);
+        ComplexType type = new ComplexType(elementDescriptor, this);
         addComplexType(type);
     }	
 	

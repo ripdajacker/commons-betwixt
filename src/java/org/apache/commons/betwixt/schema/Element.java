@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.2 2004/01/31 15:38:09 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/01/31 15:38:09 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/schema/Element.java,v 1.1.2.3 2004/02/04 22:57:41 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/04 22:57:41 $
  *
  * ====================================================================
  * 
@@ -61,12 +61,14 @@
 
 package org.apache.commons.betwixt.schema;
 
+import java.beans.IntrospectionException;
+
 import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Models the Element tag in the XML schema.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.2 $
+ * @version $Revision: 1.1.2.3 $
  */
 public class Element {
 	//TODO: going to ignore the issue of namespacing for the moment
@@ -84,11 +86,18 @@ public class Element {
     
     public Element(String name, ComplexType complexType) {
         setName(name);
-        setType(type);
+        setComplexType(complexType);
     }
     
-    public Element(ElementDescriptor elementDescriptor) {
-        this(elementDescriptor.getLocalName(), "xsd:string");
+    public Element(ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        setName(elementDescriptor.getLocalName());
+        if (elementDescriptor.isHollow()) {
+            setComplexType( new ComplexType(elementDescriptor, schema));
+            schema.addComplexType(getComplexType());
+        } else {
+            
+            setType("xsd:string");
+        }
     }
     
 
@@ -139,6 +148,7 @@ public class Element {
      * null if the type is to be referenced
      */
     public void setComplexType(ComplexType type) {
+        this.type = type.getName();
         complexType = type;
     }    
 
