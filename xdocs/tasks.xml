@@ -197,6 +197,8 @@ Create a strategy which allow general implementation rules to be specified.
             <li><strong>Improved support for derived beans</strong> bind time type
             population now supported and enabled by default</li>
             <li>All exceptions are now complex</li>
+            <li><strong>PropertySuppressionStrategy</strong> added which allows 
+            course grained control of those properties which should be ignored by Betwixt.</li>
         </ul>
     </subsection>
     <subsection name='0.6'>

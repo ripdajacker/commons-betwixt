@@ -494,6 +494,16 @@ Betwixt will introspect every instance of <code>FaceImpl</code> as if it just im
         introspector.setClassNormalizer( classNormalizer );
 </pre></code>
     </subsection>
+        <subsection name='Ignoring Properties'>
+            <p>
+As well as the finely grained tuning available when using dot betwixt files, 
+it is sometimes very useful to be able to ignore all properties with a certain name
+or a certain type. For example, the default Betwixt configuration ignores all properties
+called 'class'. The <code>PropertySuppressionStrategy</code> pluggable strategy can
+be set on the <code>IntrospectionConfiguration</code> and allows course grained rules
+concerning which properties are to be ignored to be set.
+        </p>
+    </subsection>
 </section>
 
     <section name='Converting Objects And Primitives To Strings (And Back Again)'>
