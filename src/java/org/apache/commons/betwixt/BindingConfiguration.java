@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.1 2003/07/31 21:35:42 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/31 21:35:42 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BindingConfiguration.java,v 1.2 2003/08/21 22:42:47 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/21 22:42:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BindingConfiguration.java,v 1.1 2003/07/31 21:35:42 rdonkin Exp $
+ * $Id: BindingConfiguration.java,v 1.2 2003/08/21 22:42:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -81,7 +81,7 @@ import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
   * can be shared.</p> 
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class BindingConfiguration implements Serializable {
 
@@ -89,6 +89,8 @@ public class BindingConfiguration implements Serializable {
     private boolean mapIDs = true;
     /** Converts objects &lt-&gt; strings */
     private ObjectStringConverter objectStringConverter;
+    
+    private String classNameAttribute = "className";
     
     /**
      * Constructs a BindingConfiguration with default properties.
@@ -118,7 +120,7 @@ public class BindingConfiguration implements Serializable {
     
     /**
       * Sets the Object &lt;-&gt; String converter.
-      * @param the ObjectStringConverter to be used, not null
+      * @param objectStringConverter the ObjectStringConverter to be used, not null
       */
     public void setObjectStringConverter(ObjectStringConverter objectStringConverter) {
         this.objectStringConverter = objectStringConverter;
@@ -144,4 +146,29 @@ public class BindingConfiguration implements Serializable {
     public void setMapIDs(boolean mapIDs) {
         this.mapIDs = mapIDs;
     }        
+    
+    /**
+     * The name of the attribute which can be specified in the XML to override the
+     * type of a bean used at a certain point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @return The name of the attribute used to overload the class name of a bean
+     */
+    public String getClassNameAttribute() {
+        return classNameAttribute;
+    }
+
+    /**
+     * Sets the name of the attribute which can be specified in 
+     * the XML to override the type of a bean used at a certain 
+     * point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     */
+    public void setClassNameAttribute(String classNameAttribute) {
+        this.classNameAttribute = classNameAttribute;
+    }
 }

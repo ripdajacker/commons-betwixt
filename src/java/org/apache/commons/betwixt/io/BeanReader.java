@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.14 2003/07/31 21:40:58 rdonkin Exp $
- * $Revision: 1.14 $
- * $Date: 2003/07/31 21:40:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.15 2003/08/21 22:42:47 rdonkin Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/08/21 22:42:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.14 2003/07/31 21:40:58 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.15 2003/08/21 22:42:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,6 +72,9 @@ import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
+import org.apache.commons.betwixt.io.read.ReadConfiguration;
+import org.apache.commons.betwixt.io.read.ReadContext;
+
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
@@ -84,7 +87,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.14 $
+  * @version $Revision: 1.15 $
   */
 public class BeanReader extends Digester {
 
@@ -96,6 +99,8 @@ public class BeanReader extends Digester {
     private Set registeredClasses = new HashSet();
     /** Dynamic binding configuration settings */
     private BindingConfiguration bindingConfiguration = new BindingConfiguration();
+    /** Reading specific configuration settings */
+    private ReadConfiguration readConfiguration = new ReadConfiguration();
     
     /**
      * Construct a new BeanReader with default properties.
@@ -328,10 +333,26 @@ public class BeanReader extends Digester {
     
     /**
      * Sets the dynamic configuration setting to be used for bean reading.
-     * @param the BindingConfiguration settings, not null
+     * @param bindingConfiguration the BindingConfiguration settings, not null
      */
-    public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
+    public void setBindingConfiguration( BindingConfiguration bindingConfiguration ) {
         this.bindingConfiguration = bindingConfiguration;
+    }
+    
+    /**
+     * Gets read specific configuration details.
+     * @return the ReadConfiguration, not null
+     */
+    public ReadConfiguration getReadConfiguration() {
+        return readConfiguration;
+    }
+    
+    /**
+     * Sets the read specific configuration details.
+     * @param readConfiguration not null
+     */
+    public void setReadConfiguration( ReadConfiguration readConfiguration ) {
+        this.readConfiguration = readConfiguration;
     }
         
     // Implementation methods
@@ -356,15 +377,16 @@ public class BeanReader extends Digester {
                                             path ,  
                                             elementDescriptor, 
                                             beanClass, 
-                                            makeContext( null ));
+                                            makeContext());
         addRuleSet( ruleSet );
     }
         
     /**
       * Factory method for new contexts.
       * Ensure that they are correctly configured.
+      * @return the ReadContext created, not null
       */
-    private Context makeContext(Object bean) {
-        return new Context( bean, log, bindingConfiguration );
+    private ReadContext makeContext() {
+        return new ReadContext( log, bindingConfiguration, readConfiguration );
     }
 }

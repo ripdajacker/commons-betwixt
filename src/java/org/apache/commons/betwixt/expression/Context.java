@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.5 2003/07/31 21:40:58 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/07/31 21:40:58 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.6 2003/08/21 22:42:47 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/08/21 22:42:47 $
  *
  * ====================================================================
  *
@@ -56,7 +56,7 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- * $Id: Context.java,v 1.5 2003/07/31 21:40:58 rdonkin Exp $
+ * $Id: Context.java,v 1.6 2003/08/21 22:42:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -89,7 +89,7 @@ import org.apache.commons.betwixt.strategy.ObjectStringConverter;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class Context {
 
@@ -127,11 +127,21 @@ public class Context {
       *
       * @param bean evaluate expressions against this bean
       * @param log log to this logger
-      * @param converter not null
+      * @param bindingConfiguration not null
       */
     public Context(Object bean, Log log, BindingConfiguration bindingConfiguration) {
         this( bean, new HashMap(), log,  bindingConfiguration );
     }
+    
+    /**
+      * Construct a cloned context.
+      * The constructed context should share bean, variables, log and binding configuration.
+      * @param context duplicate the attributes of this bean
+      */
+    public Context( Context context ) {
+        this(context.bean, context.variables, context.log, context.bindingConfiguration);
+    }
+    
     
     /** Convenience constructor sets evaluted bean, context variables and log.
       *
@@ -149,7 +159,7 @@ public class Context {
       * @param bean evaluate expressions against this bean 
       * @param variables context variables
       * @param log log to this logger
-      * @param converter not null
+      * @param bindingConfiguration not null
       */
     public Context(Object bean, Map variables, Log log, BindingConfiguration bindingConfiguration) {
         this.bean = bean;
@@ -164,7 +174,9 @@ public class Context {
      * @return new Context with new bean but shared variables 
      */
     public Context newContext(Object newBean) {
-        return new Context(newBean, variables, log, bindingConfiguration);
+        Context context = new Context(this);
+        context.setBean( newBean );
+        return context;
     }
     
     /** 
@@ -252,5 +264,30 @@ public class Context {
      */
     public boolean getMapIDs() {
         return bindingConfiguration.getMapIDs();
+    }
+    
+    /**
+     * The name of the attribute which can be specified in the XML to override the
+     * type of a bean used at a certain point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @return The name of the attribute used to overload the class name of a bean
+     */
+    public String getClassNameAttribute() {
+        return bindingConfiguration.getClassNameAttribute();
+    }
+
+    /**
+     * Sets the name of the attribute which can be specified in 
+     * the XML to override the type of a bean used at a certain 
+     * point in the schema.
+     *
+     * <p>The default value is 'className'.</p>
+     * 
+     * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     */
+    public void setClassNameAttribute(String classNameAttribute) {
+        bindingConfiguration.setClassNameAttribute( classNameAttribute );
     }
 }

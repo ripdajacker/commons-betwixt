@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.10 2003/08/11 23:52:20 dlr Exp $
- * $Revision: 1.10 $
- * $Date: 2003/08/11 23:52:20 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.11 2003/08/21 22:42:47 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/08/21 22:42:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.10 2003/08/11 23:52:20 dlr Exp $
+ * $Id: BeanRuleSet.java,v 1.11 2003/08/21 22:42:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -73,9 +73,14 @@ import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
-import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
+import org.apache.commons.betwixt.io.read.ReadContext;
+import org.apache.commons.betwixt.io.read.ReadConfiguration;
+import org.apache.commons.betwixt.io.read.BeanCreationChain;
+import org.apache.commons.betwixt.io.read.ElementMapping;
+
+
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.RuleSet;
@@ -86,7 +91,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -110,8 +115,9 @@ public class BeanRuleSet implements RuleSet {
     private ElementDescriptor baseElementDescriptor;
     /** The bean based  */
     private Class baseBeanClass;
-    /** The (empty) base context from which all Contexts with beans are (directly or indirectly) obtained */
-    private Context baseContext;
+    /** The (empty) base context from which all Contexts 
+    with beans are (directly or indirectly) obtained */
+    private ReadContext baseContext;
     /** allows an attribute to be specified to overload the types of beans used */
     private String classNameAttribute = "className";
     
@@ -123,7 +129,7 @@ public class BeanRuleSet implements RuleSet {
      * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param matchIDs should ID/IDREFs be used to match beans?
-     * @deprecated use constructor which takes a base Context
+     * @deprecated use constructor which takes a ReadContext instead
      */
     public BeanRuleSet(
                         XMLIntrospector introspector,
@@ -137,7 +143,31 @@ public class BeanRuleSet implements RuleSet {
         this.baseBeanClass = baseBeanClass;
         BindingConfiguration bindingConfiguration = new BindingConfiguration();
         bindingConfiguration.setMapIDs( matchIDs );
-        baseContext = new Context(null, log , bindingConfiguration);
+        baseContext = new ReadContext( log , bindingConfiguration, new ReadConfiguration() );
+    }
+    
+    /**
+     * Base constructor.
+     *
+     * @param introspector the <code>XMLIntrospector</code> used to introspect 
+     * @param basePath specifies the (Digester-style) path under which the rules will be attached
+     * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
+     * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
+     * @param baseContext the root Context that bean carrying Contexts should be obtained from, 
+     * not null
+     * @deprecated use the constructor which takes a ReadContext instead
+     */
+    public BeanRuleSet(
+                        XMLIntrospector introspector,
+                        String basePath, 
+                        ElementDescriptor baseElementDescriptor, 
+                        Class baseBeanClass,
+                        Context context) {
+        this.introspector = introspector;
+        this.basePath = basePath;
+        this.baseElementDescriptor = baseElementDescriptor;
+        this.baseBeanClass = baseBeanClass;
+        this.baseContext = new ReadContext( context, new ReadConfiguration() );
     }
     
     /**
@@ -155,14 +185,13 @@ public class BeanRuleSet implements RuleSet {
                         String basePath, 
                         ElementDescriptor baseElementDescriptor, 
                         Class baseBeanClass,
-                        Context baseContext) {
+                        ReadContext baseContext) {
         this.introspector = introspector;
         this.basePath = basePath;
         this.baseElementDescriptor = baseElementDescriptor;
         this.baseBeanClass = baseBeanClass;
         this.baseContext = baseContext;
     }
-    
 
     /**
      * The name of the attribute which can be specified in the XML to override the
@@ -173,7 +202,7 @@ public class BeanRuleSet implements RuleSet {
      * @return The name of the attribute used to overload the class name of a bean
      */
     public String getClassNameAttribute() {
-        return classNameAttribute;
+        return baseContext.getClassNameAttribute();
     }
 
     /**
@@ -184,11 +213,11 @@ public class BeanRuleSet implements RuleSet {
      * <p>The default value is 'className'.</p>
      * 
      * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     * @deprecated set the <code>ReadContext</code> property instead
      */
     public void setClassNameAttribute(String classNameAttribute) {
-        this.classNameAttribute = classNameAttribute;
+        baseContext.setClassNameAttribute(classNameAttribute);
     }
-
     
 //-------------------------------- Ruleset implementation
 
@@ -212,7 +241,8 @@ public class BeanRuleSet implements RuleSet {
         if (log.isTraceEnabled()) {
             log.trace("Adding rules to:" + digester);
         }
-        ReadContext readContext = new ReadContext( digester );
+        
+        ReadingContext readContext = new ReadingContext( digester );
     }
     
     /**
@@ -221,9 +251,8 @@ public class BeanRuleSet implements RuleSet {
      *
      * <p>When an instance is constructed, rules are created and added to digester.</p>
      */
-    private class ReadContext {
-        /** The beans created by rules in this context indexed by id */
-        private Map beansById =  new HashMap();
+    private class ReadingContext {
+
         /** The rules in this context indexed by path */
         private Map rulesByPath = new HashMap();
         
@@ -232,10 +261,14 @@ public class BeanRuleSet implements RuleSet {
          * @param digester the <code>Digester</code> 
          * to which the bean mapping rules will be added
          */
-        ReadContext(Digester digester) {
-        
-            BeanRule rule = new BeanRule( basePath + "/" , baseElementDescriptor, baseBeanClass );
-            addRule( basePath, rule , baseElementDescriptor, rule.context );
+        ReadingContext(Digester digester) {
+            ReadContext context = new ReadContext( baseContext );
+            // if the classloader is not set, set to the digester classloader
+            if ( context.getClassLoader() == null ) {
+                context.setClassLoader( digester.getClassLoader()  );
+            }
+            BeanRule rule = new BeanRule( basePath + "/" , baseElementDescriptor, baseBeanClass, context );
+            addRule( basePath, rule , baseElementDescriptor, context );
             
             if ( log.isDebugEnabled() ) {
                 log.debug( "Added root rule to path: " + basePath + " class: " + baseBeanClass );
@@ -262,7 +295,7 @@ public class BeanRuleSet implements RuleSet {
         private void addChildRules( 
                                     String prefix, 
                                     ElementDescriptor currentDescriptor, 
-                                    Context context ) {
+                                    ReadContext context ) {
             
             if (log.isTraceEnabled()) {
                 log.trace("Adding child rules for " + currentDescriptor + "@" + prefix);
@@ -425,12 +458,12 @@ public class BeanRuleSet implements RuleSet {
         *
         * @param path digester path where this rule will be attached
         * @param childDescriptor update this <code>ElementDescriptor</code> with the body text
-        * @param context the <code>Context</code> against which the elements will be evaluated 
+        * @param context the <code>ReadContext</code> against which the elements will be evaluated 
         */
         void addPrimitiveTypeRule(
                                 String path, 
                                 final ElementDescriptor childDescriptor, 
-                                final Context context) {
+                                final ReadContext context) {
                                 
             Rule rule = new Rule() {
                 public void body(String text) throws Exception {
@@ -445,9 +478,9 @@ public class BeanRuleSet implements RuleSet {
         *
         * @param path digester path where this rule will be attached
         * @param elementDescriptor update this <code>ElementDescriptor</code> with the body text
-        * @param context the <code>Context</code> against which the elements will be evaluated 
+        * @param context the <code>ReadContext</code> against which the elements will be evaluated 
         */
-        private void addRule( String path, ElementDescriptor elementDescriptor, Context context ) {
+        private void addRule( String path, ElementDescriptor elementDescriptor, ReadContext context ) {
             BeanRule rule = new BeanRule( path + '/', elementDescriptor, context );
             addRule( path, rule, elementDescriptor, context );
         }
@@ -459,14 +492,14 @@ public class BeanRuleSet implements RuleSet {
         * @param rule the <code>Rule</code> to add
         * @param elementDescriptor the <code>ElementDescriptor</code> 
         * associated with this rule
-        * @param context the <code>Context</code> against which the elements 
+        * @param context the <code>ReadContext</code> against which the elements 
         * will be evaluated        
         */
         private void addRule(
                             String path, 
                             Rule rule, 
                             ElementDescriptor elementDescriptor, 
-                            Context context) {
+                            ReadContext context) {
             if ( add( path, rule ) ) {
                 // stop infinite recursion by allowing only one rule per path
                 addChildRules( path + '/', elementDescriptor, context );
@@ -512,7 +545,7 @@ public class BeanRuleSet implements RuleSet {
             /** The descriptor of this element */
             private ElementDescriptor descriptor;
             /** The Context used when evaluating Updaters */
-            private Context context;
+            private ReadContext context;
             /** In this begin-end loop did we actually create a new bean */
             private boolean createdBean;
             /** The type of the bean to create */
@@ -527,26 +560,8 @@ public class BeanRuleSet implements RuleSet {
             * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
             * @param beanClass the <code>Class</code> to be created
             */
-            public BeanRule( ElementDescriptor descriptor, Class beanClass ) {
-                this( descriptor.getQualifiedName() + "/", descriptor, beanClass  );
-            }
-            
-            /**
-            * Construct a rule for given bean at given path.
-            *
-            * @param pathPrefix the digester style path
-            * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
-            * @param beanClass the <code>Class</code> to be created
-            */
-            public BeanRule(
-                                    String pathPrefix,
-                                    ElementDescriptor descriptor, 
-                                    Class beanClass ) {
-                this( 
-                        pathPrefix, 
-                        descriptor, 
-                        beanClass, 
-                        baseContext );
+            public BeanRule( ElementDescriptor descriptor, Class beanClass, ReadContext context ) {
+                this( descriptor.getQualifiedName() + "/", descriptor, beanClass, context );
             }
             
             /**
@@ -559,7 +574,7 @@ public class BeanRuleSet implements RuleSet {
             public BeanRule(
                                     String pathPrefix,
                                     ElementDescriptor descriptor, 
-                                    Context context ) {
+                                    ReadContext context ) {
                 this( 
                         pathPrefix,
                         descriptor, 
@@ -579,7 +594,7 @@ public class BeanRuleSet implements RuleSet {
                                     String pathPrefix, 
                                     ElementDescriptor descriptor, 
                                     Class beanClass,
-                                    Context context ) {
+                                    ReadContext context ) {
                 this.descriptor = descriptor;        
                 this.context = context;
                 this.beanClass = beanClass;
@@ -601,7 +616,7 @@ public class BeanRuleSet implements RuleSet {
             *
             * @param attributes The attribute list of this element
             */
-            public void begin(Attributes attributes) {
+            public void begin(String namespace, String name, Attributes attributes) {
                 log.debug( "Called with descriptor: " + descriptor 
                             + " propertyType: " + descriptor.getPropertyType() );
                 
@@ -626,7 +641,7 @@ public class BeanRuleSet implements RuleSet {
                         
                 Object instance = null;
                 if ( beanClass != null ) {
-                    instance = createBean(attributes);
+                    instance = createBean( namespace, name, attributes );
                     if ( instance != null ) {
                         createdBean = true;
         
@@ -690,7 +705,7 @@ public class BeanRuleSet implements RuleSet {
                             // XXX so i'm leaving this till later
                             String id = attributes.getValue( "id" );
                             if ( id != null ) {
-                                getBeansById().put( id, instance );
+                                context.putBean( id, instance );
                             }
                         }
                     }
@@ -702,7 +717,7 @@ public class BeanRuleSet implements RuleSet {
               *
               * @param text the String comprising all the body text
               */
-            public void body(String text) {
+            public void body(String namespace, String name, String text) {
                 
                 log.trace("Body with text " + text);
                 if ( digester.getCount() > 0 ) {
@@ -767,7 +782,7 @@ public class BeanRuleSet implements RuleSet {
                 //
                 // Clear indexed beans so that we're ready to process next document
                 //
-                beansById.clear();
+                baseContext.clearBeans();
             }
         
         
@@ -780,66 +795,19 @@ public class BeanRuleSet implements RuleSet {
             * @param attributes the <code>Attributes</code> used to match <code>ID/IDREF</code>
             * @return the created bean
             */
-            protected Object createBean(Attributes attributes) {
-                //
-                // See if we've got an IDREF
-                //
-                // XXX This should be customizable but i'm not really convinced by 
-                // XXX the existing system
-                // XXX maybe it's going to have to change so i'll use 'idref' for nows
-                //
+            protected Object createBean( String namespace, String name, Attributes attributes ) {
+                // todo: recycle element mappings 
+                ElementMapping mapping = new ElementMapping();
+                mapping.setType( beanClass );
+                mapping.setNamespace( namespace );
+                mapping.setName( name );
+                mapping.setAttributes( attributes );
                 
-                /** 
-                 * @todo this is a duplicate of the code in BeanCreateRule
-                 * we should try refactor to some common place
-                 */
-                if ( context.getMapIDs() ) {
-                    String idref = attributes.getValue( "idref" );
-                    if ( idref != null ) {
-                        // XXX need to check up about ordering
-                        // XXX this is a very simple system that assumes that 
-                        // XXX id occurs before idrefs
-                        // XXX would need some thought about how to implement a fuller system
-                        log.trace( "Found IDREF" );
-                        Object bean = getBeansById().get( idref );
-                        if ( bean != null ) {
-                            if (log.isTraceEnabled()) {
-                                log.trace( "Matched bean " + bean );
-                            }
-                            return bean;
-                        }
-                        log.trace( "No match found" );
-                    }
-                }
+                Object newInstance = context.getBeanCreationChain().create( mapping, context );
                 
-                Class theClass = beanClass;
-                try {
-                    String className = attributes.getValue(classNameAttribute);
-                    if (className != null) {
-                        // load the class we should instantiate
-                        theClass = getDigester().getClassLoader().loadClass(className);
-                    }
-                    if (log.isTraceEnabled()) {
-                        log.trace( "Creating instance of " + theClass );
-                    }
-                    return theClass.newInstance();
-                    
-                } catch (Exception e) {
-                    log.warn( "Could not create instance of type: " + theClass.getName() );
-                    log.debug( "Create new instance failed: ", e );
-                    return null;
-                }
+                return newInstance;
             }    
-        
-            /**
-            * Get the map used to index beans (previously read in) by id.
-            *
-            * @return map indexing beans created by id
-            */
-            protected Map getBeansById() {
 
-                return beansById;
-            }
             
             /**
             * Return something meaningful for logging.
