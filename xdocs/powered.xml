@@ -24,6 +24,12 @@
             A java project management and project comprehension tool.
           </td>
         </tr>
+         <tr>
+           <td><a href="http://scarab.tigris.org">Scarab</a></td>
+           <td>
+             An Issue Tracking System created in java.
+           </td>
+          </tr>
       </table>
     </subsection>
     </section>
