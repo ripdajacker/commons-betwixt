@@ -84,6 +84,7 @@ import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -105,7 +106,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.23 2003/07/27 18:47:39 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.24 2003/09/08 13:57:21 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -131,6 +132,9 @@ public class XMLIntrospector {
     
     /** The strategy used to convert bean type names into element names */
     private NameMapper elementNameMapper;
+
+    /** Strategy normalizes the Class of the Object before introspection */
+    private ClassNormalizer classNormalizer = new ClassNormalizer(); 
 
     /**
      * The strategy used to convert bean type names into attribute names
@@ -193,6 +197,30 @@ public class XMLIntrospector {
     }
     
     
+    /**
+      * Gets the <code>ClassNormalizer</code> strategy.
+      * This is used to determine the Class to be introspected
+      * (the normalized Class). 
+      *
+      * @return the <code>ClassNormalizer</code> used to determine the Class to be introspected
+      * for a given Object.
+      */
+    public ClassNormalizer getClassNormalizer() {
+        return classNormalizer;
+    }
+    
+    /**
+      * Sets the <code>ClassNormalizer</code> strategy.
+      * This is used to determine the Class to be introspected
+      * (the normalized Class). 
+      *
+      * @param classNormalizer the <code>ClassNormalizer</code> to be used to determine 
+      * the Class to be introspected for a given Object.
+      */    
+    public void setClassNormalizer(ClassNormalizer classNormalizer) {
+        this.classNormalizer = classNormalizer;
+    }
+    
     /** 
      * Is <code>XMLBeanInfo</code> caching enabled? 
      *
@@ -245,7 +273,8 @@ public class XMLIntrospector {
             
         } else {
             // normal bean so normal introspection
-            return introspect( bean.getClass() );
+            Class normalClass = getClassNormalizer().getNormalizedClass( bean );
+            return introspect( normalClass );
         }
     }
     
