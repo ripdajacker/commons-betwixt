@@ -211,12 +211,53 @@
             <li> 
                 <code>Expression.update</code> has been replaced by Updater
             </li>
+            <li> 
+                <code>AbstractBeanWriter.write(String, ElementDescriptor, Context)</code> refactored away
+            </li>
+            <li> 
+                <code>AbstractBeanWriter.write(String, ElementDescriptor, Context, String, String)</code> refactored away
+            </li>
+            <li> 
+                <code>AbstractBeanWriter.writeIDREFElement( String, String, String)</code> refactored away
+            </li>       
+            <li> 
+                <code>AbstractBeanWriter.writeRestOfElement</code> refactored away
+            </li>    
+            <li> 
+                <code>SAXBeanWriter.expressElementEnd(String qualifiedName)</code> deprecated 
+            </li>   
+            <li> 
+                <code>SAXBeanWriter.expressAttribute(String qualifiedName)</code> deprecated 
+            </li>  
+            <li> 
+                <code>SAXBeanWriter.expressElementStart(String qualifiedName)</code> deprecated 
+            </li>  
+        </ul>
+    </subsection>
+</section>
+<section name='Backwards Incompatible Changes'>
+    <subsection name='Since 1.0-Alpha 1 Release'>
+        <ul>
         </ul>
     </subsection>
 </section>
 <section name='Symantic Changes'>
     <subsection name='Since 1.0-Alpha 1 Release'>
-        <ul>
+        <ul>	
+            <li>
+                <strong>SAXBeanWriter now sets localName</strong>
+                SAXBeanWriter now sets localName as well as qName for each SAX call. The local name
+                is derived from the qualified name. Users whose names contain colons but which do not 
+                comply with the namespace dialect will need to set the NamespaceDialect property to 
+                false.
+            </li>
+            <li>
+                <strong>AbstractBeanWriter has been refactored</strong>
+                AbstractBeanWriter has been extensively refactored.
+                The public interface has been preserved but the protected API has been extensively modified.
+                In order to preserve backwards compatibility, methods have been deprecated but are no
+                longer called and so code that overrides then will break.
+            </li>
         </ul>
     </subsection>
 </section>

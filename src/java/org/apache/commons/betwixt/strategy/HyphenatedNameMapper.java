@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.6 2003/01/06 22:50:45 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/06 22:50:45 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.7 2003/02/17 19:41:56 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/02/17 19:41:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.6 2003/01/06 22:50:45 rdonkin Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.7 2003/02/17 19:41:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -204,7 +204,7 @@ public class HyphenatedNameMapper implements NameMapper {
      * upper or lower case conversions are being used
      *
      * @param ch the character to be converted
-     * @return converted to upper case if {@link isUpperCase} otherwise to lower case 
+     * @return converted to upper case if {@link #isUpperCase} otherwise to lower case 
      */
     protected char convertChar(char ch) {
         if ( upperCase ) {

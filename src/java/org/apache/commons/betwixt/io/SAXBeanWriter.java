@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/02/13 19:24:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/02/17 19:41:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $
+ * $Id: SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.8 2003/02/17 19:41:56 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -151,8 +151,22 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      *
      * @param qualifiedName the fully qualified element name
      * @throws SAXException if the <code>ContentHandler</code> has a problem
+     * @deprecated use {@link #expressElementStart(String, String, String)}
      */
     protected void expressElementStart(String qualifiedName) throws SAXException  {
+        expressElementStart("", qualifiedName, qualifiedName);
+    }
+    
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param uri the namespace uri 
+     * @param localName the local name for this element
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected void expressElementStart(String uri, String localName, String qualifiedName) 
+                                        throws SAXException {
         if (elementStack == null) {
             elementStack = new Stack();
         }
@@ -160,7 +174,7 @@ public class SAXBeanWriter extends AbstractBeanWriter {
             sendElementStart();
         }
         attributes = new AttributesImpl();
-        elementStack.push(qualifiedName);
+        elementStack.push(new ElementName(uri, localName, qualifiedName));
         elementWaiting = true;
     }
     
@@ -175,15 +189,29 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      *
      * @param qualifiedName the fully qualified name of the element
      * @throws SAXException if the <code>ContentHandler</code> has a problem
+     * @deprecated use {@link #expressElementEnd(String, String, String)}
      */
     protected void expressElementEnd(String qualifiedName) throws SAXException  {
+        expressElementEnd("", qualifiedName, qualifiedName);
+    }    
+    
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param uri the namespace uri 
+     * @param localName the local name for this element
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected void expressElementEnd(String uri, String localName, String qualifiedName) 
+                                        throws SAXException {
         if (elementWaiting) {
             elementWaiting = false;
             sendElementStart();
         }
-        // can't handle namespaces yet
-        contentHandler.endElement("","",qualifiedName);
-    }    
+        
+        contentHandler.endElement(uri, localName, qualifiedName);
+    }
     
     /** 
      * Express an empty element end 
@@ -191,8 +219,11 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      */
     protected void expressElementEnd() throws SAXException  {
         // last element name must be correct since there haven't been any tag in between
-        String lastElement = (String) elementStack.peek();
-        contentHandler.endElement("","",lastElement);
+        ElementName lastElement = (ElementName) elementStack.peek();
+        contentHandler.endElement(
+                                lastElement.getUri(), 
+                                lastElement.getLocalName() ,
+                                lastElement.getQName());
     }
 
     /** 
@@ -216,16 +247,30 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * Express an attribute 
      * @param qualifiedName the fully qualified attribute name
      * @param value the attribute value
-     * @throws SAXException if the <code>ContentHandler</code> has a problem
+     * @deprecated use {@link #expressAttribute(String, String, String, String)}
      */
     protected void expressAttribute(
                                 String qualifiedName, 
-                                String value) 
-                                    throws
-                                        SAXException  {
+                                String value) {
+        expressAttribute("", qualifiedName, qualifiedName, value);
+    }
+    
+    /** 
+     * Express an attribute 
+     *
+     * @param namespaceUri the namespace for the attribute
+     * @param localName the local name for the attribute
+     * @param qualifiedName the qualified name of the attribute
+     * @param value the attribute value
+     */
+    protected void expressAttribute(
+                                String namespaceUri,
+                                String localName,
+                                String qualifiedName, 
+                                String value) {
         // FIX ME
         // SHOULD PROBABLY SUPPORT ID IDREF HERE
-        attributes.addAttribute("", "", qualifiedName, "CDATA", value);
+        attributes.addAttribute(namespaceUri, localName, qualifiedName, "CDATA", value);
     }
 
 
@@ -237,8 +282,15 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @throws SAXException if the <code>ContentHandler</code> has a problem
      */
     private void sendElementStart() throws SAXException {
-        String lastElement = (String)elementStack.peek();
-        contentHandler.startElement("","",lastElement,attributes);
+        ElementName lastElement = (ElementName) elementStack.peek();
+        if (log.isTraceEnabled()) {
+            log.trace(lastElement);
+        }
+        contentHandler.startElement(
+                                lastElement.getUri(), 
+                                lastElement.getLocalName(), 
+                                lastElement.getQName(), 
+                                attributes);
     }
     /**
      * This will announce the start of the document
@@ -262,6 +314,61 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         if ( callDocumentEvents ) {
             contentHandler.endDocument();
         }
+    }
+
+    /** Used to store element names stored on the stack */
+    private class ElementName {
+        /** Namespace uri */
+        private String uri;
+        /** Local name */
+        private String localName;
+        /** Qualified name */
+        private String qName;
+        
+        /** 
+         * Gets namespace uri 
+         * @return the namespace uri
+         */
+        String getUri() {
+            return uri;
+        }
+ 
+        /** 
+         * Gets local name 
+         * @return the local name
+         */
+        String getLocalName() {
+            return localName;
+        }
+        
+        /** 
+         * Gets qualified name 
+         * @return the qualified name
+         */
+        String getQName() {
+            return qName;
+        }
+                      
+        /** 
+         * Base constructor 
+         * @param uri the namespace uri
+         * @param localName the local name of this element
+         * @param qName the qualified name of this element
+         */
+        ElementName(String uri, String localName, String qName) {
+            this.uri = uri;
+            this.localName = localName;
+            this.qName = qName;
+        }
+        
+        /**
+         * Return something useful for logging
+         *
+         * @return something useful for logging
+         */
+        public String toString() {
+            return "[ElementName uri=" + uri + " ,lName=" + localName + " ,qName=" + qName + "]";
+        }	
     }
 
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.3 2003/02/13 19:24:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/02/13 19:24:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/io/TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/02/17 19:41:57 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSAXBeanWriter.java,v 1.3 2003/02/13 19:24:21 rdonkin Exp $
+ * $Id: TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,11 +72,13 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.PersonBean;
+import org.apache.commons.logging.impl.SimpleLog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 /** 
@@ -84,7 +86,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @author <a href="mailto:contact@hdietrich.net">Harald Dietrich</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSAXBeanWriter.java,v 1.3 2003/02/13 19:24:21 rdonkin Exp $
+ * @version $Id: TestSAXBeanWriter.java,v 1.4 2003/02/17 19:41:57 rdonkin Exp $
  */
 public class TestSAXBeanWriter extends TestCase {
     
@@ -100,9 +102,14 @@ public class TestSAXBeanWriter extends TestCase {
         // writer bean into string
         StringWriter out = new StringWriter();
         
+        SimpleLog log = new SimpleLog("[TestWrite:SAXBeanWriter]");
+        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
         SAXBeanWriter writer = new SAXBeanWriter(new SAXContentHandler(out));
+        writer.setLog(log);
         writer.write(bean);
         String beanString = out.getBuffer().toString();
+        System.out.println(beanString);
         // test the result
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -177,6 +184,40 @@ public class TestSAXBeanWriter extends TestCase {
         assertEquals("Start called", handler.startCalled , false); 
         assertEquals("End called", handler.endCalled , false);     
     }
+    
+    /** This tests whether local names and qNames match */
+    public void testLocalNames() throws Exception {
+    
+        class TestNames extends DefaultHandler {
+            boolean namesMatch = true;
+            
+            public void startElement(String uri, String localName, String qName, Attributes attributes) {
+                if (!localName.equals(qName)) {
+                    namesMatch = false;
+                }
+                
+                for (int i=0, size=attributes.getLength(); i<size; i++) {
+                    if (!attributes.getLocalName(i).equals(attributes.getQName(i))) {
+                        namesMatch = false;
+                    }
+                }
+            }
+            
+            public void endElement(String uri, String localName, String qName) {
+                if (!localName.equals(qName)) {
+                    namesMatch = false;
+                }
+            }
+        }
+        
+        PersonBean bean = new PersonBean(24, "vikki");
+        TestNames testHandler = new TestNames();
+        SAXBeanWriter writer = new SAXBeanWriter(testHandler);
+        writer.write(bean);
+        
+        assertEquals("Local names match QNames", testHandler.namesMatch, true);
+    }
+    
         
     public static Test suite() {
         return new TestSuite(TestSAXBeanWriter.class);

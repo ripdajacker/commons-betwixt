@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.11 2003/02/13 18:41:48 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/02/13 18:41:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.12 2003/02/17 19:41:56 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/02/17 19:41:56 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.11 2003/02/13 18:41:48 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.12 2003/02/17 19:41:56 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -92,7 +92,7 @@ import org.xml.sax.SAXException;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -190,7 +190,36 @@ public abstract class AbstractBeanWriter {
                         IOException, 
                         SAXException,
                         IntrospectionException {
-                    
+        writeBean( "", qualifiedName, qualifiedName, bean);
+    }
+    
+    /** 
+     * <p>Writes the given bean to the current stream 
+     * using the given <code>qualifiedName</code>.</p>
+     *
+     * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
+     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
+     * property is false.</p>
+     *
+     * @param namespaceUri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName the string naming root element
+     * @param bean the <code>Object</code> to write out as xml
+     * 
+     * @throws CyclicReferenceException when a cyclic reference is encountered 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
+    private void writeBean (
+                String namespaceUri,
+                String localName,
+                String qualifiedName, 
+                Object bean) 
+                    throws 
+                        IOException, 
+                        SAXException,
+                        IntrospectionException {                    
         
         if ( log.isTraceEnabled() ) {
             log.trace( "Writing bean graph (qualified name '" + qualifiedName + "'" );
@@ -205,6 +234,12 @@ public abstract class AbstractBeanWriter {
                 if ( qualifiedName == null ) {
                     qualifiedName = elementDescriptor.getQualifiedName();
                 }
+                if ( namespaceUri == null ) {
+                    namespaceUri = elementDescriptor.getURI();
+                }
+                if ( localName == null ) {
+                    localName = elementDescriptor.getLocalName();
+                }
 
                 String ref = null;
                 String id = null;
@@ -212,10 +247,13 @@ public abstract class AbstractBeanWriter {
                 // only give id's to non-primatives
                 if ( elementDescriptor.isPrimitiveType() ) {
                     // write without an id
-                    write( 
+                    writeElement( 
+                        namespaceUri,
+                        localName,
                         qualifiedName, 
                         elementDescriptor, 
                         context );
+                        
                 } else {
                     pushBean ( context.getBean() );
                     if ( writeIDs ) {
@@ -231,7 +269,9 @@ public abstract class AbstractBeanWriter {
                             
                             if ( writeIDs ) {
                                 // write element with id
-                                write( 
+                                writeElement(
+                                    namespaceUri,
+                                    localName,
                                     qualifiedName, 
                                     elementDescriptor, 
                                     context , 
@@ -240,7 +280,9 @@ public abstract class AbstractBeanWriter {
                                     
                             } else {    
                                 // write element without ID
-                                write( 
+                                writeElement( 
+                                    namespaceUri,
+                                    localName,
                                     qualifiedName, 
                                     elementDescriptor, 
                                     context );
@@ -263,7 +305,9 @@ public abstract class AbstractBeanWriter {
                             idMap.put( bean, id);
                             
                             // the ID attribute should be written automatically
-                            write( 
+                            writeElement( 
+                                namespaceUri,
+                                localName,
                                 qualifiedName, 
                                 elementDescriptor, 
                                 context );
@@ -273,6 +317,8 @@ public abstract class AbstractBeanWriter {
                         if ( !ignoreElement( elementDescriptor, context )) {
                             // we've already written this bean so write an IDREF
                             writeIDREFElement( 
+                                            namespaceUri,
+                                            localName,
                                             qualifiedName,  
                                             beanInfo.getIDREFAttributeName(), 
                                             ref);
@@ -426,9 +472,25 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      */
-    protected abstract void expressElementStart(String qualifiedName) 
-                                        throws IOException, SAXException;
-       
+    protected void expressElementStart(String qualifiedName) 
+                                        throws IOException, SAXException {
+        // do nothing
+    }
+                                        
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param uri the namespace uri 
+     * @param localName the local name for this element
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected void expressElementStart(String uri, String localName, String qualifiedName) 
+                                        throws IOException, SAXException {
+        expressElementStart( qualifiedName );
+    }
+    
      /**
      * Express a closing tag.
      *
@@ -445,8 +507,31 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      */
-    protected abstract void expressElementEnd(String qualifiedName) 
-                                              throws IOException, SAXException;
+    protected void expressElementEnd(String qualifiedName) 
+                                              throws IOException, SAXException {
+        // do nothing
+    }
+    
+    /** 
+     * Express an element end tag (with given name) 
+     *
+     * @param uri the namespace uri of the element close tag
+     * @param localName the local name of the element close tag
+     * @param qualifiedName the qualified name for the element to be closed
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected void expressElementEnd(
+                                                String uri,
+                                                String localName,
+                                                String qualifiedName) 
+                                                    throws 
+                                                        IOException, 
+                                                        SAXException {
+        expressElementEnd(qualifiedName);
+    }
+                                              
     
     /** 
      * Express an empty element end.
@@ -474,12 +559,35 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      */
-    protected abstract void expressAttribute(
+    protected void expressAttribute(
                                 String qualifiedName, 
                                 String value) 
                                     throws
                                         IOException, 
-                                        SAXException;
+                                        SAXException {
+        // Do nothing
+    }
+
+    /** 
+     * Express an attribute 
+     *
+     * @param namesapceUri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName the qualified name of the attribute
+     * @param value the attribute value
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected void expressAttribute(
+                                String namespaceUri,
+                                String localName,
+                                String qualifiedName, 
+                                String value) 
+                                    throws
+                                        IOException, 
+                                        SAXException {
+        expressAttribute(qualifiedName, value);
+    }
 
 
     // Implementation methods
@@ -495,8 +603,34 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated refactoring means method no longer needed
      */
     protected void write( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
+    }
+    
+    /** 
+     * Writes the given element 
+     *
+     * @param namespaceUri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
+    private void writeElement(
+                            String namespaceUri,
+                            String localName,
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
                             Context context ) 
@@ -514,10 +648,10 @@ public abstract class AbstractBeanWriter {
             }
         
             if (elementDescriptor.isWrapCollectionsInElement()) {
-                expressElementStart( qualifiedName );
+                expressElementStart( namespaceUri, localName, qualifiedName );
             }
             
-            writeRestOfElement( qualifiedName, elementDescriptor, context);
+            writeRestOfElement( namespaceUri, localName, qualifiedName, elementDescriptor, context);
         }
     }
     
@@ -534,8 +668,45 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated refactoring means method no longer needed
      */
     protected void write( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context,
+                            String idAttribute,
+                            String idValue ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeElement( 
+                    "", 
+                    qualifiedName, 
+                    qualifiedName, 
+                    elementDescriptor, 
+                    context, 
+                    idAttribute, 
+                    idValue );
+    }
+    
+    /** 
+     * Writes the given element adding an ID attribute 
+     *
+     * @param namespaceUri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName the qualified name
+     * @param elementDescriptor the ElementDescriptor describing this element
+     * @param context the context being evaliated against
+     * @param idAttribute the qualified name of the <code>ID</code> attribute 
+     * @param idValue the value for the <code>ID</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
+    private void writeElement( 
+                            String namespaceUri,
+                            String localName,
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
                             Context context,
@@ -548,11 +719,17 @@ public abstract class AbstractBeanWriter {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
         
-            expressElementStart( qualifiedName );
+            expressElementStart( namespaceUri, localName, qualifiedName );
              
-            expressAttribute( idAttribute, idValue );        
+            // XXX For the moment, assign ID attribute to default namespace
+            expressAttribute( "", idAttribute, idAttribute, idValue );        
         
-            writeRestOfElement( qualifiedName, elementDescriptor, context );
+            writeRestOfElement( 
+                                namespaceUri, 
+                                localName, 
+                                qualifiedName, 
+                                elementDescriptor, 
+                                context );
 
         } else if ( log.isTraceEnabled() ) {
             log.trace( "Element " + qualifiedName + " is empty." );
@@ -568,8 +745,34 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated refactored away
      */
     protected void writeRestOfElement( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeRestOfElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
+    }
+
+    /**
+     * Write attributes, child elements and element end 
+     * 
+     * @param uri the element namespace uri 
+     * @param localName the local name of the element
+     * @param qualifiedName the qualified name of the element
+     * @param elementDescriptor the descriptor for this element
+     * @param context evaluate against this context
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
+    private void writeRestOfElement( 
+                            String uri,
+                            String localName,
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
                             Context context ) 
@@ -584,7 +787,7 @@ public abstract class AbstractBeanWriter {
 
         if ( writeContent( elementDescriptor, context ) ) {
             if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                expressElementEnd( qualifiedName );
+                expressElementEnd( uri, localName, qualifiedName );
             }
         } else {
             if ( elementDescriptor.isWrapCollectionsInElement() ) {
@@ -603,6 +806,7 @@ public abstract class AbstractBeanWriter {
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated refactored away
      */
     protected void writeIDREFElement( 
                                     String qualifiedName, 
@@ -612,11 +816,42 @@ public abstract class AbstractBeanWriter {
                                             IOException, 
                                             SAXException,
                                             IntrospectionException {
+        writeIDREFElement( 
+                            "", 
+                            qualifiedName, 
+                            qualifiedName, 
+                            idrefAttributeName, 
+                            idrefAttributeValue );
+    }
+
+    /**
+     * Writes an element with a <code>IDREF</code> attribute 
+     *
+     * @param uri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName of the element with <code>IDREF</code> attribute 
+     * @param idrefAttributeName the qualified name of the <code>IDREF</code> attribute 
+     * @param idrefAttributeValue the value for the <code>IDREF</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
+    private void writeIDREFElement( 
+                                    String uri,
+                                    String localName,
+                                    String qualifiedName, 
+                                    String idrefAttributeName,
+                                    String idrefAttributeValue ) 
+                                        throws 
+                                            IOException, 
+                                            SAXException,
+                                            IntrospectionException {
 
         // write IDREF element
-        expressElementStart( qualifiedName );
+        expressElementStart( uri, localName, qualifiedName );
         
-        expressAttribute( idrefAttributeName, idrefAttributeValue );
+        // XXX for the moment, assgin IDREF to default namespace
+        expressAttribute( "", idrefAttributeName, idrefAttributeName, idrefAttributeValue );
                             
         expressElementEnd();
     }
@@ -650,6 +885,8 @@ public abstract class AbstractBeanWriter {
                     Object childBean = childExpression.evaluate( context );
                     if ( childBean != null ) {
                         String qualifiedName = childDescriptor.getQualifiedName();
+                        String namespaceUri = childDescriptor.getURI();
+                        String localName = childDescriptor.getLocalName();
                         // XXXX: should we handle nulls better
                         if ( childBean instanceof Iterator ) {
                             for ( Iterator iter = (Iterator) childBean; iter.hasNext(); ) {
@@ -664,7 +901,7 @@ public abstract class AbstractBeanWriter {
                                     }
                                 }
                                 ++indentLevel;
-                                write( qualifiedName, object );
+                                writeBean( namespaceUri, localName, qualifiedName, object );
                                 --indentLevel;
                             }
                         } else {
@@ -673,7 +910,7 @@ public abstract class AbstractBeanWriter {
                                 expressTagClose();
                             }
                             ++indentLevel;
-                            write( qualifiedName, childBean );
+                            writeBean( namespaceUri, localName, qualifiedName, childBean );
                             --indentLevel;
                         }
                     }                    
@@ -686,7 +923,12 @@ public abstract class AbstractBeanWriter {
                         ++indentLevel;
                     }
 
-                     write( childDescriptor.getQualifiedName(), childDescriptor, childContext );
+                     writeElement( 
+                                childDescriptor.getURI(), 
+                                childDescriptor.getLocalName(), 
+                                childDescriptor.getQualifiedName(), 
+                                childDescriptor, 
+                                childContext );
 
                     if (childDescriptor.isWrapCollectionsInElement()) {
                         --indentLevel;
@@ -763,7 +1005,11 @@ public abstract class AbstractBeanWriter {
             if ( value != null ) {
                 String text = value.toString();
                 if ( text != null && text.length() > 0 ) {
-                    expressAttribute(attributeDescriptor.getQualifiedName(), text);
+                    expressAttribute(
+                                    attributeDescriptor.getURI(),
+                                    attributeDescriptor.getLocalName(),
+                                    attributeDescriptor.getQualifiedName(), 
+                                    text);
                 }
             }                
         }
