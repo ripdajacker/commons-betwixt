@@ -17,15 +17,14 @@ package org.apache.commons.betwixt.digester;
  */ 
 
 import java.beans.PropertyDescriptor;
-
 import java.lang.reflect.Method;
 
-import org.apache.commons.betwixt.expression.MethodExpression;
-import org.apache.commons.betwixt.expression.ConstantExpression;
-import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.MethodExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -41,7 +40,7 @@ import org.xml.sax.SAXException;
   * </p>
   *
   * @author Robert Burrell Donkin
-  * @version $Id: TextRule.java,v 1.7 2004/02/28 13:38:32 yoavs Exp $
+  * @version $Id: TextRule.java,v 1.8 2004/03/31 21:11:52 rdonkin Exp $
   */
 public class TextRule extends MappedPropertyRule {
 

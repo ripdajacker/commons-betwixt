@@ -18,11 +18,10 @@ package org.apache.commons.betwixt.expression;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /** <p><code>Context</code> describes the context used to evaluate
   * bean expressions.
@@ -44,7 +43,7 @@ import org.apache.commons.betwixt.strategy.ObjectStringConverter;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
 public class Context {
 

@@ -18,7 +18,6 @@
 package org.apache.commons.betwixt.examples.rss;
 
 import java.io.File;
-
 import java.util.Iterator;
 
 import org.apache.commons.betwixt.io.BeanReader;
@@ -30,7 +29,7 @@ import org.apache.commons.betwixt.io.BeanReader;
  * rather than providing a .</p>
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.3 $ $Date: 2004/02/28 13:38:35 $
+ * @version $Revision: 1.4 $ $Date: 2004/03/31 21:11:53 $
  */
 
 public class RSSApplication {

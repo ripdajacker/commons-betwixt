@@ -23,13 +23,12 @@ import java.util.List;
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.collections.CollectionUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class TestAbstractBeanWriter extends AbstractTestCase {
 

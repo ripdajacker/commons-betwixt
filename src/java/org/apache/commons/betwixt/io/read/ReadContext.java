@@ -17,17 +17,16 @@ package org.apache.commons.betwixt.io.read;
 
 import java.util.HashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**  
   * Extends <code>Context</code> to provide read specific functionality. 
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class ReadContext extends Context {
 

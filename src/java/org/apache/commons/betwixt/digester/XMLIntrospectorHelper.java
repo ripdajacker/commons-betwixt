@@ -32,9 +32,9 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.IteratorExpression;
+import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.28 2004/02/28 13:38:32 yoavs Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.29 2004/03/31 21:11:52 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 

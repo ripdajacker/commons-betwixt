@@ -16,26 +16,24 @@
 package org.apache.commons.betwixt.io;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 
-import org.apache.commons.betwixt.expression.Context;
-import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.TextDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
-import org.apache.commons.betwixt.io.read.ReadContext;
-import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ElementMapping;
-
-
-import org.apache.commons.digester.Rule;
+import org.apache.commons.betwixt.io.read.ReadConfiguration;
+import org.apache.commons.betwixt.io.read.ReadContext;
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +43,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.17 $
+  * @version $Revision: 1.18 $
   */
 public class BeanRuleSet implements RuleSet {
     

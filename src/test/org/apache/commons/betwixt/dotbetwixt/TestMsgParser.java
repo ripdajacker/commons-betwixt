@@ -18,17 +18,17 @@
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
-
-import junit.framework.TestCase;
 /**
  * Tests the marshalling and unmarshalling of MsgBeans with Betwixt.
  * The problem tested here is that an element without an updater would
  * not process it's attributes correctly even though they had updaters.
  * 
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
- * @version $Id: TestMsgParser.java,v 1.2 2004/02/28 13:38:35 yoavs Exp $
+ * @version $Id: TestMsgParser.java,v 1.3 2004/03/31 21:11:53 rdonkin Exp $
  */
 public class TestMsgParser extends TestCase
 {

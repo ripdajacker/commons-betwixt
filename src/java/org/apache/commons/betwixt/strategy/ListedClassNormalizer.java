@@ -15,8 +15,8 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /** 
  * <p>ClassNormalizer that uses a list of substitutions.</p>
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * If a match is found then the first substituted class is returned as the normalization.
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ListedClassNormalizer extends ClassNormalizer {
 

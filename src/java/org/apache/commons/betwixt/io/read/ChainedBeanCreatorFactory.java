@@ -15,16 +15,15 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
-import org.apache.commons.logging.Log;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.logging.Log;
 
 /**  
   * Group of factory methods for <code>ChainedBeanCreator</code>'s.
   * The standard implementations used by Betwixt are present here.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class ChainedBeanCreatorFactory {
     

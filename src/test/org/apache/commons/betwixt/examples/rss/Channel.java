@@ -17,12 +17,7 @@
 
 package org.apache.commons.betwixt.examples.rss;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +31,7 @@ import java.util.List;
  *
  * @author Craig R. McClanahan
  * @author Ted Husted
- * @version $Revision: 1.2 $ $Date: 2004/02/28 13:38:35 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/31 21:11:53 $
  */
 
 public class Channel implements Serializable {

@@ -16,14 +16,13 @@
 package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.beanutils.ConvertUtils;
-
 import org.apache.commons.betwixt.expression.Context;
 
 /** 
  * String &lt;-&gt; object conversion strategy that delegates to ConvertUtils.
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
     

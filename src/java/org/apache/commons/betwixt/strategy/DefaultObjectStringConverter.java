@@ -15,13 +15,11 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
-
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.apache.commons.beanutils.ConversionException;
-
 import org.apache.commons.betwixt.expression.Context;
 
 /** 
@@ -39,7 +37,7 @@ import org.apache.commons.betwixt.expression.Context;
  * (given the default settings).
  * </p>
  * @author Robert Burrell Donkin
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     

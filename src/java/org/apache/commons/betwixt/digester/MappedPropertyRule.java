@@ -15,9 +15,9 @@
  */ 
 package org.apache.commons.betwixt.digester;
 
+import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.beans.BeanInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
   * Maybe a lot of this should be moved into <code>BeanUtils</code>.</p>
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public abstract class MappedPropertyRule extends RuleSupport {
 

@@ -16,20 +16,19 @@
 package org.apache.commons.betwixt.io;
 
 import java.beans.IntrospectionException;
-import java.io.UnsupportedEncodingException;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
-import org.xml.sax.Attributes;
 
 import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.strategy.MixedContentEncodingStrategy;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /** <p><code>BeanWriter</code> outputs beans as XML to an io stream.</p>
   *
@@ -76,7 +75,7 @@ import org.apache.commons.betwixt.strategy.MixedContentEncodingStrategy;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.23 $
+  * @version $Revision: 1.24 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 

@@ -20,11 +20,11 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
-import org.apache.commons.betwixt.NodeDescriptor;
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class AddDefaultsRule extends RuleSupport {
 

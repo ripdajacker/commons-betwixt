@@ -21,20 +21,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.Descriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 // FIX ME!!!
@@ -82,7 +82,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.25 $
+  * @version $Revision: 1.26 $
   */
 public abstract class AbstractBeanWriter {
 

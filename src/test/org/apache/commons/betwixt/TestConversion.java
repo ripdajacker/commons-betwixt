@@ -16,15 +16,16 @@
 
 package org.apache.commons.betwixt;
 
-import junit.framework.TestCase;
 import java.io.StringReader;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.betwixt.io.BeanReader;
 
 /**
  * Tests conversions.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class TestConversion extends TestCase{
 

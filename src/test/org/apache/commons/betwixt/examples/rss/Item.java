@@ -17,7 +17,6 @@
 
 package org.apache.commons.betwixt.examples.rss;
 
-import java.io.PrintWriter;
 import java.io.Serializable;
 
 
@@ -29,7 +28,7 @@ import java.io.Serializable;
  * <p>Based on the Jakarta Commons <code>Digester</code> implementation.</p>
  *
  * @author Craig R. McClanahan
- * @version $Revision: 1.2 $ $Date: 2004/02/28 13:38:35 $
+ * @version $Revision: 1.3 $ $Date: 2004/03/31 21:11:53 $
  */
 
 public class Item implements Serializable {
