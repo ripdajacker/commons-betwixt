@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15 2003/10/19 14:44:53 mvdb Exp $
- * $Revision: 1.15 $
- * $Date: 2003/10/19 14:44:53 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.15.2.1 2004/01/15 22:01:56 rdonkin Exp $
+ * $Revision: 1.15.2.1 $
+ * $Date: 2004/01/15 22:01:56 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,7 +112,7 @@ public class TestBeanToXml extends XmlTestCase {
 //        log = new SimpleLog("[testSimpleBean:XMLIntrospectorHelper]");
 //        XMLIntrospectorHelper.setLog(log);
     
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
 	SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");
         writer.write(bean);
         out.flush();

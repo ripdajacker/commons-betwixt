@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
- * $Revision: 1.9.2.1 $
- * $Date: 2004/01/13 21:49:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/nowrap/TestNoWrap.java,v 1.9.2.2 2004/01/15 22:01:03 rdonkin Exp $
+ * $Revision: 1.9.2.2 $
+ * $Date: 2004/01/15 22:01:03 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,7 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
  * Test harness for the base PO object
  *
  * @author <a href="mailto:john@zenplex.com">John Thorhauer</a>
- * @version $Id: TestNoWrap.java,v 1.9.2.1 2004/01/13 21:49:47 rdonkin Exp $
+ * @version $Id: TestNoWrap.java,v 1.9.2.2 2004/01/15 22:01:03 rdonkin Exp $
  */
 public class TestNoWrap
     extends AbstractTestCase
@@ -151,7 +151,7 @@ public class TestNoWrap
         out.write("<?xml version='1.0'?>");
         BeanWriter beanWriter = new BeanWriter(out);
         beanWriter.setXMLIntrospector(createXMLIntrospector());
-        beanWriter.setWriteIDs(false);
+        beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
         
         beanWriter.write(po);

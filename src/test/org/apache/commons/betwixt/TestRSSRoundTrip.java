@@ -7,7 +7,7 @@
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -231,7 +231,7 @@ public class TestRSSRoundTrip extends AbstractTestCase {
         //writer.setAbstractBeanWriterLog(log);
         writer.setWriteEmptyElements(true);
         writer.getXMLIntrospector().setAttributesForPrimitives(false);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.enablePrettyPrint();
         writer.write( bean );
     }
