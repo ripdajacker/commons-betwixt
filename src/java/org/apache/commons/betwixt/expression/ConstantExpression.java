@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/ConstantExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/ConstantExpression.java,v 1.2 2002/07/01 18:53:52 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/01 18:53:52 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ConstantExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: ConstantExpression.java,v 1.2 2002/07/01 18:53:52 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,7 +66,7 @@ package org.apache.commons.betwixt.expression;
   * <p> In other words, {@link #evaluate} returns a value independent of the context. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class ConstantExpression implements Expression {
 
@@ -106,5 +106,9 @@ public class ConstantExpression implements Expression {
     /** Sets the constant value of this expression */
     public void setValue(Object value) {
         this.value = value;
+    }
+    
+    public String toString() {
+        return "ConstantExpression [value=" + value + "]";
     }
 }
