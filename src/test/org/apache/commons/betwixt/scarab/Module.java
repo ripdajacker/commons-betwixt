@@ -75,8 +75,10 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id: Module.java,v 1.2 2002/06/01 18:28:06 jon Exp $
  */
-public class Module implements Serializable
+public class Module
 {
+    private final static Log log = LogFactory.getLog(Module.class);
+
     private String name;
     
     /**
@@ -88,6 +90,7 @@ public class Module implements Serializable
 
     public void setName(String name)
     {
+        log.debug("Module.setName(): " + name);
         this.name = name;
     }        
 

@@ -69,62 +69,43 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p><code>GlobalAttribute</code> is a sample bean for use by the test cases.</p>
+ * <p><code>CreatedDate</code> is a sample bean for use by the test cases.</p>
  *
- * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
- * @version $Id: GlobalAttribute.java,v 1.5 2002/06/05 10:30:50 jstrachan Exp $
+ * @author <a href="mailto:jon@latchkey.com">Jon Scott Stevens</a>
+ * @version $Id: CreatedDate.java,v 1.1 2002/06/12 22:25:32 jon Exp $
  */
-public class GlobalAttribute implements Serializable
+public class CreatedDate implements Serializable
 {
     /**
      * Logger
      */
-    private final static Log log = LogFactory.getLog(GlobalAttribute.class);
+    private final static Log log = LogFactory.getLog(CreatedDate.class);
 
-    private List globalAttributeOptions;
-    
-    private String name;
-    private CreatedDate createdDate;
+    private String format;
+    private String timestamp;
 
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public GlobalAttribute() 
+    public void setFormat(String format)
     {
-        globalAttributeOptions = new ArrayList();
+        this.format = format;
     }
 
-    public String toString() {
-        return super.toString() + "[name=" + name + ";createdDate=" + createdDate + ";options=" + globalAttributeOptions + "]";
+    public String getFormat()
+    {
+        return this.format;
     }
 
-    public void addGlobalAttributeOption(GlobalAttributeOption globalAttributeOption)
+    public void setTimestamp(String timestamp)
     {
-        globalAttributeOptions.add(globalAttributeOption);
-    }        
-
-    public List getGlobalAttributeOptions()
-    {
-        return globalAttributeOptions;
-    }        
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }        
-
-    public String getName()
-    {
-        return name;
+        this.timestamp = timestamp;
     }
-    
-    public void addCreatedDate(CreatedDate cd)
+
+    public String getTimestamp()
     {
-        this.createdDate = cd;
+        return this.timestamp;
     }
-    
-    public CreatedDate getCreatedDate()
+
+    public String toString()
     {
-        return this.createdDate;
+        return "format=" + format + ";timestamp=" + timestamp;
     }
 }

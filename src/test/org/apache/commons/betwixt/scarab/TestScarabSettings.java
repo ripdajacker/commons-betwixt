@@ -194,6 +194,8 @@ public class TestScarabSettings extends AbstractTestCase
         
         System.out.println( "GlobalAttribute: " + ga);
         System.out.println( "globalAttributeOptions: " + globalAttributeOptions);
+
+        assertEquals(ga.getCreatedDate().getTimestamp(), "2002-05-31 13:29:27.0");
         
         assertEquals(globalAttributeOptions.size(), 2);
         GlobalAttributeOption gao = (GlobalAttributeOption) globalAttributeOptions.get(0);
