@@ -72,17 +72,26 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.apache.commons.beanutils.Converter;
 import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.ConversionException;
+
+import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.BeanRuleSet;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.MapEntryAdder;
+import org.apache.commons.betwixt.expression.MethodUpdater;
+import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.ExtendedBaseRules;
@@ -371,6 +380,124 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("Rule one digester top object", listOfNames , ruleOne.getTop());
         assertEquals("Rule two digester top object", martinBean , ruleTwo.getTop());
     }
+    
+    public void testDateReadConversion() throws Exception {
+    
+        //SimpleLog log = new SimpleLog("testDateReadConversion:MethodUpdater");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        //MethodUpdater.setLog(log);
+   
+        class ISOToStringConverter implements Converter {
+            final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            public Object convert(Class type, Object value) {
+                if (value == null) {
+                    return null;
+                }
+                if (value instanceof java.util.Date) {
+                    return formatter.format((java.util.Date)value);
+                }
+                return value.toString();
+            }
+        }
+     
+        class ISODateConverter implements Converter {
+            final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            public Object convert(Class type, Object value) {
+
+                if (value == null) {
+                    return null;
+                }
+                
+                if (value instanceof java.util.Date) {
+
+                    return formatter.format((java.util.Date)value);
+                }
+                
+                try {
+                    return formatter.parse(value.toString());
+                } catch (ParseException ex) {
+                    throw new ConversionException(ex);
+                }
+            }
+        }
+        
+        ISODateConverter converter = new ISODateConverter();
+        ConvertUtils.register(converter, java.util.Date.class);
+        ISOToStringConverter tsConverter = new ISOToStringConverter();
+        ConvertUtils.register(tsConverter, String.class);
+        
+        Converter dateConverter = ConvertUtils.lookup(java.util.Date.class);
+        assertEquals("Date converter successfully registered", dateConverter, converter);
+        Converter stringConverter = ConvertUtils.lookup(String.class);
+        assertEquals("Date converter successfully registered", tsConverter, stringConverter);
+        
+        java.util.Date conversionResult = (java.util.Date)
+                                ConvertUtils.convert("20030101", java.util.Date.class);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(conversionResult);
+        int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        assertEquals("Correct conversion result", dayOfYear, 1);
+        
+        calendar.set(2003, 7, 2);
+        java.util.Date date = calendar.getTime();
+        
+        PartyBean bean = new PartyBean(
+                "Wedding",
+                date,
+                1900,
+                new AddressBean("Old White Lion Hotel", "Howarth", "Merry Old England", "BD22 8EP"));
+
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        
+        BeanWriter writer = new BeanWriter(out);
+        XMLIntrospector introspector = writer.getXMLIntrospector();
+        introspector.setElementNameMapper(new HyphenatedNameMapper());
+        introspector.setAttributesForPrimitives(false);
+        
+        writer.write("party", bean);
+
+        String xml = "<?xml version='1.0'?><party>"
+            + "<venue><street>Old White Lion Hotel</street><city>Howarth</city>"
+            + "<code>BD22 8EP</code><country>Merry Old England</country></venue>"
+            + "<date-of-party>20030802</date-of-party><from-hour>1900</from-hour>"
+            + "<excuse>Wedding</excuse>"
+            + "</party>";
+        
+        xmlAssertIsomorphic(parseString(xml), parseString(out) , true);
+        
+        BeanReader reader = new BeanReader();
+        reader.setXMLIntrospector(introspector);
+        reader.registerBeanClass("party", PartyBean.class);
+        PartyBean readBean = (PartyBean) reader.parse(new StringReader(xml)); 
+        
+        assertEquals("FromHours incorrect property value", readBean.getFromHour(), bean.getFromHour());
+        assertEquals("Excuse incorrect property value", readBean.getExcuse(), bean.getExcuse());
+        
+        // check address
+        AddressBean readAddress = readBean.getVenue();
+        AddressBean address = bean.getVenue();
+        assertEquals("address.street incorrect property value", readAddress.getStreet(), address.getStreet());
+        assertEquals("address.city incorrect property value", readAddress.getCity(), address.getCity());
+        assertEquals("address.code incorrect property value", readAddress.getCode(), address.getCode());
+        assertEquals("address.country incorrect property value", readAddress.getCountry(), address.getCountry());
+        
+        // check dates
+        calendar.setTime(bean.getDateOfParty());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        int year = calendar.get(Calendar.YEAR);
+        calendar.setTime(readBean.getDateOfParty());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        int readDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);    
+        int readYear = calendar.get(Calendar.YEAR); 
+        assertEquals("date incorrect property value (year)", year, readYear); 
+        assertEquals("date incorrect property value (day)", dayOfYear, readDayOfYear);   
+        
+        ConvertUtils.deregister();
+    }
+    
     
     public void testReadMap() throws Exception {
         // we might as well start by writing out 

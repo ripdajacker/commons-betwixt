@@ -232,6 +232,10 @@
             Basic support for writing DynaBeans has been added. This was implemented by using an additional 
             layer of abstraction in the introspector. 
             </li>
+            <li>
+            <strong>Support for converting output strings</strong>
+            ConvertUtils is now called to convert output strings (as well as input ones).
+            </li>
         </ul>
     </subsection>
 </section>
@@ -342,6 +346,12 @@
                 DynaBean's are now mapped using the properties found via the pseudo-introspection process
                 defined in BeanUtils. If you don't wish for DynaBeans implementations to be introspected
                 in this way then provide a <code>.betwixt</code> file to specify the mapping.
+            </li>
+            <li>
+                <strong>String To Object Conversions Now Use <code>ConvertUtils</code></strong>
+                <code>ConvertUtils</code> from commons-beanutils is now called to performt the object to 
+                string conversions. It is possible that in some circumstances, this change may effect the
+                output.
             </li>
         </ul>
     </subsection>
