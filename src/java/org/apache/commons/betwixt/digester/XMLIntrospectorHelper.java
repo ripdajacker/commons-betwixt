@@ -85,7 +85,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.21 2003/06/05 20:59:16 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.22 2003/07/01 19:09:49 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -185,11 +185,14 @@ public class XMLIntrospectorHelper {
         } else if ( isLoopType( type ) ) {
             if (log.isTraceEnabled()) {
                 log.trace("Loop type: " + name);
+                log.trace("Wrap in collections? " + introspector.isWrapCollectionsInElement());
             }
             ElementDescriptor loopDescriptor = new ElementDescriptor();
             loopDescriptor.setContextExpression(
                 new IteratorExpression( new MethodExpression( readMethod ) )
             );
+            loopDescriptor.setWrapCollectionsInElement(
+                        introspector.isWrapCollectionsInElement());
             // XXX: need to support some kind of 'add' or handle arrays, Lists or indexed properties
             //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
             if ( Map.class.isAssignableFrom( type ) ) {
@@ -233,6 +236,11 @@ public class XMLIntrospectorHelper {
         // XXX: associate more bean information with the descriptor?
         //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
         //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+        
+        if (log.isTraceEnabled()) {
+            log.trace("Created descriptor:");
+            log.trace(nodeDescriptor);
+        }
         return nodeDescriptor;
     }
     
