@@ -101,7 +101,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.7 2002/07/02 16:47:15 mvdb Exp $
+  * @version $Id: XMLIntrospector.java,v 1.8 2002/07/02 20:31:45 mvdb Exp $
   */
 public class XMLIntrospector {
 
@@ -391,7 +391,7 @@ public class XMLIntrospector {
      */
     public NameMapper getAttributeNameMapper() {
         if (attributeNameMapper == null) {
-            attributeNameMapper = getElementNameMapper();
+            attributeNameMapper = createNameMapper();
         }
         return attributeNameMapper;
      }
