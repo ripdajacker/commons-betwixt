@@ -28,7 +28,6 @@ import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
@@ -1332,7 +1331,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.33 $
+     * @version $Revision: 1.34 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */

@@ -51,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class IntrospectionConfiguration {
 
@@ -395,6 +395,7 @@ public class IntrospectionConfiguration {
             || Map.class.isAssignableFrom( type ) 
             || Collection.class.isAssignableFrom( type ) 
             || Enumeration.class.isAssignableFrom( type ) 
-            || Iterator.class.isAssignableFrom( type );
+            || Iterator.class.isAssignableFrom( type )
+            || Map.Entry.class.isAssignableFrom( type ) ;
     }
 }
