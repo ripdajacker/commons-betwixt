@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.4 2002/08/29 21:22:52 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/08/29 21:22:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.5 2002/10/24 11:13:22 jstrachan Exp $
+ * $Revision: 1.5 $
+ * $Date: 2002/10/24 11:13:22 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.4 2002/08/29 21:22:52 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.5 2002/10/24 11:13:22 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -86,7 +86,7 @@ import org.xml.sax.XMLReader;
 /** <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class BeanReader extends Digester {
 
@@ -128,7 +128,10 @@ public class BeanReader extends Digester {
     }
 
     
-    /** Registers a bean class for use by the writer */
+    /** 
+     * Registers a bean class which is used by the reader
+     * to deduce the digester rules.
+     */
     public void registerBeanClass(Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
             registeredClasses.add( beanClass );
@@ -146,7 +149,10 @@ public class BeanReader extends Digester {
         }
     }
     
-    /** Registers a bean class for use by the writer at the given path */
+    /** 
+     * Registers a bean class at the given path expression 
+     * which is used by the reader to deduce the digester rules.
+     */
     public void registerBeanClass(String path, Class beanClass) throws IntrospectionException {
         if ( ! registeredClasses.contains( beanClass ) ) {
             registeredClasses.add( beanClass );
