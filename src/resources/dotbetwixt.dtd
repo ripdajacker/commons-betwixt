@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!-- $Id: dotbetwixt.dtd,v 1.6 2003/04/08 13:41:40 rdonkin Exp $ -->
+<!-- $Id: dotbetwixt.dtd,v 1.7 2003/08/24 16:58:54 rdonkin Exp $ -->
 <!-- The DTD for .betwixt files -->
 
 <!ELEMENT attribute EMPTY>
@@ -23,6 +23,9 @@
     the updater attribute can be used 
     (in conjunction with the property attribute) to specify a custom update
     method.
+    
+    the (optional) class attribute specifies an implementation class that should
+    be used for instantiation (as opposed to the type of the property)
 -->
 <!ELEMENT element (attribute|addDefaults|element|text)*>
 <!ATTLIST element
@@ -32,6 +35,7 @@
     value CDATA #IMPLIED
     property CDATA #IMPLIED
     updater CDATA #IMPLIED
+    class CDATA #IMPLIED
   >
 
 <!-- Use for mixed content text -->
