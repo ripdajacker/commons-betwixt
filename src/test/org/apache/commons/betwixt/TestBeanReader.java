@@ -384,12 +384,15 @@ public class TestBeanReader extends AbstractTestCase {
         System.out.println(out.toString());
         
         String xml = "<?xml version='1.0'?><address-book><title>drinkers</title>"
-            + "<addresses><entry><key>Sid Gardner</key><value><country>United Kingdom</country>"
-            + "<code>BD18 2BJ</code><city>Shipley</city><street>Old House At Home, Otley Road</street>"
-            + "</value></entry><entry><key>Alex Compbell</key><value><country>United Kingdom</country>"
+            + "<addresses>"
+            + "<entry><key>Alex Compbell</key><value><country>United Kingdom</country>"
             + "<code>BD18 3QW</code><city>Shipley</city><street>5, Kirkgate</street></value></entry>"
             + "<entry><key>Russell McManus</key><value><country>United Kingdom</country><code>BD17 5EJ</code>"
-            + "<city>Shipley</city><street>6, Westgate</street></value></entry></addresses></address-book>";
+            + "<city>Shipley</city><street>6, Westgate</street></value></entry>"
+            + "<entry><key>Sid Gardner</key><value><country>United Kingdom</country>"
+            + "<code>BD18 2BJ</code><city>Shipley</city><street>Old House At Home, Otley Road</street>"
+            + "</value></entry>"
+            + "</addresses></address-book>";
         
         xmlAssertIsomorphic(parseString(out.toString()), parseString(xml), true);
         

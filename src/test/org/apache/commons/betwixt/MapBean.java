@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/MapBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/11 21:29:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/MapBean.java,v 1.2 2003/04/14 16:24:04 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/04/14 16:24:04 $
  *
  * ====================================================================
  *
@@ -57,23 +57,23 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MapBean.java,v 1.1 2003/04/11 21:29:46 rdonkin Exp $
+ * $Id: MapBean.java,v 1.2 2003/04/14 16:24:04 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /** <p><code>MapBean</code> is a sample bean used for testing maps.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class MapBean {
     
     private String title = "**UNSET**";
     
-    private Map addresses = new HashMap();
+    private Map addresses = new TreeMap();
     
     public MapBean() {}
     
