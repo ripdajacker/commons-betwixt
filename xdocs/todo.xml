@@ -45,6 +45,7 @@
                 Make sure release works with maven (done) and scarab.
             </li>
             <li>
+                <strong>fixed</strong>
                 <strong>Upgrade To Latest Dependencies</strong>
                 Check that betwixt works with the latest versions of the dependent 
                 Replace all references to deprecated methods. 
