@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.java,v 1.5 2004/02/17 23:11:00 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2004/02/17 23:11:00 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/EventBean.java,v 1.1 2004/02/17 23:10:46 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2004/02/17 23:10:46 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +34,8 @@
  *    from this software without prior written permission. For written 
  *    permission, please contact apache@apache.org.
  *
- * 5. Products derived from this software may not be called "Apache",
- *    "Apache" nor may "Apache" appear in their names without prior 
+ * 5. Products derived from this software may not be called "Apache"
+ *    nor may "Apache" appear in their names without prior 
  *    written permission of the Apache Software Foundation.
  *
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
@@ -58,57 +58,64 @@
  * <http://www.apache.org/>.
  *
  */ 
-package org.apache.commons.betwixt.strategy;
 
-import org.apache.commons.beanutils.ConvertUtils;
+package org.apache.commons.betwixt;
 
-import org.apache.commons.betwixt.expression.Context;
+import java.sql.Timestamp;
 
-/** 
- * String &lt;-&gt; object conversion strategy that delegates to ConvertUtils.
- *
- * @author Robert Burrell Donkin
- * @version $Revision: 1.5 $
+/**
+ * Represent some kind of event.
+ * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @version $Revision: 1.1 $
  */
-public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
+public class EventBean {
+
+    private Timestamp start;
+    private Timestamp end;
+    private String type;
+    private String description;
     
-    /**
-      * Converts an object to a string representation using ConvertUtils.
-      *
-      * @param object the object to be converted, possibly null
-      * @param type the property class of the object, not null
-      * @param flavour a string allow symantic differences in formatting 
-      * to be communicated (ignored)
-      * @param context not null
-      * @return a String representation, not null
-      */
-    public String objectToString(Object object, Class type, String flavour, Context context) {
-        if ( object != null ) {
-            String text = ConvertUtils.convert( object );
-            if ( text != null ) {
-                return text;
-            }
-        }
-        return "";
+    public EventBean() {}
+    
+    public EventBean(String type, String description, Timestamp start, Timestamp end)
+    {
+        this.type = type;
+        this.description = description;
+        this.start = start;
+        this.end = end;
     }
     
-    /**
-      * Converts an object to a string representation using ConvertUtils.
-      * This implementation ignores null and empty string values (rather than converting them).
-      * 
-      * @param value the String to be converted, not null
-      * @param type the property class to be returned (if possible), not null
-      * @param flavour a string allow symantic differences in formatting 
-      * to be communicated (ignored)
-      * @param context not null
-      * @return an Object converted from the String, not null
-      */
-    public Object stringToObject(String value, Class type, String flavour, Context context) {
-        if (value == null || "".equals(value))
-        {
-            return null;    
-        }
-        
-        return ConvertUtils.convert( value, type );
+    
+    public String getDescription() {
+        return description;
     }
+
+    public Timestamp getEnd() {
+        return end;
+    }
+
+    public Timestamp getStart() {
+        return start;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setDescription(String string) {
+        description = string;
+    }
+
+    public void setEnd(Timestamp timestamp) {
+        end = timestamp;
+    }
+
+    public void setStart(Timestamp timestamp) {
+        start = timestamp;
+    }
+
+    public void setType(String string) {
+        type = string;
+    }
+
 }

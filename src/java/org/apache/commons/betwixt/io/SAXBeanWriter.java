@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.12 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.13 2004/02/17 23:11:00 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2004/02/17 23:11:00 $
  *
  * ====================================================================
  * 
@@ -62,9 +62,9 @@ package org.apache.commons.betwixt.io;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.Attributes;
 
 // FIX ME
 // At the moment, namespaces are NOT supported!
@@ -74,7 +74,7 @@ import org.xml.sax.Attributes;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.12 2003/10/09 20:52:06 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.13 2004/02/17 23:11:00 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ElementMapping.java,v 1.4 2003/10/09 20:52:06 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/09 20:52:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ElementMapping.java,v 1.5 2004/02/17 23:11:00 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2004/02/17 23:11:00 $
  *
  * ====================================================================
  * 
@@ -60,15 +60,14 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
-import org.xml.sax.Attributes;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.xml.sax.Attributes;
 
 /**  
   * Describes a mapping between an xml element and a betwixt element.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class ElementMapping {
     
