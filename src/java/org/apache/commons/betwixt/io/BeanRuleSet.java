@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.12 2003/08/24 16:54:56 rdonkin Exp $
- * $Revision: 1.12 $
- * $Date: 2003/08/24 16:54:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.13 2003/09/08 13:57:58 rdonkin Exp $
+ * $Revision: 1.13 $
+ * $Date: 2003/09/08 13:57:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.12 2003/08/24 16:54:56 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.13 2003/09/08 13:57:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -90,7 +90,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.12 $
+  * @version $Revision: 1.13 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -562,6 +562,7 @@ public class BeanRuleSet implements RuleSet {
             * 
             * @param descriptor the <code>ElementDescriptor</code> describing the element mapped
             * @param beanClass the <code>Class</code> to be created
+            * @param context the <code>ReadContext</code> for this rule
             */
             public BeanRule( ElementDescriptor descriptor, Class beanClass, ReadContext context ) {
                 this( descriptor.getQualifiedName() + "/", descriptor, beanClass, context );
@@ -790,6 +791,8 @@ public class BeanRuleSet implements RuleSet {
             /** 
             * Factory method to create new bean instances 
             *
+            * @param namespace the namespace for the element
+            * @param name the local name
             * @param attributes the <code>Attributes</code> used to match <code>ID/IDREF</code>
             * @return the created bean
             */
