@@ -141,9 +141,11 @@
     <aspectSourceDirectory/>
 
     <!-- Unit test classes -->
-    <unitTestPatterns>
-      <unitTestPattern>include = **/Test*.java</unitTestPattern>
-    </unitTestPatterns>
+    <unitTest>
+         <includes>
+             <include>**/Test*.java</include>
+         </includes>
+    </unitTest>
 
     <!-- Integration unit test classes -->
     <integrationUnitTestPatterns></integrationUnitTestPatterns>
