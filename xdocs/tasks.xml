@@ -186,6 +186,9 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='since 0.6'>
         <ul>
+        	<li>Added <strong>options to context</strong>. This replaces direct flavour mechanism. 
+        	(Flavour becomes just a specific option).</li>
+        	<li>Factored out <strong>id storage</strong> into strategy</li>
             <li><strong>anonymous collections</strong> now allowed in betwixt files</li>
             <li><strong>Improved introspection support for DynaBeans</strong></li>
             <li><strong>Improved introspection for interfaces</strong> superinterface 
@@ -334,6 +337,16 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
+	<subsection name='since 0.6'>
+		<ul>
+			<li>ObjectStringConverter direct flavour replaced with use of options
+				<ul>
+					<li>objectToString replaced by method without flavour in signature</li>
+					<li>stringToObject replaced by method without flavour in signature</li>
+				</ul>
+			</li>
+		</ul>
+	</subsection>
     <subsection name='0.6'>
         <ul>
                 <li><strong>Refactoring (more declarative descriptors)</strong>

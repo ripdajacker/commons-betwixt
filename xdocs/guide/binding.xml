@@ -667,6 +667,67 @@ Betwixt is distributed with a range of <code>ObjectStringConverter</code>'s in t
 <code>org.apache.commons.betwixt.strategy</code> package. Examining the source code for these classes
 is a good please to start when creating your own implementation.
         </p>
+	</subsection>
+        <subsection name='Flavours For Custom Converters'>
+        	<p>
+One problem facing those who create custom converters is that objects of the same type
+may (in different contexts) require different conversions. For example, a <code>java.util.Date</code>
+may in one context have the symantic meaning of a day (and so the conversion needs to suppress the 
+time component) and in another may indicate a date time (and so the conversion in this case needs to 
+render the time components). The same type may come in different <em>flavours</em>.	
+        </p>
+        	<p>
+The recommended way to solve this kind of problem is to added options to the betwixt file
+which can then be picked up by the custom converter and used to determine the appropriate
+conversion.	
+        </p>
+        	<p>
+For example, consider a bean representing a person with an attribute
+giving that person's date of birth. Suppose that this is stored
+as aa <code>java.util.Date</code>. This needs to be rendered as 
+a date string (without a time component). A good approach would be 
+to add an option to the dot betwixt file as follows:
+		</p>
+<source><![CDATA[
+<?xml version='1.0'?>
+<info primitiveTypes="attribute">
+	<element name=''>
+		<element name='birthday' property='birthday'>
+			<option>
+				<name>org.apache.commons.betwixt.flavour</name>
+				<value>Day</value>
+			</option>
+		</element>
+		<addDefaults/>
+	</element>
+</info>
+]]>
+</source>           
+			<p>  	
+The following code snippet illustrates how a custom converter
+can use this information:
+        </p>
+<source><![CDATA[
+    public String objectToString(Object object, Class type, Context context) {
+        String flavour = null;
+        Options options = context.getOptions();
+        if (options != null) {
+            flavour = options.getValue("org.apache.commons.betwixt.flavour");
+        }
+
+        if ("Day".equals(flavour)) {
+            // render as date with no time component
+            ...
+        } else {
+            // Do normal rendering
+            ...
+        }
+    }
+]]>
+</source>
+			<p>
+Of course, the choice of the option name is purely arbitrary.			
+		</p>
     </subsection>
 </section>
     <section name='Multi Mapping'>
