@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+  <element name="movie">
+    <element name="name" property="name"/>
+    <element name="year" property="year"/>
+    <element name="director" property="director"/>
+    <addDefaults/>
+  </element>
+</info>
