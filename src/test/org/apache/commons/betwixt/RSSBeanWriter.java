@@ -7,7 +7,7 @@
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ public class RSSBeanWriter extends AbstractTestCase {
         
     public void write(Object bean) throws Exception {
         BeanWriter writer = new BeanWriter();
-        writer.getXMLIntrospector().setAttributesForPrimitives(false);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.enablePrettyPrint();
         writer.write( bean );
     }

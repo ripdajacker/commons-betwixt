@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.3 2004/01/18 22:25:22 rdonkin Exp $
- * $Revision: 1.27.2.3 $
- * $Date: 2004/01/18 22:25:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLIntrospector.java,v 1.27.2.4 2004/01/18 23:01:52 rdonkin Exp $
+ * $Revision: 1.27.2.4 $
+ * $Date: 2004/01/18 23:01:52 $
  *
  * ====================================================================
  * 
@@ -94,7 +94,6 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /** 
   * <p><code>XMLIntrospector</code> an introspector of beans to create a 
@@ -114,12 +113,9 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.27.2.3 2004/01/18 22:25:22 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.27.2.4 2004/01/18 23:01:52 rdonkin Exp $
   */
 public class XMLIntrospector {
-
-    /** Log used for logging (Doh!) */    
-    protected Log log = LogFactory.getLog( XMLIntrospector.class );
     
     /** Maps classes to <code>XMLBeanInfo</code>'s */
     private XMLBeanInfoRegistry registry = new DefaultXMLBeanInfoRegistry();
@@ -128,7 +124,7 @@ public class XMLIntrospector {
     private XMLBeanInfoDigester digester;
 
     /** Configuration to be used for introspection*/
-    private IntrospectionConfiguration introspectionConfiguration;
+    private IntrospectionConfiguration configuration;
     
     /** Base constructor */
     public XMLIntrospector() {
@@ -154,7 +150,7 @@ public class XMLIntrospector {
      * @return the Log implementation which this class logs to
      */ 
     public Log getLog() {
-        return log;
+        return getConfiguration().getIntrospectionLog();
     }
 
     /**
@@ -162,7 +158,7 @@ public class XMLIntrospector {
      * @param log the Log implementation to use for logging
      */ 
     public void setLog(Log log) {
-        this.log = log;
+        getConfiguration().setIntrospectionLog(log);
     }
     
     /** 
@@ -206,7 +202,7 @@ public class XMLIntrospector {
      * @return IntrospectionConfiguration, not null
      */
     public IntrospectionConfiguration getConfiguration() {
-        return introspectionConfiguration;
+        return configuration;
     }
 
     /**
@@ -218,7 +214,7 @@ public class XMLIntrospector {
      * @param configuration IntrospectionConfiguration, not null
      */
     public void setConfiguration(IntrospectionConfiguration configuration) {
-        introspectionConfiguration = configuration;
+        this.configuration = configuration;
     }
     
     
@@ -434,9 +430,9 @@ public class XMLIntrospector {
       * @throws IntrospectionException when the bean introspection fails
       */
     public XMLBeanInfo introspect(Object bean) throws IntrospectionException {
-        if (log.isDebugEnabled()) {
-            log.debug( "Introspecting..." );
-            log.debug(bean);
+        if (getLog().isDebugEnabled()) {
+            getLog().debug( "Introspecting..." );
+            getLog().debug(bean);
         }
         
         if ( bean instanceof DynaBean ) {
@@ -500,8 +496,8 @@ public class XMLIntrospector {
         
         if ( xmlInfo == null ) {
             // lets see if we can find an XML descriptor first
-            if ( log.isDebugEnabled() ) {
-                log.debug( "Attempting to lookup an XML descriptor for class: " + aClass );
+            if ( getLog().isDebugEnabled() ) {
+                getLog().debug( "Attempting to lookup an XML descriptor for class: " + aClass );
             }
             
             xmlInfo = findByXMLDescriptor( aClass );
@@ -514,11 +510,11 @@ public class XMLIntrospector {
                 registry.put( aClass, xmlInfo );
             }
         } else {
-            log.trace( "Used cached XMLBeanInfo." );
+            getLog().trace( "Used cached XMLBeanInfo." );
         }
         
-        if ( log.isTraceEnabled() ) {
-            log.trace( xmlInfo );
+        if ( getLog().isTraceEnabled() ) {
+            getLog().trace( xmlInfo );
         }
         if ( !getConfiguration().useBeanInfoSearchPath() ) {
             // we restore the beaninfo searchpath.
@@ -556,17 +552,17 @@ public class XMLIntrospector {
             getElementNameMapper().mapTypeToElementName( name ) );
         elementDescriptor.setPropertyType( bean.getElementType() );
         
-        if (log.isTraceEnabled()) {
-            log.trace("Populating:" + bean);
+        if (getLog().isTraceEnabled()) {
+            getLog().trace("Populating:" + bean);
         }
 
         // add default string value for primitive types
         if ( bean.isPrimitiveType() ) {
-            log.trace("Bean is primitive");
+            getLog().trace("Bean is primitive");
             elementDescriptor.setTextExpression( StringExpression.getInstance() );
             
         } else if ( bean.isLoopType() ) {
-            log.trace("Bean is loop");
+            getLog().trace("Bean is loop");
             ElementDescriptor loopDescriptor = new ElementDescriptor();
             loopDescriptor.setContextExpression(
                 new IteratorExpression( EmptyExpression.getInstance() )
@@ -577,7 +573,7 @@ public class XMLIntrospector {
             elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
             
         } else {
-            log.trace("Bean is standard type");
+            getLog().trace("Bean is standard type");
             List elements = new ArrayList();
             List attributes = new ArrayList();
             List contents = new ArrayList();
@@ -611,9 +607,9 @@ public class XMLIntrospector {
         // default any addProperty() methods
         defaultAddMethods( elementDescriptor, bean.getElementType() );
         
-        if (log.isTraceEnabled()) {
-            log.trace("Populated descriptor:");
-            log.trace(elementDescriptor);
+        if (getLog().isTraceEnabled()) {
+            getLog().trace("Populated descriptor:");
+            getLog().trace(elementDescriptor);
         }
     }
 
@@ -663,122 +659,7 @@ public class XMLIntrospector {
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      */
     public Descriptor createXMLDescriptor( BeanProperty beanProperty ) {
-        String name = beanProperty.getPropertyName();
-        Class type = beanProperty.getPropertyType();
-       
-        if (log.isTraceEnabled()) {
-            log.trace("Creating descriptor for property: name="
-                + name + " type=" + type);
-        }
-        
-        Descriptor descriptor = null;
-        Expression propertyExpression = beanProperty.getPropertyExpression();
-        Updater propertyUpdater = beanProperty.getPropertyUpdater();
-        
-        if ( propertyExpression == null ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "No read method for property: name="
-                    + name + " type=" + type);
-            }
-            return null;
-        }
-        
-        if ( log.isTraceEnabled() ) {
-            log.trace( "Property expression=" + propertyExpression );
-        }
-        
-        // choose response from property type
-        
-        // XXX: ignore class property ??
-        if ( Class.class.equals( type ) && "class".equals( name ) ) {
-            log.trace( "Ignoring class property" );
-            return null;
-            
-        }
-        
-        if ( isPrimitiveType( type ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace( "Primitive type: " + name);
-            }
-            if ( isAttributesForPrimitives() ) {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Adding property as attribute: " + name );
-                }
-                descriptor = new AttributeDescriptor();
-            } else {
-                if (log.isTraceEnabled()) {
-                    log.trace( "Adding property as element: " + name );
-                }
-                descriptor = new ElementDescriptor();
-            }
-            descriptor.setTextExpression( propertyExpression );
-            if ( propertyUpdater != null ) {
-                descriptor.setUpdater( propertyUpdater );
-            }
-            
-        } else if ( isLoopType( type ) ) {
-            if (log.isTraceEnabled()) {
-                log.trace("Loop type: " + name);
-                log.trace("Wrap in collections? " + isWrapCollectionsInElement());
-            }
-            ElementDescriptor loopDescriptor = new ElementDescriptor();
-            loopDescriptor.setContextExpression(
-                new IteratorExpression( propertyExpression )
-            );
-            loopDescriptor.setWrapCollectionsInElement( isWrapCollectionsInElement() );
-            // XXX: need to support some kind of 'add' or handle arrays, Lists or indexed properties
-            //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
-            if ( Map.class.isAssignableFrom( type ) ) {
-                loopDescriptor.setQualifiedName( "entry" );
-                // add elements for reading
-                loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
-                loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
-            }
-
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setWrapCollectionsInElement( isWrapCollectionsInElement() );
-            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
-            
-            descriptor = elementDescriptor;
-            
-        } else {
-            if (log.isTraceEnabled()) {
-                log.trace( "Standard property: " + name);
-            }
-            ElementDescriptor elementDescriptor = new ElementDescriptor();
-            elementDescriptor.setContextExpression( propertyExpression );
-            if ( propertyUpdater != null ) {
-                elementDescriptor.setUpdater( propertyUpdater );
-            }
-            
-            descriptor = elementDescriptor;
-        }
-
-        if (descriptor instanceof NodeDescriptor) {
-            NodeDescriptor nodeDescriptor = (NodeDescriptor) descriptor;
-            if (descriptor instanceof AttributeDescriptor) {
-                // we want to use the attributemapper only when it is an attribute.. 
-                nodeDescriptor.setLocalName( 
-                    getAttributeNameMapper().mapTypeToElementName( name ) );
-                
-            } else {
-                nodeDescriptor.setLocalName( 
-                    getElementNameMapper().mapTypeToElementName( name ) );
-            }        
-        }
-  
-        descriptor.setPropertyName( name );
-        descriptor.setPropertyType( type );
-        
-        // XXX: associate more bean information with the descriptor?
-        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
-        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
-        
-        if (log.isTraceEnabled()) {
-            log.trace( "Created descriptor:" );
-            log.trace( descriptor );
-        }
-        return descriptor;
+        return beanProperty.createXMLDescriptor( configuration );
     }
 
 
@@ -821,16 +702,16 @@ public class XMLIntrospector {
                     // some beans will return something as a helper
                     Class[] types = method.getParameterTypes();
                     if ( types != null) {
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Searching for match for " + method);
+                        if ( getLog().isTraceEnabled() ) {
+                            getLog().trace("Searching for match for " + method);
                         }
                         
                         if ( ( types.length == 1 ) || types.length == 2 ) {
                             String propertyName = Introspector.decapitalize( name.substring(3) );
                             if (propertyName.length() == 0)
                                 continue;
-                            if ( log.isTraceEnabled() ) {
-                                log.trace( name + "->" + propertyName );
+                            if ( getLog().isTraceEnabled() ) {
+                                getLog().trace( name + "->" + propertyName );
                             }
     
                             // now lets try find the ElementDescriptor which displays
@@ -843,9 +724,9 @@ public class XMLIntrospector {
                                                             rootDescriptor, 
                                                             propertyName );
     
-                            if ( log.isDebugEnabled() ) {
-                                log.debug( "!! " + propertyName + " -> " + descriptor );
-                                log.debug( "!! " + name + " -> " 
+                            if ( getLog().isDebugEnabled() ) {
+                                getLog().debug( "!! " + propertyName + " -> " + descriptor );
+                                getLog().debug( "!! " + name + " -> " 
                                 + (descriptor!=null?descriptor.getPropertyName():"") );
                             }
                             if ( descriptor != null ) {
@@ -853,14 +734,14 @@ public class XMLIntrospector {
                                     = Map.class.isAssignableFrom( descriptor.getPropertyType() );
                                 if ( !isMapDescriptor && types.length == 1 ) {
                                     // this may match a standard collection or iteration
-                                    log.trace("Matching collection or iteration");
+                                    getLog().trace("Matching collection or iteration");
                                     
                                     descriptor.setUpdater( new MethodUpdater( method ) );
                                     descriptor.setSingularPropertyType( types[0] );
                                     
-                                    if ( log.isDebugEnabled() ) {
-                                        log.debug( "!! " + method);
-                                        log.debug( "!! " + types[0]);
+                                    if ( getLog().isDebugEnabled() ) {
+                                        getLog().debug( "!! " + method);
+                                        getLog().debug( "!! " + types[0]);
                                     }
                                     
                                     // is there a child element with no localName
@@ -878,13 +759,13 @@ public class XMLIntrospector {
 
                                 } else if ( isMapDescriptor && types.length == 2 ) {
                                     // this may match a map
-                                    log.trace("Matching map");
+                                    getLog().trace("Matching map");
                                     ElementDescriptor[] children 
                                         = descriptor.getElementDescriptors();
                                     // see if the descriptor's been set up properly
                                     if ( children.length == 0 ) {
                                         
-                                        log.info(
+                                        getLog().info(
                                             "'entry' descriptor is missing for map. "
                                             + "Updaters cannot be set");
                                         
@@ -906,8 +787,8 @@ public class XMLIntrospector {
                                                                 adder.getKeyUpdater() );
                                                 grandchildren[n].setSingularPropertyType( 
                                                                 types[0] );
-                                                if ( log.isTraceEnabled() ) {
-                                                    log.trace(
+                                                if ( getLog().isTraceEnabled() ) {
+                                                    getLog().trace(
                                                         "Key descriptor: " + grandchildren[n]);
                                                 }                                               
                                                 
@@ -919,8 +800,8 @@ public class XMLIntrospector {
                                                                     adder.getValueUpdater() );
                                                 grandchildren[n].setSingularPropertyType( 
                                                                     types[1] );
-                                                if ( log.isTraceEnabled() ) {
-                                                    log.trace(
+                                                if ( getLog().isTraceEnabled() ) {
+                                                    getLog().trace(
                                                         "Value descriptor: " + grandchildren[n]);
                                                 }
                                             }
@@ -928,8 +809,8 @@ public class XMLIntrospector {
                                     }
                                 }
                             } else {
-                                if ( log.isDebugEnabled() ) {
-                                    log.debug( 
+                                if ( getLog().isDebugEnabled() ) {
+                                    getLog().debug( 
                                         "Could not find an ElementDescriptor with property name: " 
                                         + propertyName + " to attach the add method: " + method 
                                     );
@@ -964,8 +845,8 @@ public class XMLIntrospector {
         // create the Map of propertyName -> descriptor that the PluralStemmer will choose
         Map map = new HashMap();
         //String propertyName = rootDescriptor.getPropertyName();
-        if ( log.isTraceEnabled() ) {
-            log.trace( "findPluralDescriptor( " + propertyName 
+        if ( getLog().isTraceEnabled() ) {
+            getLog().trace( "findPluralDescriptor( " + propertyName 
                 + " ):root property name=" + rootDescriptor.getPropertyName() );
         }
         
@@ -977,8 +858,8 @@ public class XMLIntrospector {
         PluralStemmer stemmer = getPluralStemmer();
         ElementDescriptor elementDescriptor = stemmer.findPluralDescriptor( propertyName, map );
         
-        if ( log.isTraceEnabled() ) {
-            log.trace( 
+        if ( getLog().isTraceEnabled() ) {
+            getLog().trace( 
                 "findPluralDescriptor( " + propertyName 
                     + " ):ElementDescriptor=" + elementDescriptor );
         }
@@ -1054,8 +935,8 @@ public class XMLIntrospector {
         if ( url != null ) {
             try {
                 String urlText = url.toString();
-                if ( log.isDebugEnabled( )) {
-                    log.debug( "Parsing Betwixt XML descriptor: " + urlText );
+                if ( getLog().isDebugEnabled( )) {
+                    getLog().debug( "Parsing Betwixt XML descriptor: " + urlText );
                 }
                 // synchronized method so this digester is only used by
                 // one thread at once
@@ -1066,12 +947,12 @@ public class XMLIntrospector {
                 digester.setBeanClass( aClass );
                 return (XMLBeanInfo) digester.parse( urlText );
             } catch (Exception e) {
-                log.warn( "Caught exception trying to parse: " + name, e );
+                getLog().warn( "Caught exception trying to parse: " + name, e );
             }
         }
         
-        if ( log.isTraceEnabled() ) {
-            log.trace( "Could not find betwixt file " + name );
+        if ( getLog().isTraceEnabled() ) {
+            getLog().trace( "Could not find betwixt file " + name );
         }
         return null;
     }
@@ -1099,10 +980,10 @@ public class XMLIntrospector {
                 addProperty(beanInfo, descriptors[i], elements, attributes, contents);
             }
         }
-        if (log.isTraceEnabled()) {
-            log.trace(elements);
-            log.trace(attributes);
-            log.trace(contents);
+        if (getLog().isTraceEnabled()) {
+            getLog().trace(elements);
+            getLog().trace(attributes);
+            getLog().trace(contents);
         }
     }
     /** 
@@ -1119,18 +1000,18 @@ public class XMLIntrospector {
                                     List attributes,
                                     List contents) {
         if ( beanProperties != null ) {
-            if (log.isTraceEnabled()) {
-                log.trace(beanProperties.length + " properties to be added");
+            if (getLog().isTraceEnabled()) {
+                getLog().trace(beanProperties.length + " properties to be added");
             }
             for ( int i = 0, size = beanProperties.length; i < size; i++ ) {
                 addProperty(beanProperties[i], elements, attributes, contents);
             }
         }
-        if (log.isTraceEnabled()) {
-            log.trace("After properties have been added (elements, attributes, contents):");
-            log.trace(elements);
-            log.trace(attributes);
-            log.trace(contents);
+        if (getLog().isTraceEnabled()) {
+            getLog().trace("After properties have been added (elements, attributes, contents):");
+            getLog().trace(elements);
+            getLog().trace(attributes);
+            getLog().trace(contents);
         }
     }    
 
@@ -1232,9 +1113,9 @@ public class XMLIntrospector {
                 addProperty(beanInfo, descriptors[i], elements, attributes);
             }
         }
-        if (log.isTraceEnabled()) {
-            log.trace(elements);
-            log.trace(attributes);
+        if (getLog().isTraceEnabled()) {
+            getLog().trace(elements);
+            getLog().trace(attributes);
         }
     }
     

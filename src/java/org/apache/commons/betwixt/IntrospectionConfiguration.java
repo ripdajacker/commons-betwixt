@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.1 2004/01/18 22:24:34 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/01/18 22:24:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.2 2004/01/18 23:01:52 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/01/18 23:01:52 $
  *
  * ====================================================================
  * 
@@ -66,6 +66,8 @@ import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>Stores introspection phase binding configuration.</p>
@@ -83,7 +85,7 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.1 $
+ * @version $Revision: 1.1.2.2 $
  */
 public class IntrospectionConfiguration {
 
@@ -105,12 +107,17 @@ public class IntrospectionConfiguration {
 
     /** Strategy normalizes the Class of the Object before introspection */
     private ClassNormalizer classNormalizer = new ClassNormalizer(); 
+    
+    /** Log for introspection messages */
+    private Log introspectionLog = LogFactory.getLog(XMLIntrospector.class);
 
     /**
      * The strategy used to convert bean type names into attribute names
      * It will default to the normal nameMapper.
      */
     private NameMapper attributeNameMapper;
+
+
 
 
     /**
@@ -275,4 +282,25 @@ public class IntrospectionConfiguration {
     protected NameMapper createNameMapper() {
         return new DefaultNameMapper();
     }
+    
+    /**
+     * Gets the common Log used for introspection.
+     * It is more convenient to use a single Log
+     * that can be easily configured.
+     * @return Log, not null
+     */
+    public Log getIntrospectionLog() {
+        return introspectionLog;
+    }
+
+    /**
+     * Sets the common Log used by introspection.
+     * It is more convenient to use a single Log
+     * that can be easily configured.
+     * @param log Log, not null
+     */
+    public void setIntrospectionLog(Log log) {
+        introspectionLog = log;
+    }
+
 }

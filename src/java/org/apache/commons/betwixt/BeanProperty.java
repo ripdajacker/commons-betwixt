@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4 2003/10/19 14:53:52 mvdb Exp $
- * $Revision: 1.4 $
- * $Date: 2003/10/19 14:53:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.1 2004/01/18 23:01:52 rdonkin Exp $
+ * $Revision: 1.4.2.1 $
+ * $Date: 2004/01/18 23:01:52 $
  *
  * ====================================================================
  * 
@@ -63,13 +63,17 @@ package org.apache.commons.betwixt;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.commons.beanutils.DynaProperty;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.DynaBeanExpression;
 import org.apache.commons.betwixt.expression.Expression;
+import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
+import org.apache.commons.logging.Log;
 
 /** 
   * Betwixt-centric view of a bean (or pseudo-bean) property.
@@ -77,7 +81,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4 2003/10/19 14:53:52 mvdb Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.1 2004/01/18 23:01:52 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -173,5 +177,133 @@ public class BeanProperty {
       */ 
     public Updater getPropertyUpdater() {
         return propertyUpdater;
+    }
+    
+    /** 
+     * Create a XML descriptor from a bean one. 
+     * Go through and work out whether it's a loop property, a primitive or a standard.
+     * The class property is ignored.
+     *
+     * @param beanProperty the BeanProperty specifying the property
+     * @return a correctly configured <code>NodeDescriptor</code> for the property
+     */
+    public Descriptor createXMLDescriptor( IntrospectionConfiguration configuration ) {
+        String name = getPropertyName();
+        Class type = getPropertyType();
+        Log log = configuration.getIntrospectionLog();
+        if (log.isTraceEnabled()) {
+            log.trace("Creating descriptor for property: name="
+                + name + " type=" + type);
+        }
+        
+        Descriptor descriptor = null;
+        Expression propertyExpression = getPropertyExpression();
+        Updater propertyUpdater = getPropertyUpdater();
+        
+        if ( propertyExpression == null ) {
+            if (log.isTraceEnabled()) {
+                log.trace( "No read method for property: name="
+                    + name + " type=" + type);
+            }
+            return null;
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Property expression=" + propertyExpression );
+        }
+        
+        // choose response from property type
+        
+        // XXX: ignore class property ??
+        if ( Class.class.equals( type ) && "class".equals( name ) ) {
+            log.trace( "Ignoring class property" );
+            return null;
+            
+        }
+        
+        //TODO replace with simple type support
+        if ( XMLIntrospectorHelper.isPrimitiveType( type ) ) {
+            if (log.isTraceEnabled()) {
+                log.trace( "Primitive type: " + name);
+            }
+            if ( configuration.isAttributesForPrimitives() ) {
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as attribute: " + name );
+                }
+                descriptor = new AttributeDescriptor();
+            } else {
+                if (log.isTraceEnabled()) {
+                    log.trace( "Adding property as element: " + name );
+                }
+                descriptor = new ElementDescriptor();
+            }
+            descriptor.setTextExpression( propertyExpression );
+            if ( propertyUpdater != null ) {
+                descriptor.setUpdater( propertyUpdater );
+            }
+            
+        } else if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+            if (log.isTraceEnabled()) {
+                log.trace("Loop type: " + name);
+                log.trace("Wrap in collections? " + configuration.isWrapCollectionsInElement());
+            }
+            ElementDescriptor loopDescriptor = new ElementDescriptor();
+            loopDescriptor.setContextExpression(
+                new IteratorExpression( propertyExpression )
+            );
+            loopDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+            // XXX: need to support some kind of 'add' or handle arrays, Lists or indexed properties
+            //loopDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            if ( Map.class.isAssignableFrom( type ) ) {
+                loopDescriptor.setQualifiedName( "entry" );
+                // add elements for reading
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "key" ) );
+                loopDescriptor.addElementDescriptor( new ElementDescriptor( "value" ) );
+            }
+
+            ElementDescriptor elementDescriptor = new ElementDescriptor();
+            elementDescriptor.setWrapCollectionsInElement( configuration.isWrapCollectionsInElement() );
+            elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+            
+            descriptor = elementDescriptor;
+            
+        } else {
+            if (log.isTraceEnabled()) {
+                log.trace( "Standard property: " + name);
+            }
+            ElementDescriptor elementDescriptor = new ElementDescriptor();
+            elementDescriptor.setContextExpression( propertyExpression );
+            if ( propertyUpdater != null ) {
+                elementDescriptor.setUpdater( propertyUpdater );
+            }
+            
+            descriptor = elementDescriptor;
+        }
+
+        if (descriptor instanceof NodeDescriptor) {
+            NodeDescriptor nodeDescriptor = (NodeDescriptor) descriptor;
+            if (descriptor instanceof AttributeDescriptor) {
+                // we want to use the attributemapper only when it is an attribute.. 
+                nodeDescriptor.setLocalName( 
+                    configuration.getAttributeNameMapper().mapTypeToElementName( name ) );
+                
+            } else {
+                nodeDescriptor.setLocalName( 
+                    configuration.getElementNameMapper().mapTypeToElementName( name ) );
+            }        
+        }
+  
+        descriptor.setPropertyName( name );
+        descriptor.setPropertyType( type );
+        
+        // XXX: associate more bean information with the descriptor?
+        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
+        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+        
+        if (log.isTraceEnabled()) {
+            log.trace( "Created descriptor:" );
+            log.trace( descriptor );
+        }
+        return descriptor;
     }
 }
