@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/08 22:07:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/02/13 19:24:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $
+ * $Id: SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,7 +77,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.6 2003/01/08 22:07:21 rdonkin Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.7 2003/02/13 19:24:21 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -94,6 +94,8 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     private AttributesImpl attributes;
     /** Is there a element currently waiting to be written out? */
     private boolean elementWaiting = false;
+    /** Should document events (ie. start and end) be called? */
+    private boolean callDocumentEvents = true;
     
     /**
      * <p> Constructor sets writer used for output.</p>
@@ -102,6 +104,24 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      */
     public SAXBeanWriter(ContentHandler contentHandler) {
         this.contentHandler = contentHandler;
+    }
+
+    /** 
+     * Should document events (ie start and end) be called?
+     *
+     * @return true if this SAXWriter should call start and end of the content handler
+     */
+    public boolean getCallDocumentEvents() {
+        return callDocumentEvents;
+    }
+    
+    /**
+     * Sets whether the document events (ie start and end) should be called.
+     *
+     * @param callDocumentEvents should document events be called
+     */
+    public void setCallDocumentEvents(boolean callDocumentEvents) {
+        this.callDocumentEvents = callDocumentEvents;
     }
 
     /**
@@ -227,7 +247,9 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @see org.apache.commons.betwixt.io.AbstractBeanWriter#end()
      */
     public void start() throws SAXException {
-        contentHandler.startDocument();
+        if ( callDocumentEvents ) {
+            contentHandler.startDocument();
+        }
     }
 
     /**
@@ -237,7 +259,9 @@ public class SAXBeanWriter extends AbstractBeanWriter {
      * @see org.apache.commons.betwixt.io.AbstractBeanWriter#start()
      */
     public void end() throws SAXException {
-        contentHandler.endDocument();
+        if ( callDocumentEvents ) {
+            contentHandler.endDocument();
+        }
     }
 
 }
