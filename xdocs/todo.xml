@@ -12,25 +12,54 @@
         The following is a list of items that need to be completed in
         Betwixt.  Contributions are welcome! 
       </p>
-      
     
-    <section name="High priority"> 
+    <subsection name='For 1.0 Alpha 1 Release'>
+        <ul>
+            <li>
+                <strong>Add strategy documentation. </strong>
+                This needs to be added to the main documentation.
+                Example code needs to be created.
+                This code can also be used for more test cases.
+            </li>
+            <li>
+                <strong>Add description of digester-related limitation to FAQ</strong>
+            </li>
+            <li>
+                <strong>Create DTD for .betwixt files.</strong>
+            </li>
+            <li>
+                <strong>Add XMLIntrospector Setting Documentation. </strong>
+                Add documentation about the XMLIntrospector settings to main documentation.
+                Make sure that warnings are added about consequences of changing settings.
+            </li>
+            <li>
+                <strong>Add XMLRegistry documentation. </strong>
+                Add documentation about XMLRegistry to main documentation.
+            </li>
+            <li>
+                <strong>Improve Java Docs. </strong>
+                Go through java docs, add any which are missing, correct any mistakes etc.
+            </li>
+            <li>
+                <strong>Test Against Powered By Projects. </strong>
+                Make sure release works with maven and scarab.
+            </li>
+        </ul>
+    </subsection>
+    
+    <subsection name="High priority"> 
       <ul>
         <li>
-          BeanWriter is writing to sloppy (empty elements, etc). Fixing it in a clean way
+          BeanWriter is writing too sloppy (empty elements, etc). Fixing it in a clean way
           is almost impossible. 
           Probably a refactor is best anyway to have a less "sloppy" api.. 
         </li>
         <li>
-          Get an overview of what .betwxixt files should really do. Especially more complicated examples will cause very strange and unexpected results.
+          Get an overview of what .betwixt files should really do. 
+          Especially more complicated examples will cause very strange and unexpected results.
         </li>
         <li>
-		  If an addFoo() method is found with no matching getFoos() then a warning should be generated.
-	</li>
-        <li>
-		  <b>Fixed.</b> digester.peek() was giving warning. Now checking if it still has something to peek.
-		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
-		  We should patch the way betwixt uses digester to avoid this warning message.
+            If an addFoo() method is found with no matching getFoos() then a warning should be generated.
 	</li>
         <li>
 		  Consider allowing the parsing of XML to order the properties/elements in the XMLBeanInfo
@@ -45,30 +74,76 @@
           More good code examples.
         </li>
         <li>
-                  Add support for IDREF's to BeanReader. At the moment, round tripping break when cycles exist.
+            Add support for IDREF's to BeanReader. At the moment, round tripping break when cycles exist.
         </li>
         <li>
            Add testcase for the BeanReader(SAXParser) and BeanReader(XMLReader). They should behave
            the same in all cases.
         </li>
+        <li>
+            <strong>Create test cases based on real xml examples.</strong>
+            This should help to shake out any problems and help to find out how the design can be improved.
+            These should also be used as a basis for improved documentation.
+        </li>
+        <li>
+            <strong>Improve internal design.</strong>
+            Betwixt is hard to understand and hard to create patches for.
+            An improved internal design would help more people to contribute.
+        </li>
+        <li>
+            <strong>Improve test coverage.</strong>
+            Run test coverage tool and improve coverage of key functionality.
+        </li>
+        <li>
+            <strong>Allow customization for update from .betwixt file</strong>
+            Add updater attribute that allows the updater to be specified for an elements.
+            This should also allow updaters to be ignored for certain properties.
+        </li>
        </ul>
-    </section>
+    </subsection>
     
-    <section name="Medium priority"> 
+    <subsection name="Medium priority"> 
       <ul>
-        <li>
-		  <b>Fixed</b>Using \n as default and now shows a warning when an invalid space character is used.<br/> Adding a check to only accept valid characters as lineEndings, so parsers actually won't choke on the output xml.
-		  BeanWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
-		</li>
-        <li>
-		  Create a SAXWriter class in the io package that takes a bean and writes to a SAX ContentHandler
-		  rather that outputting textual XML like BeanWriter does.
-		  This will allow Betwixt to work nicely in XML pipelining environments like Cocoon and Jelly.
-		</li>
-       </ul>
-    </section>
+            <li>
+                <strong>Handle empty elements better.</strong> 
+                Add option not to write empty elements. This is required to correctly write some kinds of xml.
+                The RSS full round tripping will only work with this functionality.
+            </li>
+            <li>
+                <strong>Create design documentation</strong>
+                This will help people understand the betwixt design.
+            </li>
+            <li>
+                <strong>Add verification for all xml writing tests.</strong>
+                At the moment, most of the xml writing tests do not test the output fully.
+                Need to add comparisons against reference xml documents.
+            </li>
+            <li>
+                <strong>Improve mapping for swing components</strong>
+                Swing classes have lots and lots of properties. 
+                Java 1.4 does a better job of persistance than betwixt for class that have lots of properties.
+            </li>
+            <li>
+                <strong>Binary Data Elements</strong>
+                Some properties should not be treated as beans and therefore mapped to a element graph.
+                These should be converted to body text of binary data.
+                A mechanism similar to BeanUtils.ConvertUtils might work.
+                For example, if you have a colormodel that get's written (an array with a lot of 
+                numbers and an xml-element per array element) betwixt will spend ages converting
+                it bit by bit.
+            </li>
+            <li>
+                <strong>Improved Support For Interfaces</strong>
+            </li>
+            <li>
+                <strong>Customizable ID/IDREF Mapping</strong>
+                Add per element customization for ID/IDREF mappings.
+                Extra attributes will be added to .betwixt file that specify the ID/IDREF names.
+            </li>
+      </ul>
+    </subsection>
     
-    <section name="Low priority"> 
+    <subsection name="Low priority"> 
       <ul>
         <li>
 		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
@@ -86,8 +161,34 @@
                    either use betwixt to do everything or you use digester to specify rules. It'd be nice
                    to be able to mix and match.
                 </li>
+        <li>
+            Create utility methods in BeanWriter to write stuff like prologs and doctype definitions to the 
+            stream.
+        </li>
+        <li>
+            Create a funky image for the betwixt home page.
+        </li>
        </ul>
-    </section>
+    </subsection>
+    
+    <subsection name='Completed (Since Last Release)'>
+        <ul>
+            <li>
+		  <b>Fixed</b>Using \n as default and now shows a warning when an invalid space character is used.<br/> Adding a check to only accept valid characters as lineEndings, so parsers actually won't choke on the output xml.
+		  BeanWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
+            </li>
+            <li>
+		  Create a SAXWriter class in the io package that takes a bean and writes to a SAX ContentHandler
+		  rather that outputting textual XML like BeanWriter does.
+		  This will allow Betwixt to work nicely in XML pipelining environments like Cocoon and Jelly.
+            </li>
+            <li>
+		  <b>Fixed.</b> digester.peek() was giving warning. Now checking if it still has something to peek.
+		  Currently betwixt causes digester to output a warning '[WARN] Digester - -Empty stack (returning null)'.
+		  We should patch the way betwixt uses digester to avoid this warning message.
+            </li>
+        </ul>
+    </subsection>
     
     </section>
   </body>
