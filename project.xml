@@ -86,18 +86,20 @@
 <!-- runtime dependencies only required for testing and sample programs -->
     <dependency>
       <id>xerces</id>
-      <version>2.0.0</version>
+      <version>2.2.1</version>
+      <url>http://xml.apache.org/xerces2-j/index.html</url>
     </dependency>
 
     <dependency>
       <id>xml-apis</id>
-      <version>2.0.2</version>
+      <version>1.0.b2</version>
+      <url>http://xml.apache.org/commons/</url>
     </dependency>
 
 	<!-- for unit tests -->
     <dependency>
       <id>junit</id>
-      <version>3.7</version>
+      <version>3.8.1</version>
       <url>http://www.junit.org</url>
     </dependency>
 
