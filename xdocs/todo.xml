@@ -44,6 +44,15 @@
                 <strong>Test Against Powered By Projects. </strong>
                 Make sure release works with maven (done) and scarab.
             </li>
+            <li>
+                <strong>Upgrade To Latest Dependencies</strong>
+                Check that betwixt works with the latest versions of the dependent 
+                Replace all references to deprecated methods. 
+            </li>
+            <li>
+                <strong>Investigate Swing XML'ization Issues</strong>
+                Investigate and document. <em>(MVDB will probably need to handle this.)</em>
+            </li>
         </ul>
     </subsection>
     
@@ -98,6 +107,13 @@
             <strong>Allow customization for update from .betwixt file</strong>
             Add updater attribute that allows the updater to be specified for an elements.
             This should also allow updaters to be ignored for certain properties.
+        </li>
+        <li>
+            <strong>Add dynabeans support</strong> 
+            Dynabeans are a feature of <code>commons-beanutils</code> that allows data in non-beans to be
+            wrapped into pseudo-beans. If betwixt supported dynabeans then you could do cool stuff like 
+            SQL -&gt; DynaBeans -&gt; XML. Probably a good way to do this would be to ensure that all property
+            intrspection is done by dyanbeans-aware methods of beanutils.
         </li>
        </ul>
     </subsection>
