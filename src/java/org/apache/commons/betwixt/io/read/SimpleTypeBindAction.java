@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.2 2004/02/21 14:22:15 rdonkin Exp $
- * $Revision: 1.1.2.2 $
- * $Date: 2004/02/21 14:22:15 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.3 2004/02/21 14:39:12 rdonkin Exp $
+ * $Revision: 1.1.2.3 $
+ * $Date: 2004/02/21 14:39:12 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SimpleTypeBindAction.java,v 1.1.2.2 2004/02/21 14:22:15 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.3 2004/02/21 14:39:12 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -71,7 +71,7 @@ import org.apache.commons.collections.IteratorUtils;
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1.2.2 $
+  * @version $Revision: 1.1.2.3 $
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 
@@ -80,22 +80,25 @@ public class SimpleTypeBindAction extends MappingAction.Base {
     public void body(String text, ReadContext context) throws Exception {
         // add dyna-bean support!
         // probably refactoring needed
-        Class lastMappedClazz = context.getLastMappedClass();
-        if (lastMappedClazz != null) {
-            XMLBeanInfo lastMappedClazzInfo =
-                context.getXMLIntrospector().introspect(lastMappedClazz);
-            ElementDescriptor baseDescriptor =
-                lastMappedClazzInfo.getElementDescriptor();
-            ElementDescriptor childDescriptor =
-                baseDescriptor.getElementDescriptor(
-                    context.getRelativeElementPathIterator());
-            if (childDescriptor != null) {
-                Updater updater = childDescriptor.getUpdater();
-                if (updater != null) {
-                    updater.update(context, text);
-                }
+        Updater updater = getCurrentUpdater(context);
+        if (updater != null)
+        {
+            updater.update(context, text);
+        } else {
+            if (context.getLog().isDebugEnabled())
+            {
+                context.getLog().debug("No updater for simple type '" + context.getCurrentElement() + "'");
             }
         }
+    }
+    
+    private Updater getCurrentUpdater(ReadContext context) throws Exception {
+        Updater result = null;
+        ElementDescriptor elementDescriptor = context.getCurrentDescriptor() ;
+        if (elementDescriptor != null) {
+            result = elementDescriptor.getUpdater();
+        }
+        return result;
     }
 
 }
