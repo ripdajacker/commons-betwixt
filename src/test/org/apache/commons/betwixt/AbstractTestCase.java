@@ -63,6 +63,7 @@ package org.apache.commons.betwixt;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +94,11 @@ public abstract class AbstractTestCase extends TestCase {
         return new File(basedir,path).getAbsolutePath();
     }
 
+    public String getTestFileURL(String path) throws MalformedURLException
+    {
+        return new File(basedir,path).toURL().toString();
+    }
+    
     protected Object createBean() {
         CustomerBean bean = new CustomerBean();
         bean.setID( "1" );

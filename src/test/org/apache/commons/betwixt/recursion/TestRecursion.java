@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.2 2002/09/26 19:29:34 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/09/26 19:29:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/10/27 00:39:00 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestRecursion.java,v 1.2 2002/09/26 19:29:34 rdonkin Exp $
+ * $Id: TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
@@ -80,7 +80,7 @@ import org.apache.commons.logging.impl.SimpleLog;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.2 2002/09/26 19:29:34 rdonkin Exp $
+ * @version $Id: TestRecursion.java,v 1.3 2002/10/27 00:39:00 dion Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -110,7 +110,7 @@ public class TestRecursion extends AbstractTestCase
         BeanReader reader = new BeanReader();
         reader.registerBeanClass(ElementBean.class);
         reader.setXMLIntrospector(intro);
-        Object object = reader.parse("src/test/org/apache/commons/betwixt/recursion/recursion.xml");
+        Object object = reader.parse(getTestFileURL("src/test/org/apache/commons/betwixt/recursion/recursion.xml"));
         StringWriter buffer = new StringWriter();
         write (object, buffer, true);
         System.out.println("buffer : "+buffer);
@@ -126,7 +126,7 @@ public class TestRecursion extends AbstractTestCase
         BeanReader reader = new BeanReader();
         reader.registerBeanClass(ElementBean.class);
         reader.setXMLIntrospector(intro);
-        Object object = reader.parse("src/test/org/apache/commons/betwixt/recursion/recursion2.xml");
+        Object object = reader.parse(getTestFileURL("src/test/org/apache/commons/betwixt/recursion/recursion2.xml"));
         StringWriter buffer = new StringWriter();
         write (object, buffer, false);
         System.out.println("buffer : "+buffer);
