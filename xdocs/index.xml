@@ -25,5 +25,13 @@
 
 </section>
 
+<section name="Releases">
+  <p>
+    Currently there is no release yet (alpha-1 coming soon though).
+    But you can get the nightly builds from 
+    <a href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-betwixt/">here</a>
+  </p>
+</section>
+
 </body>
 </document>
