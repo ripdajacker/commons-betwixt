@@ -39,6 +39,9 @@
           to speed more quickly. Ensure all betwixt features have good user documentation. 
           More good code examples.
         </li>
+        <li>
+                  Add support for IDREF's to BeanReader. At the moment, round tripping break when cycles exist.
+        </li>
        </ul>
     </section>
     
@@ -62,8 +65,6 @@
 		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
 		  be transformed in XSLT engines as XML.
 		</li>
-       </ul>
-      <ul>
         <li>
 		  Add support for custom class loaders. Probably this means adding a classloader property
                   to <code>XMLIntrospector</code> and then ensuring all class creation uses that. 
@@ -71,6 +72,11 @@
                   files should use the <code>XMLBeanInfoDigester</code> classloader property which should
                   be set by the <code>XMLIntrospector</code>.
 		</li>
+         <li>
+                   Improve integration with digester. At the moment, bean reading is all or nothing. You 
+                   either use betwixt to do everything or you use digester to specify rules. It'd be nice
+                   to be able to mix and match.
+                </li>
        </ul>
     </section>
     
