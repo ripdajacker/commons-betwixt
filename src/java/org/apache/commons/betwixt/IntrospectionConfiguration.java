@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.3 2004/02/01 22:55:47 rdonkin Exp $
- * $Revision: 1.1.2.3 $
- * $Date: 2004/02/01 22:55:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/IntrospectionConfiguration.java,v 1.1.2.4 2004/02/03 22:29:15 rdonkin Exp $
+ * $Revision: 1.1.2.4 $
+ * $Date: 2004/02/03 22:29:15 $
  *
  * ====================================================================
  * 
@@ -67,6 +67,8 @@ import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
 import org.apache.commons.betwixt.strategy.PluralStemmer;
+import org.apache.commons.betwixt.strategy.SimpleTypeMapper;
+import org.apache.commons.betwixt.strategy.StandardSimpleTypeMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -86,7 +88,7 @@ import org.apache.commons.logging.LogFactory;
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.3 $
+ * @version $Revision: 1.1.2.4 $
  */
 public class IntrospectionConfiguration {
 
@@ -120,6 +122,8 @@ public class IntrospectionConfiguration {
 
     /** Prefix naming strategy */
     private NamespacePrefixMapper prefixMapper = new NamespacePrefixMapper();
+    /** Binding strategy for simple types */
+    private SimpleTypeMapper simpleTypeMapper = new StandardSimpleTypeMapper();
 
 
     /**
@@ -323,4 +327,22 @@ public class IntrospectionConfiguration {
     public void setPrefixMapper(NamespacePrefixMapper mapper) {
         prefixMapper = mapper;
     }
+    
+    
+    /**
+     * Gets the simple type binding strategy.
+     * @return SimpleTypeMapper, not null
+     */
+    public SimpleTypeMapper getSimpleTypeMapper() {
+        return simpleTypeMapper;
+    }
+
+    /**
+     * Sets the simple type binding strategy.
+     * @param mapper SimpleTypeMapper, not null
+     */
+    public void setSimpleTypeMapper(SimpleTypeMapper mapper) {
+        simpleTypeMapper = mapper;
+    }
+
 }

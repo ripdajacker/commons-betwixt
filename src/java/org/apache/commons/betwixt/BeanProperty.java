@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.7 2004/01/29 22:15:22 rdonkin Exp $
- * $Revision: 1.4.2.7 $
- * $Date: 2004/01/29 22:15:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/BeanProperty.java,v 1.4.2.8 2004/02/03 22:29:15 rdonkin Exp $
+ * $Revision: 1.4.2.8 $
+ * $Date: 2004/02/03 22:29:15 $
  *
  * ====================================================================
  * 
@@ -74,6 +74,7 @@ import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.strategy.NameMapper;
+import org.apache.commons.betwixt.strategy.SimpleTypeMapper;
 import org.apache.commons.logging.Log;
 
 /** 
@@ -82,7 +83,7 @@ import org.apache.commons.logging.Log;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.4.2.7 2004/01/29 22:15:22 rdonkin Exp $
+  * @version $Id: BeanProperty.java,v 1.4.2.8 2004/02/03 22:29:15 rdonkin Exp $
   */
 public class BeanProperty {
 
@@ -414,7 +415,12 @@ public class BeanProperty {
         if (log.isTraceEnabled()) {
             log.trace( "Primitive type: " + getPropertyName());
         }
-        if ( configuration.isAttributesForPrimitives() ) {
+        SimpleTypeMapper.Binding binding 
+            = configuration.getSimpleTypeMapper().bind(
+                                                        propertyName, 
+                                                        propertyType, 
+                                                        configuration);
+        if ( SimpleTypeMapper.Binding.ATTRIBUTE.equals( binding )) {
             if (log.isTraceEnabled()) {
                 log.trace( "Adding property as attribute: " + getPropertyName() );
             }
