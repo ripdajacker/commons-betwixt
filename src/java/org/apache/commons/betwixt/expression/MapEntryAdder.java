@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.1 2003/04/11 21:27:42 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/04/11 21:27:42 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MapEntryAdder.java,v 1.2 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -57,13 +57,11 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MapEntryAdder.java,v 1.1 2003/04/11 21:27:42 rdonkin Exp $
+ * $Id: MapEntryAdder.java,v 1.2 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 import java.lang.reflect.Method;
-
-import org.apache.commons.beanutils.ConvertUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,7 +80,7 @@ import org.apache.commons.logging.LogFactory;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class MapEntryAdder {
 
@@ -237,12 +235,14 @@ public class MapEntryAdder {
         if ( bean != null ) {
             if ( key instanceof String ) {
                 // try to convert into primitive types
-                key = ConvertUtils.convert( (String) key, keyType );
+                key = context.getObjectStringConverter()
+                        .stringToObject( (String) key, valueType, null, context );
             }
             
             if ( value instanceof String ) {
                 // try to convert into primitive types
-                value = ConvertUtils.convert( (String) value, keyType );
+                value = context.getObjectStringConverter()
+                        .stringToObject( (String) value, keyType, null, context );
             }
                  
             Object[] arguments = { key, value };

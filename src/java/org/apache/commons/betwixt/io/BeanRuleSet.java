@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.8 2003/07/27 17:53:57 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/07/27 17:53:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanRuleSet.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanRuleSet.java,v 1.8 2003/07/27 17:53:57 rdonkin Exp $
+ * $Id: BeanRuleSet.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -65,6 +65,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 
+import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.TextDescriptor;
@@ -84,7 +86,7 @@ import org.xml.sax.Attributes;
 /** <p>Sets <code>Betwixt</code> digestion rules for a bean class.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class BeanRuleSet implements RuleSet {
     
@@ -108,8 +110,8 @@ public class BeanRuleSet implements RuleSet {
     private ElementDescriptor baseElementDescriptor;
     /** The bean based  */
     private Class baseBeanClass;
-    /** Should ID/IDREFs be used to match beans created previously  */
-    private boolean matchIDs;
+    /** The (empty) base context from which all Contexts with beans are (directly or indirectly) obtain */
+    private Context baseContext;
     /** allows an attribute to be specified to overload the types of beans used */
     private String classNameAttribute = "className";
     
@@ -121,6 +123,7 @@ public class BeanRuleSet implements RuleSet {
      * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
      * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param matchIDs should ID/IDREFs be used to match beans?
+     * @deprecated use constructor which takes a base Context
      */
     public BeanRuleSet(
                         XMLIntrospector introspector,
@@ -132,7 +135,32 @@ public class BeanRuleSet implements RuleSet {
         this.basePath = basePath;
         this.baseElementDescriptor = baseElementDescriptor;
         this.baseBeanClass = baseBeanClass;
-        this.matchIDs = matchIDs;
+        BindingConfiguration bindingConfiguration = new BindingConfiguration();
+        bindingConfiguration.setMapIDs( matchIDs );
+        baseContext = new Context(null, log , bindingConfiguration);
+    }
+    
+    /**
+     * Base constructor.
+     *
+     * @param introspector the <code>XMLIntrospector</code> used to introspect 
+     * @param basePath specifies the (Digester-style) path under which the rules will be attached
+     * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
+     * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
+     * @param baseContext the root Context that bean carrying Contexts should be obtained from, 
+     * not null
+     */
+    public BeanRuleSet(
+                        XMLIntrospector introspector,
+                        String basePath, 
+                        ElementDescriptor baseElementDescriptor, 
+                        Class baseBeanClass,
+                        Context baseContext) {
+        this.introspector = introspector;
+        this.basePath = basePath;
+        this.baseElementDescriptor = baseElementDescriptor;
+        this.baseBeanClass = baseBeanClass;
+        this.baseContext = baseContext;
     }
     
 
@@ -518,7 +546,7 @@ public class BeanRuleSet implements RuleSet {
                         pathPrefix, 
                         descriptor, 
                         beanClass, 
-                        new Context() );
+                        baseContext );
             }
             
             /**
@@ -656,7 +684,7 @@ public class BeanRuleSet implements RuleSet {
                         }
                         
                         // add bean for ID matching
-                        if ( matchIDs ) {
+                        if ( context.getMapIDs() ) {
                             // XXX need to support custom ID attribute names
                             // XXX i have a feeling that the current mechanism might need to change
                             // XXX so i'm leaving this till later
@@ -765,7 +793,7 @@ public class BeanRuleSet implements RuleSet {
                  * @todo this is a duplicate of the code in BeanCreateRule
                  * we should try refactor to some common place
                  */
-                if ( matchIDs ) {
+                if ( context.getMapIDs() ) {
                     String idref = attributes.getValue( "idref" );
                     if ( idref != null ) {
                         // XXX need to check up about ordering

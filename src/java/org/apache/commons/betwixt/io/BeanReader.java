@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.13 2003/07/01 19:07:25 rdonkin Exp $
- * $Revision: 1.13 $
- * $Date: 2003/07/01 19:07:25 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.14 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.14 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.13 2003/07/01 19:07:25 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.14 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -67,6 +67,8 @@ import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 
+import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
@@ -82,7 +84,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision: 1.14 $
   */
 public class BeanReader extends Digester {
 
@@ -92,8 +94,8 @@ public class BeanReader extends Digester {
     private Log log = LogFactory.getLog( BeanReader.class );
     /** The registered classes */
     private Set registeredClasses = new HashSet();
-    /** Should the reader use <code>ID</code>'s to match */
-    private boolean matchIDs = true;
+    /** Dynamic binding configuration settings */
+    private BindingConfiguration bindingConfiguration = new BindingConfiguration();
     
     /**
      * Construct a new BeanReader with default properties.
@@ -300,18 +302,36 @@ public class BeanReader extends Digester {
      *
      * @return true if <code>ID</code> and <code>IDREF</code> 
      * attributes should be used to match instances
+     * @deprecated use {@link BindingConfiguration#getMapIDs}
      */
     public boolean getMatchIDs() {
-        return matchIDs;
+        return getBindingConfiguration().getMapIDs();
     }
     
     /**
      * Set whether the read should use <code>ID</code> attributes to match beans.
      *
      * @param matchIDs pass true if <code>ID</code>'s should be matched
+     * @deprecated use {@link BindingConfiguration#setMapIDs}
      */
     public void setMatchIDs(boolean matchIDs) {
-        this.matchIDs = matchIDs;
+        getBindingConfiguration().setMapIDs( matchIDs );
+    }
+    
+    /**
+     * Gets the dynamic configuration setting to be used for bean reading.
+     * @return the BindingConfiguration settings, not null
+     */
+    public BindingConfiguration getBindingConfiguration() {
+        return bindingConfiguration;
+    }
+    
+    /**
+     * Sets the dynamic configuration setting to be used for bean reading.
+     * @param the BindingConfiguration settings, not null
+     */
+    public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
+        this.bindingConfiguration = bindingConfiguration;
     }
         
     // Implementation methods
@@ -336,8 +356,15 @@ public class BeanReader extends Digester {
                                             path ,  
                                             elementDescriptor, 
                                             beanClass, 
-                                            matchIDs);
+                                            makeContext( null ));
         addRuleSet( ruleSet );
     }
         
+    /**
+      * Factory method for new contexts.
+      * Ensure that they are correctly configured.
+      */
+    private Context makeContext(Object bean) {
+        return new Context( bean, log, bindingConfiguration );
+    }
 }

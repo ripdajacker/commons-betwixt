@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.8 2003/07/29 21:31:24 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/07/29 21:31:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -57,13 +57,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.8 2003/07/29 21:31:24 rdonkin Exp $
+ * $Id: MethodUpdater.java,v 1.9 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -72,7 +71,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.9 $
   */
 public class MethodUpdater implements Updater {
 
@@ -117,7 +116,8 @@ public class MethodUpdater implements Updater {
                 if ( log.isTraceEnabled() ) {
                     log.trace("Converting primitive to " + valueType);
                 }
-                newValue = ConvertUtils.convert( (String) newValue, valueType );
+                newValue = context.getObjectStringConverter()
+                    .stringToObject( (String) newValue, valueType, null, context );
             }
             if ( newValue != null ) {
                 // check that it is of the correct type

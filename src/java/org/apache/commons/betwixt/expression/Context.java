@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/12 13:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/Context.java,v 1.5 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -56,7 +56,7 @@
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
- * $Id: Context.java,v 1.4 2003/01/12 13:52:03 rdonkin Exp $
+ * $Id: Context.java,v 1.5 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -65,6 +65,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import org.apache.commons.betwixt.BindingConfiguration;
+import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 
 /** <p><code>Context</code> describes the context used to evaluate
   * bean expressions.
@@ -86,33 +89,48 @@ import org.apache.commons.logging.LogFactory;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class Context {
 
     /** Evaluate this bean */
     private Object bean;
     /** Variables map */
-    private Map variables = new HashMap();
+    private Map variables;
     /** 
      * Logging uses commons-logging <code>Log</code> 
      * named <code>org.apache.commons.betwixt</code> 
      */
     private Log log; 
+    /** Configuration for dynamic binding properties */
+    private BindingConfiguration bindingConfiguration;
     
-    /** Construct context with default log */
+    /** 
+     * Construct context with default log 
+     */
     public Context() {
-        this.log = LogFactory.getLog( getClass() );
+        this( null, LogFactory.getLog( Context.class ) );
     }
     
     /** Convenience constructor sets evaluted bean and log.
       *
       * @param bean evaluate expressions against this bean
       * @param log log to this logger
+      * @deprecated use constructor which takes a BindingConfiguration
       */
     public Context(Object bean, Log log) {
-        this.bean = bean;
-        this.log = log;
+        this( bean, log, new BindingConfiguration() );
+    }
+
+    
+    /** Convenience constructor sets evaluted bean and log.
+      *
+      * @param bean evaluate expressions against this bean
+      * @param log log to this logger
+      * @param converter not null
+      */
+    public Context(Object bean, Log log, BindingConfiguration bindingConfiguration) {
+        this( bean, new HashMap(), log,  bindingConfiguration );
     }
     
     /** Convenience constructor sets evaluted bean, context variables and log.
@@ -120,11 +138,24 @@ public class Context {
       * @param bean evaluate expressions against this bean 
       * @param variables context variables
       * @param log log to this logger
+      * @deprecated use constructor which takes a converter
       */
     public Context(Object bean, Map variables, Log log) {
+        this( bean, variables, log, new BindingConfiguration() );
+    }
+    
+    /** Convenience constructor sets evaluted bean, context variables and log.
+      *
+      * @param bean evaluate expressions against this bean 
+      * @param variables context variables
+      * @param log log to this logger
+      * @param converter not null
+      */
+    public Context(Object bean, Map variables, Log log, BindingConfiguration bindingConfiguration) {
         this.bean = bean;
         this.variables = variables;
         this.log = log;
+        this.bindingConfiguration = bindingConfiguration;
     }
 
     /** Returns a new child context with the given bean but the same log and variables. 
@@ -133,7 +164,7 @@ public class Context {
      * @return new Context with new bean but shared variables 
      */
     public Context newContext(Object newBean) {
-        return new Context(newBean, variables, log);
+        return new Context(newBean, variables, log, bindingConfiguration);
     }
     
     /** 
@@ -202,5 +233,24 @@ public class Context {
      */
     public void setLog(Log log) {
         this.log = log;
+    }
+    
+    /** 
+     * Gets object &lt;-&gt; string converter.
+     * @return the Converter to be used for conversions, not null
+     */
+    public ObjectStringConverter getObjectStringConverter() {
+        return bindingConfiguration.getObjectStringConverter();
+    }
+    
+    /** 
+     * Should <code>ID</code>'s and <code>IDREF</code> attributes 
+     * be used to cross-reference matching objects? 
+     *
+     * @return true if <code>ID</code> and <code>IDREF</code> 
+     * attributes should be used to cross-reference instances
+     */
+    public boolean getMapIDs() {
+        return bindingConfiguration.getMapIDs();
     }
 }

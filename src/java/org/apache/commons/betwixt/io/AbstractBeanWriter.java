@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.17 2003/07/29 21:32:15 rdonkin Exp $
- * $Revision: 1.17 $
- * $Date: 2003/07/29 21:32:15 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.18 2003/07/31 21:40:58 rdonkin Exp $
+ * $Revision: 1.18 $
+ * $Date: 2003/07/31 21:40:58 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.17 2003/07/29 21:32:15 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.18 2003/07/31 21:40:58 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -72,10 +72,13 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
+import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.strategy.ObjectStringConverter;
+import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -97,7 +100,7 @@ import org.xml.sax.helpers.AttributesImpl;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.17 $
+  * @version $Revision: 1.18 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -112,10 +115,10 @@ public abstract class AbstractBeanWriter {
     private ArrayStack beanStack = new ArrayStack();
     /** Used to generate ID attribute values*/
     private IDGenerator idGenerator = new SequentialIDGenerator();
-    /** Should generated <code>ID</code> attribute values be added to the elements? */
-    private boolean writeIDs = true;
     /** Should empty elements be written out? */
     private boolean writeEmptyElements = true;
+    /** Dynamic binding configuration settings */
+    private BindingConfiguration bindingConfiguration = new BindingConfiguration();
     
     /**
      * Marks the start of the bean writing.
@@ -144,8 +147,8 @@ public abstract class AbstractBeanWriter {
      * <p> This writes an xml fragment representing the bean to the current stream.</p>
      *
      * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
-     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
-     * property is false.</p>
+     * is encountered in the graph <strong>only</strong> if the <code>getMapIDs()</code>
+     * setting of the </code>BindingConfiguration</code> is false.</p>
      *
      * @throws IOException if an IO problem occurs during writing 
      * @throws SAXException if an SAX problem occurs during writing  
@@ -174,8 +177,8 @@ public abstract class AbstractBeanWriter {
      * using the given <code>qualifiedName</code>.</p>
      *
      * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
-     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
-     * property is false.</p>
+     * is encountered in the graph <strong>only</strong> if the <code>getMapIDs()</code>
+     * setting of the <code>BindingConfiguration</code> is false.</p>
      *
      * @param qualifiedName the string naming root element
      * @param bean the <code>Object</code> to write out as xml
@@ -191,7 +194,7 @@ public abstract class AbstractBeanWriter {
                         IOException, 
                         SAXException,
                         IntrospectionException {
-        writeBean( "", qualifiedName, qualifiedName, bean);
+        writeBean( "", qualifiedName, qualifiedName, bean, makeContext( bean ) );
     }
     
     /** 
@@ -199,8 +202,8 @@ public abstract class AbstractBeanWriter {
      * using the given <code>qualifiedName</code>.</p>
      *
      * <p>This method will throw a <code>CyclicReferenceException</code> when a cycle
-     * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
-     * property is false.</p>
+     * is encountered in the graph <strong>only</strong> if the <code>getMapIDs()</code>
+     * setting of the <code>BindingConfiguration</code> is false.</p>
      *
      * @param namespaceUri the namespace uri
      * @param localName the local name
@@ -215,7 +218,8 @@ public abstract class AbstractBeanWriter {
                 String namespaceUri,
                 String localName,
                 String qualifiedName, 
-                Object bean) 
+                Object bean,
+                Context context) 
                     throws 
                         IOException, 
                         SAXException,
@@ -230,7 +234,7 @@ public abstract class AbstractBeanWriter {
         if ( beanInfo != null ) {
             ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
             if ( elementDescriptor != null ) {
-                Context context = new Context( bean, log );
+                context = context.newContext( bean );
                 if ( qualifiedName == null ) {
                     qualifiedName = elementDescriptor.getQualifiedName();
                 }
@@ -256,7 +260,7 @@ public abstract class AbstractBeanWriter {
                         
                 } else {
                     pushBean ( context.getBean() );
-                    if ( writeIDs ) {
+                    if ( getBindingConfiguration().getMapIDs() ) {
                         ref = (String) idMap.get( context.getBean() );
                     }
                     if ( ref == null ) {
@@ -267,7 +271,7 @@ public abstract class AbstractBeanWriter {
                             id = idGenerator.nextId();
                             idMap.put( bean, id );
                             
-                            if ( writeIDs ) {
+                            if ( getBindingConfiguration().getMapIDs() ) {
                                 // write element with id
                                 writeElement(
                                     namespaceUri,
@@ -353,6 +357,22 @@ public abstract class AbstractBeanWriter {
         this.idGenerator = idGenerator;
     }
     
+    /**
+     * Gets the dynamic configuration setting to be used for bean reading.
+     * @return the BindingConfiguration settings, not null
+     */
+    public BindingConfiguration getBindingConfiguration() {
+        return bindingConfiguration;
+    }
+    
+    /**
+     * Sets the dynamic configuration setting to be used for bean reading.
+     * @param the BindingConfiguration settings, not null
+     */
+    public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
+        this.bindingConfiguration = bindingConfiguration;
+    }
+    
     /** 
      * <p>Should generated <code>ID</code> attribute values be added to the elements?</p>
      * 
@@ -360,9 +380,10 @@ public abstract class AbstractBeanWriter {
      * then a {@link CyclicReferenceException} will be thrown by the write method.</p>
      * 
      * @return true if <code>ID</code> and <code>IDREF</code> attributes are to be written
+     * @deprecated use {@link BindingConfiguration#getMapIDs}
      */
     public boolean getWriteIDs() {
-        return writeIDs;
+        return getBindingConfiguration().getMapIDs();
     }
 
     /** 
@@ -371,9 +392,10 @@ public abstract class AbstractBeanWriter {
      * will be thrown whenever a cyclic occurs in the bean graph.
      *
      * @param writeIDs true if <code>ID</code>'s and <code>IDREF</code>'s should be written
+     * @deprecated use {@link BindingConfiguration#setMapIDs}
      */
     public void setWriteIDs(boolean writeIDs) {
-        this.writeIDs = writeIDs;
+        getBindingConfiguration().setMapIDs( writeIDs );
     }
     
     /**
@@ -713,10 +735,10 @@ public abstract class AbstractBeanWriter {
                                     if (object == null) {
                                         continue;
                                     }
-                                    writeBean( namespaceUri, localName, qualifiedName, object );
+                                    writeBean( namespaceUri, localName, qualifiedName, object, context );
                                 }
                             } else {
-                                writeBean( namespaceUri, localName, qualifiedName, childBean );
+                                writeBean( namespaceUri, localName, qualifiedName, childBean, context );
                             }
                         }                    
                     } else {
@@ -733,7 +755,10 @@ public abstract class AbstractBeanWriter {
                     Expression expression = childDescriptors[i].getTextExpression();
                     if ( expression != null ) {
                         Object value = expression.evaluate( context );
-                        String text = convertToString( value );
+                        String text = convertToString( 
+                                                        value, 
+                                                        childDescriptors[i], 
+                                                        context );
                         if ( text != null && text.length() > 0 ) {
                             bodyText(text);
                         }               
@@ -745,7 +770,7 @@ public abstract class AbstractBeanWriter {
             Expression expression = elementDescriptor.getTextExpression();
             if ( expression != null ) {
                 Object value = expression.evaluate( context );
-                String text = convertToString(value);
+                String text = convertToString( value, elementDescriptor, context );
                 if ( text != null && text.length() > 0 ) {
                     bodyText(text);
                 }
@@ -761,7 +786,7 @@ public abstract class AbstractBeanWriter {
      */
     protected void pushBean( Object bean ) {
         // check that we don't have a cyclic reference when we're not writing IDs
-        if ( !writeIDs ) {
+        if ( !getBindingConfiguration().getMapIDs() ) {
             Iterator it = beanStack.iterator();
             while ( it.hasNext() ) {
                 Object next = it.next();
@@ -840,7 +865,7 @@ public abstract class AbstractBeanWriter {
         Expression expression = descriptor.getTextExpression();
         if ( expression != null ) {
             Object value = expression.evaluate( context );
-            String text = convertToString(value);
+            String text = convertToString( value, descriptor, context );
             if ( text != null && text.length() > 0 ) {
                 log.trace( "Element has body text which isn't empty." );
                 return false;
@@ -1056,7 +1081,7 @@ public abstract class AbstractBeanWriter {
                     Expression expression = attributes[index].getTextExpression();
                     if ( expression != null ) {
                         Object value = expression.evaluate( context );
-                        return convertToString( value );
+                        return convertToString( value, attributes[index], context );
                     }
                 }
                 return "";
@@ -1461,13 +1486,16 @@ public abstract class AbstractBeanWriter {
       * @param value the Object to represent as a String, possibly null
       * @return String representation, not null
       */
-    private String convertToString(Object value) {
-        if ( value != null ) {
-            String text = ConvertUtils.convert( value );
-            if ( text != null ) {
-                return text;
-            }
-        }
-        return "";
+    private String convertToString( Object value , Descriptor descriptor, Context context ) {
+        return getBindingConfiguration()
+            .getObjectStringConverter().objectToString( value, descriptor.getPropertyType(), null, context );
+    }
+    
+    /**
+      * Factory method for new contexts.
+      * Ensure that they are correctly configured.
+      */
+    private Context makeContext(Object bean) {
+        return new Context( bean, log, bindingConfiguration );
     }
 }
