@@ -42,7 +42,8 @@
     <section name="Medium priority"> 
       <ul>
         <li>
-		  BeabWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
+		  <b>Fixed</b> Was already there. Just added the \n as defeault<br/>
+		  BeanWriter should have a setEndOfLine() method to allow configurable EOL strings, defaulting to "\n"
 		</li>
         <li>
 		  Create a SAXWriter class in the io package that takes a bean and writes to a SAX ContentHandler

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.3 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.4 2002/06/14 23:00:15 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/06/14 23:00:15 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.3 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.4 2002/06/14 23:00:15 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -127,7 +127,7 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class BeanWriter {
 
@@ -146,8 +146,8 @@ public class BeanWriter {
     private XMLIntrospector introspector = new XMLIntrospector();
     /** Where the output goes */
     private Writer writer;    
-    /** text used for end of lines */
-    private String endOfLine;
+    /** text used for end of lines. Defaults to  */
+    private String endOfLine = "\n";
     /** indentation text */
     private String indent;
     /** indentation level */
