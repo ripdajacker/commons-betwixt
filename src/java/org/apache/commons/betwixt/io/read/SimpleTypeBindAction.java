@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.1 2004/02/21 13:39:36 rdonkin Exp $
- * $Revision: 1.1.2.1 $
- * $Date: 2004/02/21 13:39:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/SimpleTypeBindAction.java,v 1.1.2.2 2004/02/21 14:22:15 rdonkin Exp $
+ * $Revision: 1.1.2.2 $
+ * $Date: 2004/02/21 14:22:15 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SimpleTypeBindAction.java,v 1.1.2.1 2004/02/21 13:39:36 rdonkin Exp $
+ * $Id: SimpleTypeBindAction.java,v 1.1.2.2 2004/02/21 14:22:15 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -71,7 +71,7 @@ import org.apache.commons.collections.IteratorUtils;
 /** 
   * Action binds a simple type.
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.1.2.1 $
+  * @version $Revision: 1.1.2.2 $
   */
 public class SimpleTypeBindAction extends MappingAction.Base {
 
@@ -93,24 +93,6 @@ public class SimpleTypeBindAction extends MappingAction.Base {
                 Updater updater = childDescriptor.getUpdater();
                 if (updater != null) {
                     updater.update(context, text);
-                } else {
-                    // this is a workaround to make the tests run
-                    // it will be replaced when proper support for maps is added
-                    List list =
-                        IteratorUtils.toList(
-                            context.getRelativeElementPathIterator());
-                    if (list.size() > 0) {
-                        list.remove(list.size() - 1);
-                        childDescriptor =
-                            lastMappedClazzInfo
-                                .getElementDescriptor()
-                                .getElementDescriptor(
-                                list.iterator());
-                        updater = childDescriptor.getUpdater();
-                        if (updater != null) {
-                            updater.update(context, text);
-                        }
-                    }
                 }
             }
         }
