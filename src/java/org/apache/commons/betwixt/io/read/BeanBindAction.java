@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.9 2004/04/18 16:43:10 rdonkin Exp $
- * $Revision: 1.1.2.9 $
- * $Date: 2004/04/18 16:43:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/BeanBindAction.java,v 1.1.2.10 2004/04/18 19:31:39 rdonkin Exp $
+ * $Revision: 1.1.2.10 $
+ * $Date: 2004/04/18 19:31:39 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanBindAction.java,v 1.1.2.9 2004/04/18 16:43:10 rdonkin Exp $
+ * $Id: BeanBindAction.java,v 1.1.2.10 2004/04/18 19:31:39 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.read;
 
@@ -75,7 +75,7 @@ import org.xml.sax.Attributes;
  * Action that creates and binds a new bean instance.
  * 
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1.2.9 $
+ * @version $Revision: 1.1.2.10 $
  */
 public class BeanBindAction extends MappingAction.Base {
 
@@ -201,7 +201,7 @@ public class BeanBindAction extends MappingAction.Base {
 
     private void update(ReadContext context, Object value) throws Exception {
         Log log = context.getLog();
-        boolean popped = false;
+
         //TODO: add dyna-bean support!
         // probably refactoring needed
         
@@ -212,8 +212,6 @@ public class BeanBindAction extends MappingAction.Base {
             if (parentDescriptor != null) {
                 updater = parentDescriptor.getUpdater();         
             }
-            String poppedElement = context.popElement();
-            popped = true;
         }
         
         if ( updater == null ) {
@@ -224,9 +222,7 @@ public class BeanBindAction extends MappingAction.Base {
             updater.update(context, value);
         }
 
-        if (!popped) {
-            String poppedElement = context.popElement();
-        }
+        String poppedElement = context.popElement();
     }
 
 
