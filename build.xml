@@ -14,7 +14,7 @@
 		
   
   
-  <property name="resourcedir" value="D:\projects\cvs.apache.org\jakarta-commons\betwixt/src/java"></property>
+  <property name="resourcedir" value="."></property>
   
   <property name="distdir" value="dist"></property>
   <property name="javadocdir" value="target/docs/apidocs"></property>
@@ -91,7 +91,7 @@
       <mkdir dir="${testreportdir}"></mkdir>
       <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
         
-        <sysproperty key="basedir" value="D:\projects\cvs.apache.org\jakarta-commons\betwixt"></sysproperty>
+        <sysproperty key="basedir" value="${resourcedir}"></sysproperty>
         <formatter type="xml"></formatter>
         <formatter usefile="true" type="plain"></formatter>
         <classpath>
