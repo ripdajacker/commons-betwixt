@@ -42,7 +42,7 @@
             </li>
             <li>
                 <strong>Test Against Powered By Projects. </strong>
-                Make sure release works with maven and scarab.
+                Make sure release works with maven (done) and scarab.
             </li>
         </ul>
     </subsection>
