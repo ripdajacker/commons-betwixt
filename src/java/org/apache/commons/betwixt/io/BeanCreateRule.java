@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.17 2003/01/08 22:07:21 rdonkin Exp $
- * $Revision: 1.17 $
- * $Date: 2003/01/08 22:07:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.17.2.1 2003/01/19 16:57:52 mvdb Exp $
+ * $Revision: 1.17.2.1 $
+ * $Date: 2003/01/19 16:57:52 $
  *
  * ====================================================================
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 1999-2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 1999-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.17 2003/01/08 22:07:21 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.17.2.1 2003/01/19 16:57:52 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.17 $
+  * @version $Revision: 1.17.2.1 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -506,7 +506,7 @@ public class BeanCreateRule extends Rule {
                                     path += '/' + grandChildQName;
                                     
                                 } else {
-                                    path = prefix + grandChildQName;
+                                    path = prefix + (prefix.endsWith("/")?"":"/") + grandChildQName;
                                 }
                             }
                         }
