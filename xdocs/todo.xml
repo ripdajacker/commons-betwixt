@@ -101,6 +101,11 @@
             a release distribution. The example also needs some more work - better java docs and also
             more features.
         </li>
+        <li>
+            <strong>Review AbstractBeanWriter and SAXBeanWriter</strong>
+            AbstractBeanWriter and SAXBeanWriter were written very quickly (to support functionality
+            in maven). They need to be reviewed and properly documentated.
+        </li>
        </ul>
     </subsection>
     
