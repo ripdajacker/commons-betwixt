@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/xmlunit/XmlTestCase.java,v 1.4 2003/02/13 18:41:49 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/02/13 18:41:49 $
  *
  * ====================================================================
  *
@@ -57,9 +57,15 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XmlTestCase.java,v 1.3 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: XmlTestCase.java,v 1.4 2003/02/13 18:41:49 rdonkin Exp $
  */
 package org.apache.commons.betwixt.xmlunit;
+
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Iterator;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,6 +82,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -102,20 +109,38 @@ public class XmlTestCase extends TestCase {
                     parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"));
     }
     
-
     public void xmlAssertIsomorphicContent(
                                 org.w3c.dom.Document documentOne, 
                                 org.w3c.dom.Document documentTwo)
                                     throws 
-                                        AssertionFailedError
-    {
-        xmlAssertIsomorphicContent(null, documentOne, documentTwo);
+                                        AssertionFailedError {
+        xmlAssertIsomorphicContent(documentOne, documentTwo, false);
+    }
+
+    public void xmlAssertIsomorphicContent(
+                                org.w3c.dom.Document documentOne, 
+                                org.w3c.dom.Document documentTwo,
+                                boolean orderIndependent)
+                                    throws 
+                                        AssertionFailedError {
+        xmlAssertIsomorphicContent(null, documentOne, documentTwo, orderIndependent);
     }
     
     public void xmlAssertIsomorphicContent(
                                 String message,
                                 org.w3c.dom.Document documentOne, 
                                 org.w3c.dom.Document documentTwo)
+                                    throws 
+                                        AssertionFailedError {
+        
+        xmlAssertIsomorphicContent(message, documentOne, documentTwo, false);
+    }
+    
+    public void xmlAssertIsomorphicContent(
+                                String message,
+                                org.w3c.dom.Document documentOne, 
+                                org.w3c.dom.Document documentTwo,
+                                boolean orderIndependent)
                                     throws 
                                         AssertionFailedError
     {
@@ -126,20 +151,40 @@ public class XmlTestCase extends TestCase {
                             documentOne.getDocumentElement(), 
                             documentTwo.getDocumentElement());
     }
+ 
     
     public void xmlAssertIsomorphic(
                                 org.w3c.dom.Node rootOne, 
-                                org.w3c.dom.Node rootTwo)
+                                org.w3c.dom.Node rootTwo) 
+                                    throws 
+                                        AssertionFailedError {
+        xmlAssertIsomorphic(rootOne, rootTwo, false);
+    }
+    
+    public void xmlAssertIsomorphic(
+                                org.w3c.dom.Node rootOne, 
+                                org.w3c.dom.Node rootTwo,
+                                boolean orderIndependent)
                                     throws 
                                         AssertionFailedError
     {
-        xmlAssertIsomorphic(null, rootOne, rootTwo);
+        xmlAssertIsomorphic(null, rootOne, rootTwo, orderIndependent);
     }
     
     public void xmlAssertIsomorphic(
                                 String message,
                                 org.w3c.dom.Node rootOne, 
-                                org.w3c.dom.Node rootTwo)
+                                org.w3c.dom.Node rootTwo) {
+                                
+        xmlAssertIsomorphic(message, rootOne, rootTwo, false);
+    
+    }
+    
+    public void xmlAssertIsomorphic(
+                                String message,
+                                org.w3c.dom.Node rootOne, 
+                                org.w3c.dom.Node rootTwo,
+                                boolean orderIndependent)
                                     throws 
                                         AssertionFailedError
     {
@@ -147,14 +192,26 @@ public class XmlTestCase extends TestCase {
         rootOne.normalize();
         rootTwo.normalize();
         // going to use recursion so avoid normalizing each time
-        testIsomorphic(message, rootOne, rootTwo);
+        testIsomorphic(message, rootOne, rootTwo, orderIndependent);
     }
-    
+ 
     
     private void testIsomorphic(
                                 String message,
                                 org.w3c.dom.Node nodeOne, 
                                 org.w3c.dom.Node nodeTwo)
+                                    throws 
+                                        AssertionFailedError {
+                                        
+        testIsomorphic(message, nodeOne, nodeTwo, false);
+    }
+                                    
+    
+    private void testIsomorphic(
+                                String message,
+                                org.w3c.dom.Node nodeOne, 
+                                org.w3c.dom.Node nodeTwo,
+                                boolean orderIndependent)
                                     throws 
                                         AssertionFailedError
     {
@@ -241,16 +298,36 @@ public class XmlTestCase extends TestCase {
             log("Comparing children");
             // this time order is important
             // so we can just go down the list and compare node-wise using recursion
-            NodeList childrenOne = nodeOne.getChildNodes();
-            NodeList childrenTwo = nodeTwo.getChildNodes();
+            List listOne = sanitize(nodeOne.getChildNodes());
+            List listTwo = sanitize(nodeTwo.getChildNodes());
+
+            if (orderIndependent) {
+                Comparator nodeByName = new NodeByNameComparator();
+                Collections.sort(listOne, nodeByName);
+                Collections.sort(listTwo, nodeByName);
+            }
             
+            Iterator it = listOne.iterator();
+            Iterator iter2 = listOne.iterator();
+            while (it.hasNext() & iter2.hasNext()) {
+                Node nextOne = ((Node)it.next());
+                Node nextTwo = ((Node)iter2.next());
+                log(nextOne.getNodeName() + ":" + nextOne.getNodeValue());
+                log(nextTwo.getNodeName() + ":" + nextTwo.getNodeValue());
+            }
+
             assertEquals(
                         (null == message ? "(Unequal child nodes)" : message + "(Unequal child nodes)"), 
-                        childrenOne.getLength(), 
-                        childrenTwo.getLength());           
+                        listOne.size(), 
+                        listTwo.size());           
                         
-            for (int i=0, size=childrenOne.getLength(); i<size; i++) {
-                testIsomorphic(message, childrenOne.item(i), childrenTwo.item(i));
+            it = listOne.iterator();
+            iter2 = listOne.iterator();
+            while (it.hasNext() & iter2.hasNext()) {	
+                Node nextOne = ((Node)it.next());
+                Node nextTwo = ((Node)iter2.next());
+                log(nextOne.getNodeName() + " vs " + nextTwo.getNodeName());
+                testIsomorphic(message, nextOne, nextTwo);
             
             }
         
@@ -329,6 +406,42 @@ public class XmlTestCase extends TestCase {
         }
         
         return trimThis.trim();
+    }
+    
+    private List sanitize(NodeList nodes) {
+        ArrayList list = new ArrayList();
+        
+        for (int i=0, size=nodes.getLength(); i<size; i++) {
+            if ( nodes.item(i).getNodeType() == Node.TEXT_NODE ) {
+                if ( !( nodes.item(i).getNodeValue() == null ||  
+                        nodes.item(i).getNodeValue().trim().length() == 0 )) {
+                    list.add(nodes.item(i));
+                }
+            } else {
+                list.add(nodes.item(i));
+            }
+        }
+        return list;
+    }
+    
+    private class NodeByNameComparator implements Comparator {
+        public int compare(Object objOne, Object objTwo) {
+            String nameOne = ((Node) objOne).getNodeName();
+            String nameTwo = ((Node) objTwo).getNodeName();
+            
+            if (nameOne == null) {
+                if (nameTwo == null) {
+                    return 0;
+                }
+                return -1;
+            }
+            
+            if (nameTwo == null) {
+                return 1;
+            }
+            
+            return nameOne.compareTo(nameTwo);
+        }
     }
 }
 

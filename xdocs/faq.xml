@@ -57,6 +57,11 @@
           How can I stop Betwixt generating <code>ID</code> attribute values for my beans?
         </a>
       </li>
+      <li>
+        <a href="#empty-elements">
+          How can I stop Betwixt write out empty elements?
+        </a>
+      </li>
     </ol>
     <p><strong>Reading Beans</strong></p>
     <ol>
@@ -188,6 +193,23 @@ beanWriter.setWriteIDs(false);
             Once this property is set (to false), BeanWroter will throw a 
             <code>CyclicReferenceException</code> when any cyclic references which are 
             encountered in the bean graph.
+        </dd>
+      </dl>   
+
+      <dl>
+        <dt>
+          <a name="empty-elements">
+          	How can I stop Betwixt writing out empty elements?
+          </a>
+        </dt>
+        <dd>
+            An empty element (for this discussion) is one which has no attributes and no
+            child elements which are not empty. 
+            If you want to stop Betwixt writing out empty elements, then call:
+<source>
+beanWriter.setWriteEmptyElements(false);
+</source>
+            (before writing your bean).
         </dd>
       </dl>   
           

@@ -92,11 +92,6 @@
     <subsection name="Medium priority"> 
       <ul>
             <li>
-                <strong>Handle empty elements better.</strong> 
-                Add option not to write empty elements. This is required to correctly write some kinds of xml.
-                The RSS full round tripping will only work with this functionality.
-            </li>
-            <li>
                 <strong>Create design documentation</strong>
                 This will help people understand the betwixt design.
             </li>
@@ -192,6 +187,12 @@
                 a <code>BeanRuleSet</code> instance is used to set up the required rule on digester.
                 Standard digester rules can be added before and after registration.
             </li>
+            <li>
+                <strong>Handle empty elements better.</strong> 
+                An option not to write empty elements has been added. This is required to correctly write 
+                some kinds of xml.
+                The RSS full round tripping will only work with this functionality.
+            </li>
         </ul>
     </subsection>
 </section>
@@ -213,6 +214,12 @@
         </ul>
     </subsection>
 </section>
-  </body>
+<section name='Symantic Changes'>
+    <subsection name='Since 1.0-Alpha 1 Release'>
+        <ul>
+        </ul>
+    </subsection>
+</section>
+</body>
 </document>
 

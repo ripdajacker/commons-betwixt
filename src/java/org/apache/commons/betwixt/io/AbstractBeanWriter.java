@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.10 2003/01/06 22:50:44 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2003/01/06 22:50:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.11 2003/02/13 18:41:48 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2003/02/13 18:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.10 2003/01/06 22:50:44 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.11 2003/02/13 18:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -92,7 +92,7 @@ import org.xml.sax.SAXException;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -109,7 +109,8 @@ public abstract class AbstractBeanWriter {
     private IDGenerator idGenerator = new SequentialIDGenerator();
     /** Should generated <code>ID</code> attribute values be added to the elements? */
     private boolean writeIDs = true;
-    
+    /** Should empty elements be written out? */
+    private boolean writeEmptyElements = true;
     /** indentation level */
     private int indentLevel;
     
@@ -204,7 +205,7 @@ public abstract class AbstractBeanWriter {
                 if ( qualifiedName == null ) {
                     qualifiedName = elementDescriptor.getQualifiedName();
                 }
-                
+
                 String ref = null;
                 String id = null;
                 
@@ -269,11 +270,13 @@ public abstract class AbstractBeanWriter {
                         }
                     } else {
                         
-                        // we've already written this bean so write an IDREF
-                        writeIDREFElement( 
-                                        qualifiedName,  
-                                        beanInfo.getIDREFAttributeName(), 
-                                        ref);
+                        if ( !ignoreElement( elementDescriptor, context )) {
+                            // we've already written this bean so write an IDREF
+                            writeIDREFElement( 
+                                            qualifiedName,  
+                                            beanInfo.getIDREFAttributeName(), 
+                                            ref);
+                        }
                     }
                     popBean();
                 }
@@ -335,6 +338,34 @@ public abstract class AbstractBeanWriter {
      */
     public void setWriteIDs(boolean writeIDs) {
         this.writeIDs = writeIDs;
+    }
+    
+    /**
+     * <p>Gets whether empty elements should be written into the output.</p>
+     *
+     * <p>An empty element is one that has no attributes, no child elements 
+     * and no body text.
+     * For example, <code>&lt;element/&gt;</code> is an empty element but
+     * <code>&lt;element attr='value'/&gt;</code> is not.</p>
+     *
+     * @return true if empty elements will be written into the output
+     */
+    public boolean getWriteEmptyElements() {
+        return writeEmptyElements;
+    }
+    
+    /**
+     * <p>Sets whether empty elements should be written into the output.</p>
+     *
+     * <p>An empty element is one that has no attributes, no child elements 
+     * and no body text.
+     * For example, <code>&lt;element/&gt;</code> is an empty element but
+     * <code>&lt;element attr='value'/&gt;</code> is not.
+     *
+     * @param writeEmptyElements true if empty elements should be written into the output 
+     */
+    public void setWriteEmptyElements(boolean writeEmptyElements) {
+        this.writeEmptyElements = writeEmptyElements;
     }
 
     /**
@@ -473,12 +504,21 @@ public abstract class AbstractBeanWriter {
                                     IOException, 
                                     SAXException,
                                     IntrospectionException {
-                                        
-        if (elementDescriptor.isWrapCollectionsInElement()) {
-            expressElementStart( qualifiedName );
+        if( log.isTraceEnabled() ) {
+            log.trace( "Writing: " + qualifiedName + " element: " + elementDescriptor );
         }
+                
+        if ( !ignoreElement( elementDescriptor, context )) {
+            if ( log.isTraceEnabled() ) {
+                log.trace( "Element " + elementDescriptor + " is empty." );
+            }
         
-        writeRestOfElement( qualifiedName, elementDescriptor, context);
+            if (elementDescriptor.isWrapCollectionsInElement()) {
+                expressElementStart( qualifiedName );
+            }
+            
+            writeRestOfElement( qualifiedName, elementDescriptor, context);
+        }
     }
     
     
@@ -505,12 +545,18 @@ public abstract class AbstractBeanWriter {
                                     IOException, 
                                     SAXException,
                                     IntrospectionException {
-                                  
-        expressElementStart( qualifiedName );
-             
-        expressAttribute( idAttribute, idValue );        
+                   
+        if ( !ignoreElement( elementDescriptor, context ) ) {
         
-        writeRestOfElement( qualifiedName, elementDescriptor, context );
+            expressElementStart( qualifiedName );
+             
+            expressAttribute( idAttribute, idValue );        
+        
+            writeRestOfElement( qualifiedName, elementDescriptor, context );
+
+        } else if ( log.isTraceEnabled() ) {
+            log.trace( "Element " + qualifiedName + " is empty." );
+        }
     }
     
     /** 
@@ -571,7 +617,7 @@ public abstract class AbstractBeanWriter {
         expressElementStart( qualifiedName );
         
         expressAttribute( idrefAttributeName, idrefAttributeValue );
-                             
+                            
         expressElementEnd();
     }
         
@@ -784,5 +830,69 @@ public abstract class AbstractBeanWriter {
             log.trace( "Popped from object stack: " + bean );
         }
         return bean;
+    }
+    
+    /** 
+     * Should this element (and children) be written out?
+     *
+     * @param descriptor the <code>ElementDescriptor</code> to evaluate
+     * @param context the <code>Context</code> against which the element will be evaluated
+     * @return true if this element should be written out
+     */
+    private boolean ignoreElement( ElementDescriptor descriptor, Context context ) {
+        if ( ! getWriteEmptyElements() ) {
+            return isEmptyElement( descriptor, context );
+        }
+        return false;
+    }
+    
+    /** 
+     * <p>Will evaluating this element against this context result in an empty element?</p>
+     *
+     * <p>An empty element is one that has no attributes, no child elements 
+     * and no body text.
+     * For example, <code>&lt;element/&gt;</code> is an empty element but
+     * <code>&lt;element attr='value'/&gt;</code> is not.</p>
+     *
+     * @param descriptor the <code>ElementDescriptor</code> to evaluate
+     * @param context the <code>Context</code> against which the element will be evaluated
+     * @return true if this element is empty on evaluation
+     */
+    private boolean isEmptyElement( ElementDescriptor descriptor, Context context ) {
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Is " + descriptor + " empty?" );
+        }
+        
+        // an element which has attributes is not empty
+        if ( descriptor.hasAttributes() ) {
+            log.trace( "Element has attributes." );
+            return false;
+        }
+        
+        // an element is not empty if it has a non-empty body
+        Expression expression = descriptor.getTextExpression();
+        if ( expression != null ) {
+            Object value = expression.evaluate( context );
+            if ( value != null ) {
+                String text = value.toString();
+                if ( text != null && text.length() > 0 ) {
+                    log.trace( "Element has body text which isn't empty." );
+                    return false;
+                }
+            }
+        }
+        
+        // now test child elements
+        // an element is empty if it has no non-empty child elements
+        if ( descriptor.hasChildren() ) {
+            for ( int i=0, size=descriptor.getElementDescriptors().length; i<size; i++ ) {
+                if ( ! isEmptyElement( descriptor.getElementDescriptors()[i], context ) ) {
+                    log.trace( "Element has child which isn't empty." );
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 }

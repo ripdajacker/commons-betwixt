@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.11 2003/02/09 22:27:17 rdonkin Exp $
- * $Revision: 1.11 $
- * $Date: 2003/02/09 22:27:17 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanReader.java,v 1.12 2003/02/13 18:41:48 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/02/13 18:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanReader.java,v 1.11 2003/02/09 22:27:17 rdonkin Exp $
+ * $Id: BeanReader.java,v 1.12 2003/02/13 18:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -71,7 +71,6 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rule;
 import org.apache.commons.digester.RuleSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -83,7 +82,7 @@ import org.xml.sax.XMLReader;
   * to add rules to map a bean class.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class BeanReader extends Digester {
 
@@ -330,7 +329,12 @@ public class BeanReader extends Digester {
                                     String path, 
                                     ElementDescriptor elementDescriptor, 
                                     Class beanClass ) {
-        RuleSet ruleSet = new BeanRuleSet( introspector, path ,  elementDescriptor, beanClass, matchIDs);
+        RuleSet ruleSet = new BeanRuleSet( 
+                                            introspector, 
+                                            path ,  
+                                            elementDescriptor, 
+                                            beanClass, 
+                                            matchIDs);
         addRuleSet( ruleSet );
     }
         

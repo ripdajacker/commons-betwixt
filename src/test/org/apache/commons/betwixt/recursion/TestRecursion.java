@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.6 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/recursion/TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/02/13 18:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestRecursion.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.recursion;
 
@@ -78,7 +78,7 @@ import org.apache.commons.betwixt.io.CyclicReferenceException;
  * This will test the recursive behaviour of betwixt.
  *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestRecursion.java,v 1.6 2002/12/30 18:16:48 mvdb Exp $
+ * @version $Id: TestRecursion.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
  */
 public class TestRecursion extends AbstractTestCase
 {
@@ -138,6 +138,7 @@ public class TestRecursion extends AbstractTestCase
     throws Exception
     {
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
         writer.setXMLIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
         writer.getXMLIntrospector().setWrapCollectionsInElement(wrapIt);
@@ -169,6 +170,7 @@ public class TestRecursion extends AbstractTestCase
     {
         IdBean bean = new IdBean("Hello, World");
         BeanWriter writer = new BeanWriter();
+        writer.setWriteEmptyElements( true );
         writer.getXMLIntrospector().setAttributesForPrimitives(true);
         writer.setWriteIDs(true);
         writer.write(bean);
@@ -191,6 +193,7 @@ public class TestRecursion extends AbstractTestCase
         
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
+        writer.setWriteEmptyElements( true );
         writer.setWriteIDs(false);
         writer.write(alpha);
     }    
@@ -212,6 +215,7 @@ public class TestRecursion extends AbstractTestCase
         
         StringWriter stringWriter = new StringWriter();
         BeanWriter writer = new BeanWriter(stringWriter);
+        writer.setWriteEmptyElements( true );
         writer.setWriteIDs(false);
         
         //SimpleLog log = new SimpleLog("[testCyclicReferenceStack2:BeanWriter]");

@@ -63,6 +63,7 @@ package org.apache.commons.betwixt;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.StringWriter;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -99,6 +100,7 @@ public class TestBeanWriter extends AbstractTestCase {
         System.out.println( "Now trying pretty print" );
         
         BeanWriter writer = new BeanWriter();
+        writer.setWriteEmptyElements(true);
         writer.enablePrettyPrint();
         writer.write( bean );
     }
@@ -106,6 +108,7 @@ public class TestBeanWriter extends AbstractTestCase {
     
     public void testLooping() throws Exception {
         BeanWriter writer = new BeanWriter();
+        writer.setWriteEmptyElements( true );
         
         // logging for debugging jsut this method 
 //        SimpleLog log = new SimpleLog("[testLooping:BeanWriter]");
@@ -148,6 +151,7 @@ public class TestBeanWriter extends AbstractTestCase {
         //XXX find a way to automatically verify test
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
         writer.enablePrettyPrint(); 
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.setAttributesForPrimitives(true);
@@ -201,6 +205,7 @@ public class TestBeanWriter extends AbstractTestCase {
      */
     public void testValidEndOfLine() throws Exception {
         BeanWriter writer = new BeanWriter();
+        writer.setWriteEmptyElements(true);
         
         // store the system err
         PrintStream errStream = System.err;
@@ -226,6 +231,89 @@ public class TestBeanWriter extends AbstractTestCase {
         warning.reset();
         // set the System.err back again..
         System.setErr(errStream);
+    }
+    
+    /** Test simplest case for writing empty elements */
+    public void testSimpleWriteEmptyElements() throws Exception{
+        
+        // use same bean for both tests
+        AddressBean bean = new AddressBean();
+        bean.setStreet("Pasture Lane");
+        bean.setCity("Bradford");
+        
+//        SimpleLog log = new SimpleLog( "[SimpleEmpty:AbstractBeanWriter]" );
+//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
+//        SimpleLog baseLog = new SimpleLog( "[SimpleEmpty]" );
+//        baseLog.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        
+        // test output when writing empty elements
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.setWriteIDs(false);
+        writer.write(bean);
+//        baseLog.debug("SIMPLE EMPTY");
+//        baseLog.debug(out.getBuffer().toString());
+        String xml = "<?xml version='1.0'?><AddressBean><street>Pasture Lane</street><city>Bradford</city>"
+                    + "<code/><country/></AddressBean>";
+//        baseLog.debug(xml);
+        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
+        
+        // test output when not writing empty elements
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(false);
+        writer.setWriteIDs(false);
+//        writer.setAbstractBeanWriterLog(log);
+        writer.write(bean);
+        xml = "<?xml version='1.0'?><AddressBean><street>Pasture Lane</street><city>Bradford</city>"
+                    + "</AddressBean>";
+//        baseLog.debug("SIMPLE NOT EMPTY");
+//        baseLog.debug(out.getBuffer().toString());
+        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
+        
+    }
+    
+    /** Test nested case for writing empty elements */
+    public void testNestedWriteEmptyElements() throws Exception{
+        
+        // write same bean both times
+        LoopBean root = new LoopBean("base");
+        LoopBean middle = new LoopBean(null);
+        root.setFriend(middle);
+        middle.setFriend(new LoopBean(null));
+        
+//        SimpleLog baseLog = new SimpleLog( "[NestedEmpty]" );
+//        baseLog.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+    
+        // test output when writing empty elements
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
+        writer.setWriteIDs(false);
+        writer.write(root);
+//        baseLog.debug("NESTED EMPTY");
+//        baseLog.debug(out.getBuffer().toString());
+        String xml = "<?xml version='1.0'?><LoopBean><name>base</name><friend><name/><friend><name/></friend>"
+                    + "</friend></LoopBean>";
+        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
+        
+        // test output when not writing empty elements
+        out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(false);
+        writer.setWriteIDs(false);
+        writer.write(root);
+//        baseLog.debug("NESTED NOT EMPTY");
+//        baseLog.debug(out.getBuffer().toString());
+        xml = "<?xml version='1.0'?><LoopBean><name>base</name></LoopBean>";
+        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
+        
     }
 }
 

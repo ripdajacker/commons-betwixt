@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.17 2003/02/03 14:23:31 mvdb Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.18 2003/02/13 18:41:48 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -392,8 +392,8 @@ public class XMLIntrospectorHelper {
 
                         if ( log.isDebugEnabled() ) {
                             log.debug( "!! " + propertyName + " -> " + descriptor );
-                            log.debug( "!! " + name + " -> " + 
-                            (descriptor!=null?descriptor.getPropertyName():"") );
+                            log.debug( "!! " + name + " -> " 
+                             + (descriptor!=null?descriptor.getPropertyName():"") );
                         }
                         
                         if ( descriptor != null ) {

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.1 2003/01/19 23:20:44 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/01/19 23:20:44 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLUtils.java,v 1.2 2003/02/13 18:41:47 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/02/13 18:41:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLUtils.java,v 1.1 2003/01/19 23:20:44 rdonkin Exp $
+ * $Id: XMLUtils.java,v 1.2 2003/02/13 18:41:47 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
  /**
@@ -75,7 +75,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class XMLUtils {
 
@@ -420,7 +420,7 @@ public class XMLUtils {
      * or element name. Returns false if <code>name</code> is null
      * @return true if this string would be a well-formed name
      */
-    public static boolean isWellFormedXMLName( String name ) {	
+    public static boolean isWellFormedXMLName( String name ) {
         if ( name == null ) {
             return false;
         }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.2 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestElementsIO.java,v 1.3 2003/02/13 18:41:49 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/02/13 18:41:49 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestElementsIO.java,v 1.2 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestElementsIO.java,v 1.3 2003/02/13 18:41:49 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
@@ -119,6 +119,7 @@ public class TestElementsIO extends TestCase {
 
         StringWriter out = new StringWriter();
         BeanWriter writer = newBeanWriter(out, mapper);
+        writer.setWriteEmptyElements(true);
         writer.write(elements);
         writer.flush();
         
@@ -152,6 +153,7 @@ public class TestElementsIO extends TestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         
         BeanWriter result = new BeanWriter(writer);
+        result.setWriteEmptyElements(true);
 //        result.setLog(log);
         
 //        log = new SimpleLog("[TextElementsIO:AbstractBeanWriter]");

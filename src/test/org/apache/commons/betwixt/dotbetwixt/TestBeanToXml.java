@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.8 2003/01/19 23:25:52 rdonkin Exp $
- * $Revision: 1.8 $
- * $Date: 2003/01/19 23:25:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestBeanToXml.java,v 1.9 2003/02/13 18:41:48 rdonkin Exp $
+ * $Revision: 1.9 $
+ * $Date: 2003/02/13 18:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestBeanToXml.java,v 1.8 2003/01/19 23:25:52 rdonkin Exp $
+ * $Id: TestBeanToXml.java,v 1.9 2003/02/13 18:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.dotbetwixt;
 
@@ -105,6 +105,7 @@ public class TestBeanToXml extends XmlTestCase {
 //        SimpleLog log = new SimpleLog("[testSimpleBean:XMLIntrospector]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
 //        writer.getXMLIntrospector().setLog(log);
         
 //        log = new SimpleLog("[testSimpleBean:XMLIntrospectorHelper]");
@@ -158,6 +159,7 @@ public class TestBeanToXml extends XmlTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0' encoding='UTF-8'?>");
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
         writer.write(new BadDotBetwixtNamesBean("one", "two"));
         
         System.out.println(out.toString());

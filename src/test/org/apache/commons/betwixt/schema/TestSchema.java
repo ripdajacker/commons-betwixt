@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/02/09 22:27:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/schema/TestSchema.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/02/13 18:41:48 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
+ * $Id: TestSchema.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
  */
 package org.apache.commons.betwixt.schema;
 
@@ -84,7 +84,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * a "collection" tag.
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: TestSchema.java,v 1.6 2003/02/09 22:27:18 rdonkin Exp $
+ * @version $Id: TestSchema.java,v 1.7 2003/02/13 18:41:48 rdonkin Exp $
  */
 public class TestSchema extends AbstractTestCase
 {
@@ -216,6 +216,7 @@ public class TestSchema extends AbstractTestCase
     throws Exception
     {
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements( true );
         writer.setXMLIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
         writer.getXMLIntrospector().setWrapCollectionsInElement(wrapCollectionsInElement);

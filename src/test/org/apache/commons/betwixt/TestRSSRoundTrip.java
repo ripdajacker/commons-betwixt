@@ -225,6 +225,7 @@ public class TestRSSRoundTrip extends AbstractTestCase {
     
     protected void write(Object bean, Writer out) throws Exception {
         BeanWriter writer = new BeanWriter(out);
+        writer.setWriteEmptyElements(true);
         writer.getXMLIntrospector().setAttributesForPrimitives(false);
         writer.setWriteIDs(false);
         writer.enablePrettyPrint();
