@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.10 2002/08/29 21:22:52 rdonkin Exp $
- * $Revision: 1.10 $
- * $Date: 2002/08/29 21:22:52 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.11 2002/08/29 21:40:29 rdonkin Exp $
+ * $Revision: 1.11 $
+ * $Date: 2002/08/29 21:40:29 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.10 2002/08/29 21:22:52 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.11 2002/08/29 21:40:29 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,7 +89,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.11 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -115,14 +115,28 @@ public class BeanCreateRule extends Rule {
     private String pathPrefix;
     /** Beans digested indexed by <code>ID</code> */
     private Map beansById = new HashMap();
-    /** Use id's to match beans */
+    /** Use id's to match beans? */
     private boolean matchIDs = true;
     
+    /**
+     * Convenience constructor which uses <code>ID's</code> for matching.
+     */
+    public BeanCreateRule(
+                            ElementDescriptor descriptor, 
+                            Class beanClass, 
+                            String pathPrefix )
+    {
+        this( descriptor, beanClass, pathPrefix, true );
+    }
+    
+    /**
+     * Constructor taking a class.
+     */
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
                             Class beanClass, 
                             String pathPrefix, 
-                            boolean matchIDs) {
+                            boolean matchIDs ) {
         this( 
                 descriptor, 
                 beanClass, 
@@ -131,29 +145,55 @@ public class BeanCreateRule extends Rule {
                 matchIDs);
     }
     
-    public BeanCreateRule(ElementDescriptor descriptor, Class beanClass, boolean matchIDs) {
-        this( descriptor, beanClass, descriptor.getQualifiedName() + "/" , matchIDs);
+    /**
+     * Convenience constructor which uses <code>ID's</code> for matching.
+     */    
+    public BeanCreateRule( ElementDescriptor descriptor, Class beanClass ) {
+        this( descriptor, beanClass, true );
     }
     
+    /** 
+     * Constructor uses standard qualified name.
+     */
+    public BeanCreateRule( ElementDescriptor descriptor, Class beanClass, boolean matchIDs ) {
+        this( descriptor, beanClass, descriptor.getQualifiedName() + "/" , matchIDs );
+    }
+  
+    /**
+     * Convenience constructor which uses <code>ID's</code> for match.
+     */   
+    public BeanCreateRule(
+                            ElementDescriptor descriptor, 
+                            Context context, 
+                            String pathPrefix ) {    
+        this( descriptor, context, pathPrefix, true );
+    }
+    
+    /**
+     * Constructor taking a context.
+     */
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
                             Context context, 
                             String pathPrefix,
-                            boolean matchIDs) {
+                            boolean matchIDs ) {
         this( 
                 descriptor, 
                 descriptor.getSingularPropertyType(), 
                 context, 
                 pathPrefix,
-                matchIDs);
+                matchIDs );
     }
     
+    /**
+     * Base constructor (used by other constructors).
+     */
     private BeanCreateRule(
                             ElementDescriptor descriptor, 
                             Class beanClass,
                             Context context, 
                             String pathPrefix,
-                            boolean matchIDs) {
+                            boolean matchIDs ) {
         this.descriptor = descriptor;        
         this.context = context;
         this.beanClass = beanClass;
@@ -342,6 +382,7 @@ public class BeanCreateRule extends Rule {
         }
     }
                         
+    /** Add child rules for given descriptor at given prefix */
     protected void addChildRules(String prefix, ElementDescriptor currentDescriptor ) {
         BeanReader digester = getBeanReader();            
         
@@ -441,8 +482,13 @@ public class BeanCreateRule extends Rule {
             }
         }
     }
-
+    
+    /**
+     * Get the associated bean reader.
+     */
     protected BeanReader getBeanReader() {
+        // XXX this breaks the rule contact
+        // XXX maybe the reader should be passed in the constructor
         return (BeanReader) getDigester();
     }
     
@@ -478,6 +524,9 @@ public class BeanCreateRule extends Rule {
         addRule( path, rule );
     }
     
+    /**
+     * Safely add a rule with given path.
+     */
     protected void addRule(String path, Rule rule) {
         Rules rules = digester.getRules();
         List matches = rules.match(null, path);
@@ -493,7 +542,10 @@ public class BeanCreateRule extends Rule {
             }
         }
     }
-
+    
+    /**
+     * Return something meaningful for logging.
+     */
     public String toString() {
         return "BeanCreateRule [path prefix=" + pathPrefix + " descriptor=" + descriptor + "]";
     }
