@@ -25,7 +25,7 @@ import org.xml.sax.Attributes;
  * {@link org.apache.commons.betwixt.Options}
  * on the current description.
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.1 $
+ * @since 0.5
  */
 public class OptionRule extends Rule {
     

@@ -32,7 +32,7 @@ import org.apache.commons.betwixt.expression.Updater;
   * is performed from the results of that introspection.
   *
   * @author Robert Burrell Donkin
-  * @version $Id: BeanProperty.java,v 1.5 2004/02/28 13:38:32 yoavs Exp $
+  * @since 0.5
   */
 public class BeanProperty {
 

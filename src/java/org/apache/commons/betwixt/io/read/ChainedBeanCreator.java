@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.io.read;
   * Creator of beans that may delegate responsibility to members down the chain.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @since 0.5
   */
 public interface ChainedBeanCreator {
     

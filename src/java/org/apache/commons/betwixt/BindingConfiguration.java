@@ -35,7 +35,7 @@ import org.apache.commons.betwixt.strategy.ObjectStringConverter;
   * can be shared.</p> 
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.7 $
+  * @since 0.5
   */
 public class BindingConfiguration implements Serializable {
 

@@ -22,7 +22,7 @@ import org.apache.commons.betwixt.expression.Context;
  * String &lt;-&gt; object conversion strategy that delegates to ConvertUtils.
  *
  * @author Robert Burrell Donkin
- * @version $Revision: 1.7 $
+ * @since 0.5
  */
 public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
     

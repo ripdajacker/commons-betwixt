@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.expression;
 /** <p><code>Expression</code> represents an arbitrary expression on a bean.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.6.2.1 $
   */
 public interface Expression {
 
@@ -43,7 +43,7 @@ public interface Expression {
      *
      * @param context update this <code>Context</code> 
      * @param newValue the new value for this expression
-     * @deprecated use {@link Updater} instead
+     * @deprecated 0.5 use {@link Updater} instead
      */
     public void update(Context context, String newValue);
 }

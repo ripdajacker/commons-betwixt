@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.io.read;
   * Stores mapping phase configuration settings that apply only for bean reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4 $
+  * @since 0.5
   */
 public class ReadConfiguration {
     

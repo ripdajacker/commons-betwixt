@@ -75,7 +75,7 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.24 $
+  * @version $Revision: 1.24.2.1 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -270,6 +270,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * This is used to process body content 
      * before it is written to the textual output.
      * @return the <code>MixedContentEncodingStrategy</code>, not null
+     * @since 0.5
      */
     public MixedContentEncodingStrategy getMixedContentEncodingStrategy() {
         return mixedContentEncodingStrategy;
@@ -281,6 +282,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * before it is written to the textual output.
      * @param strategy the <code>MixedContentEncodingStrategy</code>
      * used to process body content, not null
+     * @since 0.5
      */
     public void setMixedContentEncodingStrategy(MixedContentEncodingStrategy strategy) {
         mixedContentEncodingStrategy = strategy;
@@ -300,7 +302,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @param attr the element's attributes
      * @throws IOException if an IO problem occurs during writing 
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void startElement(
                                 WriteContext context,
@@ -343,7 +345,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @throws IOException if an IO problem occurs during writing 
      * @throws SAXException if an SAX problem occurs during writing 
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void endElement(
                                 WriteContext context,
@@ -379,7 +381,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param text write out this body text
      * @throws IOException when the stream write fails
-     * @since 1.0 Alpha 1
+     * @since 0.5
      */
     protected void bodyText(WriteContext context, String text) throws IOException {
         if ( text == null ) {
@@ -432,7 +434,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * Uses current <code>endOfLine</code>.
      *
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writePrintln() throws IOException {
         if ( endOfLine != null ) {
@@ -444,7 +446,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * Writes out <code>indent</code>'s to the current <code>indentLevel</code>
      *
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void writeIndent() throws IOException {
         if ( indent != null ) {
@@ -460,7 +462,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param value escape <code>value.toString()</code>
      * @return text with escaped delimiters 
-     * @deprecated After 1.0-Alpha-1 moved into utility class {@link XMLUtils#escapeBodyValue}
+     * @deprecated 0.5 moved into utility class {@link XMLUtils#escapeBodyValue}
      */
     protected String escapeBodyValue(Object value) {
         return XMLUtils.escapeBodyValue(value);
@@ -473,7 +475,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @param value escape <code>value.toString()</code>
      * @return text with characters restricted (for use in attributes) escaped
      *
-     * @deprecated After 1.0-Alpha-1 moved into utility class {@link XMLUtils#escapeAttributeValue}
+     * @deprecated 0.5 moved into utility class {@link XMLUtils#escapeAttributeValue}
      */
     protected String escapeAttributeValue(Object value) {
         return XMLUtils.escapeAttributeValue(value);
@@ -484,7 +486,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param qualifiedName the fully qualified name of the element to write
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementStart(String qualifiedName) throws IOException {
         if ( qualifiedName == null ) {
@@ -503,7 +505,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * Write a tag close to the stream
      *
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressTagClose() throws IOException {
         writer.write( '>' );
@@ -514,7 +516,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param qualifiedName the name of the element
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementEnd(String qualifiedName) throws IOException {
         if (qualifiedName == null) {
@@ -532,7 +534,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * Write an empty element end to the stream
      *
      * @throws IOException when stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressElementEnd() throws IOException {
         writer.write( "/>" );
@@ -543,7 +545,7 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param text write out this body text
      * @throws IOException when the stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressBodyText(String text) throws IOException {
         if ( text == null ) {
@@ -561,7 +563,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * @param qualifiedName fully qualified attribute name
      * @param value attribute value
      * @throws IOException when the stream write fails
-     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     * @deprecated 0.5 replaced by new SAX inspired API
      */
     protected void expressAttribute(
                                 String qualifiedName, 

@@ -32,7 +32,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * in the sense of escaping a sequence of character data.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
- * @version $Revision: 1.3 $
+ * @since 0.5
  */
 public abstract class MixedContentEncodingStrategy {
 

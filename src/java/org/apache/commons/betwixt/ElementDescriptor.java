@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.15 $
+  * @version $Revision: 1.15.2.1 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -149,6 +149,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * Returns true if this element has child content.
      * @return true if this element has either child mixed content or child elements
      * @see #getContentDescriptors
+     * @since 0.5
      */
     public boolean hasContent() {
         return getContentDescriptors().length > 0; 
@@ -280,6 +281,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * Adds a descriptor for child content.
      * 
      * @param descriptor the <code>Descriptor</code> describing the child content to add
+     * @since 0.5
      */
     public void addContentDescriptor(Descriptor descriptor) {
         if ( contentList == null ) {
@@ -293,6 +295,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * Returns descriptors for the child content of the element this describes.
      * @return the <code>Descriptor</code> describing the child elements
      * of the element that this <code>ElementDescriptor</code> describes
+     * @since 0.5
      */
     public Descriptor[] getContentDescriptors() {
         if ( contentDescriptors == null ) {
@@ -319,6 +322,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * found amongst the descriptors is returned.
      *
      * @return the primary descriptor or null if this element has no mixed body content
+     * @since 0.5
      */
     public TextDescriptor getPrimaryBodyTextDescriptor() {
         // todo: this probably isn't the most efficent algorithm
@@ -337,6 +341,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * Sets the descriptors for the child content of the element this describes. 
      * @param contentDescriptors the <code>Descriptor</code>s of the element 
      * that this describes
+     * @since 0.5
      */
     public void setContentDescriptors(Descriptor[] contentDescriptors) {
         this.contentDescriptors = contentDescriptors;
@@ -438,6 +443,7 @@ public class ElementDescriptor extends NodeDescriptor {
      *
      * @return list of <code>Descriptor</code>'s describe the child content of 
      * the element that this <code>Descriptor</code> describes
+     * @since 0.5
      */
     protected List getContentList() {
         if ( contentList == null ) {
@@ -469,6 +475,7 @@ public class ElementDescriptor extends NodeDescriptor {
       * Sets the class which should be used for instantiation.
       * @param implementationClass the class which should be used for instantiation
       * or null to use the mapped type
+      * @since 0.5
       */
     public void setImplementationClass(Class implementationClass) {
         this.implementationClass = implementationClass;

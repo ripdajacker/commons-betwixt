@@ -29,7 +29,7 @@ package org.apache.commons.betwixt;
   * @author Rahul Srivastava, Sun Microsystems Inc.  
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.9 $
+  * @since 0.5
   */
 public class XMLUtils {
 

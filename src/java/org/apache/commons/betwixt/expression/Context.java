@@ -43,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
   * If the child is a parent then that operation fails. </p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10 $
+  * @version $Revision: 1.10.2.1 $
   */
 public class Context {
 
@@ -70,7 +70,7 @@ public class Context {
       *
       * @param bean evaluate expressions against this bean
       * @param log log to this logger
-      * @deprecated use constructor which takes a BindingConfiguration
+      * @deprecated 0.5 use constructor which takes a BindingConfiguration
       */
     public Context(Object bean, Log log) {
         this( bean, log, new BindingConfiguration() );
@@ -102,7 +102,7 @@ public class Context {
       * @param bean evaluate expressions against this bean 
       * @param variables context variables
       * @param log log to this logger
-      * @deprecated use constructor which takes a converter
+      * @deprecated 0.5 use constructor which takes a converter
       */
     public Context(Object bean, Map variables, Log log) {
         this( bean, variables, log, new BindingConfiguration() );
@@ -204,6 +204,7 @@ public class Context {
     /** 
      * Gets object &lt;-&gt; string converter.
      * @return the Converter to be used for conversions, not null
+     * @since 0.5 
      */
     public ObjectStringConverter getObjectStringConverter() {
         return bindingConfiguration.getObjectStringConverter();
@@ -215,6 +216,7 @@ public class Context {
      *
      * @return true if <code>ID</code> and <code>IDREF</code> 
      * attributes should be used to cross-reference instances
+     * @since 0.5
      */
     public boolean getMapIDs() {
         return bindingConfiguration.getMapIDs();
@@ -227,6 +229,7 @@ public class Context {
      * <p>The default value is 'className'.</p>
      * 
      * @return The name of the attribute used to overload the class name of a bean
+     * @since 0.5
      */
     public String getClassNameAttribute() {
         return bindingConfiguration.getClassNameAttribute();
@@ -240,6 +243,7 @@ public class Context {
      * <p>The default value is 'className'.</p>
      * 
      * @param classNameAttribute The name of the attribute used to overload the class name of a bean
+     * @since 0.5
      */
     public void setClassNameAttribute(String classNameAttribute) {
         bindingConfiguration.setClassNameAttribute( classNameAttribute );
