@@ -175,7 +175,7 @@ public class TestScarabSettings extends AbstractTestCase
         //introspector.setWrapCollectionsInElement(true);
 
         // turn bean elements into lower case
-        introspector.setNameMapper(new HyphenatedNameMapper());
+        introspector.setElementNameMapper(new HyphenatedNameMapper());
 
         return introspector;
     }

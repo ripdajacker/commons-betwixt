@@ -200,9 +200,6 @@
         <path path="${classpath}"/>
         <path path="${java.classpath}"/>
       </path>
-      
-      <echo message="test callback file: ${maven.test.callback.pre-test.buildFile} and target: ${maven.test.callback.pre-test.buildTarget}"/>
-
     </target>   
 
     <target name="compile.tests" depends="compile, maven:compile-test"/>

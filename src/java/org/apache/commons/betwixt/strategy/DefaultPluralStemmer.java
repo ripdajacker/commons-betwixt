@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/11 16:05:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultPluralStemmer.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: DefaultPluralStemmer.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -66,20 +66,29 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /** 
  * A default implementation of the plural name stemmer which
  * tests for some common english plural/singular patterns and
  * then uses a simple starts-with algorithm 
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+ * @version $Revision: 1.2 $
  */
 public class DefaultPluralStemmer implements PluralStemmer {
+
+    /** Log used for logging (Doh!) */
+    protected static Log log = LogFactory.getLog( DefaultPluralStemmer.class );
 
     /**
      * @return the plural descriptor for the given singular property name
      */
     public ElementDescriptor findPluralDescriptor( String propertyName, Map map) {
+        int foundKeyCount = 0;
+        String keyFound = null;
         ElementDescriptor answer = (ElementDescriptor) map.get( propertyName + "s" );
         if ( answer == null ) {
             int length = propertyName.length();
@@ -93,12 +102,31 @@ public class DefaultPluralStemmer implements PluralStemmer {
                 for ( Iterator iter = map.keySet().iterator(); iter.hasNext(); ) {
                     String key = (String) iter.next();
                     if ( key.startsWith( propertyName ) ) {
-                        answer = (ElementDescriptor) map.get(key);
-                        break;
+                        if (answer == null) {
+                            answer = (ElementDescriptor) map.get(key);
+                            if (key.equals(propertyName)) {
+                                // we found the best match..
+                                break;
+                            }
+                            foundKeyCount++;
+                            keyFound = key;
+                        }
+                        else
+                        {
+                            // check if we have a better match,,
+                            if (keyFound.length() > key.length()) {
+                                answer = (ElementDescriptor) map.get(key);
+                                keyFound = key;
+                            }
+                            foundKeyCount++;
+
+                        }
                     }
-                    // ### could maybe warn if duplicate properties match
                 }
             }
+        }
+        if (foundKeyCount > 1) {
+            log.warn("More then one type matches, using closest match "+keyFound);
         }
         return answer;
         

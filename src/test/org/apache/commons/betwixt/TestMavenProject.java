@@ -207,7 +207,7 @@ public class TestMavenProject extends AbstractTestCase {
         //introspector.setWrapCollectionsInElement(true);
         
         // turn bean elements into lower case
-        introspector.setNameMapper( new DecapitalizeNameMapper() );
+        introspector.setElementNameMapper( new DecapitalizeNameMapper() );
         
         return introspector;
     }

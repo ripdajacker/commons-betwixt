@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/11 16:05:21 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
+ * $Id: BeanWriter.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -125,7 +125,8 @@ import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
   * 
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Revision: 1.2 $
   */
 public class BeanWriter {
 
@@ -320,6 +321,7 @@ public class BeanWriter {
     /**
      * <p> Switch on formatted output.
      * This sets the end of line and the indent.
+     * The default is adding 2 spaces and a newline
      */
     public void enablePrettyPrint() {
         endOfLine = "\n";
@@ -496,7 +498,10 @@ public class BeanWriter {
                                 throws 
                                     IOException, 
                                     IntrospectionException {
-        expressElementStart( qualifiedName );
+                                        
+        if (elementDescriptor.isWrapCollectionsInElement()) {
+            expressElementStart( qualifiedName );
+        }
         
         writeRestOfElement( qualifiedName, elementDescriptor, context);
     }
@@ -530,15 +535,24 @@ public class BeanWriter {
                                     IOException, 
                                     IntrospectionException {
 
-        writeAttributes( elementDescriptor, context );
-        
+        if (elementDescriptor.isWrapCollectionsInElement()) {
+            writeAttributes( elementDescriptor, context );
+        }
+
         if ( writeContent( elementDescriptor, context ) ) {
-            expressElementEnd( qualifiedName );
+            if (elementDescriptor.isWrapCollectionsInElement()) {
+                expressElementEnd( qualifiedName );
+            }
         }  
-        else {            
-            expressElementEnd();
+        else {
+            if (elementDescriptor.isWrapCollectionsInElement()) {
+                expressElementEnd();
+            }
         }
     }
+    
+
+    
     
     protected void writeIDREFElement( 
                                     String qualifiedName, 
@@ -570,7 +584,6 @@ public class BeanWriter {
         boolean writtenContent = false;
         if ( childDescriptors != null && childDescriptors.length > 0 ) {
             // process child elements
-            ++indentLevel;
             for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
                 ElementDescriptor childDescriptor = childDescriptors[i];
                 Context childContext = context;
@@ -586,7 +599,9 @@ public class BeanWriter {
                                     writtenContent = true;
                                     writer.write( ">" );
                                 }
+                                ++indentLevel;
                                 write( qualifiedName, iter.next() );
+                                --indentLevel;
                             }
                         }
                         else {
@@ -594,7 +609,9 @@ public class BeanWriter {
                                 writtenContent = true;
                                 writer.write( ">" );
                             }
+                            ++indentLevel;
                             write( qualifiedName, childBean );
+                            --indentLevel;
                         }
                     }                    
                 }
@@ -603,10 +620,17 @@ public class BeanWriter {
                         writtenContent = true;
                         writer.write( ">" );
                     }
-                    write( childDescriptor.getQualifiedName(), childDescriptor, childContext );
+                    if (childDescriptor.isWrapCollectionsInElement()) {
+                        ++indentLevel;
+                    }
+
+                     write( childDescriptor.getQualifiedName(), childDescriptor, childContext );
+
+                    if (childDescriptor.isWrapCollectionsInElement()) {
+                        --indentLevel;
+                    }
                 }
             }
-            --indentLevel;
             if ( writtenContent ) {
                 writePrintln();
                 writeIndent();
@@ -638,6 +662,9 @@ public class BeanWriter {
                     Context context ) 
                         throws 
                             IOException {
+        if (!elementDescriptor.isWrapCollectionsInElement()) 
+            return;
+            
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         if ( attributeDescriptors != null ) {
             for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
@@ -680,7 +707,7 @@ public class BeanWriter {
     protected void writeIndent() throws IOException {
         if ( indent != null ) {
             for ( int i = 0; i < indentLevel; i++ ) {
-                writer.write( indent );
+                writer.write( getIndent() );
             }
         }
     }

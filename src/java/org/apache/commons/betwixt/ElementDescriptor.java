@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:34 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/06/11 16:05:20 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+ * $Id: ElementDescriptor.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -73,7 +73,8 @@ import org.apache.commons.betwixt.expression.Expression;
   * and <code>ElementDescriptor</code>'s for it's child elements.
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Revision: 1.2 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -107,6 +108,12 @@ public class ElementDescriptor extends NodeDescriptor {
     /** Whether this element refers to a primitive type (or property of a parent object) */
     private boolean primitiveType;
     
+    /** 
+     * Whether this collection element can be used
+     * as a collection element. Defaults to true
+     */
+    private boolean wrapCollectionsInElement = true;
+    
     /** Base constructor */
     public ElementDescriptor() {
     }
@@ -139,6 +146,21 @@ public class ElementDescriptor extends NodeDescriptor {
         return attributeDescriptors != null && attributeDescriptors.length > 0;
     }
     
+    /** Specifies if this is a collection element
+     * Normally only used with the WrapCollectionsInElement setting
+     * @param isCollection
+     */
+    public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
+        this.wrapCollectionsInElement = wrapCollectionsInElement;
+    }
+
+    /**
+     * Returns if this element is a collection element
+     */
+    public boolean isWrapCollectionsInElement() {
+        return this.wrapCollectionsInElement;
+    }
+
     public void addAttributeDescriptor(AttributeDescriptor descriptor) {
         if ( attributeList == null ) {
             attributeList = new ArrayList();

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: BeanCreateRule.java,v 1.1 2002/06/10 17:53:32 jstrachan Exp $
+ * $Id: BeanCreateRule.java,v 1.2 2002/06/11 16:05:21 jstrachan Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -35,7 +35,8 @@ import org.xml.sax.Attributes;
   * from the betwixt XML metadata.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Revision: 1.2 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -236,7 +237,12 @@ public class BeanCreateRule extends Rule {
                             ElementDescriptor grandChild = grandChildren[0];
                             String grandChildQName = grandChild.getQualifiedName();
                             if ( grandChildQName != null && grandChildQName.length() > 0 ) {
-                                path += '/' + grandChildQName;
+                                if (childDescriptor.isWrapCollectionsInElement()) {
+                                    path += '/' + grandChildQName;
+                                }
+                                else{
+                                    path = prefix + grandChildQName;
+                                }
                             }
                         }
                         

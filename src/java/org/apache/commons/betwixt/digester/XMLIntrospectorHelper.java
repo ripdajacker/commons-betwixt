@@ -86,7 +86,8 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * common code shared between the digestor and introspector.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Id: XMLIntrospectorHelper.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -330,7 +331,7 @@ public class XMLIntrospectorHelper {
                                 ElementDescriptor child = children[0];
                                 String localName = child.getLocalName();
                                 if ( localName == null || localName.length() == 0 ) {
-                                    child.setLocalName( introspector.getNameMapper().mapTypeToElementName( propertyName ) );
+                                    child.setLocalName( introspector.getElementNameMapper().mapTypeToElementName( propertyName ) );
                                 }
                             }
                         }

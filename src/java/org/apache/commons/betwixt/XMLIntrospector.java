@@ -93,7 +93,8 @@ import org.apache.commons.betwixt.strategy.PluralStemmer;
   * Later requests for the same class will return the cached value.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: XMLIntrospector.java,v 1.1 2002/06/10 17:53:34 jstrachan Exp $
+  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
+  * @version $Id: XMLIntrospector.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
   */
 public class XMLIntrospector {
 
@@ -104,7 +105,7 @@ public class XMLIntrospector {
     private boolean attributesForPrimitives = false;
     
     /** should we wrap collections in an extra element? */
-    private boolean wrapCollectionsInElement = false;
+    private boolean wrapCollectionsInElement = true;
     
     /** Is <code>XMLBeanInfo</code> caching enabled? */
     boolean cachingEnabled = true;
@@ -121,7 +122,13 @@ public class XMLIntrospector {
     private PluralStemmer pluralStemmer;
     
     /** The strategy used to convert bean type names into element names */
-    private NameMapper nameMapper;
+    private NameMapper elementNameMapper;
+
+    /**
+     * The strategy used to convert bean type names into attribute names
+     * It will default to the normal nameMapper.
+     */
+    private NameMapper attributeNameMapper;
     
     /** Base constructor */
     public XMLIntrospector() {
@@ -214,7 +221,7 @@ public class XMLIntrospector {
         Class beanClass = beanDescriptor.getBeanClass();
         
         ElementDescriptor elementDescriptor = new ElementDescriptor();
-        elementDescriptor.setLocalName( getNameMapper().mapTypeToElementName( beanDescriptor.getName() ) );
+        elementDescriptor.setLocalName( getElementNameMapper().mapTypeToElementName( beanDescriptor.getName() ) );
         elementDescriptor.setPropertyType( beanInfo.getBeanDescriptor().getBeanClass() );
         
         if (log.isTraceEnabled()) {
@@ -322,20 +329,64 @@ public class XMLIntrospector {
 
     /** 
      * @return the strategy used to convert bean type names into element names
+     * @deprecated getNameMapper is split up in {@link #getElementNameMapper()} and {@link #getAttributeNameMapper()}
      */
     public NameMapper getNameMapper() {
-        if ( nameMapper == null ) {
-            nameMapper = createNameMapper();
-        }
-        return nameMapper;
+        return getElementNameMapper();
     }
     
     /** 
      * Sets the strategy used to convert bean type names into element names
+     * @param nameMapper
+     * @deprecated setNameMapper is split up in {@link #setElementNameMapper(NameMapper)} and {@link #setAttributeNameMapper(NameMapper)}
      */
     public void setNameMapper(NameMapper nameMapper) {
-        this.nameMapper = nameMapper;
+        setElementNameMapper(nameMapper);
     }
+
+
+    /**
+     * @return the strategy used to convert bean type names into element 
+     * names. If no element mapper is currently defined then a default one is created.
+     */
+    public NameMapper getElementNameMapper() {
+        if ( elementNameMapper == null ) {
+            elementNameMapper = createNameMapper();
+         }
+        return elementNameMapper;
+    }
+     
+    /**
+     *  Sets the strategy used to convert bean type names into element names
+     * @param nameMapper
+     */
+    public void setElementNameMapper(NameMapper nameMapper) {
+        this.elementNameMapper = nameMapper;
+    }
+    
+
+    /**
+     * @return the strategy used to convert bean type names into attribute
+     * names. If no attributeNamemapper is known, it will default to the ElementNameMapper
+     */
+    public NameMapper getAttributeNameMapper() {
+        if (attributeNameMapper == null) {
+            attributeNameMapper = getElementNameMapper();
+        }
+        return attributeNameMapper;
+     }
+
+
+    /**
+     * Sets the strategy used to convert bean type names into attribute names
+     * @param nameMapper
+     */
+    public void setAttributeNameMapper(NameMapper nameMapper) {
+        this.attributeNameMapper = nameMapper;
+    }
+
+ 
+
 
 
     
@@ -489,6 +540,7 @@ public class XMLIntrospector {
             
             ElementDescriptor elementDescriptor = new ElementDescriptor();
             elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
+            elementDescriptor.setWrapCollectionsInElement(isWrapCollectionsInElement());
             
             nodeDescriptor = elementDescriptor;            
             elements.add( nodeDescriptor );
@@ -509,6 +561,14 @@ public class XMLIntrospector {
         }
 
         nodeDescriptor.setLocalName( getNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
+        if (nodeDescriptor instanceof AttributeDescriptor) {
+            // we want to use the attributemapper only when it is an attribute.. 
+            nodeDescriptor.setLocalName( getAttributeNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
+        }
+        else{
+            nodeDescriptor.setLocalName( getElementNameMapper().mapTypeToElementName( propertyDescriptor.getName() ) );
+        }        
+        
         nodeDescriptor.setPropertyName( propertyDescriptor.getName() );
         nodeDescriptor.setPropertyType( type );        
         

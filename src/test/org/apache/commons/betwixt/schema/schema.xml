@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PHYSICAL_SCHEMA autocreate="yes">
+  <DBMS kind="ODBC">
+    <DBID>
+      <DB_DATA_TYPE name="VARCHAR"/>
+      <DB_DATA_TYPE name="INTEGER"/>
+      <DB_DATA_TYPE name="CHAR"/>
+      <DB_DATA_TYPE name="TEXT"/>
+      <DB_DATA_TYPE name="DATETIME"/>
+      <DB_DATA_TYPE name="LONG RAW"/> 
+      <DB_DATA_TYPE name="CLOB"/>
+      <DB_DATA_TYPE name="FLOAT"/>
+    </DBID>
+  </DBMS>
+  <DBMS kind="TEST"/>
+</PHYSICAL_SCHEMA>
