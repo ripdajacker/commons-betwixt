@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.1 2003/07/31 21:38:31 rdonkin Exp $
- * $Revision: 1.1 $
- * $Date: 2003/07/31 21:38:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultObjectStringConverter.java,v 1.2 2003/08/21 17:07:18 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2003/08/21 17:07:18 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultObjectStringConverter.java,v 1.1 2003/07/31 21:38:31 rdonkin Exp $
+ * $Id: DefaultObjectStringConverter.java,v 1.2 2003/08/21 17:07:18 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -71,31 +71,39 @@ import org.apache.commons.betwixt.expression.Context;
 /** 
  * <p>Default string &lt;-&gt; object conversion strategy.</p>
  * <p>
- * This delegates to ConvertUtils except when the type is assignable from <code>java.util.Date</code>
+ * This delegates to ConvertUtils except when the type 
+ * is assignable from <code>java.util.Date</code>
  * but not from <code>java.sql.Date</code>.
- * In this case, the format used is (in SimpleDateFormat terms) <code>EEE MMM dd HH:mm:ss zzz yyyy</code>.
+ * In this case, the format used is (in SimpleDateFormat terms) 
+ * <code>EEE MMM dd HH:mm:ss zzz yyyy</code>.
  * This is the same as the output of the toString method on java.util.Date.
  * </p>
  * <p>
  * This should preserve the existing symantic behaviour whilst allowing round tripping of dates
  * (given the default settings).
  * </p>
+ * @author Robert Burrell Donkin
  */
 public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConverter {
     
     /** Formats Dates to Strings and Strings to Dates */
-    private final static SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+    private static final SimpleDateFormat formatter 
+        = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
     
     /**
       * Converts an object to a string representation using ConvertUtils.
-      * If the object is a java.util.Date and the type is java.util.Date but not java.sql.Date
-      * then SimpleDateFormat formatting to <code>EEE MMM dd HH:mm:ss zzz yyyy</code>
+      * If the object is a java.util.Date and the type is java.util.Date 
+      * but not java.sql.Date
+      * then SimpleDateFormat formatting to 
+      * <code>EEE MMM dd HH:mm:ss zzz yyyy</code>
       * will be used. 
       * (This is the same as java.util.Date toString would return.)
       *
       * @param object the object to be converted, possibly null
       * @param type the property class of the object, not null
-      * @param flavour a string allow symantic differences in formatting to be communicated (ignored)
+      * @param flavour a string allow symantic differences in formatting 
+      * to be communicated (ignored)
+      * @param context convert against this context not null
       * @return a String representation, not null
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
@@ -122,12 +130,11 @@ public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConver
       */
     public Object stringToObject(String value, Class type, String flavour, Context context) {
             if ( isUtilDate( type ) ) {
-                try
-                {
+                try {
+                    
                     return formatter.parse( value );
-                }
-                catch ( ParseException ex )
-                { 
+                    
+                } catch ( ParseException ex ) { 
                     handleException( ex );
                     // this supports any subclasses that do not which to throw exceptions
                     // probably will result in a problem when the method will be invoked
@@ -152,7 +159,9 @@ public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConver
     }
     
     /**
-      * Is the given type a java.util.Date but not a java.sql.Date.
+      * Is the given type a java.util.Date but not a java.sql.Date?
+      * @param type test this class type
+      * @return true is this is a until date but not a sql one
       */
     private boolean isUtilDate(Class type) {
         return ( java.util.Date.class.isAssignableFrom(type) 
