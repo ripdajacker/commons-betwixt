@@ -6,15 +6,15 @@ project.
 
 The Betwixt build process is now Mavenized!
 
-For those who haven't heard of Maven, it's an ant-based
-unified project build processor. See
+For those who haven't heard of Maven, its a unified 
+project build processor. See
 
 	http://jakarta.apache.org/turbine/maven/ 
 
 for the Maven project documentation. This means that you
-now need to download and install Maven (as well as Ant
-and JUnit) if you want to build Betwixt. Full details of 
-how this can be done can be found on the Maven site.
+now need to download and install Maven if you want to 
+build Betwixt. Full details of  how this can be done can 
+be found on the Maven site.
 
 Maven downloads all neccessary dependencies for you
 - so you don't need to worry about that any more!
@@ -22,12 +22,12 @@ Maven downloads all neccessary dependencies for you
 Maven uses a set of standard build commands. Here's a 
 couple to get you started:
 
-	robert% ant
+	robert% maven
 
-this executes 'maven:jar' which compiles the source, 
+this executes 'java:jar' which compiles the source, 
 runs the unit tests and creates a jar.
 
-	robert% ant maven:dist-build
+	robert% maven dist:build
 
 creates a distribution (including documentation) from
 the current source as well as doing everything that 
@@ -40,4 +40,3 @@ information about the other standard build commands.
 Note: 
 	Maven creates the documentation in 
 betwixt/target/docs rather than betwixt/dist/docs.
-
