@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.13 2003/02/22 16:25:24 mvdb Exp $
- * $Revision: 1.13 $
- * $Date: 2003/02/22 16:25:24 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.14 2003/02/27 19:20:17 rdonkin Exp $
+ * $Revision: 1.14 $
+ * $Date: 2003/02/27 19:20:17 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.13 2003/02/22 16:25:24 mvdb Exp $
+ * $Id: AbstractBeanWriter.java,v 1.14 2003/02/27 19:20:17 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -77,6 +77,8 @@ import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.AttributesImpl;
 
 // FIX ME!!!
 // Logging logic!
@@ -92,7 +94,7 @@ import org.xml.sax.SAXException;
   * Subclasses provide implementations for the actual expression of the xml.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.13 $
+  * @version $Revision: 1.14 $
   */
 public abstract class AbstractBeanWriter {
 
@@ -111,8 +113,6 @@ public abstract class AbstractBeanWriter {
     private boolean writeIDs = true;
     /** Should empty elements be written out? */
     private boolean writeEmptyElements = true;
-    /** indentation level */
-    private int indentLevel;
     
     /**
      * Marks the start of the bean writing.
@@ -340,16 +340,6 @@ public abstract class AbstractBeanWriter {
     }
     
     /** 
-     * Get the indentation for the current element. 
-     * Used for pretty priting.
-     *
-     * @return the amount that the current element is indented
-     */
-    protected int getIndentLevel() {
-        return indentLevel;
-    }
-    
-    /** 
       * Set <code>IDGenerator</code> implementation 
       * used to generate <code>ID</code> attribute values.
       * This property can be used to customize the algorithm used for generation.
@@ -457,162 +447,64 @@ public abstract class AbstractBeanWriter {
     public final void setAbstractBeanWriterLog(Log log) {
         this.log = log;
     }
-    
         
-    // Expression methods
+    // SAX-style methods
     //-------------------------------------------------------------------------    
-
-    /** 
-     * Express an element tag start using given qualified name.
+        
+    /**
+     * Writes the start tag for an element.
      *
-     * @param qualifiedName the qualified name of the element to be expressed
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementStart(String qualifiedName) 
-                                        throws IOException, SAXException {
-        // do nothing
-    }
-                                        
-    /** 
-     * Express an element tag start using given qualified name.
-     *
-     * @param uri the namespace uri 
-     * @param localName the local name for this element
-     * @param qualifiedName the qualified name of the element to be expressed
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementStart(String uri, String localName, String qualifiedName) 
-                                        throws IOException, SAXException {
-        expressElementStart( qualifiedName );
-    }
-    
-     /**
-     * Express a closing tag.
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     * @param attr the element's attributes
      *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha-1
      */
-    protected abstract void expressTagClose() throws IOException, SAXException;
-    
-    /** 
-     * Express an element end tag (with given name) 
-     *
-     * @param qualifiedName the qualified name for the element to be closed
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementEnd(String qualifiedName) 
-                                              throws IOException, SAXException {
-        // do nothing
-    }
-    
-    /** 
-     * Express an element end tag (with given name) 
-     *
-     * @param uri the namespace uri of the element close tag
-     * @param localName the local name of the element close tag
-     * @param qualifiedName the qualified name for the element to be closed
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementEnd(
-                                                String uri,
-                                                String localName,
-                                                String qualifiedName) 
-                                                    throws 
-                                                        IOException, 
-                                                        SAXException {
-        expressElementEnd(qualifiedName);
-    }
-                                              
-    
-    /** 
-     * Express an empty element end.
-     * 
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected abstract void expressElementEnd() throws IOException, SAXException;
-
-    /** 
-     * Express body text 
-     *
-     * @param text the string to write out as the body of the current element
-     * 
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected abstract void expressBodyText(String text) throws IOException, SAXException;
-    
-    /** 
-     * Express an attribute 
-     *
-     * @param qualifiedName the qualified name of the attribute
-     * @param value the attribute value
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressAttribute(
-                                String qualifiedName, 
-                                String value) 
+    protected void startElement(
+                                String uri, 
+                                String localName, 
+                                String qName, 
+                                Attributes attr)
                                     throws
-                                        IOException, 
-                                        SAXException {
-        // Do nothing
-    }
-
-    /** 
-     * Express an attribute 
+                                        IOException,
+                                        SAXException {}
+    
+    /**
+     * Writes the end tag for an element
      *
-     * @param namespaceUri the namespace uri
-     * @param localName the local name
-     * @param qualifiedName the qualified name of the attribute
-     * @param value the attribute value
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     *
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha-1
      */
-    protected void expressAttribute(
-                                String namespaceUri,
-                                String localName,
-                                String qualifiedName, 
-                                String value) 
+    protected void endElement(
+                                String uri, 
+                                String localName, 
+                                String qName)
                                     throws
-                                        IOException, 
-                                        SAXException {
-        expressAttribute(qualifiedName, value);
-    }
-
-
+                                        IOException,
+                                        SAXException {}
+    
+    /** 
+     * Writes body text
+     *
+     * @param text the body text to be written
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
+     */
+    protected void bodyText(String text) throws IOException, SAXException {}
+    
     // Implementation methods
     //-------------------------------------------------------------------------    
-    
 
-    /** 
-     * Writes the given element 
-     *
-     * @param qualifiedName qualified name to use for the element
-     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
-     * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated refactoring means method no longer needed
-     */
-    protected void write( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context ) 
-                                throws 
-                                    IOException, 
-                                    SAXException,
-                                    IntrospectionException {
-        writeElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
-    }
-    
     /** 
      * Writes the given element 
      *
@@ -645,46 +537,18 @@ public abstract class AbstractBeanWriter {
             }
         
             if (elementDescriptor.isWrapCollectionsInElement()) {
-                expressElementStart( namespaceUri, localName, qualifiedName );
+                startElement( 
+                            namespaceUri, 
+                            localName, 
+                            qualifiedName,
+                            new ElementAttributes( elementDescriptor, context ));
             }
-            
-            writeRestOfElement( namespaceUri, localName, qualifiedName, elementDescriptor, context);
+    
+            writeElementContent( elementDescriptor, context ) ;
+            if ( elementDescriptor.isWrapCollectionsInElement() ) {
+                endElement( namespaceUri, localName, qualifiedName );
+            }
         }
-    }
-    
-    
-
-    /** 
-     * Writes the given element adding an ID attribute 
-     *
-     * @param qualifiedName qualified name to use for the element
-     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
-     * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @param idAttribute the qualified name of the <code>ID</code> attribute 
-     * @param idValue the value for the <code>ID</code> attribute 
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated refactoring means method no longer needed
-     */
-    protected void write( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context,
-                            String idAttribute,
-                            String idValue ) 
-                                throws 
-                                    IOException, 
-                                    SAXException,
-                                    IntrospectionException {
-        writeElement( 
-                    "", 
-                    qualifiedName, 
-                    qualifiedName, 
-                    elementDescriptor, 
-                    context, 
-                    idAttribute, 
-                    idValue );
     }
     
     /** 
@@ -716,44 +580,24 @@ public abstract class AbstractBeanWriter {
                    
         if ( !ignoreElement( elementDescriptor, context ) ) {
         
-            expressElementStart( namespaceUri, localName, qualifiedName );
-             
-            // XXX For the moment, assign ID attribute to default namespace
-            expressAttribute( "", idAttribute, idAttribute, idValue );        
-        
-            writeRestOfElement( 
-                                namespaceUri, 
-                                localName, 
-                                qualifiedName, 
-                                elementDescriptor, 
-                                context );
+            startElement( 
+                        namespaceUri, 
+                        localName, 
+                        qualifiedName,
+                        new ElementAttributes( 
+                                                elementDescriptor, 
+                                                context, 
+                                                idAttribute, 
+                                                idValue ));
+    
+            writeElementContent( elementDescriptor, context ) ;
+            endElement( namespaceUri, localName, qualifiedName );
 
         } else if ( log.isTraceEnabled() ) {
             log.trace( "Element " + qualifiedName + " is empty." );
         }
     }
     
-    /** 
-     * Write attributes, child elements and element end 
-     *
-     * @param qualifiedName qualified name to use for the element
-     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
-     * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated refactored away
-     */
-    protected void writeRestOfElement( 
-                            String qualifiedName, 
-                            ElementDescriptor elementDescriptor, 
-                            Context context ) 
-                                throws 
-                                    IOException, 
-                                    SAXException,
-                                    IntrospectionException {
-        writeRestOfElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
-    }
 
     /**
      * Write attributes, child elements and element end 
@@ -782,43 +626,10 @@ public abstract class AbstractBeanWriter {
             writeAttributes( elementDescriptor, context );
         }
 
-        if ( writeContent( elementDescriptor, context ) ) {
-            if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                expressElementEnd( uri, localName, qualifiedName );
-            }
-        } else {
-            if ( elementDescriptor.isWrapCollectionsInElement() ) {
-                expressElementEnd();
-            }
+        writeElementContent( elementDescriptor, context );
+        if ( elementDescriptor.isWrapCollectionsInElement() ) {
+            endElement( uri, localName, qualifiedName );
         }
-    }
-    
-
-    /**
-     * Writes an element with a <code>IDREF</code> attribute 
-     *
-     * @param qualifiedName of the element with <code>IDREF</code> attribute 
-     * @param idrefAttributeName the qualified name of the <code>IDREF</code> attribute 
-     * @param idrefAttributeValue the value for the <code>IDREF</code> attribute 
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated refactored away
-     */
-    protected void writeIDREFElement( 
-                                    String qualifiedName, 
-                                    String idrefAttributeName,
-                                    String idrefAttributeValue ) 
-                                        throws 
-                                            IOException, 
-                                            SAXException,
-                                            IntrospectionException {
-        writeIDREFElement( 
-                            "", 
-                            qualifiedName, 
-                            qualifiedName, 
-                            idrefAttributeName, 
-                            idrefAttributeValue );
     }
 
     /**
@@ -844,34 +655,40 @@ public abstract class AbstractBeanWriter {
                                             SAXException,
                                             IntrospectionException {
 
+        
+        
         // write IDREF element
-        expressElementStart( uri, localName, qualifiedName );
-        
-        // XXX for the moment, assgin IDREF to default namespace
-        expressAttribute( "", idrefAttributeName, idrefAttributeName, idrefAttributeValue );
-                            
-        expressElementEnd();
+        AttributesImpl attributes = new AttributesImpl();
+        // XXX for the moment, assign IDREF to default namespace
+        attributes.addAttribute( 
+                                "",
+                                idrefAttributeName, 
+                                idrefAttributeName,
+                                "IDREF",
+                                idrefAttributeValue);
+        startElement( uri, localName, qualifiedName, attributes);        
+        endElement( uri, localName, qualifiedName );
     }
-        
+    
     /** 
      * Writes the element content.
      *
      * @param elementDescriptor the <code>ElementDescriptor</code> to write as xml 
      * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @return true if some content was written
+     * 
      * @throws IOException if an IO problem occurs during writing
      * @throws SAXException if an SAX problem occurs during writing 
      * @throws IntrospectionException if a java beans introspection problem occurs
      */
-    protected boolean writeContent( 
+    private void writeElementContent( 
                         ElementDescriptor elementDescriptor, 
                         Context context ) 
                             throws 
                                 IOException, 
                                 SAXException,
-                                IntrospectionException {        
+                                IntrospectionException {     
+                                
         ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
-        boolean writtenContent = false;
         if ( childDescriptors != null && childDescriptors.length > 0 ) {
             // process child elements
             for ( int i = 0, size = childDescriptors.length; i < size; i++ ) {
@@ -891,50 +708,20 @@ public abstract class AbstractBeanWriter {
                                 if (object == null) {
                                     continue;
                                 }
-                                if ( ! writtenContent ) {
-                                    writtenContent = true;
-                                    if (elementDescriptor.isWrapCollectionsInElement()) {
-                                        expressTagClose();
-                                    }
-                                }
-                                ++indentLevel;
                                 writeBean( namespaceUri, localName, qualifiedName, object );
-                                --indentLevel;
                             }
                         } else {
-                            if ( ! writtenContent ) {
-                                writtenContent = true;
-                                expressTagClose();
-                            }
-                            ++indentLevel;
                             writeBean( namespaceUri, localName, qualifiedName, childBean );
-                            --indentLevel;
                         }
                     }                    
                 } else {
-                    if ( ! writtenContent ) {
-                        writtenContent = true;
-                        expressTagClose();
-                    }
-                    if (childDescriptor.isWrapCollectionsInElement()) {
-                        ++indentLevel;
-                    }
-
-                     writeElement( 
+                     writeElement(
                                 childDescriptor.getURI(), 
                                 childDescriptor.getLocalName(), 
                                 childDescriptor.getQualifiedName(), 
                                 childDescriptor, 
                                 childContext );
-
-                    if (childDescriptor.isWrapCollectionsInElement()) {
-                        --indentLevel;
-                    }
                 }
-            }
-            if ( writtenContent ) {
-                writePrintln();
-                writeIndent();
             }
         } else {
             // evaluate the body text 
@@ -944,96 +731,18 @@ public abstract class AbstractBeanWriter {
                 if ( value != null ) {
                     String text = value.toString();
                     if ( text != null && text.length() > 0 ) {
-                        if ( ! writtenContent ) {
-                            writtenContent = true;
-                            expressTagClose();
-                        }
-                        expressBodyText(text);
+                        bodyText(text);
                     }
                 }                
             }
         }
-        return writtenContent;
-    }
-    
-    /**  
-     * Writes the attribute declarations 
-     *
-     * @param elementDescriptor the <code>ElementDescriptor</code> to be written out as xml
-     * @param context the <code>Context</code> to use to evaluation bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void writeAttributes( 
-                    ElementDescriptor elementDescriptor, 
-                    Context context ) 
-                        throws 
-                            IOException, SAXException {
-        if (!elementDescriptor.isWrapCollectionsInElement()) {
-            return;
-        }
-            
-        AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
-        if ( attributeDescriptors != null ) {
-            for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
-                AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
-                writeAttribute( attributeDescriptor, context );
-            }
-        }
     }
 
-    
-    /** 
-     * Writes an attribute declaration 
-     *
-     * @param attributeDescriptor the <code>AttributeDescriptor</code> to be written as xml
-     * @param context the <code>Context</code> to use to evaluation bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void writeAttribute( 
-                        AttributeDescriptor attributeDescriptor, 
-                        Context context ) 
-                            throws 
-                                IOException, SAXException {
-        Expression expression = attributeDescriptor.getTextExpression();
-        if ( expression != null ) {
-            Object value = expression.evaluate( context );
-            if ( value != null ) {
-                String text = value.toString();
-                if ( text != null && text.length() > 0 ) {
-                    expressAttribute(
-                                    attributeDescriptor.getURI(),
-                                    attributeDescriptor.getLocalName(),
-                                    attributeDescriptor.getQualifiedName(), 
-                                    text);
-                }
-            }                
-        }
-    }
-
-    /** 
-     * Writes a empty line.  
-     * This implementation does nothing but can be overridden by subclasses.
-     *
-     * @throws IOException if the line cannot be written
-     */
-    protected void writePrintln() throws IOException {}
-    
-    /** 
-     * Writes an indentation.
-     * This implementation does nothing but can be overridden by subclasses.
-     * 
-     * @throws IOException if the indent cannot be written
-     */
-    protected void writeIndent() throws IOException {}
-    
     /**
      * Pushes the bean onto the ancestry stack.
      * If IDs are not being written, then check for cyclic references.
      *
      * @param bean push this bean onto the ancester stack
-     * @throws CyclicReferenceException if there is an identical bean already on the stack
      */
     protected void pushBean( Object bean ) {
         // check that we don't have a cyclic reference when we're not writing IDs
@@ -1138,4 +847,593 @@ public abstract class AbstractBeanWriter {
         
         return true;
     }
+    
+    
+    
+    
+    /**
+     * Attributes backed by attribute descriptors
+     */
+    private class ElementAttributes implements Attributes {
+        /** Attribute descriptors backing the <code>Attributes</code> */
+        private AttributeDescriptor[] attributes;
+        /** Context to be evaluated when finding values */
+        private Context context;
+        /** ID attribute value */
+        private String idValue;
+        /** ID attribute name */
+        private String idAttributeName;
+        
+        
+        /** 
+         * Construct attributes for element and context.
+         *
+         * @param descriptor the <code>ElementDescriptor</code> describing the element
+         * @param context evaluate against this context
+         */
+        ElementAttributes( ElementDescriptor descriptor, Context context ) {
+            attributes = descriptor.getAttributeDescriptors();
+            this.context = context;
+        }
+        
+        /** 
+         * Construct attributes for element and context.
+         *
+         * @param descriptor the <code>ElementDescriptor</code> describing the element
+         * @param context evaluate against this context
+         * @param idAttributeName the name of the id attribute 
+         * @param idValue the ID attribute value
+         */
+        ElementAttributes( 
+                            ElementDescriptor descriptor, 
+                            Context context, 
+                            String idAttributeName,
+                            String idValue) {
+            attributes = descriptor.getAttributeDescriptors();
+            this.context = context;
+            this.idValue = idValue;
+            this.idAttributeName = idAttributeName;
+        }
+        
+        /**
+         * Gets the index of an attribute by qualified name.
+         * 
+         * @param qName the qualified name of the attribute
+         * @return the index of the attribute - or -1 if there is no matching attribute
+         */
+        public int getIndex( String qName ) {
+            for ( int i=0; i<attributes.length; i++ ) {
+                if (attributes[i].getQualifiedName() != null 
+                       && attributes[i].getQualifiedName().equals( qName )) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        
+        /**
+         * Gets the index of an attribute by namespace name.
+         *
+         * @param uri the namespace uri of the attribute
+         * @param localName the local name of the attribute
+         * @return the index of the attribute - or -1 if there is no matching attribute
+         */
+        public int getIndex( String uri, String localName ) {
+            for ( int i=0; i<attributes.length; i++ ) {
+                if (
+                        attributes[i].getURI() != null 
+                        && attributes[i].getURI().equals(uri)
+                        && attributes[i].getLocalName() != null 
+                        && attributes[i].getURI().equals(localName)) {
+                    return i;
+                }
+            } 
+            
+            return -1;
+        }
+        
+        /**
+         * Gets the number of attributes in the list.
+         *
+         * @return the number of attributes in this list
+         */
+        public int getLength() {
+            return attributes.length;
+        }
+        
+        /** 
+         * Gets the local name by index.
+         * 
+         * @param index the attribute index (zero based)
+         * @return the attribute local name - or null if the index is out of range
+         */
+        public String getLocalName( int index ) {
+            if ( indexInRange( index ) ) {
+                return attributes[index].getLocalName();
+            }
+            
+            return null;
+        }
+        
+        /**
+         * Gets the qualified name by index.
+         *
+         * @param index the attribute index (zero based)
+         * @return the qualified name of the element - or null if the index is our of range
+         */
+        public String getQName( int index ) {
+            if ( indexInRange( index ) ) {
+                return attributes[index].getQualifiedName();
+            }
+            
+            return null;
+        }
+        
+        /**
+         * Gets the attribute SAX type by namespace name.
+         *
+         * @param index the attribute index (zero based)
+         * @return the attribute type (as a string) or null if the index is out of range
+         */
+        public String getType( int index ) {
+            if ( indexInRange( index ) ) {
+                return "CDATA";
+            }
+            return null;
+        }
+        
+        /**
+         * Gets the attribute SAX type by qualified name.
+         *
+         * @param qName the qualified name of the attribute
+         * @return the attribute type (as a string) or null if the attribute is not in the list
+         */
+        public String getType( String qName ) {
+            return getType( getIndex( qName ) );
+        }
+        
+        /**
+         * Gets the attribute SAX type by namespace name.
+         *
+         * @param uri the namespace uri of the attribute
+         * @param localName the local name of the attribute
+         * @return the attribute type (as a string) or null if the attribute is not in the list
+         */
+        public String getType( String uri, String localName ) {
+            return getType( getIndex( uri, localName ));
+        }
+        
+        /**
+         * Gets the namespace URI for attribute at the given index.
+         *
+         * @param index the attribute index (zero-based)
+         * @return the namespace URI (empty string if none is available) 
+         * or null if the index is out of range
+         */
+        public String getURI( int index ) {
+            if ( indexInRange( index ) ) {
+                return attributes[index].getURI();
+            }
+            return null;
+        }
+        
+        /**
+         * Gets the value for the attribute at given index.
+         * 
+         * @param index the attribute index (zero based)
+         * @return the attribute value or null if the index is out of range
+         * @todo add value caching
+         */
+        public String getValue( int index ) {
+            if ( indexInRange( index )) {
+                if (
+                    idAttributeName != null 
+                    && idAttributeName.equals(attributes[index].getLocalName())) {
+                        
+                    return idValue;
+                    
+                } else {
+                    Expression expression = attributes[index].getTextExpression();
+                    if ( expression != null ) {
+                        Object value = expression.evaluate( context );
+                        if (value != null) {
+                            return value.toString();
+                        }
+                    }
+                }
+                return "";
+            }
+            return null;
+        }
+        
+        /**
+         * Gets the value for the attribute by qualified name.
+         * 
+         * @param qName the qualified name 
+         * @return the attribute value or null if there are no attributes 
+         * with the given qualified name
+         * @todo add value caching
+         */
+        public String getValue( String qName ) {
+            return getValue( getIndex( qName ) );
+        }
+        
+        /**
+         * Gets the value for the attribute by namespace name.
+         * 
+         * @param uri the namespace URI of the attribute
+         * @param localName the local name of the attribute
+         * @return the attribute value or null if there are not attributes 
+         * with the given namespace and local name
+         * @todo add value caching
+         */
+        public String getValue( String uri, String localName ) {
+            return getValue( getIndex( uri, localName ) );
+        }
+        
+        /**
+         * Is the given index within the range of the attribute list
+         *
+         * @param index the index whose range will be checked
+         * @return true if the index with within the range of the attribute list
+         */
+        private boolean indexInRange( int index ) {
+            return ( index >= 0 && index < attributes.length );
+        }
+    }
+    
+    
+    // OLD API (DEPRECATED)
+    // --------------------------------------------------------------------------------------
+    
+    
+    /** 
+     * Get the indentation for the current element. 
+     * Used for pretty priting.
+     *
+     * @return the amount that the current element is indented
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected int getIndentLevel() {
+        return 0;
+    }
+    
+    // Expression methods
+    //-------------------------------------------------------------------------    
+
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementStart(String qualifiedName) 
+                                        throws IOException, SAXException {
+        // do nothing
+    }
+                                        
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param uri the namespace uri 
+     * @param localName the local name for this element
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementStart(String uri, String localName, String qualifiedName) 
+                                        throws IOException, SAXException {
+        expressElementStart( qualifiedName );
+    }
+    
+     /**
+     * Express a closing tag.
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressTagClose() throws IOException, SAXException {}
+    
+    /** 
+     * Express an element end tag (with given name) 
+     *
+     * @param qualifiedName the qualified name for the element to be closed
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementEnd(String qualifiedName) 
+                                              throws IOException, SAXException {
+        // do nothing
+    }
+    
+    /** 
+     * Express an element end tag (with given name) 
+     *
+     * @param uri the namespace uri of the element close tag
+     * @param localName the local name of the element close tag
+     * @param qualifiedName the qualified name for the element to be closed
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementEnd(
+                                                String uri,
+                                                String localName,
+                                                String qualifiedName) 
+                                                    throws 
+                                                        IOException, 
+                                                        SAXException {
+        expressElementEnd(qualifiedName);
+    }
+                                              
+    
+    /** 
+     * Express an empty element end.
+     * 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementEnd() throws IOException, SAXException {}
+
+    /** 
+     * Express body text 
+     *
+     * @param text the string to write out as the body of the current element
+     * 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressBodyText(String text) throws IOException, SAXException {}
+    
+    /** 
+     * Express an attribute 
+     *
+     * @param qualifiedName the qualified name of the attribute
+     * @param value the attribute value
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressAttribute(
+                                String qualifiedName, 
+                                String value) 
+                                    throws
+                                        IOException, 
+                                        SAXException {
+        // Do nothing
+    }
+
+    /** 
+     * Express an attribute 
+     *
+     * @param namespaceUri the namespace uri
+     * @param localName the local name
+     * @param qualifiedName the qualified name of the attribute
+     * @param value the attribute value
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressAttribute(
+                                String namespaceUri,
+                                String localName,
+                                String qualifiedName, 
+                                String value) 
+                                    throws
+                                        IOException, 
+                                        SAXException {
+        expressAttribute(qualifiedName, value);
+    }
+    
+    
+    /** 
+     * Writes the given element 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void write( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
+    }
+    
+    /** 
+     * Writes the given element adding an ID attribute 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @param idAttribute the qualified name of the <code>ID</code> attribute 
+     * @param idValue the value for the <code>ID</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void write( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context,
+                            String idAttribute,
+                            String idValue ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeElement( 
+                    "", 
+                    qualifiedName, 
+                    qualifiedName, 
+                    elementDescriptor, 
+                    context, 
+                    idAttribute, 
+                    idValue );
+    }
+    
+    /** 
+     * Write attributes, child elements and element end 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void writeRestOfElement( 
+                            String qualifiedName, 
+                            ElementDescriptor elementDescriptor, 
+                            Context context ) 
+                                throws 
+                                    IOException, 
+                                    SAXException,
+                                    IntrospectionException {
+        writeRestOfElement( "", qualifiedName, qualifiedName, elementDescriptor, context );
+    }
+
+    /**
+     * Writes an element with a <code>IDREF</code> attribute 
+     *
+     * @param qualifiedName of the element with <code>IDREF</code> attribute 
+     * @param idrefAttributeName the qualified name of the <code>IDREF</code> attribute 
+     * @param idrefAttributeValue the value for the <code>IDREF</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void writeIDREFElement( 
+                                    String qualifiedName, 
+                                    String idrefAttributeName,
+                                    String idrefAttributeValue ) 
+                                        throws 
+                                            IOException, 
+                                            SAXException,
+                                            IntrospectionException {
+        writeIDREFElement( 
+                            "", 
+                            qualifiedName, 
+                            qualifiedName, 
+                            idrefAttributeName, 
+                            idrefAttributeValue );
+    }
+
+        
+    /** 
+     * Writes the element content.
+     *
+     * @param elementDescriptor the <code>ElementDescriptor</code> to write as xml 
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @return true if some content was written
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected boolean writeContent( 
+                        ElementDescriptor elementDescriptor, 
+                        Context context ) 
+                            throws 
+                                IOException, 
+                                SAXException,
+                                IntrospectionException {     
+        return false;
+    }
+
+    
+    /**  
+     * Writes the attribute declarations 
+     *
+     * @param elementDescriptor the <code>ElementDescriptor</code> to be written out as xml
+     * @param context the <code>Context</code> to use to evaluation bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void writeAttributes( 
+                    ElementDescriptor elementDescriptor, 
+                    Context context ) 
+                        throws 
+                            IOException, SAXException {
+        if (!elementDescriptor.isWrapCollectionsInElement()) {
+            return;
+        }
+            
+        AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
+        if ( attributeDescriptors != null ) {
+            for ( int i = 0, size = attributeDescriptors.length; i < size; i++ ) {
+                AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
+                writeAttribute( attributeDescriptor, context );
+            }
+        }
+    }
+
+    
+    /** 
+     * Writes an attribute declaration 
+     *
+     * @param attributeDescriptor the <code>AttributeDescriptor</code> to be written as xml
+     * @param context the <code>Context</code> to use to evaluation bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void writeAttribute( 
+                        AttributeDescriptor attributeDescriptor, 
+                        Context context ) 
+                            throws 
+                                IOException, SAXException {
+        Expression expression = attributeDescriptor.getTextExpression();
+        if ( expression != null ) {
+            Object value = expression.evaluate( context );
+            if ( value != null ) {
+                String text = value.toString();
+                if ( text != null && text.length() > 0 ) {
+                    expressAttribute(
+                                    attributeDescriptor.getURI(),
+                                    attributeDescriptor.getLocalName(),
+                                    attributeDescriptor.getQualifiedName(), 
+                                    text);
+                }
+            }                
+        }
+    }
+    /** 
+     * Writes a empty line.  
+     * This implementation does nothing but can be overridden by subclasses.
+     *
+     * @throws IOException if the line cannot be written
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void writePrintln() throws IOException {}
+    
+    /** 
+     * Writes an indentation.
+     * This implementation does nothing but can be overridden by subclasses.
+     * 
+     * @throws IOException if the indent cannot be written
+     * @deprecated after 1.0-Alpha-1 replaced by new BeanWriter API
+     */
+    protected void writeIndent() throws IOException {}
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $
- * $Revision: 1.9 $
- * $Date: 2003/02/22 16:25:25 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.10 2003/02/27 19:20:17 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/02/27 19:20:17 $
  *
  * ====================================================================
  *
@@ -57,17 +57,15 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $
+ * $Id: SAXBeanWriter.java,v 1.10 2003/02/27 19:20:17 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
-
-import java.util.Stack;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.Attributes;
 
 // FIX ME
 // At the moment, namespaces are NOT supported!
@@ -77,7 +75,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.9 2003/02/22 16:25:25 mvdb Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.10 2003/02/27 19:20:17 rdonkin Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
@@ -85,15 +83,6 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     private ContentHandler contentHandler;    
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( SAXBeanWriter.class );
-    
-    /**
-     * Place holder for elements that are started.
-     */
-    private Stack elementStack;
-    /** Current element's attributes. */
-    private AttributesImpl attributes;
-    /** Is there a element currently waiting to be written out? */
-    private boolean elementWaiting = false;
     /** Should document events (ie. start and end) be called? */
     private boolean callDocumentEvents = true;
     
@@ -144,154 +133,73 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     
         
     // Expression methods
-    //-------------------------------------------------------------------------    
+    //-------------------------------------------------------------------------     
     
-    /** 
-     * Express an element tag start using given qualified name 
-     *
-     * @param qualifiedName the fully qualified element name
-     * @throws SAXException if the <code>ContentHandler</code> has a problem
-     * @deprecated use {@link #expressElementStart(String, String, String)}
-     */
-    protected void expressElementStart(String qualifiedName) throws SAXException  {
-        expressElementStart("", qualifiedName, qualifiedName);
-    }
-    
-    /** 
-     * Express an element tag start using given qualified name.
-     *
-     * @param uri the namespace uri 
-     * @param localName the local name for this element
-     * @param qualifiedName the qualified name of the element to be expressed
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementStart(String uri, String localName, String qualifiedName) 
-                                        throws SAXException {
-        if (elementStack == null) {
-            elementStack = new Stack();
-        }
-        if (elementWaiting) {
-            sendElementStart();
-        }
-        attributes = new AttributesImpl();
-        elementStack.push(new ElementName(uri, localName, qualifiedName));
-        elementWaiting = true;
-    }
-    
-    /** Element end */
-    protected void expressTagClose() {
-        // using this could probably make life easier
-        // but i only know that i needed it after i'd written the rest
-    }
-    
-    /** 
-     * Express an element end tag
-     *
-     * @param qualifiedName the fully qualified name of the element
-     * @throws SAXException if the <code>ContentHandler</code> has a problem
-     * @deprecated use {@link #expressElementEnd(String, String, String)}
-     */
-    protected void expressElementEnd(String qualifiedName) throws SAXException  {
-        expressElementEnd("", qualifiedName, qualifiedName);
-    }    
-    
-    /** 
-     * Express an element tag start using given qualified name.
-     *
-     * @param uri the namespace uri 
-     * @param localName the local name for this element
-     * @param qualifiedName the qualified name of the element to be expressed
-     * @throws SAXException if an SAX problem occurs during writing 
-     */
-    protected void expressElementEnd(String uri, String localName, String qualifiedName) 
-                                        throws SAXException {
-        if (elementWaiting) {
-            elementWaiting = false;
-            sendElementStart();
-        }
+    // Replaced by new API
+
+    // New API
+    // -------------------------------------------------------------------------
+
         
-        contentHandler.endElement(uri, localName, qualifiedName);
+    /**
+     * Writes the start tag for an element.
+     *
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     * @param attributes the element's attributes
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
+     */
+    protected void startElement(
+                                String uri, 
+                                String localName, 
+                                String qName, 
+                                Attributes attributes)
+                                    throws
+                                        SAXException {
+        contentHandler.startElement(
+                                uri, 
+                                localName, 
+                                qName, 
+                                attributes);
     }
     
-    /** 
-     * Express an empty element end 
-     * @throws SAXException if the <code>ContentHandler</code> has a problem
+    /**
+     * Writes the end tag for an element
+     *
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qName the element's qualified name
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
      */
-    protected void expressElementEnd() throws SAXException  {
-        // last element name must be correct since there haven't been any tag in between
-        ElementName lastElement = (ElementName) elementStack.peek();
+    protected void endElement(
+                                String uri, 
+                                String localName, 
+                                String qName)
+                                    throws
+                                        SAXException {
         contentHandler.endElement(
-                                lastElement.getUri(), 
-                                lastElement.getLocalName() ,
-                                lastElement.getQName());
+                                uri, 
+                                localName, 
+                                qName);
     }
 
     /** 
      * Express body text 
      * @param text the element body text 
      * @throws SAXException if the <code>ContentHandler</code> has a problem
+     * @since 1.0 Alpha 1
      */
-    protected void expressBodyText(String text) throws SAXException  {
+    protected void bodyText(String text) throws SAXException  {
         // FIX ME
         // CHECK UNICODE->CHAR CONVERSION!
         // THIS WILL QUITE POSSIBLY BREAK FOR NON-ROMAN
-        if (elementWaiting) {
-            elementWaiting = false;
-            sendElementStart();
-        }
         char[] body = text.toCharArray();
         contentHandler.characters(body, 0, body.length);
-    }
+    }  
     
-    /** 
-     * Express an attribute 
-     * @param qualifiedName the fully qualified attribute name
-     * @param value the attribute value
-     * @deprecated use {@link #expressAttribute(String, String, String, String)}
-     */
-    protected void expressAttribute(
-                                String qualifiedName, 
-                                String value) {
-        expressAttribute("", qualifiedName, qualifiedName, value);
-    }
-    
-    /** 
-     * Express an attribute 
-     *
-     * @param namespaceUri the namespace for the attribute
-     * @param localName the local name for the attribute
-     * @param qualifiedName the qualified name of the attribute
-     * @param value the attribute value
-     */
-    protected void expressAttribute(
-                                String namespaceUri,
-                                String localName,
-                                String qualifiedName, 
-                                String value) {
-        // FIX ME
-        // SHOULD PROBABLY SUPPORT ID IDREF HERE
-        attributes.addAttribute(namespaceUri, localName, qualifiedName, "CDATA", value);
-    }
-
-
-    // Implementation methods
-    //-------------------------------------------------------------------------    
-    
-    /**
-     * Send the start element event to the <code>ContentHandler</code> 
-     * @throws SAXException if the <code>ContentHandler</code> has a problem
-     */
-    private void sendElementStart() throws SAXException {
-        ElementName lastElement = (ElementName) elementStack.peek();
-        if (log.isTraceEnabled()) {
-            log.trace(lastElement);
-        }
-        contentHandler.startElement(
-                                lastElement.getUri(), 
-                                lastElement.getLocalName(), 
-                                lastElement.getQName(), 
-                                attributes);
-    }
     /**
      * This will announce the start of the document
      * to the contenthandler.
@@ -315,60 +223,4 @@ public class SAXBeanWriter extends AbstractBeanWriter {
             contentHandler.endDocument();
         }
     }
-
-    /** Used to store element names stored on the stack */
-    private class ElementName {
-        /** Namespace uri */
-        private String uri;
-        /** Local name */
-        private String localName;
-        /** Qualified name */
-        private String qName;
-        
-        /** 
-         * Gets namespace uri 
-         * @return the namespace uri
-         */
-        String getUri() {
-            return uri;
-        }
- 
-        /** 
-         * Gets local name 
-         * @return the local name
-         */
-        String getLocalName() {
-            return localName;
-        }
-        
-        /** 
-         * Gets qualified name 
-         * @return the qualified name
-         */
-        String getQName() {
-            return qName;
-        }
-                      
-        /** 
-         * Base constructor 
-         * @param uri the namespace uri
-         * @param localName the local name of this element
-         * @param qName the qualified name of this element
-         */
-        ElementName(String uri, String localName, String qName) {
-            this.uri = uri;
-            this.localName = localName;
-            this.qName = qName;
-        }
-        
-        /**
-         * Return something useful for logging
-         *
-         * @return something useful for logging
-         */
-        public String toString() {
-            return "[ElementName uri=" + uri + " ,lName=" + localName + " ,qName=" + qName + "]";
-        }
-    }
-
 }

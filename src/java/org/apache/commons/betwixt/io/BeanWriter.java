@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.14 2003/01/19 23:22:47 rdonkin Exp $
- * $Revision: 1.14 $
- * $Date: 2003/01/19 23:22:47 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.15 2003/02/27 19:20:17 rdonkin Exp $
+ * $Revision: 1.15 $
+ * $Date: 2003/02/27 19:20:17 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.14 2003/01/19 23:22:47 rdonkin Exp $
+ * $Id: BeanWriter.java,v 1.15 2003/02/27 19:20:17 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -71,6 +71,7 @@ import java.io.Writer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
+import org.xml.sax.Attributes;
 
 import org.apache.commons.betwixt.XMLUtils;
 
@@ -119,7 +120,7 @@ import org.apache.commons.betwixt.XMLUtils;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14 $
+  * @version $Revision: 1.15 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
@@ -136,6 +137,12 @@ public class BeanWriter extends AbstractBeanWriter {
     private boolean autoFlush;
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( BeanWriter.class );
+    /** Has any content (excluding attributes) been written to the current element */
+    private boolean currentElementIsEmpty = false;
+    /** Has the last start tag been closed */
+    private boolean closedStartTag = true;
+    /** Current level of indentation (starts at 1 with the first element) */
+    private int indentLevel;
     
     /**
      * <p> Constructor uses <code>System.out</code> for output.</p>
@@ -174,7 +181,7 @@ public class BeanWriter extends AbstractBeanWriter {
      */
     public void writeXmlDeclaration(String xmlDeclaration) throws IOException {
         writer.write( xmlDeclaration );
-        writePrintln();
+        printLine();
     }
     
     /**
@@ -284,63 +291,84 @@ public class BeanWriter extends AbstractBeanWriter {
         this.log = log;
     }
     
-        
-    // Expression methods
-    //-------------------------------------------------------------------------    
+    // New API
+    //------------------------------------------------------------------------------
 
-    /** 
-     * Express an element tag start using given qualified name 
+    
+    /**
+     * Writes the start tag for an element.
      *
-     * @param qualifiedName the fully qualified name of the element to write
-     * @throws IOException when stream write fails
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qualifiedName the element's qualified name
+     * @param attr the element's attributes
+     * @throws IOException if an IO problem occurs during writing 
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
      */
-    protected void expressElementStart(String qualifiedName) throws IOException {
-        if ( qualifiedName == null ) {
-            // XXX this indicates a programming error
-            log.fatal( "[expressElementStart]Qualified name is null." );
-            throw new RuntimeException( "Qualified name is null." );
+    protected void startElement(
+                                String uri, 
+                                String localName, 
+                                String qualifiedName, 
+                                Attributes attr)
+                                    throws
+                                        IOException,
+                                        SAXException {
+        if ( !closedStartTag ) {
+            writer.write( '>' );
+            printLine();
         }
         
-        writePrintln();
-        writeIndent();
+        indentLevel++;
+        
+        indent();
         writer.write( '<' );
         writer.write( qualifiedName );
+        
+        for ( int i=0; i< attr.getLength(); i++ ) {
+            writer.write( ' ' );
+            writer.write( attr.getQName(i) );
+            writer.write( "=\"" );
+            writer.write( XMLUtils.escapeAttributeValue( attr.getValue(i) ) );
+            writer.write( '\"' );
+        }
+        closedStartTag = false;
+        currentElementIsEmpty = true;
     }
     
-    /** 
-     * Write a tag close to the stream
+    /**
+     * Writes the end tag for an element
      *
-     * @throws IOException when stream write fails
-     */
-    protected void expressTagClose() throws IOException {
-        writer.write( '>' );
-    }
-    
-    /** 
-     * Write an element end tag to the stream
+     * @param uri the element's namespace uri
+     * @param localName the element's local name 
+     * @param qualifiedName the element's qualified name
      *
-     * @param qualifiedName the name of the element
-     * @throws IOException when stream write fails
+     * @throws IOException if an IO problem occurs during writing 
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @since 1.0 Alpha 1
      */
-    protected void expressElementEnd(String qualifiedName) throws IOException {
-        if (qualifiedName == null) {
-            // XXX this indicates a programming error
-            log.fatal( "[expressElementEnd]Qualified name is null." );
-            throw new RuntimeException( "Qualified name is null." );
+    protected void endElement(
+                                String uri, 
+                                String localName, 
+                                String qualifiedName)
+                                    throws
+                                        IOException,
+                                        SAXException {
+        if ( ( !closedStartTag ) && currentElementIsEmpty ) {
+        
+            writer.write( "/>" );
+            closedStartTag = true;
+            
+        } else {
+        
+            writer.write( "</" );
+            writer.write( qualifiedName );
+            writer.write( '>' );
+        
         }
         
-        writer.write( "</" );
-        writer.write( qualifiedName );
-        writer.write( '>' );
-    }    
-    
-    /**  
-     * Write an empty element end to the stream
-     *
-     * @throws IOException when stream write fails
-     */
-    protected void expressElementEnd() throws IOException {
-        writer.write( "/>" );
+        indentLevel--;
+        printLine();
     }
 
     /** 
@@ -348,56 +376,56 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @param text write out this body text
      * @throws IOException when the stream write fails
+     * @since 1.0 Alpha 1
      */
-    protected void expressBodyText(String text) throws IOException {
+    protected void bodyText(String text) throws IOException {
         if ( text == null ) {
             // XXX This is probably a programming error
             log.error( "[expressBodyText]Body text is null" );
             
         } else {
+            if ( !closedStartTag ) {
+                writer.write( '>' );
+                closedStartTag = true;
+            }
             writer.write( XMLUtils.escapeBodyValue(text) );
+            currentElementIsEmpty = false;
+        }
+    }
+    
+    /** Writes out an empty line.
+     * Uses current <code>endOfLine</code>.
+     *
+     * @throws IOException when stream write fails
+     */
+    private void printLine() throws IOException {
+        if ( endOfLine != null ) {
+            writer.write( endOfLine );
         }
     }
     
     /** 
-     * Writes an attribute to the stream.
+     * Writes out <code>indent</code>'s to the current <code>indentLevel</code>
      *
-     * @param qualifiedName fully qualified attribute name
-     * @param value attribute value
-     * @throws IOException when the stream write fails
+     * @throws IOException when stream write fails
      */
-    protected void expressAttribute(
-                                String qualifiedName, 
-                                String value) 
-                                    throws
-                                        IOException{
-        if ( value == null ) {
-            // XXX probably a programming error
-            log.error( "Null attribute value." );
-            return;
+    private void indent() throws IOException {
+        if ( indent != null ) {
+            for ( int i = 0; i < indentLevel; i++ ) {
+                writer.write( getIndent() );
+            }
         }
-        
-        if ( qualifiedName == null ) {
-            // XXX probably a programming error
-            log.error( "Null attribute value." );
-            return;
-        }
-                
-        writer.write( ' ' );
-        writer.write( qualifiedName );
-        writer.write( "=\"" );
-        writer.write( XMLUtils.escapeAttributeValue(value) );
-        writer.write( '\"' );
     }
 
+    // OLD API (DEPRECATED)
+    //----------------------------------------------------------------------------
 
-    // Implementation methods
-    //-------------------------------------------------------------------------    
             
     /** Writes out an empty line.
      * Uses current <code>endOfLine</code>.
      *
      * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
      */
     protected void writePrintln() throws IOException {
         if ( endOfLine != null ) {
@@ -409,10 +437,11 @@ public class BeanWriter extends AbstractBeanWriter {
      * Writes out <code>indent</code>'s to the current <code>indentLevel</code>
      *
      * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
      */
     protected void writeIndent() throws IOException {
         if ( indent != null ) {
-            for ( int i = 0; i < getIndentLevel(); i++ ) {
+            for ( int i = 0; i < indentLevel; i++ ) {
                 writer.write( getIndent() );
             }
         }
@@ -441,6 +470,113 @@ public class BeanWriter extends AbstractBeanWriter {
      */
     protected String escapeAttributeValue(Object value) {
         return XMLUtils.escapeAttributeValue(value);
+    }  
+
+    /** 
+     * Express an element tag start using given qualified name 
+     *
+     * @param qualifiedName the fully qualified name of the element to write
+     * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementStart(String qualifiedName) throws IOException {
+        if ( qualifiedName == null ) {
+            // XXX this indicates a programming error
+            log.fatal( "[expressElementStart]Qualified name is null." );
+            throw new RuntimeException( "Qualified name is null." );
+        }
+        
+        writePrintln();
+        writeIndent();
+        writer.write( '<' );
+        writer.write( qualifiedName );
+    }
+    
+    /** 
+     * Write a tag close to the stream
+     *
+     * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressTagClose() throws IOException {
+        writer.write( '>' );
+    }
+    
+    /** 
+     * Write an element end tag to the stream
+     *
+     * @param qualifiedName the name of the element
+     * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementEnd(String qualifiedName) throws IOException {
+        if (qualifiedName == null) {
+            // XXX this indicates a programming error
+            log.fatal( "[expressElementEnd]Qualified name is null." );
+            throw new RuntimeException( "Qualified name is null." );
+        }
+        
+        writer.write( "</" );
+        writer.write( qualifiedName );
+        writer.write( '>' );
+    }    
+    
+    /**  
+     * Write an empty element end to the stream
+     *
+     * @throws IOException when stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressElementEnd() throws IOException {
+        writer.write( "/>" );
     }
 
+    /** 
+     * Write element body text 
+     *
+     * @param text write out this body text
+     * @throws IOException when the stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressBodyText(String text) throws IOException {
+        if ( text == null ) {
+            // XXX This is probably a programming error
+            log.error( "[expressBodyText]Body text is null" );
+            
+        } else {
+            writer.write( XMLUtils.escapeBodyValue(text) );
+        }
+    }
+    
+    /** 
+     * Writes an attribute to the stream.
+     *
+     * @param qualifiedName fully qualified attribute name
+     * @param value attribute value
+     * @throws IOException when the stream write fails
+     * @deprecated after 1.0-Alpha-1 replaced by new SAX inspired API
+     */
+    protected void expressAttribute(
+                                String qualifiedName, 
+                                String value) 
+                                    throws
+                                        IOException{
+        if ( value == null ) {
+            // XXX probably a programming error
+            log.error( "Null attribute value." );
+            return;
+        }
+        
+        if ( qualifiedName == null ) {
+            // XXX probably a programming error
+            log.error( "Null attribute value." );
+            return;
+        }
+                
+        writer.write( ' ' );
+        writer.write( qualifiedName );
+        writer.write( "=\"" );
+        writer.write( XMLUtils.escapeAttributeValue(value) );
+        writer.write( '\"' );
+    }
 }
