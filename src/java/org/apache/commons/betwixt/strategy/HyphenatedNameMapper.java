@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.7 2003/02/17 19:41:56 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/02/17 19:41:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.8 2003/08/13 18:28:01 dlr Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/08/13 18:28:01 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.7 2003/02/17 19:41:56 rdonkin Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.8 2003/08/13 18:28:01 dlr Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -114,8 +114,9 @@ public class HyphenatedNameMapper implements NameMapper {
     }
     
     /**
-     * <p>The words within the bean name are deduced assuming the camel's hump naming
-     * convention. For example, the words in <code>FooBar</code> are <code>foo</code> 
+     * <p>The words within the bean name are deduced assuming the
+     * first-letter-capital (e.g. camel's hump) naming convention. For
+     * example, the words in <code>FooBar</code> are <code>foo</code>
      * and <code>bar</code>.</p>
      * 
      * <p>Next convert all letter in the bean name to either upper case or lower case
@@ -124,7 +125,10 @@ public class HyphenatedNameMapper implements NameMapper {
      * <p>Then the {@link #getSeparator} property value is inserted so that it separates
      * each word.</p>
      *
-     * @param typeName the name string to convert
+     * @param typeName The name string to convert.  If a JavaBean
+     * class name, should included only the last part of the name
+     * rather than the fully qualified name (e.g. FooBar rather than
+     * org.example.FooBar).
      * @return the bean name converted to either upper or lower case with words separated 
      * by the separator.
      */
