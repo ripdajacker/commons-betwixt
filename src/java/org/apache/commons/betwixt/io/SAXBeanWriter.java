@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/07/19 00:54:55 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $
+ * $Revision: 1.4 $
+ * $Date: 2002/11/08 22:09:01 $
  *
  * ====================================================================
  *
@@ -57,30 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $
+ * $Id: SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
-import java.beans.IntrospectionException;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.Iterator;
-import java.util.HashMap;
+import java.util.Stack;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.apache.commons.betwixt.AttributeDescriptor;
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.expression.Context;
-import org.apache.commons.betwixt.expression.Expression;
-import org.apache.commons.betwixt.io.id.SequentialIDGenerator;
-
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -93,16 +77,21 @@ import org.xml.sax.helpers.AttributesImpl;
  * 
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: SAXBeanWriter.java,v 1.3 2002/07/19 00:54:55 mvdb Exp $ 
+ * @version $Id: SAXBeanWriter.java,v 1.4 2002/11/08 22:09:01 mvdb Exp $ 
  */
 public class SAXBeanWriter extends AbstractBeanWriter {
 
     /** Where the output goes */
     private ContentHandler contentHandler;    
     /** Log used for logging (Doh!) */
-    private Log log = LogFactory.getLog( BeanWriter.class );
+    private Log log = LogFactory.getLog( SAXBeanWriter.class );
     
     private String lastElementName;
+    
+    /**
+     * Place holder for elements that are started.
+     */
+    private Stack elementStack;
     
     private AttributesImpl attributes;
     
@@ -141,12 +130,15 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     
     /** Express an element tag start using given qualified name */
     protected void expressElementStart(String qualifiedName) throws SAXException  {
-        // make sure any previous elements have been sent
-        sendElementStart();
-        // ok prepare for new one
-        elementWaiting = true;
+        if (elementStack == null) {
+            elementStack = new Stack();
+        }
+        if (elementWaiting) {
+            sendElementStart();
+        }
         attributes = new AttributesImpl();
-        lastElementName = qualifiedName;
+        elementStack.push(qualifiedName);
+        elementWaiting = true;
     }
     
     protected void expressTagClose() {
@@ -156,8 +148,10 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     
     /** Express an element end tag using given qualifiedName */
     protected void expressElementEnd(String qualifiedName) throws SAXException  {
-        // make sure that we sent the last element to be handled
-        sendElementStart();
+        if (elementWaiting) {
+            elementWaiting = false;
+            sendElementStart();
+        }
         // can't handle namespaces yet
         contentHandler.endElement("","",qualifiedName);
     }    
@@ -165,7 +159,8 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     /** Express an empty element end */
     protected void expressElementEnd() throws SAXException  {
         // last element name must be correct since there haven't been any tag in between
-        contentHandler.endElement("","",lastElementName);
+        String lastElement = (String) elementStack.peek();
+        contentHandler.endElement("","",lastElement);
     }
 
     /** Express body text */
@@ -173,6 +168,10 @@ public class SAXBeanWriter extends AbstractBeanWriter {
         // FIX ME
         // CHECK UNICODE->CHAR CONVERSION!
         // THIS WILL QUITE POSSIBLY BREAK FOR NON-ROMAN
+        if (elementWaiting) {
+            elementWaiting = false;
+            sendElementStart();
+        }
         char[] body = text.toCharArray();
         contentHandler.characters(body, 0, body.length);
     }
@@ -193,10 +192,8 @@ public class SAXBeanWriter extends AbstractBeanWriter {
     //-------------------------------------------------------------------------    
     
     private void sendElementStart() throws SAXException {
-        if (elementWaiting) {
-            contentHandler.startElement("","",lastElementName,attributes);
-            elementWaiting = false;
-        }
+        String lastElement = (String)elementStack.peek();
+        contentHandler.startElement("","",lastElement,attributes);
     }
     /**
      * This will announce the start of the document
