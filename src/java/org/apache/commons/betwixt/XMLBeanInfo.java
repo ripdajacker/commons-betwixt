@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/XMLBeanInfo.java,v 1.3 2002/07/01 18:44:15 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/07/01 18:44:15 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: XMLBeanInfo.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: XMLBeanInfo.java,v 1.3 2002/07/01 18:44:15 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -76,7 +76,7 @@ package org.apache.commons.betwixt;
   * usual values.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class XMLBeanInfo {
     /** Descriptor for main element */
@@ -198,5 +198,11 @@ public class XMLBeanInfo {
       */
     public void setIDREFAttributeName(String idrefAttributeName) {
         this.idrefAttributeName = idrefAttributeName;
+    }
+    
+    public String toString() {
+        return 
+                "XMLBeanInfo [class=" + getBeanClass() 
+                + ", descriptor=" + getElementDescriptor() + "]";
     }
 }
