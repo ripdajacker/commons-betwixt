@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/StringExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/StringExpression.java,v 1.2 2002/07/01 18:57:57 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/01 18:57:57 $
  *
  * ====================================================================
  *
@@ -57,14 +57,14 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: StringExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: StringExpression.java,v 1.2 2002/07/01 18:57:57 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>StringExpression</code> returns the current context object as a string.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class StringExpression implements Expression {
     
@@ -96,5 +96,9 @@ public class StringExpression implements Expression {
     public void update(Context context, String newValue) {
         // do nothing
     }
+    
+    public String toString() {
+        return "StringExpression";
+    }	
 
 }

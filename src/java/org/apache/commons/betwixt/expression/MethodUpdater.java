@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: MethodUpdater.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: MethodUpdater.java,v 1.2 2002/07/01 18:57:16 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class MethodUpdater implements Updater {
 
@@ -109,5 +109,9 @@ public class MethodUpdater implements Updater {
      */
     protected void handleException(Context context, Exception e) {
         log.info( "Caught exception: " + e, e );
+    }
+    
+    public String toString() {
+        return "MethodUpdater [method=" + method + "]";
     }
 }

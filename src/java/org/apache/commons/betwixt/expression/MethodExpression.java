@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
- * $Revision: 1.1 $
- * $Date: 2002/06/10 17:53:33 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.2 2002/07/01 18:56:26 rdonkin Exp $
+ * $Revision: 1.2 $
+ * $Date: 2002/07/01 18:56:26 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodExpression.java,v 1.1 2002/06/10 17:53:33 jstrachan Exp $
+ * $Id: MethodExpression.java,v 1.2 2002/07/01 18:56:26 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,7 +66,7 @@ import java.lang.reflect.Method;
 /** <p><code>MethodExpression</code> evaluates a method on the current bean context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.1 $
+  * @version $Revision: 1.2 $
   */
 public class MethodExpression implements Expression {
 
@@ -167,5 +167,9 @@ public class MethodExpression implements Expression {
     protected void handleException(Context context, Exception e) {
         // use the context's logger to log the problem
         context.getLog().error("[MethodExpression] Cannot evaluate expression", e);
+    }
+    
+    public String toString() {
+        return "MethodExpression [method=" + method + "]";
     }
 }
