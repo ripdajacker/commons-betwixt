@@ -25,12 +25,28 @@
 
 </section>
 
-<section name="Releases">
-  <p>
-    Currently there is no release yet (alpha-1 coming soon though).
-    But you can get the nightly builds from 
-    <a href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-betwixt/">here</a>
-  </p>
+<section name="Download Betwixt">
+  <subsection name="Alpha Releases">
+    <p>
+    <strong>Betwixt 1.0 Alpha 1</strong> - 28 Jan 2003
+    <ul>
+      <li>Download the binary disribution from 
+      <a href='http://jakarta.apache.org/site/sourceindex.cgi'>a mirror here</a></li>
+      <li>Download the source distribution from 
+      <a href='http://jakarta.apache.org/site/sourceindex.cgi'>a mirror here</a></li>
+    </ul>
+    </p>
+  </subsection>
+  <subsection name="Nightly Builds">
+    <p>
+        Nightly builds are built once a day from the current CVS HEAD.
+        This is (nearly) the lastest code and so should be treated with caution!
+    </p>
+    <p>
+        You can get the nightly builds from 
+        <a href="http://jakarta.apache.org/builds/jakarta-commons/nightly/commons-betwixt/">here</a>
+    </p>
+  </subsection>
 </section>
 
 </body>

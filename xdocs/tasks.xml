@@ -173,7 +173,7 @@
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 1.0-Alpha Release'>
+    <subsection name='Since 1.0-Alpha 1 Release'>
         <ul>
             <li>
                 <strong>Created DTD for .betwixt files.</strong>
@@ -194,7 +194,7 @@
     </subsection>
 </section>
 <section name='Deprecated'>
-    <subsection name='Since 1.0-Alpha Release'>
+    <subsection name='Since 1.0-Alpha 1 Release'>
         <ul>
             <li> 
                 <code>BeanWriter.escapeAttributeValue()</code> moved into XMLUtils
