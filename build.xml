@@ -57,7 +57,7 @@
     </target>
     
     <target name="maven:compile">
-      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="compile"/>
+      <maven-ant antfile="${maven.home}/plugins/core/build.xml" target="compile" inheritRefs="true"/>
     </target>
     
     <target name="maven:jar-resources">
@@ -149,7 +149,7 @@
     </target>
     
     <target name="maven:test">
-      <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="test"/>
+      <maven-ant antfile="${maven.home}/plugins/test/build.xml" target="test" inheritRefs="true"/>
     </target>
     
     <target name="maven:pdf">
