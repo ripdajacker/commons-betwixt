@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Jelly">
+<project name="Betwixt">
 
   <title>Betwixt</title>
   <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
@@ -10,6 +10,7 @@
       <item name="FAQ"                     href="/faq.html"/>
       <item name="Detail"                  href="/overview.html"/>
       <item name="To Do List"              href="/todo.html"/>
+      <item name="Powered By"              href="/powered.html"/>
     </menu>
   </body>
 </project>
