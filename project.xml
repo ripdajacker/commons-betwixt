@@ -20,7 +20,7 @@
   <package>org.apache.commons.*</package>
 
   <repository>
-    <connection>scm:cvs:${betwixt.repository}</connection>
+    <connection>${betwixt.repository}</connection>
     <url>http://cvs.apache.org/viewcvs/jakarta-commons/betwixt/</url>
   </repository>
 
