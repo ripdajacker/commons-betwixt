@@ -151,9 +151,9 @@
         </dt>
         <dd>
             Yes! Call
-<pre>
+<source>
 beanWriter.enablePrettyPrint();
-</pre>
+</source>
             (For those who are extra picky, how this is done can also be adjusted.
             See java docs for details.)
         </dd>
@@ -181,9 +181,9 @@ beanWriter.enablePrettyPrint();
         </dt>
         <dd>
             This is controlled by a property on <code>BeanWriter</code>. Call
-<pre>
+<source>
 beanWriter.setWriteIDs(false);
-</pre>
+</source>
             and then Betwixt will no longer automatically add <code>ID</code> attributes.
             Once this property is set (to false), BeanWroter will throw a 
             <code>CyclicReferenceException</code> when any cyclic references which are 
