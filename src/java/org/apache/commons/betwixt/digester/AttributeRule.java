@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.1 2004/01/15 19:50:56 rdonkin Exp $
- * $Revision: 1.8.2.1 $
- * $Date: 2004/01/15 19:50:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AttributeRule.java,v 1.8.2.2 2004/01/18 19:21:17 rdonkin Exp $
+ * $Revision: 1.8.2.2 $
+ * $Date: 2004/01/18 19:21:17 $
  *
  * ====================================================================
  * 
@@ -63,11 +63,14 @@ package org.apache.commons.betwixt.digester;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.MethodExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -78,7 +81,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.8.2.1 2004/01/15 19:50:56 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.8.2.2 2004/01/18 19:21:17 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -189,8 +192,7 @@ public class AttributeRule extends RuleSupport {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {
                         PropertyDescriptor descriptor = descriptors[i];
                         if ( name.equals( descriptor.getName() ) ) {
-                            XMLIntrospectorHelper
-                                .configureProperty( attributeDescriptor, descriptor );
+                            configureProperty( attributeDescriptor, descriptor );
                             getProcessedPropertyNameSet().add( name );
                             break;
                         }
@@ -201,4 +203,54 @@ public class AttributeRule extends RuleSupport {
             }
         }
     }    
+    
+    /**
+     * Configure an <code>AttributeDescriptor</code> from a <code>PropertyDescriptor</code>
+     *
+     * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     */
+    private void configureProperty( 
+                                    AttributeDescriptor attributeDescriptor, 
+                                    PropertyDescriptor propertyDescriptor ) {
+        Class type = propertyDescriptor.getPropertyType();
+        Method readMethod = propertyDescriptor.getReadMethod();
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        
+        if ( readMethod == null ) {
+            log.trace( "No read method" );
+            return;
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Read method=" + readMethod );
+        }
+        
+        // choose response from property type
+        
+        // XXX: ignore class property ??
+        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
+            log.trace( "Ignoring class property" );
+            return;
+        }
+        if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+            log.warn( "Using loop type for an attribute. Type = " 
+                    + type.getName() + " attribute: " + attributeDescriptor.getQualifiedName() );
+        }
+
+        log.trace( "Standard property" );
+        attributeDescriptor.setTextExpression( new MethodExpression( readMethod ) );
+        
+        if ( writeMethod != null ) {
+            attributeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+        }
+        
+        attributeDescriptor.setLocalName( propertyDescriptor.getName() );
+        attributeDescriptor.setPropertyType( type );        
+        
+        // XXX: associate more bean information with the descriptor?
+        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
+        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+    }
+    
 }

@@ -1,8 +1,8 @@
 package org.apache.commons.betwixt.digester;
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.2 2004/01/15 19:50:56 rdonkin Exp $
- * $Revision: 1.13.2.2 $
- * $Date: 2004/01/15 19:50:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/ElementRule.java,v 1.13.2.3 2004/01/18 19:21:17 rdonkin Exp $
+ * $Revision: 1.13.2.3 $
+ * $Date: 2004/01/18 19:21:17 $
  *
  * ====================================================================
  * 
@@ -60,11 +60,15 @@ package org.apache.commons.betwixt.digester;
  *
  */ 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.IteratorExpression;
+import org.apache.commons.betwixt.expression.MethodExpression;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
@@ -75,7 +79,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.13.2.2 2004/01/15 19:50:56 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.13.2.3 2004/01/18 19:21:17 rdonkin Exp $
   */
 public class ElementRule extends MappedPropertyRule {
 
@@ -230,8 +234,7 @@ public class ElementRule extends MappedPropertyRule {
                 getPropertyDescriptor( beanClass, name );
             
             if ( descriptor != null ) { 
-                XMLIntrospectorHelper
-                    .configureProperty( 
+                configureProperty( 
                                         elementDescriptor, 
                                         descriptor, 
                                         updateMethodName, 
@@ -241,4 +244,117 @@ public class ElementRule extends MappedPropertyRule {
             }
         }
     }  
+    
+                                    
+    /**
+     * Configure an <code>ElementDescriptor</code> from a <code>PropertyDescriptor</code>.
+     * A custom update method may be set.
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     * @param updateMethodName the name of the custom updater method to user. 
+     * If null, then then 
+     * @param beanClass the <code>Class</code> from which the update method should be found.
+     * This may be null only when <code>updateMethodName</code> is also null.
+     */
+    private void configureProperty( 
+                                    ElementDescriptor elementDescriptor, 
+                                    PropertyDescriptor propertyDescriptor,
+                                    String updateMethodName,
+                                    Class beanClass ) {
+        
+        Class type = propertyDescriptor.getPropertyType();
+        Method readMethod = propertyDescriptor.getReadMethod();
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        
+        elementDescriptor.setLocalName( propertyDescriptor.getName() );
+        elementDescriptor.setPropertyType( type );        
+        
+        // XXX: associate more bean information with the descriptor?
+        //nodeDescriptor.setDisplayName( propertyDescriptor.getDisplayName() );
+        //nodeDescriptor.setShortDescription( propertyDescriptor.getShortDescription() );
+        
+        if ( readMethod == null ) {
+            log.trace( "No read method" );
+            return;
+        }
+        
+        if ( log.isTraceEnabled() ) {
+            log.trace( "Read method=" + readMethod.getName() );
+        }
+        
+        // choose response from property type
+        
+        // XXX: ignore class property ??
+        if ( Class.class.equals( type ) && "class".equals( propertyDescriptor.getName() ) ) {
+            log.trace( "Ignoring class property" );
+            return;
+        }
+        if ( XMLIntrospectorHelper.isPrimitiveType( type ) ) {
+            elementDescriptor.setTextExpression( new MethodExpression( readMethod ) );
+            
+        } else if ( XMLIntrospectorHelper.isLoopType( type ) ) {
+            log.trace("Loop type ??");
+            
+            // don't wrap this in an extra element as its specified in the 
+            // XML descriptor so no need.            
+            elementDescriptor.setContextExpression(
+                new IteratorExpression( new MethodExpression( readMethod ) )
+            );
+
+            writeMethod = null;
+        } else {
+            log.trace( "Standard property" );
+            elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
+        }
+    
+        // see if we have a custom method update name
+        if (updateMethodName == null) {
+            // set standard write method
+            if ( writeMethod != null ) {
+                elementDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
+            }
+            
+        } else {
+            // see if we can find and set the custom method
+            if ( log.isTraceEnabled() ) {
+                log.trace( "Finding custom method: " );
+                log.trace( "  on:" + beanClass );
+                log.trace( "  name:" + updateMethodName );
+            }
+            
+            Method updateMethod = null;
+            Method[] methods = beanClass.getMethods();
+            for ( int i = 0, size = methods.length; i < size; i++ ) {
+                Method method = methods[i];
+                if ( updateMethodName.equals( method.getName() ) ) {
+                    // we have a matching name
+                    // check paramters are correct
+                    if (methods[i].getParameterTypes().length == 1) {
+                        // we'll use first match
+                        updateMethod = methods[i];
+                        if ( log.isTraceEnabled() ) {
+                            log.trace("Matched method:" + updateMethod);
+                        } 
+                        // done since we're using the first match
+                        break;
+                    }
+                }
+            }
+            
+            if (updateMethod == null) {
+                if ( log.isInfoEnabled() ) {
+                    
+                    log.info("No method with name '" + updateMethodName + "' found for update");
+                }
+            } else {
+    
+                elementDescriptor.setUpdater( new MethodUpdater( updateMethod ) );
+                elementDescriptor.setSingularPropertyType( updateMethod.getParameterTypes()[0] );
+                if ( log.isTraceEnabled() ) {
+                    log.trace( "Set custom updater on " + elementDescriptor);
+                }
+            }
+        }
+    }
 }

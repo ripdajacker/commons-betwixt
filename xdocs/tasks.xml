@@ -339,6 +339,7 @@ Added ClassNormalizer strategy. This allows the Class introspector to differ fro
             				<li><code>PrimitiveType</code> property removed</li>            				
             			</ul>
             		</li>
+            		<li><strong>XMLIntrospectorHelper</strong> this will be deprecated.
             	</ul>
             </li>
         </ul>

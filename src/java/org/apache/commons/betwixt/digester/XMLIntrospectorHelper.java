@@ -1,9 +1,9 @@
 package org.apache.commons.betwixt.digester;
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27.2.2 2004/01/18 12:30:57 rdonkin Exp $
- * $Revision: 1.27.2.2 $
- * $Date: 2004/01/18 12:30:57 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/XMLIntrospectorHelper.java,v 1.27.2.3 2004/01/18 19:21:17 rdonkin Exp $
+ * $Revision: 1.27.2.3 $
+ * $Date: 2004/01/18 19:21:17 $
  *
  * ====================================================================
  * 
@@ -87,10 +87,13 @@ import org.apache.commons.logging.LogFactory;
 /** 
   * <p><code>XMLIntrospectorHelper</code> a helper class for 
   * common code shared between the digestor and introspector.</p>
-  *
+  * 
+  * TODO this class will be deprecated soon
+  * need to move the isLoop and isPrimitiveType but probably need to
+  * think about whether they need replacing with something different.
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.27.2.2 2004/01/18 12:30:57 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.27.2.3 2004/01/18 19:21:17 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -257,6 +260,7 @@ public class XMLIntrospectorHelper {
      *
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     * @deprecated unused
      */
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
@@ -275,6 +279,7 @@ public class XMLIntrospectorHelper {
      * If null, then then 
      * @param beanClass the <code>Class</code> from which the update method should be found.
      * This may be null only when <code>updateMethodName</code> is also null.
+     * @deprecated moved into ElementRule
      */
     public static void configureProperty( 
                                     ElementDescriptor elementDescriptor, 
@@ -382,6 +387,7 @@ public class XMLIntrospectorHelper {
      *
      * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
+     * @deprecated moved into AttributeRule
      */
     public static void configureProperty( 
                                     AttributeDescriptor attributeDescriptor, 
@@ -444,6 +450,7 @@ public class XMLIntrospectorHelper {
      * @param introspector use this <code>XMLIntrospector</code> for introspection
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
+     * @deprecated use the method in XMLIntrospector instead
      */
     public static void defaultAddMethods( 
                                             XMLIntrospector introspector, 
@@ -647,6 +654,7 @@ public class XMLIntrospectorHelper {
      * searched for a match
      * @param propertyName the name of the 'adder' method to match
      * @return <code>ElementDescriptor</code> for the matching getter 
+     * @deprecated moved into XMLIntrospector
      */
     protected static ElementDescriptor findGetCollectionDescriptor( 
                                                 XMLIntrospector introspector, 
@@ -683,6 +691,7 @@ public class XMLIntrospectorHelper {
      * @param rootDescriptor the values of the maps are the children of this 
      * <code>ElementDescriptor</code> index by their property names
      * @param map the map to which the elements will be added
+     * @deprecated moved into XMLIntrospector
      */
     protected static void makeElementDescriptorMap( ElementDescriptor rootDescriptor, Map map ) {
         ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
@@ -705,6 +714,7 @@ public class XMLIntrospectorHelper {
      * @param rootDescriptor traverse child graph for this <code>ElementDescriptor</code>
      * @param oldValue replace this <code>ElementDescriptor</code>
      * @param newValue replace with this <code>ElementDescriptor</code>
+     * @deprecated now unused
      */     
     protected static void swapDescriptor( 
                                 ElementDescriptor rootDescriptor, 

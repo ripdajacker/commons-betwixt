@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.2 2004/01/15 19:50:56 rdonkin Exp $
- * $Revision: 1.9.2.2 $
- * $Date: 2004/01/15 19:50:56 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.9.2.3 2004/01/18 19:21:17 rdonkin Exp $
+ * $Revision: 1.9.2.3 $
+ * $Date: 2004/01/18 19:21:17 $
  *
  * ====================================================================
  * 
@@ -80,7 +80,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.9.2.2 $
+  * @version $Revision: 1.9.2.3 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -129,8 +129,7 @@ public class AddDefaultsRule extends RuleSupport {
         }
         
         // default any addProperty() methods
-        XMLIntrospectorHelper.defaultAddMethods( 
-                                            getXMLIntrospector(), 
+        getXMLIntrospector().defaultAddMethods( 
                                             getRootElementDescriptor(), 
                                             beanClass );
     }
