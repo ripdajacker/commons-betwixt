@@ -28,7 +28,7 @@
     public String[] getEmailAddresses();
 }]]></source>
     
-    <p>This could be mapped to XML as these various ways</p>
+    <p>This could be mapped to XML in various ways. A couple of examples of these different ways follow.</p>
 
 
 <subsection name="Example 1">
