@@ -17,6 +17,7 @@
     <menu name="Guide">
       <item name="Getting Started"         href="/guide/start.html"/>
       <item name="Binding Beans"           href="/guide/binding.html"/>
+      <item name="Derived Beans"           href="/guide/derived.html"/>
       <item name="Writing Beans(Advanced)" href="/guide/writing.html"/>
       <item name="Reading Beans(Advanced)" href="/guide/reading.html"/>
       <item name="Examples"                href="/guide/examples.html"/>

@@ -114,9 +114,6 @@
                 it bit by bit.
             </li>
             <li>
-                <strong>Improved Support For Interfaces</strong>
-            </li>
-            <li>
                 <strong>Customizable ID/IDREF Mapping</strong>
                 Add per element customization for ID/IDREF mappings.
                 Extra attributes will be added to .betwixt file that specify the ID/IDREF names.
@@ -132,6 +129,10 @@
     
     <subsection name="Low priority"> 
       <ul>
+            <li>
+<strong>Improved Support For Interfaces (strategy)</strong>
+Create a strategy which allow general implementation rules to be specified.
+            </li>
         <li>
 		  Create a W3C DOM implementation that acts as a facade on top of beans to allow beans to 
 		  be transformed in XSLT engines as XML.
@@ -250,6 +251,11 @@
 Factored out the code that creates beans for elements (when reading) into separates classes uses the 
 <em>Chain Of Responsibility</em> pattern. This allows users to hook into the creation process and 
 add their own custom creation steps or replace the defaults with new functionality.
+            </li>
+            <li>
+<strong>Improved Support For Interfaces (.betwixt files)</strong>
+Added (optional) 'class' attribute to .betwixt files. The attribute value should be a fully qualfied java classname. 
+When set, the named class will be used to instantiate beans mapped to this element.
             </li>
         </ul>
     </subsection>

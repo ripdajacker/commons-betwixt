@@ -9,6 +9,113 @@
 
 <body>
 
+    <section name='Interfaces And Abstract Classes'>
+        <subsection name='Understanding The Problem'>
+            <p>
+Betwixt uses the type of the corresponding mapped property to determine the class to be instantiated
+when reading xml. But what happens when the type of the mapped property is an interface or
+an abstract class and so cannot be instantiated? Well - unless steps are taken to solve this problem,
+the read will fail. 
+        </p>
+            <p>
+Betwixt provides a number of different ways to solve this problem. 
+One solution is to use <a href='derived.html'>derived beans</a>. This is flexible but means coupling
+the xml to a java class structure. Another solution is to use <a href='#Customizing Bean Creation'>custom
+bean creation</a> to ensure that an appropriate class is created.
+Other solutions follow in this section.
+        </p>
+    </subsection>
+        <subsection name='Specifying An Implementation Class In The Betwixt File'>
+            <p>
+The class to be instantiated when a (mapped) element is read can be specified via the <code>class</code>
+attribute. When present, this should be a fully qualified java class name. A bean of this type
+will then be instantiated when the element is read.
+        </p>
+            <p>
+For example, here's a bean:
+<source><![CDATA[
+package org.apache.commons.betwixt.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExampleBean {
+    
+    private String name;
+    private List examples = new ArrayList();
+    
+    public ExampleBean() {}
+
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public List getExamples() {
+        return examples;
+    }
+    
+    public void addExample(IExample example) {
+        examples.add(example);
+    }
+}
+]]></source>
+which contains a List whose contents each implement the <code>IExample</code> interface:
+<source><![CDATA[
+package org.apache.commons.betwixt.example;
+
+public interface IExample {
+
+    public int getId();
+    public void setId(int id);
+    public String getName();
+    public void setName(String id);
+}
+]]></source>
+Betwixt will create an instance of the following standard implementation:
+<source><![CDATA[
+package org.apache.commons.betwixt.example;
+
+public class ExampleImpl implements IExample {
+    
+    private int id;
+    private String name;
+    
+    public ExampleImpl() {}
+    
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+]]></source>
+for each <code>example</code> element if the following <code>ExampleBean.betwixt</code> file:
+
+<source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<info>
+    <element name='example-bean'>
+        <element name='example' property='examples' class='org.apache.commons.betwixt.example.ExampleImpl'/>
+        <addDefaults/>
+    </element>
+</info>]]></source>
+is used.
+        </p>        
+    </subsection>
+</section>
+
 <section name='Reading Beans (Advanced)'>
 <subsection name='Adding Custom Digestion Rules'>
     <p>
@@ -88,7 +195,7 @@ replace the standard Betwixt chain completely.
             <p>
 The chain used by the BeanReader is part of the <code>ReadConfiguration</code> and is accessed via the 
 BeanCreationChain property. For example the following sets a custom chain.
-<code><pre>
+<source><![CDATA[
         BeanCreationChain chain = MyBeanCreationChain();
         BeanReader reader = new BeanReader();
         ...
@@ -97,17 +204,17 @@ BeanCreationChain property. For example the following sets a custom chain.
         ...
         Bean bean = (Bean) reader.parse(in);
         ...
-</pre></code>
+]]></source>
         </p>
             <p>
 Betwixt provides a standard (list-backed) chain called BeanCreationList. This provides an easy methods to 
 register your own <code>ChainedBeanCreator</code>. It also provides a factory method which creates an instance
 with the standard betwixt chain already set. For example, the following inserts a custom in second place:
-<code><pre>
+<source><![CDATA[
         BeanCreationList chain = BeanCreationList.createStandardChain();
         BeanCreator creator = MyBeanCreator();
         chain.insertBeanCreator(1, creator);
-</pre></code>
+]]></source>
         </p>
             <p>
 Another useful class is <code>ChainedBeanCreationFactory</code>. This contains factory methods for the 
@@ -121,7 +228,7 @@ Herein is contained a practical example demonstrating how custom bean creation m
         </p>
             <p>
 A common java pattern is the use of strongly typed Enum classes. Let's say that you have the following class:
-<code><pre>
+<source><![CDATA[
 public class CompassPoint {
 
     public static final CompassPoint NORTH = new CompassPoint("North");
@@ -139,7 +246,7 @@ public class CompassPoint {
         return name;
     }
 }
-</pre></code>
+]]></source>
 and you have a bean which you would like to map to xml and back using Betwixt. Betwixt is bean-centric. 
 It aims to make mapping beans easy. But, <code>CompassPoint</code> objects are not beans and do not
 have the empty constructors that Betwixt requires.
@@ -147,7 +254,7 @@ have the empty constructors that Betwixt requires.
             <p>
 A good way to solve this problem is to create a custom BeanCreator which knows how to create an enum
 of the right type from the 'name' attribute value. For example:
-<code><pre>
+<source><![CDATA[
 public class CompassPointEnumCreator implements ChainedBeanCreator {
     public Object create(ElementMapping mapping, ReadContext context, BeanCreationChain chain) {
         if (CompassPoint.class.equals(mapping.getType())) {
@@ -168,13 +275,13 @@ public class CompassPointEnumCreator implements ChainedBeanCreator {
         return chain.create(mapping, context);
     }
 }
-</pre></code>
+]]></source>
         </p>
             <p>
 Once this class has been created, all that remains is to add this into the chain. In this case,
 it's probably most convenient to use the factory method to create a standard chain and then insert
 the BeanCreator at a suitable position:
-<code><pre>
+<source><![CDATA[
     BeanCreationList chain = BeanCreationList.createStandardChain();
     chain.insertBeanCreator(1, new EnumCreator());
     ...
@@ -183,7 +290,7 @@ the BeanCreator at a suitable position:
     reader.getXMLIntrospector().setWrapCollectionsInElement(false);
     reader.getReadConfiguration().setBeanCreationChain(chain);
     ...
-</pre></code>            
+]]></source>
 Now you're ready to start reading enums!
         </p>
     </subsection>
