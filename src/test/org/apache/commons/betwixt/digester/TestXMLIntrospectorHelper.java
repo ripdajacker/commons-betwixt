@@ -1,14 +1,14 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.6 2003/10/09 20:52:08 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/10/09 20:52:08 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestXMLIntrospectorHelper.java,v 1.6.2.1 2004/01/15 21:57:41 rdonkin Exp $
+ * $Revision: 1.6.2.1 $
+ * $Date: 2004/01/15 21:57:41 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,6 +71,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.apache.commons.betwixt.BeanProperty;
 import org.apache.commons.betwixt.CustomerBean;
 import org.apache.commons.betwixt.NodeDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
@@ -79,7 +80,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 /** Test harness for the XMLIntrospectorHelper
   *
   * @author <a href="mailto:cyu77@yahoo.com">Calvin Yu</a>
-  * @version $Revision: 1.6 $
+  * @version $Revision: 1.6.2.1 $
   */
 public class TestXMLIntrospectorHelper extends TestCase {
 
@@ -127,8 +128,7 @@ public class TestXMLIntrospectorHelper extends TestCase {
         for (int i=0; i<properties.length; i++) {
             if (propertyName.equals(properties[i].getName())) {
                 NodeDescriptor desc = (NodeDescriptor) introspector
-                    .createDescriptor(properties[i],
-                                      introspector.isAttributesForPrimitives());
+                    .createXMLDescriptor(new BeanProperty(properties[i]));
                 return desc;
             } 
         }

@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.10.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.10.2.2 2004/01/15 21:57:18 rdonkin Exp $
+ * $Revision: 1.10.2.2 $
+ * $Date: 2004/01/15 21:57:18 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ import org.apache.commons.digester.rss.Channel;
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.10.2.1 $
+  * @version $Revision: 1.10.2.2 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -232,7 +232,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         // might as well give test output
         StringWriter out = new StringWriter();
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value","beta value","gamma value");
         writer.write(bean);
         

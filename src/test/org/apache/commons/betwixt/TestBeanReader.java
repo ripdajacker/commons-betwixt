@@ -620,7 +620,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write("address-book", bean);
         
         String xml = "<?xml version='1.0'?><address-book><title>drinkers</title>"
@@ -655,7 +655,7 @@ public class TestBeanReader extends AbstractTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        reader.getXMLIntrospector().setLog(log);
 
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass("address-book", MapBean.class);
         bean = (MapBean) reader.parse(new StringReader(xml));
         
@@ -691,7 +691,7 @@ public class TestBeanReader extends AbstractTestCase {
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(dee);
         String xml =  "<?xml version='1.0'?><Tweedledee><name>Tweedledee</name>"
                     + "<brother><name>Tweedledum</name></brother></Tweedledee>";
@@ -699,7 +699,7 @@ public class TestBeanReader extends AbstractTestCase {
 
         BeanReader reader = new BeanReader();
         
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass(Tweedledee.class);
         Tweedledee bean = (Tweedledee) reader.parse(new StringReader(xml));
         assertNotNull(bean.getBrother());
@@ -772,7 +772,7 @@ public class TestBeanReader extends AbstractTestCase {
             return called;
         }
         
-        public void begin(Attributes attributes) {
+        public void begin(String name, String namespace, Attributes attributes) {
             top = getDigester().peek();
             called = true;
         }

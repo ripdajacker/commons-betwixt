@@ -1,13 +1,13 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.7.2.1 2004/01/13 21:49:46 rdonkin Exp $
- * $Revision: 1.7.2.1 $
- * $Date: 2004/01/13 21:49:46 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/dotbetwixt/TestXmlToBean.java,v 1.7.2.2 2004/01/15 21:57:59 rdonkin Exp $
+ * $Revision: 1.7.2.2 $
+ * $Date: 2004/01/15 21:57:59 $
  *
  * ====================================================================
  * 
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2001-2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2001-2004 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,7 @@ public class TestXmlToBean extends XmlTestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        XMLIntrospectorHelper.setLog(log);
         
-        writer.setWriteIDs(false);
+        writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
 
     	String xml = "<?xml version='1.0'?><mixed><name>Lov</name><bad-name>Hate</bad-name>"
@@ -141,7 +141,7 @@ public class TestXmlToBean extends XmlTestCase {
         
         // now we'll test reading via round tripping
         BeanReader reader = new BeanReader();
-        reader.setMatchIDs(false);
+        reader.getBindingConfiguration().setMapIDs(false);
         reader.registerBeanClass("mixed", MixedUpdatersBean.class);
         bean = (MixedUpdatersBean) reader.parse(new StringReader(xml));
         
