@@ -147,6 +147,12 @@
                 Add per element customization for ID/IDREF mappings.
                 Extra attributes will be added to .betwixt file that specify the ID/IDREF names.
             </li>
+            <li>
+                <strong>Attribute-Or-Element Strategy</strong>
+                At the moment, betwixt allows only an all-or-nothing for the choice between mapping to an
+                attribute or an element. This should be replaced by a strategy interface which allows the
+                mapping to the customized.
+            </li>
       </ul>
     </subsection>
     
