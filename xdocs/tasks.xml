@@ -186,6 +186,7 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='since 0.6'>
         <ul>
+            <li><strong>Improved introspection support for DynaBeans</strong></li>
             <li><strong>Improved introspection for interfaces</strong> superinterface 
             properties now checked.</li>
             <li><strong>Attribute suppression</strong> - Betwixt now allows the 
