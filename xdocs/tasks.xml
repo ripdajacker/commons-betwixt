@@ -269,6 +269,10 @@ Added ClassNormalizer strategy. This allows the Class introspector to differ fro
 to &lt;addDefaults&gt; that allow matching properties or adders to be
 supressed.
             </li>
+            <li>
+<strong>SimpleTypeMapper strategy</strong> for finely grained control over simple type (primitive) 
+binding.
+            </li>
         </ul>
     </subsection>
 </section>
