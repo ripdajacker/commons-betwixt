@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.7 2002/07/09 21:50:31 mvdb Exp $
- * $Revision: 1.7 $
- * $Date: 2002/07/09 21:50:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.8 2002/07/30 20:12:47 mvdb Exp $
+ * $Revision: 1.8 $
+ * $Date: 2002/07/30 20:12:47 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.7 2002/07/09 21:50:31 mvdb Exp $
+ * $Id: BeanCreateRule.java,v 1.8 2002/07/30 20:12:47 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -89,7 +89,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -222,7 +222,6 @@ public class BeanCreateRule extends Rule {
         }
     }
 
-
     /**
      * Process the end of this element.
      */
@@ -294,7 +293,7 @@ public class BeanCreateRule extends Rule {
                 final ElementDescriptor childDescriptor = childDescriptors[i];
                 if (log.isTraceEnabled()) {
                     log.trace("Processing child " + childDescriptor);
-                }	
+                }
                 
                 String propertyName = childDescriptor.getPropertyName();
                 String qualifiedName = childDescriptor.getQualifiedName();
@@ -303,7 +302,30 @@ public class BeanCreateRule extends Rule {
                     continue;
                 }
                 String path = prefix + qualifiedName;
-                
+                // this code is for making sure that recursive elements
+                // can also be used..
+                if (qualifiedName.equals(currentDescriptor.getQualifiedName())) {
+                    log.trace("Creating generic rule for recursive elements");
+                    int index = -1;
+                    if (childDescriptor.isWrapCollectionsInElement()) {
+                        index = prefix.indexOf(qualifiedName);
+                        if (index == -1) {
+                            // shouldn't happen.. 
+                            continue;
+                        }
+                        int removeSlash = prefix.endsWith("/")?1:0;
+                        path = "*/" + prefix.substring(index, prefix.length()-removeSlash);
+                    }else{
+                        // we have a element/element type of thing..
+                        ElementDescriptor[] desc = currentDescriptor.getElementDescriptors();
+                        if (desc.length == 1) {
+                            path = "*/"+desc[0].getQualifiedName();
+                        }
+                    }
+                    Rule rule = new BeanCreateRule( childDescriptor, context, path);
+                    addRule(path, rule);
+                    continue;
+                }
                 if ( childDescriptor.getUpdater() != null ) {
                     if (log.isTraceEnabled()) {
                         log.trace("Element has updater "
