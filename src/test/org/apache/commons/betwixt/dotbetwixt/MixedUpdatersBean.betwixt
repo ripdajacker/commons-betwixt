@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<info primitiveTypes="element">
+  <element name="mixed">
+        <element name='name' property='name'/>
+        <element name='bad-name' property='badName' updater='badNameSetter'/>
+        <element name='items'>
+            <element name='item' property='items'/>
+        </element>
+        <element name='bad-items'>
+            <element name='bad-item' property='badItems' updater='badItemAdder'/>
+        </element>
+        <addDefaults/>
+  </element>
+</info>
