@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.5 2002/12/30 18:16:48 mvdb Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/30 18:16:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/strategy/TestHyphenatedNameMapper.java,v 1.6 2003/08/27 01:50:07 dlr Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/08/27 01:50:07 $
  *
  * ====================================================================
  *
@@ -57,11 +57,12 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestHyphenatedNameMapper.java,v 1.5 2002/12/30 18:16:48 mvdb Exp $
+ * $Id: TestHyphenatedNameMapper.java,v 1.6 2003/08/27 01:50:07 dlr Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
 
+import java.beans.BeanDescriptor;
 import java.util.ArrayList;
 
 import junit.framework.Test;
@@ -75,7 +76,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
   * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestHyphenatedNameMapper extends TestCase {
     
@@ -93,6 +94,13 @@ public class TestHyphenatedNameMapper extends TestCase {
         assertEquals("foo-bar", result);
     }
     
+    public void testLowerCaseViaBeanDescriptor() {
+        HyphenatedNameMapper mapper = new HyphenatedNameMapper(false, "_");
+        BeanDescriptor bd = new BeanDescriptor(getClass());
+        String result = mapper.mapTypeToElementName(bd.getName());
+        assertEquals("test_hyphenated_name_mapper", result);
+    }
+
     public void testUpperCase()  {
         HyphenatedNameMapper mapper = new HyphenatedNameMapper(true, "_");
         String result = mapper.mapTypeToElementName("FooBar");
@@ -115,9 +123,8 @@ public class TestHyphenatedNameMapper extends TestCase {
         String result = mapper.mapTypeToElementName("FooBarFooBar");
         assertEquals("FOO__BAR__FOO__BAR", result);
 
-     }
+    }
      
-    
     public void testBeanWithAdd() throws Exception {	
         //
         // simple test this one
@@ -130,4 +137,3 @@ public class TestHyphenatedNameMapper extends TestCase {
         introspector.introspect(new ArrayList());
     }
 }
-
