@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-commons-sandbox/betwixt/src/test/org/apache/commons/betwixt/TestXMLIntrospector.java,v 1.8 2002/05/17 15:24:10 jstrachan Exp $
- * $Revision: 1.8 $
- * $Date: 2002/05/17 15:24:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/introspection/TestXMLIntrospector.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
+ * $Revision: 1.1 $
+ * $Date: 2002/12/30 20:32:30 $
  *
  * ====================================================================
  *
@@ -57,9 +57,13 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestXMLIntrospector.java,v 1.8 2002/05/17 15:24:10 jstrachan Exp $
+ * $Id: TestXMLIntrospector.java,v 1.1 2002/12/30 20:32:30 rdonkin Exp $
  */
-package org.apache.commons.betwixt;
+package org.apache.commons.betwixt.introspection;
+
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.beans.BeanInfo;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -68,11 +72,17 @@ import junit.textui.TestRunner;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
 import org.apache.commons.betwixt.registry.NoCacheRegistry;
 
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
+import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.AttributeDescriptor;
+
 
 /** Test harness for the XMLIntrospector
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.8 $
+  * @version $Revision: 1.1 $
   */
 public class TestXMLIntrospector extends AbstractTestCase {
     
@@ -152,6 +162,26 @@ public class TestXMLIntrospector extends AbstractTestCase {
         
         assertTrue( "Found attributes", attributes != null && attributes.length > 0 );
 
+    }
+    
+    public void testBeanWithBeanInfo() throws Exception {
+        // let's check that bean info's ok
+        BeanInfo bwbiBeanInfo = Introspector.getBeanInfo(BeanWithBeanInfoBean.class);
+        
+        PropertyDescriptor[] descriptors = bwbiBeanInfo.getPropertyDescriptors();
+
+        assertEquals("Wrong number of properties", 2 , descriptors.length);
+        
+        // order of properties isn't guarenteed 
+        if ("alpha".equals(descriptors[0].getName())) {
+        
+            assertEquals("Second property name", "gamma" , descriptors[1].getName());
+            
+        } else {
+        
+            assertEquals("First property name", "gamma" , descriptors[0].getName());
+            assertEquals("Second property name", "alpha" , descriptors[1].getName());
+        }
     }
 }
 
