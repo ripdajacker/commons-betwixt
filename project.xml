@@ -161,7 +161,7 @@
 <!-- runtime dependencies only required for testing and sample programs -->
     <dependency>
       <id>xerces</id>
-      <version>2.2.1</version>
+      <version>2.4.0</version>
       <url>http://xml.apache.org/xerces2-j/index.html</url>
     </dependency>
 
@@ -202,7 +202,6 @@
                 </resource>
             </resources>
         </unitTest>
-
     	<!-- Integration unit test classes -->
     	<integrationUnitTestPatterns></integrationUnitTestPatterns>
     
