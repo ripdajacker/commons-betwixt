@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.4 2004/01/22 11:00:03 rdonkin Exp $
- * $Revision: 1.14.2.4 $
- * $Date: 2004/01/22 11:00:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.14.2.5 2004/04/18 20:29:07 rdonkin Exp $
+ * $Revision: 1.14.2.5 $
+ * $Date: 2004/04/18 20:29:07 $
  *
  * ====================================================================
  * 
@@ -75,7 +75,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.14.2.4 $
+  * @version $Revision: 1.14.2.5 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -366,32 +366,7 @@ public class ElementDescriptor extends NodeDescriptor {
         }
         return elementDescriptor;
     }
-    
-    /**
-      * Gets a child ElementDescriptor matching the given path if one exists.
-      *
-      * @param pathIterator an Iterator containing String's, 
-      * each string being an element name in the path
-      * @returns the child ElementDescriptor with the given name if one exists, 
-      * otherwise null
-      */
-    public ElementDescriptor getElementDescriptor(Iterator pathIterator) {
-    
-        ElementDescriptor elementDescriptor = null;
-        if (pathIterator.hasNext()) {
-            String nextName = (String) pathIterator.next();
-            ElementDescriptor childDescriptor = getElementDescriptor(nextName);
-            if (childDescriptor != null) {
-                elementDescriptor = childDescriptor.getElementDescriptor(pathIterator);
-            }
 
-        }
-        else
-        {
-            elementDescriptor = this;
-        }
-        return elementDescriptor;
-    }
 
     /** 
      * Sets the descriptors for the child element of the element this describes. 

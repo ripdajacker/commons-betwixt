@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.9 2004/04/18 20:20:31 rdonkin Exp $
- * $Revision: 1.4.2.9 $
- * $Date: 2004/04/18 20:20:31 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/read/ReadContext.java,v 1.4.2.10 2004/04/18 20:29:07 rdonkin Exp $
+ * $Revision: 1.4.2.10 $
+ * $Date: 2004/04/18 20:29:07 $
  *
  * ====================================================================
  * 
@@ -62,8 +62,6 @@ package org.apache.commons.betwixt.io.read;
 
 import java.beans.IntrospectionException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
@@ -93,7 +91,7 @@ import org.xml.sax.Attributes;
   * and the classes to which they are bound</li>
   * </ul>
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.4.2.9 $
+  * @version $Revision: 1.4.2.10 $
   */
 public class ReadContext extends Context {
 
