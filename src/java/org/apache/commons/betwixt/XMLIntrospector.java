@@ -98,7 +98,7 @@ import org.apache.commons.logging.LogFactory;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospector.java,v 1.17 2003/01/05 17:18:32 rdonkin Exp $
+  * @version $Id: XMLIntrospector.java,v 1.18 2003/01/06 22:50:44 rdonkin Exp $
   */
 public class XMLIntrospector {
 
@@ -224,8 +224,7 @@ public class XMLIntrospector {
     public XMLBeanInfo introspect(Class aClass) throws IntrospectionException {
         // we first reset the beaninfo searchpath.
         String[] searchPath = null;
-        if (!useBeanInfoSearchPath)
-        {
+        if (!useBeanInfoSearchPath) {
             searchPath = Introspector.getBeanInfoSearchPath();
             Introspector.setBeanInfoSearchPath(new String[] { });
         }
@@ -254,8 +253,7 @@ public class XMLIntrospector {
         if (log.isTraceEnabled()) {
             log.trace(xmlInfo);
         }
-        if (!useBeanInfoSearchPath)
-        {
+        if (!useBeanInfoSearchPath) {
             // we restore the beaninfo searchpath.
             Introspector.setBeanInfoSearchPath(searchPath);
         }
@@ -286,8 +284,7 @@ public class XMLIntrospector {
         if ( isPrimitiveType( beanClass ) ) {
             elementDescriptor.setTextExpression( StringExpression.getInstance() );
             elementDescriptor.setPrimitiveType(true);
-        }
-        else if ( isLoopType( beanClass ) ) {
+        } else if ( isLoopType( beanClass ) ) {
             ElementDescriptor loopDescriptor = new ElementDescriptor();
             loopDescriptor.setContextExpression(
                 new IteratorExpression( EmptyExpression.getInstance() )
@@ -302,8 +299,7 @@ public class XMLIntrospector {
                 new IteratorExpression( EmptyExpression.getInstance() )
             );
 */
-        }
-        else {
+        } else {
             List elements = new ArrayList();
             List attributes = new ArrayList();
 
@@ -504,8 +500,7 @@ public class XMLIntrospector {
                 }
                 digester.setBeanClass( aClass );
                 return (XMLBeanInfo) digester.parse( urlText );
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.warn( "Caught exception trying to parse: " + name, e );
             }
         }

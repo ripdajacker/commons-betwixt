@@ -74,7 +74,7 @@ import org.xml.sax.SAXException;
   * the &lt;element&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: ElementRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
+  * @version $Id: ElementRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
   */
 public class ElementRule extends RuleSupport {
 
@@ -127,8 +127,8 @@ public class ElementRule extends RuleSupport {
         
         if ( propertyName != null && propertyName.length() > 0 ) {
             configureDescriptor(descriptor);
-        }
-        else {
+            
+        } else {
             String value = attributes.getValue( "value" );
             if ( value != null ) {
                 descriptor.setTextExpression( new ConstantExpression( value ) );
@@ -140,12 +140,12 @@ public class ElementRule extends RuleSupport {
             XMLBeanInfo beanInfo = (XMLBeanInfo) top;
             beanInfo.setElementDescriptor( descriptor );
             beanClass = beanInfo.getBeanClass();
-        }
-        else if ( top instanceof ElementDescriptor ) {
+            
+        } else if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;
             parent.addElementDescriptor( descriptor );
-        }
-        else {
+            
+        } else {
             throw new SAXException( "Invalid use of <element>. It should " 
                 + "be nested inside <info> or other <element> nodes" );
         }
@@ -177,8 +177,7 @@ public class ElementRule extends RuleSupport {
                     }
                     return answer;
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.warn("Cannot load specified type", e);
             }
         }
@@ -238,8 +237,7 @@ public class ElementRule extends RuleSupport {
                 }
                 log.trace("No match found.");
                 return null;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.warn( "Caught introspection exception", e );
             }
         }

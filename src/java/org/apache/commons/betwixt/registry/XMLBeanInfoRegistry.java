@@ -78,7 +78,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * </p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: XMLBeanInfoRegistry.java,v 1.2 2002/12/15 17:42:06 mvdb Exp $
+  * @version $Id: XMLBeanInfoRegistry.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
   */
 public interface XMLBeanInfoRegistry {
     
@@ -87,12 +87,16 @@ public interface XMLBeanInfoRegistry {
       *
       * @param forThisClass get <code>XMLBeanInfo</code> for this class
       *
-      * @return <code>null</code> if fresh introspection should be used to find the <code>XMLBeanInfo</code>
+      * @return <code>null</code> if fresh introspection should be used 
+      * to find the <code>XMLBeanInfo</code>
       */
     public XMLBeanInfo get(Class forThisClass);
     
     /**
       * Associate a class with it's <code>XMLBeanInfo</code>.
+      *
+      * @param forThisClass the class to associate with the given bean info
+      * @param beanInfo the <code>XMLBeanInfo</code> to use for the given class
       */
     public void put(Class forThisClass, XMLBeanInfo beanInfo);
     

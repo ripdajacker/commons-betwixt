@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/AddDefaultsRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AddDefaultsRule.java,v 1.4 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: AddDefaultsRule.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -79,7 +79,7 @@ import org.xml.sax.SAXException;
   * to the current element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class AddDefaultsRule extends RuleSupport {
 
@@ -122,8 +122,7 @@ public class AddDefaultsRule extends RuleSupport {
                         }
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.info( "Caught introspection exception", e );
             }
         }
@@ -151,26 +150,21 @@ public class AddDefaultsRule extends RuleSupport {
                 ElementDescriptor root = beanInfo.getElementDescriptor() ;
                 if ( root == null ) {
                     beanInfo.setElementDescriptor( elementDescriptor );
-                }
-                else {
+                } else {
                     root.addElementDescriptor( elementDescriptor );
                 }
-            }
-            else { 
+            } else { 
                 throw new SAXException( 
                     "the <addDefaults> element should be within an <element> tag" );
             }
-        }
-        else if ( top instanceof ElementDescriptor ) {
+        } else if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;
             if ( nodeDescriptor instanceof ElementDescriptor ) {
                 parent.addElementDescriptor( (ElementDescriptor) nodeDescriptor );
-            }
-            else {
+            } else {
                 parent.addAttributeDescriptor( (AttributeDescriptor) nodeDescriptor );
             }
-        }
-        else {
+        } else {
             throw new SAXException( 
                 "Invalid use of <addDefaults>. It should be nested inside <element> element" );
         }            
@@ -181,8 +175,8 @@ public class AddDefaultsRule extends RuleSupport {
         if ( top instanceof XMLBeanInfo ) {
             XMLBeanInfo beanInfo = (XMLBeanInfo) top;
             return beanInfo.getElementDescriptor();
-        }
-        else if ( top instanceof ElementDescriptor ) {
+            
+        } else if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;
             // XXX: could maybe walk up the parent hierarchy?
             return parent;

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.3 2003/01/05 09:52:22 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/05 09:52:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/CapitalizeNameMapper.java,v 1.4 2003/01/06 22:50:45 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: CapitalizeNameMapper.java,v 1.3 2003/01/05 09:52:22 rdonkin Exp $
+ * $Id: CapitalizeNameMapper.java,v 1.4 2003/01/06 22:50:45 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.strategy;
@@ -67,18 +67,17 @@ package org.apache.commons.betwixt.strategy;
  * So eg elementName should return ElementName
  * 
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Id: CapitalizeNameMapper.java,v 1.3 2003/01/05 09:52:22 rdonkin Exp $
+ * @version $Id: CapitalizeNameMapper.java,v 1.4 2003/01/06 22:50:45 rdonkin Exp $
  */
-public class CapitalizeNameMapper implements NameMapper
-{
+public class CapitalizeNameMapper implements NameMapper {
 
     /**
      * Capitalize first letter of type name.
      * 
+     * @param typeName the string to convert
      * @return <code>typeName</code> after first letter has been converted to upper case
      */
-    public String mapTypeToElementName(String typeName)
-    {
+    public String mapTypeToElementName(String typeName) {
         if (typeName == null || typeName.length() ==0) {
             return typeName;
         }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.6 2003/01/05 10:23:07 rdonkin Exp $
- * $Revision: 1.6 $
- * $Date: 2003/01/05 10:23:07 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DefaultPluralStemmer.java,v 1.7 2003/01/06 22:50:45 rdonkin Exp $
+ * $Revision: 1.7 $
+ * $Date: 2003/01/06 22:50:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DefaultPluralStemmer.java,v 1.6 2003/01/05 10:23:07 rdonkin Exp $
+ * $Id: DefaultPluralStemmer.java,v 1.7 2003/01/06 22:50:45 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -75,7 +75,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultPluralStemmer implements PluralStemmer {
 
@@ -94,10 +94,13 @@ public class DefaultPluralStemmer implements PluralStemmer {
      * <p>If no matches are found then - if one exists - a property starting with the 
      * singular name will be returned.</p>
      * 
-     * @return the plural descriptor for the given singular property name
-     * @return if more than one descriptor matches, then the best match is returned
+     * @param propertyName the property name string to match
+     * @param map the <code>Map</code> containing the <code>ElementDescriptor</code>'s 
+     *        to be searched
+     * @return The plural descriptor for the given singular property name.
+     *         If more than one descriptor matches, then the best match is returned.
      */
-    public ElementDescriptor findPluralDescriptor( String propertyName, Map map) {
+    public ElementDescriptor findPluralDescriptor( String propertyName, Map map ) {
         int foundKeyCount = 0;
         String keyFound = null;
         ElementDescriptor answer = (ElementDescriptor) map.get( propertyName + "s" );
@@ -126,9 +129,8 @@ public class DefaultPluralStemmer implements PluralStemmer {
                             }
                             foundKeyCount++;
                             keyFound = key;
-                        }
-                        else
-                        {
+                            
+                        } else {
                             // check if we have a better match,,
                             if (keyFound.length() > key.length()) {
                                 answer = (ElementDescriptor) map.get(key);

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/08/14 18:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/RandomIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: RandomIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Id: RandomIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -79,7 +79,7 @@ import java.util.Random;
   * constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public final class RandomIDGenerator extends AbstractIDGenerator {
     
@@ -103,11 +103,13 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
     }
     
     /** 
-      * <p>Provide a random <code>ID</code><p>
+      * <p>Generates a random <code>ID</code><p>
       * 
       * <p>If the <code>PositiveIds</code> property is true, 
       * then this method will recursively call itself if the random
       * <code>ID</code> is less than zero.</p>
+      *
+      * @return a random integer (converted to a string)
       */
     public String nextIdImpl() {
         int next = random.nextInt();
@@ -118,12 +120,20 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
         return Integer.toString(next);
     }
     
-    /** Get whether only positive <code>ID</code>'s should be generated */
+    /** 
+     * Gets whether only positive <code>ID</code>'s should be generated 
+     *
+     * @return whether only positive IDs should be generated
+     */
     public boolean getPositiveIds() {
         return onlyPositiveIds;
     }
     
-    /** Set whether only positive <code>ID</code>'s should be generated */
+    /** 
+     * Sets whether only positive <code>ID</code>'s should be generated 
+     *
+     * @param onlyPositiveIds pass true if only positive IDs should be generated
+     */
     public void setPositiveIds(boolean onlyPositiveIds) {
         this.onlyPositiveIds = onlyPositiveIds;
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.4 2002/12/11 22:12:10 rdonkin Exp $
- * $Revision: 1.4 $
- * $Date: 2002/12/11 22:12:10 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.5 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.4 2002/12/11 22:12:10 rdonkin Exp $
+ * $Id: ElementDescriptor.java,v 1.5 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -178,8 +178,7 @@ public class ElementDescriptor extends NodeDescriptor {
         if ( attributeDescriptors == null ) {
             if ( attributeList == null ) {
                 attributeDescriptors = new AttributeDescriptor[0];
-            }
-            else {
+            } else {
                 attributeDescriptors = new AttributeDescriptor[ attributeList.size() ];
                 attributeList.toArray( attributeDescriptors );
                 
@@ -209,8 +208,7 @@ public class ElementDescriptor extends NodeDescriptor {
         if ( elementDescriptors == null ) {
             if ( elementList == null ) {
                 elementDescriptors = new ElementDescriptor[0];
-            }
-            else {
+            } else {
                 elementDescriptors = new ElementDescriptor[ elementList.size() ];
                 elementList.toArray( elementDescriptors );
                 
@@ -265,8 +263,7 @@ public class ElementDescriptor extends NodeDescriptor {
                 }
                 // force lazy recreation later
                 attributeDescriptors = null;
-            }
-            else {
+            } else {
                 attributeList = new ArrayList();
             }            
         }
@@ -284,8 +281,7 @@ public class ElementDescriptor extends NodeDescriptor {
                 }
                 // force lazy recreation later
                 elementDescriptors = null;
-            }
-            else {
+            } else {
                 elementList = new ArrayList();
             }            
         }

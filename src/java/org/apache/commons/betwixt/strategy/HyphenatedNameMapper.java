@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.5 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/HyphenatedNameMapper.java,v 1.6 2003/01/06 22:50:45 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/06 22:50:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: HyphenatedNameMapper.java,v 1.5 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: HyphenatedNameMapper.java,v 1.6 2003/01/06 22:50:45 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -74,7 +74,7 @@ package org.apache.commons.betwixt.strategy;
  * 
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class HyphenatedNameMapper implements NameMapper {
 
@@ -124,6 +124,7 @@ public class HyphenatedNameMapper implements NameMapper {
      * <p>Then the {@link #getSeparator} property value is inserted so that it separates
      * each word.</p>
      *
+     * @param typeName the name string to convert
      * @return the bean name converted to either upper or lower case with words separated 
      * by the separator.
      */
@@ -142,12 +143,10 @@ public class HyphenatedNameMapper implements NameMapper {
             if (Character.isUpperCase(typeName.charAt(i))) {
                 sb.append(separator);
                 sb.append(convertChar(typeName.charAt(i)));
-            }
-            else {
+            } else {
                 if ( upperCase ) {
                     sb.append(convertChar(typeName.charAt(i)));
-                }
-                else {
+                } else {
                     sb.append(typeName.charAt(i));
                 }
             }
@@ -169,6 +168,8 @@ public class HyphenatedNameMapper implements NameMapper {
     
     /** 
      * Sets the separator used to seperate words, which defaults to '-' 
+     *
+     * @param separator the string inserted to separate words
      */
     public void setSeparator(String separator) {
         this.separator = separator;
@@ -187,7 +188,9 @@ public class HyphenatedNameMapper implements NameMapper {
     
     /** 
      * Sets whether upper or lower case conversions should be performed,
-     * which defaults to false for lower case
+     * which defaults to false for lower case.
+     *
+     * @param upperCase whether the name is to be converted to upper case
      */    
     public void setUpperCase(boolean upperCase) {
         this.upperCase = upperCase;
@@ -199,12 +202,15 @@ public class HyphenatedNameMapper implements NameMapper {
     /** 
      * Performs type conversion on the given character based on whether
      * upper or lower case conversions are being used
+     *
+     * @param ch the character to be converted
+     * @return converted to upper case if {@link isUpperCase} otherwise to lower case 
      */
     protected char convertChar(char ch) {
         if ( upperCase ) {
             return Character.toUpperCase(ch);
-        }
-        else {
+            
+        } else {
             return Character.toLowerCase(ch);
         }
     }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.15 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.15 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanCreateRule.java,v 1.16 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.16 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanCreateRule.java,v 1.15 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.16 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -84,7 +84,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.15 $
+  * @version $Revision: 1.16 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -117,8 +117,7 @@ public class BeanCreateRule extends Rule {
     public BeanCreateRule(
                             ElementDescriptor descriptor, 
                             Class beanClass, 
-                            String pathPrefix )
-    {
+                            String pathPrefix ) {
         this( descriptor, beanClass, pathPrefix, true );
     }
     
@@ -371,8 +370,8 @@ public class BeanCreateRule extends Rule {
                 log.trace( "Creating instance of " + beanClass );
             }
             return beanClass.newInstance();
-        }
-        catch (Exception e) {
+            
+        } catch (Exception e) {
             log.warn( "Could not create instance of type: " + beanClass.getName() );
             return null;
         }
@@ -451,8 +450,8 @@ public class BeanCreateRule extends Rule {
                     }
                     if ( childDescriptor.isPrimitiveType() ) {
                         addPrimitiveTypeRule(path, childDescriptor);
-                    }
-                    else {
+                        
+                    } else {
                         // add the first child to the path
                         ElementDescriptor[] grandChildren = childDescriptor.getElementDescriptors();
                         if ( grandChildren != null && grandChildren.length > 0 ) {
@@ -461,8 +460,8 @@ public class BeanCreateRule extends Rule {
                             if ( grandChildQName != null && grandChildQName.length() > 0 ) {
                                 if (childDescriptor.isWrapCollectionsInElement()) {
                                     path += '/' + grandChildQName;
-                                }
-                                else{
+                                    
+                                } else {
                                     path = prefix + grandChildQName;
                                 }
                             }
@@ -472,8 +471,8 @@ public class BeanCreateRule extends Rule {
                         Class beanClass = childDescriptor.getSingularPropertyType();
                         if ( XMLIntrospectorHelper.isPrimitiveType( beanClass ) ) {
                             addPrimitiveTypeRule(path, childDescriptor);
-                        }
-                        else {
+                            
+                        } else {
                             Rule rule = new BeanCreateRule( 
                                                         childDescriptor, 
                                                         context, 
@@ -515,8 +514,8 @@ public class BeanCreateRule extends Rule {
             try {
                 XMLBeanInfo xmlInfo = introspector.introspect( beanClass );
                 return xmlInfo.getElementDescriptor();
-            }
-            catch (Exception e) {
+                
+            } catch (Exception e) {
                 log.warn( "Could not introspect class: " + beanClass, e );
             }
         }
@@ -547,8 +546,8 @@ public class BeanCreateRule extends Rule {
                 log.debug( "Adding digester rule for path: " + path + " rule: " + rule );
             }
             digester.addRule( path, rule );
-        }
-        else {
+            
+        } else {
             if ( log.isDebugEnabled() ) {
                 log.debug( "Ignoring duplicate digester rule for path: " 
                             + path + " rule: " + rule );

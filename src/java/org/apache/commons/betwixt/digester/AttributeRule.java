@@ -72,7 +72,7 @@ import org.xml.sax.SAXException;
   * &lt;attribute&gt; elements.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Id: AttributeRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
+  * @version $Id: AttributeRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
   */
 public class AttributeRule extends RuleSupport {
 
@@ -111,8 +111,7 @@ public class AttributeRule extends RuleSupport {
         
         if ( propertyName != null && propertyName.length() > 0 ) {
             configureDescriptor(descriptor);
-        }
-        else {
+        } else {
             String value = attributes.getValue( "value" );
             if ( value != null ) {
                 descriptor.setTextExpression( new ConstantExpression( value ) );
@@ -123,8 +122,7 @@ public class AttributeRule extends RuleSupport {
         if ( top instanceof ElementDescriptor ) {
             ElementDescriptor parent = (ElementDescriptor) top;
             parent.addAttributeDescriptor( descriptor );
-        }
-        else {
+        } else {
             throw new SAXException( "Invalid use of <attribute>. It should " 
                 + "be nested inside an <element> element" );
         }            
@@ -148,8 +146,7 @@ public class AttributeRule extends RuleSupport {
         if ( name != null ) {
             try {
                 return classLoader.loadClass(name);
-            }
-            catch (Exception e) { // SWALLOW
+            } catch (Exception e) { // SWALLOW
             }
         }
         return null;            
@@ -174,8 +171,7 @@ public class AttributeRule extends RuleSupport {
                         }
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 log.warn( "Caught introspection exception", e );
             }
         }

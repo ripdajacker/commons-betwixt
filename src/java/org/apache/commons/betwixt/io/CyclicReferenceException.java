@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/CyclicReferenceException.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/12 21:40:06 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/CyclicReferenceException.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: CyclicReferenceException.java,v 1.2 2002/06/12 21:40:06 rdonkin Exp $
+ * $Id: CyclicReferenceException.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -76,7 +76,7 @@ package org.apache.commons.betwixt.io;
   * then this exception will be thrown.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class CyclicReferenceException extends RuntimeException {
     
@@ -90,8 +90,11 @@ public class CyclicReferenceException extends RuntimeException {
         super(DEFAULT_MESSAGE);
     }
     
-    /** Construct exception with given message
-      */
+    /**  
+     * Construct exception with message
+     *
+     * @param message the detailed message string
+     */
     public CyclicReferenceException(String message) {
         super(message);
     }

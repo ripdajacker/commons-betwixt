@@ -65,7 +65,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * A hashmap is used.
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: DefaultXMLBeanInfoRegistry.java,v 1.2 2002/12/30 18:18:37 mvdb Exp $
+  * @version $Id: DefaultXMLBeanInfoRegistry.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
   */
 public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
 
@@ -73,7 +73,11 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
     private Map xmlBeanInfos = new HashMap();
     
     /**
-      * Get from cache. 
+      * Get <code>XMLBeanInfo</code> from cache. 
+      *
+      * @param forThisClass the class for which to find a <code>XMLBeanInfo</code>
+      * @return cached <code>XMLBeanInfo</code> associated with given class
+      * or <code>null</code> if no <code>XMLBeanInfo</code> has been associated
       */
     public XMLBeanInfo get(Class forThisClass) {
         return (XMLBeanInfo) xmlBeanInfos.get(forThisClass);
@@ -81,6 +85,9 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
     
     /**
       * Put into cache
+      *
+      * @param forThisClass the class to cache the <code>XMLBeanInfo</code> for
+      * @param beanInfo the <code>XMLBeanInfo</code> to cache
       */
     public void put(Class forThisClass, XMLBeanInfo beanInfo) {
         xmlBeanInfos.put(forThisClass, beanInfo);

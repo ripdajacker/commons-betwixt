@@ -1,7 +1,7 @@
  /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.3 2002/12/30 17:33:48 mvdb Exp $
- * $Revision: 1.3 $
- * $Date: 2002/12/30 17:33:48 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/IteratorExpression.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: IteratorExpression.java,v 1.3 2002/12/30 17:33:48 mvdb Exp $
+ * $Id: IteratorExpression.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
  */
 
 package org.apache.commons.betwixt.expression;
@@ -74,7 +74,7 @@ import org.apache.commons.collections.iterators.EnumerationIterator;
 /** <p><code>IteratorExpression</code> returns an iterator over the current context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class IteratorExpression implements Expression {
     
@@ -97,22 +97,22 @@ public class IteratorExpression implements Expression {
         if ( value instanceof Iterator ) {
             // if the value is an iterator, we're done
             return (Iterator) value;
-        }
-        else if ( value instanceof Collection ) {
+            
+        } else if ( value instanceof Collection ) {
             // if it's a collection, return an iterator for that collection
             Collection collection = (Collection) value;
             return collection.iterator();
-        }
-        else if ( value instanceof Map ) {
+            
+        } else if ( value instanceof Map ) {
             // if it's a map, return an iterator for the map entries
             Map map = (Map) value;
             return map.entrySet().iterator();
-        }
-        else if ( value instanceof Enumeration ) {
+            
+        } else if ( value instanceof Enumeration ) {
             // if it's an enumeration, wrap it in an EnumerationIterator
             return new EnumerationIterator( (Enumeration) value );
-        }
-        else if ( value != null ) {
+            
+        } else if ( value != null ) {
             // if we have an array return an ArrayIterator
             Class type = value.getClass();
             if ( type.isArray() ) {

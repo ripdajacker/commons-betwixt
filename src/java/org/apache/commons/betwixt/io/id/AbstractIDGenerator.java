@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/08/14 18:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/AbstractIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Id: AbstractIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -72,14 +72,18 @@ import org.apache.commons.betwixt.io.IDGenerator;
   * Subclasses should override {@link #nextIdImpl}.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public abstract class AbstractIDGenerator implements IDGenerator {
     
     /** Last <code>ID</code> returned */
     private String lastId = "0";
     
-    /** Get last <code>ID</code> returned. */
+    /** 
+     * Gets last <code>ID</code> returned. 
+     *
+     * @return the last id created by the generated
+     */
     public final String getLastId() {
         return lastId;
     }
@@ -89,6 +93,8 @@ public abstract class AbstractIDGenerator implements IDGenerator {
       *
       * <p>This method obtains the next <code>ID</code> from subclass
       * and then uses this to set the <code>LastId</code> property.</p>
+      *
+      * @return the next id generated 
       */
     public final String nextId() {
         lastId = nextIdImpl();
@@ -100,6 +106,8 @@ public abstract class AbstractIDGenerator implements IDGenerator {
       * This implementation needs only provide the next <code>ID</code>
       * value (according to it's algorithm).
       * Setting the <code>LastId</code> property can be left to this class.
+      *
+      * @return the next id generated
       */
     protected abstract String nextIdImpl();
 }

@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.2 2002/07/01 18:56:26 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2002/07/01 18:56:26 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodExpression.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodExpression.java,v 1.2 2002/07/01 18:56:26 rdonkin Exp $
+ * $Id: MethodExpression.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -66,12 +66,13 @@ import java.lang.reflect.Method;
 /** <p><code>MethodExpression</code> evaluates a method on the current bean context.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class MethodExpression implements Expression {
 
     /** null arguments */
     protected static Object[] NULL_ARGUMENTS;
+    /** null classes */
     protected static Class[] NULL_CLASSES;
     
     /** The method to call on the bean */
@@ -93,8 +94,8 @@ public class MethodExpression implements Expression {
             Object[] arguments = getArguments();
             try {
                 return method.invoke( bean, arguments );
-            }
-            catch (IllegalAccessException e) {
+                
+            } catch (IllegalAccessException e) {
                 // lets try use another method with the same name
                 try {
                     Class type = bean.getClass();
@@ -102,12 +103,10 @@ public class MethodExpression implements Expression {
                     if ( alternate != null ) {
                         return alternate.invoke( bean, arguments );
                     }
-                }
-                catch (Exception e2) {
+                } catch (Exception e2) {
                     handleException(context, e2);
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 handleException(context, e);
             }
         }

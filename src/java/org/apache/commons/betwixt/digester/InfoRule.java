@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/digester/InfoRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: InfoRule.java,v 1.3 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: InfoRule.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
@@ -69,7 +69,7 @@ import org.xml.sax.Attributes;
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public class InfoRule extends RuleSupport {
 
@@ -99,12 +99,11 @@ public class InfoRule extends RuleSupport {
         if ( value != null ) {
             if ( value.equalsIgnoreCase( "element" ) ) {
                 getXMLInfoDigester().setAttributesForPrimitives( false );
-            }
-            else 
-            if ( value.equalsIgnoreCase( "attribute" ) ) {
+                
+            } else if ( value.equalsIgnoreCase( "attribute" ) ) {
                 getXMLInfoDigester().setAttributesForPrimitives( true );
-            }
-            else {
+                
+            } else {
                 // XXX Should this be a checked exception?
                 throw new Exception( 	
                     "Invalid value inside element <info> for attribute 'primitiveTypes'."

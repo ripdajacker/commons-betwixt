@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DecapitalizeNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
- * $Revision: 1.2 $
- * $Date: 2003/01/05 09:52:22 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/strategy/DecapitalizeNameMapper.java,v 1.3 2003/01/06 22:50:45 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2003/01/06 22:50:45 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: DecapitalizeNameMapper.java,v 1.2 2003/01/05 09:52:22 rdonkin Exp $
+ * $Id: DecapitalizeNameMapper.java,v 1.3 2003/01/06 22:50:45 rdonkin Exp $
  */
 package org.apache.commons.betwixt.strategy;
 
@@ -77,7 +77,7 @@ import java.beans.Introspector;
  * But <code>URL</code> will remain as <code>"URL"</code>.</p>
  * 
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DecapitalizeNameMapper implements NameMapper {
 
@@ -85,6 +85,7 @@ public class DecapitalizeNameMapper implements NameMapper {
      * Decapitalize first letter unless both are upper case.
      * (As per standard java beans behaviour.)
      * 
+     * @param typeName the string to convert 
      * @return decapitalized name as per <code>java.beans.Introspector</code>
      */
     public String mapTypeToElementName(String typeName) {

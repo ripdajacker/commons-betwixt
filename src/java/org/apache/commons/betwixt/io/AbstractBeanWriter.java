@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
- * $Revision: 1.9 $
- * $Date: 2003/01/05 17:18:32 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/AbstractBeanWriter.java,v 1.10 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.10 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: AbstractBeanWriter.java,v 1.9 2003/01/05 17:18:32 rdonkin Exp $
+ * $Id: AbstractBeanWriter.java,v 1.10 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -87,28 +87,53 @@ import org.xml.sax.SAXException;
 // but this is a poor strategy
 
 /**
+  * <p>Abstract superclass for bean writers.
+  * This class encapsulates the processing logic. 
+  * Subclasses provide implementations for the actual expression of the xml.</p>
+  *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.9 $
+  * @version $Revision: 1.10 $
   */
-abstract public class AbstractBeanWriter {
+public abstract class AbstractBeanWriter {
 
     /** Introspector used */
-    protected XMLIntrospector introspector = new XMLIntrospector();
+    private XMLIntrospector introspector = new XMLIntrospector();
 
     /** Log used for logging (Doh!) */
     private Log log = LogFactory.getLog( AbstractBeanWriter.class );
     /** Map containing ID attribute values for beans */
-    protected HashMap idMap = new HashMap();
+    private HashMap idMap = new HashMap();
     /** Stack containing beans - used to detect cycles */
     private ArrayStack beanStack = new ArrayStack();
     /** Used to generate ID attribute values*/
-    protected IDGenerator idGenerator = new SequentialIDGenerator();
+    private IDGenerator idGenerator = new SequentialIDGenerator();
     /** Should generated <code>ID</code> attribute values be added to the elements? */
-    protected boolean writeIDs = true;
+    private boolean writeIDs = true;
     
     /** indentation level */
-    protected int indentLevel;
-
+    private int indentLevel;
+    
+    /**
+     * Marks the start of the bean writing.
+     * By default doesn't do anything, but can be used
+     * to do extra start processing 
+     * @throws IOException if an IO problem occurs during writing 
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    public void start() throws IOException, SAXException {
+    }
+    
+    /**
+     * Marks the start of the bean writing.
+     * By default doesn't do anything, but can be used
+     * to do extra end processing 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    
+    public void end() throws IOException, SAXException {
+    }
+        
     /** 
      * <p> Writes the given bean to the current stream using the XML introspector.</p>
      * 
@@ -119,10 +144,16 @@ abstract public class AbstractBeanWriter {
      * property is false.</p>
      *
      * @throws CyclicReferenceException when a cyclic reference is encountered 
+     * @throws IOException if an IO problem occurs during writing 
+     * @throws SAXException if an SAX problem occurs during writing  
+     * @throws IntrospectionException if a java beans introspection problem occurs 
      *
      * @param bean write out representation of this bean
      */
-    public void write(Object bean) throws IOException, SAXException, IntrospectionException  {
+    public void write(Object bean) throws 
+                                        IOException, 
+                                        SAXException, 
+                                        IntrospectionException {
         if (log.isDebugEnabled()) {
             log.debug( "Writing bean graph..." );
             log.debug( bean );
@@ -135,29 +166,6 @@ abstract public class AbstractBeanWriter {
         }
     }
     
-    /**
-     * Marks the start of the bean writing.
-     * By default doesn't do anything, but can be used
-     * to do extra start processing 
-     * @throws IOException
-     * @throws SAXException
-     */
-    public void start() throws IOException, SAXException {
-    }
-    
-    /**
-     * Marks the start of the bean writing.
-     * By default doesn't do anything, but can be used
-     * to do extra end processing 
-     * @throws IOExcpetion
-     * @throws SAXException
-     */
-    
-    public void end() throws IOException, SAXException {
-    }
-        
-    
-    
     /** 
      * <p>Writes the given bean to the current stream 
      * using the given <code>qualifiedName</code>.</p>
@@ -166,7 +174,13 @@ abstract public class AbstractBeanWriter {
      * is encountered in the graph <strong>only</strong> if the <code>WriteIDs</code>
      * property is false.</p>
      *
+     * @param qualifiedName the string naming root element
+     * @param bean the <code>Object</code> to write out as xml
+     * 
      * @throws CyclicReferenceException when a cyclic reference is encountered 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
      */
     public void write(
                 String qualifiedName, 
@@ -201,8 +215,7 @@ abstract public class AbstractBeanWriter {
                         qualifiedName, 
                         elementDescriptor, 
                         context );
-                } 
-                else {
+                } else {
                     pushBean ( context.getBean() );
                     if ( writeIDs ) {
                         ref = (String) idMap.get( context.getBean() );
@@ -254,8 +267,7 @@ abstract public class AbstractBeanWriter {
                                 elementDescriptor, 
                                 context );
                         }
-                    } 
-                    else {
+                    } else {
                         
                         // we've already written this bean so write an IDREF
                         writeIDREFElement( 
@@ -282,6 +294,16 @@ abstract public class AbstractBeanWriter {
     }
     
     /** 
+     * Get the indentation for the current element. 
+     * Used for pretty priting.
+     *
+     * @return the amount that the current element is indented
+     */
+    protected int getIndentLevel() {
+        return indentLevel;
+    }
+    
+    /** 
       * Set <code>IDGenerator</code> implementation 
       * used to generate <code>ID</code> attribute values.
       * This property can be used to customize the algorithm used for generation.
@@ -292,7 +314,14 @@ abstract public class AbstractBeanWriter {
         this.idGenerator = idGenerator;
     }
     
-    /** Get whether generated <code>ID</code> attribute values should be added to the elements */
+    /** 
+     * <p>Should generated <code>ID</code> attribute values be added to the elements?</p>
+     * 
+     * <p>If IDs are not being written then if a cycle is encountered in the bean graph, 
+     * then a {@link CyclicReferenceException} will be thrown by the write method.</p>
+     * 
+     * @return true if <code>ID</code> and <code>IDREF</code> attributes are to be written
+     */
     public boolean getWriteIDs() {
         return writeIDs;
     }
@@ -301,18 +330,22 @@ abstract public class AbstractBeanWriter {
      * Set whether generated <code>ID</code> attribute values should be added to the elements 
      * If this property is set to false, then <code>CyclicReferenceException</code> 
      * will be thrown whenever a cyclic occurs in the bean graph.
+     *
+     * @param writeIDs true if <code>ID</code>'s and <code>IDREF</code>'s should be written
      */
     public void setWriteIDs(boolean writeIDs) {
         this.writeIDs = writeIDs;
     }
 
     /**
-     * <p> Get the introspector used. </p>
+     * <p>Gets the introspector used.</p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * <p>The {@link XMLBeanInfo} used to map each bean is 
      * created by the <code>XMLIntrospector</code>.
      * One way in which the mapping can be customized is 
      * by altering the <code>XMLIntrospector</code>. </p>
+     *
+     * @return the <code>XMLIntrospector</code> used for introspection
      */
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
@@ -320,9 +353,9 @@ abstract public class AbstractBeanWriter {
     
 
     /**
-     * <p> Set the introspector to be used. </p>
+     * <p>Sets the introspector to be used.</p>
      *
-     * <p> The {@link XMLBeanInfo} used to map each bean is 
+     * <p>The {@link XMLBeanInfo} used to map each bean is 
      * created by the <code>XMLIntrospector</code>.
      * One way in which the mapping can be customized is by 
      * altering the <code>XMLIntrospector</code>. </p>
@@ -334,7 +367,9 @@ abstract public class AbstractBeanWriter {
     }
 
     /**
-     * <p> Get the current logging implementation. </p>
+     * <p>Gets the current logging implementation.</p>
+     *
+     * @return the <code>Log</code> implementation which this class logs to
      */ 
     public final Log getAbstractBeanWriterLog() {
         return log;
@@ -353,23 +388,62 @@ abstract public class AbstractBeanWriter {
     // Expression methods
     //-------------------------------------------------------------------------    
 
-    /** Express an element tag start using given qualified name */
-    abstract protected void expressElementStart(String qualifiedName) 
+    /** 
+     * Express an element tag start using given qualified name.
+     *
+     * @param qualifiedName the qualified name of the element to be expressed
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressElementStart(String qualifiedName) 
                                         throws IOException, SAXException;
-        
-    abstract protected void expressTagClose() throws IOException, SAXException;
+       
+     /**
+     * Express a closing tag.
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressTagClose() throws IOException, SAXException;
     
-    /** Express an element end tag using given qualifiedName */
-    abstract protected void expressElementEnd(String qualifiedName) throws IOException, SAXException;
+    /** 
+     * Express an element end tag (with given name) 
+     *
+     * @param qualifiedName the qualified name for the element to be closed
+     *
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressElementEnd(String qualifiedName) 
+                                              throws IOException, SAXException;
     
-    /** Express an empty element end */
-    abstract protected void expressElementEnd() throws IOException, SAXException;
+    /** 
+     * Express an empty element end.
+     * 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressElementEnd() throws IOException, SAXException;
 
-    /** Express body text */
-    abstract protected void expressBodyText(String text) throws IOException, SAXException;
+    /** 
+     * Express body text 
+     *
+     * @param text the string to write out as the body of the current element
+     * 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressBodyText(String text) throws IOException, SAXException;
     
-    /** Express an attribute */
-    abstract protected void expressAttribute(
+    /** 
+     * Express an attribute 
+     *
+     * @param qualifiedName the qualified name of the attribute
+     * @param value the attribute value
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
+    protected abstract void expressAttribute(
                                 String qualifiedName, 
                                 String value) 
                                     throws
@@ -381,7 +455,16 @@ abstract public class AbstractBeanWriter {
     //-------------------------------------------------------------------------    
     
 
-    /** Writes the given element */
+    /** 
+     * Writes the given element 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
     protected void write( 
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
@@ -400,7 +483,18 @@ abstract public class AbstractBeanWriter {
     
     
 
-    /** Writes the given element adding an ID attribute */
+    /** 
+     * Writes the given element adding an ID attribute 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @param idAttribute the qualified name of the <code>ID</code> attribute 
+     * @param idValue the value for the <code>ID</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
     protected void write( 
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
@@ -419,7 +513,16 @@ abstract public class AbstractBeanWriter {
         writeRestOfElement( qualifiedName, elementDescriptor, context );
     }
     
-    /** Write attributes, child elements and element end */
+    /** 
+     * Write attributes, child elements and element end 
+     *
+     * @param qualifiedName qualified name to use for the element
+     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
     protected void writeRestOfElement( 
                             String qualifiedName, 
                             ElementDescriptor elementDescriptor, 
@@ -429,25 +532,32 @@ abstract public class AbstractBeanWriter {
                                     SAXException,
                                     IntrospectionException {
 
-        if (elementDescriptor.isWrapCollectionsInElement()) {
+        if ( elementDescriptor.isWrapCollectionsInElement() ) {
             writeAttributes( elementDescriptor, context );
         }
 
         if ( writeContent( elementDescriptor, context ) ) {
-            if (elementDescriptor.isWrapCollectionsInElement()) {
+            if ( elementDescriptor.isWrapCollectionsInElement() ) {
                 expressElementEnd( qualifiedName );
             }
-        }  
-        else {
-            if (elementDescriptor.isWrapCollectionsInElement()) {
+        } else {
+            if ( elementDescriptor.isWrapCollectionsInElement() ) {
                 expressElementEnd();
             }
         }
     }
     
 
-    
-    
+    /**
+     * Writes an element with a <code>IDREF</code> attribute 
+     *
+     * @param qualifiedName of the element with <code>IDREF</code> attribute 
+     * @param idrefAttributeName the qualified name of the <code>IDREF</code> attribute 
+     * @param idrefAttributeValue the value for the <code>IDREF</code> attribute 
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
+     */
     protected void writeIDREFElement( 
                                     String qualifiedName, 
                                     String idrefAttributeName,
@@ -465,9 +575,15 @@ abstract public class AbstractBeanWriter {
         expressElementEnd();
     }
         
-    /** Writes the element content.
+    /** 
+     * Writes the element content.
      *
+     * @param elementDescriptor the <code>ElementDescriptor</code> to write as xml 
+     * @param context the <code>Context</code> to use to evaluate the bean expressions
      * @return true if some content was written
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     * @throws IntrospectionException if a java beans introspection problem occurs
      */
     protected boolean writeContent( 
                         ElementDescriptor elementDescriptor, 
@@ -505,8 +621,7 @@ abstract public class AbstractBeanWriter {
                                 write( qualifiedName, object );
                                 --indentLevel;
                             }
-                        }
-                        else {
+                        } else {
                             if ( ! writtenContent ) {
                                 writtenContent = true;
                                 expressTagClose();
@@ -516,8 +631,7 @@ abstract public class AbstractBeanWriter {
                             --indentLevel;
                         }
                     }                    
-                }
-                else {
+                } else {
                     if ( ! writtenContent ) {
                         writtenContent = true;
                         expressTagClose();
@@ -537,8 +651,7 @@ abstract public class AbstractBeanWriter {
                 writePrintln();
                 writeIndent();
             }
-        }
-        else {
+        } else {
             // evaluate the body text 
             Expression expression = elementDescriptor.getTextExpression();
             if ( expression != null ) {
@@ -558,14 +671,22 @@ abstract public class AbstractBeanWriter {
         return writtenContent;
     }
     
-    /** Writes the attribute declarations */
+    /**  
+     * Writes the attribute declarations 
+     *
+     * @param elementDescriptor the <code>ElementDescriptor</code> to be written out as xml
+     * @param context the <code>Context</code> to use to evaluation bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
     protected void writeAttributes( 
                     ElementDescriptor elementDescriptor, 
                     Context context ) 
                         throws 
                             IOException, SAXException {
-        if (!elementDescriptor.isWrapCollectionsInElement()) 
+        if (!elementDescriptor.isWrapCollectionsInElement()) {
             return;
+        }
             
         AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
         if ( attributeDescriptors != null ) {
@@ -577,7 +698,14 @@ abstract public class AbstractBeanWriter {
     }
 
     
-    /** Writes an attribute declaration */
+    /** 
+     * Writes an attribute declaration 
+     *
+     * @param attributeDescriptor the <code>AttributeDescriptor</code> to be written as xml
+     * @param context the <code>Context</code> to use to evaluation bean expressions
+     * @throws IOException if an IO problem occurs during writing
+     * @throws SAXException if an SAX problem occurs during writing 
+     */
     protected void writeAttribute( 
                         AttributeDescriptor attributeDescriptor, 
                         Context context ) 
@@ -595,10 +723,30 @@ abstract public class AbstractBeanWriter {
         }
     }
 
+    /** 
+     * Writes a empty line.  
+     * This implementation does nothing but can be overridden by subclasses.
+     *
+     * @throws IOException if the line cannot be written
+     */
     protected void writePrintln() throws IOException {}
+    
+    /** 
+     * Writes an indentation.
+     * This implementation does nothing but can be overridden by subclasses.
+     * 
+     * @throws IOException if the indent cannot be written
+     */
     protected void writeIndent() throws IOException {}
     
-    protected void pushBean( Object bean ) throws CyclicReferenceException {
+    /**
+     * Pushes the bean onto the ancestry stack.
+     * If IDs are not being written, then check for cyclic references.
+     *
+     * @param bean push this bean onto the ancester stack
+     * @throws CyclicReferenceException if there is an identical bean already on the stack
+     */
+    protected void pushBean( Object bean ) {
         // check that we don't have a cyclic reference when we're not writing IDs
         if ( !writeIDs ) {
             Iterator it = beanStack.iterator();
@@ -625,6 +773,11 @@ abstract public class AbstractBeanWriter {
         beanStack.push( bean );
     }
     
+    /** 
+     * Pops the top bean off from the ancestry stack 
+     *
+     * @return the last object pushed onto the ancester stack
+     */
     protected Object popBean() {
         Object bean = beanStack.pop();
         if (log.isTraceEnabled()) {

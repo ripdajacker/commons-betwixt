@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
- * $Revision: 1.5 $
- * $Date: 2002/12/30 18:18:37 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.6 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.5 2002/12/30 18:18:37 mvdb Exp $
+ * $Id: MethodUpdater.java,v 1.6 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -72,7 +72,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class MethodUpdater implements Updater {
 
@@ -129,8 +129,8 @@ public class MethodUpdater implements Updater {
                     );
                 }
                 method.invoke( bean, arguments );
-            }
-            catch (Exception e) {
+                
+            } catch (Exception e) {
                 String valueTypeName = (newValue != null) ? newValue.getClass().getName() : "null";
                 log.warn( 
                     "Cannot evaluate method: " + method.getName() + " on bean: " + bean 

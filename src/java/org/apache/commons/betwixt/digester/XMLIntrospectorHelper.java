@@ -84,7 +84,7 @@ import org.apache.commons.logging.LogFactory;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Id: XMLIntrospectorHelper.java,v 1.13 2003/01/05 17:18:32 rdonkin Exp $
+  * @version $Id: XMLIntrospectorHelper.java,v 1.14 2003/01/06 22:50:44 rdonkin Exp $
   */
 public class XMLIntrospectorHelper {
 
@@ -160,8 +160,7 @@ public class XMLIntrospectorHelper {
                     log.trace( "Adding property as attribute: " + name );
                 }
                 nodeDescriptor = new AttributeDescriptor();
-            }
-            else {
+            } else {
                 if (log.isTraceEnabled()) {
                     log.trace( "Adding property as element: " + name );
                 }
@@ -172,8 +171,7 @@ public class XMLIntrospectorHelper {
             if ( writeMethod != null ) {
                 nodeDescriptor.setUpdater( new MethodUpdater( writeMethod ) );
             }
-        }
-        else if ( isLoopType( type ) ) {
+        } else if ( isLoopType( type ) ) {
             if (log.isTraceEnabled()) {
                 log.trace("Loop type: " + name);
             }
@@ -193,8 +191,7 @@ public class XMLIntrospectorHelper {
             elementDescriptor.setElementDescriptors( new ElementDescriptor[] { loopDescriptor } );
             
             nodeDescriptor = elementDescriptor;            
-        }
-        else {
+        } else {
             if (log.isTraceEnabled()) {
                 log.trace( "Standard property: " + name);
             }
@@ -211,8 +208,7 @@ public class XMLIntrospectorHelper {
             // we want to use the attributemapper only when it is an attribute.. 
             nodeDescriptor.setLocalName( 
                 introspector.getAttributeNameMapper().mapTypeToElementName( name ) );
-        }
-        else {
+        } else {
             nodeDescriptor.setLocalName( 
                 introspector.getElementNameMapper().mapTypeToElementName( name ) );
         }        
@@ -260,8 +256,7 @@ public class XMLIntrospectorHelper {
         if ( isPrimitiveType( type ) ) {
             elementDescriptor.setTextExpression( new MethodExpression( readMethod ) );
             elementDescriptor.setPrimitiveType(true);
-        }
-        else if ( isLoopType( type ) ) {
+        } else if ( isLoopType( type ) ) {
             log.trace("Loop type ??");
             
             // don't wrap this in an extra element as its specified in the 
@@ -271,8 +266,7 @@ public class XMLIntrospectorHelper {
             );
 
             writeMethod = null;
-        }
-        else {
+        } else {
             log.trace( "Standard property" );
             elementDescriptor.setContextExpression( new MethodExpression( readMethod ) );
         }
@@ -397,8 +391,7 @@ public class XMLIntrospectorHelper {
                                             .mapTypeToElementName( propertyName ) );
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             if ( log.isDebugEnabled() ) {
                                 log.debug( 
                                     "Could not find an ElementDescriptor with property name: " 
@@ -426,11 +419,11 @@ public class XMLIntrospectorHelper {
     public static boolean isPrimitiveType(Class type) {
         if ( type == null ) {
             return false;
-        }
-        else if ( type.isPrimitive() ) {
+            
+        } else if ( type.isPrimitive() ) {
             return true;
-        }
-        else if ( type.equals( Object.class ) ) {
+            
+        } else if ( type.equals( Object.class ) ) {
             return false;
         }
         return type.getName().startsWith( "java.lang." )
@@ -475,7 +468,8 @@ public class XMLIntrospectorHelper {
         
         if ( log.isTraceEnabled() ) {
             log.trace( 
-                "findPluralDescriptor( " + propertyName + " ):ElementDescriptor=" + elementDescriptor );
+                "findPluralDescriptor( " + propertyName 
+                    + " ):ElementDescriptor=" + elementDescriptor );
         }
         
         return elementDescriptor;

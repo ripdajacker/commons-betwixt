@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.11 2002/12/30 18:18:36 mvdb Exp $
- * $Revision: 1.11 $
- * $Date: 2002/12/30 18:18:36 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/BeanWriter.java,v 1.12 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.12 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: BeanWriter.java,v 1.11 2002/12/30 18:18:36 mvdb Exp $
+ * $Id: BeanWriter.java,v 1.12 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -117,20 +117,20 @@ import org.xml.sax.SAXException;
   * 
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.11 $
+  * @version $Revision: 1.12 $
   */
 public class BeanWriter extends AbstractBeanWriter {
 
     /** Escaped <code>&lt;</code> entity */
-    private final static String LESS_THAN_ENTITY = "&lt;";
+    private static final String LESS_THAN_ENTITY = "&lt;";
     /** Escaped <code>&gt;</code> entity */
-    private final static String GREATER_THAN_ENTITY = "&gt;";
+    private static final String GREATER_THAN_ENTITY = "&gt;";
     /** Escaped <code>&amp;</code> entity */
-    private final static String AMPERSAND_ENTITY = "&amp;";
+    private static final String AMPERSAND_ENTITY = "&amp;";
     /** Escaped <code>'</code> entity */
-    private final static String APOSTROPHE_ENTITY = "&apos;";
+    private static final String APOSTROPHE_ENTITY = "&apos;";
     /** Escaped <code>"</code> entity */
-    private final static String QUOTE_ENTITY = "&quot;";
+    private static final String QUOTE_ENTITY = "&quot;";
 
     /** Where the output goes */
     private Writer writer;    
@@ -359,7 +359,7 @@ public class BeanWriter extends AbstractBeanWriter {
      */
     protected void writeIndent() throws IOException {
         if ( indent != null ) {
-            for ( int i = 0; i < indentLevel; i++ ) {
+            for ( int i = 0; i < getIndentLevel(); i++ ) {
                 writer.write( getIndent() );
             }
         }

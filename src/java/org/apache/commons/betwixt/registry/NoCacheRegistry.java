@@ -62,27 +62,34 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * In effect, this turns caching off.
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Id: NoCacheRegistry.java,v 1.2 2002/12/15 17:42:06 mvdb Exp $
+  * @version $Id: NoCacheRegistry.java,v 1.3 2003/01/06 22:50:44 rdonkin Exp $
   */
 public final class NoCacheRegistry implements XMLBeanInfoRegistry {
     
     /** Always return null.
       *
-      * return <code>null</code>
+      * @param forThisClass this parameter is ignored
+      * @return <code>null</code>
       */
     public XMLBeanInfo get(Class forThisClass) {
         return null;
     }
     
-    /** Do nothing */
+    /** 
+     * Do nothing (this implementation does not cache)
+     *
+     * @param forThisClass the class is ignored
+     * @param beanInfo the <code>XMLBeanInfo</code> is ignored
+     */
     public void put(Class forThisClass, XMLBeanInfo beanInfo) {}
     
     /**
+     * Nothing cached so nothing to flush 
+     *
      * @see org.apache.commons.betwixt.registry.XMLBeanInfoRegistry#flush()
      * 
      */
-    public void flush()
-    {
+    public void flush() {
     }
 
 }

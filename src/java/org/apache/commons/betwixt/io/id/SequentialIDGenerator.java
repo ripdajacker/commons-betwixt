@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
- * $Revision: 1.3 $
- * $Date: 2002/08/14 18:50:21 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/io/id/SequentialIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
+ * $Revision: 1.4 $
+ * $Date: 2003/01/06 22:50:44 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: SequentialIDGenerator.java,v 1.3 2002/08/14 18:50:21 rdonkin Exp $
+ * $Id: SequentialIDGenerator.java,v 1.4 2003/01/06 22:50:44 rdonkin Exp $
  */
 package org.apache.commons.betwixt.io.id;
 
@@ -72,7 +72,7 @@ package org.apache.commons.betwixt.io.id;
   * {@link #SequentialIDGenerator(int start)} constructor.</p>
   *
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision: 1.3 $
+  * @version $Revision: 1.4 $
   */
 public final class SequentialIDGenerator extends AbstractIDGenerator {
     
@@ -101,13 +101,17 @@ public final class SequentialIDGenerator extends AbstractIDGenerator {
     
     /** 
       * Increment counter and then return value.
+      *
+      * @return one more than the current counter (converted to a string)
       */
     public String nextIdImpl() {
         return Integer.toString(++counter);
     }
     
     /** 
-      * Get the current counter value 
+      * Gets the current counter value 
+      *
+      * @return the last ID in the sequence
       */
     public int getCount() {
         return counter;
