@@ -1,8 +1,8 @@
 
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.5 2003/02/09 22:27:18 rdonkin Exp $
- * $Revision: 1.5 $
- * $Date: 2003/02/09 22:27:18 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/test/org/apache/commons/betwixt/digester/TestIDRead.java,v 1.6 2003/07/09 18:27:49 rdonkin Exp $
+ * $Revision: 1.6 $
+ * $Date: 2003/07/09 18:27:49 $
  *
  * ====================================================================
  *
@@ -58,12 +58,13 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: TestIDRead.java,v 1.5 2003/02/09 22:27:18 rdonkin Exp $
+ * $Id: TestIDRead.java,v 1.6 2003/07/09 18:27:49 rdonkin Exp $
  */
 package org.apache.commons.betwixt.digester;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -83,7 +84,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 /** Test harness for ID-IDRef reading.
   *
   * @author Robert Burrell Donkin
-  * @version $Revision: 1.5 $
+  * @version $Revision: 1.6 $
   */
 public class TestIDRead extends AbstractTestCase {
 
@@ -100,11 +101,22 @@ public class TestIDRead extends AbstractTestCase {
     }
 
     public void testSimpleRead() throws Exception {
-        BeanWriter writer = new BeanWriter();
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
         IDBean bean = new IDBean("alpha","one");
         bean.addChild(new IDBean("beta","two"));
         bean.addChild(new IDBean("gamma","three"));
         writer.write(bean);
+        
+        String xml = "<IDBean><name>one</name><children><child><name>two</name><children/>"
+                + "<id>beta</id></child><child><name>three</name><children/>"
+                + "<id>gamma</id></child></children><id>alpha</id></IDBean>";
+                
+        xmlAssertIsomorphicContent(
+                    parseString(xml),
+                    parseString(out.getBuffer().toString()),
+                    true);
         
         BeanReader reader = new BeanReader();
         
