@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
+import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -248,5 +249,24 @@ public class Context {
      */
     public void setClassNameAttribute(String classNameAttribute) {
         bindingConfiguration.setClassNameAttribute( classNameAttribute );
+    }
+    
+    /**
+     * Gets the <code>ValueSuppressionStrategy</code>.
+     * This is used to control the expression of attributes with certain values.
+     * @return <code>ValueSuppressionStrategy</code>, not null
+     */
+    public ValueSuppressionStrategy getValueSuppressionStrategy() {
+        return bindingConfiguration.getValueSuppressionStrategy();
+    }
+    
+    /**
+     * Sets the <code>ValueSuppressionStrategy</code>.
+     * This is used to control the expression of attributes with certain values.
+     * @param valueSuppressionStrategy <code>ValueSuppressionStrategy</code>, not null
+     */
+    public void setValueSuppressionStrategy(
+            ValueSuppressionStrategy valueSuppressionStrategy) {
+        bindingConfiguration.setValueSuppressionStrategy(valueSuppressionStrategy);
     }
 }

@@ -87,6 +87,23 @@ For example:
         introspector.setClassNormalizer( classNormalizer );
 </pre></code>
     </subsection>
+        <subsection name='Suppressing The Expression Of Attributes'>
+            <p>
+Sometimes there are certain values for some attributes which should result in
+the attribute not being expressed at all. A typical use case is the requirement
+for null property values to result in the absence of the mapped attributes
+(as opposed to their expression with an empty value).
+        </p>
+            <p>
+Betwixt allows this behaviour to be customized through the setting of the
+<code>ValueSuppressionStrategy</code> property of the writer's
+<code>BindingConfiguration</code> to an appropriate 
+<code>ValueSuppressionStrategy</code> implementation.
+        </p>
+            <p>
+By default, Betwixt suppresses empty attributes.
+        </p>
+    </subsection>
 </section>
 </body>
 </document>

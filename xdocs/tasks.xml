@@ -185,11 +185,15 @@ Create a strategy which allow general implementation rules to be specified.
 </section>
 <section name='Completed'>
     <subsection name='since 0.6'>
+        <ul>
             <li><strong>Improved introspection for interfaces</strong> superinterface 
             properties now checked.</li>
-    
+            <li><strong>Attribute suppression</strong> - Betwixt now allows the 
+            expression of certain values to be suppressed through a custom strategy.</li>    
+        </ul>
     </subsection>
     <subsection name='0.6'>
+        <ul>
             <li><strong>Improved empty element rendering</strong></li>
             <li>
 <strong>Extended betwixt file</strong> by adding two new properties 
@@ -204,6 +208,7 @@ binding.
 <strong>Improved support for reading arrays.</strong> In particular added code to support
 reading of array valued property setters and for array valued adders.
             </li>
+        </ul>
     </subsection>
     <subsection name='0.5'>
         <ul>
@@ -424,7 +429,17 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Semantic Changes'>
-    <subsection name='Since 0.5'>
+    <subsection name='Since 0.6'>
+        <ul>
+            <li>
+Betwixt now (by default) suppresses the expression of all empty attributes.
+The old behaviour can be restored by setting the <code>ValueSuppressionStrategy</code>
+of the <code>BindingConfiguration</code> used by the writer to 
+<code>ValueSuppressionStrategy.ALLOW_ALL_VALUES</code>.
+            </li>
+        </ul>
+    </subsection>
+    <subsection name='0.6'>
         <ul>
             <li>
             	<strong>Introspection and ElementDescriptor</strong> changes in introspection and 

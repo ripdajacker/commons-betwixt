@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.apache.commons.betwixt.strategy.DefaultObjectStringConverter;
 import org.apache.commons.betwixt.strategy.ObjectStringConverter;
+import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 
 /** <p>Stores mapping phase binding configuration.</p>
   *
@@ -45,6 +46,8 @@ public class BindingConfiguration implements Serializable {
     private ObjectStringConverter objectStringConverter;
     /** The name of the classname attribute used when creating derived beans */
     private String classNameAttribute = "className";
+    /** Strategy for suppressing attributes with certain values when writing */
+    private ValueSuppressionStrategy valueSuppressionStrategy  = ValueSuppressionStrategy.DEFAULT;
     
     /**
      * Constructs a BindingConfiguration with default properties.
@@ -124,5 +127,25 @@ public class BindingConfiguration implements Serializable {
      */
     public void setClassNameAttribute(String classNameAttribute) {
         this.classNameAttribute = classNameAttribute;
+    }
+    
+    
+    /**
+     * Gets the <code>ValueSuppressionStrategy</code>.
+     * This is used to control the expression of attributes with certain values.
+     * @return <code>ValueSuppressionStrategy</code>, not null
+     */
+    public ValueSuppressionStrategy getValueSuppressionStrategy() {
+        return valueSuppressionStrategy;
+    }
+    
+    /**
+     * Sets the <code>ValueSuppressionStrategy</code>.
+     * This is used to control the expression of attributes with certain values.
+     * @param valueSuppressionStrategy <code>ValueSuppressionStrategy</code>, not null
+     */
+    public void setValueSuppressionStrategy(
+            ValueSuppressionStrategy valueSuppressionStrategy) {
+        this.valueSuppressionStrategy = valueSuppressionStrategy;
     }
 }

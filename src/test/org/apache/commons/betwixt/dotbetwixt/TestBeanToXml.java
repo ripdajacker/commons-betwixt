@@ -69,7 +69,7 @@ public class TestBeanToXml extends XmlTestCase {
 //        XMLIntrospectorHelper.setLog(log);
     
         writer.getBindingConfiguration().setMapIDs(false);
-	SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");
+	    SimpleTestBean bean = new SimpleTestBean("alpha-value","beta-value","gamma-value");
         writer.write(bean);
         out.flush();
         String xml = out.toString();

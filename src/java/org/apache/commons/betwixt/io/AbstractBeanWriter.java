@@ -1015,7 +1015,10 @@ public abstract class AbstractBeanWriter {
         private AttributeDescriptor[] attributes;
         /** Context to be evaluated when finding values */
         private Context context;
-
+        /** Cached attribute values */
+        private String[] values;
+        /** The number of unsuppressed attributes */
+        private int length;
         
         
         /** 
@@ -1025,8 +1028,36 @@ public abstract class AbstractBeanWriter {
          * @param context evaluate against this context
          */
         ElementAttributes( ElementDescriptor descriptor, Context context ) {
-            attributes = descriptor.getAttributeDescriptors();
             this.context = context;
+            init(descriptor.getAttributeDescriptors());
+        }
+        
+        private void init(AttributeDescriptor[] baseAttributes) {
+            attributes = new AttributeDescriptor[baseAttributes.length];
+            values = new String[baseAttributes.length];
+            int index = 0;
+            for (int i=0, size=baseAttributes.length; i<size; i++) {
+                AttributeDescriptor baseAttribute = baseAttributes[i];
+                String attributeValue = valueAttribute(baseAttribute);
+                if (attributeValue != null 
+                        && !context.getValueSuppressionStrategy()
+                        		.suppressAttribute(baseAttribute, attributeValue)) {
+                    values[index] = attributeValue;
+                    attributes[index] = baseAttribute;
+                    index++;
+                }
+            }
+            length = index;
+        }
+        
+        private String valueAttribute(AttributeDescriptor attribute) {
+            Expression expression = attribute.getTextExpression();
+            if ( expression != null ) {
+                Object value = expression.evaluate( context );
+                return convertToString( value, attribute, context );
+            }
+            
+            return "";
         }
         
         /**
@@ -1072,7 +1103,7 @@ public abstract class AbstractBeanWriter {
          * @return the number of attributes in this list
          */
         public int getLength() {
-            return attributes.length;
+            return length;
         }
         
         /** 
@@ -1159,14 +1190,8 @@ public abstract class AbstractBeanWriter {
          * @todo add value caching
          */
         public String getValue( int index ) {
-            if ( indexInRange( index )) {
-                Expression expression = attributes[index].getTextExpression();
-                if ( expression != null ) {
-                    Object value = expression.evaluate( context );
-                    return convertToString( value, attributes[index], context );
-                }
-                
-                return "";
+            if ( indexInRange( index ) ) {
+                return values[index];
             }
             return null;
         }
@@ -1203,7 +1228,7 @@ public abstract class AbstractBeanWriter {
          * @return true if the index with within the range of the attribute list
          */
         private boolean indexInRange( int index ) {
-            return ( index >= 0 && index < attributes.length );
+            return ( index >= 0 && index < getLength() );
         }
     }
     
@@ -1212,7 +1237,7 @@ public abstract class AbstractBeanWriter {
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
      * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
-     * @version $Revision: 1.29 $
+     * @version $Revision: 1.30 $
      */
     private class IDElementAttributes extends ElementAttributes {
 		/** ID attribute value */
