@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
- * $Revision: 1.2 $
- * $Date: 2002/06/11 16:05:20 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/ElementDescriptor.java,v 1.3 2002/07/01 18:43:00 rdonkin Exp $
+ * $Revision: 1.3 $
+ * $Date: 2002/07/01 18:43:00 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: ElementDescriptor.java,v 1.2 2002/06/11 16:05:20 jstrachan Exp $
+ * $Id: ElementDescriptor.java,v 1.3 2002/07/01 18:43:00 rdonkin Exp $
  */
 package org.apache.commons.betwixt;
 
@@ -74,7 +74,7 @@ import org.apache.commons.betwixt.expression.Expression;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.2 $
+  * @version $Revision: 1.3 $
   */
 public class ElementDescriptor extends NodeDescriptor {
 
@@ -128,7 +128,9 @@ public class ElementDescriptor extends NodeDescriptor {
     }
 
     public String toString() {
-        return "ElementDescriptor[qname=" + getQualifiedName() + ",class=" + getPropertyType() + "]";
+        return 
+            "ElementDescriptor[qname=" + getQualifiedName() + ",class=" + getPropertyType() 
+            + ",singular=" + getSingularPropertyType() + "]";
     }
     
     /** Creates a <code>ElementDescriptor</code> with namespace URI and qualified name */
