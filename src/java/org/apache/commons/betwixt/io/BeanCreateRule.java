@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE file.
  * 
- * $Id: BeanCreateRule.java,v 1.4 2002/07/01 19:00:08 rdonkin Exp $
+ * $Id: BeanCreateRule.java,v 1.5 2002/07/02 16:09:33 mvdb Exp $
  */
 package org.apache.commons.betwixt.io;
 
@@ -19,6 +19,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
+import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.Updater;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 
@@ -36,7 +37,7 @@ import org.xml.sax.Attributes;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
-  * @version $Revision: 1.4 $
+  * @version $Revision: 1.5 $
   */
 public class BeanCreateRule extends Rule {
 
@@ -252,7 +253,10 @@ public class BeanCreateRule extends Rule {
                 String path = prefix + qualifiedName;
                 
                 if ( childDescriptor.getUpdater() != null ) {
-                    log.trace("Element has updater");
+                    if (log.isTraceEnabled()) {
+                        log.trace("Element has updater "
+                                +((MethodUpdater) childDescriptor.getUpdater()).getMethod().getName());
+                    }
                     if ( childDescriptor.isPrimitiveType() ) {
                         addPrimitiveTypeRule(path, childDescriptor);
                     }
