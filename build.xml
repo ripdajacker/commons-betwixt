@@ -295,8 +295,9 @@
     <java classname="org.apache.commons.betwixt.scarab.TestScarabSettings" fork="yes">
       <classpath refid="test.classpath"/>
       <sysproperty key="org.apache.commons.logging.simplelog.defaultlog" value="debug"/>
-      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="warn"/>
-      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester.sax" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.digester.Digester" value="error"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.betwixt" value="warn"/>
+      <sysproperty key="org.apache.commons.logging.simplelog.log.org.apache.commons.betwixt.scarab" value="debug"/>
     </java>
    </target>
 
