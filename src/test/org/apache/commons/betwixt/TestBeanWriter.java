@@ -164,12 +164,16 @@ public class TestBeanWriter extends AbstractTestCase {
         writer.write(bean);
         out.flush();
         String result = out.toString();
+        
+        System.out.println( "Created..." );
+        System.out.println( result );
+        
         // check for the elemant content..
-        assertTrue(result.indexOf("<String>Escape&lt;LessThan</String>") > -1 );
-        assertTrue(result.indexOf("<String>Escape&gt;GreaterThan</String>") > -1);
-        assertTrue(result.indexOf("<String>Escape&amp;amphersand</String>") != -1);
-        assertTrue(result.indexOf("<String>Escape'apostrophe</String>") != -1);
-        assertTrue(result.indexOf("<String>Escape\"Quote</String>") != -1);
+        assertTrue(result.indexOf("<email>Escape&lt;LessThan</email>") > -1 );
+        assertTrue(result.indexOf("<email>Escape&gt;GreaterThan</email>") > -1);
+        assertTrue(result.indexOf("<email>Escape&amp;amphersand</email>") != -1);
+        assertTrue(result.indexOf("<email>Escape'apostrophe</email>") != -1);
+        assertTrue(result.indexOf("<email>Escape\"Quote</email>") != -1);
         // check for the attributes..
         assertTrue(result.indexOf("name=\"Escape&lt;LessThan\"") > -1 );
         assertTrue(result.indexOf("code=\"Escape&gt;GreaterThan\"") > -1);

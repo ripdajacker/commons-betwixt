@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<CustomerBean name="James" ID="1">
+<CustomerBean ID="1">
+  <name>James</name>
   <address code="N5" city="London" country="UK" street="Near the park"/>
   <projectMap>
     <entry>
@@ -26,8 +27,8 @@
     <String>jakarta-commons</String>
   </projectNames>
   <emails>
-    <String>jstrachan@apache.org</String>
-    <String>james_strachan@yahoo.co.uk</String>
+    <email>jstrachan@apache.org</email>
+    <email>james_strachan@yahoo.co.uk</email>
   </emails>
   <projectURLs>
     <String>http://jaxen.org</String>
@@ -36,8 +37,12 @@
     <String>http://jakarta.apache.org/commons/</String>
   </projectURLs>
   <numbers>
-    <Integer>3</Integer>
-    <Integer>4</Integer>
-    <Integer>5</Integer>
+    <number>3</number>
+    <number>4</number>
+    <number>5</number>
   </numbers>
+  <locations>
+    <location>London</location>
+    <location>Bath</location>
+  </locations>
 </CustomerBean>

@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -55,6 +56,8 @@ public class TestBeanReader extends AbstractTestCase {
         try {
             Object bean = reader.parse( in );
 
+            testCustomer(bean);
+            
             System.out.println( "Read bean: " + bean );
             System.out.println();
             System.out.println( "Lets turn it back into XML" );
@@ -66,23 +69,7 @@ public class TestBeanReader extends AbstractTestCase {
         }
     }
     
-    public void writeBean(Object bean) throws Exception {
-        BeanWriter writer = new BeanWriter();
-        writer.enablePrettyPrint();
-        writer.write( bean );
-    }
-    
-    /** @return the bean class to use as the root */
-    public Class getBeanClass() {
-        return CustomerBean.class;
-    }
-    
-    protected InputStream getXMLInput() throws IOException {
-        return new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/customer.xml") );
-    }
-    
-    public void testWriteThenRead() throws Exception
-    {
+    public void testWriteThenRead() throws Exception {
         // test defaults
         PersonBean bean = new PersonBean(21, "Samual Smith");
         StringWriter stringWriter = new StringWriter();
@@ -115,5 +102,52 @@ public class TestBeanReader extends AbstractTestCase {
         assertEquals("[Attribute] Person age wrong", 19 , bean.getAge());
         assertEquals("[Attribute] Person name wrong", "John Smith" , bean.getName());
     }
+
+    public void writeBean(Object bean) throws Exception {
+        BeanWriter writer = new BeanWriter();
+        writer.enablePrettyPrint();
+        writer.write( bean );
+    }
+    
+    /** @return the bean class to use as the root */
+    public Class getBeanClass() {
+        return CustomerBean.class;
+    }
+    
+    /** 
+     * Asserts that the parsed CustomerBean looks fine
+     */
+    protected void testCustomer(Object bean) throws Exception {
+        assertTrue( "Is a CustomerBean", bean instanceof CustomerBean );
+        CustomerBean customer = (CustomerBean) bean;
+     
+        assertEquals( "name", "James", customer.getName() );
+        
+        String[] emails = customer.getEmails();
+        assertTrue( "contains some emails", emails != null );
+        assertEquals( "emails.length", 2, emails.length );
+        assertEquals( "emails[0]", "jstrachan@apache.org", emails[0] );
+        assertEquals( "emails[1]", "james_strachan@yahoo.co.uk", emails[1] );
+        
+        int[] numbers = customer.getNumbers();
+        assertTrue( "contains some numbers", numbers != null );
+        assertEquals( "numbers.length", 3, numbers.length );
+        assertEquals( "numbers[0]", 3, numbers[0] );
+        assertEquals( "numbers[1]", 4, numbers[1] );
+        assertEquals( "numbers[2]", 5, numbers[2] );
+        
+        List locations = customer.getLocations();
+        assertTrue( "contains some locations", locations != null );
+        assertEquals( "locations.size()", 2, locations.size() );
+        assertEquals( "locations[0]", "London", locations.get(0) );
+        assertEquals( "locations[1]", "Bath", locations.get(1) );
+        
+        
+    }
+    
+    protected InputStream getXMLInput() throws IOException {
+        return new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/customer.xml") );
+    }
+    
 }
 

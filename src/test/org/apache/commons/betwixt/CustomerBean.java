@@ -132,6 +132,10 @@ public class CustomerBean implements Serializable {
         return new IteratorEnumeration( projectMap.values().iterator() );
     }
     
+    public List getLocations() {
+        return locations;
+    }
+    
     /** An indexed property */
     public String getLocation(int index) {
         return (String) locations.get(index);
@@ -149,8 +153,30 @@ public class CustomerBean implements Serializable {
         this.emails = emails;
     }
     
+    public void addEmail(String email) {
+        int newLength = (emails == null) ? 1 : emails.length+1;
+        String[] newArray = new String[newLength];
+        for (int i=0; i< newLength-1; i++) {
+            newArray[i] = emails[i];
+        }
+        newArray[newLength-1] = email;
+        emails = newArray;
+    }    
+    
     public void setNumbers(int[] numbers) {
         this.numbers = numbers;
+    }
+
+    public void addNumber(int number) {
+        System.out.println( "Adding number: " + number );
+        
+        int newLength = (numbers == null) ? 1 : numbers.length+1;
+        int[] newArray = new int[newLength];
+        for (int i=0; i< newLength-1; i++) {
+            newArray[i] = numbers[i];
+        }
+        newArray[newLength-1] = number;
+        numbers = newArray;
     }
     
     public void setAddress(AddressBean address) {
@@ -163,6 +189,10 @@ public class CustomerBean implements Serializable {
 
     public void setProjectMap(Map projectMap) {
         this.projectMap = projectMap;
+    }
+    
+    public void addLocation(String location) {
+        locations.add(location);
     }
     
     /** An indexed property */
