@@ -1,7 +1,7 @@
 /*
- * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.7 2003/01/12 13:52:03 rdonkin Exp $
- * $Revision: 1.7 $
- * $Date: 2003/01/12 13:52:03 $
+ * $Header: /home/jerenkrantz/tmp/commons/commons-convert/cvs/home/cvs/jakarta-commons//betwixt/src/java/org/apache/commons/betwixt/expression/MethodUpdater.java,v 1.8 2003/07/29 21:31:24 rdonkin Exp $
+ * $Revision: 1.8 $
+ * $Date: 2003/07/29 21:31:24 $
  *
  * ====================================================================
  *
@@ -57,7 +57,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  * 
- * $Id: MethodUpdater.java,v 1.7 2003/01/12 13:52:03 rdonkin Exp $
+ * $Id: MethodUpdater.java,v 1.8 2003/07/29 21:31:24 rdonkin Exp $
  */
 package org.apache.commons.betwixt.expression;
 
@@ -72,7 +72,7 @@ import org.apache.commons.logging.LogFactory;
   * or element.</p>
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision: 1.7 $
+  * @version $Revision: 1.8 $
   */
 public class MethodUpdater implements Updater {
 
@@ -114,6 +114,9 @@ public class MethodUpdater implements Updater {
         if ( bean != null ) {
             if ( newValue instanceof String ) {
                 // try to convert into primitive types
+                if ( log.isTraceEnabled() ) {
+                    log.trace("Converting primitive to " + valueType);
+                }
                 newValue = ConvertUtils.convert( (String) newValue, valueType );
             }
             if ( newValue != null ) {
