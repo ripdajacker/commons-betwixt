@@ -245,6 +245,12 @@
             but contains a special case that allows the default setting to round trip java.util.Date's 
             without breaking compatibility.
             </li>
+                <li>
+<strong>Refactored creation of Bean For Elements In Reading</strong>
+Factored out the code that creates beans for elements (when reading) into separates classes uses the 
+<em>Chain Of Responsibility</em> pattern. This allows users to hook into the creation process and 
+add their own custom creation steps or replace the defaults with new functionality.
+            </li>
         </ul>
     </subsection>
 </section>
@@ -368,6 +374,18 @@
                 <a href='guide/binding.html#Converting Dates (And Other Objects)'>the guide</a>.
             </li>
         </ul>
+    </subsection>
+        <subsection name='Dependencies'>
+            <p>
+                <ul>
+                    <li>
+Upgraded <code>commons-beanutils</code> to <code>1.6.1</code>.
+                </li>
+                    <li>
+Upgraded <code>commons-digester</code> to <code>1.5</code>.
+                </li>
+            </ul>
+        </p>
     </subsection>
 </section>
 </body>

@@ -72,5 +72,122 @@ will look for a method called 'nameSetter' and use that to update the value mapp
 </subsection>
 </section>
 
+    <section name='Reading Beans - In Depth'>
+    
+        <subsection name='Understanding The Class Creation Chain'>
+            <p>
+Betwixt uses the <em>Chain Of Responsibility</em> pattern to decide the object which should be created 
+for a particular element. The standard chain contains <code>ChainedBeanCreator</code>s which implement
+functionality such as standard bean creation based on the expected type and the returning of beans by ID.
+This allows users to easily insert their own <code>ChainedBeanCreator</code>s into the chain - or to 
+replace the standard Betwixt chain completely.
+        </p>
+    </subsection>
+    
+        <subsection name='Customizing Bean Creation'>
+            <p>
+The chain used by the BeanReader is part of the <code>ReadConfiguration</code> and is accessed via the 
+BeanCreationChain property. For example the following sets a custom chain.
+<code><pre>
+        BeanCreationChain chain = MyBeanCreationChain();
+        BeanReader reader = new BeanReader();
+        ...
+        reader.registerBeanClass("bean", Bean.class);
+        reader.getReadConfiguration().setBeanCreationChain(chain);
+        ...
+        Bean bean = (Bean) reader.parse(in);
+        ...
+</pre></code>
+        </p>
+            <p>
+Betwixt provides a standard (list-backed) chain called BeanCreationList. This provides an easy methods to 
+register your own <code>ChainedBeanCreator</code>. It also provides a factory method which creates an instance
+with the standard betwixt chain already set. For example, the following inserts a custom in second place:
+<code><pre>
+        BeanCreationList chain = BeanCreationList.createStandardChain();
+        BeanCreator creator = MyBeanCreator();
+        chain.insertBeanCreator(1, creator);
+</pre></code>
+        </p>
+            <p>
+Another useful class is <code>ChainedBeanCreationFactory</code>. This contains factory methods for the 
+<code>BeanCreator</code>s used by Betwixt. This allows a user to easily mix custom and standard creators.
+        </p>
+    </subsection>
+    
+        <subsection name='Example: Enums'>
+            <p>
+Herein is contained a practical example demonstrating how custom bean creation may be used.
+        </p>
+            <p>
+A common java pattern is the use of strongly typed Enum classes. Let's say that you have the following class:
+<code><pre>
+public class CompassPoint {
+
+    public static final CompassPoint NORTH = new CompassPoint("North");
+    public static final CompassPoint SOUTH = new CompassPoint("South");
+    public static final CompassPoint EAST = new CompassPoint("East");
+    public static final CompassPoint WEST = new CompassPoint("West");
+    
+    private String name;
+    
+    private CompassPoint(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+</pre></code>
+and you have a bean which you would like to map to xml and back using Betwixt. Betwixt is bean-centric. 
+It aims to make mapping beans easy. But, <code>CompassPoint</code> objects are not beans and do not
+have the empty constructors that Betwixt requires.
+        </p>
+            <p>
+A good way to solve this problem is to create a custom BeanCreator which knows how to create an enum
+of the right type from the 'name' attribute value. For example:
+<code><pre>
+public class CompassPointEnumCreator implements ChainedBeanCreator {
+    public Object create(ElementMapping mapping, ReadContext context, BeanCreationChain chain) {
+        if (CompassPoint.class.equals(mapping.getType())) {
+            String value = mapping.getAttributes().getValue("name");
+            if ("North".equals(value)) {
+                return CompassPoint.NORTH;
+            }
+            if ("South".equals(value)) {
+                return CompassPoint.SOUTH;
+            }
+            if ("East".equals(value)) {
+                return CompassPoint.EAST;
+            }
+            if ("West".equals(value)) {
+                return CompassPoint.WEST;
+            }
+        }
+        return chain.create(mapping, context);
+    }
+}
+</pre></code>
+        </p>
+            <p>
+Once this class has been created, all that remains is to add this into the chain. In this case,
+it's probably most convenient to use the factory method to create a standard chain and then insert
+the BeanCreator at a suitable position:
+<code><pre>
+    BeanCreationList chain = BeanCreationList.createStandardChain();
+    chain.insertBeanCreator(1, new EnumCreator());
+    ...
+    BeanReader reader = new BeanReader();
+    reader.getXMLIntrospector().setAttributesForPrimitives(true);
+    reader.getXMLIntrospector().setWrapCollectionsInElement(false);
+    reader.getReadConfiguration().setBeanCreationChain(chain);
+    ...
+</pre></code>            
+Now you're ready to start reading enums!
+        </p>
+    </subsection>
+</section>
+
 </body>
 </document>
