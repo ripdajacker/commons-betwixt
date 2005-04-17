@@ -186,6 +186,10 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='since 0.6'>
         <ul>
+            <li>Added support for <strong>polymorphic mappings</strong>. 
+            This allows the type of a property to be guessed at bind time
+            (rather than at compile time).
+            </li>
         	<li>Added <strong>options to context</strong>. This replaces direct flavour mechanism. 
         	(Flavour becomes just a specific option).</li>
         	<li>Factored out <strong>id storage</strong> into strategy</li>

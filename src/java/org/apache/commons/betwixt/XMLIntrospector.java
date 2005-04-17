@@ -43,6 +43,7 @@ import org.apache.commons.betwixt.expression.MapEntryAdder;
 import org.apache.commons.betwixt.expression.MethodUpdater;
 import org.apache.commons.betwixt.expression.StringExpression;
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry;
+import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.betwixt.registry.XMLBeanInfoRegistry;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
@@ -82,7 +83,7 @@ public class XMLIntrospector {
     protected Log log = LogFactory.getLog( XMLIntrospector.class );
     
     /** Maps classes to <code>XMLBeanInfo</code>'s */
-    private XMLBeanInfoRegistry registry = new DefaultXMLBeanInfoRegistry();
+    private XMLBeanInfoRegistry registry;
     
     /** Digester used to parse the XML descriptor files */
     private XMLBeanInfoDigester digester;
@@ -92,6 +93,14 @@ public class XMLIntrospector {
     
     /** Configuration to be used for introspection*/
     private IntrospectionConfiguration configuration;
+    
+    /**
+     * Resolves polymorphic references.
+     * Though this is used only at bind time,
+     * it is typically tightly couple to the xml registry. 
+     * It is therefore convenient to keep both references together.
+     */
+    private PolymorphicReferenceResolver polymorphicReferenceResolver;
     
     /** Base constructor */
     public XMLIntrospector() {
@@ -106,6 +115,10 @@ public class XMLIntrospector {
      */
     public XMLIntrospector(IntrospectionConfiguration configuration) {
         setConfiguration(configuration);
+        DefaultXMLBeanInfoRegistry defaultRegistry 
+            = new DefaultXMLBeanInfoRegistry();
+        setRegistry(defaultRegistry);
+        setPolymorphicReferenceResolver(defaultRegistry);
     }
     
     
@@ -154,6 +167,11 @@ public class XMLIntrospector {
      * It also allows the standard introspection mechanism 
      * to be overridden on a per class basis.</p>
      *
+     * <p><strong>Note</strong> when using polymophic mapping with a custom
+     * registry, a call to 
+     * {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
+     * may be necessary.
+     * </p>
      * @param registry the XMLBeanInfoRegistry to use
      */
     public void setRegistry(XMLBeanInfoRegistry registry) {
@@ -212,6 +230,47 @@ public class XMLIntrospector {
       */    
     public void setClassNormalizer(ClassNormalizer classNormalizer) {
         getConfiguration().setClassNormalizer(classNormalizer);
+    }
+    
+    
+    
+    /**
+     * <p>Gets the resolver for polymorphic references.</p>
+     * <p>
+     * Though this is used only at bind time,
+     * it is typically tightly couple to the xml registry. 
+     * It is therefore convenient to keep both references together.
+     * </p>
+     * <p><strong>Note:</strong> though the implementation is
+     * set initially to the default registry,
+     * this reference is not updated when {@link #setRegistry(XMLBeanInfoRegistry)}
+     * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
+     * with the instance may be necessary. 
+     * </p>
+     * @return <code>PolymorphicReferenceResolver</code>, not null
+     */
+    public PolymorphicReferenceResolver getPolymorphicReferenceResolver() {
+        return polymorphicReferenceResolver;
+    }
+    
+    /**
+     * <p>Sets the resolver for polymorphic references.</p>
+     * <p>
+     * Though this is used only at bind time,
+     * it is typically tightly couple to the xml registry. 
+     * It is therefore convenient to keep both references together.
+     * </p>
+     * <p><strong>Note:</strong> though the implementation is
+     * set initially to the default registry,
+     * this reference is not updated when {@link #setRegistry(XMLBeanInfoRegistry)}
+     * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
+     * with the instance may be necessary. 
+     * </p>
+     * @param polymorphicReferenceResolver The polymorphicReferenceResolver to set.
+     */
+    public void setPolymorphicReferenceResolver(
+            PolymorphicReferenceResolver polymorphicReferenceResolver) {
+        this.polymorphicReferenceResolver = polymorphicReferenceResolver;
     }
     
     /** 

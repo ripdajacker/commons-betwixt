@@ -323,6 +323,61 @@ There are occasions when this is inconvenient and so it's useful to have an alte
 available.
         </p>
     </subsection>
+    	<subsection name='Reading Polymorphic Mappings'>
+    		<p>
+A polymophic mapping is one where the decision about the element type and name
+is postponed from introspection time to bind time. This allows reading of
+collections containing mixed types distinguished by element name. For example:
+		</p>    		
+<source><![CDATA[
+<?xml version="1.0" ?>
+<container>
+  <elementA/>
+  <elementB/>
+</container>
+]]></source>
+			<p>
+Polymorphic mappings should be set up using dot betwixt files. 
+The name attribute for the element should be omitted
+and mappings registered for the contained object types.
+It is usually more convenient to use a single file containing all the mappings.
+For example:
+		</p>
+<source><![CDATA[
+<?xml version="1.0"?>
+<betwixt-config>
+  <class name='SomeContainer'>
+    <element name='container'>
+      <!-- Polymorphic so no name attribute -->
+      <element property='element'/>
+    </element>
+  </class>
+  <!-- Need to register mappings for types of contained elements 
+       (when Betwixt default strategy is used) -->
+  <class name='ContainedElementA'>
+    <element name='elementA'/>
+  </class>
+  <class name='ContainedElementB'>
+    <element name='elementB'/>
+  </class>
+</betwixt-config>
+]]></source>
+			<p>
+By default, in this circumstance Betwixt will try to guess the correct resolution
+by searching all registered <code>XMLBeanInfo</code>'s for an appropriate match.
+If more thn one is found, an arbitrary one is used. 
+In many cases, this accords well with intuition. There are
+occasions when more finely grained control may be required. The resolution is
+therefore factored into <code>PolymorphicReferenceResolver</code> 
+(a pluggable strategy) on <code>XMLIntrospector</code>. 
+A custom resolver allows alternative algorithms for determining
+type to be used which can (for example) ignore the mappings registered.
+Note that the default implementation is provided by the default
+<code>XMLBeanInfoRegistry</code> implementation.
+Therefore, when using a custom registry a custom resolver must also
+be used.
+		</p>
+    </subsection>
 </section>
 
 </body>

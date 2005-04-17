@@ -16,6 +16,7 @@
 package org.apache.commons.betwixt.io.read;
 
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.logging.Log;
 
 /**  
@@ -85,8 +86,17 @@ public class ChainedBeanCreatorFactory {
                 
                 ElementDescriptor descriptor = element.getDescriptor();
                 if ( descriptor != null ) {
-                    // created based on implementation class
-                    theClass = descriptor.getImplementationClass();
+                    // check for polymorphism 
+                    if (descriptor.isPolymorphic()) {
+                        theClass = context.getXMLIntrospector().getPolymorphicReferenceResolver()
+                            .resolveType(element, context);
+                    }
+                    
+                    if (theClass == null)
+                    {
+                        // created based on implementation class
+                        theClass = descriptor.getImplementationClass();
+                    }
                 }
                 
                 if ( theClass == null ) {

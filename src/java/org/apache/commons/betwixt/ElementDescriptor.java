@@ -665,4 +665,15 @@ public class ElementDescriptor extends NodeDescriptor {
             this.useBindTimeTypeForMapping = new Boolean(useBindTimeTypeForMapping);
         }
     }
+
+    /**
+     * Is this a polymorphic element?
+     * A polymorphic element's name is not fixed at 
+     * introspection time and it's resolution is postponed to bind time.
+     * @return true if {@link #getQualifiedName} is null, 
+     * false otherwise
+     */
+    public boolean isPolymorphic() { 
+        return (getQualifiedName() == null);
+    }
 }

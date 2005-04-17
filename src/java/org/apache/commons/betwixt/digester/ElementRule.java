@@ -112,7 +112,8 @@ public class ElementRule extends MappedPropertyRule {
         
         // check that the name attribute is present 
         if ( !isCollective && (nameAttributeValue == null || nameAttributeValue.trim().equals( "" ) )) {
-            throw new SAXException("Name attribute is required.");
+            // allow polymorphic mappings but log note for user
+            log.info("No name attribute has been specified. This element will be polymorphic.");
         }
         
         // check that name is well formed 

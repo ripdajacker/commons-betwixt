@@ -16,10 +16,15 @@ package org.apache.commons.betwixt.registry;
  * limitations under the License.
  */ 
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.io.read.ElementMapping;
+import org.apache.commons.betwixt.io.read.ReadContext;
 
 /** The default caching implementation.
   * A hashmap is used.
@@ -27,7 +32,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
   * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
   * @version $Id$
   */
-public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
+public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, PolymorphicReferenceResolver {
 
     /** Used to associated <code>XMLBeanInfo</code>'s to classes */
     private Map xmlBeanInfos = new HashMap();
@@ -58,5 +63,37 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry {
       */
     public void flush() {
         xmlBeanInfos.clear();
+    }
+
+    /**
+     * Checks all registered <code>XMLBeanInfo</code>'s for the
+     * first suitable match. 
+     * If a suitable one is found, then the class of that info is used. 
+     * @see org.apache.commons.betwixt.registry.PolymorphicReferenceResolver#resolveType(org.apache.commons.betwixt.io.read.ElementMapping, org.apache.commons.betwixt.io.read.ReadContext)
+     */
+    public Class resolveType(ElementMapping mapping, ReadContext context) {
+        Class result = null;
+        Collection cachedClasses = getCachedClasses();
+        ElementDescriptor mappedDescriptor = mapping.getDescriptor();
+        for (Iterator it = cachedClasses.iterator(); it.hasNext();) {
+            XMLBeanInfo  beanInfo  = get((Class)it.next());
+            ElementDescriptor typeDescriptor = beanInfo.getElementDescriptor();
+            if (mapping.getName().equals(typeDescriptor.getQualifiedName()) &&
+                    mappedDescriptor.getPropertyType().isAssignableFrom(beanInfo.getBeanClass())) {
+                result = beanInfo.getBeanClass();
+                break;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Gets all classes that are cached in this registry.
+     * 
+     * @return The classes
+     */
+    private Collection getCachedClasses()
+    {
+        return xmlBeanInfos.keySet();
     }
 }
