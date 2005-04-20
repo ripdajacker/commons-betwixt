@@ -313,8 +313,12 @@ public class ElementDescriptor extends NodeDescriptor {
     
         ElementDescriptor elementDescriptor = null;
         ElementDescriptor descriptorWithNullName = null;
+        ElementDescriptor firstPolymorphic = null;
         ElementDescriptor[] elementDescriptors = getElementDescriptors();
         for (int i=0, size=elementDescriptors.length; i<size; i++) {
+            if (firstPolymorphic == null && elementDescriptors[i].isPolymorphic()) {
+                firstPolymorphic = elementDescriptors[i];
+            }
             String elementName = elementDescriptors[i].getQualifiedName();
             if (name.equals(elementName)) {
                 elementDescriptor = elementDescriptors[i];
@@ -323,6 +327,9 @@ public class ElementDescriptor extends NodeDescriptor {
             if (descriptorWithNullName == null && elementName == null) {
                 descriptorWithNullName = elementDescriptors[i];
             }
+        }
+        if (elementDescriptor == null) {
+            elementDescriptor = firstPolymorphic;
         }
         if (elementDescriptor == null) {
             elementDescriptor = descriptorWithNullName;
