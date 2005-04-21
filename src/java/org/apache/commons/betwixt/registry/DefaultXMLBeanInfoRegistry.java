@@ -75,13 +75,18 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
         Class result = null;
         Collection cachedClasses = getCachedClasses();
         ElementDescriptor mappedDescriptor = mapping.getDescriptor();
+        Class mappedType = mappedDescriptor.getSingularPropertyType();
+        if (mappedType == null) {
+            mappedType = mappedDescriptor.getPropertyType();
+        }
         for (Iterator it = cachedClasses.iterator(); it.hasNext();) {
             XMLBeanInfo  beanInfo  = get((Class)it.next());
             ElementDescriptor typeDescriptor = beanInfo.getElementDescriptor();
             boolean sameName = mapping.getName().equals(typeDescriptor.getQualifiedName());
             if (sameName)
             {
-                boolean compatibleClass = mappedDescriptor.getSingularPropertyType().isAssignableFrom(beanInfo.getBeanClass());
+                
+                boolean compatibleClass = mappedType.isAssignableFrom(beanInfo.getBeanClass());
                 if (compatibleClass ) {
                     result = beanInfo.getBeanClass();
                     break;
