@@ -31,6 +31,10 @@
     <subsection name="High priority"> 
       <ul>
         <li>
+Change ElementRule so that updaters are automatically guessed (when not present).
+Add read-only attribute for properties to disable this behaviour.        
+        </li>
+        <li>
           BeanWriter is writing too sloppy (empty elements, etc). Fixing it in a clean way
           is almost impossible. 
           Probably a refactor is best anyway to have a less "sloppy" api.. 
