@@ -190,6 +190,8 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='since 0.6'>
         <ul>
+            <li>Fixed bug in nested element diagnosing empty elements.
+            </li>
             <li>Added support for <strong>polymorphic mappings</strong>. 
             This allows the type of a property to be guessed at bind time
             (rather than at compile time).
