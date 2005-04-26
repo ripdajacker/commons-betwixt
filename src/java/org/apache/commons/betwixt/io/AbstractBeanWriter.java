@@ -270,21 +270,33 @@ public abstract class AbstractBeanWriter {
     }
     
     // introspect to obtain bean info
-    XMLBeanInfo beanInfo = null;
-    Class introspectedBindType = parentDescriptor.getSingularPropertyType();
-    if ( introspectedBindType == null ) {
-        introspectedBindType = parentDescriptor.getPropertyType();
-    }
-    if ( parentDescriptor.isUseBindTimeTypeForMapping() || introspectedBindType == null ) {
-        beanInfo = introspector.introspect( bean );
-    } else {
-        beanInfo = introspector.introspect( introspectedBindType );
-    }
+    XMLBeanInfo beanInfo = findXMLBeanInfo(bean, parentDescriptor);
     writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo);
     
     log.trace( "Finished writing bean graph." );
 }
     
+    /**
+     * Finds the appropriate bean info for the given (hollow) element.
+     * @param bean
+     * @param parentDescriptor <code>ElementDescriptor</code>, not null
+     * @return <code>XMLBeanInfo</code>, not null
+     * @throws IntrospectionException
+     */
+    private XMLBeanInfo findXMLBeanInfo(Object bean, ElementDescriptor parentDescriptor) throws IntrospectionException {
+        XMLBeanInfo beanInfo = null;
+        Class introspectedBindType = parentDescriptor.getSingularPropertyType();
+        if ( introspectedBindType == null ) {
+            introspectedBindType = parentDescriptor.getPropertyType();
+        }
+        if ( parentDescriptor.isUseBindTimeTypeForMapping() || introspectedBindType == null ) {
+            beanInfo = introspector.introspect( bean );
+        } else {
+            beanInfo = introspector.introspect( introspectedBindType );
+        }
+        return beanInfo;
+    }
+
     /**
      * <p>Writes the given bean to the current stream 
      * using the given mapping.</p>
@@ -1035,8 +1047,9 @@ public abstract class AbstractBeanWriter {
      * @param descriptor the <code>ElementDescriptor</code> to evaluate
      * @param context the <code>Context</code> against which the element will be evaluated
      * @return true if this element should be written out
+     * @throws IntrospectionException
      */
-    private boolean ignoreElement( ElementDescriptor descriptor, Context context ) {
+    private boolean ignoreElement( ElementDescriptor descriptor, Context context ) throws IntrospectionException {
         if ( ! getWriteEmptyElements() ) {
             return isEmptyElement( descriptor, context );
         }
@@ -1050,16 +1063,19 @@ public abstract class AbstractBeanWriter {
      * and no body text.
      * For example, <code>&lt;element/&gt;</code> is an empty element but
      * <code>&lt;element attr='value'/&gt;</code> is not.</p>
-     *
+     * 
      * @param descriptor the <code>ElementDescriptor</code> to evaluate
      * @param context the <code>Context</code> against which the element will be evaluated
      * @return true if this element is empty on evaluation
+     * @throws IntrospectionException
      */
-    private boolean isEmptyElement( ElementDescriptor descriptor, Context context ) {
+    private boolean isEmptyElement( ElementDescriptor descriptor, Context context ) throws IntrospectionException {
+        //TODO: this design isn't too good
+        // to would be much better to render just once 
         if ( log.isTraceEnabled() ) {
             log.trace( "Is " + descriptor + " empty?" );
         }
-        
+                
         // an element which has attributes is not empty
         if ( descriptor.hasAttributes() ) {
             log.trace( "Element has attributes." );
@@ -1090,6 +1106,23 @@ public abstract class AbstractBeanWriter {
                 if ( ! isEmptyElement( descriptor.getElementDescriptors()[i], context ) ) {
                     log.trace( "Element has child which isn't empty." );
                     return false;
+                }
+            }
+        }
+        
+        if ( descriptor.isHollow() )
+        {
+            Expression contentExpression = descriptor.getContextExpression();
+            if (contentExpression != null) {
+                Object childBean = contentExpression.evaluate(context);
+                if (childBean != null)
+                {
+                    XMLBeanInfo xmlBeanInfo = findXMLBeanInfo(childBean, descriptor);
+                    Object currentBean = context.getBean();
+                    context.setBean(childBean);
+                    boolean result = isEmptyElement(xmlBeanInfo.getElementDescriptor(), context);
+                    context.setBean(currentBean);
+                    return result;
                 }
             }
         }

@@ -311,45 +311,7 @@ public class TestBeanWriter extends AbstractTestCase {
 //        baseLog.debug(out.getBuffer().toString());
         xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
     }
-    
-    /** Test nested case for writing empty elements */
-    public void testNestedWriteEmptyElements() throws Exception{
-        
-        // write same bean both times
-        LoopBean root = new LoopBean("base");
-        LoopBean middle = new LoopBean(null);
-        root.setFriend(middle);
-        middle.setFriend(new LoopBean(null));
-        
-//        SimpleLog baseLog = new SimpleLog( "[NestedEmpty]" );
-//        baseLog.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-    
-        // test output when writing empty elements
-        StringWriter out = new StringWriter();
-        out.write("<?xml version='1.0'?>");
-        BeanWriter writer = new BeanWriter(out);
-        writer.setWriteEmptyElements(true);
-        writer.getBindingConfiguration().setMapIDs(false);
-        writer.write(root);
-//        baseLog.debug("NESTED EMPTY");
-//        baseLog.debug(out.getBuffer().toString());
-        String xml = "<?xml version='1.0'?><LoopBean><name>base</name><friend><name/><friend><name/></friend>"
-                    + "</friend></LoopBean>";
-        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
-        
-        // test output when not writing empty elements
-        out = new StringWriter();
-        out.write("<?xml version='1.0'?>");
-        writer = new BeanWriter(out);
-        writer.setWriteEmptyElements(false);
-        writer.getBindingConfiguration().setMapIDs(false);
-        writer.write(root);
-//        baseLog.debug("NESTED NOT EMPTY");
-//        baseLog.debug(out.getBuffer().toString());
-        xml = "<?xml version='1.0'?><LoopBean><name>base</name></LoopBean>";
-        xmlAssertIsomorphicContent(parseString(out.getBuffer().toString()),parseString(xml), true);
-        
-    }
+
     
     public void testArrayWrite() throws Exception {
         ArrayBean bean = new ArrayBean("Rob");
