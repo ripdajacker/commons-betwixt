@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   Copyright 2001-2004 The Apache Software Foundation
+   Copyright 2001-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -41,6 +41,33 @@
 </section>
 
 <section name="Releases">
+  <subsection name='Betwixt 0.6.1'>
+    <p>
+Betwixt 0.6.1 is a feature release. 
+A number of new strategies have been introduced to add flexibility. Improvements
+have been made to binding and introspection including improved support for polymophism.
+Improvements have been made to the dot betwixt file format including support
+for multiple specifications within the same file. 
+For full details see the <a href='tasks.html#Completed'>tasks documentation</a>.
+    </p>
+    <p>
+Betwixt 0.6.1 is binary compatible with 0.6 but a number of changes have been
+made to some semantics. It is believed that the impact of these changes
+should be minimal. Details (together with some ways to mitigate) can be found on the 
+ <a href='tasks.html#Semantic%20Changes'>list of semantic incompatibilities</a>.
+    </p>
+    <p>
+This release is binary compatible with the 0.5 codebase but the methods deprecated
+in 0.5 are likely to be removed soon.
+    </p>
+    <p>
+Betwixt 0.6.1 is available in 
+<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>binary</a>
+and
+<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>source</a>
+distributions.
+    </p>
+  </subsection>
   <subsection name='Betwixt 0.6'>
     <p>
 Betwixt release 0.6 is the first release containing the refactored codebase 

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-   Copyright 2001-2004 The Apache Software Foundation
+   Copyright 2001-2005 The Apache Software Foundation
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -188,7 +188,7 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='since 0.6'>
+    <subsection name='0.6.1'>
         <ul>
             <li>Fixed bug in nested element diagnosing empty elements.
             </li>
@@ -347,7 +347,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
-	<subsection name='since 0.6'>
+	<subsection name='0.6.1'>
 		<ul>
 			<li>ObjectStringConverter direct flavour replaced with use of options
 				<ul>
@@ -459,13 +459,17 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
+    <subsection name='0.6.1'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.6'>
         <ul>
         </ul>
     </subsection>
 </section>
 <section name='Semantic Changes'>
-    <subsection name='Since 0.6'>
+    <subsection name='0.6.1'>
         <ul>
             <li>
 Betwixt now (by default) suppresses the expression of all empty attributes.
