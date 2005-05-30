@@ -127,7 +127,7 @@ on the wiki</a>.
 </section>
 <section name="Nightly Builds">
     <p>
-        Nightly builds are built once a day from the current CVS HEAD.
+        Nightly builds are built once a day from the current HEAD.
         This is (nearly) the lastest code and so should be treated with caution!
     </p>
     <p>
