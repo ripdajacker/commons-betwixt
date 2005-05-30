@@ -8,14 +8,14 @@ INTRODUCTION:
 
 Betwixt provides a flexible way to map beans into XML - and vice versa.
 
-Betwixt release 0.6 is the first release containing the refactored codebase 
-featuring an improved design. This is a service release for those who have been
-using the code from the CVS branch and offers an easy, compatible upgrade path
-for those using the 0.5 design. It is recommended that all users should upgrade
-to this release since the 0.5 design is no longer actively supported and is 
-limited in terms of functionality. 
+Betwixt 0.6.1 is a feature release. A number of new strategies have been 
+introduced to add flexibility. Improvements have been made to binding and 
+introspection including improved support for polymophism. Improvements have 
+been made to the dot betwixt file format including support for multiple 
+specifications within the same file.
 
-This release is binary compatible with the 0.5 codebase but the methods deprecated
-in 0.5 are likely to be removed soon after 0.6 is released.
+Betwixt 0.6.1 is binary compatible with 0.6 but a number of changes have been 
+made to some semantics. It is believed that the impact of these changes should 
+be minimal. 
 
 For more details see the tasks document.
