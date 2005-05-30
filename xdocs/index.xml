@@ -41,7 +41,7 @@
 </section>
 
 <section name="Releases">
-  <subsection name='Betwixt 0.6.1'>
+  <subsection name='Betwixt 0.6.1 (Under Preparation)'>
     <p>
 Betwixt 0.6.1 is a feature release. 
 A number of new strategies have been introduced to add flexibility. Improvements
@@ -59,13 +59,6 @@ should be minimal. Details (together with some ways to mitigate) can be found on
     <p>
 This release is binary compatible with the 0.5 codebase but the methods deprecated
 in 0.5 are likely to be removed soon.
-    </p>
-    <p>
-Betwixt 0.6.1 is available in 
-<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>binary</a>
-and
-<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>source</a>
-distributions.
     </p>
   </subsection>
   <subsection name='Betwixt 0.6'>
