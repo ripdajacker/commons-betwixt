@@ -273,7 +273,7 @@ encoding strategy</a>.
           </a>
         </dt>
         <dd>
-            Betwixt uses <a href='http://jakarta.apache.org/commons/digester.html'>Digester</a> for bean
+            Betwixt uses <a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> for bean
             reading. There are problems integrating the last release with custom digester rules. 
             The CVS HEAD version of betwixt now supports this and so users who need to do this should 
             upgrade.
@@ -328,7 +328,7 @@ when they fall outside acceptable ranges).
         <dd>
           Betwixt uses Maven for its build system. So you should be able to build Betwixt just like
           any other Maven enabled project. Please see the 
-          <a href="http://jakarta.apache.org/turbine/maven/start/index.html">Maven</a> 
+          <a href="http://maven.apache.org/start/index.html">Maven</a> 
           documentation for details.
         </dd>
       </dl>
