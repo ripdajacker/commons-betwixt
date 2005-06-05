@@ -20,7 +20,8 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 /**
  * Determines whether the expression of an attribute with a values 
  * should be suppressed.
- * 
+ *
+ * @since 0.6.1 
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class ValueSuppressionStrategy {

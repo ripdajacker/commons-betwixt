@@ -22,6 +22,7 @@ import java.util.Map;
  * <code>XMLSingleMappingFileBeanInfoDigester</code> is a digester of XML files
  * containing XMLBeanInfo definitions for a JavaBeans.
  *
+ * @since 0.6.1
  * @author Brian Pugh
  */
 public class MultiMappingBeanInfoDigester extends XMLBeanInfoDigester {

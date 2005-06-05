@@ -348,6 +348,7 @@ public class IntrospectionConfiguration {
      * Gets the <code>MappingDerivationStrategy</code>
      * used to determine whether the bind or introspection time
      * type should determine the mapping.
+     * @since 0.6.1
      * @return <code>MappingDerivationStrategy</code>, not null
      */
     public MappingDerivationStrategy getMappingDerivationStrategy() {
@@ -357,6 +358,7 @@ public class IntrospectionConfiguration {
      * Sets the <code>MappingDerivationStrategy</code>
      * used to determine whether the bind or introspection time
      * type should determine the mapping.
+     * @since 0.6.1
      * @param mappingDerivationStrategy <code>MappingDerivationStrategy</code>, not null
      */
     public void setMappingDerivationStrategy(
@@ -366,6 +368,7 @@ public class IntrospectionConfiguration {
 
     /**
      * Gets the strategy which determines the properties to be ignored.
+     * @since 0.6.1
      * @return the <code>PropertySuppressionStrategy</code> to be used for introspection, not null
      */
     public PropertySuppressionStrategy getPropertySuppressionStrategy() {
@@ -374,6 +377,7 @@ public class IntrospectionConfiguration {
     
     /**
      * Sets the strategy which determines the properties to be ignored.
+     * @since 0.6.1
      * @param propertySuppressionStrategy the <code>PropertySuppressionStrategy</code> to be used for introspection, not null
      */
     public void setPropertySuppressionStrategy(
@@ -383,7 +387,7 @@ public class IntrospectionConfiguration {
     
     /** 
      * Is this a loop type class?
-     *
+     * @since 0.6.1
      * @param type is this <code>Class</code> a loop type?
      * @return true if the type is a loop type, or if type is null 
      */

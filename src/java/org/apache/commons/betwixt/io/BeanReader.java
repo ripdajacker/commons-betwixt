@@ -204,6 +204,7 @@ public class BeanReader extends Digester {
      * @see #registerBeanClass(Class) since the general notes given there
      * apply equally to this 
      * @see XMLIntrospector#register(InputSource) for more details on the multi-mapping format
+     * @since 0.6.1
      * @param mapping <code>InputSource</code> giving the multi-mapping document specifying 
      * the mapping
      * @throws IntrospectionException
@@ -234,6 +235,7 @@ public class BeanReader extends Digester {
      * </p>
      * @see #registerBeanClass(Class) since the general notes given there
      * apply equally to this 
+     * @since 0.6.1
      * @param mapping <code>InputSource</code> giving the dot betwixt document specifying 
      * the mapping
      * @param beanClass <code>Class</code> that should be register

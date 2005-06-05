@@ -49,6 +49,8 @@ public abstract class ComplexType {
     }
 
     /**
+     * Fills the given descriptor
+     * @since 0.6.1
      * @param elementDescriptor
      * @param schema
      * @return @throws

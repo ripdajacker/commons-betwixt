@@ -26,6 +26,7 @@ import org.apache.commons.betwixt.io.read.ReadContext;
  * When the xml is read, the type can then resolved from 
  * by calling {@link #resolveType}.
  * </p>
+ * @since 0.6.1
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
  */
 public interface PolymorphicReferenceResolver {

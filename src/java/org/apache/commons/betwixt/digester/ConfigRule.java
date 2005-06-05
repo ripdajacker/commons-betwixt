@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Digester Rule to process config elements.
+ * @since 0.6.1
  * @author Brian Pugh
  */
 public class ConfigRule extends RuleSupport {

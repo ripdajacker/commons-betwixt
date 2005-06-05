@@ -52,7 +52,7 @@ public class ObjectStringConverter implements Serializable {
       * @param type the property class of the object, not null
       * @param flavour a string allow symantic differences in formatting to be communicated
       * @param context the context, not null
-      * @deprecated  use {@link #objectToString(Object, Class, Context)} instead. 
+      * @deprecated 0.6.1 use {@link #objectToString(Object, Class, Context)} instead. 
       * The preferred way to support flavours is by setting the
       * <code>org.apache.commons.betwixt.FLAVOUR</code> option.
       * This can then be retrieved by calling {@link Context#getOptions()}
@@ -75,7 +75,7 @@ public class ObjectStringConverter implements Serializable {
       * @param type the property class to be returned (if possible), not null
       * @param flavour a string allow symantic differences in formatting to be communicated
       * @param context the context, not null
-      * @deprecated use {@link #stringToObject(String, Class, Context)} instead.
+      * @deprecated 0.6.1 use {@link #stringToObject(String, Class, Context)} instead.
       * The preferred way to support flavours is by setting the
       * <code>org.apache.commons.betwixt.FLAVOUR</code> option.
       * This can then be retrieved by calling {@link Context#getOptions()}
@@ -91,6 +91,7 @@ public class ObjectStringConverter implements Serializable {
       * This basic implementation returns object.toString() 
       * or an empty string if the given object is null.
       *
+      * @since 0.6.1
       * @param object the object to be converted, possibly null
       * @param type the property class of the object, not null
       * @param context the context, not null
@@ -107,6 +108,7 @@ public class ObjectStringConverter implements Serializable {
       * the string to the given class type.
       * This basic implementation just returns a string.
       * 
+      * @since 0.6.1
       * @param value the String to be converted
       * @param type the property class to be returned (if possible), not null
       * @param context the context, not null
