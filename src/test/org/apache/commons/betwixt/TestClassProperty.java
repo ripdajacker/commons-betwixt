@@ -66,7 +66,7 @@ public class TestClassProperty extends AbstractTestCase {
                 });
 
         // test with class without dot-betwixt file...
-        Object bean = new Locale("de"); // just a bean with some properties
+        Object bean = new Locale("de", "de"); // just a bean with some properties
         beanWriter.write(bean);
 
         // was the class element written?..
