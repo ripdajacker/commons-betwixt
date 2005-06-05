@@ -1,7 +1,7 @@
 $Id$
 
                          Commons Betwixt Package
-                               Version 0.6
+                              Version 0.6.1
                               Release Notes
 
 INTRODUCTION:
