@@ -28,7 +28,7 @@
             <p>
 A <strong>DynaBean</strong> is a pseudo-bean whose properties may differ between instances of the same Class.
 Pseudo-introspection of the available properties uses a pseudo-class of type DynaClass.
-For more details see <a href='http://jakarta.apache.org/commons/beanutils.html'>BeanUtils</a>.
+For more details see <a href='http://jakarta.apache.org/commons/beanutils/index.html'>BeanUtils</a>.
                 </p>
             <p>
 Betwixt now supports the (correct) writing of objects implementating DynaBean. Rather than using standard
