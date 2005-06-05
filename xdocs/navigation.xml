@@ -38,7 +38,7 @@
       <item name="Community" href="/community.html"/>
       <item name="Powered By" href="/powered.html"/>
       <item name="Tasks" href="/tasks.html"/>
-      <item name="SVN" href="http://svn.apache.org/viewcvs/jakarta-commons/betwixt/"/>
+      <item name="SVN" href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/betwixt/trunk/"/>
       <!--item name="Javadoc (CVS latest)" href="apidocs/index.html"/-->
     </menu>
     <menu name="User guide">
