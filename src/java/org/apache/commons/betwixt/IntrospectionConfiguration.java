@@ -227,8 +227,10 @@ public class IntrospectionConfiguration {
     }
     
     /**
-     * Should the original <code>java.reflect.Introspector</code> bean info search path be used?
-     * By default it will be false.
+     * <p>Should the original <code>java.reflect.Introspector</code> bean info search path be used?</p>
+     * <p>
+     * Default is false.
+     * </p>
      * 
      * @return boolean if the beanInfoSearchPath should be used.
      */

@@ -201,9 +201,9 @@ public class BeanReader extends Digester {
      * It is recommended that use of the pre-registeration process provided
      * by {@link XMLIntrospector#register}  be considered as an alternative to this method.
      * </p>
-     * @see {@link #registerBeanClass(Class)} since the general notes given there
+     * @see #registerBeanClass(Class) since the general notes given there
      * apply equally to this 
-     * @see {@link XMLIntrospector#register(InputSource) for more details on the multi-mapping format
+     * @see XMLIntrospector#register(InputSource) for more details on the multi-mapping format
      * @param mapping <code>InputSource</code> giving the multi-mapping document specifying 
      * the mapping
      * @throws IntrospectionException
@@ -232,7 +232,7 @@ public class BeanReader extends Digester {
      * It is recommended that use of the pre-registeration process provided
      * by {@link XMLIntrospector#register}  be considered as an alternative to this method.
      * </p>
-     * @see {@link #registerBeanClass(Class)} since the general notes given there
+     * @see #registerBeanClass(Class) since the general notes given there
      * apply equally to this 
      * @param mapping <code>InputSource</code> giving the dot betwixt document specifying 
      * the mapping

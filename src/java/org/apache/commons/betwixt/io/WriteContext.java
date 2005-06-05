@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * It is likely that access will be required to methods in the
  * <code>Context</code> used by the {@link AbstractBeanWriter}
  * but it seems better to add these as neccessary using delegation
- * rather than extending {@link Context}.
+ * rather than extending {@link org.apache.commons.betwixt.expression.Context}.
  * </p>
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
  * @since 0.5

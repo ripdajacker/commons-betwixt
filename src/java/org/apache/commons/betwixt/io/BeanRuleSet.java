@@ -95,7 +95,6 @@ public class BeanRuleSet implements RuleSet {
      * @param introspector the <code>XMLIntrospector</code> used to introspect 
      * @param basePath specifies the (Digester-style) path under which the rules will be attached
      * @param baseElementDescriptor the <code>ElementDescriptor</code> used to create the rules
-     * @param baseBeanClass the <code>Class</code> whose mapping rules will be created
      * @param context the root Context that bean carrying Contexts should be obtained from, 
      * not null
      * @deprecated 0.6 use the constructor which takes a ReadContext instead
@@ -192,7 +191,7 @@ public class BeanRuleSet implements RuleSet {
     //-------------------------------- Ruleset implementation
 
     /** 
-     * <p>Return namespace associated with this ruleset</p>
+     * <p>Gets the namespace associated with this ruleset.</p>
      *
      * <p><strong>Note</strong> namespaces are not currently supported.</p>
      * 

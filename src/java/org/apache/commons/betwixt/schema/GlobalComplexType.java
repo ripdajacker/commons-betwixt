@@ -75,7 +75,7 @@ public class GlobalComplexType extends ComplexType {
     
 	/**
      * Gets the name of this type.
-     * @return
+     * @return the name of this type
      */
     public String getName() {
         return name;

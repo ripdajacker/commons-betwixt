@@ -155,7 +155,7 @@ public class BindingConfiguration implements Serializable {
     /**
      * Gets the strategy used to manage storage and retrieval of id's.
      * 
-     * @return Returns the idStoringStrategy, not null
+     * @return Returns the <code>IdStoringStrategy</code>, not null
      */
     public IdStoringStrategy getIdMappingStrategy() {
         return idStoringStrategy;
@@ -164,8 +164,8 @@ public class BindingConfiguration implements Serializable {
     /**
      * Sets the strategy used to manage storage and retrieval of id's.
      * 
-     * @param idStoringStrategy
-     *            The idStoringStrategy to set, not null
+     * @param idMappingStrategy
+     *            <code>IdStoringStrategy</code> to be set, not null
      */
     public void setIdMappingStrategy(IdStoringStrategy idMappingStrategy) {
         this.idStoringStrategy = idMappingStrategy;

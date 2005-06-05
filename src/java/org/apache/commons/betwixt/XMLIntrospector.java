@@ -828,17 +828,16 @@ public class XMLIntrospector {
      * called multiple times. This is relatively expensive and so it'd be better
      * to push into a proper class and cache.
      * <br>
-     * TODO this probably does work properly with DynaBeans: need to push
-     * implementation into an class and expose it on BeanType.
-     *
-     * @param introspector use this <code>XMLIntrospector</code> for introspection
+     * 
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
      */
     public void defaultAddMethods( 
                                             ElementDescriptor rootDescriptor, 
                                             Class beanClass ) {
-                                              
+        // TODO: this probably does work properly with DynaBeans: need to push
+        // implementation into an class and expose it on BeanType.  
+        
         // lets iterate over all methods looking for one of the form
         // add*(PropertyType)
         if ( beanClass != null ) {
@@ -1392,12 +1391,13 @@ public class XMLIntrospector {
     
     /** 
      * Is this class a primitive?
-     * TODO: this method will probably be deprecated when primitive types
-     * are subsumed into the simple type concept 
+     * 
      * @param type the Class to test
      * @return true for primitive types 
      */
     public boolean isPrimitiveType(Class type) {
+        // TODO: this method will probably be deprecated when primitive types
+        // are subsumed into the simple type concept 
         TypeBindingStrategy.BindingType bindingType 
 			= configuration.getTypeBindingStrategy().bindingType( type ) ;
         boolean result = (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));

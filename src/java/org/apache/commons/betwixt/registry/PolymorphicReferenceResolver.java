@@ -32,7 +32,7 @@ public interface PolymorphicReferenceResolver {
 
     /**
      * Resolves the bind-time type of a polymorphic element.
-     * @param descriptor <code>ElementMapping</code> describing the (polymorphic) element being mapped,
+     * @param mapping <code>ElementMapping</code> describing the (polymorphic) element being mapped,
      * not null
      * @param context <code>ReadContext</code>, not null
      * @return the <code>Class</code> describing the type to which this element should be bound,

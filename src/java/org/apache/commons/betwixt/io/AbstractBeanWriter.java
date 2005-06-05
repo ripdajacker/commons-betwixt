@@ -38,14 +38,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-// FIX ME!!!
-// Logging logic!
-
-// FIX ME!!
-// Error handling strategy!
-// i'm going to add SAXExceptions everywhere since it's the easiest way to make things work quick
-// but this is a poor strategy
-
 /**
   * <p>Abstract superclass for bean writers.
   * This class encapsulates the processing logic. 
@@ -193,7 +185,7 @@ public abstract class AbstractBeanWriter {
      * </p>
      * @see #write(Object) since the standard notes also apply
      * @param bean <code>Object</code> to be written as xml, not null
-     * @param mapping <code>InputSource/code> containing an xml document
+     * @param source <code>InputSource/code> containing an xml document
      * specifying the mapping to be used (in the usual way), not null
      * @throws IOException
      * @throws SAXException

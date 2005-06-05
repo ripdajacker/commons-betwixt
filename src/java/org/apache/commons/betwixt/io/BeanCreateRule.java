@@ -540,8 +540,9 @@ public class BeanCreateRule extends Rule {
         return (BeanReader) getDigester();
     }
     
-    /** Allows the navigation from a reference to a property object to the descriptor defining what 
-     * the property is. i.e. doing the join from a reference to a type to lookup its descriptor.
+    /** 
+     * Allows the navigation from a reference to a property object to the descriptor defining what 
+     * the property is. In other words, doing the join from a reference to a type to lookup its descriptor.
      * This could be done automatically by the NodeDescriptors. Refer to TODO.txt for more info.
      *
      * @param propertyDescriptor find descriptor for property object referenced by this descriptor

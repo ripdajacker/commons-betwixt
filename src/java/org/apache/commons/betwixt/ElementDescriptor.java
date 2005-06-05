@@ -173,11 +173,13 @@ public class ElementDescriptor extends NodeDescriptor {
      } 
     
     /**
-     * Is this a simple element?
+     * <p>Is this a simple element?</p>
+     * <p>
      * A simple element is one without child elements or attributes.
      * This corresponds to the simple type concept used in XML Schema.
      * TODO: need to consider whether it's sufficient to calculate
-     * which are simple types (and so don't get IDs assigned etc)
+     * which are simple types (and so don't get IDs assigned etc).
+     * </p>
      * @return true if it is a <code>SimpleType</code> element
      */
     public boolean isSimple() {
@@ -306,7 +308,7 @@ public class ElementDescriptor extends NodeDescriptor {
       * passed in, unless some other matches the name exactly.
       *
       * @param name the localname to be matched, not null
-      * @returns the child ElementDescriptor with the given name if one exists, 
+      * @return the child ElementDescriptor with the given name if one exists, 
       * otherwise null
       */
     public ElementDescriptor getElementDescriptor(String name) {
@@ -560,10 +562,11 @@ public class ElementDescriptor extends NodeDescriptor {
     }
     
     /**
-     * TODO is this implementation correct?
-     * maybe this method is unnecessary
+     * Does this describe a collective?
      */
     public boolean isCollective() {
+        // TODO is this implementation correct?
+        // maybe this method is unnecessary
         return isCollectiveType;
     }
     
@@ -576,9 +579,12 @@ public class ElementDescriptor extends NodeDescriptor {
     }
 
     /** 
-     * @todo is this really a good design?
+     * Finds the parent of the given descriptor.
+     * @param elementDescriptor <code>ElementDescriptor</code>
+     * @return <code>ElementDescriptor</code>, not null
      */
     public ElementDescriptor findParent(ElementDescriptor elementDescriptor) {
+        //TODO: is this really a good design?
         ElementDescriptor result = null;
         ElementDescriptor[] elementDescriptors = getElementDescriptors();
         for (int i=0, size=elementDescriptors.length; i<size; i++) {
@@ -610,13 +616,15 @@ public class ElementDescriptor extends NodeDescriptor {
     }
 
     /**
-     * Is this decriptor hollow?
+     * <p>Is this decriptor hollow?</p>
+     * <p>
      * A hollow descriptor is one which gives only the class that the subgraph
      * is mapped to rather than describing the entire subgraph.
      * A new <code>XMLBeanInfo</code> should be introspected 
      * and that used to describe the subgraph.
      * A hollow descriptor should not have any child descriptors. 
      * TODO: consider whether a subclass would be better
+     * </p>
      * @return true if this is hollow 
      */
     public boolean isHollow() {
@@ -631,18 +639,19 @@ public class ElementDescriptor extends NodeDescriptor {
      * and that used to describe the subgraph.
      * A hollow descriptor should not have any child descriptors. 
      * TODO: consider whether a subclass would be better
-     * @param true if this is hollow 
+     * @param isHollow true if this is hollow 
      */
     public void setHollow(boolean isHollow) {
         this.isHollow = isHollow;
     }  
     
     /**
-     * Is the bind time type to be used to determine the mapping?
+     * <p>Is the bind time type to be used to determine the mapping?</p>
+     * <p>
      * The mapping for an object property value can either be the 
      * introspection time type (based on the logical type of the property)
      * or the bind time type (based on the type of the actual instance).
-     * 
+     * </p>
      * @return true if the bind time type is to be used to determine the mapping,
      * false if the introspection time type is to be used
      */
@@ -655,7 +664,7 @@ public class ElementDescriptor extends NodeDescriptor {
     }
 
     /**
-     * <p>Sets whether the bind time type to be used to determine the mapping?
+     * <p>Sets whether the bind time type to be used to determine the mapping.
      * The mapping for an object property value can either be the 
      * introspection time type (based on the logical type of the property)
      * or the bind time type (based on the type of the actual instance).
@@ -674,9 +683,11 @@ public class ElementDescriptor extends NodeDescriptor {
     }
 
     /**
-     * Is this a polymorphic element?
+     * <p>Is this a polymorphic element?</p>
+     * <p>
      * A polymorphic element's name is not fixed at 
      * introspection time and it's resolution is postponed to bind time.
+     * </p>
      * @return true if {@link #getQualifiedName} is null, 
      * false otherwise
      */

@@ -69,7 +69,7 @@ public class HyphenatedNameMapper implements NameMapper {
     
     /**
      * <p>The words within the bean name are deduced assuming the
-     * first-letter-capital (e.g. camel's hump) naming convention. For
+     * first-letter-capital (for example camel's hump) naming convention. For
      * example, the words in <code>FooBar</code> are <code>foo</code>
      * and <code>bar</code>.</p>
      * 
@@ -134,9 +134,11 @@ public class HyphenatedNameMapper implements NameMapper {
     }
     
     /** 
-     * Should the bean name be converted to upper case?
+     * <p>Should the bean name be converted to upper case?
+     * </p>
+     * <p>
      * Otherwise, it will be converted to lower case.
-     *
+     * </p>
      * @return whether upper or lower case conversions should be performed, 
      * which defaults to false for lower case
      */    

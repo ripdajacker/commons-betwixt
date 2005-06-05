@@ -44,7 +44,7 @@ public class Attribute {
 
     /**
      * Gets the attribute name
-     * @return
+     * @return name of this attribute, not null
      */
     public String getName() {
         return name;
@@ -52,7 +52,7 @@ public class Attribute {
 
     /**
      * Sets the attribute name
-     * @param string
+     * @param string the name for this attribute, not null
      */
     public void setName(String string) {
         name = string;
@@ -60,7 +60,7 @@ public class Attribute {
 
 	/**
 	 * Gets the attribute type
-	 * @return
+	 * @return the type of this attribute
 	 */
 	public String getType() {
 		return type;
@@ -68,7 +68,7 @@ public class Attribute {
 
     /**
      * Sets the attribute type
-     * @param string
+     * @param string the attribute type
      */
     public void setType(String string) {
         type = string;
