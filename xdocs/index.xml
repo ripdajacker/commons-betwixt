@@ -41,7 +41,7 @@
 </section>
 
 <section name="Releases">
-  <subsection name='Betwixt 0.6.1 (Under Preparation)'>
+  <subsection name='Betwixt 0.6.1 (Release Candidate Available)'>
     <p>
 Betwixt 0.6.1 is a feature release. 
 A number of new strategies have been introduced to add flexibility. Improvements
@@ -59,6 +59,10 @@ should be minimal. Details (together with some ways to mitigate) can be found on
     <p>
 This release is binary compatible with the 0.5 codebase but the methods deprecated
 in 0.5 are likely to be removed soon.
+    </p>
+    <p>
+The first public release candidate (RC3) is now available from 
+<a href='http://people.apache.org/~rdonkin/commons-betwixt'>here</a>.
     </p>
   </subsection>
   <subsection name='Betwixt 0.6'>
