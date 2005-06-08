@@ -56,15 +56,17 @@
   </preGoal>
   
   <preGoal name="dist:build-src">
-    
     <copy todir="${maven.dist.src.assembly.dir}">
-      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
-      <fileset file='${basedir}/NOTICE.txt'/>
+        <fileset dir="${basedir}">
+            <include name="NOTICE.txt"/>
+            <include name="RELEASE-NOTES.txt"/>
+        </fileset>
     </copy>
 
+    <move todir="${maven.dist.src.assembly.dir}-src">
+      <fileset dir="${maven.dist.src.assembly.dir}"/>
+    </move>
   </preGoal>
-
-
 
   <goal name="test:classpath" prereqs="java:compile, test:compile"
         description="Compiles the tests and sets the testing classpath">
