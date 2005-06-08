@@ -179,10 +179,7 @@ a <code>.betwixt</code> file <em>without</em> also adding default propertes?
           </a>
         </dt>
         <dd>
-            At the moment,  <code>BeanWriter</code> is the only way to output the xml.
-            This writes the xml (as characters) to standard java io streams. 
-            Work will begin on a SAX-based writer (which will generate SAX events)
-            very soon.
+            Betwixt can output xml as streaming text or as SAX events.
         </dd>
       </dl>
       <dl>
@@ -227,9 +224,8 @@ beanWriter.enablePrettyPrint();
 beanWriter.setWriteIDs(false);
 </source>
             and then Betwixt will no longer automatically add <code>ID</code> attributes.
-            Once this property is set (to false), BeanWroter will throw a 
-            <code>CyclicReferenceException</code> when any cyclic references which are 
-            encountered in the bean graph.
+            Once this property is set (to false), when a cycle reference is encountered
+            in the bean graph, a <code>CyclicReferenceException</code> will be thrown.
         </dd>
       </dl>   
 
@@ -274,9 +270,8 @@ encoding strategy</a>.
         </dt>
         <dd>
             Betwixt uses <a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> for bean
-            reading. There are problems integrating the last release with custom digester rules. 
-            The CVS HEAD version of betwixt now supports this and so users who need to do this should 
-            upgrade.
+            reading. With care and knowledge of the way that Betwixt reads beans,
+            extra rules can be used to add custom functionality.
         </dd>
         <dt>
           <a name="bean-read-failure">

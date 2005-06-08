@@ -50,7 +50,7 @@
     
     <p>
     <strong>Note</strong> that the attribute and element names given in a .betwixt file (as usual)
-    override the name mapping settings on the <code>XMLIntrotrospector</code>.
+    override the name mapping settings on the <code>XMLIntrospector</code>.
     </p>
 
 <subsection name="Using A Custom Type Name To Element Name Mapping">
@@ -305,7 +305,7 @@ searching for an <code>add*</code> method that takes a single parameter, now Bet
 <subsection name="Caching and the XMLRegistry">
     
     <p>
-    Introspection is slow and so caching the results improves preformance. Though the writers 
+    Introspection is slow and so caching the results improves performance. Though the writers 
     and readers can - by nature - only be used safely in a single thread, a single 
     <code>XMLIntrospector</code> instance can be safely shared amongst multiple threads. Sharing a
     single instance will improve performance by sharing it's <code>XMLBeanInfo</code> cache.

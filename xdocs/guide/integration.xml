@@ -24,7 +24,7 @@
 
 <body>
 
-    <section name='Cocooon'>
+    <section name='Cocoon'>
         <p>
 <a href='http://cocoon.apache.org/'>Cocoon</a> is a web development framework (and more)
 built around component pipelines and XML. A transformer is available for Cocoon which 
