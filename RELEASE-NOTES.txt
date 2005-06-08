@@ -65,3 +65,6 @@ SEMANTIC CHANGES
 	by Betwixt. Please use an appropriate ClassNormalizer for implementations
 	that need to hide their extra properties.
 
+DEPENDENCIES
+ * Upgraded commons-beanutils to 1.7.0
+ * Upgraded commons-digester to 1.6
