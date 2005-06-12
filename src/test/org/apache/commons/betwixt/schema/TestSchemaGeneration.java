@@ -206,7 +206,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
         		"" +
         		"</xsd:schema>";
     
-         xmlAssertIsomorphicContent(parseString(xsd), parseString(expected));
+         xmlAssertIsomorphicContent(parseString(xsd), parseString(expected), true);
     }
     
 }

@@ -44,7 +44,7 @@ public class TestSharedIDGeneration extends AbstractTestCase {
         		"<person id='4'><name idref='3'/></person>" +
         		"</HybridBean>";
         
-        xmlAssertIsomorphic(parseString(expected), parseString(out));
+        xmlAssertIsomorphic(parseString(expected), parseString(out), true);
     }
     
 }

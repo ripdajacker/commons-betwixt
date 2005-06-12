@@ -82,7 +82,7 @@ public class TestWriteClass extends AbstractTestCase {
         		"<name>Sir Anthony Federick Blunt</name>" +
         		"</normal-person>";
         
-        xmlAssertIsomorphicContent("Expected secrets to be supressed", parseString(expected), parseString(out.toString()));
+        xmlAssertIsomorphicContent("Expected secrets to be supressed", parseString(expected), parseString(out.toString()), true);
 
     }
 }

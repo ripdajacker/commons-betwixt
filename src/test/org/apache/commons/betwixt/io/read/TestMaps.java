@@ -62,7 +62,7 @@ public class TestMaps extends AbstractTestCase {
             "<value>The Unready</value>" +
             "</entry>" +
             "</BeanWithConcreteMap>";
-        xmlAssertIsomorphicContent(parseString(expected), parseString(xml));
+        xmlAssertIsomorphicContent(parseString(expected), parseString(xml), true);
     }
 
     
@@ -140,7 +140,7 @@ public class TestMaps extends AbstractTestCase {
                 + "    </addressBookItems>\n"
                 + "  </AddressBook>\n";
     
-        assertEquals(xml, outputWriter.toString());
+        xmlAssertIsomorphicContent(parseString(xml), parseString(outputWriter.toString()), true);
         BeanReader reader = new BeanReader();
         reader.registerBeanClass(AddressBook.class);
         StringReader xmlReader = new StringReader(outputWriter.toString());
