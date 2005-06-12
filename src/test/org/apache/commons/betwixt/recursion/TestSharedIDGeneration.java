@@ -15,6 +15,8 @@
  */ 
 package org.apache.commons.betwixt.recursion;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
@@ -39,10 +41,30 @@ public class TestSharedIDGeneration extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.write(hybrid);
         
+        boolean isAlienBeforePerson = false;
+        PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(HybridBean.class).getPropertyDescriptors();
+        
+        for(int i=0; i<propertyDescriptors.length;i++) {
+             String methodName = propertyDescriptors[i].getName();
+             if ("alien".equals(methodName)) {
+                 isAlienBeforePerson = true;
+                 break;
+             } else if ("person".equals(methodName)) {
+                 isAlienBeforePerson = false;
+                 break;
+             }
+        }
         String expected = "<?xml version='1.0'?><HybridBean id='1'>" +
-        		"<alien id='2'><name id='3'><moniker>Me</moniker></name></alien>" +
-        		"<person id='4'><name idref='3'/></person>" +
+        		"<person id='2'><name id='3'><moniker>Me</moniker></name></person>" +
+        		"<alien id='4'><name idref='3'/></alien>" +
         		"</HybridBean>";
+        
+        if (isAlienBeforePerson) {
+            expected = "<?xml version='1.0'?><HybridBean id='1'>" +
+            "<alien id='2'><name id='3'><moniker>Me</moniker></name></alien>" +
+            "<person id='4'><name idref='3'/></person>" +
+            "</HybridBean>";
+        }
         
         xmlAssertIsomorphic(parseString(expected), parseString(out), true);
     }
