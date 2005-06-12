@@ -19,6 +19,7 @@ package org.apache.commons.betwixt.io.read;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,20 +49,43 @@ public class TestMaps extends AbstractTestCase {
         bean.addSomeThingy("Thorkell", "The Tall");
         writer.write(bean);
         String xml = out.getBuffer().toString();
-        String expected = "<?xml version='1.0'?><BeanWithConcreteMap>" +
-            "<entry>" +
-            "<key>Swein</key>" +
-            "<value>Forkbeard</value>" +
-            "</entry>" +
-            "<entry>" +
-            "<key>Thorkell</key>" +
-            "<value>The Tall</value>" +
-            "</entry>" +
-            "<entry>" +
-            "<key>Aethelred</key>" +
-            "<value>The Unready</value>" +
-            "</entry>" +
-            "</BeanWithConcreteMap>";
+        
+        StringBuffer buffer = new StringBuffer("<?xml version='1.0'?><BeanWithConcreteMap>");
+        for (Iterator it=bean.getSomeThingies().keySet().iterator(); it.hasNext();)
+        {
+            String key = (String) it.next();
+            if ("Aethelred".equals(key))
+            {
+                buffer.append(
+                        "<entry>" +
+                        "<key>Aethelred</key>" +
+                        "<value>The Unready</value>" +
+                        "</entry>");
+                
+            }
+            else if ("Swein".equals(key))
+            {
+                buffer.append(
+                        "<entry>" +
+                        "<key>Swein</key>" +
+                        "<value>Forkbeard</value>" +
+                        "</entry>");
+                
+            }
+            else if ("Thorkell".equals(key))
+            {
+                buffer.append(
+                        "<entry>" +
+                        "<key>Thorkell</key>" +
+                        "<value>The Tall</value>" +
+                        "</entry>");
+                
+            }
+        }
+        buffer.append("</BeanWithConcreteMap>");
+        
+        String expected = buffer.toString();
+        
         xmlAssertIsomorphicContent(parseString(expected), parseString(xml), true);
     }
 
