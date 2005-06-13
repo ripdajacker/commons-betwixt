@@ -75,7 +75,7 @@ public class ObjectStringConverter implements Serializable {
       * @param type the property class to be returned (if possible), not null
       * @param flavour a string allow symantic differences in formatting to be communicated
       * @param context the context, not null
-      * @deprecated 0.6.1 use {@link #stringToObject(String, Class, Context)} instead.
+      * @deprecated 0.7 use {@link #stringToObject(String, Class, Context)} instead.
       * The preferred way to support flavours is by setting the
       * <code>org.apache.commons.betwixt.FLAVOUR</code> option.
       * This can then be retrieved by calling {@link Context#getOptions()}
