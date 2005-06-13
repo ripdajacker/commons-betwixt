@@ -127,7 +127,7 @@ public class Schema {
      * Adds a new global complex type definition matching the given element descriptor.
      * If this element descriptor has already been mapped to a global type then 
      * that is returned.
-     * @since 0.6.1
+     * @since 0.7
      * @param configuration <code>TranscriptionConfiguration</code>, not null
      * @param elementDescriptor <code>ElementDescriptor</code>, not null
      * @return <code>GlobalComplexType</code>

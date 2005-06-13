@@ -1,20 +1,20 @@
 $Id$
 
                          Commons Betwixt Package
-                              Version 0.6.1
+                              Version 0.7
                               Release Notes
 
 INTRODUCTION:
 
 Betwixt provides a flexible way to map beans into XML - and vice versa.
 
-Betwixt 0.6.1 is a feature release. A number of new strategies have been 
+Betwixt 0.7 is a feature release. A number of new strategies have been 
 introduced to add flexibility. Improvements have been made to binding and 
 introspection including improved support for polymophism. Improvements have 
 been made to the dot betwixt file format including support for multiple 
 specifications within the same file.
 
-Betwixt 0.6.1 is binary compatible with 0.6 but a number of changes have been 
+Betwixt 0.7 is binary compatible with 0.6 but a number of changes have been 
 made to some semantics. It is believed that the impact of these changes should 
 be minimal. 
 

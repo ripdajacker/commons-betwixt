@@ -50,7 +50,7 @@ public abstract class ComplexType {
 
     /**
      * Fills the given descriptor
-     * @since 0.6.1
+     * @since 0.7
      * @param elementDescriptor
      * @param schema
      * @return @throws

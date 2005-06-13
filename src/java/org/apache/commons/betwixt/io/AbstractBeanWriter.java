@@ -184,7 +184,7 @@ public abstract class AbstractBeanWriter {
      * {@link #write(Object)}.
      * </p>
      * @see #write(Object) since the standard notes also apply
-     * @since 0.6.1
+     * @since 0.7
      * @param bean <code>Object</code> to be written as xml, not null
      * @param source <code>InputSource/code> containing an xml document
      * specifying the mapping to be used (in the usual way), not null

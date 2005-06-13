@@ -247,7 +247,7 @@ public class XMLIntrospector {
      * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
      * with the instance may be necessary. 
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @return <code>PolymorphicReferenceResolver</code>, not null
      */
     public PolymorphicReferenceResolver getPolymorphicReferenceResolver() {
@@ -267,7 +267,7 @@ public class XMLIntrospector {
      * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
      * with the instance may be necessary. 
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param polymorphicReferenceResolver The polymorphicReferenceResolver to set.
      */
     public void setPolymorphicReferenceResolver(
@@ -517,7 +517,7 @@ public class XMLIntrospector {
      * be registered by this method. Use {@link #register(Class, InputSource)}
      * instead.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param aClass <code>Class</code>, not null
      * @param source <code>InputSource</code>, not null
      * @return <code>XMLBeanInfo</code> describing the mapping.
@@ -603,7 +603,7 @@ public class XMLIntrospector {
      * <strong>Note:</strong> that this method will override any existing mapping
      * for the speficied classes.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param source <code>InputSource</code>, not null
      * @return <code>Class</code> array containing all mapped classes
      * @throws IntrospectionException
@@ -653,7 +653,7 @@ public class XMLIntrospector {
      * <strong>Note:</strong> that this method will override any existing mapping
      * for this class.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param aClass <code>Class</code>, not null
      * @param source <code>InputSource</code>, not null
      * @throws SAXException when the source cannot be parsed

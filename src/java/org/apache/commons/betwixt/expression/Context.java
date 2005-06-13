@@ -259,7 +259,7 @@ public class Context {
     /**
      * Gets the <code>ValueSuppressionStrategy</code>.
      * This is used to control the expression of attributes with certain values.
-     * @since 0.6.1
+     * @since 0.7
      * @return <code>ValueSuppressionStrategy</code>, not null
      */
     public ValueSuppressionStrategy getValueSuppressionStrategy() {
@@ -269,7 +269,7 @@ public class Context {
     /**
      * Sets the <code>ValueSuppressionStrategy</code>.
      * This is used to control the expression of attributes with certain values.
-     * @since 0.6.1
+     * @since 0.7
      * @param valueSuppressionStrategy <code>ValueSuppressionStrategy</code>, not null
      */
     public void setValueSuppressionStrategy(
@@ -279,7 +279,7 @@ public class Context {
     
     /**
      * Gets the strategy used to manage storage and retrieval of id's.
-     * @since 0.6.1
+     * @since 0.7
      * @return Returns the idStoringStrategy, not null
      */
     public IdStoringStrategy getIdMappingStrategy() {
@@ -290,7 +290,7 @@ public class Context {
      * Gets the current <code>Options</code>.
      * @return <code>Options</code> that currently apply
      * or null if there are no current options.
-     * @since 0.6.1
+     * @since 0.7
      */
     public Options getOptions() {
         Options results = null;
@@ -307,7 +307,7 @@ public class Context {
      * is called once the options are no longer current.
      * This ensures that the previous options are reinstated.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param options newly current <code>Options</code>, not null 
      */
     public void pushOptions(Options options) {
@@ -321,7 +321,7 @@ public class Context {
      * </p><p>
      * <stong>Note</strong> code calling this method should
      * have previsouly called {@link #popOptions}.
-     * @since 0.6.1
+     * @since 0.7
      */
     public void popOptions() {
         if (optionStack.isEmpty()) {

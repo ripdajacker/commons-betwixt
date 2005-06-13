@@ -70,7 +70,7 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
      * first suitable match. 
      * If a suitable one is found, then the class of that info is used. 
      * @see org.apache.commons.betwixt.registry.PolymorphicReferenceResolver#resolveType(org.apache.commons.betwixt.io.read.ElementMapping, org.apache.commons.betwixt.io.read.ReadContext)
-     * @since 0.6.1
+     * @since 0.7
      */
     public Class resolveType(ElementMapping mapping, ReadContext context) {
         Class result = null;

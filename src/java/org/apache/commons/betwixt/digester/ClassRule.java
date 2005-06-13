@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Digester Rule to process class elements.
- * @since 0.6.1
+ * @since 0.7
  * @author Brian Pugh
  */
 public class ClassRule extends RuleSupport {

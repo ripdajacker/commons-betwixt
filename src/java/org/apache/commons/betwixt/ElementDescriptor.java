@@ -572,7 +572,7 @@ public class ElementDescriptor extends NodeDescriptor {
     
     /**
      * Sets whether the element described is a collective.
-     * @since 0.6.1
+     * @since 0.7
      * @param isCollectiveType
      */
     public void setCollective(boolean isCollectiveType) {
@@ -653,7 +653,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * introspection time type (based on the logical type of the property)
      * or the bind time type (based on the type of the actual instance).
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @return true if the bind time type is to be used to determine the mapping,
      * false if the introspection time type is to be used
      */
@@ -675,7 +675,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * So, the first time that this method is called the value will be set
      * but subsequent calls will be ignored.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @param useBindTimeTypeForMapping true if the bind time type is to be used to 
      * determine the mapping, false if the introspection time type is to be used
      */
@@ -691,7 +691,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * A polymorphic element's name is not fixed at 
      * introspection time and it's resolution is postponed to bind time.
      * </p>
-     * @since 0.6.1
+     * @since 0.7
      * @return true if {@link #getQualifiedName} is null, 
      * false otherwise
      */

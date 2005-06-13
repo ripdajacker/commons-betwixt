@@ -91,7 +91,7 @@ public class ObjectStringConverter implements Serializable {
       * This basic implementation returns object.toString() 
       * or an empty string if the given object is null.
       *
-      * @since 0.6.1
+      * @since 0.7
       * @param object the object to be converted, possibly null
       * @param type the property class of the object, not null
       * @param context the context, not null
@@ -108,7 +108,7 @@ public class ObjectStringConverter implements Serializable {
       * the string to the given class type.
       * This basic implementation just returns a string.
       * 
-      * @since 0.6.1
+      * @since 0.7
       * @param value the String to be converted
       * @param type the property class to be returned (if possible), not null
       * @param context the context, not null

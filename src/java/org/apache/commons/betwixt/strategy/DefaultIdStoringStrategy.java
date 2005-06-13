@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.expression.Context;
  * returns it on request.
  * 
  * @author <a href="mailto:christian@wilde-welt.de">Christian Aust </a>
- * @since 0.6.1
+ * @since 0.7
  */
 public class DefaultIdStoringStrategy extends IdStoringStrategy {
     private Map idByBeanMap;

@@ -136,7 +136,7 @@ public class BindingConfiguration implements Serializable {
     /**
      * Gets the <code>ValueSuppressionStrategy</code>.
      * This is used to control the expression of attributes with certain values.
-     * @since 0.6.1
+     * @since 0.7
      * @return <code>ValueSuppressionStrategy</code>, not null
      */
     public ValueSuppressionStrategy getValueSuppressionStrategy() {
@@ -146,7 +146,7 @@ public class BindingConfiguration implements Serializable {
     /**
      * Sets the <code>ValueSuppressionStrategy</code>.
      * This is used to control the expression of attributes with certain values.
-     * @since 0.6.1
+     * @since 0.7
      * @param valueSuppressionStrategy <code>ValueSuppressionStrategy</code>, not null
      */
     public void setValueSuppressionStrategy(
@@ -157,7 +157,7 @@ public class BindingConfiguration implements Serializable {
     /**
      * Gets the strategy used to manage storage and retrieval of id's.
      * 
-     * @since 0.6.1
+     * @since 0.7
      * @return Returns the <code>IdStoringStrategy</code>, not null
      */
     public IdStoringStrategy getIdMappingStrategy() {
@@ -167,7 +167,7 @@ public class BindingConfiguration implements Serializable {
     /**
      * Sets the strategy used to manage storage and retrieval of id's.
      * 
-     * @since 0.6.1
+     * @since 0.7
      * @param idMappingStrategy
      *            <code>IdStoringStrategy</code> to be set, not null
      */

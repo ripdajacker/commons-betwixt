@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.expression.Context;
  * references without ever being fully mapped.
  * 
  * @author <a href="mailto:christian@wilde-welt.de">Christian Aust </a>
- * @since 0.6.1
+ * @since 0.7
  */
 public abstract class IdStoringStrategy {
 

@@ -188,7 +188,7 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='0.6.1'>
+    <subsection name='0.7'>
         <ul>
             <li>Fixed bug in nested element diagnosing empty elements.
             </li>
@@ -347,7 +347,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
-	<subsection name='0.6.1'>
+	<subsection name='0.7'>
 		<ul>
 			<li>ObjectStringConverter direct flavour replaced with use of options
 				<ul>
@@ -459,7 +459,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
-    <subsection name='0.6.1'>
+    <subsection name='0.7'>
         <ul>
         </ul>
     </subsection>
@@ -469,7 +469,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Semantic Changes'>
-    <subsection name='0.6.1'>
+    <subsection name='0.7'>
         <ul>
             <li>
 Betwixt now (by default) suppresses the expression of all empty attributes.
@@ -566,7 +566,7 @@ that need to hide their extra properties.
     </subsection>
 </section>
 	<section name='Dependencies'>
-		<subsection name='0.6.1'>
+		<subsection name='0.7'>
             <p>
                 <ul>
                     <li>

@@ -92,7 +92,7 @@ public class MethodUpdater extends TypedUpdater {
 
     /**
      * Updates the bean by method invocation.    
-     * @since 0.6.1
+     * @since 0.7
      */
     protected void executeUpdate(Context context, Object bean, Object newValue) throws Exception {
         if ( log.isDebugEnabled() ) {

@@ -21,7 +21,7 @@ import java.util.Collection;
  * Pluggable strategy specifying whether property's should be surpressed.
  * Implementations can be used to give rules about which properties 
  * should be ignored by Betwixt when introspecting.
- * @since 0.6.1
+ * @since 0.7
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class PropertySuppressionStrategy {
