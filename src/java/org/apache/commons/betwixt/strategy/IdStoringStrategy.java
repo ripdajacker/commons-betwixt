@@ -41,7 +41,7 @@ public abstract class IdStoringStrategy {
      * Retrieves a reference for the given instance.
      * If a not null value is returned from this method,
      * then the bean content will not be written.
-     * Use {@link IDGenerator} strategy to vary the values
+     * Use {@link org.apache.commons.betwixt.io.IDGenerator} strategy to vary the values
      * written for a bean.
      * 
      * @param context

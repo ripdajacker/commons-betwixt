@@ -141,7 +141,7 @@ public class BeanProperty {
      * Go through and work out whether it's a loop property, a primitive or a standard.
      * The class property is ignored.
      *
-     * @param beanProperty the BeanProperty specifying the property
+     * @param configuration <code>IntrospectionConfiguration</code>, not null
      * @return a correctly configured <code>NodeDescriptor</code> for the property
      */
     public Descriptor createXMLDescriptor( IntrospectionConfiguration configuration ) {

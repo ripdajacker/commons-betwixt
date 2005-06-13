@@ -43,7 +43,7 @@ public class Options {
     
     /**
      * Gets the names of each option.
-     * @return 
+     * @return <code>String</code> array containing the name of each option
      */
     public String[] getNames() {
         Set names = valuesByName.keySet();

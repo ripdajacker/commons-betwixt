@@ -105,7 +105,7 @@ public class TestConversionFlavour extends AbstractTestCase {
                 "        </mapped>" +
                 "        </alpha>";
          
-        xmlAssertIsomorphicContent(parseString(xml), parseString(out));
+        xmlAssertIsomorphicContent(parseString(xml), parseString(out), true);
     }
     
 

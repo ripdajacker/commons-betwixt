@@ -28,13 +28,13 @@
             <p>
 A <strong>DynaBean</strong> is a pseudo-bean whose properties may differ between instances of the same Class.
 Pseudo-introspection of the available properties uses a pseudo-class of type DynaClass.
-For more details see <a href='http://jakarta.apache.org/commons/beanutils.html'>BeanUtils</a>.
+For more details see <a href='http://jakarta.apache.org/commons/beanutils/index.html'>BeanUtils</a>.
                 </p>
             <p>
-Betwixt now supports the (correct) writing of objects implementating DynaBean. Rather than using standard
+Betwixt now supports the (correct) writing of objects implementing DynaBean. Rather than using standard
 introspection for these objects, <code>Betwixt</code> now interrogates the DynaClass. Using .betwixt files
-with DynaBeans is not yet supported and special behaviour of DynaBeans can be overridden by specifying a 
-.betwixt file.
+with DynaBeans is not yet supported. The special behaviour of DynaBean classes will be overridden when a
+.betwixt file is present.
                 </p>
     </subsection>
         <subsection name='Writing Entity Beans'>
@@ -42,7 +42,7 @@ with DynaBeans is not yet supported and special behaviour of DynaBeans can be ov
 Entity beans are a kind of Enterprise Java Bean. For more details see the
 <a href='http://java.sun.com/j2ee/'>J2EE</a> specification. They are a common way to persist data.
 When dealing with an entity bean, you usually deal with the remote interface rather than the
-concrete implementation. There is no gaurantee that the class presented by the container will be
+concrete implementation. There is no guarantee that the class presented by the container will be
 the class your created to provide the bean's functionality. 
 Indeed, <code>Proxy</code> implementations are 
 one common way in which the remote interfaces are implemented. 

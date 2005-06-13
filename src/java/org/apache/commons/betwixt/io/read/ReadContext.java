@@ -319,7 +319,7 @@ public class ReadContext extends Context {
 
 	/**
 	 * Pops an action mapping from the stack
-	 * @return
+	 * @return <code>MappingAction</code>, not null
 	 */
 	public MappingAction popMappingAction() {
 		return (MappingAction) actionMappingStack.pop();
@@ -358,7 +358,7 @@ public class ReadContext extends Context {
     /**
      * Pops the last mapping <code>Object</code> from the 
      * stack containing beans that have been mapped.
-     * @return 
+     * @return the last bean pushed onto the stack
      */
 	public Object popBean() {
 		return objectStack.pop();
@@ -375,7 +375,7 @@ public class ReadContext extends Context {
     /**
      * Gets the <code>XMLIntrospector</code> to be used to create
      * the mappings for the xml.
-     * @return <code>XMLIntrospector, not null
+     * @return <code>XMLIntrospector</code>, not null
      */
 	public XMLIntrospector getXMLIntrospector() {
         // read context is not intended to be used by multiple threads

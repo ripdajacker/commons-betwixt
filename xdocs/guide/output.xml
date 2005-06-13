@@ -18,14 +18,14 @@
 <document>
 
  <properties>
-  <title>Outputing Results</title>
+  <title>Outputting Results</title>
   <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
  </properties>
 
 <body>
-<section name='Outputing Results (Of Bean Writing)'>
+<section name='Outputting Results (Of Bean Writing)'>
         <p>
-Betwixt is flexible when it comes to outputing the results of bean writing.
+Betwixt is flexible when it comes to outputting the results of bean writing.
 The abstract <code>AbstractBeanWriter</code> class provides a basic framework
 with an implementation API inspired by <a href='http://www.saxproject.org/'>SAX</a>.
 Betwixt ships with writers that support SAX and textual streams
@@ -34,7 +34,7 @@ but others can be created with relative ease.
 </section>
 <section name='Pushing Results to a Textual Stream'>
         <p>
-<code>BeanWriter</code> push results to a textual stream. This can be used
+<code>BeanWriter</code> pushes results to a textual stream. This can be used
 to efficiently push content through a socket or just to create a simple String.
 Note that only document fragments are created so you may need to append any
 prologs before writing the bean.
@@ -121,7 +121,7 @@ For example, the following betwixt file fragment encodes the
 </section>
 <section name='Pushing Results to SAX'>
         <p>
-<code>SAXBeanWriter</code> push results to a SAX content handler. 
+<code>SAXBeanWriter</code> pushes events to a SAX content handler. 
 This allows Betwixt to efficiently participate as a content generator
 in SAX-based pipelines such as <a href='http://cocoon.apache.org/'>cocoon</a>.
     </p>

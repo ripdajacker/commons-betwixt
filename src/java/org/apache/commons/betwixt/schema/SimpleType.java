@@ -29,7 +29,7 @@ public class SimpleType {
 	
     /**
      * Gets the name
-     * @return
+     * @return the name of this type
      */
     public String getName() {
         return name;
@@ -37,7 +37,7 @@ public class SimpleType {
 
     /**
      * Sets the name
-     * @param string
+     * @param name
      */
     public void setName(String name) {
         this.name = name;

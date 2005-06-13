@@ -50,7 +50,7 @@
     
     <p>
     <strong>Note</strong> that the attribute and element names given in a .betwixt file (as usual)
-    override the name mapping settings on the <code>XMLIntrotrospector</code>.
+    override the name mapping settings on the <code>XMLIntrospector</code>.
     </p>
 
 <subsection name="Using A Custom Type Name To Element Name Mapping">
@@ -305,7 +305,7 @@ searching for an <code>add*</code> method that takes a single parameter, now Bet
 <subsection name="Caching and the XMLRegistry">
     
     <p>
-    Introspection is slow and so caching the results improves preformance. Though the writers 
+    Introspection is slow and so caching the results improves performance. Though the writers 
     and readers can - by nature - only be used safely in a single thread, a single 
     <code>XMLIntrospector</code> instance can be safely shared amongst multiple threads. Sharing a
     single instance will improve performance by sharing it's <code>XMLBeanInfo</code> cache.
@@ -581,7 +581,7 @@ their type.
 
         <subsection name='Using ConvertUtils To Customize Conversion Of Primitives'>
             <p>
-<code>ConvertUtils</code> is part of <a href='http://jakarta.apache.org/commons/beanutils.html'>commons-beanutils</a>
+<code>ConvertUtils</code> is part of <a href='http://jakarta.apache.org/commons/beanutils/index.html'>commons-beanutils</a>
 and it can be used to flexibly convert strings to objects and back again. By default, Betwixt uses ConvertUtils to 
 perform these conversions and so standard <code>ConvertUtils</code> methods can be called to customize these 
 conversions.
@@ -596,7 +596,7 @@ customize this process.
         </p>
             <p>
 The default strategy uses <code>ConvertUtils</code> from  
-<a href='http://jakarta.apache.org/commons/beanutils.html'>commons-beanutils</a> to perform these conversions.
+<a href='http://jakarta.apache.org/commons/beanutils/index.html'>commons-beanutils</a> to perform these conversions.
 This is a powerful component that allows flexible customization of the conversion process.
         </p>
             <p>

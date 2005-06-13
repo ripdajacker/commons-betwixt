@@ -564,14 +564,28 @@ that need to hide their extra properties.
             </li>
         </ul>
     </subsection>
-        <subsection name='Dependencies'>
+</section>
+	<section name='Dependencies'>
+		<subsection name='0.6.1'>
             <p>
                 <ul>
                     <li>
-Upgraded <code>commons-beanutils</code> to <code>1.6.1</code>.
+Upgraded <code>commons-beanutils</code> to <code>1.7.0</code>.
                 </li>
                     <li>
-Upgraded <code>commons-digester</code> to <code>1.5</code>.
+Upgraded <code>commons-digester</code> to <code>1.6</code>.
+                </li>
+            </ul>
+        </p>
+    </subsection>
+	<subsection name='0.5'>
+            <p>
+                <ul>
+                    <li>
+Upgraded <code>commons-beanutils</code> to <code>1.6.1</code>
+                </li>
+                    <li>
+Upgraded <code>commons-digester</code> to <code>1.5</code>
                 </li>
             </ul>
         </p>

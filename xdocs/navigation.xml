@@ -38,15 +38,15 @@
       <item name="Community" href="/community.html"/>
       <item name="Powered By" href="/powered.html"/>
       <item name="Tasks" href="/tasks.html"/>
-      <item name="SVN" href="http://svn.apache.org/viewcvs/jakarta-commons/betwixt/"/>
-      <!--item name="Javadoc (CVS latest)" href="apidocs/index.html"/-->
+      <item name="View SVN" href="http://svn.apache.org/viewcvs.cgi/jakarta/commons/proper/betwixt/trunk/"/>
+      <item name="SVN" href="http://svn.apache.org/repos/asf/jakarta/commons/proper/betwixt/"/>
     </menu>
     <menu name="User guide">
       <item name="Getting Started"         href="/guide/start.html"/>
       <item name="Binding Beans"           href="/guide/binding.html"/>
       <item name="Derived Bindings"        href="/guide/derived.html"/>
       <item name="Writing Beans(Advanced)" href="/guide/writing.html"/>
-      <item name="Outputing The Results"   href="/guide/output.html"/>
+      <item name="Outputting The Results"   href="/guide/output.html"/>
       <item name="Reading Beans(Advanced)" href="/guide/reading.html"/>
       <item name="Integrating" 	           href="/guide/integration.html"/>
       <item name="Examples"                href="/guide/examples.html"/>

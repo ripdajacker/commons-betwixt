@@ -18,7 +18,7 @@
   <pomVersion>3</pomVersion>
   <name>Betwixt</name>
   <id>commons-betwixt</id>
-  <currentVersion>0.6.1</currentVersion>
+  <currentVersion>0.6.1RC3</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
@@ -69,14 +69,14 @@
 
   <versions>
     <version>
-      <id>0.6</id>
-      <name>0.6</name>
-      <tag>BETWIXT_0_6</tag>
-    </version>
-    <version>
       <id>0.5</id>
       <name>0.5</name>
       <tag>BETWIXT_0_5</tag>
+    </version>
+    <version>
+      <id>0.6</id>
+      <name>0.6</name>
+      <tag>BETWIXT_0_6</tag>
     </version>
   </versions>
 
@@ -142,7 +142,7 @@
     <dependency>
       <id>commons-logging</id>
       <version>1.0.2</version>
-      <url>http://jakarta.apache.org/commons/logging.html</url>
+      <url>http://jakarta.apache.org/commons/logging/</url>
     </dependency>
 
     <dependency>
@@ -150,7 +150,7 @@
       <typeId>jar</typeId>
       <artifactId>commons-beanutils-core</artifactId>
       <version>1.7.0</version>
-      <url>http://jakarta.apache.org/commons/beanutils.html</url>
+      <url>http://jakarta.apache.org/commons/beanutils/</url>
     </dependency>
     
     <dependency>
@@ -158,7 +158,7 @@
       <typeId>jar</typeId>
       <artifactId>commons-digester</artifactId>
       <version>1.6</version>
-      <url>http://jakarta.apache.org/commons/digester.html</url>
+      <url>http://jakarta.apache.org/commons/digester/</url>
     </dependency>
 
 <!-- runtime dependencies only required for testing and sample programs -->
@@ -206,6 +206,13 @@
             </resources>
         </unitTest>
         <resources>
+        	<resource>
+        		<directory>${basedir}</directory>
+        		<targetPath>META-INF</targetPath>
+        		<includes>
+        			<include>NOTICE.txt</include>
+        		</includes>
+        	</resource>
             <resource>
                 <directory>${pom.build.sourceDirectory}</directory>
                 <includes>
@@ -217,15 +224,19 @@
   	
 
   <reports>
+  	<!--
+  	These reports will be inaccurate until ASF wide conversion to SVN is completed
   	<report>maven-changelog-plugin</report>
    	<report>maven-changes-plugin</report>
     <report>maven-developer-activity-plugin</report>
     <report>maven-file-activity-plugin</report>
+    -->
     <report>maven-javadoc-plugin</report>
     <report>maven-jdepend-plugin</report>
     <report>maven-junit-report-plugin</report>
     <report>maven-jxr-plugin</report>
     <report>maven-license-plugin</report>
     <report>maven-tasklist-plugin</report>
+    <!-- Slow but useful when checking releases <report>maven-linkcheck-plugin</report>-->
   </reports>
 </project>

@@ -23,7 +23,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * <p>Encodes body content.
  * </p><p>
  * <strong>Usage:</strong> 
- * Used by {@link BeanWriter} to encode body content before it is written
+ * Used by {@link org.apache.commons.betwixt.io.BeanWriter} to encode body content before it is written
  * into the textual output.
  * This gives flexibility in this stage allowing (for example)
  * some properties to use character escaping whilst others 

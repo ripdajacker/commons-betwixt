@@ -290,12 +290,14 @@ public class BeanWriter extends AbstractBeanWriter {
     }
     
     /**
-     * Should an end tag be added for each empty element?
+     * <p>Should an end tag be added for each empty element?
+     * </p><p>
      * When this property is false then empty elements will
      * be written as <code>&lt;<em>element-name</em>/gt;</code>.
      * When this property is true then empty elements will
      * be written as <code>&lt;<em>element-name</em>gt;
      * &lt;/<em>element-name</em>gt;</code>.
+     * </p>
      * @return true if an end tag should be added
      */
     public boolean isEndTagForEmptyElement() {
@@ -303,7 +305,7 @@ public class BeanWriter extends AbstractBeanWriter {
     }
     
     /**
-     * Sets when an an end tag be added for each empty element?
+     * Sets when an an end tag be added for each empty element.
      * When this property is false then empty elements will
      * be written as <code>&lt;<em>element-name</em>/gt;</code>.
      * When this property is true then empty elements will

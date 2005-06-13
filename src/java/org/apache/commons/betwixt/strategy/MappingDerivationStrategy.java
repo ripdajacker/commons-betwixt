@@ -31,6 +31,7 @@ package org.apache.commons.betwixt.strategy;
  * use bind time type mapping) and then dot betwixt files to provide
  * refinements.
  * </p>
+ * @since 0.6.1
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, 
  * <a href='http://www.apache.org'>Apache Software Foundation</a>
  */

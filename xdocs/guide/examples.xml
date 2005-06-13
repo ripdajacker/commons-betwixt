@@ -32,7 +32,7 @@
     xml and back again. A round trip, no less!
     </p>
     <p>
-    In order to run these simple examples, the classpath needs to contain Betwixt and all it's 
+    In order to run these simple examples, the classpath needs to contain Betwixt and all its 
     <a href='../dependencies'>dependencies</a>. Note that any 
     <a href='http://java.sun.com/xml/jaxp/index.html'>JAXP (1.1 or later)</a> compliant parser 
     can be used to replace xerces and xml-apis. JUnit is not required to run betwixt (but is needed

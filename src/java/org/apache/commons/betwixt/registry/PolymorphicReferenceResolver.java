@@ -26,13 +26,14 @@ import org.apache.commons.betwixt.io.read.ReadContext;
  * When the xml is read, the type can then resolved from 
  * by calling {@link #resolveType}.
  * </p>
+ * @since 0.6.1
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
  */
 public interface PolymorphicReferenceResolver {
 
     /**
      * Resolves the bind-time type of a polymorphic element.
-     * @param descriptor <code>ElementMapping</code> describing the (polymorphic) element being mapped,
+     * @param mapping <code>ElementMapping</code> describing the (polymorphic) element being mapped,
      * not null
      * @param context <code>ReadContext</code>, not null
      * @return the <code>Class</code> describing the type to which this element should be bound,

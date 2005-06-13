@@ -57,7 +57,7 @@ public final class RandomIDGenerator extends AbstractIDGenerator {
     }
     
     /** 
-      * <p>Generates a random <code>ID</code><p>
+      * <p>Generates a random <code>ID</code>.</p>
       * 
       * <p>If the <code>PositiveIds</code> property is true, 
       * then this method will recursively call itself if the random

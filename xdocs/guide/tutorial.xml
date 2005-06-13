@@ -44,7 +44,7 @@ So, the place we'll start is with an
 object model</a> for 
 RSS 0.91. This was originally created for 
 <a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> 
-by Craig R. McClanahan and Ted Husted with a few ammendments for this tutorial.
+by Craig R. McClanahan and Ted Husted with a few amendments for this tutorial.
 There are only four main objects in the model: 
     </p>
         <ul>

@@ -65,7 +65,7 @@ public class GlobalElement implements Element {
 
     /**
      * Gets the element type
-     * @return
+     * @return the type of the element
      */
     public String getType() {
         return type;

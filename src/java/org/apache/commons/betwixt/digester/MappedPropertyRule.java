@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
   * Maybe a lot of this should be moved into <code>BeanUtils</code>.</p>
   *
   * @author Robert Burrell Donkin
-  * @sinec 0.5
+  * @since 0.5
   */
 public abstract class MappedPropertyRule extends RuleSupport {
 

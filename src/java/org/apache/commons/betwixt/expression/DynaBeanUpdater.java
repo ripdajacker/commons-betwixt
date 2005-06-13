@@ -20,6 +20,7 @@ import org.apache.commons.beanutils.DynaProperty;
 
 /**
  * Updates <code>DynaBean</code>'s.
+ * @since 0.6.1
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class DynaBeanUpdater extends TypedUpdater {
@@ -50,7 +51,7 @@ public class DynaBeanUpdater extends TypedUpdater {
     
     /**
      * Executes the update on the given code>DynaBean</code>
-     * @see org.apache.commons.betwixt.expression.TypedUpdater#executeUpdate(java.lang.Object, java.lang.Object)
+     * @see org.apache.commons.betwixt.expression.TypedUpdater#executeUpdate(Context, java.lang.Object, java.lang.Object)
      */
     protected void executeUpdate(Context context, Object bean, Object value) throws Exception {
         if (bean instanceof DynaBean)

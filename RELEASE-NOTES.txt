@@ -1,7 +1,7 @@
 $Id$
 
                          Commons Betwixt Package
-                               Version 0.6
+                              Version 0.6.1
                               Release Notes
 
 INTRODUCTION:
@@ -18,4 +18,53 @@ Betwixt 0.6.1 is binary compatible with 0.6 but a number of changes have been
 made to some semantics. It is believed that the impact of these changes should 
 be minimal. 
 
-For more details see the tasks document.
+For more details see the tasks and change log documents.
+
+ENHANCEMENTS AND BUG FIXES
+ * 	Fixed bug in nested element diagnosing empty elements.
+ * 	Added support for polymorphic mappings. 
+    This allows the type of a property to be guessed at bind time
+    (rather than at compile time).
+ *	Added options to context. This replaces direct flavour mechanism. 
+   	(Flavour becomes just a specific option).
+ * 	Factored out id storage into strategy
+ *	anonymous collections now allowed in betwixt files
+ *	Improved introspection support for DynaBeans
+ *	Improved introspection for interfaces superinterface 
+    properties now checked.
+ *	Attribute suppression - Betwixt now allows the 
+    expression of certain values to be suppressed through a custom strategy.
+ *	Custom Dot Betwixt Documents - custom dot betwixt
+    documents can be passed in directly.
+ *	Multi mapping documents allowing several mappings to be
+    specified within a single document.
+ *	Improved support for derived beans bind time type
+    population now supported and enabled by default
+ *	All exceptions are now complex
+ *	PropertySuppressionStrategy added which allows 
+    course grained control of those properties which should be ignored by Betwixt.
+ *	Improved support for java.util collections API implementations.
+    Betwixt now recognizes additional properties on custom collection implementations.
+
+DEPRECATIONS
+ * 	ObjectStringConverter.objectToString replaced by method without flavour in signature 
+ * 	ObjectStringConverter.stringToObject replaced by method without flavour in signature
+
+SEMANTIC CHANGES
+ * 	Betwixt now (by default) suppresses the expression of all empty attributes.
+	The old behaviour can be restored by setting the ValueSuppressionStrategy
+	of the BindingConfiguration used by the writer to 
+	ValueSuppressionStrategy.ALLOW_ALL_VALUES
+ * 	Betwixt now defaults to bind time type mapping. Now read beans will (by default)
+	be populated by their bind time type (as opposed to their introspection time type).
+	Most users should notice no negative effects from this change. The previous behaviour
+	can be enabled by setting an introspection configuration property.
+ * 	All exceptions are now complex types. This is now more consistent but the default
+	binding for exceptions in java.lang package have been changed from simple to complex.
+ * 	Properties on collection implementations are now recognized (rather than ignored)
+	by Betwixt. Please use an appropriate ClassNormalizer for implementations
+	that need to hide their extra properties.
+
+DEPENDENCIES
+ * Upgraded commons-beanutils to 1.7.0
+ * Upgraded commons-digester to 1.6

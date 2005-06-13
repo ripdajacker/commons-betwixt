@@ -247,6 +247,7 @@ public class XMLIntrospector {
      * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
      * with the instance may be necessary. 
      * </p>
+     * @since 0.6.1
      * @return <code>PolymorphicReferenceResolver</code>, not null
      */
     public PolymorphicReferenceResolver getPolymorphicReferenceResolver() {
@@ -266,6 +267,7 @@ public class XMLIntrospector {
      * is called. Therefore, a call to {@link #setPolymorphicReferenceResolver(PolymorphicReferenceResolver)}
      * with the instance may be necessary. 
      * </p>
+     * @since 0.6.1
      * @param polymorphicReferenceResolver The polymorphicReferenceResolver to set.
      */
     public void setPolymorphicReferenceResolver(
@@ -515,6 +517,7 @@ public class XMLIntrospector {
      * be registered by this method. Use {@link #register(Class, InputSource)}
      * instead.
      * </p>
+     * @since 0.6.1
      * @param aClass <code>Class</code>, not null
      * @param source <code>InputSource</code>, not null
      * @return <code>XMLBeanInfo</code> describing the mapping.
@@ -600,6 +603,7 @@ public class XMLIntrospector {
      * <strong>Note:</strong> that this method will override any existing mapping
      * for the speficied classes.
      * </p>
+     * @since 0.6.1
      * @param source <code>InputSource</code>, not null
      * @return <code>Class</code> array containing all mapped classes
      * @throws IntrospectionException
@@ -649,6 +653,7 @@ public class XMLIntrospector {
      * <strong>Note:</strong> that this method will override any existing mapping
      * for this class.
      * </p>
+     * @since 0.6.1
      * @param aClass <code>Class</code>, not null
      * @param source <code>InputSource</code>, not null
      * @throws SAXException when the source cannot be parsed
@@ -828,17 +833,16 @@ public class XMLIntrospector {
      * called multiple times. This is relatively expensive and so it'd be better
      * to push into a proper class and cache.
      * <br>
-     * TODO this probably does work properly with DynaBeans: need to push
-     * implementation into an class and expose it on BeanType.
-     *
-     * @param introspector use this <code>XMLIntrospector</code> for introspection
+     * 
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
      */
     public void defaultAddMethods( 
                                             ElementDescriptor rootDescriptor, 
                                             Class beanClass ) {
-                                              
+        // TODO: this probably does work properly with DynaBeans: need to push
+        // implementation into an class and expose it on BeanType.  
+        
         // lets iterate over all methods looking for one of the form
         // add*(PropertyType)
         if ( beanClass != null ) {
@@ -1392,12 +1396,13 @@ public class XMLIntrospector {
     
     /** 
      * Is this class a primitive?
-     * TODO: this method will probably be deprecated when primitive types
-     * are subsumed into the simple type concept 
+     * 
      * @param type the Class to test
      * @return true for primitive types 
      */
     public boolean isPrimitiveType(Class type) {
+        // TODO: this method will probably be deprecated when primitive types
+        // are subsumed into the simple type concept 
         TypeBindingStrategy.BindingType bindingType 
 			= configuration.getTypeBindingStrategy().bindingType( type ) ;
         boolean result = (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));

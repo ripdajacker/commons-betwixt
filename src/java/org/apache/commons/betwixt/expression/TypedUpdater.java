@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
  * Abstracts common features for strongly typed <code>Updater</code>'s.
  * Strongly type <code>Updater</code>'s perform conversions based on this
  * the expected type before the bean update is invoked.
+ * @since 0.6.1
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class TypedUpdater implements Updater {

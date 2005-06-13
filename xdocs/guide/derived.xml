@@ -26,7 +26,7 @@
 <section name='Derived Beans'>
         <subsection name='What Is A Derived Bean?'>
             <p>
-A derived bean is one which runtime class differs from the mapped property type
+A derived bean is one whose runtime class differs from the mapped property type
 (as determined during introspection).
                 </p>
     </subsection>   

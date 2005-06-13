@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project default="java:jar" xmlns:j="jelly:core">
+<project default="jar:jar" xmlns:j="jelly:core">
 
   <!-- ================================================================== -->
   <!-- START : C O M M O N S - B U I L D                                  -->
@@ -50,19 +50,23 @@
     
     <copy todir="${maven.dist.bin.assembly.dir}">
       <fileset file='${basedir}/RELEASE-NOTES.txt'/>
+      <fileset file='${basedir}/NOTICE.txt'/>
     </copy>
 
   </preGoal>
   
   <preGoal name="dist:build-src">
-    
     <copy todir="${maven.dist.src.assembly.dir}">
-      <fileset file='${basedir}/RELEASE-NOTES.txt'/>
+        <fileset dir="${basedir}">
+            <include name="NOTICE.txt"/>
+            <include name="RELEASE-NOTES.txt"/>
+        </fileset>
     </copy>
 
+    <move todir="${maven.dist.src.assembly.dir}-src">
+      <fileset dir="${maven.dist.src.assembly.dir}"/>
+    </move>
   </preGoal>
-
-
 
   <goal name="test:classpath" prereqs="java:compile, test:compile"
         description="Compiles the tests and sets the testing classpath">

@@ -70,7 +70,7 @@ public class ListedClassNormalizer extends ClassNormalizer {
     
     /**
       * Adds the given substitute to the list.
-      * This is a convenience method useful when {@link isStrickCheck} is false.
+      * This is a convenience method useful when {@link #isStrickCheck} is false.
       * In this case, any subclasses (if this is a class) or implementating classes
       * if this is an interface) will be subsituted with this value.
       * @param substitute sustitude this Class

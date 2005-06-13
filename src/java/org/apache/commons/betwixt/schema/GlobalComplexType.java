@@ -48,6 +48,7 @@ public class GlobalComplexType extends ComplexType {
 
     /**
      * Fills the complex type description.
+     * @since 0.6.1
      * @param configuration
      * @param elementDescriptor
      * @param schema
@@ -65,6 +66,7 @@ public class GlobalComplexType extends ComplexType {
     
     /**
      * Does the given element descriptor match this complex type?
+     * @since 0.6.1
      * @param elementDescriptor
      * @return true if the descriptor matches
      */
@@ -75,7 +77,7 @@ public class GlobalComplexType extends ComplexType {
     
 	/**
      * Gets the name of this type.
-     * @return
+     * @return the name of this type
      */
     public String getName() {
         return name;
