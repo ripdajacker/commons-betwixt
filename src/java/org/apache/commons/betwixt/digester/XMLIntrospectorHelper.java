@@ -551,7 +551,7 @@ public class XMLIntrospectorHelper {
      *
      * @param type is this <code>Class</code> a loop type?
      * @return true if the type is a loop type, or if type is null 
-     * @deprecated 0.6.1 replaced by {@link org.apache.commons.betwixt.IntrospectionConfiguration#isLoopType(Class)}
+     * @deprecated 0.7 replaced by {@link org.apache.commons.betwixt.IntrospectionConfiguration#isLoopType(Class)}
      */
     public static boolean isLoopType(Class type) {
         // check for NPEs
