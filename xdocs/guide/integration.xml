@@ -29,7 +29,7 @@
 <a href='http://cocoon.apache.org/'>Cocoon</a> is a web development framework (and more)
 built around component pipelines and XML. A transformer is available for Cocoon which 
 allows Betwixt to be plugged into these pipelines.
-See the <a href='http://wiki.cocoondev.org/Wiki.jsp?page=BetwixtTransformer'>CocoonWiki</a> 
+See the <a href='http://wiki.apache.org/cocoon/BetwixtTransformer'>CocoonWiki</a> 
 for documentation and example.
     </p>
 </section>
