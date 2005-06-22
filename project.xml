@@ -78,6 +78,11 @@
       <name>0.6</name>
       <tag>BETWIXT_0_6</tag>
     </version>
+    <version>
+      <id>0.7</id>
+      <name>0.7</name>
+      <tag>BETWIXT_0_7</tag>
+    </version>    
   </versions>
 
   <developers>
