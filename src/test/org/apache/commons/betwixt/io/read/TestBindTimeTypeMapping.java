@@ -229,7 +229,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
         		"	<animal><call>Woof</call><latinName>Canis familiaris</latinName></animal>" +
         		"</Animals>";
         
-        xmlAssertIsomorphicContent(parseString(expected), parseString(out));        
+        xmlAssertIsomorphicContent(parseString(expected), parseString(out), true);        
     }
     
     public void testIntrospectionTimeTypeRead() throws Exception {
