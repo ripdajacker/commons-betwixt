@@ -41,7 +41,7 @@
 </section>
 
 <section name="Releases">
-  <subsection name='Betwixt 0.7 (Release Candidate 1 Available)'>
+  <subsection name='Betwixt 0.7 (Release Candidate 2 Available)'>
     <p>
 Betwixt 0.7 is a feature release. 
 A number of new strategies have been introduced to add flexibility. Improvements
@@ -61,7 +61,7 @@ This release is binary compatible with the 0.5 codebase but the methods deprecat
 in 0.5 are likely to be removed soon.
     </p>
     <p>
-The first release candidate for Betwixt is now
+The second release candidate for Betwixt is now
 <a href='http://people.apache.org/~rdonkin/commons-betwixt/'>available</a>.
 Please download and test this candidate. Feedback is welcomed and should be directed to the 
 <a href='http://jakarta.apache.org/site/mail.html'>commons-dev</a> mailing list.    
