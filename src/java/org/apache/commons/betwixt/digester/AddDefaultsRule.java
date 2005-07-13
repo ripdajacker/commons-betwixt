@@ -66,7 +66,7 @@ public class AddDefaultsRule extends RuleSupport {
         String addAddersAttributeValue = attributes.getValue("add-adders");
         if (addAddersAttributeValue != null)
         {
-            addProperties = Boolean.valueOf(addAddersAttributeValue).booleanValue();
+            addAdders = Boolean.valueOf(addAddersAttributeValue).booleanValue();
         }
         
         if (addProperties) {

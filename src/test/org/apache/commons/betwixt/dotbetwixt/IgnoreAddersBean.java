@@ -17,6 +17,8 @@
 
 package org.apache.commons.betwixt.dotbetwixt;
 
+import java.util.ArrayList;
+
 /**
  * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
  * @version $Revision$
@@ -25,6 +27,7 @@ public class IgnoreAddersBean {
     
     private String alpha;
     private String beta;
+    private ArrayList gammas;
     
     public String getAlpha() {
         return alpha;
@@ -41,5 +44,13 @@ public class IgnoreAddersBean {
     public void setBeta(String string) {
         beta = string;
     }
+    
+    public ArrayList getGammas() {
+        return gammas;
+    }
 
+    public void addGamma(String gamma) {
+        gammas.add(gamma);
+    }
+    
 }

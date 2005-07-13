@@ -78,16 +78,31 @@ public class TestLoopType extends TestCase {
      
     }
     
-
+    /**
+     * Basic test for add-adders attribute of addDefaults tag.
+     * @throws Exception
+     */
     public void testIgnoredAdders() throws Exception {
         XMLIntrospector introspector = new XMLIntrospector();
+        // ignore adders bean uses a dot betwixt file with add-adders false
         XMLBeanInfo beanInfo = introspector.introspect(IgnoreAddersBean.class);
         ElementDescriptor ignoreDescriptor = beanInfo.getElementDescriptor();
         
         assertEquals("element name matches", "ignore", ignoreDescriptor.getLocalName());
         ElementDescriptor[] childDescriptors = ignoreDescriptor.getElementDescriptors();
-        assertEquals("number of child elements", 1, childDescriptors.length);
-                    
+        assertEquals("number of child elements", 2, childDescriptors.length);
+        for (int i=0; i<childDescriptors.length; i++) {
+            ElementDescriptor descriptor = childDescriptors[i];
+            if (descriptor.getLocalName().equals("gammas")) {
+                assertNull("Expected descriptor to be null since adders must be explicitly listed.", descriptor.getUpdater()); 
+            }
+            else {
+                assertEquals("alpha", descriptor.getLocalName());
+            }
+        }
+        AttributeDescriptor[] attributes = ignoreDescriptor.getAttributeDescriptors();
+        assertEquals(1, attributes.length);
+        assertEquals("beta", attributes[0].getLocalName());
     }
     
     //TODO: complete these tests after refactoring the element descriptors produced is complete
