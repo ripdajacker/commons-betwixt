@@ -165,7 +165,7 @@
 		other than <code>true</code> the discovery of default properties will
 		be suppressed.</li>
 		<li><strong><code>add-adders</code></strong> if this property is set to
-		any value other than <code>true</code> the matching of adders will be supressed.</li>
+		any value other than <code>true</code> the matching of adders will be suppressed.</li>
 	</ul>
 	
 	<p>Using <code>&lt;addDefaults add-properties='false' add-adders='false'/&gt;</code>
