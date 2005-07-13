@@ -16,6 +16,7 @@ package org.apache.commons.betwixt.digester;
  */ 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -141,7 +142,8 @@ public class ElementRule extends MappedPropertyRule {
         }
         
         if ( propertyName != null && propertyName.length() > 0 ) {
-            configureDescriptor(descriptor, attributes.getValue( "updater" ));
+            boolean forceAccessible = "true".equals(attributes.getValue("forceAccessible"));
+            configureDescriptor(descriptor, attributes.getValue("updater"), forceAccessible);
             
         } else {
             String value = attributes.getValue( "value" );
@@ -199,10 +201,32 @@ public class ElementRule extends MappedPropertyRule {
      * @param elementDescriptor configure this <code>ElementDescriptor</code>
      * @param updateMethodName custom update method. If null, then use standard
      * @since 0.5
+     * @deprecated now calls <code>#configureDescriptor(ElementDescriptor, String, boolean)</code>
+     * which allow accessibility to be forced. 
+     * The subclassing API was not really considered carefully when 
+     * this class was created. 
+     * If anyone subclasses this method please contact the mailing list
+     * and suitable hooks will be placed into the code. 
      */
     protected void configureDescriptor(
                                         ElementDescriptor elementDescriptor,
                                         String updateMethodName) {
+        configureDescriptor( elementDescriptor, null, false );
+    }
+        
+    /** 
+     * Sets the Expression and Updater from a bean property name 
+     * Allows a custom updater to be passed in.
+     *
+     * @param elementDescriptor configure this <code>ElementDescriptor</code>
+     * @param updateMethodName custom update method. If null, then use standard
+     * @param forceAccessible if true and updateMethodName is not null, 
+     * then non-public methods will be searched and made accessible (Method.setAccessible(true))
+     */
+    private void configureDescriptor(
+                                        ElementDescriptor elementDescriptor,
+                                        String updateMethodName,
+                                        boolean forceAccessible) {
         Class beanClass = getBeanClass();
         if ( beanClass != null ) {
             String name = elementDescriptor.getPropertyName();
@@ -214,6 +238,7 @@ public class ElementRule extends MappedPropertyRule {
                                         elementDescriptor, 
                                         descriptor, 
                                         updateMethodName, 
+                                        forceAccessible,
                                         beanClass );
                 
                 getProcessedPropertyNameSet().add( name );
@@ -230,6 +255,7 @@ public class ElementRule extends MappedPropertyRule {
      * @param propertyDescriptor configure from this <code>PropertyDescriptor</code>
      * @param updateMethodName the name of the custom updater method to user. 
      * If null, then then 
+     * @param forceAccessible if true and updateMethodName is not null, then non-public methods will be searched and made accessible (Method.setAccessible(true))
      * @param beanClass the <code>Class</code> from which the update method should be found.
      * This may be null only when <code>updateMethodName</code> is also null.
      */
@@ -237,6 +263,7 @@ public class ElementRule extends MappedPropertyRule {
                                     ElementDescriptor elementDescriptor, 
                                     PropertyDescriptor propertyDescriptor,
                                     String updateMethodName,
+                                    boolean forceAccessible,
                                     Class beanClass ) {
         
         Class type = propertyDescriptor.getPropertyType();
@@ -308,23 +335,11 @@ public class ElementRule extends MappedPropertyRule {
                 log.trace( "  name:" + updateMethodName );
             }
             
-            Method updateMethod = null;
-            Method[] methods = beanClass.getMethods();
-            for ( int i = 0, size = methods.length; i < size; i++ ) {
-                Method method = methods[i];
-                if ( updateMethodName.equals( method.getName() ) ) {
-                    // we have a matching name
-                    // check paramters are correct
-                    if (methods[i].getParameterTypes().length == 1) {
-                        // we'll use first match
-                        updateMethod = methods[i];
-                        if ( log.isTraceEnabled() ) {
-                            log.trace("Matched method:" + updateMethod);
-                        } 
-                        // done since we're using the first match
-                        break;
-                    }
-                }
+            Method updateMethod;
+            if ( forceAccessible ) {
+                updateMethod = findAnyMethod( updateMethodName, beanClass );
+            } else {
+                updateMethod = findPublicMethod( updateMethodName, beanClass );
             }
             
             if (updateMethod == null) {
@@ -341,5 +356,55 @@ public class ElementRule extends MappedPropertyRule {
                 }
             }
         }
+    }
+
+    private Method findPublicMethod(String updateMethodName, Class beanType) {
+        Method[] methods = beanType.getMethods();
+        Method updateMethod = searchMethodsForMatch( updateMethodName, methods );
+        return updateMethod;
+    }
+
+    private Method searchMethodsForMatch(String updateMethodName, Method[] methods) {
+        Method updateMethod = null;
+        for ( int i = 0, size = methods.length; i < size; i++ ) {
+            Method method = methods[i];
+            if ( updateMethodName.equals( method.getName() ) ) {
+                // we have a matching name
+                // check paramters are correct
+                if (methods[i].getParameterTypes().length == 1) {
+                    // we'll use first match
+                    updateMethod = methods[i];
+                    if ( log.isTraceEnabled() ) {
+                        log.trace("Matched method:" + updateMethod);
+                    } 
+                    // done since we're using the first match
+                    break;
+                }
+            }
+        }
+        return updateMethod;
+    }
+
+    private Method findAnyMethod(String updateMethodName, Class beanType) {
+        // TODO: suspect that this algorithm may run into difficulties
+        // on older JVMs (particularly with package privilage interfaces).
+        // This seems like too esoteric a use case to worry to much about now
+        Method updateMethod = null;
+        Class classToTry = beanType;
+        do {
+            Method[] methods = classToTry.getDeclaredMethods();
+            updateMethod = searchMethodsForMatch(updateMethodName, methods);
+
+            //try next superclass - Object will return null and end loop if no method is found
+            classToTry = classToTry.getSuperclass();
+        } while ( updateMethod == null && classToTry != null );
+
+        if ( updateMethod != null ) {
+            boolean isPublic = Modifier.isPublic(updateMethod.getModifiers()) && Modifier.isPublic(beanType.getModifiers());
+            if ( !isPublic ) {
+                updateMethod.setAccessible(true);
+            }
+        }
+        return updateMethod;
     }
 }

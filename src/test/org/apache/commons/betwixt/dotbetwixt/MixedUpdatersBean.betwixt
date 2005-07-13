@@ -24,6 +24,7 @@
         <element name='bad-items'>
             <element name='bad-item' property='badItems' updater='badItemAdder'/>
         </element>
+        <element name='private-property' property='privateProperty' updater='setPrivateProperty' forceAccessible="true"/>
         <addDefaults/>
   </element>
 </info>

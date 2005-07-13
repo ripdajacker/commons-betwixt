@@ -49,6 +49,10 @@
     Note that name is required except when the property is a collective
 -->
 <!ELEMENT element (attribute|addDefaults|element|text)*>
+<!-- 
+  forceAccessible is used to control whether Betwixt forces access (by reflection) 
+  to methods which are not public but are accessible (by reflection).
+-->
 <!ATTLIST element
     name CDATA #IMPLIED 
     type CDATA #IMPLIED
@@ -58,6 +62,7 @@
     updater CDATA #IMPLIED
     class CDATA #IMPLIED
     mappingDerivation (bind|introspection) #IMPLIED
+    forceAccessible (true|false) #IMPLIED
   >
 
 <!-- Use for mixed content text -->

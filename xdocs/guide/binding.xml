@@ -575,6 +575,48 @@ As you can see above the collection's items are named diffent depending on
 their type.
       </p>
     </subsection>
+       <subsection name='Writing To Inaccessible Setters'>
+             <p>
+Betwixt finds the getter from the bean property. When a custom updater is specified, though,
+Betwixt uses reflection to find a matching method name. By default, Betwixt will only search
+for a <code>public</code> method with the correct name. This behaviour can be controlled through
+the dot betwixt file. The <code>forceAccessible</code> attribute of the <code>element</code> element
+allows this behaviour to be configured. 
+         </p>
+             <p>
+For example, consider a bean such as:
+         </p>
+<source><![CDATA[
+public class SomeBean {
+    ...
+    public SomeClass getSomeProperty() {
+        ...
+    }
+    
+    void setSomeProperty(SomeClass value) {
+        ...
+    }
+    ...
+}
+]]></source>
+            <p>
+By default, the setter would not be found. To ensure that the method is found, 
+the following dot betwixt fragment could be used: 
+       </p>
+<source><![CDATA[
+...
+<element
+    name='SomeName' 
+    property='someProperty' 
+    updater='setSomeProperty' 
+    forceAccessible="true"/>
+...
+]]></source>
+             <p>
+<strong>Note:</strong> when this attribute is set to true, Betwixt will conduct a search upwards through
+the superclasses if no matching methods are found in the implementation class. 
+         </p>
+    </subsection>
 </section>
 
     <section name='Converting Objects And Primitives To Strings (And Back Again)'>

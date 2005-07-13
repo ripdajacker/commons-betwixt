@@ -188,6 +188,13 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
+    <subsection name='Since 0.7'>
+        <ul>
+            <li>Added <code>forceAccessible</code> to <code>element</code> tag in dot betwixt file.
+            This allows updater methods to be found that are not public.
+            </li>
+        </ul>
+    </subsection>
     <subsection name='0.7'>
         <ul>
             <li>Fixed bug in nested element diagnosing empty elements.
@@ -347,6 +354,15 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
+	<subsection name='Since 0.7'>
+		<ul>
+			<li>ElementRule added forceAccessible attribute
+				<ul>
+					<li>configureDescriptor replaced by private method with extra parameter</li>
+				</ul>
+			</li>
+		</ul>
+	</subsection>
 	<subsection name='0.7'>
 		<ul>
 			<li>ObjectStringConverter direct flavour replaced with use of options

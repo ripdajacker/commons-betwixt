@@ -31,6 +31,7 @@ public class MixedUpdatersBean {
     private String badName = "**UNSET**";
     private List items = new ArrayList();
     private List badItems = new ArrayList();
+    private String privateProperty;
     
 //-------------------------- Constructors
 
@@ -39,7 +40,7 @@ public class MixedUpdatersBean {
     public MixedUpdatersBean(String name) {
         setName(name);
     }
-        
+	        
 //--------------------------- Properties
 
     public String getName() {
@@ -73,4 +74,15 @@ public class MixedUpdatersBean {
     public void badItemAdder(String badItem) {
         badItems.add(badItem);
     }	
+
+    public String getPrivateProperty() {
+        return privateProperty;
+    }
+
+    protected void setPrivateProperty(String privateProp) {
+        this.privateProperty = privateProp;
+    }	
+    public void privatePropertyWorkaroundSetter(String privateProp) {
+        this.privateProperty = privateProp;
+    }
 }
