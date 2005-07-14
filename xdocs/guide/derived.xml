@@ -78,6 +78,84 @@ The classname mapping is implemented by a <code>ChainedBeanCreator</code>. If th
 feature is not required, a custom bean creation chain should be used.
         </p>
     </subsection>
+        <subsection name='Mapping An Element To A Class Name'>
+            <p>
+A common variation on the above occurs when the java and the xml should be decoupled.
+So, no attributes with class names permitted. A common use case requires that different
+elements are associated with different types of bean. For example:  
+        </p>
+<source><![CDATA[
+    <animals> 
+        <ferret> 
+            <call>Dook</call>
+            <colour>albino</colour> 
+            <latinName>Mustela putoris furo</latinName>
+            <name>Lector</name> 
+        </ferret> 
+        <cat> 
+            <call>Meow</call>
+            <colour>black</colour> 
+            <latinName>Felis catus</latinName>
+            <name>Sam</name> 
+        </cat> 
+        <dog> 
+            <breed>mongrol</breed>
+            <call>Woof</call>
+            <latinName>Canis familiaris</latinName> 
+            <name>Bobby</name>
+            <pedigree>false</pedigree> 
+        </dog> 
+    </animals>
+]]>
+</source>
+          <p>
+To read this xml, the class corresponding to each element must be known.
+Of course, this is a <a href='binding.html#Mixed%20Collections%20-%20Guessing%20Element%20Names'>mixed collection</a>
+and so needs to be mapped as such. Then a suitable <a href='reading.html#Reading%20Polymorphic%20Mappings'>polymophoric
+mapping</a> needs to be created. For example:
+      </p>
+<source><![CDATA[
+<betwixt-config>
+  <class name='org.apache.commons.betwixt.io.read.Animals'>
+    <element name='animals'>
+<!--
+Note that an adder must be set but addDefaults will add a name
+(and so prevent a polymorphic mapping) and so should be avoided.
+-->
+      <element property='animals' updater='addAnimal'/>
+    </element>
+  </class>
+  <class name='org.apache.commons.betwixt.io.read.FerretBean'>
+    <element name='ferret'>
+      <addDefaults/>
+    </element>
+  </class>
+  <class name='org.apache.commons.betwixt.io.read.CatBean'>
+    <element name='cat'>
+      <addDefaults/>
+    </element>
+  </class>
+  <class name='org.apache.commons.betwixt.io.read.DogBean'>
+    <element name='dog'>
+      <addDefaults/>
+    </element>
+  </class>
+</betwixt-config>
+]]>
+</source>
+          <p>
+This <a href='binding.html#Multi%20Mapping'>multi mapping</a> should be registered with
+the <code>XMLIntrospector</code> before the beans are written or read. For example (read):
+        </p>
+<source><![CDATA[
+   BeanReader reader = new BeanReader();
+   ...
+   reader.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+   reader.registerBeanClass(Animals.class);
+   Animals animals = (Animals) reader.parse(in);
+]]>
+</source>
+    </subsection>
 </section>
     <section name='Mapping Derived Beans'>
         <subsection name="Bind Time Type Verses Introspection Time Type">
