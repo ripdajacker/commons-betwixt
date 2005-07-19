@@ -190,6 +190,10 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='Since 0.7'>
         <ul>
+        		<li>Added <code>ValueSuppressionStrategy.suppressElement</code>  to allow elements to be suppressed
+        		on the basis of the value of the property. Useful for Hibernate users.</li>
+        </ul>
+        <ul>
             <li>Added <code>forceAccessible</code> to <code>element</code> tag in dot betwixt file.
             This allows updater methods to be found that are not public.
             </li>
