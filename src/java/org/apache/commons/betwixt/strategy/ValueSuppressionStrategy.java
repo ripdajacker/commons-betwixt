@@ -16,6 +16,7 @@
 package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.betwixt.AttributeDescriptor;
+import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Determines whether the expression of an attribute with a values 
@@ -58,4 +59,24 @@ public abstract class ValueSuppressionStrategy {
      */
     public abstract boolean suppressAttribute(AttributeDescriptor attributeDescriptor, String value);
 
+    /**
+     * <p>
+     * Should be given element value be suppressed?
+     * </p><p>
+     * <strong>Note:</strong> to preserve binary compatibility,
+     * this method contains an implementation that returns false.
+     * Subclasses should not rely upon this behaviour as (in future)
+     * this may be made abstract. 
+     * </p>
+     * @param element <code>ElementDescriptor</code> describing the element, not null
+     * @param namespaceUri the namespace of the element to be written
+     * @param localName the local name of the element to be written
+     * @param qualifiedName the qualified name of the element to be written
+     * @param value <code>Object</code> value, possibly null
+     * @return true if the element should be suppressed (in other words, not written)
+     * for the given value
+     */
+    public boolean suppressElement(ElementDescriptor element, String namespaceUri, String localName, String qualifiedName, Object value) {
+         return false;
+    }
 }

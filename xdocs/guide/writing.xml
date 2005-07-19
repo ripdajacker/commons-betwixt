@@ -104,6 +104,14 @@ Betwixt allows this behaviour to be customized through the setting of the
 By default, Betwixt suppresses empty attributes.
         </p>
     </subsection>
+    		<subsection name='Suppressing The Expression Of Elements At Bind Type'>
+    				<p>
+The expression of elements can be suppressed at bind time in a similar fashion. 
+This is particularly useful when particular property values must not to expressed.
+This can help to prevent complete tree traversal when using tools such as Hibernate. 
+Again, a custom <code>ValueSuppressionStrategy</code> implementation should be created.
+    			</p>
+    	</subsection>
 </section>
 </body>
 </document>

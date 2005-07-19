@@ -410,7 +410,7 @@ public abstract class AbstractBeanWriter {
                         }
                     } else {
                         
-                        if ( !ignoreElement( elementDescriptor, context )) {
+                        if ( !ignoreElement( elementDescriptor, namespaceUri, localName, qualifiedName, context )) {
                             // we've already written this bean so write an IDREF
                             writeIDREFElement( 
                                             elementDescriptor,
@@ -719,7 +719,7 @@ public abstract class AbstractBeanWriter {
             log.trace( "Writing: " + qualifiedName + " element: " + elementDescriptor );
         }
                 
-        if ( !ignoreElement( elementDescriptor, context )) {
+        if ( !ignoreElement( elementDescriptor, namespaceUri, localName, qualifiedName, context )) {
             if ( log.isTraceEnabled() ) {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
@@ -802,7 +802,7 @@ public abstract class AbstractBeanWriter {
                                     SAXException,
                                     IntrospectionException {
                    
-        if ( !ignoreElement( elementDescriptor, context ) ) {
+        if ( !ignoreElement( elementDescriptor, namespaceUri, localName, qualifiedName, context ) ) {
             context.pushOptions(elementDescriptor.getOptions());
             writeContext.setCurrentDescriptor(elementDescriptor);
             Attributes attributes = new IDElementAttributes( 
@@ -1042,7 +1042,11 @@ public abstract class AbstractBeanWriter {
      * @return true if this element should be written out
      * @throws IntrospectionException
      */
-    private boolean ignoreElement( ElementDescriptor descriptor, Context context ) throws IntrospectionException {
+    private boolean ignoreElement( ElementDescriptor descriptor, String namespaceUri, String localName, String qualifiedName, Context context ) throws IntrospectionException {        
+        if (getBindingConfiguration().getValueSuppressionStrategy().suppressElement(descriptor, namespaceUri, localName, qualifiedName, context.getBean())) {
+            return true;
+        }
+            
         if ( ! getWriteEmptyElements() ) {
             return isEmptyElement( descriptor, context );
         }
