@@ -608,13 +608,16 @@ the following dot betwixt fragment could be used:
 <element
     name='SomeName' 
     property='someProperty' 
-    updater='setSomeProperty' 
-    forceAccessible="true"/>
+    updater='setSomeProperty' <!-- this attribute must be present -->
+    forceAccessible="true"/>  <!-- for this line to work -->
 ...
 ]]></source>
              <p>
 <strong>Note:</strong> when this attribute is set to true, Betwixt will conduct a search upwards through
-the superclasses if no matching methods are found in the implementation class. 
+the superclasses if no matching methods are found in the implementation class.  Also note that
+the <code>updater</code> must be specified even if the method conforms to JavaBean
+standards in order to override the accessibilty.  Overriding the accessibility of a
+method is subject to the <code>SecurityManager</code> currently in effect.
          </p>
     </subsection>
 </section>
