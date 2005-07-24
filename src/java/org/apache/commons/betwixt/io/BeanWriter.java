@@ -78,10 +78,28 @@ import org.xml.sax.SAXException;
   */
 public class BeanWriter extends AbstractBeanWriter {
 
+    /**
+     * Gets the default EOL string. 
+     * @return EOL string, not null
+     */
+    private static final String getEOL() {
+        // just wraps call in an exception check for access restricted environments
+        String result = "\n";
+        try {
+            System.getProperty( "line.separator", "\n" );
+        } catch (SecurityException se) {
+            Log log = LogFactory.getLog( BeanWriter.class );
+            log.warn("Cannot load line separator property: " + se.getMessage());
+            log.trace("Caused by: ", se);
+        }
+        return result;
+    }
+    
+    
     /** Where the output goes */
     private Writer writer;    
     /** text used for end of lines. Defaults to <code>\n</code>*/
-    private static final String EOL = System.getProperty( "line.separator", "\n" );
+    private static final String EOL = getEOL();
     /** text used for end of lines. Defaults to <code>\n</code>*/
     private String endOfLine = EOL;
     /** indentation text */
