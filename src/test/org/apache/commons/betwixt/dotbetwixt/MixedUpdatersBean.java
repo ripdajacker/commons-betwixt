@@ -32,7 +32,8 @@ public class MixedUpdatersBean {
     private List items = new ArrayList();
     private List badItems = new ArrayList();
     private String privateProperty;
-    
+    private List privateItems = new ArrayList(3);
+
 //-------------------------- Constructors
 
     public MixedUpdatersBean() {}
@@ -84,5 +85,13 @@ public class MixedUpdatersBean {
     }	
     public void privatePropertyWorkaroundSetter(String privateProp) {
         this.privateProperty = privateProp;
+    }
+
+    public List getPrivateItems() {
+        return privateItems;
+    }
+
+    private void addPrivateItem(String item) {
+        privateItems.add(item);
     }
 }

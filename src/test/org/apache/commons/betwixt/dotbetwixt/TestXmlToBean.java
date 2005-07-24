@@ -58,10 +58,11 @@ public class TestXmlToBean extends XmlTestCase {
         bean.addItem("Life");
         bean.badItemAdder("Death");
         bean.privatePropertyWorkaroundSetter("Private");
+        bean.getPrivateItems().add("private item 1");
 
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
-        BeanWriter writer = new BeanWriter(out);;
+        BeanWriter writer = new BeanWriter(out);
         
         writer.getBindingConfiguration().setMapIDs(false);
         writer.write(bean);
@@ -69,7 +70,9 @@ public class TestXmlToBean extends XmlTestCase {
     	String xml = "<?xml version='1.0'?><mixed><name>Lov</name><bad-name>Hate</bad-name>"
           + "<items><item>White</item><item>Life</item></items>"
           + "<bad-items><bad-item>Black</bad-item><bad-item>Death</bad-item></bad-items>"
-          + "<private-property>Private</private-property></mixed>";
+          + "<private-property>Private</private-property>"
+          + "<private-items><private-item>private item 1</private-item></private-items>"
+          + "</mixed>";
         
         xmlAssertIsomorphicContent(
                     parseString(xml),
@@ -94,7 +97,11 @@ public class TestXmlToBean extends XmlTestCase {
         //assertEquals("Bad item one wrong", "Black", badItems.get(0));
         //assertEquals("Bad item two wrong", "Death", badItems.get(1));       
         assertEquals("Private property incorrect", "Private", bean.getPrivateProperty());
-        
+
+        //this shows that a private adder can be utilized
+        List privateItems = bean.getPrivateItems();
+        assertEquals("Wrong number of private items", 1, privateItems.size());
+        //TODO can't assert contents - gets the right number of items, but each is null (badItems, too)
     }
 
     
