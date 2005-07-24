@@ -108,7 +108,7 @@ public class TestReferenceMapping extends AbstractTestCase
         outputWriter.write("<?xml version=\"1.0\" ?>\n");
 
         BeanWriter beanWriter = new BeanWriter(outputWriter);
-
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.setWriteEmptyElements(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);

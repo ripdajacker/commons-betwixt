@@ -100,6 +100,7 @@ public class TestMsgParser extends TestCase
         // For more details see java docs or later in the main documentation
         beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
 
         // Write example bean as base element 'person'

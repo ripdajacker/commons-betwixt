@@ -58,6 +58,7 @@ public class TestMaps extends AbstractTestCase {
         StringWriter out = new StringWriter();
         
         BeanWriter beanWriter = new BeanWriter(out);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.setWriteEmptyElements(false);
         beanWriter.getBindingConfiguration().setMapIDs(false);
@@ -94,6 +95,7 @@ public class TestMaps extends AbstractTestCase {
         StringWriter out = new StringWriter();
         
         BeanWriter beanWriter = new BeanWriter(out);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.setWriteEmptyElements(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);

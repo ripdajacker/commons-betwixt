@@ -59,6 +59,7 @@ public class TestBeanWriter extends AbstractTestCase {
         
         BeanWriter writer = new BeanWriter();
         writer.setWriteEmptyElements(true);
+        writer.setEndOfLine("\n");
         writer.enablePrettyPrint();
         writer.write( bean );
     }
@@ -71,17 +72,7 @@ public class TestBeanWriter extends AbstractTestCase {
         writer.setWriteEmptyElements( true );
         
         // logging for debugging jsut this method 
-//        SimpleLog log = new SimpleLog("[testLooping:BeanWriter]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-//        writer.setLog(log);
-        
-//        log = new SimpleLog("[testLooping:AbstractBeanWriter]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-//        writer.setAbstractBeanWriterLog(log);
-        
-//        log = new SimpleLog("[testLooping]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        
+        writer.setEndOfLine("\n");
         writer.enablePrettyPrint();
         writer.write( LoopBean.createNoLoopExampleBean() );    
         
@@ -173,6 +164,7 @@ public class TestBeanWriter extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements( true );
 		writer.getBindingConfiguration().setMapIDs(false);
+        writer.setEndOfLine("\n");
         writer.enablePrettyPrint(); 
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.getConfiguration().setAttributesForPrimitives(true);

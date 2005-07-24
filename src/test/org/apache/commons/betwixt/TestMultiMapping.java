@@ -57,7 +57,8 @@ public class TestMultiMapping extends AbstractTestCase {
 		    StringWriter outputWriter = new StringWriter();
 		    outputWriter.write("<?xml version='1.0' ?>\n");
 		    BeanWriter beanWriter = new BeanWriter(outputWriter);
-		    beanWriter.enablePrettyPrint();
+            beanWriter.setEndOfLine("\n");
+            beanWriter.enablePrettyPrint();
 		    beanWriter.setWriteEmptyElements(true);
 		    beanWriter.getXMLIntrospector().register(source);
 		    beanWriter.write(partyBean);

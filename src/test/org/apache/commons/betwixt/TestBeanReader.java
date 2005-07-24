@@ -135,6 +135,7 @@ public class TestBeanReader extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
 		writer.getBindingConfiguration().setMapIDs(false);
+        writer.setEndOfLine("\n");
         writer.enablePrettyPrint();
         writer.write( bean );
         return out.getBuffer().toString();

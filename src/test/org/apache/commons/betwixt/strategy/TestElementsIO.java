@@ -102,19 +102,12 @@ public class TestElementsIO extends TestCase {
         assertNotNull("Element 'c' is null (" + testName + ")", result.getElement("c"));
     }
 
-    private BeanWriter newBeanWriter(Writer writer, NameMapper mapper) {
-//        SimpleLog log = new SimpleLog("[TextElementsIO:BeanWriter]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        
+    private BeanWriter newBeanWriter(Writer writer, NameMapper mapper) {        
         BeanWriter result = new BeanWriter(writer);
         result.setWriteEmptyElements(true);
-//        result.setLog(log);
-        
-//        log = new SimpleLog("[TextElementsIO:AbstractBeanWriter]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-//        result.setAbstractBeanWriterLog(log);
         
         result.setXMLIntrospector(newXMLIntrospector(mapper));
+        result.setEndOfLine("\n");
         result.enablePrettyPrint();
         result.getBindingConfiguration().setMapIDs(false);
         return result;

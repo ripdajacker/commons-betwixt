@@ -107,6 +107,7 @@ public class TestNoWrap
         BeanWriter beanWriter = new BeanWriter(out);
         beanWriter.setXMLIntrospector(createXMLIntrospector());
         beanWriter.getBindingConfiguration().setMapIDs(false);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         
         beanWriter.write(po);

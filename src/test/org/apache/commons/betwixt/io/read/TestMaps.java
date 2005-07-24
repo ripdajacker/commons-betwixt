@@ -137,6 +137,7 @@ public class TestMaps extends AbstractTestCase {
         StringWriter outputWriter = new StringWriter();
         outputWriter.write("<?xml version='1.0' ?>\n");
         BeanWriter beanWriter = new BeanWriter(outputWriter);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.write(addressBook);
     

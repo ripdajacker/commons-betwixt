@@ -177,16 +177,11 @@ public class TestRSSRoundTrip extends AbstractTestCase {
     }
     
     protected void write(Object bean, Writer out) throws Exception {
-        //SimpleLog log = new SimpleLog("[TestRSSRoundTrip:BeanWriter]");
-        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
         BeanWriter writer = new BeanWriter(out);
-        //writer.setLog(log);
-        //log = new SimpleLog("[TestRSSRoundTrip:AbstractBeanWriter]");
-        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-        //writer.setAbstractBeanWriterLog(log);
         writer.setWriteEmptyElements(true);
         writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.getBindingConfiguration().setMapIDs(false);
+        writer.setEndOfLine("\n");
         writer.enablePrettyPrint();
         writer.write( bean );
     }

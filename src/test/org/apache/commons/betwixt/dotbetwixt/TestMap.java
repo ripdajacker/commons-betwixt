@@ -37,6 +37,7 @@ public class TestMap extends TestCase {
         StringWriter outputWriter = new StringWriter();
         outputWriter.write("<?xml version='1.0' ?>\n");
         BeanWriter beanWriter = new BeanWriter(outputWriter);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.getBindingConfiguration().setMapIDs(true);
         beanWriter.write(map);

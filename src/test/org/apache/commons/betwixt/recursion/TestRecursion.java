@@ -352,6 +352,7 @@ public class TestRecursion extends AbstractTestCase {
 
         outputWriter.write("<?xml version='1.0' ?>\n");
         BeanWriter beanWriter = new BeanWriter(outputWriter);
+        beanWriter.setEndOfLine("\n");
         beanWriter.enablePrettyPrint();
         beanWriter.getBindingConfiguration().setMapIDs(true);
         beanWriter.write(person);
