@@ -81,7 +81,7 @@ public class BeanWriter extends AbstractBeanWriter {
     /** Where the output goes */
     private Writer writer;    
     /** text used for end of lines. Defaults to <code>\n</code>*/
-    private static final String EOL = "\n";
+    private static final String EOL = System.getProperty( "line.separator", "\n" );
     /** text used for end of lines. Defaults to <code>\n</code>*/
     private String endOfLine = EOL;
     /** indentation text */
