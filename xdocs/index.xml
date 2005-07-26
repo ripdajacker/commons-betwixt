@@ -41,7 +41,8 @@
 </section>
 
 <section name="Releases">
-  <subsection name='Betwixt 0.7 (Release Candidate 2 Available)'>
+
+  <subsection name='Betwixt 0.7'>
     <p>
 Betwixt 0.7 is a feature release. 
 A number of new strategies have been introduced to add flexibility. Improvements
@@ -57,14 +58,13 @@ should be minimal. Details (together with some ways to mitigate) can be found on
  <a href='tasks.html#Semantic%20Changes'>list of semantic incompatibilities</a>.
     </p>
     <p>
-This release is binary compatible with the 0.5 codebase but the methods deprecated
-in 0.5 are likely to be removed soon.
+This release is binary compatible with the 0.6 codebase but the methods deprecated
+in 0.6 (and earlier) are likely to be removed soon.
     </p>
     <p>
-The second release candidate for Betwixt is now
-<a href='http://people.apache.org/~rdonkin/commons-betwixt/'>available</a>.
-Please download and test this candidate. Feedback is welcomed and should be directed to the 
-<a href='http://jakarta.apache.org/site/mail.html'>commons-dev</a> mailing list.    
+Betwixt 0.7 is 
+<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>available</a> 
+in binary and source distributions.
     </p>
   </subsection>
   <subsection name='Betwixt 0.6'>

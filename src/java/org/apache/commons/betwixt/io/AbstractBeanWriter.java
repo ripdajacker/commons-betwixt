@@ -1391,7 +1391,7 @@ public abstract class AbstractBeanWriter {
 			
 			// see if we have already have a matching attribute descriptor
 			AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors();
-			length = attributeDescriptors.length;
+			length = super.getLength();
 			for (int i=0; i<length; i++) {
 				if (idAttributeName.equals(attributeDescriptors[i])) {
 					matchingAttribute = true;

@@ -20,6 +20,9 @@ be minimal.
 
 For more details see the tasks and change log documents.
 
+KNOWN DEFECTS
+ *  .Betwixt file: the 'add-adder' attribute of the 'addDefaults' element is buggy.
+
 ENHANCEMENTS AND BUG FIXES
  * 	Fixed bug in nested element diagnosing empty elements.
  * 	Added support for polymorphic mappings. 
