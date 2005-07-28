@@ -86,7 +86,7 @@ public class BeanWriter extends AbstractBeanWriter {
         // just wraps call in an exception check for access restricted environments
         String result = "\n";
         try {
-            System.getProperty( "line.separator", "\n" );
+            result = System.getProperty( "line.separator", "\n" );
         } catch (SecurityException se) {
             Log log = LogFactory.getLog( BeanWriter.class );
             log.warn("Cannot load line separator property: " + se.getMessage());
