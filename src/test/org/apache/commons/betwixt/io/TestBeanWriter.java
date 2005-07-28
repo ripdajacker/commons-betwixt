@@ -53,7 +53,7 @@ public class TestBeanWriter extends TestCase {
                 null, 
                 null, 
                 "element");
-         assertEquals("<element></element>\n", out.getBuffer().toString());       
+         assertEquals("<element></element>" + writer.getEndOfLine(), out.getBuffer().toString());       
     }
 
 
@@ -80,6 +80,6 @@ public class TestBeanWriter extends TestCase {
                 null, 
                 null, 
                 "element");
-         assertEquals("<element/>\n", out.getBuffer().toString());       
+         assertEquals("<element/>" + writer.getEndOfLine(), out.getBuffer().toString());       
     }
 }

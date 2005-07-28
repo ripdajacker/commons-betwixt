@@ -113,6 +113,7 @@ public class TestReferenceMapping extends AbstractTestCase
         beanWriter.setWriteEmptyElements(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        beanWriter.setEndOfLine("\n"); //force to ensure matches on expected
         beanWriter.write(container);
 
         String output = outputWriter.toString();

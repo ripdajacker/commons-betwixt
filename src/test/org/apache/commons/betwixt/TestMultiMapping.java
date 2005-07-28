@@ -61,6 +61,7 @@ public class TestMultiMapping extends AbstractTestCase {
             beanWriter.enablePrettyPrint();
 		    beanWriter.setWriteEmptyElements(true);
 		    beanWriter.getXMLIntrospector().register(source);
+            beanWriter.setEndOfLine("\n"); //force to ensure matches on expected
 		    beanWriter.write(partyBean);
 		    String expectedOut = "<?xml version='1.0' ?>\n" +
 		                     "  <party id=\"1\">\n" +

@@ -114,6 +114,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.getBindingConfiguration().setMapIDs(false);
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value>&lt;greeting&gt;What Ho Jeeves!&lt;/greeting&gt;</value>\n</Element>\n";
@@ -137,6 +138,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         elementInfo.getElementDescriptor().getElementDescriptors()[0]
             .getOptions().addOption(MixedContentEncodingStrategy.ENCODING_OPTION_NAME, "CDATA");  
          
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value><![CDATA[<greeting>What Ho Jeeves!</greeting>]]></value>\n</Element>\n";
@@ -159,6 +161,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
         elementInfo.getElementDescriptor().getElementDescriptors()[0]
             .getOptions().addOption("org.apache.commons.betwixt.mixed-content-encoding", "escaped");
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value>&lt;greeting&gt;What Ho Jeeves!&lt;/greeting&gt;</value>\n</Element>\n";
@@ -178,6 +181,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.getBindingConfiguration().setMapIDs(false);
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(bean);
         
         String expected = "<?xml version='1.0'?>" +
@@ -201,6 +205,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(false));
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value>&lt;greeting&gt;What Ho Jeeves!&lt;/greeting&gt;</value>\n</Element>\n";
@@ -220,6 +225,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
         writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(true));
+        writer.setEndOfLine("\n"); //force to \n so expected values match for sure
         writer.write(element);
         
         String expected = "<?xml version='1.0'?><Element>\n<value><![CDATA[<greeting>What Ho Jeeves!</greeting>]]></value>\n</Element>\n";

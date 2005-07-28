@@ -108,6 +108,7 @@ public class TestCollectionMapping extends AbstractTestCase
         beanWriter.setWriteEmptyElements(true);
         beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
         beanWriter.write(container);
 
         String output = outputWriter.toString();
