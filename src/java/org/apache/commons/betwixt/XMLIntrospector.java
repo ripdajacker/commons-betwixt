@@ -816,6 +816,7 @@ public class XMLIntrospector {
     /** 
      * Add any addPropety(PropertyType) methods as Updaters 
      * which are often used for 1-N relationships in beans.
+     * This method does not preserve null property names.
      * <br>
      * The tricky part here is finding which ElementDescriptor corresponds
      * to the method. e.g. a property 'items' might have an Element descriptor
@@ -840,6 +841,34 @@ public class XMLIntrospector {
     public void defaultAddMethods( 
                                             ElementDescriptor rootDescriptor, 
                                             Class beanClass ) {
+        defaultAddMethods(rootDescriptor, beanClass, false);
+    }
+    
+    /** 
+     * Add any addPropety(PropertyType) methods as Updaters 
+     * which are often used for 1-N relationships in beans.
+     * <br>
+     * The tricky part here is finding which ElementDescriptor corresponds
+     * to the method. e.g. a property 'items' might have an Element descriptor
+     * which the method addItem() should match to. 
+     * <br>
+     * So the algorithm we'll use 
+     * by default is to take the decapitalized name of the property being added
+     * and find the first ElementDescriptor that matches the property starting with
+     * the string. This should work for most use cases. 
+     * e.g. addChild() would match the children property.
+     * <br>
+     * TODO this probably needs refactoring. It probably belongs in the bean wrapper
+     * (so that it'll work properly with dyna-beans) and so that the operations can 
+     * be optimized by caching. Multiple hash maps are created and getMethods is
+     * called multiple times. This is relatively expensive and so it'd be better
+     * to push into a proper class and cache.
+     * <br>
+     * 
+     * @param rootDescriptor add defaults to this descriptor
+     * @param beanClass the <code>Class</code> to which descriptor corresponds
+     */
+    public void defaultAddMethods( ElementDescriptor rootDescriptor, Class beanClass, boolean preservePropertyName ) {
         // TODO: this probably does work properly with DynaBeans: need to push
         // implementation into an class and expose it on BeanType.  
         
@@ -882,7 +911,7 @@ public class XMLIntrospector {
             
             for (Iterator it=singleParameterAdders.iterator();it.hasNext();) {
                 Method singleParameterAdder = (Method) it.next();
-                setIteratorAdder(elementsByPropertyName, singleParameterAdder);
+                setIteratorAdder(elementsByPropertyName, singleParameterAdder, preservePropertyName);
             }
             
             for (Iterator it=twinParameterAdders.iterator();it.hasNext();) {
@@ -919,7 +948,8 @@ public class XMLIntrospector {
      */
     private void setIteratorAdder(
         Map elementsByPropertyName,
-        Method singleParameterAdderMethod) {
+        Method singleParameterAdderMethod,
+        boolean preserveNullPropertyName) {
         
         String adderName = singleParameterAdderMethod.getName();
         String propertyName = Introspector.decapitalize(adderName.substring(3));
@@ -938,9 +968,9 @@ public class XMLIntrospector {
             matchingDescriptor.setSingularPropertyType( singularType );
             matchingDescriptor.setHollow(!isPrimitiveType(singularType));
             String localName = matchingDescriptor.getLocalName();
-            if ( localName == null || localName.length() == 0 ) {
+            if ( !preserveNullPropertyName && ( localName == null || localName.length() == 0 )) {
                 matchingDescriptor.setLocalName( 
-                    getElementNameMapper()
+                    getConfiguration().getElementNameMapper()
                         .mapTypeToElementName( propertyName ) );
             }
                                     

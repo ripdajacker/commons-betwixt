@@ -188,7 +188,11 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 0.7'>
+    <subsection name='Since 0.7'>            
+        <ul>
+          <li>Added guess-name attribute to addDefaults element in dot betwixt file.
+          This allows mixed collections to be used with add-adders and addDefaults.</li>  
+        </ul>
         <ul>
             <li>Fixed map custom updater in dot betwixt file bug.</li>  
         </ul>

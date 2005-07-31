@@ -365,7 +365,7 @@ For example:
 			<p>
 By default, in this circumstance Betwixt will try to guess the correct resolution
 by searching all registered <code>XMLBeanInfo</code>'s for an appropriate match.
-If more thn one is found, an arbitrary one is used. 
+If more than one is found, an arbitrary one is used. 
 In many cases, this accords well with intuition. There are
 occasions when more finely grained control may be required. The resolution is
 therefore factored into <code>PolymorphicReferenceResolver</code> 
@@ -377,6 +377,11 @@ Note that the default implementation is provided by the default
 Therefore, when using a custom registry a custom resolver must also
 be used.
 		</p>
+    <p>
+<strong>Note:</strong> when using mixed collections with dot betwixt files containing 
+<code>addDefaults</code> it may be neccessary to set the <code>guess-names</code> 
+attribute to false. 
+    </p>
     </subsection>
 </section>
 

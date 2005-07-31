@@ -166,6 +166,11 @@
 		be suppressed.</li>
 		<li><strong><code>add-adders</code></strong> if this property is set to
 		any value other than <code>true</code> the matching of adders will be suppressed.</li>
+		<li><strong><code>guess-name</code></strong> if this property is set to
+		any value other than <code>true</code> the guessing of names for elements without a name attribute
+    will be suppressed. Note that this may need to be set to <code>false</code> when mapping mixed
+    collections.
+    By default, Betwixt will guess names.</li>
 	</ul>
 	
 	<p>Using <code>&lt;addDefaults add-properties='false' add-adders='false'/&gt;</code>

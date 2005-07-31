@@ -31,7 +31,17 @@
     property CDATA #IMPLIED
   >
 
+<!-- 
+addDefaults element indicates that betwixt should use standard introspection
+to deduce any unspecified values. The attributes allow the behaviour to be
+customised but reasonal defaults have been chosen.
+-->
 <!ELEMENT addDefaults EMPTY>
+<!ATTLIST attribute
+    add-properties (true|false) CDATA #IMPLIED
+    add-adders (true|false) CDATA #IMPLIED
+    guess-names (true|false) CDATA #IMPLIED
+  >
 
 <!--
     Represents an element in the xml.

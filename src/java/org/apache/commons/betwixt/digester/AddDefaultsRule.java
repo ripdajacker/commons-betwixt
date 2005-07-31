@@ -69,24 +69,31 @@ public class AddDefaultsRule extends RuleSupport {
             addAdders = Boolean.valueOf(addAddersAttributeValue).booleanValue();
         }
         
+        boolean guessNames = true;
+        String guessNamesAttributeValue = attributes.getValue("guess-names");
+        if (guessNamesAttributeValue != null)
+        {
+            guessNames = Boolean.valueOf(guessNamesAttributeValue).booleanValue();
+        }
+        
         if (addProperties) {
             addDefaultProperties();
         }
         
         if (addAdders) {
-            addAdders();
+            addAdders(guessNames);
         }
     }
 
     /**
      * Adds default adder methods
      */
-    private void addAdders() {
+    private void addAdders(boolean guessNames) {
         Class beanClass = getBeanClass();
         // default any addProperty() methods
         getXMLIntrospector().defaultAddMethods( 
                                             getRootElementDescriptor(), 
-                                            beanClass );
+                                            beanClass, !guessNames);
     }
 
     /**
