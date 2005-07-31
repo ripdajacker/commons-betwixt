@@ -190,6 +190,9 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='Since 0.7'>
         <ul>
+            <li>Fixed map custom updater in dot betwixt file bug.</li>  
+        </ul>
+        <ul>
         		<li>EOL in pretty printed xml now defaults to platform line separator.</li>
         </ul>
         <ul>

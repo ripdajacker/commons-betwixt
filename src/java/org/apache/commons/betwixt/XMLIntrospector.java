@@ -36,6 +36,7 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
+import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MapEntryAdder;
