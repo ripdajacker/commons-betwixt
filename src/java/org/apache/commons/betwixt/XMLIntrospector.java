@@ -1,7 +1,7 @@
 package org.apache.commons.betwixt;
 
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
+ * Copyright 2001-2005 The Apache Software Foundation.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,6 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
 import org.apache.commons.betwixt.expression.EmptyExpression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MapEntryAdder;
@@ -962,6 +961,15 @@ public class XMLIntrospector {
         String adderName = twinParameterAdderMethod.getName();
         String propertyName = Introspector.decapitalize(adderName.substring(3));
         ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
+        assignAdder(twinParameterAdderMethod, matchingDescriptor);
+    }
+
+    /**
+     * Assigns the given method as an adder method to the given descriptor.
+     * @param twinParameterAdderMethod adder <code>Method</code>, not null
+     * @param matchingDescriptor <code>ElementDescriptor</code> describing the element
+     */
+    public void assignAdder(Method twinParameterAdderMethod, ElementDescriptor matchingDescriptor) {
         if ( matchingDescriptor != null 
             && Map.class.isAssignableFrom( matchingDescriptor.getPropertyType() )) {
             // this may match a map
@@ -975,59 +983,68 @@ public class XMLIntrospector {
                     + "Updaters cannot be set");
                                         
             } else {
-                Class[] types = twinParameterAdderMethod.getParameterTypes();
-                Class keyType = types[0];
-                Class valueType = types[1];
-                
-                // loop through children 
-                // adding updaters for key and value
-                MapEntryAdder adder = new MapEntryAdder(twinParameterAdderMethod);
-                for ( 
-                    int n=0, 
-                        noOfGrandChildren = children.length;
-                    n < noOfGrandChildren;
-                    n++ ) {
-                    if ( "key".equals( children[n].getLocalName() ) ) {
-                                      
-                        children[n].setUpdater( adder.getKeyUpdater() );
-                        children[n].setSingularPropertyType(  keyType );
-                        if (children[n].getPropertyType() == null) {
-                            children[n].setPropertyType( valueType );
-                        }
-                        if ( isPrimitiveType(keyType) ) {
-                            children[n].setHollow(false);
-                        }
-                        if ( getLog().isTraceEnabled() ) {
-                            getLog().trace( "Key descriptor: " + children[n]);
-                        }                                               
-                                                
-                    } else if ( "value".equals( children[n].getLocalName() ) ) {
-
-                        children[n].setUpdater( adder.getValueUpdater() );
-                        children[n].setSingularPropertyType( valueType );
-                        if (children[n].getPropertyType() == null) {
-                            children[n].setPropertyType( valueType );
-                        }
-                        if ( isPrimitiveType( valueType) ) {
-                            children[n].setHollow(false);
-                        }
-                        if ( isLoopType( valueType )) {
-                            // need to attach a hollow descriptor
-                            // don't know the element name
-                            // so use null name (to match anything)
-                            ElementDescriptor loopDescriptor = new ElementDescriptor();
-                            loopDescriptor.setHollow(true);
-                            loopDescriptor.setSingularPropertyType( valueType );
-                            loopDescriptor.setPropertyType( valueType );
-                            children[n].addElementDescriptor(loopDescriptor);
-                            loopDescriptor.setCollective(true);
-                        }
-                        if ( getLog().isTraceEnabled() ) { 
-                            getLog().trace( "Value descriptor: " + children[n]);
-                        }
-                    }
-                }
+                assignAdder(twinParameterAdderMethod, children);
             }       
+        }
+    }
+
+    /**
+     * Assigns the given method as an adder.
+     * @param twinParameterAdderMethod adder <code>Method</code>, not null 
+     * @param children <code>ElementDescriptor</code> children, not null
+     */
+    private void assignAdder(Method twinParameterAdderMethod, ElementDescriptor[] children) {
+        Class[] types = twinParameterAdderMethod.getParameterTypes();
+        Class keyType = types[0];
+        Class valueType = types[1];
+        
+        // loop through children 
+        // adding updaters for key and value
+        MapEntryAdder adder = new MapEntryAdder(twinParameterAdderMethod);
+        for ( 
+            int n=0, 
+                noOfGrandChildren = children.length;
+            n < noOfGrandChildren;
+            n++ ) {
+            if ( "key".equals( children[n].getLocalName() ) ) {
+                              
+                children[n].setUpdater( adder.getKeyUpdater() );
+                children[n].setSingularPropertyType(  keyType );
+                if (children[n].getPropertyType() == null) {
+                    children[n].setPropertyType( valueType );
+                }
+                if ( isPrimitiveType(keyType) ) {
+                    children[n].setHollow(false);
+                }
+                if ( getLog().isTraceEnabled() ) {
+                    getLog().trace( "Key descriptor: " + children[n]);
+                }                                               
+                                        
+            } else if ( "value".equals( children[n].getLocalName() ) ) {
+
+                children[n].setUpdater( adder.getValueUpdater() );
+                children[n].setSingularPropertyType( valueType );
+                if (children[n].getPropertyType() == null) {
+                    children[n].setPropertyType( valueType );
+                }
+                if ( isPrimitiveType( valueType) ) {
+                    children[n].setHollow(false);
+                }
+                if ( isLoopType( valueType )) {
+                    // need to attach a hollow descriptor
+                    // don't know the element name
+                    // so use null name (to match anything)
+                    ElementDescriptor loopDescriptor = new ElementDescriptor();
+                    loopDescriptor.setHollow(true);
+                    loopDescriptor.setSingularPropertyType( valueType );
+                    loopDescriptor.setPropertyType( valueType );
+                    children[n].addElementDescriptor(loopDescriptor);
+                    loopDescriptor.setCollective(true);
+                }
+                if ( getLog().isTraceEnabled() ) { 
+                    getLog().trace( "Value descriptor: " + children[n]);
+                }
+            }
         }
     }
         
