@@ -152,7 +152,6 @@
 
     <dependency>
       <groupId>commons-beanutils</groupId>
-      <typeId>jar</typeId>
       <artifactId>commons-beanutils-core</artifactId>
       <version>1.7.0</version>
       <url>http://jakarta.apache.org/commons/beanutils/</url>
@@ -160,7 +159,6 @@
     
     <dependency>
       <groupId>commons-digester</groupId>
-      <typeId>jar</typeId>
       <artifactId>commons-digester</artifactId>
       <version>1.6</version>
       <url>http://jakarta.apache.org/commons/digester/</url>
