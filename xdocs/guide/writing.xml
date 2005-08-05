@@ -113,5 +113,31 @@ Again, a custom <code>ValueSuppressionStrategy</code> implementation should be c
     			</p>
     	</subsection>
 </section>
+<section name='Pretty Print'>
+    <subsection name='Pretty Printing'>
+        <p>
+<code>BeanWriter</code> supports pretty printing. When pretty printing, extra white space will be inserted
+with the aim of making the xml produced more readible by humans. Pretty printing is off by default.
+Call <code>enablePrettyPrint</code> to switch it on. For example:
+        </p>
+<source>
+    BeanWriter writer = ...
+    ...
+    writer.enablePrettyPrinting();
+</source>
+    </subsection>
+    <subsection name='Setting Initial Indent'>
+        <p>
+Pretty printing indents elements so that the xml can be read more easily. The number of indentations
+for the root element defaults to one. Some users may prefer this to start at zero. This value is configurable through 
+the <code>initialIndentLevel</code> property of <code>BeanWriter</code>. For example
+        </p>
+<source>
+    BeanWriter writer = ...
+    ...
+    writer.setInitialIndentLevel(0);
+</source>
+    </subsection>
+</section>
 </body>
 </document>

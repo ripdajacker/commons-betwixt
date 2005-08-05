@@ -102,6 +102,8 @@ public class BeanWriter extends AbstractBeanWriter {
     private static final String EOL = getEOL();
     /** text used for end of lines. Defaults to <code>\n</code>*/
     private String endOfLine = EOL;
+    /** Initial level of indentation (starts at 1 with the first element by default) */
+    private int initialIndentLevel = 1;
     /** indentation text */
     private String indent;
 
@@ -117,7 +119,7 @@ public class BeanWriter extends AbstractBeanWriter {
     private boolean closedStartTag = true;
     /** Should an end tag be added for empty elements? */
     private boolean addEndTagForEmptyElement = false;
-    /** Current level of indentation (starts at 1 with the first element) */
+    /** Current level of indentation */
     private int indentLevel;
     /** USed to determine how body content should be encoded before being output*/
     private MixedContentEncodingStrategy mixedContentEncodingStrategy 
@@ -248,6 +250,24 @@ public class BeanWriter extends AbstractBeanWriter {
         }
         
     }
+
+    /** 
+     * Gets the initial indent level 
+     *
+     * @return the initial level for indentation 
+     */
+    public int getInitialIndentLevel() {
+        return initialIndentLevel;
+    }
+    
+    /** 
+     * Sets the initial indent level used for pretty print indents  
+     * @param indent use this <code>int</code> to start with
+     */
+    public void setInitialIndentLevel(int initialIndentLevel) {
+        this.initialIndentLevel = initialIndentLevel;
+    }
+
 
     /** 
      * Gets the indent string 
@@ -478,7 +498,7 @@ public class BeanWriter extends AbstractBeanWriter {
      */
     private void indent() throws IOException {
         if ( indent != null ) {
-            for ( int i = 0; i < indentLevel; i++ ) {
+            for ( int i = 1 - initialIndentLevel; i < indentLevel; i++ ) {
                 writer.write( getIndent() );
             }
         }

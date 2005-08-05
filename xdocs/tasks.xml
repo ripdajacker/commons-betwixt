@@ -190,6 +190,9 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='Since 0.7'>            
         <ul>
+            <li>
+Made intitial indent level used for pretty printing configurable.
+            </li>
           <li>Added guess-name attribute to addDefaults element in dot betwixt file.
           This allows mixed collections to be used with add-adders and addDefaults.</li>  
         </ul>
