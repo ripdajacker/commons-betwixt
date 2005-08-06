@@ -31,6 +31,15 @@
     <subsection name="High priority"> 
       <ul>
         <li>
+<strong>Logging:</strong> create logging policy then review all code for compliance.
+        </li>
+        <li>
+<strong>FAQ:</strong> convert FAQ to maven plugin.
+        </li>
+        <li>
+<strong>Tasks:</strong> review.
+        </li>
+        <li>
 Change ElementRule so that updaters are automatically guessed (when not present).
 Add read-only attribute for properties to disable this behaviour.        
         </li>
