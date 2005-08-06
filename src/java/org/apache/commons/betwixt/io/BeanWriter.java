@@ -433,14 +433,15 @@ public class BeanWriter extends AbstractBeanWriter {
             closedStartTag = true;
             
         } else {
-            if (!currentElementHasBodyText) {
-                indent();
-            }
+
             if (
                     addEndTagForEmptyElement
                     && !closedStartTag ) {
                  writer.write( ">" );
                  closedStartTag = true;                 
+            }
+            else if (!currentElementHasBodyText) {
+                indent();
             }
             writer.write( "</" );
             writer.write( qualifiedName );
