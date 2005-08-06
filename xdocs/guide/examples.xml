@@ -109,8 +109,8 @@ public class WriteExampleApp {
         
         // Configure betwixt
         // For more details see java docs or later in the main documentation
-        beanWriter.getXMLIntrospector().setAttributesForPrimitives(false);
-        beanWriter.setWriteIDs(false);
+        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
         
         // Write example bean as base element 'person'
@@ -154,8 +154,8 @@ public class ReadExampleApp {
         
         // Configure the reader
         // If you're round-tripping, make sure that the configurations are compatible!
-        beanReader.getXMLIntrospector().setAttributesForPrimitives(false);
-        beanReader.setMatchIDs(false);
+        beanReader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        beanReader.getBindingConfiguration().setMapIDs(false);
         
         // Register beans so that betwixt knows what the xml is to be converted to
         // Since the element mapped to a PersonBean isn't called the same, 
