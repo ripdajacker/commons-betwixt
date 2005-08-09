@@ -112,14 +112,20 @@ public class WriteExampleApp {
         beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
         beanWriter.getBindingConfiguration().setMapIDs(false);
         beanWriter.enablePrettyPrint();
-        
-        // Write example bean as base element 'person'
+
+        // If the base element is not passed in, Betwixt will guess 
+        // But let's write example bean as base element 'person'
         beanWriter.write("person", new PersonBean("John Smith", 21));
         
         // Write to System.out
         // (We could have used the empty constructor for BeanWriter 
         // but this way is more instructive)
         System.out.println(outputWriter.toString());
+        
+        // Betwixt writes fragments not documents so does not automatically close 
+        // writers or streams.
+        // This example will do no more writing so close the writer now.
+        outputWriter.close();
     }
 }
 
