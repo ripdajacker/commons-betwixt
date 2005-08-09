@@ -49,6 +49,11 @@
           How does Betwixt compare to technologies like JAXB and Castor?
         </a>
       </li>
+      <li>
+        <a href="#performance">
+          Why Can I Make Betwixt Bind Faster?
+        </a>
+      </li>
     </ol>
     <p><strong>Writing Beans</strong></p>
     <ol>
@@ -81,8 +86,7 @@
         <a href="#cdata">
           How can I stop Betwixt escaping my character data?
         </a>
-      </li>      
-      
+      </li>            
     </ol>
     <p><strong>Reading Beans</strong></p>
     <ol>
@@ -168,6 +172,20 @@ a <code>.betwixt</code> file <em>without</em> also adding default propertes?
 			<a href="http://java.sun.com/j2se/1.4/docs/guide/beans/changes14.html">long term bean serialization</a> 
 			mechanism which you can use. However Betwixt generates cleaner looking XML which can be customized
 			to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <a name="performance">
+          	Why Can I Make Betwixt Faster?
+          </a>
+        </dt>
+        <dd>
+Betwixt is a dynamic binder. This means that it uses reflection. One of the biggest costs
+is introspection by reflection of the beans. Betwixt caches the results of reflection in a
+<code>XMLBeanInfoRegistry</code> implementation. One simple way to improve performance is to
+share a single, threadsafe implementation (<code>DefaultXMLBeanInfoRegistry</code>, for example) 
+between all readers and writers.
         </dd>
       </dl>
     </subsection>
