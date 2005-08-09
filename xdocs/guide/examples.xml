@@ -164,8 +164,8 @@ public class ReadExampleApp {
         beanReader.getBindingConfiguration().setMapIDs(false);
         
         // Register beans so that betwixt knows what the xml is to be converted to
-        // Since the element mapped to a PersonBean isn't called the same, 
-        // need to register the path as well
+        // Since the element mapped to a PersonBean isn't called the same 
+        // as Betwixt would have guessed, need to register the path as well
         beanReader.registerBeanClass("person", PersonBean.class);
         
         // Now we parse the xml
