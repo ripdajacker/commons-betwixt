@@ -112,7 +112,8 @@ public class ChainedBeanCreatorFactory {
                 
                 try {
 
-                    return theClass.newInstance();
+                    Object result = theClass.newInstance();
+                    return result;
                     
                 } catch (Exception e) {
                     // it would be nice to have a pluggable strategy for exception management

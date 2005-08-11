@@ -16,9 +16,11 @@
 package org.apache.commons.betwixt.io.read;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanReader;
+import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
@@ -62,5 +64,47 @@ public class TestReadData extends AbstractTestCase {
         }
         
         AlertBean alterBean = (AlertBean) reader.parse(validIn);
+    }
+    
+    public void testWritePrivateStaticClasses() throws Exception {
+        Nested nested = new Nested();
+        nested.setName("Timothy Taylor");
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+        writer.getBindingConfiguration().setMapIDs(false);
+        writer.write("ale", nested);
+        
+        String expected = "<?xml version='1.0'?>" +
+                "<ale><name>Timothy Taylor</name></ale>"; 
+         
+        xmlAssertIsomorphic(parseString(out), parseString(expected), true);
+    }
+    
+    public void testReadPrivateStaticClasses() throws Exception {
+        
+        StringReader in= new StringReader("<?xml version='1.0'?>" +
+                "<ale><name>Timothy Taylor</name></ale>"); 
+        BeanReader reader = new BeanReader();
+        reader.registerBeanClass("ale", Nested.class);
+        reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+        Object out = reader.parse(in);
+        assertTrue("Expected bean to be of type Nested", out instanceof Nested);
+        Nested bean = (Nested) out;
+        assertEquals("Expected name to be set", "Timothy Taylor", bean.getName());
+    }
+
+    private static class Nested {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+        
     }
 }

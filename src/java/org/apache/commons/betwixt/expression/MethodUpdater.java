@@ -102,6 +102,14 @@ public class MethodUpdater extends TypedUpdater {
             );
         }
         Object[] arguments = { newValue };
-        method.invoke( bean, arguments );
+        try
+        {
+            method.invoke( bean, arguments );
+        }
+        catch (IllegalAccessException e)
+        {
+            method.setAccessible(true);
+            method.invoke( bean, arguments );
+        }
     }
 }

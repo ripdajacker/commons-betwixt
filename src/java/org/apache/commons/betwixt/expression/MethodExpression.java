@@ -66,7 +66,18 @@ public class MethodExpression implements Expression {
                     Class type = bean.getClass();
                     Method alternate = findAlternateMethod( type, method );
                     if ( alternate != null ) {
-                        return alternate.invoke( bean, arguments );
+                        try
+                        {
+                            return alternate.invoke( bean, arguments );
+                        } catch (IllegalAccessException ex) {
+                            alternate.setAccessible(true);
+                            return alternate.invoke( bean, arguments );
+                        }
+                    }
+                    else
+                    {
+                        method.setAccessible(true);
+                        return method.invoke( bean, arguments );
                     }
                 } catch (Exception e2) {
                     handleException(context, e2);
