@@ -90,7 +90,7 @@ public class TestReadData extends AbstractTestCase {
         reader.registerBeanClass("ale", Nested.class);
         reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
         Object out = reader.parse(in);
-        assertTrue("Expected bean to be of type Nested", out instanceof Nested);
+        assertEquals("Expected bean to be of type Nested", "org.apache.commons.betwixt.io.read.TestReadData$Nested", out.getClass().getName());
         Nested bean = (Nested) out;
         assertEquals("Expected name to be set", "Timothy Taylor", bean.getName());
     }
