@@ -174,4 +174,11 @@ public class HyphenatedNameMapper implements NameMapper {
             return Character.toLowerCase(ch);
         }
     }
+    
+    /**
+     * Outputs brief description.
+     */
+    public String toString() {
+        return "Hyphenated Name Mapper";
+    }
 }

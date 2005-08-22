@@ -45,4 +45,11 @@ public class DecapitalizeNameMapper implements NameMapper {
     public String mapTypeToElementName(String typeName) {
         return Introspector.decapitalize( typeName );
     }
+    
+    /**
+     * Outputs a brief description.
+     */
+    public String toString() {
+        return "Decapitalize Type Name Mapper";
+    }
 }
