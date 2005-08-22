@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Fixed bug when introspecting in secure environments.
+            </li>
+            <li>
 Fixed formatting bug when pretty printing elements with <code>endTagForEmptyElement</code> is true.
             </li>
             <li>

@@ -544,8 +544,14 @@ public class XMLIntrospector {
         // we first reset the beaninfo searchpath.
         String[] searchPath = null;
         if ( !getConfiguration().useBeanInfoSearchPath() ) {
-            searchPath = Introspector.getBeanInfoSearchPath();
-            Introspector.setBeanInfoSearchPath(new String[] { });
+            try {
+                searchPath = Introspector.getBeanInfoSearchPath();
+                Introspector.setBeanInfoSearchPath(new String[] { });
+            }  catch (SecurityException e) {
+                // this call may fail in some environments
+                getLog().warn("Security manager does not allow bean info search path to be set");
+                getLog().debug("Security exception whilst setting bean info search page", e);
+            }
         }
         
         XMLBeanInfo xmlInfo = registry.get( aClass );
@@ -572,9 +578,16 @@ public class XMLIntrospector {
         if ( getLog().isTraceEnabled() ) {
             getLog().trace( xmlInfo );
         }
-        if ( !getConfiguration().useBeanInfoSearchPath() ) {
-            // we restore the beaninfo searchpath.
-            Introspector.setBeanInfoSearchPath( searchPath );
+        if ( !getConfiguration().useBeanInfoSearchPath() && searchPath != null) {
+            try
+            {
+                // we restore the beaninfo searchpath.
+                Introspector.setBeanInfoSearchPath( searchPath );
+            }  catch (SecurityException e) {
+                // this call may fail in some environments
+                getLog().warn("Security manager does not allow bean info search path to be set");
+                getLog().debug("Security exception whilst setting bean info search page", e);
+            }
         }
         
         return xmlInfo;
