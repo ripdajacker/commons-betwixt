@@ -111,7 +111,7 @@ public abstract class MappingAction {
             return context.getActionMappingStrategy().getMappingAction(namespace, name, attributes, context);
         }
         
-        /* (non-Javadoc)
+        /**
          * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
          */
         public MappingAction begin(
@@ -133,14 +133,14 @@ public abstract class MappingAction {
             return this;
         }
 
-        /* (non-Javadoc)
+        /**
          * @see org.apache.commons.betwixt.io.read.MappingAction#body(java.lang.String, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
          */
         public void body(String text, ReadContext context) throws Exception {
             // do nothing
         }
 
-        /* (non-Javadoc)
+        /**
          * @see org.apache.commons.betwixt.io.read.MappingAction#end(org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.digester.Digester, org.apache.commons.betwixt.XMLIntrospector)
          */
         public void end(ReadContext context) throws Exception {
