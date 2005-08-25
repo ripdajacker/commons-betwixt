@@ -200,6 +200,10 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Added package name property suppression strategy and make default property suppression strategy public
+nest so that it can be subclassed.
+            </li>
+            <li>
 Fixed bug when introspecting in secure environments.
             </li>
             <li>

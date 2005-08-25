@@ -15,10 +15,13 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Pluggable strategy specifying whether property's should be surpressed.
+ * Pluggable strategy specifying whether property's should be suppressed.
  * Implementations can be used to give rules about which properties 
  * should be ignored by Betwixt when introspecting.
  * @since 0.7
@@ -27,11 +30,10 @@ import java.util.Collection;
 public abstract class PropertySuppressionStrategy {
 
     /**
-     * Default implementation supresses the class property
-     * found on every object. Also, the <code>isEmpty</code>
-     * property is supressed for implementations of <code>Collection</code>.
+     * Default implementation.
+     * @see #DEFAULT
      */
-    public static final PropertySuppressionStrategy DEFAULT = new PropertySuppressionStrategy() {
+    public static class Default extends PropertySuppressionStrategy {
         public boolean suppressProperty(Class clazz, Class propertyType, String propertyName) {
             boolean result = false;
             // ignore class properties
@@ -45,7 +47,50 @@ public abstract class PropertySuppressionStrategy {
             
             return result;
         }
-    };
+        
+        public String toString() {
+            return "Default Properties Suppressed";
+        }
+    }
+
+    /**
+     * Implementation delegates to a list of strategies
+     */
+    public static class Chain extends PropertySuppressionStrategy {
+
+        private final List strategies = new ArrayList();
+        
+        /**
+         * @see #suppressProperty(Class, Class, String)
+         */
+        public boolean suppressProperty(Class classContainingTheProperty, Class propertyType, String propertyName) {
+            boolean result = false;
+            for (Iterator it=strategies.iterator(); it.hasNext();) {
+                PropertySuppressionStrategy strategy = (PropertySuppressionStrategy) it.next();
+                if (strategy.suppressProperty(classContainingTheProperty, propertyType, propertyName)) {
+                    result = true;
+                    break;
+                }
+                
+            }
+            return result;
+        }
+        
+        /**
+         * Adds a strategy to the list
+         * @param strategy <code>PropertySuppressionStrategy</code>, not null
+         */
+        public void addStrategy(PropertySuppressionStrategy strategy) {
+            strategies.add(strategy);
+        }
+    }
+    
+    /**
+     * Default implementation suppresses the class property
+     * found on every object. Also, the <code>isEmpty</code>
+     * property is supressed for implementations of <code>Collection</code>.
+     */
+    public static final PropertySuppressionStrategy DEFAULT = new Default();
     
     /**
      * Should the given property be suppressed?
