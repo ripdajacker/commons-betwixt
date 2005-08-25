@@ -65,8 +65,15 @@ public abstract class ComplexType {
             if (type == null) {
                 type = elementDescriptor.getPropertyType();
             }
-            XMLBeanInfo filledBeanInfo = schema.introspect(type);
-            elementDescriptor = filledBeanInfo.getElementDescriptor();
+            if (type == null) {
+               // no type!
+               // TODO: handle this
+               // TODO: add support for logging
+               // TODO: maybe should try singular type?
+            } else {
+                XMLBeanInfo filledBeanInfo = schema.introspect(type);
+                elementDescriptor = filledBeanInfo.getElementDescriptor();
+            }
         }
         return elementDescriptor;
     }

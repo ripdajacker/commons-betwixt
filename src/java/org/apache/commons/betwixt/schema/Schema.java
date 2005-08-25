@@ -118,7 +118,7 @@ public class Schema {
         // use the fully qualified class name as the type name
         GlobalElement element = new GlobalElement(
                             elementDescriptor.getLocalName(), 
-                            elementDescriptor.getPropertyType().getName());
+                            configuration.getSchemaTypeNamingStrategy().nameSchemaType(elementDescriptor));
         addElement(element);
         addGlobalComplexType(configuration, elementDescriptor);
     }	

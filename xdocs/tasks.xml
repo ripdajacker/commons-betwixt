@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Added transcription strategy to allow flexbility for schema type names.
+            </li>
+            <li>
 Added package name property suppression strategy and make default property suppression strategy public
 nest so that it can be subclassed.
             </li>

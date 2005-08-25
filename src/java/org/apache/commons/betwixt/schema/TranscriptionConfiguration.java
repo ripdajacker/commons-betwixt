@@ -17,6 +17,9 @@
 
 package org.apache.commons.betwixt.schema;
 
+import org.apache.commons.betwixt.schema.strategy.SchemaTypeNamingStrategy;
+import org.apache.commons.betwixt.schema.strategy.impl.QualifiedPropertyTypeSchemaNamingStrategy;
+
 /**
  * Configuration for XMLBeanInfo to XML schema transcription.
  * All settings are gathered into this one class for convenience.
@@ -28,6 +31,7 @@ public class TranscriptionConfiguration {
     
     private DataTypeMapper dataTypeMapper = new DefaultDataTypeMapper();
     
+    private SchemaTypeNamingStrategy schemaTypeNamingStrategy = new QualifiedPropertyTypeSchemaNamingStrategy();
     
     /**
      * Gets the <code>DataTypeMapper</code> to be used during the transcription.
@@ -44,5 +48,23 @@ public class TranscriptionConfiguration {
     public void setDataTypeMapper(DataTypeMapper mapper) {
         dataTypeMapper = mapper;
     }
+
+    /**
+     * Gets the stategy to be used for naming types.
+     * @return <code>SchemaTypeNamingStrategy</code>, not null
+     */
+    public SchemaTypeNamingStrategy getSchemaTypeNamingStrategy() {
+        return schemaTypeNamingStrategy;
+    }
+
+    /**
+     * Sets the strategy to be used for naming types.
+     * @param schemaTypeNamingStrategy <code>SchemaTypeNamingStrategy</code>, not null
+     */
+    public void setSchemaTypeNamingStrategy( SchemaTypeNamingStrategy schemaTypeNamingStrategy) {
+        this.schemaTypeNamingStrategy = schemaTypeNamingStrategy;
+    }
+    
+    
 
 }

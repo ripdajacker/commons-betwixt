@@ -31,7 +31,8 @@ import org.apache.commons.betwixt.ElementDescriptor;
 public class GlobalComplexType extends ComplexType {
 	
 	private String name;
-	
+    private TranscriptionConfiguration configuration;
+    
 	public GlobalComplexType() {}
     
     /**
@@ -39,10 +40,11 @@ public class GlobalComplexType extends ComplexType {
      * @param elementDescriptor
      */
     public GlobalComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        super(configuration, elementDescriptor, schema);    
+        super(configuration, elementDescriptor, schema); 
     }
 
     protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
+        this.configuration = configuration;
         setName(nameFromDescriptor( elementDescriptor ));
     }
 
@@ -61,7 +63,7 @@ public class GlobalComplexType extends ComplexType {
     }
     
     private String nameFromDescriptor( ElementDescriptor elementDescriptor ) {
-        return elementDescriptor.getPropertyType().getName();
+        return configuration.getSchemaTypeNamingStrategy().nameSchemaType(elementDescriptor);
     }
     
     /**
