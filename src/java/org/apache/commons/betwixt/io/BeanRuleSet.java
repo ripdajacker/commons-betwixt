@@ -401,10 +401,9 @@ public class BeanRuleSet implements RuleSet {
          */
         public Object popBean() {
             Object bean = super.popBean();
-            Object top = digester.pop();
-            if (digester.peek() == null) {
-                // don't pop the last from the stack
-                digester.push(top);
+            // don't pop the last from the stack
+            if (digester.getCount() > 0) {
+                digester.pop();
             }
             return bean;
         }
