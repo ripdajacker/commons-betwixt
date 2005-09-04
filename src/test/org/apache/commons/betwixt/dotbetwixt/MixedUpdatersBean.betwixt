@@ -28,6 +28,7 @@
         <element name='private-items'>
             <element name='private-item' property='privateItems' updater='addPrivateItem' forceAccessible='true'/>
         </element>
+        <element name='private-super' property='superPrivate'  updater='setSuperPrivate' forceAccessible='true'/>
         <addDefaults/>
   </element>
 </info>

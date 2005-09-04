@@ -253,7 +253,11 @@ public class ElementRule extends MappedPropertyRule {
             PropertyDescriptor descriptor = getPropertyDescriptor(beanClass,
                     name);
 
-            if (descriptor != null) {
+            if (descriptor == null) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Cannot find property matching " + name);
+                }
+            } else {
                 configureProperty(elementDescriptor, descriptor,
                         updateMethodName, forceAccessible, beanClass);
 

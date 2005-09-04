@@ -23,6 +23,9 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
@@ -49,6 +52,22 @@ public class TestXmlToBean extends XmlTestCase {
 
 //---------------------------------- Tests
     
+    public void testForceAccessibleSuper() throws Exception {
+        XMLIntrospector xmlIntrospector = new XMLIntrospector();
+        XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(MixedUpdatersBean.class);
+        ElementDescriptor[] descriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
+        boolean propertyFound = false;
+        for (int i=0; i<descriptors.length ; i++) {
+            ElementDescriptor descriptor = descriptors[i];
+            if ("private-super".equals(descriptor.getLocalName())) {
+                propertyFound = true;
+                assertNotNull("Updater found", descriptor.getUpdater());
+                assertNotNull("Expression found", descriptor.getTextExpression());
+            }
+        }
+        assertTrue("Found inaccessible super methods", propertyFound);
+    }
+    
     public void testCustomUpdaters() throws Exception {
         // might as well check writer whilst we're at it
         MixedUpdatersBean bean = new MixedUpdatersBean("Lov");
@@ -59,6 +78,7 @@ public class TestXmlToBean extends XmlTestCase {
         bean.badItemAdder("Death");
         bean.privatePropertyWorkaroundSetter("Private");
         bean.getPrivateItems().add("private item 1");
+        bean.privateField = 100;
 
         StringWriter out = new StringWriter();
         out.write("<?xml version='1.0'?>");
@@ -71,7 +91,8 @@ public class TestXmlToBean extends XmlTestCase {
           + "<items><item>White</item><item>Life</item></items>"
           + "<bad-items><bad-item>Black</bad-item><bad-item>Death</bad-item></bad-items>"
           + "<private-property>Private</private-property>"
-          + "<private-items><private-item>private item 1</private-item></private-items>"
+          + "<private-items><private-item>private item 1</private-item></private-items>" +
+            "<private-super>100</private-super>"
           + "</mixed>";
         
         xmlAssertIsomorphicContent(
@@ -102,6 +123,7 @@ public class TestXmlToBean extends XmlTestCase {
         List privateItems = bean.getPrivateItems();
         assertEquals("Wrong number of private items", 1, privateItems.size());
         //TODO can't assert contents - gets the right number of items, but each is null (badItems, too)
+        assertEquals("Private property accessed on super", 100, bean.privateField);
     }
 
     

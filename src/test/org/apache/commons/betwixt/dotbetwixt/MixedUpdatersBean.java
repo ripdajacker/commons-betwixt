@@ -24,7 +24,7 @@ import java.util.List;
   *
   * @author Robert Burrell Donkin
   */
-public class MixedUpdatersBean {
+public class MixedUpdatersBean extends PrivateMethodsBean {
     
 //-------------------------- Attributes
     private String name;
