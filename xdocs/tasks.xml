@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Added support for multiple contained polymorphic mappings.
+            </li>
+            <li>
 Added transcription strategy to allow flexbility for schema type names.
             </li>
             <li>
