@@ -15,6 +15,8 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
+import java.lang.reflect.Constructor;
+
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.logging.Log;
@@ -28,6 +30,9 @@ import org.apache.commons.logging.Log;
   */
 public class ChainedBeanCreatorFactory {
     
+    private static final Class[] EMPTY_CLASS_ARRAY = {};
+    private static final Object[] EMPTY_OBJECT_ARRAY = {};
+    
     /** Singleton instance for creating derived beans */
     private static final ChainedBeanCreator derivedBeanCreator 
         = new ChainedBeanCreator() {
@@ -36,6 +41,7 @@ public class ChainedBeanCreatorFactory {
                                 ReadContext context, 
                                 BeanCreationChain chain) {
                                 
+                Log log = context.getLog();
                 String className 
                     = elementMapping
                         .getAttributes().getValue( context.getClassNameAttribute() );
@@ -43,17 +49,27 @@ public class ChainedBeanCreatorFactory {
                     try {
                         // load the class we should instantiate
                         ClassLoader classLoader = context.getClassLoader();
+                        Class clazz = null;
                         if ( classLoader == null ) {
-                            context.getLog().warn( 
-            "Could not create derived instance: read context classloader not set." );
+                            log.warn("Read context classloader not set." );
+                        } else {
+                            try
+                            {
+                                clazz = classLoader.loadClass( className );
+                            } catch (ClassNotFoundException e) {
+                                log.info("Class not found in context classloader:");
+                                log.debug(clazz, e);
+                            }
                         }
-                        Class clazz = classLoader.loadClass( className );
-                        return clazz.newInstance();
+                        if (clazz == null) {
+                            clazz = Class.forName(className);
+                        }
+                        return newInstance(clazz, log);
                                         
                     } catch (Exception e) {
                         // it would be nice to have a pluggable strategy for exception management
-                        context.getLog().warn( "Could not create instance of type: " + className );
-                        context.getLog().debug( "Create new instance failed: ", e );
+                        log.warn( "Could not create instance of type: " + className );
+                        log.debug( "Create new instance failed: ", e );
                         return null;
                     }
                     
@@ -71,6 +87,37 @@ public class ChainedBeanCreatorFactory {
       */
     public static final ChainedBeanCreator createDerivedBeanCreator() {
         return derivedBeanCreator;
+    }
+    
+    /**
+     * Constructs a new instance of the given class.
+     * Access is forced.
+     * @param theClass <code>Class</code>, not null
+     * @param log <code>Log</code>, not null
+     * @return <code>Object</code>, an instance of the given class
+     * @throws Exception
+     */
+    private static final Object newInstance(Class theClass, Log log) throws Exception {
+        Object result = null;
+        try {
+            Constructor constructor = theClass.getConstructor(EMPTY_CLASS_ARRAY);
+            if (!constructor.isAccessible()) {
+                constructor.setAccessible(true);
+            }
+            result = constructor.newInstance(EMPTY_OBJECT_ARRAY);
+        } catch (SecurityException e) {
+            log.debug("Cannot force accessibility to constructor", e);
+        
+        } catch (NoSuchMethodException e) {
+            if (log.isDebugEnabled()) { 
+                log.debug("Class " + theClass + " has no empty constructor.");
+            }
+        }
+        
+        if (result == null) {
+            result = theClass.newInstance();
+        }
+        return result; 
     }
     
     /** Singleton instance that creates beans based on type */
@@ -112,7 +159,7 @@ public class ChainedBeanCreatorFactory {
                 
                 try {
 
-                    Object result = theClass.newInstance();
+                    Object result = newInstance(theClass, log);
                     return result;
                     
                 } catch (Exception e) {
