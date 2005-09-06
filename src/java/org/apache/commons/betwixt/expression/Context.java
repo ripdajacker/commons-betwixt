@@ -325,7 +325,7 @@ public class Context {
      */
     public void popOptions() {
         if (optionStack.isEmpty()) {
-            log.info("Cannot pop options off empty stack");
+            log.debug("Cannot pop options off empty stack");
         } else {
             optionStack.pop();
         }
