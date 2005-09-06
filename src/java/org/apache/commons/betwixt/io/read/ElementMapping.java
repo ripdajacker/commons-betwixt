@@ -122,4 +122,17 @@ public class ElementMapping {
     public void setDescriptor(ElementDescriptor descriptor) {
         this.descriptor = descriptor;
     }
+    
+    /**
+     * Returns something useful for logging.
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("ElementMapping[");
+        buffer.append(name);
+        buffer.append(" -> ");
+        buffer.append(type);
+        buffer.append("]");
+        return buffer.toString();
+    }
 }
