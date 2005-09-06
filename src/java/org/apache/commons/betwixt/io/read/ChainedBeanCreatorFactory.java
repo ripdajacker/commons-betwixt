@@ -134,10 +134,7 @@ public class ChainedBeanCreatorFactory {
                 ElementDescriptor descriptor = element.getDescriptor();
                 if ( descriptor != null ) {
                     // check for polymorphism 
-                    if (descriptor.isPolymorphic()) {
-                        theClass = context.getXMLIntrospector().getPolymorphicReferenceResolver()
-                            .resolveType(element, context);
-                    }
+                    theClass = context.resolvePolymorphicType(element);
                     
                     if (theClass == null)
                     {

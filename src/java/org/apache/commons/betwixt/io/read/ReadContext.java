@@ -25,6 +25,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Updater;
+import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
 import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.logging.Log;
@@ -526,6 +527,82 @@ public class ReadContext extends Context {
         return result;  
     }
 
+    /**
+     * Resolves any polymorphism in the element mapping.
+     * @param mapping <code>ElementMapping</code> describing the mapped element
+     * @return <code>null</code> if the type cannot be resolved 
+     * or if the current descriptor is not polymorphic
+     */
+    public Class resolvePolymorphicType(ElementMapping mapping) {
+        Class result = null;
+        Log log = getLog();
+        try {
+            ElementDescriptor currentDescriptor = getCurrentDescriptor();
+            if (currentDescriptor != null) {
+                if (currentDescriptor.isPolymorphic()) {
+                    PolymorphicReferenceResolver resolver = getXMLIntrospector().getPolymorphicReferenceResolver();
+                    result = resolver.resolveType(mapping, this);
+                    if (result == null) {
+                        // try the other polymorphic descriptors
+                        ElementDescriptor parent = getParentDescriptor();
+                        if (parent != null) {
+                            ElementDescriptor[] descriptors = parent.getElementDescriptors();
+                            ElementDescriptor originalDescriptor = mapping.getDescriptor();
+                            boolean resolved = false;
+                            for (int i=0; i<descriptors.length;i++) {
+                                ElementDescriptor descriptor = descriptors[i];
+                                if (descriptor.isPolymorphic()) {
+                                    mapping.setDescriptor(descriptor);
+                                    result = resolver.resolveType(mapping, this);
+                                    if (result != null) {
+                                        resolved = true;
+                                        descriptorStack.pop();
+                                        popOptions();
+                                        descriptorStack.push(descriptor);
+                                        pushOptions(descriptor.getOptions());
+                                        Updater originalUpdater = originalDescriptor.getUpdater();
+                                        Updater newUpdater = descriptor.getUpdater();
+                                        substituteUpdater(originalUpdater, newUpdater);
+                                        break;
+                                    }
+                                }
+                            }
+                            if (resolved) {
+                                log.debug("Resolved polymorphic type");
+                            } else {
+                                log.debug("Failed to resolve polymorphic type");
+                                mapping.setDescriptor(originalDescriptor);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.info("Failed to resolved polymorphic type");
+            log.debug(mapping, e);
+        }
+        return result;
+    }
 
+    /**
+     * Substitutes one updater in the stack for another.
+     * @param originalUpdater <code>Updater</code> possibly null
+     * @param newUpdater <code>Updater</code> possibly null
+     */
+    private void substituteUpdater(Updater originalUpdater, Updater newUpdater) {
+        // recursively pop elements off the stack until the first match is found
+        // TODO: may need to consider using custom NILL object and match descriptors
+        if (!updaterStack.isEmpty()) {
+            Updater updater = (Updater) updaterStack.pop();
+            if (originalUpdater == null && updater == null) {
+                updaterStack.push(newUpdater);
+            } else if (originalUpdater.equals(updater)) {
+                updaterStack.push(newUpdater);
+            } else {
+                substituteUpdater(originalUpdater, newUpdater);
+                updaterStack.push(updater);
+            }
+        }
+    }
 
 }
