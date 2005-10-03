@@ -200,6 +200,10 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Improved support for subclasses of Java collective types
+by factoring collective type recognition into strategy.
+            </li>
+            <li>
 Added support for multiple contained polymorphic mappings.
             </li>
             <li>

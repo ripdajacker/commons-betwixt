@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
+import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
 import org.apache.commons.betwixt.strategy.MappingDerivationStrategy;
@@ -89,7 +90,8 @@ public class IntrospectionConfiguration {
     private SimpleTypeMapper simpleTypeMapper = new StandardSimpleTypeMapper();
     /** Binding strategy for Java type */
     private TypeBindingStrategy typeBindingStrategy = TypeBindingStrategy.DEFAULT;
-    
+    /** Strategy used for determining which types are collective */
+    private CollectiveTypeStrategy collectiveTypeStrategy = CollectiveTypeStrategy.DEFAULT;
     
     /** 
      * Strategy used to determine whether the bind or introspection time type is to be used to  
@@ -385,6 +387,23 @@ public class IntrospectionConfiguration {
         this.propertySuppressionStrategy = propertySuppressionStrategy;
     }
     
+    /**
+     * Gets the strategy used to determine which types are collective.
+     * @return <code>CollectiveTypeStrategy</code>, not null
+     */
+    public CollectiveTypeStrategy getCollectiveTypeStrategy() {
+        return collectiveTypeStrategy;
+    }
+
+    /**
+     * Sets the strategy used to determine which types are collective.
+     * @param collectiveTypeStrategy <code>CollectiveTypeStrategy</code>, not null
+     */
+    public void setCollectiveTypeStrategy(
+            CollectiveTypeStrategy collectiveTypeStrategy) {
+        this.collectiveTypeStrategy = collectiveTypeStrategy;
+    }
+
     /** 
      * Is this a loop type class?
      * @since 0.7
@@ -392,16 +411,6 @@ public class IntrospectionConfiguration {
      * @return true if the type is a loop type, or if type is null 
      */
     public boolean isLoopType(Class type) {
-        // consider: should this be factored into a pluggable strategy?
-        // check for NPEs
-        if (type == null) {
-            return false;
-        }
-        return type.isArray() 
-            || Map.class.isAssignableFrom( type ) 
-            || Collection.class.isAssignableFrom( type ) 
-            || Enumeration.class.isAssignableFrom( type ) 
-            || Iterator.class.isAssignableFrom( type )
-            || Map.Entry.class.isAssignableFrom( type ) ;
+        return getCollectiveTypeStrategy().isCollective(type);
     }
 }
