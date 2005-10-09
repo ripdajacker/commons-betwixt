@@ -1393,7 +1393,7 @@ public abstract class AbstractBeanWriter {
 			AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors();
 			length = super.getLength();
 			for (int i=0; i<length; i++) {
-				if (idAttributeName.equals(attributeDescriptors[i])) {
+				if (idAttributeName.equals(attributeDescriptors[i].getQualifiedName())) {
 					matchingAttribute = true;
 					idIndex = i;
 					break;

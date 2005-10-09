@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Fixed attribute ID name recognition bug (Issue #36929). 
+            </li>
+            <li>
 Added support for text and options into multi-mappings.
             </li>
             <li>
