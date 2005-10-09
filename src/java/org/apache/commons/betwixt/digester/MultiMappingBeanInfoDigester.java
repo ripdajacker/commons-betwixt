@@ -41,11 +41,8 @@ public class MultiMappingBeanInfoDigester extends XMLBeanInfoDigester {
 	        // add the various rules
 	        addRule("betwixt-config", new ConfigRule());
 	        addRule("betwixt-config/class", new ClassRule());
-	        addRule("*/element", new ElementRule());
-	        addRule("*/attribute", new AttributeRule());
-	        addRule("*/hide", new HideRule());
-	        addRule("*/addDefaults", new AddDefaultsRule());
-	    }
+	        addRuleSet(new CommonRuleSet());
+        }
         
 	    // now initialize
 	    //setAttributesForPrimitives(true);

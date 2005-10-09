@@ -140,6 +140,10 @@
       <name>Brian Pugh</name>
       <email></email>
     </contributor>
+    <contributor>
+      <name>Brian Ferris</name>
+      <email></email>
+    </contributor>
   </contributors>
 
   <dependencies>

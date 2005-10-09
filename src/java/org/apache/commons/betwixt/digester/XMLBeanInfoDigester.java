@@ -158,16 +158,8 @@ public class XMLBeanInfoDigester extends Digester {
             // add the various rules
             
             addRule( "info", new InfoRule() );
-            addRule( "*/element", new ElementRule() );
-            addRule( "*/text", new TextRule() );
-            addRule( "*/attribute", new AttributeRule() );
-            addRule( "*/hide", new HideRule() );
-            addRule( "*/addDefaults", new AddDefaultsRule() );
+            addRuleSet(new CommonRuleSet());
             
-            OptionRule optionRule = new OptionRule();
-            addRule( "*/option", optionRule );
-            addRule( "*/option/name", optionRule.getNameRule() );
-            addRule( "*/option/value", optionRule.getValueRule() );
         }
         
         // now initialize

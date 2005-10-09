@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Added support for text and options into multi-mappings.
+            </li>
+            <li>
 Improved support for subclasses of Java collective types
 by factoring collective type recognition into strategy.
             </li>
