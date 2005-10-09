@@ -109,7 +109,7 @@ public class TextRule extends MappedPropertyRule {
         if ( top instanceof XMLBeanInfo ) {
             XMLBeanInfo beanInfo = (XMLBeanInfo) top;
             ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
-            if (elementDescriptor == null) {
+            if (elementDescriptor != null) {
                 elementDescriptor.addContentDescriptor( descriptor );
             }
             
