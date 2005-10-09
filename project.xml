@@ -137,7 +137,11 @@
   </developers>
     <contributors>
     <contributor>
-      <name>Brian Pugh</name>
+      <name>Dave Brosius</name>
+      <email></email>
+    </contributor>
+    <contributor>
+      <name>Thomas Dudziak</name>
       <email></email>
     </contributor>
     <contributor>
@@ -145,7 +149,7 @@
       <email></email>
     </contributor>
     <contributor>
-      <name>Dave Brosius</name>
+      <name>Brian Pugh</name>
       <email></email>
     </contributor>
   </contributors>
