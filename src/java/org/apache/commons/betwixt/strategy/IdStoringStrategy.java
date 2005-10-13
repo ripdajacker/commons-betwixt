@@ -33,10 +33,22 @@ public abstract class IdStoringStrategy {
     /**
      * Default storage strategy
      * 
-     * @see DefaultIdStoringStrategy
+     * @deprecated do not use this singleton since it 
+     * creates a static Map of all objects ever written. 
+     * Use {@link #createDefault} instead
      */
     public static IdStoringStrategy DEFAULT = new DefaultIdStoringStrategy();
 
+    /**
+     * Factory method creates the default <code>Betwixt</code> implementation.
+     * The implementation created may vary if the default implementation changes.
+     * @return <code>IdStoringStrategy</code> used as default
+     */
+    public static IdStoringStrategy createDefault() {
+        return new DefaultIdStoringStrategy();
+    }
+        
+    
     /**
      * Retrieves a reference for the given instance.
      * If a not null value is returned from this method,

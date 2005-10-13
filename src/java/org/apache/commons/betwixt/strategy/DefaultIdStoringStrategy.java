@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.expression.Context;
  * Stores every ID that given to it into an internal <code>HashMap</code> and
  * returns it on request.
  * 
- * @author <a href="mailto:christian@wilde-welt.de">Christian Aust </a>
+ * @author <a href="mailto:christian@wilde-welt.de">Christian Aust</a>
  * @since 0.7
  */
 public class DefaultIdStoringStrategy extends IdStoringStrategy {

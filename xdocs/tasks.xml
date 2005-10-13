@@ -411,6 +411,16 @@ sections (in addition to character escaping).
 <section name='Deprecated'>
 	<subsection name='Since 0.7'>
 		<ul>
+			<li>IdStoringStrategy
+				<ul>
+					<li>IdStoringStrategy.DEFAULT should never have been a constant
+					since the implementation uses instance variables.
+					Using this constant will result in a memory leak.
+					Note: use proper factory methods 
+					rather than public constant fields in the future!
+					</li>
+				</ul>
+			</li>
 			<li>ElementRule added forceAccessible attribute
 				<ul>
 					<li>configureDescriptor replaced by private method with extra parameter</li>

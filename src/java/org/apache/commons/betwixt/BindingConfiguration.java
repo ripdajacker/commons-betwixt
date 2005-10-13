@@ -50,7 +50,7 @@ public class BindingConfiguration implements Serializable {
     /** Strategy for suppressing attributes with certain values when writing */
     private ValueSuppressionStrategy valueSuppressionStrategy  = ValueSuppressionStrategy.DEFAULT;
     /** Strategy for storing and accessing ID values */
-    private IdStoringStrategy idStoringStrategy = IdStoringStrategy.DEFAULT;
+    private IdStoringStrategy idStoringStrategy = IdStoringStrategy.createDefault();
     
     /**
      * Constructs a BindingConfiguration with default properties.
