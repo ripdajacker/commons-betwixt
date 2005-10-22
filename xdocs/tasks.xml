@@ -200,6 +200,11 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
             <li>
+Added convenience constructor to DefaultIdStoringStrategy.
+This makes life easier for users that want to use object identity
+(rather than equality) when generating IDs.
+            </li>
+            <li>
 Fixed TextRule content bug. (Issue #36930).
             </li>
             <li>

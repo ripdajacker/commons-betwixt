@@ -21,8 +21,14 @@ import java.util.Map;
 import org.apache.commons.betwixt.expression.Context;
 
 /**
- * Stores every ID that given to it into an internal <code>HashMap</code> and
+ * <p>Stores every ID that given to it into an internal <code>HashMap</code> and
  * returns it on request.
+ * </p><p>
+ * {@link DefaultIdStoringStrategy(Map, Map)} allows the implementations
+ * to be specified.
+ * For example, those who want to use identity (rather than equality) 
+ * should pass a <code>IdentityHashMap</code> instance.
+ * </p>
  * 
  * @author <a href="mailto:christian@wilde-welt.de">Christian Aust</a>
  * @since 0.7
@@ -32,14 +38,26 @@ public class DefaultIdStoringStrategy extends IdStoringStrategy {
     private Map beanByIdMap;
 
     /**
-     * Constructs a {@link IdStoringStrategy}using a <code>HashMap</code> for
+     * Constructs a {@link IdStoringStrategy} using a <code>HashMap</code> for
      * storage.
      */
     public DefaultIdStoringStrategy() {
-        idByBeanMap = new HashMap();
-        beanByIdMap = new HashMap();
+        this(new HashMap(), new HashMap());
     }
 
+    /**
+     * Constructs a {@link IdStoringStrategy}using the <code>Map</code> 
+     * implementations provided for storage.
+     * 
+     * @param idByBeanMap <code>Map</code> implementation stores the ID's by bean
+     * @param beanByIdMap <code>Map</code> implementation stores the bean's by ID
+     */
+    public DefaultIdStoringStrategy(Map idByBeanMap, Map beanByIdMap) {
+        this.idByBeanMap = idByBeanMap;
+        this.beanByIdMap = beanByIdMap;
+    }
+
+    
     /**
      * Returns a String id for the given bean if it has been stored previously.
      * Otherwise returns null.
