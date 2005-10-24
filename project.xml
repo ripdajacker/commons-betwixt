@@ -185,12 +185,18 @@
       <id>xerces</id>
       <version>2.4.0</version>
       <url>http://xml.apache.org/xerces2-j/index.html</url>
+      <properties>
+          <comment>Any JAXP compliant parser (1.2 or later).</comment>
+      </properties>
     </dependency>
 
     <dependency>
       <id>xml-apis</id>
       <version>1.0.b2</version>
       <url>http://xml.apache.org/commons/</url>
+      <properties>
+          <comment>Any JAXP compliant parser (1.2 or later)</comment>
+      </properties>
     </dependency>
 
 	<!-- for unit tests -->
@@ -198,6 +204,9 @@
       <id>junit</id>
       <version>3.8.1</version>
       <url>http://www.junit.org</url>
+      <properties>
+          <comment>Used only for unit testing</comment>
+      </properties>
     </dependency>
 
   </dependencies>
