@@ -330,5 +330,31 @@ public class Context {
             optionStack.pop();
         }
     }
+
+    /**
+     * Gets the value of the first option with this name.
+     * The stack of inherited options is search (starting
+     * from the current option) until an option with a non-null
+     * value for the named option is found.
+     * 
+     * @param name the name of the option to be found
+     * @return option value or null if this value is never set
+     */
+    public String getInheritedOption(String name) {
+        String result = null;
+        for (int i=0; i<optionStack.size() ; i++)
+        {
+            Options options = (Options) optionStack.peek(i);
+            if (options != null)
+            {
+                result = options.getValue(name);
+                if (result != null)
+                {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
     
 }

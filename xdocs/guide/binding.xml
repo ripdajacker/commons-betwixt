@@ -724,7 +724,8 @@ render the time components). The same type may come in different <em>flavours</e
         	<p>
 The recommended way to solve this kind of problem is to added options to the betwixt file
 which can then be picked up by the custom converter and used to determine the appropriate
-conversion.	
+conversion.	Note that options are not directly inherited. Instead use 
+<code>getInheritedOption</code> on <code>Context</code>.
         </p>
         	<p>
 For example, consider a bean representing a person with an attribute
