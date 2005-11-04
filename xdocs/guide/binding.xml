@@ -832,7 +832,7 @@ writes out a bean according to the mapping given in the string.
 This xml document format extends the <code>.betwixt</code> vocabulary so that several
 different classes mapping can be registered by a single document.  
 The mapping file format is an intuitive extension to the standard .betwixt format.
-The root elements is <code>&lt;betwixt-config&gt;</code> which contains one or more
+The root element is <code>&lt;betwixt-config&gt;</code> which contains one or more
 <code>&lt;class&gt;</code> elements. Each of these specifies a class and contains
 a mapping definition for that class (as found in a standard dot betwixt document).
         </p>
