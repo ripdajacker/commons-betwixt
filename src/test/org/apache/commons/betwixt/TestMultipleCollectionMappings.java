@@ -56,7 +56,7 @@ public class TestMultipleCollectionMappings extends AbstractTestCase
             return _nodes.iterator();
         }
 
-        public void addNode(Node node)
+        public void addNode(Node1 node)
         {
             _nodes.add(node);
         }
@@ -71,13 +71,55 @@ public class TestMultipleCollectionMappings extends AbstractTestCase
     public static class ElementB implements Element
     {}
 
-    public static abstract class Node
+    public static class ElementC
     {}
 
-    public static class Node1 extends Node
-    {}
+    public static class Node1
+    {
+        private String name;
 
-    public static class Node2 extends Node
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+    }
+
+    public static class Node2 extends Node1
+    {
+        private String name;
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+    }
+
+    public static class Node3
+    {
+        private List _innerNodes = new ArrayList();
+
+        public Iterator getInnerNodes()
+        {
+            return _innerNodes.iterator();
+        }
+
+        public void addInnerNode(InnerNode node)
+        {
+            _innerNodes.add(node);
+        }
+    }
+
+    public static class InnerNode
     {}
 
     private static final String MAPPING =
@@ -95,11 +137,27 @@ public class TestMultipleCollectionMappings extends AbstractTestCase
         "  <class name=\""+ElementB.class.getName()+"\">\n"+
         "    <element name=\"elementB\"/>\n"+
         "  </class>\n"+
+        "  <class name=\""+ElementC.class.getName()+"\">\n"+
+        "    <element name=\"elementC\"/>\n"+
+        "  </class>\n"+
         "  <class name=\""+Node1.class.getName()+"\">\n"+
-        "    <element name=\"node1\"/>\n"+
+        "    <element name=\"node1\">\n"+
+        "      <attribute name=\"name\" property=\"name\"/>\n"+
+        "    </element>\n"+
         "  </class>\n"+
         "  <class name=\""+Node2.class.getName()+"\">\n"+
-        "    <element name=\"node2\"/>\n"+
+        "    <element name=\"node2\">\n"+
+        "      <attribute name=\"name\" property=\"name\"/>\n"+
+        "    </element>\n"+
+        "  </class>\n"+
+        "  <class name=\""+Node3.class.getName()+"\">\n"+
+        "    <element name=\"node2\">\n"+
+        "      <attribute name=\"name\" property=\"name\"/>\n"+
+        "      <element property=\"innerNodes\" updater=\"addInnerNode\"/>\n"+
+        "    </element>\n"+
+        "  </class>\n"+
+        "  <class name=\""+InnerNode.class.getName()+"\">\n"+
+        "    <element name=\"innerNode\"/>\n"+
         "  </class>\n"+
         "</betwixt-config>";
     private static final String EXPECTED1 =
@@ -123,6 +181,14 @@ public class TestMultipleCollectionMappings extends AbstractTestCase
         "    <node2/>\n"+
         "    <node1/>\n"+
         "    <node2/>\n"+
+        "  </container>\n";
+    private static final String INVALID_XML =
+        "<?xml version=\"1.0\" ?>\n"+
+        "  <container>\n"+
+        "    <elementA/>\n"+
+        "    <elementC/>\n"+
+        "    <node3 name=\"test\"/>\n"+
+        "    <innerNode/>\n"+
         "  </container>\n";
     
     public TestMultipleCollectionMappings(String testName)
@@ -262,5 +328,23 @@ public class TestMultipleCollectionMappings extends AbstractTestCase
         assertTrue(it.next() instanceof Node2);
         assertFalse(it.hasNext());
 
+    }
+
+    public void testInvalidXML() throws IOException, SAXException, IntrospectionException
+    {
+        BeanReader beanReader = new BeanReader();
+
+        beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+
+        StringReader xmlReader = new StringReader(INVALID_XML);
+        Container    container = (Container)beanReader.parse(xmlReader);
+        Iterator     it        = container.getElements();
+
+        assertTrue(it.next() instanceof ElementA);
+        assertFalse(it.hasNext());
+
+        it = container.getNodes();
+
+        assertFalse(it.hasNext());
     }
 }

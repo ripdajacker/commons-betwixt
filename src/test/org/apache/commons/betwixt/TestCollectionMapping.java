@@ -60,6 +60,9 @@ public class TestCollectionMapping extends AbstractTestCase
     public static class ElementB implements Element
     {}
 
+    public static class ElementC
+    {}
+
     private static final String MAPPING =
         "<?xml version=\"1.0\"?>\n"+
         "<betwixt-config>\n"+
@@ -76,6 +79,9 @@ public class TestCollectionMapping extends AbstractTestCase
         "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementB\">\n"+
         "    <element name=\"elementB\"/>\n"+
         "  </class>\n"+
+        "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementC\">\n"+
+        "    <element name=\"elementC\"/>\n"+
+        "  </class>\n"+
         "</betwixt-config>";
     private static final String EXPECTED =
         "<?xml version=\"1.0\" ?>\n"+
@@ -83,6 +89,13 @@ public class TestCollectionMapping extends AbstractTestCase
         "    <elements>\n"+
         "      <elementB/>\n"+
         "      <elementA/>\n"+
+        "    </elements>\n"+
+        "  </container>\n";
+    private static final String INVALID_XML =
+        "<?xml version=\"1.0\" ?>\n"+
+        "  <container>\n"+
+        "    <elements>\n"+
+        "      <elementC/>\n"+
         "    </elements>\n"+
         "  </container>\n";
     
@@ -129,5 +142,18 @@ public class TestCollectionMapping extends AbstractTestCase
         assertTrue(it.next() instanceof ElementA);
         assertFalse(it.hasNext());
     }
-    
+
+    public void testInvalidXML() throws IOException, IntrospectionException, SAXException
+    {
+        BeanReader beanReader = new BeanReader();
+
+        beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+
+        StringReader xmlReader = new StringReader(INVALID_XML);
+        Container    container = (Container)beanReader.parse(xmlReader);
+
+        // either we get an exception in the parse method (would perhaps be better)
+        // or the collection is empty (ElementC cannot be added)
+        assertFalse(container.getElements().hasNext());
+    }
 }

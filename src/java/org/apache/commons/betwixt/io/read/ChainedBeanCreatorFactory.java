@@ -15,9 +15,11 @@
  */ 
 package org.apache.commons.betwixt.io.read;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Constructor;
 
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.logging.Log;
 
@@ -146,6 +148,31 @@ public class ChainedBeanCreatorFactory {
                 if ( theClass == null ) {
                     // create based on type
                     theClass = element.getType();
+                }
+                
+                if (descriptor != null && descriptor.isPolymorphic()) {
+                    // check that the type is suitably named
+                    try {
+                        XMLBeanInfo xmlBeanInfo = context.getXMLIntrospector().introspect(theClass);
+                        String namespace = element.getNamespace();
+                        String name = element.getName();
+                        if (namespace == null) {
+                            if (!name.equals(xmlBeanInfo.getElementDescriptor().getQualifiedName())) {
+                                context.getLog().debug("Polymorphic type does not match element");
+                                return null;
+                            }
+                        } else if (!namespace.equals(xmlBeanInfo.getElementDescriptor().getURI())
+                                || !name.equals(xmlBeanInfo.getElementDescriptor().getLocalName())) {
+                            context.getLog().debug("Polymorphic type does not match element");
+                            return null;
+                        }
+                    } catch (IntrospectionException e) {
+                        context.getLog().warn( 
+                            "Could not introspect type to test introspection: " + theClass.getName() );
+                        context.getLog().debug( "Introspection failed: ", e );
+                        return null;
+                    }
+                    
                 }
                 
                 if ( log.isTraceEnabled() ) {
