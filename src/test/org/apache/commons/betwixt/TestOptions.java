@@ -73,4 +73,24 @@ public class TestOptions extends TestCase {
         }
     }
     
+    public void testAddOptions() {
+        Options a = new Options();
+        a.addOption("A", "Alpha");
+        a.addOption("B", "Beta");
+        a.addOption("C", "Gamma");
+        
+        Options b = new Options();
+        b.addOption("A", "Apple");
+        b.addOption("C", "Carrot");
+        b.addOption("E", "Egg Plant");
+        
+        a.addOptions(b);
+        
+        // Lat value set wins
+        assertEquals("Apple",a.getValue("A"));
+        assertEquals("Beta",a.getValue("B"));
+        assertEquals("Carrot",a.getValue("C"));
+        assertEquals("Egg Plant",a.getValue("E"));
+    }
+    
 }

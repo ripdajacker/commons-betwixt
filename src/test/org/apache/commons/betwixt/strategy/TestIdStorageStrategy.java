@@ -17,12 +17,12 @@ package org.apache.commons.betwixt.strategy;
 
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Iterator;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
+import org.xml.sax.InputSource;
 
 /**
  */
@@ -123,4 +123,251 @@ public class TestIdStorageStrategy extends AbstractTestCase {
     }
     
     
+    public void testWriteWithOptions() throws Exception {
+        
+        final Element alpha = new Element("ONE");
+        Element beta = new Element("TWO");
+        ElementsList elements = new ElementsList();
+        elements.addElement(alpha);
+        elements.addElement(beta);
+        
+        String MAPPING = "<?xml version='1.0'?>" +
+        "<betwixt-config>" +
+        "  <class name=\"" + ElementsList.class.getName() + "\">" +
+        "    <element name=\"ElementsList\">" +
+        "      <option>" +
+        "        <name>id-strategy-prefix</name>" +
+        "        <value>alice</value>" +
+        "      </option>" +
+        "      <element name=\"elements\">" +
+        "        <element property=\"elements\">" +
+        "          <option>" +
+        "            <name>id-strategy-prefix</name>" +
+        "            <value>bob</value>" +
+        "          </option>" +
+        "        </element>" +
+        "      </element>" +
+        "    </element>" +
+        "  </class>" +
+        "</betwixt-config>";
+
+        IdStoringStrategy storingStrategy = new DefaultIdStoringStrategy() {
+
+            public String getReferenceFor(Context context, Object bean) {
+                String result = null;
+                if( bean instanceof ElementsList) {
+                    assertNotNull( context.getOptions() );
+                    assertEquals("Checking ElementsList option","alice",context.getOptions().getValue("id-strategy-prefix"));
+                }
+                if( bean instanceof Element) {
+                    assertNotNull( context.getOptions() );
+                    assertEquals("Checking Element option","bob",context.getOptions().getValue("id-strategy-prefix"));
+                }
+                if (bean == alpha) {
+                    result = "ALPHA";
+                }
+                else
+                {
+                    result = super.getReferenceFor(context, bean);
+                }
+                return result;
+            }
+
+            public void setReference(Context context, Object bean, String id) {
+                if (bean != alpha) {
+                     super.setReference(context, bean, id);
+                }
+            }            
+        };
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
+        writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        writer.write(elements);
+        
+        String expected = "<?xml version='1.0'?>" +
+                "<ElementsList id='1'>" +
+                "   <elements>" +
+                "       <Element idref='ALPHA'/>" +
+                "       <Element id='2'>" +
+                "           <value>TWO</value>" +
+                "       </Element>" +
+                "   </elements>" +
+                "</ElementsList>";
+
+        xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+    }
+    
+    public void testWriteWithParentOptions() throws Exception {
+        
+        AlphaBean alpha = new AlphaBean();
+        alpha.setName("apple");
+        BetaBean beta = new BetaBean();
+        beta.setName("banana");
+        alpha.setBetaBean(beta);
+        
+        String MAPPING = "<?xml version='1.0'?>" +
+        "<betwixt-config>" +
+        "  <class name=\"" + AlphaBean.class.getName() + "\">" +
+        "    <element name=\"alpha\">" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "      <element property=\"betaBean\">" +
+        "        <option>" +
+        "          <name>id-strategy-prefix</name>" +
+        "          <value>parent</value>" +
+        "        </option>" +
+        "      </element>" +
+        "    </element>" +
+        "  </class>" +
+        "  <class name=\"" + BetaBean.class.getName() + "\">" +
+        "    <element name=\"beta\">" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "    </element>" +
+        "  </class>" +
+        "</betwixt-config>";
+
+        IdStoringStrategy storingStrategy = new DefaultIdStoringStrategy() {
+            public String getReferenceFor(Context context, Object bean) {
+                if( bean instanceof BetaBean) {
+                    assertNotNull( context.getOptions() );
+                    assertEquals("Checking BetaBean option","parent",context.getOptions().getValue("id-strategy-prefix"));
+                }
+                return super.getReferenceFor(context, bean);
+            }
+        };
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
+        writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        writer.write(alpha);
+        
+        String expected = "<?xml version='1.0'?>" +
+                "<alpha id=\"1\">" +
+                "  <name>apple</name>" +
+                "  <beta id=\"2\">" +
+                "    <name>banana</name>"+
+                "  </beta>" +
+                "</alpha>";
+
+        xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+    }
+    
+    public void testWriteWithTargetOptions() throws Exception {
+        
+        AlphaBean alpha = new AlphaBean();
+        alpha.setName("apple");
+        BetaBean beta = new BetaBean();
+        beta.setName("banana");
+        alpha.setBetaBean(beta);
+        
+        String MAPPING = "<?xml version='1.0'?>" +
+        "<betwixt-config>" +
+        "  <class name=\"" + AlphaBean.class.getName() + "\">" +
+        "    <element name=\"alpha\">" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "      <element property=\"betaBean\" />" +
+        "    </element>" +
+        "  </class>" +
+        "  <class name=\"" + BetaBean.class.getName() + "\">" +
+        "    <element name=\"beta\">" +
+        "      <option>" +
+        "        <name>id-strategy-prefix</name>" +
+        "        <value>target</value>" +
+        "      </option>" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "    </element>" +
+        "  </class>" +
+        "</betwixt-config>";
+
+        IdStoringStrategy storingStrategy = new DefaultIdStoringStrategy() {
+            public String getReferenceFor(Context context, Object bean) {
+                if( bean instanceof BetaBean) {
+                    assertNotNull( context.getOptions() );
+                    assertEquals("Checking BetaBean option","target",context.getOptions().getValue("id-strategy-prefix"));
+                }
+                return super.getReferenceFor(context, bean);
+            }
+        };
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
+        writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        writer.write(alpha);
+        
+        String expected = "<?xml version='1.0'?>" +
+                "<alpha id=\"1\">" +
+                "  <name>apple</name>" +
+                "  <beta id=\"2\">" +
+                "    <name>banana</name>"+
+                "  </beta>" +
+                "</alpha>";
+
+        xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+    }
+    
+    public void testWriteWithParentAndTargetOptions() throws Exception {
+        
+        AlphaBean alpha = new AlphaBean();
+        alpha.setName("apple");
+        BetaBean beta = new BetaBean();
+        beta.setName("banana");
+        alpha.setBetaBean(beta);
+        
+        String MAPPING = "<?xml version='1.0'?>" +
+        "<betwixt-config>" +
+        "  <class name=\"" + AlphaBean.class.getName() + "\">" +
+        "    <element name=\"alpha\">" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "      <element property=\"betaBean\">" +
+        "        <option>" +
+        "          <name>id-strategy-prefix</name>" +
+        "          <value>parent</value>" +
+        "        </option>" +
+        "      </element>" +
+        "    </element>" +
+        "  </class>" +
+        "  <class name=\"" + BetaBean.class.getName() + "\">" +
+        "    <element name=\"beta\">" +
+        "      <option>" +
+        "        <name>id-strategy-prefix</name>" +
+        "        <value>target</value>" +
+        "      </option>" +
+        "      <element name=\"name\" property=\"name\" />" +
+        "    </element>" +
+        "  </class>" +
+        "</betwixt-config>";
+
+        IdStoringStrategy storingStrategy = new DefaultIdStoringStrategy() {
+            public String getReferenceFor(Context context, Object bean) {
+                if( bean instanceof BetaBean) {
+                    assertNotNull( context.getOptions() );
+                    assertEquals("Checking BetaBean option","parent",context.getOptions().getValue("id-strategy-prefix"));
+                }
+                return super.getReferenceFor(context, bean);
+            }
+        };
+        
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
+        writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+        writer.write(alpha);
+        
+        String expected = "<?xml version='1.0'?>" +
+                "<alpha id=\"1\">" +
+                "  <name>apple</name>" +
+                "  <beta id=\"2\">" +
+                "    <name>banana</name>"+
+                "  </beta>" +
+                "</alpha>";
+
+        xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+    }
 }

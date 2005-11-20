@@ -199,6 +199,9 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='Since 0.7'>            
         <ul>
+          <li>
+Added support for option inheritance between parent and target mappings. Issue #37542.
+          </li>
         	<li>
 Added <code>getInheritedOption</code> method to <code>Context</code> to assist
 with inheritance amongst options.

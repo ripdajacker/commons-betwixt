@@ -60,4 +60,16 @@ public class Options {
     public void addOption(String name, String value) {
         valuesByName.put(name, value);
     }
+    
+    /**
+     * Adds multiple options from an existing <code>Options</code> collection.
+     * The rule with options is that the most recently set value for an option
+     * wins, so options are potentially overwritten by this call.
+     * 
+     * @param options -
+     *            an existing <code>Options</code> collection
+     */
+    public void addOptions(Options options) {
+        valuesByName.putAll(options.valuesByName);
+    }
 }

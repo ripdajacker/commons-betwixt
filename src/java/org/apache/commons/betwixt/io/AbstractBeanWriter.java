@@ -25,6 +25,7 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.Descriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.Options;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.expression.Context;
@@ -320,7 +321,22 @@ public abstract class AbstractBeanWriter {
         if ( beanInfo != null ) {
             ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
             if ( elementDescriptor != null ) {
+                
+                // Construct the options
+                Options combinedOptions = new Options();
+
+                // Add options defined by the current bean's element descriptor
+                combinedOptions.addOptions(elementDescriptor.getOptions());
+                
+                // The parent descriptor may have defined options
+                // for the current bean.  These options take precedence
+                // over the options of the current class descriptor
+                if( context.getOptions() != null) {
+                    combinedOptions.addOptions(context.getOptions());
+                }
                 context = context.newContext( bean );
+                context.pushOptions(combinedOptions);
+                
                 if ( qualifiedName == null ) {
                     qualifiedName = elementDescriptor.getQualifiedName();
                 }
@@ -423,6 +439,8 @@ public abstract class AbstractBeanWriter {
                     }
                     popBean();
                 }
+                
+                context.popOptions();
             }
         }
     }
@@ -723,7 +741,6 @@ public abstract class AbstractBeanWriter {
             if ( log.isTraceEnabled() ) {
                 log.trace( "Element " + elementDescriptor + " is empty." );
             }
-            context.pushOptions(elementDescriptor.getOptions());
             
             Attributes attributes = addNamespaceDeclarations(
                 new ElementAttributes( elementDescriptor, context ), namespaceUri);
@@ -738,7 +755,6 @@ public abstract class AbstractBeanWriter {
             writeElementContent( elementDescriptor, context ) ;
             writeContext.setCurrentDescriptor(elementDescriptor);
             endElement( writeContext, namespaceUri, localName, qualifiedName );
-            context.popOptions();
         }
     }
     
@@ -803,7 +819,6 @@ public abstract class AbstractBeanWriter {
                                     IntrospectionException {
                    
         if ( !ignoreElement( elementDescriptor, namespaceUri, localName, qualifiedName, context ) ) {
-            context.pushOptions(elementDescriptor.getOptions());
             writeContext.setCurrentDescriptor(elementDescriptor);
             Attributes attributes = new IDElementAttributes( 
                         elementDescriptor, 
@@ -820,7 +835,6 @@ public abstract class AbstractBeanWriter {
             writeElementContent( elementDescriptor, context ) ;
             writeContext.setCurrentDescriptor(elementDescriptor);
             endElement( writeContext, namespaceUri, localName, qualifiedName );
-            context.popOptions();
         } else if ( log.isTraceEnabled() ) {
             log.trace( "Element " + qualifiedName + " is empty." );
         }
@@ -919,6 +933,7 @@ public abstract class AbstractBeanWriter {
                     // Element content
                     ElementDescriptor childDescriptor = (ElementDescriptor) childDescriptors[i];
                     Context childContext = context;
+                    childContext.pushOptions(childDescriptor.getOptions());
                     Expression childExpression = childDescriptor.getContextExpression();
                     if ( childExpression != null ) {
                         Object childBean = childExpression.evaluate( context );
@@ -959,6 +974,7 @@ public abstract class AbstractBeanWriter {
                                     childDescriptor, 
                                     childContext );
                     }
+                    childContext.popOptions();
                 } else {
                     // Mixed text content
                     // evaluate the body text 
