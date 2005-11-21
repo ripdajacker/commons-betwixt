@@ -17,8 +17,9 @@
 <project>
   <pomVersion>3</pomVersion>
   <name>Betwixt</name>
-  <id>commons-betwixt</id>
-  <currentVersion>0.8-dev</currentVersion>
+  <groupId>commons-betwixt</groupId>
+  <artifactId>commons-betwixt</artifactId>
+  <currentVersion>0.8-SNAPSHOT</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
@@ -220,7 +221,6 @@
 
     	<!-- Unit test classes -->
     	<unitTest>
-            <directory>${pom.build.unitTestSourceDirectory}</directory>
             <includes>
                 <include>**/Test*</include>
             </includes>
