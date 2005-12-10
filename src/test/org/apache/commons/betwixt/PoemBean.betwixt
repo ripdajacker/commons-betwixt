@@ -1,0 +1,8 @@
+<?xml version='1.0'?>
+<info>
+	<element name='PoemBean'>
+		<element name='lines'>
+			<element name='line' property='lines' updater='addLine'/>
+		</element>
+	</element>
+</info>

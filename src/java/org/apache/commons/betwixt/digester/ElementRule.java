@@ -385,8 +385,17 @@ public class ElementRule extends MappedPropertyRule {
                 } else {
                     elementDescriptor
                             .setUpdater(new MethodUpdater(updateMethod));
-                    elementDescriptor.setSingularPropertyType(updateMethod
-                            .getParameterTypes()[0]);
+                    Class singularType = updateMethod.getParameterTypes()[0];
+                    elementDescriptor.setSingularPropertyType(singularType);
+                    if (singularType != null)
+                    {
+                        boolean isPrimitive = getXMLIntrospector().isPrimitiveType(singularType);
+                        if (isPrimitive)
+                        {
+                           log.debug("Primitive collective: setting hollow to false");
+                           elementDescriptor.setHollow(false);
+                        }
+                    }
                     if (log.isTraceEnabled()) {
                         log.trace("Set custom updater on " + elementDescriptor);
                     }
