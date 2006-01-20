@@ -145,7 +145,13 @@ public class AttributeRule extends RuleSupport {
         if ( beanClass != null ) {
             String name = attributeDescriptor.getPropertyName();
             try {
-                BeanInfo beanInfo = Introspector.getBeanInfo( beanClass );
+                BeanInfo beanInfo;
+                if( getXMLIntrospector().getConfiguration().ignoreAllBeanInfo() ) {
+                    beanInfo = Introspector.getBeanInfo( beanClass, Introspector.IGNORE_ALL_BEANINFO );
+                }
+                else {
+                    beanInfo = Introspector.getBeanInfo( beanClass );
+                }
                 PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                 if ( descriptors != null ) {
                     for ( int i = 0, size = descriptors.length; i < size; i++ ) {

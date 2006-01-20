@@ -64,6 +64,9 @@ public class IntrospectionConfiguration {
 
     /** Should the existing bean info search path for java.reflect.Introspector be used? */
     private boolean useBeanInfoSearchPath = false;
+    
+    /** Should existing BeanInfo classes be used at all for java.reflect.Introspector */
+    private boolean ignoreAllBeanInfo = false;
 
     // pluggable strategies        
     /** The strategy used to detect matching singular and plural properties */
@@ -248,6 +251,28 @@ public class IntrospectionConfiguration {
     public void setUseBeanInfoSearchPath(boolean useBeanInfoSearchPath) {
         this.useBeanInfoSearchPath = useBeanInfoSearchPath;
     }
+    
+    /**
+     * <p>Should existing BeanInfo classes be ignored by <code>java.reflect.Introspector</code></p>
+     * <p>
+     * Default is false.
+     * </p>
+     * 
+     * @return boolean if the BeanInfo classes should be used.
+     */
+    public boolean ignoreAllBeanInfo() {
+        return ignoreAllBeanInfo;
+    }
+    
+    /**
+     * Specifies if you want to ignore existing BeanInfo classes at all for introspection
+     * @see java.beans.Introspector for more details
+     * @param ignoreAllBeanInfo set to true to ignore all BeanInfo classes
+     */
+    public void setIgnoreAllBeanInfo(boolean ignoreAllBeanInfo) {
+        this.ignoreAllBeanInfo = ignoreAllBeanInfo;
+    }
+    
     
     /** 
      * A Factory method to lazily create a new strategy 

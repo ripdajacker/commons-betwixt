@@ -564,7 +564,13 @@ public class XMLIntrospector {
             
             xmlInfo = findByXMLDescriptor( aClass );
             if ( xmlInfo == null ) {
-                BeanInfo info = Introspector.getBeanInfo( aClass );
+                BeanInfo info;
+                if(getConfiguration().ignoreAllBeanInfo()) {
+                    info = Introspector.getBeanInfo( aClass, Introspector.IGNORE_ALL_BEANINFO );
+                }
+                else {
+                    info = Introspector.getBeanInfo( aClass );
+                }
                 xmlInfo = introspect( info );
             }
             
@@ -1636,7 +1642,13 @@ public class XMLIntrospector {
                 for (int i=0, size=superinterfaces.length; i<size; i++) {
                     try {
                         
-                        BeanInfo beanInfo = Introspector.getBeanInfo(superinterfaces[i]);
+                        BeanInfo beanInfo;
+                        if( getConfiguration().ignoreAllBeanInfo() ) {
+                            beanInfo = Introspector.getBeanInfo( superinterfaces[i], Introspector.IGNORE_ALL_BEANINFO );
+                        }
+                        else {
+                            beanInfo = Introspector.getBeanInfo( superinterfaces[i] );
+                        }
                         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                         for (int j=0, descriptorLength=descriptors.length; j<descriptorLength ; j++) {
                             if (!getConfiguration().getPropertySuppressionStrategy()

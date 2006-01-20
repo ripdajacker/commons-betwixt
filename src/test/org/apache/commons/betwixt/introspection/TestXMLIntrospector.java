@@ -293,6 +293,32 @@ public class TestXMLIntrospector extends AbstractTestCase {
 		assertEquals( "Element name correct", "rss", elementDescriptor.getLocalName());
     }
     
+    public void testIgnoreAllBeanInfo() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setIgnoreAllBeanInfo( false );
+        introspector.setRegistry(new NoCacheRegistry());
+        XMLBeanInfo info = introspector.introspect( BeanWithBeanInfoBean.class ); 
+        ElementDescriptor[] elementDescriptors = info.getElementDescriptor().getElementDescriptors();
+        // When BeanInfo is used the properties alpha and gamma will be found 
+        if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
+            assertEquals("Second element name", "gamma" , elementDescriptors[1].getPropertyName());
+        } else {
+            assertEquals("First element name", "gamma" , elementDescriptors[0].getPropertyName());
+            assertEquals("Second element name", "alpha" , elementDescriptors[1].getPropertyName());
+        }
+
+        introspector.getConfiguration().setIgnoreAllBeanInfo( true );
+        info = introspector.introspect( BeanWithBeanInfoBean.class ); 
+        elementDescriptors = info.getElementDescriptor().getElementDescriptors();
+        // When BeanInfo is ignored the properties alpha and beta will be found
+        if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
+            assertEquals("Second element name", "beta" , elementDescriptors[1].getPropertyName());
+        } else {
+            assertEquals("First element name", "beta" , elementDescriptors[0].getPropertyName());
+            assertEquals("Second element name", "alpha" , elementDescriptors[1].getPropertyName());
+        }
+    }
+    
 
 }
 
