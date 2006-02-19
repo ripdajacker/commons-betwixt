@@ -32,7 +32,7 @@ public abstract class ValueSuppressionStrategy {
      */
     public static final ValueSuppressionStrategy ALLOW_ALL_VALUES = new ValueSuppressionStrategy() {
         public boolean suppressAttribute(AttributeDescriptor attributeDescriptor, String value) {
-            return true;
+            return false;
         }
     };
 
