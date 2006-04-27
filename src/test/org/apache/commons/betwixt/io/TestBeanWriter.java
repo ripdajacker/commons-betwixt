@@ -18,10 +18,10 @@ package org.apache.commons.betwixt.io;
 
 import java.io.StringWriter;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.xml.sax.helpers.AttributesImpl;
-
-import junit.framework.TestCase;
 
 /**
  * Test for <code>BeanWriter</code>

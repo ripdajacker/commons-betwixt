@@ -15,7 +15,10 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AlphaBean {

@@ -15,10 +15,10 @@
  */ 
 package org.apache.commons.betwixt.strategy.impl.propertysuppression;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanWriter;
-
-import junit.framework.TestCase;
 
 public class TestPackageSuppressor extends TestCase {
 

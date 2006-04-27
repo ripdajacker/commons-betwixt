@@ -20,7 +20,6 @@ import java.lang.reflect.Constructor;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver;
 import org.apache.commons.logging.Log;
 
 /**  

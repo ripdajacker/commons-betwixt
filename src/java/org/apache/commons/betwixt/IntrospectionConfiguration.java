@@ -16,11 +16,6 @@
 
 package org.apache.commons.betwixt;
 
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;

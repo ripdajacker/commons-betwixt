@@ -17,8 +17,13 @@ package org.apache.commons.betwixt.introspection;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.beanutils.*;
-import org.apache.commons.betwixt.*;
+import org.apache.commons.beanutils.BasicDynaBean;
+import org.apache.commons.beanutils.BasicDynaClass;
+import org.apache.commons.beanutils.DynaBean;
+import org.apache.commons.beanutils.DynaProperty;
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
 
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>

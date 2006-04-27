@@ -23,8 +23,6 @@ import java.util.List;
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.xml.sax.InputSource;
 
-import junit.framework.TestCase;
-
 
 public class TestMixedCollection extends AbstractTestCase {
     public TestMixedCollection(String name) {

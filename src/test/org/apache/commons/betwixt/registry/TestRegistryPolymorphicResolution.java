@@ -20,17 +20,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.BindingConfiguration;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.TestCollectionMapping.Element;
 import org.apache.commons.betwixt.io.read.ElementMapping;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.AttributesImpl;
-
-import junit.framework.TestCase;
 
 /**
  * @author Thomas Dudziak (tomdz@apache.org)

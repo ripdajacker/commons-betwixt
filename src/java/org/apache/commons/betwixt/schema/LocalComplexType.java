@@ -17,8 +17,8 @@
 package org.apache.commons.betwixt.schema;
 
 import java.beans.IntrospectionException;
-import java.util.Iterator;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 

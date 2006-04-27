@@ -15,12 +15,12 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.beanutils.BasicDynaBean;
 import org.apache.commons.beanutils.BasicDynaClass;
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaProperty;
-
-import junit.framework.TestCase;
 
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>

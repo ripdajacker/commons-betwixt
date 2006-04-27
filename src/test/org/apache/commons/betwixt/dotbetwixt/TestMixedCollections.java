@@ -18,8 +18,10 @@ package org.apache.commons.betwixt.dotbetwixt;
 
 import java.io.StringWriter;
 
-
-import org.apache.commons.betwixt.*;
+import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.betwixt.ElementDescriptor;
+import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanWriter;
 
 /**

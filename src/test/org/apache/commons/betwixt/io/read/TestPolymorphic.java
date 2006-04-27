@@ -24,8 +24,6 @@ import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.xml.sax.InputSource;
 
-import junit.framework.TestCase;
-
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a> for <a href='http://www.apache.org'>The Apache Software Foundation</a>
  */

@@ -15,9 +15,9 @@
  */ 
 package org.apache.commons.betwixt.expression;
 
-import org.apache.commons.betwixt.Options;
-
 import junit.framework.TestCase;
+
+import org.apache.commons.betwixt.Options;
 
 /**
  */

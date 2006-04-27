@@ -15,12 +15,12 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.read.AddressBean;
-
-import junit.framework.TestCase;
 
 public class TestValueSuppressionStrategy extends TestCase {
 

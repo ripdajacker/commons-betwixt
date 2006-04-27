@@ -21,8 +21,6 @@ import java.io.StringWriter;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 
-import junit.framework.TestCase;
-
 public class TestStringCollections extends AbstractTestCase {
 
     public TestStringCollections(String testName) {

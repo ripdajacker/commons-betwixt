@@ -15,10 +15,10 @@
  */ 
 package org.apache.commons.betwixt.strategy;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Pluggable strategy specifying whether property's should be suppressed.

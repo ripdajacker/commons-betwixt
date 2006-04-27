@@ -16,11 +16,11 @@
 
 package org.apache.commons.betwixt.introspection;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
-
-import junit.framework.TestCase;
 
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>

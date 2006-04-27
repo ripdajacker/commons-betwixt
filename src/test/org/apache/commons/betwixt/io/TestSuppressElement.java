@@ -22,8 +22,6 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 
-import junit.framework.TestCase;
-
 /**
  * Tests supress element strategy.
  * 

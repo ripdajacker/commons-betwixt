@@ -23,7 +23,6 @@ import junit.textui.TestRunner;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
-import org.xml.sax.InputSource;
 
 /**
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
