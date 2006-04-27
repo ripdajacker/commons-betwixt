@@ -112,7 +112,7 @@ public abstract class MappingAction {
         }
         
         /**
-         * @see org.apache.commons.betwixt.io.read.MappingAction#begin(java.lang.String, java.lang.String, org.xml.sax.Attributes, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
+         * @see org.apache.commons.betwixt.io.read.MappingAction#begin(String, String, Attributes, ReadContext)
          */
         public MappingAction begin(
             String namespace,
@@ -134,14 +134,14 @@ public abstract class MappingAction {
         }
 
         /**
-         * @see org.apache.commons.betwixt.io.read.MappingAction#body(java.lang.String, org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.betwixt.XMLIntrospector)
+         * @see MappingAction#body(String, ReadContext)
          */
         public void body(String text, ReadContext context) throws Exception {
             // do nothing
         }
 
         /**
-         * @see org.apache.commons.betwixt.io.read.MappingAction#end(org.apache.commons.betwixt.io.read.ReadContext, org.apache.commons.digester.Digester, org.apache.commons.betwixt.XMLIntrospector)
+         * @see MappingAction#end(ReadContext)
          */
         public void end(ReadContext context) throws Exception {
             // do nothing

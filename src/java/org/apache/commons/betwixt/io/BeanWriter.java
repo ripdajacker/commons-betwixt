@@ -262,7 +262,7 @@ public class BeanWriter extends AbstractBeanWriter {
     
     /** 
      * Sets the initial indent level used for pretty print indents  
-     * @param indent use this <code>int</code> to start with
+     * @param initialIndentLevel use this <code>int</code> to start with
      */
     public void setInitialIndentLevel(int initialIndentLevel) {
         this.initialIndentLevel = initialIndentLevel;

@@ -27,7 +27,7 @@ abstract public class SchemaTypeNamingStrategy {
     /**
      * Names the schema type described.
      * @param descriptor <code>ElementDescriptor</code> describing the element
-     * @return
+     * @return the name of the schema
      */
     public abstract String nameSchemaType(ElementDescriptor descriptor);
 }

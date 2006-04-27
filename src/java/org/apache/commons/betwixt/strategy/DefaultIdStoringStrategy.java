@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.expression.Context;
  * <p>Stores every ID that given to it into an internal <code>HashMap</code> and
  * returns it on request.
  * </p><p>
- * {@link DefaultIdStoringStrategy(Map, Map)} allows the implementations
+ * {@link #DefaultIdStoringStrategy(Map, Map)} allows the implementations
  * to be specified.
  * For example, those who want to use identity (rather than equality) 
  * should pass a <code>IdentityHashMap</code> instance.

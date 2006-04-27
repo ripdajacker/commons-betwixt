@@ -253,7 +253,7 @@ public class IntrospectionConfiguration {
     }
     
     /**
-     * <p>Should existing BeanInfo classes be ignored by <code>java.reflect.Introspector</code></p>
+     * <p>Should existing BeanInfo classes be ignored by <code>java.reflect.Introspector</code>.</p>
      * <p>
      * Default is false.
      * </p>
