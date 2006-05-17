@@ -214,6 +214,7 @@
       </properties>
     </dependency>
 
+	<!-- Maven Build Dependencies -->
     <dependency>
       <groupId>maven-plugins</groupId>
       <artifactId>maven-cobertura-plugin</artifactId>
@@ -223,7 +224,21 @@
       <properties>
        <scope>test</scope>
        <comment>
-        Required only for generating test coverage reports.
+        &lt;strong&gt;Site Only&lt;/strong&gt; Generates test coverage reports.
+       </comment>
+      </properties>
+    </dependency>
+
+    <dependency>
+      <groupId>maven</groupId>
+      <artifactId>maven-artifact-plugin</artifactId>
+      <version>1.5</version>
+      <url>http://www.ibiblio.org/maven/maven/plugins/</url>
+      <type>plugin</type>
+      <properties>
+       <scope>test</scope>
+       <comment>
+        &lt;strong&gt;Build Only&lt;/strong&gt; Generates distributions.
        </comment>
       </properties>
     </dependency>
