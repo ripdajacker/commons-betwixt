@@ -200,6 +200,9 @@ Create a strategy which allow general implementation rules to be specified.
     <subsection name='Since 0.7'>            
         <ul>
           <li>
+Improved support for natural polymorphic mappings of collection subclasses.
+          </li>
+          <li>
 Added support for option inheritance between parent and target mappings. Issue #37542.
           </li>
         	<li>

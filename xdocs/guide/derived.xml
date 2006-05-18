@@ -237,5 +237,30 @@ default to bind time typing unless and <code>addDefaults</code> is present.
         </p>
     </subsection>
 </section>
+<section name='Default Mapping For Collections Implementations'>
+	<p>
+The default mapping for a collection is the one created automatically
+by Betwixt. This is controlled by a number of general configuration settings.
+For some classes (including <code>Collection</code> implementations)
+special rules are applied. For collection implementations, these special
+rules ensure that the contents are written and polymophism is supported
+for reading.
+	</p>
+	<p>
+For example, suppose <code>AlphaList extends ArrayList</code>. It usually
+contains <code>BetaBean</code>'s and <code>GammaBean</code>'s. Use a 
+<a href='binding.html#Multi Mapping Document Format'>multi-mapping</a> contain
+mappings for just <code>BetaBean</code> and <code>GammaBean</code> and not
+<code>AlphaList</code>. This will force the default mapping to be used. 
+When reading, <code>AlphaList</code> should be registered after the 
+multimapping thus:
+	</p>
+<source><![CDATA[
+	BeanReader reader = ...
+	...
+	reader.registerMultiMapping(...);
+    reader.registerBeanClass(AlphaList.class);
+]]></source>
+</section>
 </body>
 </document>

@@ -37,6 +37,7 @@ import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester;
 import org.apache.commons.betwixt.digester.XMLIntrospectorHelper;
+import org.apache.commons.betwixt.expression.CollectionUpdater;
 import org.apache.commons.betwixt.expression.EmptyExpression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MapEntryAdder;
@@ -727,9 +728,12 @@ public class XMLIntrospector {
                 getLog().trace("Bean is loop");
                 ElementDescriptor loopDescriptor = new ElementDescriptor();
                 loopDescriptor.setCollective(true);
+                loopDescriptor.setHollow(true);
+                loopDescriptor.setSingularPropertyType(Object.class);
                 loopDescriptor.setContextExpression(
                     new IteratorExpression( EmptyExpression.getInstance() )
                 );
+                loopDescriptor.setUpdater(CollectionUpdater.getInstance());
                 if ( bean.isMapType() ) {
                     loopDescriptor.setQualifiedName( "entry" );
                 }
