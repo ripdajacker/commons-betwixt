@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
+import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLUtils;
@@ -193,7 +194,18 @@ public class ElementRule extends MappedPropertyRule {
      * Process the end of this element.
      */
     public void end(String name, String namespace) {
-        Object top = digester.pop();
+        ElementDescriptor descriptor = (ElementDescriptor)digester.pop();
+        
+        final Object peek = digester.peek();
+        
+        if(peek instanceof ElementDescriptor) {
+            ElementDescriptor parent = (ElementDescriptor)digester.peek();
+
+            // check for element suppression
+            if( getXMLIntrospector().getConfiguration().getElementSuppressionStrategy().suppress(descriptor)) {
+                parent.removeElementDescriptor(descriptor);
+            }
+        }
     }
 
     // Implementation methods

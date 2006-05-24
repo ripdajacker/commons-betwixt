@@ -16,10 +16,12 @@
 
 package org.apache.commons.betwixt;
 
+import org.apache.commons.betwixt.strategy.AttributeSuppressionStrategy;
 import org.apache.commons.betwixt.strategy.ClassNormalizer;
 import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 import org.apache.commons.betwixt.strategy.DefaultNameMapper;
 import org.apache.commons.betwixt.strategy.DefaultPluralStemmer;
+import org.apache.commons.betwixt.strategy.ElementSuppressionStrategy;
 import org.apache.commons.betwixt.strategy.MappingDerivationStrategy;
 import org.apache.commons.betwixt.strategy.NameMapper;
 import org.apache.commons.betwixt.strategy.NamespacePrefixMapper;
@@ -90,6 +92,12 @@ public class IntrospectionConfiguration {
     private TypeBindingStrategy typeBindingStrategy = TypeBindingStrategy.DEFAULT;
     /** Strategy used for determining which types are collective */
     private CollectiveTypeStrategy collectiveTypeStrategy = CollectiveTypeStrategy.DEFAULT;
+
+    /** Strategy for suppressing attributes */
+    private AttributeSuppressionStrategy attributeSuppressionStrategy = AttributeSuppressionStrategy.DEFAULT;   
+    /** Strategy for suppressing elements */
+    private ElementSuppressionStrategy elementSuppressionStrategy = ElementSuppressionStrategy.DEFAULT;
+
     
     /** 
      * Strategy used to determine whether the bind or introspection time type is to be used to  
@@ -432,5 +440,52 @@ public class IntrospectionConfiguration {
      */
     public boolean isLoopType(Class type) {
         return getCollectiveTypeStrategy().isCollective(type);
+    }
+
+
+    /**
+     * Returns the <code>AttributeSuppressionStrategy</code>. 
+     * This is used to suppress attributes, e.g. for versioning.
+     * 
+     * @since 0.8
+     * @return the strategy
+     */
+    public AttributeSuppressionStrategy getAttributeSuppressionStrategy() {
+        return attributeSuppressionStrategy;
+    }
+
+    /**
+     * Sets the <code>AttributeSuppressionStrategy</code>. 
+     * This is used to suppress attributes, e.g. for versioning.
+     * 
+     * @since 0.8
+     * @param the strategy 
+     */
+    public void setAttributeSuppressionStrategy(
+            AttributeSuppressionStrategy attributeSuppressionStrategy) {
+        this.attributeSuppressionStrategy = attributeSuppressionStrategy;
+    }
+
+    /**
+     * Returns the <code>ElementSuppressionStrategy</code>. 
+     * This is used to suppress elements, e.g. for versioning.
+     * 
+     * @since 0.8
+     * @return the strategy
+     */
+    public ElementSuppressionStrategy getElementSuppressionStrategy() {
+        return elementSuppressionStrategy;
+    }
+
+    /**
+     * Sets the <code>ElementSuppressionStrategy</code>. 
+     * This is used to suppress elements, e.g. for versioning.
+     * 
+     * @since 0.8
+     * @param the strategy 
+     */
+    public void setElementSuppressionStrategy(
+            ElementSuppressionStrategy elementSuppressionStrategy) {
+        this.elementSuppressionStrategy = elementSuppressionStrategy;
     }
 }

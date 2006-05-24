@@ -112,7 +112,13 @@ public class AttributeRule extends RuleSupport {
      * Process the end of this element.
      */
     public void end(String name, String namespace) {
-        Object top = digester.pop();
+        AttributeDescriptor descriptor = (AttributeDescriptor)digester.pop();
+        ElementDescriptor parent = (ElementDescriptor)digester.peek();
+
+        // check for attribute suppression
+        if( getXMLIntrospector().getConfiguration().getAttributeSuppressionStrategy().suppress(descriptor)) {
+            parent.removeAttributeDescriptor(descriptor);
+        }
     }
 
     

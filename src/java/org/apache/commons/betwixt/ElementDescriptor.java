@@ -230,7 +230,17 @@ public class ElementDescriptor extends NodeDescriptor {
         attributeDescriptors = null;
     }
     
-    
+
+    /**
+     * Removes an attribute descriptor from this element descriptor. 
+     * @param descriptor the <code>AttributeDescriptor</code> that will be removed.
+     * 
+     * @param descriptor
+     */
+    public void removeAttributeDescriptor(AttributeDescriptor descriptor) {
+        getAttributeList().remove(descriptor);
+    }
+
     /** 
      * Returns the attribute descriptors for this element 
      *
@@ -252,6 +262,23 @@ public class ElementDescriptor extends NodeDescriptor {
         return attributeDescriptors;
     }
     
+    /**
+     * Returns an attribute descriptor with a given name or null.
+     *  
+     * @param name to search for; will be checked against the attributes' qualified name.
+     * @return
+     */
+    public AttributeDescriptor getAttributeDescriptor(final String name) {
+        for (int i = 0, size = attributeDescriptors.length; i < size; i++) {
+            AttributeDescriptor descr = attributeDescriptors[i];
+            if (descr.getQualifiedName().equals(name)) {
+                return descr;
+            }
+        }
+
+        return null;
+    }
+
     /** 
      * Sets the <code>AttributesDescriptors</code> for this element.
      * This sets descriptors for the attributes of the element describe by the 
@@ -277,6 +304,17 @@ public class ElementDescriptor extends NodeDescriptor {
         getElementList().add( descriptor );
         elementDescriptors = null;
         addContentDescriptor( descriptor );
+    }
+
+    /**
+     * Removes an element descriptor from this element descriptor. 
+     * @param descriptor the <code>ElementDescriptor</code> that will be removed.
+     * 
+     * @param descriptor
+     */
+    public void removeElementDescriptor(ElementDescriptor descriptor) {
+        getElementList().remove(descriptor);
+        getContentList().remove(descriptor);
     }
     
     /** 
