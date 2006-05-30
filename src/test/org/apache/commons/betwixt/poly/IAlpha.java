@@ -17,5 +17,5 @@
 
 public interface IAlpha {
 
-	public void alpha();
+	public String alpha();
 }

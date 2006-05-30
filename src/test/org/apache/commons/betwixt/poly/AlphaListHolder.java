@@ -13,33 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
- package org.apache.commons.betwixt.poly;
+package org.apache.commons.betwixt.poly;
 
-public class AlphaTwoImpl implements IAlpha {
+public class AlphaListHolder {
+    private AlphaList alphaList;
 
-	public String alpha() {
-        return getTwo();
-	}
-
-    private String two;
-
-    public String getTwo() {
-        return two;
+    public AlphaList getAlphaList() {
+        return alphaList;
     }
 
-    public void setTwo(String two) {
-        this.two = two;
+    public void setAlphaList(AlphaList alphaList) {
+        this.alphaList = (AlphaList) alphaList;
     }
     
-    
-    public AlphaTwoImpl(String two) {
-        super();
-        
-        setTwo(two);
-    }
-    
-    public AlphaTwoImpl() {
-        super();
-    }
     
 }
+

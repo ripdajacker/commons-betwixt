@@ -26,32 +26,42 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.InputSource;
 
+
+
 public class TestPolyList extends AbstractTestCase {
+    public static Log log = LogFactory.getLog(TestPolyList.class);
 
 	public TestPolyList(String testName) {
 		super(testName);
+        
+        log.info("Mapping:\n" + MAPPING);
 	}
 
-	private static final String XML = "<AlphaList>" + "<AlphaOneImpl/>"
-			+ "<AlphaTwoImpl/>" + "</AlphaList>";
+	private static final String XML = "<AlphaList><AlphaOneImpl><one>1</one></AlphaOneImpl><AlphaTwoImpl><two>2</two></AlphaTwoImpl></AlphaList>";
 
 	private static final String MAPPING = "<?xml version='1.0'?>"
 			+ "<betwixt-config>" 
 			+ "  <class name='org.apache.commons.betwixt.poly.AlphaOneImpl'>"
-			+ "   <element name='AlphaOneImpl'/>" 
+			+ "    <element name='AlphaOneImpl'>" 
+            + "      <element name='one' property='one'/>" 
+            + "    </element>" 
 			+ "  </class>"
 			+ "  <class name='org.apache.commons.betwixt.poly.AlphaTwoImpl'>"
-			+ "    <element name='AlphaTwoImpl'/>" 
+			+ "    <element name='AlphaTwoImpl'>" 
+            + "      <element name='two' property='two'/>" 
+            + "    </element>" 
 			+ "  </class>"
 			+ "</betwixt-config>";
 	
 	public void testWrite() throws Exception {
 		AlphaList bean = new AlphaList();
-		AlphaOneImpl one = new AlphaOneImpl();
+		AlphaOneImpl one = new AlphaOneImpl("1");
 		bean.add(one);
-		AlphaTwoImpl two = new AlphaTwoImpl();
+		AlphaTwoImpl two = new AlphaTwoImpl("2");
 		bean.add(two);
 
 		StringWriter out = new StringWriter();
@@ -60,10 +70,13 @@ public class TestPolyList extends AbstractTestCase {
 		writer.getXMLIntrospector().register(new InputSource(mapping));
 		configure(writer.getBindingConfiguration());
 		writer.write(bean);
-	
+
+        String written = out.getBuffer().toString();
+        log.info("Written:\n" + written);
+        
         xmlAssertIsomorphicContent(
                 parseString(XML),
-                parseString(out.getBuffer().toString()),
+                parseString(written),
                 true);
 	}
 
@@ -78,7 +91,15 @@ public class TestPolyList extends AbstractTestCase {
 		assertTrue(bean instanceof AlphaList);
 		AlphaList list = (AlphaList) bean;
 		assertEquals(2, list.size());
-	}
+        
+        assertTrue(list.get(0) instanceof AlphaOneImpl);
+        AlphaOneImpl one = (AlphaOneImpl)list.get(0);
+        assertEquals("1", one.alpha());
+
+        assertTrue(list.get(1) instanceof AlphaTwoImpl);
+        AlphaTwoImpl two = (AlphaTwoImpl)list.get(1);
+        assertEquals("2", two.alpha());
+    }
 
 	public void testIntrospection() throws Exception	 {
 		XMLIntrospector introspector = new XMLIntrospector();

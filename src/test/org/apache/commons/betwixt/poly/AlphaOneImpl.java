@@ -17,8 +17,26 @@
 package org.apache.commons.betwixt.poly;
 
 public class AlphaOneImpl implements IAlpha {
-
-	public void alpha() {
+	public String alpha() {
+        return getOne();
 	}
 
+    private String one;
+
+    public String getOne() {
+        return one;
+    }
+
+    public void setOne(String one) {
+        this.one = one;
+    }
+    
+    
+    public AlphaOneImpl(final String one) {
+        setOne(one);
+    }
+
+    public AlphaOneImpl() {
+        super();
+    }
 }
