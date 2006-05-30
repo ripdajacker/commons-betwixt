@@ -25,6 +25,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLUtils;
 import org.apache.commons.betwixt.expression.ConstantExpression;
+import org.apache.commons.betwixt.expression.Expression;
 import org.apache.commons.betwixt.expression.IteratorExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
@@ -324,17 +325,34 @@ public class ElementRule extends MappedPropertyRule {
 
         // choose response from property type
 
+        final MethodExpression methodExpression = new MethodExpression(readMethod);
         if (getXMLIntrospector().isPrimitiveType(type)) {
             elementDescriptor
-                    .setTextExpression(new MethodExpression(readMethod));
+                    .setTextExpression(methodExpression);
 
         } else if (getXMLIntrospector().isLoopType(type)) {
             log.trace("Loop type ??");
 
             // don't wrap this in an extra element as its specified in the
             // XML descriptor so no need.
-            elementDescriptor.setContextExpression(new IteratorExpression(
-                    new MethodExpression(readMethod)));
+            Expression expression = methodExpression;
+            
+            // Support collectives with standard property setters (not adders)
+            // that use polymorphism to read objects.
+            boolean standardProperty = false;
+            if (updateMethodName != null && writeMethod != null && writeMethod.getName().equals(updateMethodName)) {
+                final Class[] parameters = writeMethod.getParameterTypes();
+                if (parameters.length == 1) {
+                    Class setterType = parameters[0];
+                    if (type.equals(setterType)) {
+                        standardProperty = true;
+                    }
+                }
+            }
+            if (!standardProperty) {
+                expression = new IteratorExpression(methodExpression);
+            }
+            elementDescriptor.setContextExpression(expression);
             elementDescriptor.setHollow(true);
 
             writeMethod = null;
@@ -355,8 +373,7 @@ public class ElementRule extends MappedPropertyRule {
         } else {
             log.trace("Standard property");
             elementDescriptor.setHollow(true);
-            elementDescriptor.setContextExpression(new MethodExpression(
-                    readMethod));
+            elementDescriptor.setContextExpression(methodExpression);
         }
 
         // see if we have a custom method update name
