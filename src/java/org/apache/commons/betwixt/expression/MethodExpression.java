@@ -62,9 +62,10 @@ public class MethodExpression implements Expression {
                 
             } catch (IllegalAccessException e) {
                 // lets try use another method with the same name
+                Method alternate = null;
                 try {
                     Class type = bean.getClass();
-                    Method alternate = findAlternateMethod( type, method );
+                    alternate = findAlternateMethod( type, method );
                     if ( alternate != null ) {
                         try
                         {
@@ -80,10 +81,10 @@ public class MethodExpression implements Expression {
                         return method.invoke( bean, arguments );
                     }
                 } catch (Exception e2) {
-                    handleException(context, e2);
+                    handleException(context, e2, alternate);
                 }
             } catch (Exception e) {
-                handleException(context, e);
+                handleException(context, e, method);
             }
         }
         return null;
@@ -169,10 +170,23 @@ public class MethodExpression implements Expression {
       * @param context the Context being evaluated when the exception occured
       * @param e the exception to handle
       */
-    protected void handleException(Context context, Exception e) {
+    protected void handleException(Context context, Exception e, Method m) {
         // use the context's logger to log the problem
-        context.getLog().error("[MethodExpression] Cannot evaluate expression ", e);
+        context.getLog().error("[MethodExpression] Cannot evaluate method " + m, e);
     }
+    
+    /** 
+     * <p>Log error to context's logger.</p> 
+     *
+     * <p>Allows derived objects to handle exceptions differently.</p>
+     *
+     * @param context the Context being evaluated when the exception occured
+     * @param e the exception to handle
+     */
+   protected void handleException(Context context, Exception e) {
+       // use the context's logger to log the problem
+       context.getLog().error("[MethodExpression] Cannot evaluate method ", e);
+   }
     
     /** 
      * Returns something useful for logging.
