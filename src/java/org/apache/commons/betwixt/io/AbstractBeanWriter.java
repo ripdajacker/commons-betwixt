@@ -1019,15 +1019,23 @@ public abstract class AbstractBeanWriter {
                 // use absolute equality rather than equals
                 // we're only really bothered if objects are actually the same
                 if ( bean == next ) {
-                    if ( log.isDebugEnabled() ) {
-                        log.debug("Element stack: ");
-                        Iterator debugStack = beanStack.iterator();
-                        while ( debugStack.hasNext() ) {
-                            log.debug(debugStack.next());
-                        }
+                    final String message = "Cyclic reference at bean: " + bean;
+                    log.error(message);
+                    StringBuffer buffer = new StringBuffer(message);
+                    buffer.append(" Stack: ");
+                    Iterator errorStack = beanStack.iterator();
+                    while ( errorStack.hasNext() ) {
+                          Object errorObj = errorStack.next();
+                          if(errorObj != null) {
+                              buffer.append(errorObj.getClass().getName());
+                              buffer.append(": ");
+                          }
+                          buffer.append(errorObj);
+                          buffer.append(";");
                     }
-                    log.error("Cyclic reference at bean: " + bean);
-                    throw new CyclicReferenceException();
+                    final String debugMessage = buffer.toString();
+                    log.info( debugMessage );
+                    throw new CyclicReferenceException( debugMessage );
                 }
             }
         }
