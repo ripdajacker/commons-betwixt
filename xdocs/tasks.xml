@@ -198,7 +198,7 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
-    <subsection name='Since 0.7'>            
+    <subsection name='0.8'>            
         <ul>
           <li>
 Added strategies for suppression of attributes and elements at introspection time.
@@ -428,7 +428,7 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
-	<subsection name='Since 0.7'>
+	<subsection name='0.8'>
 		<ul>
 			<li>IdStoringStrategy
 				<ul>
@@ -559,6 +559,10 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
+    <subsection name='0.8'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.7'>
         <ul>
         </ul>
@@ -569,6 +573,10 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Semantic Changes'>
+    <subsection name='0.8'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.7'>
         <ul>
             <li>
@@ -666,6 +674,10 @@ that need to hide their extra properties.
     </subsection>
 </section>
 	<section name='Dependencies'>
+	    <subsection name='0.7'>
+        	<ul>
+	        </ul>
+    	</subsection>
 		<subsection name='0.7'>
             <p>
                 <ul>
