@@ -460,7 +460,7 @@ public class IntrospectionConfiguration {
      * This is used to suppress attributes, e.g. for versioning.
      * 
      * @since 0.8
-     * @param the strategy 
+     * @param attributeSuppressionStrategy the strategy 
      */
     public void setAttributeSuppressionStrategy(
             AttributeSuppressionStrategy attributeSuppressionStrategy) {

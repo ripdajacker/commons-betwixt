@@ -355,8 +355,7 @@ public class XMLUtils {
      * @param bufferedContent the body content within a buffer 
      * whose character data should 
      * be escaped in a way appropriate for use within a <code>CDATA</code>
-     * section of xml.
-     * @return escaped character data, not null
+     * section of xml
      */
     public static final void escapeCDATAContent(StringBuffer bufferedContent) {
         for (int i=2, size = bufferedContent.length(); i<size; i++) {
