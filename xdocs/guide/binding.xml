@@ -252,7 +252,7 @@ produced:
     Betwixt allows this auto-detection of plurals from singulars to be customized.
     Implementations of <code>org.apache.commons.betwixt.PluralStemmer</code> allow different
     strategies for this mapping to be plugged into <code>XMLIntrospector</code>.
-    The strategy used by <code>XMLIntrospector</code> to match singlular properties and plural methods
+    The strategy used by <code>XMLIntrospector</code> to match singular properties and plural methods
     is determined by the <code>PluralStemmer</code> property value.
     </p>
 
@@ -408,7 +408,7 @@ elements but other primitives are bound to attributes as follows:
 ]]></source> 
     <p>
     The <strong><code>WrapCollectionsInElement</code></strong> property determines whether the elements 
-    for a composite property (ie one that returns a collection or iterator) should be wrapped in a parent
+    for a composite property (i.e. one that returns a collection or iterator) should be wrapped in a parent
     element. For example, if <code>isWrapCollectionsInElement</code> is true then a property with signature 
     <code>List getChildren()</code> would wrap a <code>&lt;children&gt;</code> element around the elements
     representing the contents of the list.
@@ -515,7 +515,7 @@ beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrateg
         });
 ]]></source></p>
             <p>
-Here is another example making the choice dependant on what class contains the 
+Here is another example making the choice dependent on what class contains the 
 property. This one shows the class property only for classes like 
 <code>Throwable</code>, <code>Exception</code>, <code>Error</code> and so on: 
 <source><![CDATA[
@@ -572,7 +572,7 @@ The output would now look like:
     </mixed-collection>
   </test-class>
 ]]></source>
-As you can see above the collection's items are named diffent depending on
+As you can see above the collection's items are named different depending on
 their type.
       </p>
     </subsection>
@@ -617,7 +617,7 @@ the following dot betwixt fragment could be used:
 <strong>Note:</strong> when this attribute is set to true, Betwixt will conduct a search upwards through
 the superclasses if no matching methods are found in the implementation class.  Also note that
 the <code>updater</code> must be specified even if the method conforms to JavaBean
-standards in order to override the accessibilty.  Overriding the accessibility of a
+standards in order to override the accessibility.  Overriding the accessibility of a
 method is subject to the <code>SecurityManager</code> currently in effect.
          </p>
     </subsection>
@@ -650,7 +650,7 @@ There is one exception to this rule. If the class is a <code>java.util.Date</cod
 <code><pre>
     EEE MMM dd HH:mm:ss zzz yyyy
 </pre></code>
-(using the SimpleDateFormat notation). Observent readers will realise that this is the same pattern 
+(using the SimpleDateFormat notation). Observant readers will realise that this is the same pattern 
 that is returned by <code>java.util.Date.toString</code> - and that's why this pattern was chosen.
 It provides a good default for casual users.
         </p>
@@ -718,7 +718,7 @@ is a good please to start when creating your own implementation.
         	<p>
 One problem facing those who create custom converters is that objects of the same type
 may (in different contexts) require different conversions. For example, a <code>java.util.Date</code>
-may in one context have the symantic meaning of a day (and so the conversion needs to suppress the 
+may in one context have the semantic meaning of a day (and so the conversion needs to suppress the 
 time component) and in another may indicate a date time (and so the conversion in this case needs to 
 render the time components). The same type may come in different <em>flavours</em>.	
         </p>
@@ -731,7 +731,7 @@ conversion.	Note that options are not directly inherited. Instead use
         	<p>
 For example, consider a bean representing a person with an attribute
 giving that person's date of birth. Suppose that this is stored
-as aa <code>java.util.Date</code>. This needs to be rendered as 
+as a <code>java.util.Date</code>. This needs to be rendered as 
 a date string (without a time component). A good approach would be 
 to add an option to the dot betwixt file as follows:
 		</p>
@@ -846,7 +846,7 @@ For example:
   <betwixt-config>
   <!--name of the class to map -->
    <class name="org.some.package.MyClass">
-   <!-- standard definations (same as in standard .betwixt file)    -->
+   <!-- standard definitions (same as in standard .betwixt file)    -->
      <element name="repository-registration-result">
        <element name="repository-id" property="repositoryId"/>
        <element name="id-mapping" property="idMapping" class="org.some.package.SomeOtherClass"/>
@@ -976,7 +976,7 @@ will be used.
         </p>
             <p>
 The recommended convention for naming option's is to prefix with the reverse domain
-name (the same convension that is used for the standard naming of packages). 
+name (the same convention that is used for the standard naming of packages). 
 In any case, all option names beginning with <code>org.apache</code> should be avoided since
 these may be used by ASF products in the future.
         </p>

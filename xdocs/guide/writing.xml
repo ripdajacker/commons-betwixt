@@ -118,7 +118,7 @@ Again, a custom <code>ValueSuppressionStrategy</code> implementation should be c
     <subsection name='Pretty Printing'>
         <p>
 <code>BeanWriter</code> supports pretty printing. When pretty printing, extra white space will be inserted
-with the aim of making the xml produced more readible by humans. Pretty printing is off by default.
+with the aim of making the xml produced more readable by humans. Pretty printing is off by default.
 Call <code>enablePrettyPrint</code> to switch it on. For example:
         </p>
 <source>

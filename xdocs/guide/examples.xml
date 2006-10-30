@@ -133,7 +133,7 @@ public class WriteExampleApp {
 ]]></source>
     </p>
     <p>
-    Ths basic usage pattern for reading beans is only a little more complex. This time, you need to
+    The basic usage pattern for reading beans is only a little more complex. This time, you need to
     create a BeanReader, configure it, register the bean classes that the xml will be mapped to and 
     then parse should be called.
     </p>

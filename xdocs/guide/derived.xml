@@ -184,7 +184,7 @@ and <code>call</code> properties of a<code>Cat</code> bean will be read and writ
 whereas when bind time typing is used, all properties will be.
         </p>
             <p>
-There are typical use cases which demonstate the need for each approach. Betwixt 
+There are typical use cases which demonstrate the need for each approach. Betwixt 
 supports both in a flexible way, for both reading and writing but defaults to 
 bind time typing (which is typically more intuitive).
         </p>
@@ -200,7 +200,7 @@ used for more finely grained refinements. The dot betwixt settings override the 
         </p>
             <p>
 For example, the following code snippet configures an <code>XMLIntrospector</code> 
-so that (unless overriden by a dot betwixt document setting), introspection time types
+so that (unless overridden by a dot betwixt document setting), introspection time types
 will determine the mapping:
         </p>
 <source><![CDATA[
@@ -219,7 +219,7 @@ type should be used.
         </p>
             <p>
 For example, when the following dot betwixt document is used, the <code>pet</code>
-property's mapping will be dertermined by the introsection time type mapping.
+property's mapping will be determined by the introspection time type mapping.
         </p>
 <source><![CDATA[
     <?xml version='1.0'?>
@@ -244,7 +244,7 @@ The default mapping for a collection is the one created automatically
 by Betwixt. This is controlled by a number of general configuration settings.
 For some classes (including <code>Collection</code> implementations)
 special rules are applied. For collection implementations, these special
-rules ensure that the contents are written and polymophism is supported
+rules ensure that the contents are written and polymorphism is supported
 for reading.
 	</p>
 	<p>

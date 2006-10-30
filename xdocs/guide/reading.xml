@@ -326,7 +326,7 @@ available.
     </subsection>
     	<subsection name='Reading Polymorphic Mappings'>
     		<p>
-A polymophic mapping is one where the decision about the element type and name
+A polymorphic mapping is one where the decision about the element type and name
 is postponed from introspection time to bind time. This allows reading of
 collections containing mixed types distinguished by element name. For example:
 		</p>    		
@@ -380,7 +380,7 @@ be used.
 		</p>
     <p>
 <strong>Note:</strong> when using mixed collections with dot betwixt files containing 
-<code>addDefaults</code> it may be neccessary to set the <code>guess-names</code> 
+<code>addDefaults</code> it may be necessary to set the <code>guess-names</code> 
 attribute to false. 
     </p>
     </subsection>

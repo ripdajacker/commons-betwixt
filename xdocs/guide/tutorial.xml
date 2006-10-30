@@ -34,7 +34,7 @@ on creating a mapping for an RSS 0.91 application.
 <subsection name='The Object Model'>
         <p>
 <code>Betwixt</code> is a dynamic, start-from-java XML-object binder.
-For those unfamilar with these terms, this means that it maps XML &lt;-&gt; objects 
+For those unfamiliar with these terms, this means that it maps XML &lt;-&gt; objects 
 defining a binding from an existing group of java objects into xml (and back again)
 without the use of code generation.
     </p>
