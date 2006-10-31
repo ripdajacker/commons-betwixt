@@ -4,8 +4,9 @@ Jakarta Commons Betwixt
 Welcome to the Betwixt component of the Jakarta Commons
 project (http://jakarta.apache.org/commons). 
 
-Betwixt uses Maven (http://maven.apache.org) for build 
-process management. 
+Betwixt uses Maven 1 (http://maven.apache.org) for build 
+process management. It is known to build with Maven 1.0.2
+though other versions may also work. 
 
 To build Betwixt using Maven type:
 
