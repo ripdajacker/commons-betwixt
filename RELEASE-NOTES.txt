@@ -5,7 +5,8 @@ $Id$
 
 INTRODUCTION:
 
-Betwixt provides a flexible way to map beans into XML - and vice versa.
+Betwixt provides a flexible way to map beans into XML - and vice versa. Betwixt
+requires Java 1.3 or higher.
 
 Betwixt 0.8 is a feature release. Support for polymorphic mappings has been improved. 
 More flexible mapping are possible using new strategies.
