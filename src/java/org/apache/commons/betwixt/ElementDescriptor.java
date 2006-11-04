@@ -309,8 +309,6 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Removes an element descriptor from this element descriptor. 
      * @param descriptor the <code>ElementDescriptor</code> that will be removed.
-     * 
-     * @param descriptor
      */
     public void removeElementDescriptor(ElementDescriptor descriptor) {
         getElementList().remove(descriptor);

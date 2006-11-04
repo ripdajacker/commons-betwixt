@@ -483,7 +483,7 @@ public class IntrospectionConfiguration {
      * This is used to suppress elements, e.g. for versioning.
      * 
      * @since 0.8
-     * @param the strategy 
+     * @param elementSuppressionStrategy the strategy 
      */
     public void setElementSuppressionStrategy(
             ElementSuppressionStrategy elementSuppressionStrategy) {
