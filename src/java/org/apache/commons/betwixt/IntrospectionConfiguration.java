@@ -272,6 +272,7 @@ public class IntrospectionConfiguration {
      * Specifies if you want to ignore existing BeanInfo classes at all for introspection
      * @see java.beans.Introspector for more details
      * @param ignoreAllBeanInfo set to true to ignore all BeanInfo classes
+     * @since 0.8
      */
     public void setIgnoreAllBeanInfo(boolean ignoreAllBeanInfo) {
         this.ignoreAllBeanInfo = ignoreAllBeanInfo;
@@ -419,6 +420,7 @@ public class IntrospectionConfiguration {
     /**
      * Gets the strategy used to determine which types are collective.
      * @return <code>CollectiveTypeStrategy</code>, not null
+     * @since 0.8
      */
     public CollectiveTypeStrategy getCollectiveTypeStrategy() {
         return collectiveTypeStrategy;
@@ -427,6 +429,7 @@ public class IntrospectionConfiguration {
     /**
      * Sets the strategy used to determine which types are collective.
      * @param collectiveTypeStrategy <code>CollectiveTypeStrategy</code>, not null
+     * @since 0.8
      */
     public void setCollectiveTypeStrategy(
             CollectiveTypeStrategy collectiveTypeStrategy) {

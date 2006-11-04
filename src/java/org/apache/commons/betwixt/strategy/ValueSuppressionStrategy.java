@@ -76,6 +76,7 @@ public abstract class ValueSuppressionStrategy {
      * @param value <code>Object</code> value, possibly null
      * @return true if the element should be suppressed (in other words, not written)
      * for the given value
+     * @since 0.8
      */
     public boolean suppressElement(ElementDescriptor element, String namespaceUri, String localName, String qualifiedName, Object value) {
          return false;

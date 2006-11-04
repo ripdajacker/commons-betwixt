@@ -53,6 +53,7 @@ public class DefaultIdStoringStrategy extends IdStoringStrategy {
      * 
      * @param idByBeanMap <code>Map</code> implementation stores the ID's by bean
      * @param beanByIdMap <code>Map</code> implementation stores the bean's by ID
+     * @since 0.8
      */
     public DefaultIdStoringStrategy(Map idByBeanMap, Map beanByIdMap) {
         this.idByBeanMap = idByBeanMap;

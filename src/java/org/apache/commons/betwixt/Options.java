@@ -69,6 +69,7 @@ public class Options {
      * 
      * @param options -
      *            an existing <code>Options</code> collection
+     * @since 0.8
      */
     public void addOptions(Options options) {
         valuesByName.putAll(options.valuesByName);

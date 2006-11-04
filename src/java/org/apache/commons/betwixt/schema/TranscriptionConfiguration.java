@@ -53,6 +53,7 @@ public class TranscriptionConfiguration {
     /**
      * Gets the stategy to be used for naming types.
      * @return <code>SchemaTypeNamingStrategy</code>, not null
+     * @since 0.8
      */
     public SchemaTypeNamingStrategy getSchemaTypeNamingStrategy() {
         return schemaTypeNamingStrategy;
@@ -61,6 +62,7 @@ public class TranscriptionConfiguration {
     /**
      * Sets the strategy to be used for naming types.
      * @param schemaTypeNamingStrategy <code>SchemaTypeNamingStrategy</code>, not null
+     * @since 0.8
      */
     public void setSchemaTypeNamingStrategy( SchemaTypeNamingStrategy schemaTypeNamingStrategy) {
         this.schemaTypeNamingStrategy = schemaTypeNamingStrategy;

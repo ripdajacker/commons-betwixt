@@ -20,7 +20,7 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 
 /**
  * Strategy to determine whether to show an attribute at all.
- * 
+ * @since 0.8
  */
 public interface AttributeSuppressionStrategy 
 {

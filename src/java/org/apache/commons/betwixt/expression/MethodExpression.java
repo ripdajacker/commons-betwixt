@@ -170,6 +170,7 @@ public class MethodExpression implements Expression {
       *
       * @param context the Context being evaluated when the exception occured
       * @param e the exception to handle
+      * @since 0.8
       */
     protected void handleException(Context context, Exception e, Method m) {
         // use the context's logger to log the problem

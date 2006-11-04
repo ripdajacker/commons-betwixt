@@ -891,6 +891,7 @@ public class XMLIntrospector {
      * 
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
+     * @since 0.8
      */
     public void defaultAddMethods( ElementDescriptor rootDescriptor, Class beanClass, boolean preservePropertyName ) {
         // TODO: this probably does work properly with DynaBeans: need to push
@@ -1023,6 +1024,7 @@ public class XMLIntrospector {
      * Assigns the given method as an adder method to the given descriptor.
      * @param twinParameterAdderMethod adder <code>Method</code>, not null
      * @param matchingDescriptor <code>ElementDescriptor</code> describing the element
+     * @since 0.8
      */
     public void assignAdder(Method twinParameterAdderMethod, ElementDescriptor matchingDescriptor) {
         if ( matchingDescriptor != null 

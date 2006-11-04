@@ -178,6 +178,7 @@ public class HyphenatedNameMapper implements NameMapper {
     
     /**
      * Outputs brief description.
+     * @since 0.8
      */
     public String toString() {
         return "Hyphenated Name Mapper";

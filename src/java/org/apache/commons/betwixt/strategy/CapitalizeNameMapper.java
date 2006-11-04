@@ -45,6 +45,7 @@ public class CapitalizeNameMapper implements NameMapper {
 
     /**
      * Outputs a brief description.
+     * @since 0.8
      */
     public String toString() {
         return "Capitalize Type Name Mapper";

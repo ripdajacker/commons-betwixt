@@ -20,7 +20,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Strategy to determine whether to show an element at all.
- * 
+ * @since 0.8
  */
 public interface ElementSuppressionStrategy {
     /**

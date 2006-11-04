@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * Specifies which types should be regarded as collective
+ * @since 0.8
  */
 public abstract class CollectiveTypeStrategy {
 

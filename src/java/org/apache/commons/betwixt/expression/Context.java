@@ -340,6 +340,7 @@ public class Context {
      * 
      * @param name the name of the option to be found
      * @return option value or null if this value is never set
+     * @since 0.8
      */
     public String getInheritedOption(String name) {
         String result = null;

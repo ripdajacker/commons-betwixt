@@ -49,6 +49,7 @@ public class DecapitalizeNameMapper implements NameMapper {
     
     /**
      * Outputs a brief description.
+     * @since 0.8
      */
     public String toString() {
         return "Decapitalize Type Name Mapper";

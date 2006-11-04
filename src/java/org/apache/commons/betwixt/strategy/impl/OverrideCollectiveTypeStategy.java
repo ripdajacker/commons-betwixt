@@ -24,7 +24,8 @@ import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 /**
  * Strategy that allows specific classes to be marked as 
  * collective ({@link #overrideCollective(Class)})
- * or not collective ({@link #overrideNotCollective(Class)})
+ * or not collective ({@link #overrideNotCollective(Class)}).
+ * @since 0.8
  */
 public class OverrideCollectiveTypeStategy extends CollectiveTypeStrategy {
 

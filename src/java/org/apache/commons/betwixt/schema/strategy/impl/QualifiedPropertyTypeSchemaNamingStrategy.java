@@ -22,6 +22,7 @@ import org.apache.commons.betwixt.schema.strategy.SchemaTypeNamingStrategy;
 /**
  * Names schema types from the fully qualified property type of the descriptor
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @since 0.8
  */
 public class QualifiedPropertyTypeSchemaNamingStrategy  extends SchemaTypeNamingStrategy {
     

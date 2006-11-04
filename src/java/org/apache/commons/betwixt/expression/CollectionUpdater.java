@@ -20,6 +20,7 @@ import java.util.Collection;
 
 /**
  * Updates a Collection by adding the new value to it.
+ * @since 0.8
  */
 public class CollectionUpdater implements Updater {
 

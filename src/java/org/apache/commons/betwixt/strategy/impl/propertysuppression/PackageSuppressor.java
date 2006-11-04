@@ -23,6 +23,7 @@ import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
  * Limited regex is supported. If the package name ends in <code>.*</code>
  * them all child packages will be suppressed.
  * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @since 0.8
  */
 public class PackageSuppressor extends PropertySuppressionStrategy {
 

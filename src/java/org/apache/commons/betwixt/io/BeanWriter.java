@@ -256,6 +256,7 @@ public class BeanWriter extends AbstractBeanWriter {
      * Gets the initial indent level 
      *
      * @return the initial level for indentation 
+     * @since 0.8
      */
     public int getInitialIndentLevel() {
         return initialIndentLevel;
@@ -264,6 +265,7 @@ public class BeanWriter extends AbstractBeanWriter {
     /** 
      * Sets the initial indent level used for pretty print indents  
      * @param initialIndentLevel use this <code>int</code> to start with
+     * @since 0.8
      */
     public void setInitialIndentLevel(int initialIndentLevel) {
         this.initialIndentLevel = initialIndentLevel;

@@ -533,6 +533,7 @@ public class ReadContext extends Context {
      * @param mapping <code>ElementMapping</code> describing the mapped element
      * @return <code>null</code> if the type cannot be resolved 
      * or if the current descriptor is not polymorphic
+     * @since 0.8
      */
     public Class resolvePolymorphicType(ElementMapping mapping) {
         Class result = null;

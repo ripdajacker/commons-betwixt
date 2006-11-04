@@ -25,6 +25,11 @@ import org.apache.commons.digester.RuleSetBase;
  */
 public class CommonRuleSet extends RuleSetBase {
 
+    /**
+     * Adds rule instances.
+     * @param digester <code>Digester</code>, not null
+     * @since 0.8
+     */
     public void addRuleInstances(Digester digester) {
         digester.addRule("*/element", new ElementRule());
         digester.addRule( "*/text", new TextRule() );

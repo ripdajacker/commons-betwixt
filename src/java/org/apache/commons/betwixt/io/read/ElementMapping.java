@@ -126,6 +126,7 @@ public class ElementMapping {
     
     /**
      * Returns something useful for logging.
+     * @since 0.8
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();

@@ -44,6 +44,7 @@ public abstract class IdStoringStrategy {
      * Factory method creates the default <code>Betwixt</code> implementation.
      * The implementation created may vary if the default implementation changes.
      * @return <code>IdStoringStrategy</code> used as default
+     * @since 0.8
      */
     public static IdStoringStrategy createDefault() {
         return new DefaultIdStoringStrategy();

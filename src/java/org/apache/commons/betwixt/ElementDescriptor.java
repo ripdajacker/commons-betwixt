@@ -235,6 +235,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Removes an attribute descriptor from this element descriptor. 
      * @param descriptor the <code>AttributeDescriptor</code> to be removed, not null
+     * @since 0.8
      */
     public void removeAttributeDescriptor(AttributeDescriptor descriptor) {
         getAttributeList().remove(descriptor);
@@ -267,6 +268,7 @@ public class ElementDescriptor extends NodeDescriptor {
      * @param name to search for; will be checked against the attributes' qualified name.
      * @return <code>AttributeDescriptor</code> with the given name,
      * or null if no descriptor has that name
+     * @since 0.8
      */
     public AttributeDescriptor getAttributeDescriptor(final String name) {
         for (int i = 0, size = attributeDescriptors.length; i < size; i++) {
@@ -309,6 +311,7 @@ public class ElementDescriptor extends NodeDescriptor {
     /**
      * Removes an element descriptor from this element descriptor. 
      * @param descriptor the <code>ElementDescriptor</code> that will be removed.
+     * @since 0.8
      */
     public void removeElementDescriptor(ElementDescriptor descriptor) {
         getElementList().remove(descriptor);
