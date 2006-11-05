@@ -51,7 +51,7 @@ one common way in which the remote interfaces are implemented.
             <p>
 This causes some difficulties for Betwixt. Betwixt (by default) will introspect the actual implementation
 presented by the container.
-Fortunately, the normalization mechanism described <a href='binding#Introspection%20And%20Normalization'>here</a> 
+Fortunately, the normalization mechanism described <a href='binding.html#Introspection_And_Normalization'>here</a> 
 can be used to allow betwixt to introspect the actual interface (rather than the implementation).
         </p>
             <p>

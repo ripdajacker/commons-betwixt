@@ -28,7 +28,7 @@
 <section name="Getting Started">
     <p>
     Probably the best way to get started is to look at some examples. 
-    <a href='examples#simple-example'>Here</a> is some simple example code that reads and writes a bean (together
+    <a href='examples.html#simple-example'>Here</a> is some simple example code that reads and writes a bean (together
     with some comments). It's a good place to start. 
     </p>
 </section>

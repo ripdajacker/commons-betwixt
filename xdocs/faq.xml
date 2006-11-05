@@ -342,7 +342,7 @@ when they fall outside acceptable ranges).
         <dd>
           Betwixt uses Maven for its build system. So you should be able to build Betwixt just like
           any other Maven enabled project. Please see the 
-          <a href="http://maven.apache.org/start/index.html">Maven</a> 
+          <a href="http://maven.apache.org/maven-1.x/">Maven</a> 
           documentation for details.
         </dd>
       </dl>

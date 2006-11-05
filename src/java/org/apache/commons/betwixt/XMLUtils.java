@@ -20,7 +20,7 @@ package org.apache.commons.betwixt;
   * 
   * <p>The code for {@link #isWellFormedXMLName} is based on code in 
   * <code>org.apache.xerces.util.XMLChar</code> 
-  * in <a href='http://xml.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
+  * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
   * The authors of this class are credited below.</p>
   *
   * @author Glenn Marcy, IBM
@@ -380,7 +380,7 @@ public class XMLUtils {
      *
      * <p>The code for this method is based on code in 
      * <code>org.apache.xerces.util.XMLChar</code> 
-     * in <a href='http://xml.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
+     * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
      * The authors of this class are credited at the top of this class.</p>
      *
      * @param name the <code>String</code> to be checked for use as an xml attribute 

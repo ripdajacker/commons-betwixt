@@ -47,9 +47,9 @@
            </td>
           </tr>
          <tr>
-           <td><a href="http://jakarta.apache.org/commons/sandbox/sql">Commons SQL</a></td>
+           <td><a href="http://db.apache.org/ddlutils/">Apache DB DdlUtils</a></td>
            <td>
-             Commons SQL is a component for working with databases and generating DDL.
+             DdlUtils is a small, easy-to-use component for working with Database Definition (DDL) files.
            </td>
           </tr>
           <tr>

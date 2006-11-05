@@ -658,7 +658,7 @@ It provides a good default for casual users.
 Advanced users will probably need a particular date format. The recommended way to do this is through
 registering appropriate converters with ConvertUtils. The default conversion strategy must also be 
 replaced with an instance of 
-<a href='../apidocs/org/apache.commons/betwixt/strategy/ConvertUtilsObjectStringConverter.html'>
+<a href='../apidocs/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.html'>
 ConvertUtilsObjectStringConverter</a>. This is set though a <code>BindingConfiguration</code> property.
         </p>
             <p>
@@ -687,7 +687,7 @@ not suit all the requirements of the user. Betwixt supports this need by allowin
         </p>
             <p>
 The strategy class  
-<a href='../apidocs/org/apache.commons/betwixt/strategy/ObjectStringConverter.html'>ObjectStringConverter</a>
+<a href='../apidocs/org/apache/commons/betwixt/strategy/ObjectStringConverter.html'>ObjectStringConverter</a>
 is simple: containing only two simple methods. For more information about creating subclasses, see the javadocs.
 The implementation to be used is set through the <code>BindingConfiguration</code> 
 <code>ObjectStringConverter</code> property. 
