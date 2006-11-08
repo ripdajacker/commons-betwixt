@@ -169,7 +169,7 @@
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.4</version>
       <url>http://jakarta.apache.org/commons/logging/</url>
     </dependency>
 
@@ -183,7 +183,7 @@
     <dependency>
       <groupId>commons-digester</groupId>
       <artifactId>commons-digester</artifactId>
-      <version>1.6</version>
+      <version>1.7</version>
       <url>http://jakarta.apache.org/commons/digester/</url>
     </dependency>
 
