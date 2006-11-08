@@ -1608,7 +1608,7 @@ public class XMLIntrospector {
                 if ( additionals != null ) {
                     for ( int i=0, outerSize=additionals.length; i<outerSize; i++ ) {
                         BeanInfo additionalInfo = additionals[i];
-                        descriptors = beanInfo.getPropertyDescriptors();
+                        descriptors = additionalInfo.getPropertyDescriptors();
                         if ( descriptors != null ) {
                             for (int j=0, innerSize=descriptors.length; j<innerSize; j++) {
                                 if (!getConfiguration().getPropertySuppressionStrategy()
