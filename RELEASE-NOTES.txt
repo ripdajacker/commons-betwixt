@@ -13,12 +13,13 @@ More flexible mapping are possible using new strategies.
 
 Betwixt 0.8 is compatible with 0.7.
 
-For more details see the tasks and change log documents.
+For more details, see the detailed change log contained in docs/tasks.html.
 
 FEATURES           
  * Added strategies for suppression of attributes and elements at introspection time.
  * Improved support for natural polymorphic mappings of collection subclasses.
- * Added support for option inheritance between parent and target mappings. Issue #37542.
+ * Added support for option inheritance between parent and target mappings. Issue BETWIXT-45 
+   (#37542).
  * Added getInheritedOption method to Context to assist with inheritance amongst options.
  * Added convenience constructor to DefaultIdStoringStrategy. This makes life easier for users that want to 
    use object identity (rather than equality) when generating IDs.
@@ -35,8 +36,8 @@ FEATURES
 
 
 FIXES
- * Fixed TextRule content bug. (Issue #36930).
- * Fixed attribute ID name recognition bug. (Issue #36929). 
+ * Fixed TextRule content bug. Issue BETWIXT-31 (#36930).
+ * Fixed attribute ID name recognition bug. Issue BETWIXT-15 (#36929). 
  * Fixed bug when introspecting in secure environments.
  * Fixed formatting bug when pretty printing elements with endTagForEmptyElement is true.
  * Fixed map custom updater in dot betwixt file bug.
