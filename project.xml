@@ -20,7 +20,7 @@
   <name>Betwixt</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-betwixt</artifactId>
-  <currentVersion>0.8-RC2</currentVersion>
+  <currentVersion>0.8-RC3</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
