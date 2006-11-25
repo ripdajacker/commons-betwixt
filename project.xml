@@ -18,7 +18,7 @@
 <project>
   <pomVersion>3</pomVersion>
   <name>Betwixt</name>
-  <groupId>org.apache.commons</groupId>
+  <groupId>commons-betwixt</groupId>
   <artifactId>commons-betwixt</artifactId>
   <currentVersion>0.8-RC3</currentVersion>
   <inceptionYear>2002</inceptionYear>
