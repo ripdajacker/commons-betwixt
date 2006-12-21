@@ -16,7 +16,8 @@ All are invited to contribute by joining us on the mailing lists
 through http://issues.apache.org.
 
 Betwixt 0.8 is a feature release. Support for polymorphic mappings has been improved. 
-More flexible mapping are possible using new strategies.
+More flexible mapping are possible using new strategies. Enhancements have been made 
+to mapping formats. Mixed collections are now handled more completely.
 
 Betwixt 0.8 is compatible with 0.7.
 

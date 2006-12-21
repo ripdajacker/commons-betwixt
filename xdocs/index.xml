@@ -43,20 +43,19 @@
 
 <section name="Releases">
 
-  <subsection name='Betwixt 0.8 (UNDER PREPARATION)'>
-  	<p>
-<strong>Note:</strong> 0.8 is in preparation.
-  	</p>
+  <subsection name='Betwixt 0.8'>
     <p>
 Betwixt 0.8 is a feature release.
-Improvements have been made to supression strategies.
+Improvements have been made to suppression strategies.
 Enhancements have been made to mapping formats.
 Mixed collections are now handled more completely.
 For full details see the <a href='tasks.html#Completed'>tasks documentation</a>. 
 	</p>
-	<p>
-Note these <a href='tasks.html#Deprecated'>deprecations</a> (since 0.7).
-	</p>
+    <p>
+Betwixt 0.8 is 
+<a href='http://jakarta.apache.org/site/downloads/downloads_commons-betwixt.cgi'>available</a> 
+in binary and source distributions.
+    </p>
   </subsection>
   <subsection name='Betwixt 0.7'>
     <p>

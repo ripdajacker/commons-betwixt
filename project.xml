@@ -20,7 +20,7 @@
   <name>Betwixt</name>
   <groupId>commons-betwixt</groupId>
   <artifactId>commons-betwixt</artifactId>
-  <currentVersion>0.8-RC4</currentVersion>
+  <currentVersion>0.8</currentVersion>
   <inceptionYear>2002</inceptionYear>
   <shortDescription>Commons Betwixt</shortDescription>
   <description>Commons Betwixt: mapping beans to XML</description>
@@ -84,6 +84,11 @@
       <id>0.7</id>
       <name>0.7</name>
       <tag>BETWIXT_0_7</tag>
+    </version>    
+    <version>
+      <id>0.8</id>
+      <name>0.8</name>
+      <tag>BETWIXT_0_8</tag>
     </version>    
   </versions>
 
