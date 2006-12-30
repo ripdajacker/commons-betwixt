@@ -198,6 +198,10 @@ Create a strategy which allow general implementation rules to be specified.
     </subsection>
 </section>
 <section name='Completed'>
+    <subsection name='Since 0.8'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.8'>            
         <ul>
           <li>
@@ -428,6 +432,10 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Deprecated'>
+    <subsection name='Since 0.8'>
+        <ul>
+        </ul>
+    </subsection>
 	<subsection name='0.8'>
 		<ul>
 			<li>IdStoringStrategy
@@ -559,6 +567,10 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Backwards Incompatible Changes'>
+    <subsection name='Since 0.8'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.8'>
         <ul>
         </ul>
@@ -573,6 +585,10 @@ sections (in addition to character escaping).
     </subsection>
 </section>
 <section name='Semantic Changes'>
+    <subsection name='Since 0.8'>
+        <ul>
+        </ul>
+    </subsection>
     <subsection name='0.8'>
         <ul>
         </ul>
@@ -674,7 +690,11 @@ that need to hide their extra properties.
     </subsection>
 </section>
 	<section name='Dependencies'>
-	    <subsection name='0.7'>
+        <subsection name='Since 0.8'>
+        	<ul>
+	        </ul>
+    	</subsection>
+	    <subsection name='0.8'>
         	<ul>
 	        </ul>
     	</subsection>
