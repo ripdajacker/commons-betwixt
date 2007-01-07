@@ -21,7 +21,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLUtils;
@@ -146,7 +145,7 @@ public class ElementRule extends MappedPropertyRule {
         if (implementationClass != null) {
             try {
 
-                Class clazz = Class.forName(implementationClass);
+                Class clazz = loadClass(implementationClass);
                 descriptor.setImplementationClass(clazz);
 
             } catch (Exception e) {

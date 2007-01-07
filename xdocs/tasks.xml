@@ -200,6 +200,13 @@ Create a strategy which allow general implementation rules to be specified.
 <section name='Completed'>
     <subsection name='Since 0.8'>
         <ul>
+        	<li>
+Added <code>useContextClassLoader</code> property to <code>IntrospectionConfiguration</code>.
+When this is set to <code>true</code>, the introspector will use the context classloader
+when loading classes. It is recommended that containers (such as JBoss) with well behaved
+context classloaders set this property to true. 
+See <a href='https://issues.apache.org/jira/browse/BETWIXT-57'>BETWIXT-57</a>.
+       	    </li>
         </ul>
     </subsection>
     <subsection name='0.8'>            

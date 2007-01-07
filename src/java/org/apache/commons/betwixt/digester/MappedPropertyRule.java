@@ -33,11 +33,8 @@ public abstract class MappedPropertyRule extends RuleSupport {
 
     /** Logger */
     private static final Log log = LogFactory.getLog( MappedPropertyRule.class );   
-     /** Classloader used to load classes by name */
-    private ClassLoader classLoader;
     /** Base constructor */
     public MappedPropertyRule() {
-        this.classLoader = getClass().getClassLoader();
     }
     
     
@@ -118,7 +115,7 @@ public abstract class MappedPropertyRule extends RuleSupport {
         //      complex class loading situations
         if ( propertyClassName != null ) {
             try {
-                Class answer = classLoader.loadClass(propertyClassName);
+                Class answer = loadClass(propertyClassName);
                 if (answer != null) {
                     if (log.isTraceEnabled()) {
                         log.trace("Used specified type " + answer);

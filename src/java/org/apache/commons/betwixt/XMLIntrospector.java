@@ -1244,6 +1244,7 @@ public class XMLIntrospector {
             digester = new XMLBeanInfoDigester();
             digester.setXMLIntrospector( this );
         }
+        digester.setUseContextClassLoader(configuration.isUseContextClassLoader());
         digester.setBeanClass( aClass );
     }
 

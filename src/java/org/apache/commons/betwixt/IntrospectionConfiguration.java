@@ -111,6 +111,11 @@ public class IntrospectionConfiguration {
     	 */
     	private PropertySuppressionStrategy propertySuppressionStrategy = PropertySuppressionStrategy.DEFAULT;
     	
+        /**
+         * Should the introspector use the context classloader.
+         */
+        private boolean useContextClassLoader = false;
+        
     /**
       * Gets the <code>ClassNormalizer</code> strategy.
       * This is used to determine the Class to be introspected
@@ -491,5 +496,24 @@ public class IntrospectionConfiguration {
     public void setElementSuppressionStrategy(
             ElementSuppressionStrategy elementSuppressionStrategy) {
         this.elementSuppressionStrategy = elementSuppressionStrategy;
+    }
+
+    /**
+     * Should be context classloader be used when loading classes?
+     * @return <code>true</code> if the context classloader is to be used during introspection, 
+     * <code>false</code> otherwise
+     */
+    public boolean isUseContextClassLoader() {
+        return useContextClassLoader;
+    }
+
+    /**
+     * Sets whether the context classloader should be used to load classes during introspection.
+     * For containers with well behaved context classloaders,
+     * this should typically be set to true.
+     * @param useContextClassLoader
+     */
+    public void setUseContextClassLoader(boolean useContextClassLoader) {
+        this.useContextClassLoader = useContextClassLoader;
     }
 }

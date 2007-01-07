@@ -76,4 +76,24 @@ public class RuleSupport extends Rule {
     protected Set getProcessedPropertyNameSet() {
         return getXMLInfoDigester().getProcessedPropertyNameSet();
     }
+
+
+
+    /**
+     * Loads the given class using an appropriate <code>ClassLoader</code>.
+     * Uses {@link org.apache.commons.digester.Digester#getClassLoader()}.
+     * @param className  names the class to be loaded
+     * @return <code>Class</code> loaded, not null
+     * @throws ClassNotFoundException
+     */
+    protected Class loadClass(String className) throws ClassNotFoundException {
+        ClassLoader classloader  = digester.getClassLoader();
+        Class clazz = null;
+        if (classloader == null) {
+            clazz = Class.forName(className);
+        } else {
+            clazz = classloader.loadClass(className);
+        }
+        return clazz;
+    }
 }

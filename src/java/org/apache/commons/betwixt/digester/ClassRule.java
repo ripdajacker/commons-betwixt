@@ -54,7 +54,7 @@ public class ClassRule extends RuleSupport {
         
         try {
             
-            Class beanClass = Class.forName(className);
+            Class beanClass = loadClass(className);
             XMLBeanInfo xmlBeanInfo = new XMLBeanInfo(beanClass);
             XMLBeanInfoDigester xmlBeanInfoDigester = (XMLBeanInfoDigester) getDigester();
             xmlBeanInfoDigester.setBeanClass(beanClass);
