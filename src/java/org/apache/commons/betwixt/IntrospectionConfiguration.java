@@ -112,9 +112,9 @@ public class IntrospectionConfiguration {
     	private PropertySuppressionStrategy propertySuppressionStrategy = PropertySuppressionStrategy.DEFAULT;
     	
         /**
-         * Should the introspector use the context classloader.
+         * Should the introspector use the context classloader. Defaults to true.
          */
-        private boolean useContextClassLoader = false;
+        private boolean useContextClassLoader = true;
         
     /**
       * Gets the <code>ClassNormalizer</code> strategy.
@@ -501,17 +501,27 @@ public class IntrospectionConfiguration {
     /**
      * Should be context classloader be used when loading classes?
      * @return <code>true</code> if the context classloader is to be used during introspection, 
-     * <code>false</code> otherwise
+     * <code>false</code> otherwise.
      */
     public boolean isUseContextClassLoader() {
         return useContextClassLoader;
     }
 
     /**
-     * Sets whether the context classloader should be used to load classes during introspection.
-     * For containers with well behaved context classloaders,
-     * this should typically be set to true.
-     * @param useContextClassLoader
+     * <p>Specify whether the context classloader should be used to load classes during introspection;
+     * the default value is true.</p>
+     * <p>
+     * When running code that is not in a container (ie where the context classloader is the same
+     * as the system classloader), this setting has no effect. When running code in containers that
+     * do define a context classloader for loaded "components" (eg webapps), a true value will allow
+     * classes in the loaded "component" to be accessable even when Betwixt is deployed via a
+     * "higher level" classloader.
+     * </p>
+     * <p>
+     * If code is running in a container that uses a context classloader in unusual ways then it
+     * may be necessary to set this value to false. In this case, classes are always loaded using the
+     * same classloader that loaded the betwixt library.
+     * </p>
      */
     public void setUseContextClassLoader(boolean useContextClassLoader) {
         this.useContextClassLoader = useContextClassLoader;
