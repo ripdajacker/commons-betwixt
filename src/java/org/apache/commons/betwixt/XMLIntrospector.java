@@ -1244,7 +1244,20 @@ public class XMLIntrospector {
             digester = new XMLBeanInfoDigester();
             digester.setXMLIntrospector( this );
         }
-        digester.setUseContextClassLoader(configuration.isUseContextClassLoader());
+
+	if (configuration.isUseContextClassLoader()) {
+	    // Use the context classloader to find classes.
+	    //
+	    // There is one case in which this gives odd behaviour; with digester <= 1.8 (at least),
+	    // if the context classloader is inaccessable for some reason then Digester will fall
+	    // back to using the same classloader that loaded Digester.
+            digester.setUseContextClassLoader(true);
+	} else {
+            // Use the classloader that loaded this betwixt library, regardless
+	    // of where the Digester class library happens to be.
+	    digester.setClassLoader(this.getClass().getClassLoader());
+	}
+
         digester.setBeanClass( aClass );
     }
 
