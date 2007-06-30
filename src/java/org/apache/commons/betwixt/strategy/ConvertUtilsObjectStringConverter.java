@@ -94,7 +94,7 @@ public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
     public Object stringToObject(String value, Class type, String flavour, Context context) {
         if (value == null || "".equals(value))
         {
-            return null;    
+            return "";    
         }
         
         return ConvertUtils.convert( value, type );

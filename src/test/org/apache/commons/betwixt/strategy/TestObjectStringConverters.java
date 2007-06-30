@@ -67,6 +67,15 @@ public class TestObjectStringConverters extends TestCase
         commonTestForConvertUtilsConverters( converter );
     }
     
+    /**
+     * Testcase added for BETWIXT-58
+     * @throws Exception
+     */
+    public void testConvertUtilsObjectStringConverter() throws Exception {
+        ConvertUtilsObjectStringConverter converter = new ConvertUtilsObjectStringConverter();
+        assertEquals("", converter.stringToObject(null,null, null, null));
+    }
+    
     private void commonTestForConvertUtilsConverters(ObjectStringConverter objectStringConverter) {
         Converter converter = new Converter() {
             public Object convert(Class type, Object value) {
