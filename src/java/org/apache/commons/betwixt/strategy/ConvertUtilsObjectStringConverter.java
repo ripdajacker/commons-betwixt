@@ -42,42 +42,12 @@ public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
       */
     public String objectToString(Object object, Class type, String flavour, Context context) {
         if ( object != null ) {
-            String text = convertInternal( object );
+            String text = ConvertUtils.convert( object );
             if ( text != null ) {
                 return text;
             }
         }
         return "";
-    }
-    
-    /**
-     * Contains the code from the beanutils 1.7.0 ConvertUtils.convert( Object )
-     * This is to prevent backward compatibility issues, which cannot be solved
-     * in beanutils because of evolving functionality.<br/>
-     * Since the advise here is the override the objectToString methods anyway
-     * people can choose themselves to adhere to the new beanutils functionality.
-     * 
-     * @param value the value to convert to a String
-     * @return the String representation or null.
-     */
-    private String convertInternal( Object value ) {
-        if (value == null) {
-            return ((String) null);
-        } else if (value.getClass().isArray()) {
-            if (Array.getLength(value) < 1) {
-                return (null);
-            }
-            value = Array.get(value, 0);
-            if (value == null) {
-                return ((String) null);
-            } else {
-                Converter converter = ConvertUtils.lookup(String.class);
-                return ((String) converter.convert(String.class, value));
-            }
-        } else {
-            Converter converter = ConvertUtils.lookup(String.class);
-            return ((String) converter.convert(String.class, value));
-        }
     }
     
     /**
