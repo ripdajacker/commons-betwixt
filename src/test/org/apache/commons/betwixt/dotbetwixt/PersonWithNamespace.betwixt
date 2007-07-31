@@ -16,17 +16,17 @@
   limitations under the License.
 -->
 <info>
-    <element name='person' uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'>
+    <element name='person' uri='http://commons.apache.org/betwixt/PersonWithNamespaceExample'>
     	<attribute 
     		name='middle'
     		property='middlename' 
-    		uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'/>
+    		uri='http://commons.apache.org/betwixt/PersonWithNamespaceExample'/>
     	<element 
     		name='forename' 
     		property='forename' />
     	<element 
     		name='surname' 
     		property='lastname' 
-    		uri='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample'/>
+    		uri='http://commons.apache.org/betwixt/PersonWithNamespaceExample'/>
     </element>
 </info>
