@@ -33,7 +33,7 @@ import org.apache.commons.betwixt.XMLIntrospector;
  * and Betwixt can be used to output this to xml.
  * This should allow both SAX and text.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SchemaTranscriber {

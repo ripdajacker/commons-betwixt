@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.io.BeanReader;
 
 /**
  * Tests conversions.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestConversion extends TestCase{

@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestDotBetwixtNamespace extends AbstractTestCase {

@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.schema.strategy.impl.QualifiedPropertyTypeSche
  * Configuration for XMLBeanInfo to XML schema transcription.
  * All settings are gathered into this one class for convenience.
  * 
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TranscriptionConfiguration {

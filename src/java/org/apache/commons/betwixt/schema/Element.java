@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.schema;
 
 /**
  * Implmented by <code>element</code> definition.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public interface Element {

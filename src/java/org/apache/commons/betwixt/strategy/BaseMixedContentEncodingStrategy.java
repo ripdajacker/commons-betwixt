@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.XMLUtils;
  * Implementations should override {@link #encodeAsCDATA}
  * with an appropriate decision algorithm.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @since 0.5
  */
 public abstract class BaseMixedContentEncodingStrategy

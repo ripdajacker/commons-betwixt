@@ -24,7 +24,7 @@ import java.util.Set;
  * Collective for <code>Betwixt</code> optional behaviour hints.
  * An option links a name with a value (both strings). 
  * 
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @since 0.5
  */
 public class Options {

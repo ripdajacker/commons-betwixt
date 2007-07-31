@@ -24,7 +24,7 @@ import org.xml.sax.Attributes;
  * Executes mapping action for a subgraph.
  * It is intended that most MappingAction's will not need to maintain state.
  * 
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public abstract class MappingAction {
@@ -97,7 +97,7 @@ public abstract class MappingAction {
     /**
      * Basic action.
      * 
-     * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+     * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
      * @version $Revision$
      */
     public static class Base extends MappingAction {

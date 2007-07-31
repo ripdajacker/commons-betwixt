@@ -34,7 +34,7 @@ import org.xml.sax.Attributes;
  * <strong>Note</strong> this implementation has state 
  * and therefore cannot be used concurrently (in simultaneous readings).
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class ArrayBindAction extends MappingAction.Base {

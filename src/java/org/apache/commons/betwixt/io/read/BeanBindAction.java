@@ -29,7 +29,7 @@ import org.xml.sax.Attributes;
 /**
  * Action that creates and binds a new bean instance.
  * 
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class BeanBindAction extends MappingAction.Base {

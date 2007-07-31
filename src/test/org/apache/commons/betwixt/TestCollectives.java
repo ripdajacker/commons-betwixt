@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestCollectives extends AbstractTestCase{

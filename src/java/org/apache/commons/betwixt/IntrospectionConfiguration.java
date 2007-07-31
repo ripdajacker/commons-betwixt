@@ -49,7 +49,7 @@ import org.apache.commons.logging.LogFactory;
  * be more easily shared not only between the objects that execute the introspection
  * but also (by a user) between different <code>XMLIntrospector</code>s.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class IntrospectionConfiguration {

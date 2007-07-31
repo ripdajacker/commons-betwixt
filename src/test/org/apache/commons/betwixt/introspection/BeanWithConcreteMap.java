@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.introspection;
 import java.util.HashMap;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class BeanWithConcreteMap {

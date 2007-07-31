@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 /**
  * Models a <code>complexType</code> from an XML schema.
  * A complex type may contain element content and may have attributes.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class GlobalComplexType extends ComplexType {

@@ -25,7 +25,7 @@ import org.xml.sax.Attributes;
  * Maps option tree to an option in the 
  * {@link org.apache.commons.betwixt.Options}
  * on the current description.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @since 0.5
  */
 public class OptionRule extends Rule {

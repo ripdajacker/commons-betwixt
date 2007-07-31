@@ -23,7 +23,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 /**
  * Tests for the SchemaTranscriber.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestSchemaTranscriber extends AbstractTestCase {

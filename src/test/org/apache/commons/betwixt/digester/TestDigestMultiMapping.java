@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.dotbetwixt.ExampleBean;
 
 /**
  * Tests for reading dot betwist files.
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision: 155402 $
  */
 public class TestDigestMultiMapping extends TestCase {

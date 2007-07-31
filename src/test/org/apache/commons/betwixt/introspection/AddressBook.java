@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.betwixt.AddressBean;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
+ * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class AddressBook {
