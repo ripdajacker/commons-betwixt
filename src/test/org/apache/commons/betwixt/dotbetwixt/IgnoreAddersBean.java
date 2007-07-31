@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.dotbetwixt;
 import java.util.ArrayList;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class IgnoreAddersBean {

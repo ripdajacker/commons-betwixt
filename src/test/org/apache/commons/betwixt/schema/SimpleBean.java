@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.schema;
 /**
  * Very simple bean to allow basic tests for attribute and element
  * transcription.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SimpleBean {

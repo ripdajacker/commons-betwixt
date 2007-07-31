@@ -26,7 +26,7 @@ import java.io.Serializable;
  * <em>Rich Site Summary</em> DTD, version 0.91.  This class may be subclassed
  * to further specialize its behavior.</p>
  *
- * <p>Based on the Jakarta Commons <code>Digester</code> implementation.</p>
+ * <p>Based on the Apache Commons <code>Digester</code> implementation.</p>
  *
  * @author Craig R. McClanahan
  * @version $Revision$ $Date$

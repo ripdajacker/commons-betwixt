@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Models a local <code>complexType</code> definition.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class LocalComplexType extends ComplexType {

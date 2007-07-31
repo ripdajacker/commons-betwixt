@@ -33,7 +33,7 @@ package org.apache.commons.betwixt.strategy;
  * refinements.
  * </p>
  * @since 0.7
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, 
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, 
  * <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class MappingDerivationStrategy {

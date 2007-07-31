@@ -26,7 +26,7 @@ import java.util.List;
  * Implementations can be used to give rules about which properties 
  * should be ignored by Betwixt when introspecting.
  * @since 0.7
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class PropertySuppressionStrategy {
 

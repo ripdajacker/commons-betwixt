@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
  * represented by {@link GlobalComplexType}. Locally defined or referenced
  * complex types are represented by {@link LocalComplexType}.
  * 
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team </a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team </a>
  * @version $Revision$
  */
 public abstract class ComplexType {

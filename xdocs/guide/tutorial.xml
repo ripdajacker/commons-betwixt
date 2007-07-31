@@ -41,34 +41,34 @@ without the use of code generation.
         <p>
 So, the place we'll start is with an 
 <a href=
-'http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/package-summary.html'>
+'http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/package-summary.html'>
 object model</a> for 
 RSS 0.91. This was originally created for 
-<a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> 
+<a href='http://commons.apache.org/digester/index.html'>Digester</a> 
 by Craig R. McClanahan and Ted Husted with a few amendments for this tutorial.
 There are only four main objects in the model: 
     </p>
         <ul>
             <li>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
 Channel</a>
         </li>
             <li>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Image.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Image.html'>
 Image</a>
         </li>
             <li>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>
 Item</a>
         </li>
             <li>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>
 TextInput</a>
         </li>
     </ul>
         <p>
 The 
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
 application</a> simply processes an xml file in RSS format and creates a plain text version.
 This isn't really very useful but is a good demonstration of bean reading.
     </p>
@@ -145,7 +145,7 @@ in <code>Betwixt</code> typically begins by working out the structural relations
 between the elements in the xml and the objects in the property subgraph of that root object.
     </p>
         <p>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html'>
 Channel</a> is the root object mapping to the <code>&lt;channel&gt;</code> root element
 of the xml. There are several ways that a mapping for an object can be defined in 
 <code>Betwixt</code>. In this case, a <code>.betwixt</code> xml file will be used.
@@ -183,7 +183,7 @@ object so the mapping for <code>TextInput</code> is used.
         <p>
 There are a number of collective properties: those that are mapped to a many 
 objects (rather than just one). For example, the 
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html#96'>items</a>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Channel.html#96'>items</a>
 property is backed by an <code>List</code> and is mapped to zero, one or more <code>&lt;item&gt;</code> tags.
 <code>Betwixt</code> looks for an adder method (something like <code>addItem</code>) which matches
 the collective property (which should return something like a Collection) 
@@ -201,7 +201,7 @@ remaining properties work fine :)
     </p>
         <p>
 See 
-<a href='http://jakarta.apache.org/commons/betwixt/guide/binding.html'>binding</a>
+<a href='http://commons.apache.org/betwixt/guide/binding.html'>binding</a>
 for more details.
     </p>
         <p>
@@ -221,14 +221,14 @@ Image uses a smaller <code>.betwixt</code> file:
 </subsection>    
     <subsection name='Mapping Item and TextInput'>    
         <p>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>Item</a>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/Item.html'>Item</a>
 is an example of the other (main) way that mappings are created for objects.
 There is no <code>.betwixt</code> file so <code>Betwixt</code> introspects the 
 class using reflection and determines a mapping based on the current introspector 
 configuration. In this case, it's exactly what's required so there's no need to change
     </p>
         <p>
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>TextInput</a>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/TextInput.html'>TextInput</a>
 is also mapped by using introspection.
     </p>
 </subsection>
@@ -237,13 +237,13 @@ is also mapped by using introspection.
         <p>
 <code>org.apache.commons.betwixt.io.BeanReader</code> reads beans from xml documents.
 The 
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html'>
 tutorial application</a> reads an xml file (specified on the command line) 
 and prints a plain text version. The root object (in this case <code>Channel</code>) 
 needs to be 
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#104'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#104'>
 registered</a> first. Then 
-<a href='http://jakarta.apache.org/commons/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#112'>
+<a href='http://commons.apache.org/betwixt/xref-test/org/apache/commons/betwixt/examples/rss/RSSApplication.html#112'>
 parse</a> can be used to parse an XML document and produce a bean.
     </p>
 </subsection>

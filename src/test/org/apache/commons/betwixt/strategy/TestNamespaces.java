@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.strategy;
 import org.apache.commons.betwixt.AbstractTestCase;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestNamespaces extends AbstractTestCase {
@@ -39,13 +39,13 @@ public class TestNamespaces extends AbstractTestCase {
     public void testNamespacePrefixMapperPrefixGeneration() {
         NamespacePrefixMapper mapper = new NamespacePrefixMapper();
         mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "xsd");
-        assertNotNull("Expected prefix assigned not to be null", mapper.getPrefix("http://jakarta.apache.org/commons/Betwixt"));
+        assertNotNull("Expected prefix assigned not to be null", mapper.getPrefix("http://commons.apache.org/Betwixt"));
     }
     
     public void testNamespacePrefixMapperMatchingPrefix() {
         NamespacePrefixMapper mapper = new NamespacePrefixMapper();
         mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "bt1"); 
-        String prefix = mapper.getPrefix("http://jakarta.apache.org/commons/Betwixt"); 
+        String prefix = mapper.getPrefix("http://commons.apache.org/Betwixt"); 
         assertFalse("Generated should not clash", prefix.equals(mapper.getPrefix("http://www.w3.org/2001/XMLSchema")));       
     }
 }

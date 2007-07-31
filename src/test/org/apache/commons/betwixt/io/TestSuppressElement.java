@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
 /**
  * Tests supress element strategy.
  * 
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>
  *         of the <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class TestSuppressElement extends AbstractTestCase {

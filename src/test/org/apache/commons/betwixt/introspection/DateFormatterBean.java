@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class DateFormatterBean {

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 /**
  * Tests for <code>DataTypeMapper</code>
  * both usages and implementations.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestDataTypeMapper extends TestCase {

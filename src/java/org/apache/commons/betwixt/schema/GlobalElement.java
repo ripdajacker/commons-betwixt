@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.schema;
 
 /**
  * Models a global definition of an <code>element</code>.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class GlobalElement implements Element {

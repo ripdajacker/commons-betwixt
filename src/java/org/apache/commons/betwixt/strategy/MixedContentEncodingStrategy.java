@@ -32,7 +32,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * <p><strong>Note:</strong> the word <code>encoding</code> here is used 
  * in the sense of escaping a sequence of character data.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @since 0.5
  */
 public abstract class MixedContentEncodingStrategy {

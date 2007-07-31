@@ -33,7 +33,7 @@ import org.xml.sax.Attributes;
  * So, using a custom strategy is an easy way to 
  * customize the mapping. 
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public abstract class ActionMappingStrategy {

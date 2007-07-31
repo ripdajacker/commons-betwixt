@@ -18,7 +18,7 @@ package org.apache.commons.betwixt.io;
 
 /**
  * Marker class
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class NullPersonBean extends PersonBean {
 

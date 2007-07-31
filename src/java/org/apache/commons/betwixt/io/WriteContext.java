@@ -33,7 +33,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * but it seems better to add these as neccessary using delegation
  * rather than extending {@link org.apache.commons.betwixt.expression.Context}.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @since 0.5
  */
 public abstract class WriteContext {

@@ -288,7 +288,7 @@ encoding strategy</a>.
           </a>
         </dt>
         <dd>
-            Betwixt uses <a href='http://jakarta.apache.org/commons/digester/index.html'>Digester</a> for bean
+            Betwixt uses <a href='http://commons.apache.org/digester/index.html'>Digester</a> for bean
             reading. With care and knowledge of the way that Betwixt reads beans,
             extra rules can be used to add custom functionality.
         </dd>

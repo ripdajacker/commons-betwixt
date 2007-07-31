@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class MovieBean {

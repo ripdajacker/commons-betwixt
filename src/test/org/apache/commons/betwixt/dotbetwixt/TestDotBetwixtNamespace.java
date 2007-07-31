@@ -24,7 +24,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestDotBetwixtNamespace extends AbstractTestCase {
@@ -41,14 +41,14 @@ public class TestDotBetwixtNamespace extends AbstractTestCase {
         BeanWriter writer = new BeanWriter(out);
         writer.getBindingConfiguration().setMapIDs(false);
         writer.getXMLIntrospector().getConfiguration().getPrefixMapper()
-            .setPrefix("http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample", "pn");
+            .setPrefix("http://commons.apache.org/betwixt/PersonWithNamespaceExample", "pn");
         writer.write(bean);
         
         String xml = out.getBuffer().toString();
         
         String expected = "<?xml version='1.0'?>" +
                         "<pn:person " +
-                        "xmlns:pn='http://jakarta.apache.org/commons/betwixt/PersonWithNamespaceExample' " +
+                        "xmlns:pn='http://commons.apache.org/betwixt/PersonWithNamespaceExample' " +
                         "pn:middle='Burrell'>" +
                         "<forename>Robert</forename>" +
                         "<pn:surname>Donkin</pn:surname></pn:person>";

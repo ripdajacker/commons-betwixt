@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.schema;
  * The idea is that there's a count that counts every time <code>getFriend</code>
  * gets called and throws a <code>RuntimeException</code> if the count gets too high.</p>
  *
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class CyclicColumn extends ParentColumn {
     private static int count = 0;     

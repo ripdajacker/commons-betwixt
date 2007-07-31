@@ -30,7 +30,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
  * Tests for mixed content encoding.
  * Mixed content encoding is the process by which body content
  * is written out (in an escaped form) into a textual output stream. 
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestMixedContentEncoding extends AbstractTestCase {

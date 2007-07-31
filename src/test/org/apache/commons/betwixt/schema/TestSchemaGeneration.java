@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 /**
  * Tests for the generation of schema from the object models.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestSchemaGeneration extends AbstractTestCase {

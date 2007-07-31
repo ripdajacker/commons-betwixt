@@ -32,7 +32,7 @@ import org.xml.sax.InputSource;
 
 /**
  * Tests for the validity of the schema produced.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestSchemaValidity extends AbstractTestCase {
@@ -214,7 +214,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         
         Channel channel = new Channel();
         channel.setTitle("Betwixt News");
-        channel.setLink("http://jakarta.apache.org/commons/betwixt");
+        channel.setLink("http://commons.apache.org/betwixt");
         channel.setDescription("Example feed themed on Betwixt news.");
         channel.setRating("(PICS-1.1 'http://www.rsac.org/ratingsv01.html'" +
             " 2 gen true comment 'RSACi North America Server'" +
@@ -233,13 +233,13 @@ public class TestSchemaValidity extends AbstractTestCase {
 
         Item itemOne = new Item();
         itemOne.setTitle("Betwixt now generates w3c schema!");
-        itemOne.setLink("http://jakarta.apache.org/commons/betwixt");
+        itemOne.setLink("http://commons.apache.org/betwixt");
         itemOne.setDescription("Example description");
         channel.addItem(itemOne);
 
         Item itemTwo = new Item();
         itemTwo.setTitle("Another News Item");
-        itemTwo.setLink("http://jakarta.apache.org/commons/betwixt");
+        itemTwo.setLink("http://commons.apache.org/betwixt");
         itemTwo.setDescription("Blah Blah Blah");
         channel.addItem(itemTwo);        
 
@@ -247,7 +247,7 @@ public class TestSchemaValidity extends AbstractTestCase {
         textInput.setTitle("Send");
         textInput.setDescription("Comments about Betwixt news");
         textInput.setName("Response text");
-        textInput.setLink("http://jakarta.apache.org/commons/betwixt");
+        textInput.setLink("http://commons.apache.org/betwixt");
         channel.setTextInput(textInput);
 
         writer.write(channel);

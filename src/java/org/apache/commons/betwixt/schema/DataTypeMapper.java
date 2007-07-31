@@ -23,7 +23,7 @@ package org.apache.commons.betwixt.schema;
  * This pluggable strategy is used to allow the mapping of (simple) java types
  * into XML schema data types to be customized.
  * </p>
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public abstract class DataTypeMapper {

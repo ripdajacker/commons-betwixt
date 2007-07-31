@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.io.read.SimpleTypeBindAction;
 import org.xml.sax.Attributes;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class DefaultActionMappingStrategy extends ActionMappingStrategy {

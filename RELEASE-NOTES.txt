@@ -12,7 +12,7 @@ Betwixt is an open source library developed by the Jakarta Project of the
 Apache Software Foundation (see http://jakarta.apache.org/) and released under the 
 Apache License 2.0 (see License.txt). Jakarta commons is an open development community. 
 All are invited to contribute by joining us on the mailing lists 
-(see http://jakarta.apache.org/commons) or by raising issues and submitting patches 
+(see http://commons.apache.org) or by raising issues and submitting patches 
 through http://issues.apache.org.
 
 Betwixt 0.8 is a feature release. Support for polymorphic mappings has been improved. 

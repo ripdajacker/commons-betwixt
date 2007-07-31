@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.introspection;
 import org.apache.commons.betwixt.AddressBean;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class CompanyBean {

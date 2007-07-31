@@ -1384,7 +1384,7 @@ public abstract class AbstractBeanWriter {
      * Attributes with generate ID/IDREF attributes
      * //TODO: refactor the ID/REF generation so that it's fixed at introspection
      * and the generators are placed into the Context.
-     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
      * @version $Revision$
      */
     private class IDElementAttributes extends ElementAttributes {

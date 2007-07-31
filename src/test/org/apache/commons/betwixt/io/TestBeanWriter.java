@@ -26,7 +26,7 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Test for <code>BeanWriter</code>
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestBeanWriter extends TestCase {

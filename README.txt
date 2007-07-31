@@ -1,8 +1,8 @@
-Jakarta Commons Betwixt
+Apache Commons Betwixt
 =======================
 
-Welcome to the Betwixt component of the Jakarta Commons
-project (http://jakarta.apache.org/commons). 
+Welcome to the Betwixt component of the Apache Commons
+project (http://commons.apache.org). 
 
 Betwixt uses Maven 1 (http://maven.apache.org) for build 
 process management. It is known to build with Maven 1.0.2

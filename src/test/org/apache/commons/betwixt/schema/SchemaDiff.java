@@ -24,7 +24,7 @@ import java.util.Iterator;
 /**
  * Helper class that prints differences between schema object models.
  * Useful for debugging.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SchemaDiff {

@@ -33,7 +33,7 @@
     </entry>
     <entry>
       <key>jakarta-commons</key>
-      <value>http://jakarta.apache.org/commons/</value>
+      <value>http://commons.apache.org/</value>
     </entry>
   </projectMap>
   <projectNames>
@@ -50,7 +50,7 @@
     <String>http://jaxen.org</String>
     <String>http://jakarta.apache.org/taglibs/</String>
     <String>http://dom4j.org</String>
-    <String>http://jakarta.apache.org/commons/</String>
+    <String>http://commons.apache.org/</String>
   </projectURLs>
   <numbers>
     <number>3</number>

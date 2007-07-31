@@ -22,7 +22,7 @@ import java.beans.IntrospectionException;
 import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class ComplexLocalElement extends LocalElement {

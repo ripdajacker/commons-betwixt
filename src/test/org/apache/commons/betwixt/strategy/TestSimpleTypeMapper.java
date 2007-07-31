@@ -34,7 +34,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 /**
  * Tests for SimpleTypeMapper and the associated strategy.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestSimpleTypeMapper extends AbstractTestCase {

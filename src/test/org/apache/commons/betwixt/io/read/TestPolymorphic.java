@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.xml.sax.InputSource;
 
 /**
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a> for <a href='http://www.apache.org'>The Apache Software Foundation</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a> for <a href='http://www.apache.org'>The Apache Software Foundation</a>
  */
 public class TestPolymorphic extends AbstractTestCase {
 

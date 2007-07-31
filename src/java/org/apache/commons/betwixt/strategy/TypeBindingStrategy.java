@@ -23,7 +23,7 @@ import java.util.Date;
  * Determines the way that a type (of object) should be bound
  * by Betwixt.
  * 
- * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class TypeBindingStrategy {
     
@@ -46,7 +46,7 @@ public abstract class TypeBindingStrategy {
 
     /**
      * Enumerates the possible general ways that Betwixt can map a Java type to an XML type.
-     * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
+     * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
      */
     public static final class BindingType implements Serializable {
         
@@ -117,7 +117,7 @@ public abstract class TypeBindingStrategy {
      * The default <code>TypeBindingStrategy</code> used by Betwixt.
      * This implementation recognizes all the usual Java primitive wrappers 
      * (plus a few more that will in most typical use cases be regarded in the same way). 
-     * @author <a href='http://jakarta.apache.org/commons'>Jakarta Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
+     * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
      */
     public static final class Default extends TypeBindingStrategy {
 

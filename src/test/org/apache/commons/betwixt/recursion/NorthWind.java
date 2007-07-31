@@ -19,7 +19,7 @@ package org.apache.commons.betwixt.recursion;
 
 /**
  * Test bean for resursion
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class NorthWind {

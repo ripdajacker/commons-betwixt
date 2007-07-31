@@ -25,7 +25,7 @@ import org.apache.commons.betwixt.IntrospectionConfiguration;
  * Simple types (in xml) have no attributes or child elements.
  * For Betwixt, these are converted to and from strings
  * and these strings used to populate either attributes or element body's.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public abstract class SimpleTypeMapper {
@@ -35,7 +35,7 @@ public abstract class SimpleTypeMapper {
      * Simple types (in xml) have no attributes or child elements.
      * For Betwixt, these are converted to and from strings
      * and these strings used to populate either attributes or element body's.
-     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
      * @version $Revision$
      */
     public static class Binding {

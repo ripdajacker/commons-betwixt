@@ -20,7 +20,7 @@ package org.apache.commons.betwixt.introspection;
 
 /**
  * Bean models a telephone number entry in a phone book.
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class PhoneNumberBean {

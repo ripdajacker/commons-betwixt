@@ -27,7 +27,7 @@ import org.apache.commons.betwixt.io.read.ReadContext;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TestBaseMappingStrategy extends AbstractTestCase {

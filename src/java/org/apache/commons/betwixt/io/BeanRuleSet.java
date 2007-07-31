@@ -227,7 +227,7 @@ public class BeanRuleSet implements RuleSet {
     /**
      * Single rule that is used to map all elements.
      * 
-     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
      */
     private final class ActionMappingRule extends Rule {
 
@@ -330,7 +330,7 @@ public class BeanRuleSet implements RuleSet {
 
     /**
      * Specialization of <code>ReadContext</code> when reading from <code>Digester</code>.
-     * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+     * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
      * @version $Revision$
      */
     private static class DigesterReadContext extends ReadContext {

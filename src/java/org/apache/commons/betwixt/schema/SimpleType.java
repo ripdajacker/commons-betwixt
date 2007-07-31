@@ -22,7 +22,7 @@ package org.apache.commons.betwixt.schema;
  * A simple type is an element that cannot have element content
  * and which has no attributes.
  * 
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SimpleType {

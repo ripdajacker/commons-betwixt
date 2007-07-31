@@ -28,7 +28,7 @@ import org.apache.commons.betwixt.io.read.ReadContext;
  * by calling {@link #resolveType}.
  * </p>
  * @since 0.7
- * @author <a href='http://jakarta.apache.org/'>Jakarta Commons Team</a>
+ * @author <a href='http://jakarta.apache.org/'>Apache Commons Team</a>
  */
 public interface PolymorphicReferenceResolver {
 
