@@ -19,8 +19,8 @@
 <project name="Betwixt">
 
   <title>Betwixt</title>
-  <organizationLogo href="/images/jakarta-logo-blue.gif">
-   Jakarta
+  <organizationLogo href="http://commons.apache.org/images/logo.png">
+   Commons
   </organizationLogo>
 
   <body>

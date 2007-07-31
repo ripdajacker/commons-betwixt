@@ -98,6 +98,7 @@ in 0.5 are likely to be removed soon after 0.6 is released.
     </p>
     <p>
 Betwixt 0.6 is available in 
+<a href='http://commons.apache.org/downloads/download_betwixt.cgi'>binary and source</a> 
 <a href='http://jakarta.apache.org/site/binindex.cgi#commons-betwixt'>binary</a>
 and
 <a href='http://jakarta.apache.org/site/sourceindex.cgi#commons-betwixt'>source</a>
@@ -147,7 +148,7 @@ on the wiki</a>.
     </p>
     <p>
         You can get the nightly builds from 
-        <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-betwixt/">here</a>
+        <a href="http://people.apache.org/builds/commons/nightly/commons-betwixt/">here</a>
     </p>
 </section>
 
