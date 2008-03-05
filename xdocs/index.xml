@@ -98,11 +98,8 @@ in 0.5 are likely to be removed soon after 0.6 is released.
     </p>
     <p>
 Betwixt 0.6 is available in 
-<a href='http://commons.apache.org/downloads/download_betwixt.cgi'>binary and source</a> 
-<a href='http://jakarta.apache.org/site/binindex.cgi#commons-betwixt'>binary</a>
-and
-<a href='http://jakarta.apache.org/site/sourceindex.cgi#commons-betwixt'>source</a>
-distributions.
+<a href='http://commons.apache.org/downloads/download_betwixt.cgi'>available</a>
+in binary and source distributions.
     </p>
   </subsection>
   <subsection name="Betwixt 0.5">
@@ -122,22 +119,20 @@ baseline 0.6 release is planned for this code once 0.5 has been released.
 For more information, see the road map <a href='http://wiki.apache.org/commons/Betwixt'>
 on the wiki</a>.
     </p>
-    <ul>
-      <li>Download the binary distribution through 
-      <a href='http://jakarta.apache.org/site/binindex.cgi#commons-betwixt'>a mirror here</a></li>
-      <li>Download the source distribution through
-      <a href='http://jakarta.apache.org/site/sourceindex.cgi#commons-betwixt'>a mirror here</a></li>
-    </ul>
+    <p>
+Betwixt 0.5 is 
+<a href='http://commons.apache.org/downloads/download_betwixt.cgi'>available</a>
+in binary and source distributions.
+    </p>
   </subsection>
   <subsection name="Betwixt 1.0 Alpha 1">
     <p>
     <strong>Betwixt 1.0 Alpha 1</strong> - 28 Jan 2003
-    <ul>
-      <li>Download the binary distribution from 
-      <a href='http://jakarta.apache.org/site/binindex.cgi'>a mirror here</a></li>
-      <li>Download the source distribution from 
-      <a href='http://jakarta.apache.org/site/sourceindex.cgi'>a mirror here</a></li>
-    </ul>
+    </p>
+    <p>
+Betwixt 1.0 Alpha 1 is 
+<a href='http://commons.apache.org/downloads/download_betwixt.cgi'>available</a>
+in binary and source distributions.
     </p>
   </subsection>
 </section>
