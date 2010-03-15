@@ -25,7 +25,7 @@
     <body>
         <menu name="Betwixt">
             <item name="Overview"           href="/index.html"/>
-            <item name="Download"           href="http://commons.apache.org/downloads/download_betwixt.cgi"/>
+            <item name="Download"           href="http://commons.apache.org/betwixt/download_betwixt.cgi"/>
             <item name="FAQ"                href="/faq.html"/>
             <item name="Javadoc"            href="apidocs/index.html"/>
             <item name="Mailing Lists"      href="/mail-lists.html"/>
