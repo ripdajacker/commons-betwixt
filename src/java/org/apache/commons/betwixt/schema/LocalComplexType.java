@@ -39,8 +39,8 @@ public class LocalComplexType extends ComplexType {
 
     public boolean equals(Object obj) {
           boolean result = false;
-          if (obj instanceof GlobalComplexType) {
-              GlobalComplexType complexType = (GlobalComplexType) obj;
+          if (obj instanceof LocalComplexType) {
+              LocalComplexType complexType = (LocalComplexType) obj;
               result =  
                         equalContents(attributes, complexType.attributes) &&
                         equalContents(elements, complexType.elements);
