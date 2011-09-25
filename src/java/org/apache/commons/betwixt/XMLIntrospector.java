@@ -755,11 +755,9 @@ public class XMLIntrospector {
             }
             size = contents.size();
             if ( size > 0 ) {
-                if ( size > 0 ) {
-                    Descriptor[] descriptors = new Descriptor[size];
-                    contents.toArray( descriptors );
-                    elementDescriptor.setContentDescriptors( descriptors );
-                }
+                Descriptor[] descriptors = new Descriptor[size];
+                contents.toArray( descriptors );
+                elementDescriptor.setContentDescriptors( descriptors );
             }
         }
         
