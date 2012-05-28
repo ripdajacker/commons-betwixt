@@ -52,7 +52,7 @@ public abstract class AbstractTestCase extends XmlTestCase {
 
     public String getTestFileURL(String path) throws MalformedURLException
     {
-        return new File(basedir,path).toURL().toString();
+        return new File(basedir,path).toURI().toURL().toString();
     }
     
     protected Object createBean() {
