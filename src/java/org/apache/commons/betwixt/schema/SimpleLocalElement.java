@@ -13,74 +13,74 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
-import java.beans.IntrospectionException;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+
+import java.beans.IntrospectionException;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SimpleLocalElement extends LocalElement {
-    
-    private String type;
-    
-    public SimpleLocalElement(String name, String type) {
-        super(name);
-        setType(type);
-    }
-    
-    public SimpleLocalElement(
-                                TranscriptionConfiguration configuration, 
-                                ElementDescriptor descriptor, 
-                                Schema schema) 
-                                    throws IntrospectionException {
-        super(descriptor, schema);
-        setType(configuration.getDataTypeMapper().toXMLSchemaDataType(descriptor.getPropertyType()));
-    }
-    
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String string) {
-        type = string;
-    }
+   private String type;
 
-    public int hashCode() {
-        return getName().hashCode();
-    }
-    
-    public boolean equals(Object obj) {
-        boolean result = false;
-        if (obj instanceof SimpleLocalElement) {
-            SimpleLocalElement simpleLocalElement = (SimpleLocalElement) obj;
-            result = 
-                isEqual(getName(), simpleLocalElement.getName()) &&
-                isEqual(getType(), simpleLocalElement.getType());    
-        }
-        return result;
-    }
-    
-    private boolean isEqual(String one, String two) {
-        if (one == null) {
-           return (two == null); 
-        }
-        
-        return one.equals(two);
-    }
-    
-    public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("<element name='");
-        buffer.append(getName());
-        buffer.append("' type='");
-        buffer.append(getType());
-        buffer.append("'/>"); 
-        return buffer.toString();
-    }
+   public SimpleLocalElement(String name, String type) {
+      super(name);
+      setType(type);
+   }
+
+   public SimpleLocalElement(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor descriptor,
+         Schema schema)
+         throws IntrospectionException {
+      super(descriptor, schema);
+      setType(configuration.getDataTypeMapper().toXMLSchemaDataType(descriptor.getPropertyType()));
+   }
+
+   public String getType() {
+      return type;
+   }
+
+   public void setType(String string) {
+      type = string;
+   }
+
+   public int hashCode() {
+      return getName().hashCode();
+   }
+
+   public boolean equals(Object obj) {
+      boolean result = false;
+      if (obj instanceof SimpleLocalElement) {
+         SimpleLocalElement simpleLocalElement = (SimpleLocalElement) obj;
+         result =
+               isEqual(getName(), simpleLocalElement.getName()) &&
+                     isEqual(getType(), simpleLocalElement.getType());
+      }
+      return result;
+   }
+
+   private boolean isEqual(String one, String two) {
+      if (one == null) {
+         return (two == null);
+      }
+
+      return one.equals(two);
+   }
+
+   public String toString() {
+      StringBuffer buffer = new StringBuffer();
+      buffer.append("<element name='");
+      buffer.append(getName());
+      buffer.append("' type='");
+      buffer.append(getType());
+      buffer.append("'/>");
+      return buffer.toString();
+   }
 }

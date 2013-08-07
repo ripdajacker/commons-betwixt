@@ -13,10 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
-/** 
+/**
  * <p>Class normalization strategy.</p>
  *
  * <p>
@@ -41,36 +41,36 @@ package org.apache.commons.betwixt.strategy;
  */
 public class ClassNormalizer {
 
-    /** 
-      * Gets the normalized class for the given Object.
-      * The normalized Class is the Class that Betwixt should 
-      * introspect. 
-      * This strategy class allows the introspected Class to be 
-      * varied.
-      *
-      * @param object the <code>Object</code> 
-      * for which the normalized Class is to be returned.
-      * @return the normalized Class
-      */
-    public Class getNormalizedClass( Object object ) {
-        if ( object == null ) {
-            throw new IllegalArgumentException("Cannot get class for null object.");
-        }
-        return normalize( object.getClass() );
-    }
+   /**
+    * Gets the normalized class for the given Object.
+    * The normalized Class is the Class that Betwixt should
+    * introspect.
+    * This strategy class allows the introspected Class to be
+    * varied.
+    *
+    * @param object the <code>Object</code>
+    * for which the normalized Class is to be returned.
+    * @return the normalized Class
+    */
+   public Class getNormalizedClass(Object object) {
+      if (object == null) {
+         throw new IllegalArgumentException("Cannot get class for null object.");
+      }
+      return normalize(object.getClass());
+   }
 
-    /**
-      * Normalize given class.
-      * The normalized Class is the Class that Betwixt should 
-      * introspect. 
-      * This strategy class allows the introspected Class to be 
-      * varied.
-      *
-      * @param clazz the class to normalize, not null
-      * @return this implementation the same clazz, 
-      * subclasses may return any compatible class.
-      */
-    public Class normalize( Class clazz ) {
-        return clazz;
-    }
+   /**
+    * Normalize given class.
+    * The normalized Class is the Class that Betwixt should
+    * introspect.
+    * This strategy class allows the introspected Class to be
+    * varied.
+    *
+    * @param clazz the class to normalize, not null
+    * @return this implementation the same clazz,
+    * subclasses may return any compatible class.
+    */
+   public Class normalize(Class clazz) {
+      return clazz;
+   }
 }

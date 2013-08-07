@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.digester;
 
 import java.util.HashMap;
@@ -27,46 +27,47 @@ import java.util.Map;
  * @author Brian Pugh
  */
 public class MultiMappingBeanInfoDigester extends XMLBeanInfoDigester {
-    /** <code>XMLBeanInfo</code>'s indexed by <code>Class</code> */
-    private Map beanInfoMap = new HashMap();
-    
-    // Implementation methods
-    //-------------------------------------------------------------------------
-    /**
-     * Reset configure for new digestion.
-     */
-    protected void configure() {
-        if (!configured) {
-            configured = true;
-            
-	        // add the various rules
-	        addRule("betwixt-config", new ConfigRule());
-	        addRule("betwixt-config/class", new ClassRule());
-	        addRuleSet(new CommonRuleSet());
-        }
-        
-	    // now initialize
-	    //setAttributesForPrimitives(true);
-	    getProcessedPropertyNameSet().clear();
-	    getXMLIntrospector().getRegistry().flush();
-    }
-    
-    /**
-     * Map containing <code>XMLBeanInfo</code> classes.
-     * Keys are the <code>Class</code> and values are the <code>XMLBeanInfo</code> objects.
-     *
-     * @return map of XMLBeanInfos
-     */
-    public Map getBeanInfoMap() {
-        return beanInfoMap;
-    }
-    
-    /**
-     * Set the Map containing <code>XMLBeanInfo</code> classes.
-     * @param beanInfoMap map to set.
-     */
-    public void setBeanInfoMap(Map beanInfoMap) {
-        this.beanInfoMap = beanInfoMap;
-    }
+   /** <code>XMLBeanInfo</code>'s indexed by <code>Class</code> */
+   private Map beanInfoMap = new HashMap();
+
+   // Implementation methods
+   //-------------------------------------------------------------------------
+
+   /**
+    * Reset configure for new digestion.
+    */
+   protected void configure() {
+      if (!configured) {
+         configured = true;
+
+         // add the various rules
+         addRule("betwixt-config", new ConfigRule());
+         addRule("betwixt-config/class", new ClassRule());
+         addRuleSet(new CommonRuleSet());
+      }
+
+      // now initialize
+      //setAttributesForPrimitives(true);
+      getProcessedPropertyNameSet().clear();
+      getXMLIntrospector().getRegistry().flush();
+   }
+
+   /**
+    * Map containing <code>XMLBeanInfo</code> classes.
+    * Keys are the <code>Class</code> and values are the <code>XMLBeanInfo</code> objects.
+    *
+    * @return map of XMLBeanInfos
+    */
+   public Map getBeanInfoMap() {
+      return beanInfoMap;
+   }
+
+   /**
+    * Set the Map containing <code>XMLBeanInfo</code> classes.
+    * @param beanInfoMap map to set.
+    */
+   public void setBeanInfoMap(Map beanInfoMap) {
+      this.beanInfoMap = beanInfoMap;
+   }
 
 }

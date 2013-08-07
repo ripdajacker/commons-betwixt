@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema.strategy.impl;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -24,27 +24,26 @@ import org.apache.commons.betwixt.schema.strategy.SchemaTypeNamingStrategy;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
  * @since 0.8
  */
-public class QualifiedPropertyTypeSchemaNamingStrategy  extends SchemaTypeNamingStrategy {
-    
-    /**
-     * Names the schema type from the type of the property.
-     * @see SchemaTypeNamingStrategy#nameSchemaType(ElementDescriptor)
-     */
-    public String nameSchemaType(ElementDescriptor elementDescriptor) {
-        // TODO: this is probably wrong. needs more thought but this stuff is still experiemental
-        String result="xsd:anyType";
-        Class type = elementDescriptor.getPropertyType();
-        if (type != null)
-        {
-            result = type.getName();
-        }
-        return result;
-    }
-    
-    /**
-     * Outputs brief description.
-     */
-    public String toString() {
-        return "Fully Qualified Type";
-    }
+public class QualifiedPropertyTypeSchemaNamingStrategy extends SchemaTypeNamingStrategy {
+
+   /**
+    * Names the schema type from the type of the property.
+    * @see SchemaTypeNamingStrategy#nameSchemaType(ElementDescriptor)
+    */
+   public String nameSchemaType(ElementDescriptor elementDescriptor) {
+      // TODO: this is probably wrong. needs more thought but this stuff is still experiemental
+      String result = "xsd:anyType";
+      Class type = elementDescriptor.getPropertyType();
+      if (type != null) {
+         result = type.getName();
+      }
+      return result;
+   }
+
+   /**
+    * Outputs brief description.
+    */
+   public String toString() {
+      return "Fully Qualified Type";
+   }
 }

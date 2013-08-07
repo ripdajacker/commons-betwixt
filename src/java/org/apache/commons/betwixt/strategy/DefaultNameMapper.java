@@ -13,46 +13,46 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
-/** 
+/**
  * <p>A default implementation of the name mapper.
  * This mapper simply returns the unmodified type name.</p>
  *
  * <p>For example, <code>PropertyName</code> would be converted to <code>PropertyName</code>.
- * 
+ *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Revision$
  */
 public class DefaultNameMapper implements NameMapper {
 
-    /** Used to convert bad character in the name */
-    private static final BadCharacterReplacingNMapper badCharacterReplacementNMapper 
-        = new BadCharacterReplacingNMapper( new PlainMapper() );
-    
-    /** Base implementation chained by bad character replacement mapper */
-    private static final class PlainMapper implements NameMapper {
-        /**
-        * This implementation returns the parameter passed in without modification.
-        *  
-        * @param typeName the string to convert 
-        * @return the typeName parameter without modification
-        */
-        public String mapTypeToElementName( String typeName ) {
-            return typeName ;
-        }  
-    }
+   /** Used to convert bad character in the name */
+   private static final BadCharacterReplacingNMapper badCharacterReplacementNMapper
+         = new BadCharacterReplacingNMapper(new PlainMapper());
 
-    /**
-     * This implementation returns the parameter passed after
-     * deleting any characters which the XML specification does not allow
-     * in element names.
-     *  
-     * @param typeName the string to convert 
-     * @return the typeName parameter without modification
-     */
-    public String mapTypeToElementName( String typeName ) {
-        return badCharacterReplacementNMapper.mapTypeToElementName( typeName );
-    }
+   /** Base implementation chained by bad character replacement mapper */
+   private static final class PlainMapper implements NameMapper {
+      /**
+       * This implementation returns the parameter passed in without modification.
+       *
+       * @param typeName the string to convert
+       * @return the typeName parameter without modification
+       */
+      public String mapTypeToElementName(String typeName) {
+         return typeName;
+      }
+   }
+
+   /**
+    * This implementation returns the parameter passed after
+    * deleting any characters which the XML specification does not allow
+    * in element names.
+    *
+    * @param typeName the string to convert
+    * @return the typeName parameter without modification
+    */
+   public String mapTypeToElementName(String typeName) {
+      return badCharacterReplacementNMapper.mapTypeToElementName(typeName);
+   }
 }

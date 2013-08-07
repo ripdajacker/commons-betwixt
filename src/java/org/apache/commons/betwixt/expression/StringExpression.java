@@ -13,58 +13,58 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>StringExpression</code> returns the current context object as a string.</p>
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class StringExpression implements Expression {
-    
-    /** We only need only <code>StringExpression</code> */
-    private static final StringExpression singleton = new StringExpression();
-    
-    /** 
-     * Gets the singleton 
-     * @return the singleton <code>StringExpression</code> instance
-     */
-    public static StringExpression getInstance() {
-        return singleton;
-    }
-    
-    /** Base constructor. Should this be private? */
-    public StringExpression() {
-    }
-    
-    /** Return the context bean as a string
-      *
-      * @param context evaluate expression against this context
-      * @return the <code>toString()</code> representation of the context bean
-      */
-    public Object evaluate(Context context) {
-        Object value = context.getBean();
-        if ( value != null ) {
-            return value.toString();
-        }
-        return null;
-    }
-    
-    /**
-     * Do nothing 
-     * @see org.apache.commons.betwixt.expression.Expression
-     */
-    public void update(Context context, String newValue) {
-        // do nothing
-    }
-    
-    /**
-     * Returns something useful for logging.
-     * @return the (short) class name
-     */
-    public String toString() {
-        return "StringExpression";
-    }
+
+   /** We only need only <code>StringExpression</code> */
+   private static final StringExpression singleton = new StringExpression();
+
+   /**
+    * Gets the singleton
+    * @return the singleton <code>StringExpression</code> instance
+    */
+   public static StringExpression getInstance() {
+      return singleton;
+   }
+
+   /** Base constructor. Should this be private? */
+   public StringExpression() {
+   }
+
+   /** Return the context bean as a string
+    *
+    * @param context evaluate expression against this context
+    * @return the <code>toString()</code> representation of the context bean
+    */
+   public Object evaluate(Context context) {
+      Object value = context.getBean();
+      if (value != null) {
+         return value.toString();
+      }
+      return null;
+   }
+
+   /**
+    * Do nothing
+    * @see org.apache.commons.betwixt.expression.Expression
+    */
+   public void update(Context context, String newValue) {
+      // do nothing
+   }
+
+   /**
+    * Returns something useful for logging.
+    * @return the (short) class name
+    */
+   public String toString() {
+      return "StringExpression";
+   }
 
 }

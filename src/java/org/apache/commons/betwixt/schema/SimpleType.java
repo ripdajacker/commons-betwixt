@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
@@ -21,63 +21,61 @@ package org.apache.commons.betwixt.schema;
  * Models a simpleType tag in an XML schema.
  * A simple type is an element that cannot have element content
  * and which has no attributes.
- * 
+ *
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class SimpleType {
-	private String name;
-	
-    /**
-     * Gets the name
-     * @return the name of this type
-     */
-    public String getName() {
-        return name;
-    }
+   private String name;
 
-    /**
-     * Sets the name
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+   /**
+    * Gets the name
+    * @return the name of this type
+    */
+   public String getName() {
+      return name;
+   }
 
-    public boolean equals(Object obj) {
-          boolean result = false;
-          if (obj instanceof SimpleType) {
-              SimpleType simpleType = (SimpleType) obj;
-              result = isEqual(name, simpleType.name);           
-          }
-          return result;
+   /**
+    * Sets the name
+    * @param name
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public boolean equals(Object obj) {
+      boolean result = false;
+      if (obj instanceof SimpleType) {
+         SimpleType simpleType = (SimpleType) obj;
+         result = isEqual(name, simpleType.name);
+      }
+      return result;
+   }
+
+   public int hashCode() {
+      return 0;
+   }
+
+
+   /**
+    * Null safe equals method
+    * @param one
+    * @param two
+    * @return
+    */
+   private boolean isEqual(String one, String two) {
+      boolean result = false;
+      if (one == null) {
+         result = (two == null);
+      } else {
+         result = one.equals(two);
       }
 
-    public int hashCode() {
-        return 0;
-    }
+      return result;
+   }
 
-
-      /**
-       * Null safe equals method
-       * @param one
-       * @param two
-       * @return
-       */
-      private boolean isEqual(String one, String two) {
-          boolean result = false;
-          if (one == null) {
-              result = (two == null); 
-          }
-          else
-          {
-              result = one.equals(two);
-          }
-        
-          return result;
-      }
-      
-      public String toString() {
-          return "<xsd:simpleType name='" + name +  "'/>";
-      }
+   public String toString() {
+      return "<xsd:simpleType name='" + name + "'/>";
+   }
 }

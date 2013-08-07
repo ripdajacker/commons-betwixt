@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
 /**
@@ -38,37 +38,37 @@ package org.apache.commons.betwixt.strategy;
  */
 public abstract class MappingDerivationStrategy {
 
-    /**
-     * Implementation that always uses bind time type mapping
-     */
-    public static final MappingDerivationStrategy USE_BIND_TIME_TYPE 
-    		= new MappingDerivationStrategy() {
-        public boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType) {
-            return true;
-        }
-    };
+   /**
+    * Implementation that always uses bind time type mapping
+    */
+   public static final MappingDerivationStrategy USE_BIND_TIME_TYPE
+         = new MappingDerivationStrategy() {
+      public boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType) {
+         return true;
+      }
+   };
 
-    /**
-     * Implementation that always uses introspection time type mapping
-     */
-    public static final MappingDerivationStrategy USE_INTROSPECTION_TIME_TYPE 
-    		= new MappingDerivationStrategy() {
-        public boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType) {
-            return false;
-        }
-    };
-    
-    /**
-     * The default Betwixt strategy.
-     */
-    public static final MappingDerivationStrategy DEFAULT = USE_BIND_TIME_TYPE;
-    
-    /**
-     * Should bind time type be used for all elements of the given property type?
-     * @param propertyType <code>Class</code> typing the property, not null
-     * @param singluarPropertyType <code>Class</code> composing the collective
-     * or null if the property is not collective
-     * @return true if bind time type should be used for the mapping
-     */
-    public abstract boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType);
+   /**
+    * Implementation that always uses introspection time type mapping
+    */
+   public static final MappingDerivationStrategy USE_INTROSPECTION_TIME_TYPE
+         = new MappingDerivationStrategy() {
+      public boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType) {
+         return false;
+      }
+   };
+
+   /**
+    * The default Betwixt strategy.
+    */
+   public static final MappingDerivationStrategy DEFAULT = USE_BIND_TIME_TYPE;
+
+   /**
+    * Should bind time type be used for all elements of the given property type?
+    * @param propertyType <code>Class</code> typing the property, not null
+    * @param singluarPropertyType <code>Class</code> composing the collective
+    * or null if the property is not collective
+    * @return true if bind time type should be used for the mapping
+    */
+   public abstract boolean useBindTimeTypeForMapping(Class propertyType, Class singluarPropertyType);
 }

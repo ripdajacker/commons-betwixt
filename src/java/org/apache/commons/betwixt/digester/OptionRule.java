@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.digester;
 
 import org.apache.commons.betwixt.Descriptor;
@@ -29,57 +29,56 @@ import org.xml.sax.Attributes;
  * @since 0.5
  */
 public class OptionRule extends Rule {
-    
-    private String currentValue;
-    private String currentName;
-    
-    /**
-     * @see org.apache.commons.digester.Rule#begin(java.lang.String, java.lang.String, Attributes)
-     */
-    public void begin(String namespace, String name, Attributes attributes)
-        throws Exception {
-        currentValue = null;
-        currentName = null;
-    }
+
+   private String currentValue;
+   private String currentName;
+
+   /**
+    * @see org.apache.commons.digester.Rule#begin(java.lang.String, java.lang.String, Attributes)
+    */
+   public void begin(String namespace, String name, Attributes attributes)
+         throws Exception {
+      currentValue = null;
+      currentName = null;
+   }
 
 
+   /**
+    * @see org.apache.commons.digester.Rule#end(java.lang.String, java.lang.String)
+    */
+   public void end(String namespace, String name) {
+      if (currentName != null && currentValue != null) {
+         Object top = getDigester().peek();
+         if (top instanceof Descriptor) {
+            Descriptor descriptor = (Descriptor) top;
+            descriptor.getOptions().addOption(currentName, currentValue);
+         }
+      }
+   }
 
-    /**
-     * @see org.apache.commons.digester.Rule#end(java.lang.String, java.lang.String)
-     */
-    public void end(String namespace, String name) {
-        if (currentName != null && currentValue != null) {
-            Object top = getDigester().peek();
-            if (top instanceof Descriptor) {
-                Descriptor descriptor = (Descriptor) top;
-                descriptor.getOptions().addOption(currentName, currentValue);
-            }
-        }
-    }
-    
-    /**
-     * Gets the rule that maps the <code>name</code> element
-     * associated with the option
-     * @return <code>Rule</code>, not null
-     */
-    public Rule getNameRule() {
-        return new Rule() {
-            public void body(String namespace, String name, String text) {
-                currentName = text;
-            }            
-        };
-    }
+   /**
+    * Gets the rule that maps the <code>name</code> element
+    * associated with the option
+    * @return <code>Rule</code>, not null
+    */
+   public Rule getNameRule() {
+      return new Rule() {
+         public void body(String namespace, String name, String text) {
+            currentName = text;
+         }
+      };
+   }
 
-    /**
-     * Gets the rule that maps the <code>value</code> element
-     * associated with the option
-     * @return <code>Rule</code>, not null
-     */
-    public Rule getValueRule() {
-        return new Rule() {
-            public void body(String namespace, String name, String text) {
-                currentValue = text;
-            }            
-        };
-    }
+   /**
+    * Gets the rule that maps the <code>value</code> element
+    * associated with the option
+    * @return <code>Rule</code>, not null
+    */
+   public Rule getValueRule() {
+      return new Rule() {
+         public void body(String namespace, String name, String text) {
+            currentValue = text;
+         }
+      };
+   }
 }

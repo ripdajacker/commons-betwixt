@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package org.apache.commons.betwixt.io.read;
 
-import java.util.ArrayList;
-import java.util.List;
+package org.apache.commons.betwixt.io.read;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.expression.Context;
 import org.apache.commons.betwixt.expression.Updater;
 import org.xml.sax.Attributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>Acts to bind an array property.
@@ -38,139 +38,139 @@ import org.xml.sax.Attributes;
  * @version $Revision$
  */
 public class ArrayBindAction extends MappingAction.Base {
-   
-    
-    /**
-     * Factory method creates implementations to map arrays.
-     * @param elementDescriptor <code>ElementDescriptor</code> to be mapped, 
-     * not null
-     * @return <code>MappingAction</code>, not null 
-     */
-    public static final MappingAction createMappingAction(ElementDescriptor elementDescriptor) {
-        MappingAction result = new ArrayBindAction();
-        if (elementDescriptor.getSingularPropertyType() != null && 
-                !elementDescriptor.getSingularPropertyType().isArray()) {
-            result = BeanBindAction.INSTANCE;
-        }
-        return result;
-    }
-    
-    private BeanMapping beanMapping = new BeanMapping();
-    private Updater originalUpdater;
-    
-    /**
-     * Mapping arrays requires the addition of a temporary object
-     * (an <code>ArrayList</code>) into the stack together with an
-     * updater for that object.   
-     *    
-     */
-    public MappingAction begin(
-        String namespace,
-        String name,
-        Attributes attributes,
-        ReadContext context)
-        throws Exception {
-        // push an array onto the object stack
-        context.pushBean(new ArrayList());
-        return this;
-    }
 
-    /**
-     * Pops the <code>ArrayList</code> and the updater from
-     * their stacks. The original updater is called with the
-     * result of the convertion.      
-     */
-    public void end(ReadContext context) throws Exception {
-        if (originalUpdater != null) {       
-            // create an array of appropriate type
-            List values = (List) context.popBean();
-            originalUpdater.update(context, values);
-        }
-    }    
-    
-    /** Construct a delegating implmentation that wraps the real bean creator */
-    public MappingAction next(
-        String namespace,
-        String name,
-        Attributes attributes,
-        ReadContext context)
-        throws Exception {
-        originalUpdater = context.getCurrentUpdater();
-        MappingAction nextBindAction = BeanBindAction.INSTANCE;
-        beanMapping.setDelegate(nextBindAction);
-        return beanMapping;
-    }
 
-    
-    
-    /** Updates a list by adding the new value */
-    private static class ListUpdater implements Updater {
-        /** Singleton */
-        private static final ListUpdater INSTANCE = new ListUpdater();
-        
-        /** Update by adding the new value to the list */
-        public void update(Context context, Object newValue) {
-            List values = (List) context.getBean();
-            values.add(newValue);
-        }
-        
-    }
-    
-    private static class BeanMapping extends MappingAction.Base {
-        private MappingAction delegate;
-        
-        BeanMapping() {}
-        
+   /**
+    * Factory method creates implementations to map arrays.
+    * @param elementDescriptor <code>ElementDescriptor</code> to be mapped,
+    * not null
+    * @return <code>MappingAction</code>, not null
+    */
+   public static final MappingAction createMappingAction(ElementDescriptor elementDescriptor) {
+      MappingAction result = new ArrayBindAction();
+      if (elementDescriptor.getSingularPropertyType() != null &&
+            !elementDescriptor.getSingularPropertyType().isArray()) {
+         result = BeanBindAction.INSTANCE;
+      }
+      return result;
+   }
 
-        /**
-         * Gets the action to which the bean binding is delegated.
-         * @return <code>MappingAction</code> delegate, not null
-         */
-        MappingAction getDelegate() {
-            return delegate;
-        }
+   private BeanMapping beanMapping = new BeanMapping();
+   private Updater originalUpdater;
 
-        /**
-         * Sets the action to which the bean binding is delegated.
-         * @param action< code>MappingAction</code> delegate, not null
-         */
-        void setDelegate(MappingAction action) {
-            delegate = action;
-        }
-        
-        /** Push updater and then delegate */
-        public MappingAction begin(
+   /**
+    * Mapping arrays requires the addition of a temporary object
+    * (an <code>ArrayList</code>) into the stack together with an
+    * updater for that object.
+    *
+    */
+   public MappingAction begin(
+         String namespace,
+         String name,
+         Attributes attributes,
+         ReadContext context)
+         throws Exception {
+      // push an array onto the object stack
+      context.pushBean(new ArrayList());
+      return this;
+   }
+
+   /**
+    * Pops the <code>ArrayList</code> and the updater from
+    * their stacks. The original updater is called with the
+    * result of the convertion.
+    */
+   public void end(ReadContext context) throws Exception {
+      if (originalUpdater != null) {
+         // create an array of appropriate type
+         List values = (List) context.popBean();
+         originalUpdater.update(context, values);
+      }
+   }
+
+   /** Construct a delegating implmentation that wraps the real bean creator */
+   public MappingAction next(
+         String namespace,
+         String name,
+         Attributes attributes,
+         ReadContext context)
+         throws Exception {
+      originalUpdater = context.getCurrentUpdater();
+      MappingAction nextBindAction = BeanBindAction.INSTANCE;
+      beanMapping.setDelegate(nextBindAction);
+      return beanMapping;
+   }
+
+
+   /** Updates a list by adding the new value */
+   private static class ListUpdater implements Updater {
+      /** Singleton */
+      private static final ListUpdater INSTANCE = new ListUpdater();
+
+      /** Update by adding the new value to the list */
+      public void update(Context context, Object newValue) {
+         List values = (List) context.getBean();
+         values.add(newValue);
+      }
+
+   }
+
+   private static class BeanMapping extends MappingAction.Base {
+      private MappingAction delegate;
+
+      BeanMapping() {
+      }
+
+
+      /**
+       * Gets the action to which the bean binding is delegated.
+       * @return <code>MappingAction</code> delegate, not null
+       */
+      MappingAction getDelegate() {
+         return delegate;
+      }
+
+      /**
+       * Sets the action to which the bean binding is delegated.
+       * @param action< code>MappingAction</code> delegate, not null
+       */
+      void setDelegate(MappingAction action) {
+         delegate = action;
+      }
+
+      /** Push updater and then delegate */
+      public MappingAction begin(
             String namespace,
             String name,
             Attributes attributes,
             ReadContext context)
             throws Exception {
-            context.pushUpdater(ListUpdater.INSTANCE);
-            delegate = delegate.begin(namespace, name, attributes, context);
-            return this;
-        }
+         context.pushUpdater(ListUpdater.INSTANCE);
+         delegate = delegate.begin(namespace, name, attributes, context);
+         return this;
+      }
 
-        /** Delegate to delegate (Doh!) */
-        public void body(String text, ReadContext context) throws Exception {
-            delegate.body(text, context);
-        }
+      /** Delegate to delegate (Doh!) */
+      public void body(String text, ReadContext context) throws Exception {
+         delegate.body(text, context);
+      }
 
-        /** Call delegate then pop <code>Updater</code> */
-        public void end(ReadContext context) throws Exception {
-            delegate.end(context);
-            Updater updater = context.popUpdater();
-        }
+      /** Call delegate then pop <code>Updater</code> */
+      public void end(ReadContext context) throws Exception {
+         delegate.end(context);
+         Updater updater = context.popUpdater();
+      }
 
-        /** Use delegate to create next action */
-        public MappingAction next(
+      /** Use delegate to create next action */
+      public MappingAction next(
             String namespace,
             String name,
             Attributes attributes,
             ReadContext context)
             throws Exception {
-            return delegate.next(namespace, name, attributes, context);
-        }
+         return delegate.next(namespace, name, attributes, context);
+      }
 
 
-    }
+   }
 }

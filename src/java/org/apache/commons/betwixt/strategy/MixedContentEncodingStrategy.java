@@ -37,80 +37,80 @@ import org.apache.commons.betwixt.ElementDescriptor;
  */
 public abstract class MixedContentEncodingStrategy {
 
-    /** 
-     * The name of the option used to specify encoding on a per-element
-     * basis is
-     * <code>org.apache.commons.betwixt.mixed-content-encoding</code> 
-     */
-    public static final String ENCODING_OPTION_NAME 
-        = "org.apache.commons.betwixt.mixed-content-encoding";
-    /** The option value for CDATA */
-    public static final String CDATA_ENCODING = "CDATA";
+   /**
+    * The name of the option used to specify encoding on a per-element
+    * basis is
+    * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+    */
+   public static final String ENCODING_OPTION_NAME
+         = "org.apache.commons.betwixt.mixed-content-encoding";
+   /** The option value for CDATA */
+   public static final String CDATA_ENCODING = "CDATA";
 
-    /**
-     * The standard implementation used by Betwixt by default.
-     * The default is to escape as character data unless
-     * the <code>ElementDescriptor</code> contains
-     * an option with name 
-     * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
-     * and value <code>CDATA</code>.
-     * This is a singleton.
-     */
-    public static final MixedContentEncodingStrategy DEFAULT 
-            = new BaseMixedContentEncodingStrategy() {
-        /**
-         * Encode by escaping character data unless
-         * the <code>ElementDescriptor</code> contains
-         * an option with name 
-         * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
-         * and value <code>CDATA</code>.
-         */
-        protected boolean encodeAsCDATA(ElementDescriptor element) {
-            boolean result = false;
-            if (element != null ) {
-                String optionValue = element.getOptions().getValue(ENCODING_OPTION_NAME);
-                result = CDATA_ENCODING.equals(optionValue);        
-            }
-            return result;       
-        }
-    };
-    
-    /**
-     * Encodes element content within a <code>CDATA</code> section.
-     * This is a singleton.
-     */
-    public static final MixedContentEncodingStrategy CDATA 
-            = new BaseMixedContentEncodingStrategy() {
-        /**
-         * Always encode by escaping character data.
-         */
-        protected boolean encodeAsCDATA(ElementDescriptor element) {
-            return true;       
-        }
-    };    
-
-    /**
-      * Encodes by escaping character data.
-      * This is a singleton.
-      */
-     public static final MixedContentEncodingStrategy ESCAPED_CHARACTERS 
-             = new BaseMixedContentEncodingStrategy() {
-         /**
-          * Always encode by escaping character data.
-          */
-         protected boolean encodeAsCDATA(ElementDescriptor element) {
-             return false;       
+   /**
+    * The standard implementation used by Betwixt by default.
+    * The default is to escape as character data unless
+    * the <code>ElementDescriptor</code> contains
+    * an option with name
+    * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+    * and value <code>CDATA</code>.
+    * This is a singleton.
+    */
+   public static final MixedContentEncodingStrategy DEFAULT
+         = new BaseMixedContentEncodingStrategy() {
+      /**
+       * Encode by escaping character data unless
+       * the <code>ElementDescriptor</code> contains
+       * an option with name
+       * <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+       * and value <code>CDATA</code>.
+       */
+      protected boolean encodeAsCDATA(ElementDescriptor element) {
+         boolean result = false;
+         if (element != null) {
+            String optionValue = element.getOptions().getValue(ENCODING_OPTION_NAME);
+            result = CDATA_ENCODING.equals(optionValue);
          }
-     };
-    
+         return result;
+      }
+   };
 
-    /**
-     * Encodes the body content into a form suitable for output as 
-     * (textual) xml.
-     * @param bodyContent the raw (unescaped) character data, not null
-     * @param element the <code>ElementDescriptor</code> describing the element
-     * whose content is being encoded.
-     * @return the encoded (escaped) character data, not null
-     */
-    public abstract String encode(String bodyContent, ElementDescriptor element);
+   /**
+    * Encodes element content within a <code>CDATA</code> section.
+    * This is a singleton.
+    */
+   public static final MixedContentEncodingStrategy CDATA
+         = new BaseMixedContentEncodingStrategy() {
+      /**
+       * Always encode by escaping character data.
+       */
+      protected boolean encodeAsCDATA(ElementDescriptor element) {
+         return true;
+      }
+   };
+
+   /**
+    * Encodes by escaping character data.
+    * This is a singleton.
+    */
+   public static final MixedContentEncodingStrategy ESCAPED_CHARACTERS
+         = new BaseMixedContentEncodingStrategy() {
+      /**
+       * Always encode by escaping character data.
+       */
+      protected boolean encodeAsCDATA(ElementDescriptor element) {
+         return false;
+      }
+   };
+
+
+   /**
+    * Encodes the body content into a form suitable for output as
+    * (textual) xml.
+    * @param bodyContent the raw (unescaped) character data, not null
+    * @param element the <code>ElementDescriptor</code> describing the element
+    * whose content is being encoded.
+    * @return the encoded (escaped) character data, not null
+    */
+   public abstract String encode(String bodyContent, ElementDescriptor element);
 }

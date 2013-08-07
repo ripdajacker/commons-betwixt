@@ -13,49 +13,49 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- package org.apache.commons.betwixt.expression;
+ */
+package org.apache.commons.betwixt.expression;
 
 
 /** <p><code>ClassNameExpression</code> returns the current class name 
-  * of the context bean
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @since 0.5
-  */
+ * of the context bean
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @since 0.5
+ */
 public class ClassNameExpression implements Expression {
 
-    /** Base constructor */
-    public ClassNameExpression() {
-    }
-    
-    /** 
-     * Evaluate on the current context and return the class name  
-     *
-     * @param context the context against which this expression will be evaluated
-     * @return the name of the class of the current contex bean
-     */
-    public Object evaluate(Context context) {
-        Object bean = context.getBean();
-        if ( bean != null ) {
-            return bean.getClass().getName();
-        }
-        return null;
-    }
+   /** Base constructor */
+   public ClassNameExpression() {
+   }
 
-    /** 
-     * Do nothing.
-     * @see org.apache.commons.betwixt.expression.Expression
-     */
-    public void update(Context context, String newValue) {
-        // do nothing
-    }
-    
-    /** 
-     * Returns something useful for logging.
-     * @return something useful for logging
-     */
-    public String toString() {
-        return "ClassNameExpression";
-    }
+   /**
+    * Evaluate on the current context and return the class name
+    *
+    * @param context the context against which this expression will be evaluated
+    * @return the name of the class of the current contex bean
+    */
+   public Object evaluate(Context context) {
+      Object bean = context.getBean();
+      if (bean != null) {
+         return bean.getClass().getName();
+      }
+      return null;
+   }
+
+   /**
+    * Do nothing.
+    * @see org.apache.commons.betwixt.expression.Expression
+    */
+   public void update(Context context, String newValue) {
+      // do nothing
+   }
+
+   /**
+    * Returns something useful for logging.
+    * @return something useful for logging
+    */
+   public String toString() {
+      return "ClassNameExpression";
+   }
 }

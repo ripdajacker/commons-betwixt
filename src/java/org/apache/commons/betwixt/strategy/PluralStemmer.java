@@ -13,35 +13,35 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
-
-import java.util.Map;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 
-/** 
+import java.util.Map;
+
+/**
  * A plugin Strategy pattern which will detect the plural property which
  * maps to a singular property name.
  * This Strategy is used when composite properties (such as properties
  * of type Collection, List, Iterator, Enumeration) are used as we need to
  * match the adder-method, which typically uses a singular name.
  * This interface allows a variety of different implementations to be used.
- * 
+ *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Revision$
  */
 public interface PluralStemmer {
 
-    /**
-     * Find the plural descriptor for a singular property.
-     * 
-     * @return the plural descriptor for the given singular property name
-     *         or <code>null</code> is no matching descriptor can be found 
-     * @param propertyName is the singular property name, from the adder method
-     * @param map is a map with the keys are the property names of the available
-     *  descriptors and the values are the descriptors. This may not be null.
-     */
-    ElementDescriptor findPluralDescriptor( String propertyName, Map map );
+   /**
+    * Find the plural descriptor for a singular property.
+    *
+    * @return the plural descriptor for the given singular property name
+    *         or <code>null</code> is no matching descriptor can be found
+    * @param propertyName is the singular property name, from the adder method
+    * @param map is a map with the keys are the property names of the available
+    *  descriptors and the values are the descriptors. This may not be null.
+    */
+   ElementDescriptor findPluralDescriptor(String propertyName, Map map);
 
 }

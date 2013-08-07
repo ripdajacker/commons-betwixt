@@ -13,87 +13,87 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.digester;
-
-import java.util.Set;
 
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.digester.Rule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.Set;
+
 /** <p><code>RuleSupport</code> is an abstract base class containing useful
-  * helper methods.</p>
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ * helper methods.</p>
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class RuleSupport extends Rule {
 
-    /** Logger */
-    private static final Log log = LogFactory.getLog( RuleSupport.class );
-    /** Base constructor */
-    public RuleSupport() {
-    }
-    
-    
+   /** Logger */
+   private static final Log log = LogFactory.getLog(RuleSupport.class);
 
-    // Implementation methods
-    //-------------------------------------------------------------------------    
-    /** 
-     * Gets <code>XMLBeanInfoDigester</code> using this rule.
-     *
-     * @return <code>XMLBeanInfoDigester</code> for this rule
-     */
-    protected XMLBeanInfoDigester getXMLInfoDigester() {
-        return (XMLBeanInfoDigester) getDigester();
-    }
-    
-     /** 
-     * Gets <code>XMLIntrospector</code> to be used for introspection
-     *
-     * @return <code>XMLIntrospector</code> to use
-     */
-    protected XMLIntrospector getXMLIntrospector() {
-        return getXMLInfoDigester().getXMLIntrospector();
-    }
-    
-    /** 
-     * Gets the class of the bean whose .betwixt file is being digested
-     *
-     * @return the <code>Class</code> of the bean being processed 
-     */
-    protected Class getBeanClass() {
-        return getXMLInfoDigester().getBeanClass();
-    }
-    
-    /** 
-     * Gets the property names already processed
-     *
-     * @return the set of property names that have been processed so far 
-     */
-    protected Set getProcessedPropertyNameSet() {
-        return getXMLInfoDigester().getProcessedPropertyNameSet();
-    }
+   /** Base constructor */
+   public RuleSupport() {
+   }
 
 
+   // Implementation methods
+   //-------------------------------------------------------------------------
 
-    /**
-     * Loads the given class using an appropriate <code>ClassLoader</code>.
-     * Uses {@link org.apache.commons.digester.Digester#getClassLoader()}.
-     * @param className  names the class to be loaded
-     * @return <code>Class</code> loaded, not null
-     * @throws ClassNotFoundException
-     */
-    protected Class loadClass(String className) throws ClassNotFoundException {
-        ClassLoader classloader  = digester.getClassLoader();
-        Class clazz = null;
-        if (classloader == null) {
-            clazz = Class.forName(className);
-        } else {
-            clazz = classloader.loadClass(className);
-        }
-        return clazz;
-    }
+   /**
+    * Gets <code>XMLBeanInfoDigester</code> using this rule.
+    *
+    * @return <code>XMLBeanInfoDigester</code> for this rule
+    */
+   protected XMLBeanInfoDigester getXMLInfoDigester() {
+      return (XMLBeanInfoDigester) getDigester();
+   }
+
+   /**
+    * Gets <code>XMLIntrospector</code> to be used for introspection
+    *
+    * @return <code>XMLIntrospector</code> to use
+    */
+   protected XMLIntrospector getXMLIntrospector() {
+      return getXMLInfoDigester().getXMLIntrospector();
+   }
+
+   /**
+    * Gets the class of the bean whose .betwixt file is being digested
+    *
+    * @return the <code>Class</code> of the bean being processed
+    */
+   protected Class getBeanClass() {
+      return getXMLInfoDigester().getBeanClass();
+   }
+
+   /**
+    * Gets the property names already processed
+    *
+    * @return the set of property names that have been processed so far
+    */
+   protected Set getProcessedPropertyNameSet() {
+      return getXMLInfoDigester().getProcessedPropertyNameSet();
+   }
+
+
+   /**
+    * Loads the given class using an appropriate <code>ClassLoader</code>.
+    * Uses {@link org.apache.commons.digester.Digester#getClassLoader()}.
+    * @param className  names the class to be loaded
+    * @return <code>Class</code> loaded, not null
+    * @throws ClassNotFoundException
+    */
+   protected Class loadClass(String className) throws ClassNotFoundException {
+      ClassLoader classloader = digester.getClassLoader();
+      Class clazz = null;
+      if (classloader == null) {
+         clazz = Class.forName(className);
+      } else {
+         clazz = classloader.loadClass(className);
+      }
+      return clazz;
+   }
 }

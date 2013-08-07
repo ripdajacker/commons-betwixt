@@ -13,60 +13,56 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
-import java.lang.reflect.Array;
-
 import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.Converter;
 import org.apache.commons.betwixt.expression.Context;
 
-/** 
+/**
  * String &lt;-&gt; object conversion strategy that delegates to ConvertUtils.
  *
  * @author Robert Burrell Donkin
  * @since 0.5
  */
 public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
-    
-    /**
-      * Converts an object to a string representation using ConvertUtils.
-      *
-      * @param object the object to be converted, possibly null
-      * @param type the property class of the object, not null
-      * @param flavour a string allow symantic differences in formatting 
-      * to be communicated (ignored)
-      * @param context not null
-      * @return a String representation, not null
-      */
-    public String objectToString(Object object, Class type, String flavour, Context context) {
-        if ( object != null ) {
-            String text = ConvertUtils.convert( object );
-            if ( text != null ) {
-                return text;
-            }
-        }
-        return "";
-    }
-    
-    /**
-      * Converts an object to a string representation using ConvertUtils.
-      * This implementation ignores null and empty string values (rather than converting them).
-      * 
-      * @param value the String to be converted, not null
-      * @param type the property class to be returned (if possible), not null
-      * @param flavour a string allow symantic differences in formatting 
-      * to be communicated (ignored)
-      * @param context not null
-      * @return an Object converted from the String, not null
-      */
-    public Object stringToObject(String value, Class type, String flavour, Context context) {
-        if (value == null || "".equals(value))
-        {
-            return "";    
-        }
-        
-        return ConvertUtils.convert( value, type );
-    }
+
+   /**
+    * Converts an object to a string representation using ConvertUtils.
+    *
+    * @param object the object to be converted, possibly null
+    * @param type the property class of the object, not null
+    * @param flavour a string allow symantic differences in formatting
+    * to be communicated (ignored)
+    * @param context not null
+    * @return a String representation, not null
+    */
+   public String objectToString(Object object, Class type, String flavour, Context context) {
+      if (object != null) {
+         String text = ConvertUtils.convert(object);
+         if (text != null) {
+            return text;
+         }
+      }
+      return "";
+   }
+
+   /**
+    * Converts an object to a string representation using ConvertUtils.
+    * This implementation ignores null and empty string values (rather than converting them).
+    *
+    * @param value the String to be converted, not null
+    * @param type the property class to be returned (if possible), not null
+    * @param flavour a string allow symantic differences in formatting
+    * to be communicated (ignored)
+    * @param context not null
+    * @return an Object converted from the String, not null
+    */
+   public Object stringToObject(String value, Class type, String flavour, Context context) {
+      if (value == null || "".equals(value)) {
+         return "";
+      }
+
+      return ConvertUtils.convert(value, type);
+   }
 }

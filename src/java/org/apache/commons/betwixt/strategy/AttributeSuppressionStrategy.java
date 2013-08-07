@@ -22,23 +22,22 @@ import org.apache.commons.betwixt.AttributeDescriptor;
  * Strategy to determine whether to show an attribute at all.
  * @since 0.8
  */
-public interface AttributeSuppressionStrategy 
-{
-    /**
-     * Should the attribute described as given be suppressed during introspection?
-     * @param descriptor <code>AttributeDescriptor</code>, not null
-     * @return true if the attribute should be ignore,
-     * false otherwise
-     */
-    public boolean suppress(AttributeDescriptor descriptor);
-    
-    /**
-     * Default strategy: show all attributes.
-     */
-    public final static AttributeSuppressionStrategy DEFAULT = new AttributeSuppressionStrategy() {
-        public boolean suppress(AttributeDescriptor description) {
-            return false;
-        }
+public interface AttributeSuppressionStrategy {
+   /**
+    * Should the attribute described as given be suppressed during introspection?
+    * @param descriptor <code>AttributeDescriptor</code>, not null
+    * @return true if the attribute should be ignore,
+    * false otherwise
+    */
+   public boolean suppress(AttributeDescriptor descriptor);
 
-    };
+   /**
+    * Default strategy: show all attributes.
+    */
+   public final static AttributeSuppressionStrategy DEFAULT = new AttributeSuppressionStrategy() {
+      public boolean suppress(AttributeDescriptor description) {
+         return false;
+      }
+
+   };
 }

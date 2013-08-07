@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.digester;
 
 import org.apache.commons.digester.Digester;
@@ -25,23 +25,23 @@ import org.apache.commons.digester.RuleSetBase;
  */
 public class CommonRuleSet extends RuleSetBase {
 
-    /**
-     * Adds rule instances.
-     * @param digester <code>Digester</code>, not null
-     * @since 0.8
-     */
-    public void addRuleInstances(Digester digester) {
-        digester.addRule("*/element", new ElementRule());
-        digester.addRule( "*/text", new TextRule() );
-        digester.addRule("*/attribute", new AttributeRule());
-        digester.addRule("*/hide", new HideRule());
-        digester.addRule("*/addDefaults", new AddDefaultsRule());
-        
-        OptionRule optionRule = new OptionRule();
-        digester.addRule( "*/option", optionRule );
-        digester.addRule( "*/option/name", optionRule.getNameRule() );
-        digester.addRule( "*/option/value", optionRule.getValueRule() );
+   /**
+    * Adds rule instances.
+    * @param digester <code>Digester</code>, not null
+    * @since 0.8
+    */
+   public void addRuleInstances(Digester digester) {
+      digester.addRule("*/element", new ElementRule());
+      digester.addRule("*/text", new TextRule());
+      digester.addRule("*/attribute", new AttributeRule());
+      digester.addRule("*/hide", new HideRule());
+      digester.addRule("*/addDefaults", new AddDefaultsRule());
 
-    }
+      OptionRule optionRule = new OptionRule();
+      digester.addRule("*/option", optionRule);
+      digester.addRule("*/option/name", optionRule.getNameRule());
+      digester.addRule("*/option/value", optionRule.getValueRule());
+
+   }
 
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy.impl.propertysuppression;
 
 import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
@@ -27,51 +27,47 @@ import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
  */
 public class PackageSuppressor extends PropertySuppressionStrategy {
 
-    /** Package to be suppressed */
-    private final String suppressedPackage;
-    private final boolean exact;
-    
-    /**
-     * Constructs a suppressor for packages.
-     * @param suppressedPackage package name (for exact match)
-     * or base package and <code>.*</code>to suppress children
-     */
-    public  PackageSuppressor(String suppressedPackage) {
-        if (suppressedPackage.endsWith(".*")) {
-            exact = false;
-            suppressedPackage = suppressedPackage.substring(0, suppressedPackage.length()-2);
-        }
-        else
-        {
-            exact =true;
-        }
-        this.suppressedPackage = suppressedPackage;
-    }
-    
-    public boolean suppressProperty(Class classContainingTheProperty, Class propertyType, String propertyName) {
-        boolean result = false;
-        if (propertyType != null) {
-            Package propertyTypePackage = propertyType.getPackage();
-            if (propertyTypePackage != null) {
-                String packageName = propertyTypePackage.getName();
-                if (exact) {
-                    result = suppressedPackage.equals(packageName);
-                }
-                else if (packageName != null)
-                {
-                    result = packageName.startsWith(suppressedPackage);
-                }
-            }
-        }
-        return result;
-    }
+   /** Package to be suppressed */
+   private final String suppressedPackage;
+   private final boolean exact;
 
-    public String toString() {
-        StringBuffer buffer = new StringBuffer("Suppressing package " );
-        buffer.append(suppressedPackage);
-        if (exact) {
-            buffer.append("(exact)");
-        }
-        return buffer.toString();
-    }
+   /**
+    * Constructs a suppressor for packages.
+    * @param suppressedPackage package name (for exact match)
+    * or base package and <code>.*</code>to suppress children
+    */
+   public PackageSuppressor(String suppressedPackage) {
+      if (suppressedPackage.endsWith(".*")) {
+         exact = false;
+         suppressedPackage = suppressedPackage.substring(0, suppressedPackage.length() - 2);
+      } else {
+         exact = true;
+      }
+      this.suppressedPackage = suppressedPackage;
+   }
+
+   public boolean suppressProperty(Class classContainingTheProperty, Class propertyType, String propertyName) {
+      boolean result = false;
+      if (propertyType != null) {
+         Package propertyTypePackage = propertyType.getPackage();
+         if (propertyTypePackage != null) {
+            String packageName = propertyTypePackage.getName();
+            if (exact) {
+               result = suppressedPackage.equals(packageName);
+            } else if (packageName != null) {
+               result = packageName.startsWith(suppressedPackage);
+            }
+         }
+      }
+      return result;
+   }
+
+   public String toString() {
+      StringBuffer buffer = new StringBuffer("Suppressing package ");
+      buffer.append(suppressedPackage);
+      if (exact) {
+         buffer.append("(exact)");
+      }
+      return buffer.toString();
+   }
 }

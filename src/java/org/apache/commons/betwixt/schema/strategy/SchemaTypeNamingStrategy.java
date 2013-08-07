@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema.strategy;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -26,10 +26,10 @@ import org.apache.commons.betwixt.ElementDescriptor;
  */
 abstract public class SchemaTypeNamingStrategy {
 
-    /**
-     * Names the schema type described.
-     * @param descriptor <code>ElementDescriptor</code> describing the element
-     * @return the name of the schema
-     */
-    public abstract String nameSchemaType(ElementDescriptor descriptor);
+   /**
+    * Names the schema type described.
+    * @param descriptor <code>ElementDescriptor</code> describing the element
+    * @return the name of the schema
+    */
+   public abstract String nameSchemaType(ElementDescriptor descriptor);
 }

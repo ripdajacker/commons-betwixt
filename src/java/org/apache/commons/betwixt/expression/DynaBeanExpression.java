@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.expression;
 
@@ -21,77 +21,77 @@ import org.apache.commons.beanutils.DynaBean;
 
 /**
  * An Expression that gets a property value from a DynaBean.
- * 
+ *
  * @see org.apache.commons.beanutils.DynaBean
- * 
+ *
  * @author Michael Becke
  * @since 0.5
  */
 public class DynaBeanExpression implements Expression {
 
-    /** The name of the DynaBean property to get */
-    private String propertyName;
+   /** The name of the DynaBean property to get */
+   private String propertyName;
 
-    /**
-     * Crates a new DynaBeanExpression.
-     */
-    public DynaBeanExpression() {
-        super();
-    }
+   /**
+    * Crates a new DynaBeanExpression.
+    */
+   public DynaBeanExpression() {
+      super();
+   }
 
-    /**
-     * Crates a new DynaBeanExpression.
-     * 
-     * @param propertyName the name of the DynaBean property to use
-     */
-    public DynaBeanExpression(String propertyName) {
-        super();
-        setPropertyName(propertyName);
-    }
+   /**
+    * Crates a new DynaBeanExpression.
+    *
+    * @param propertyName the name of the DynaBean property to use
+    */
+   public DynaBeanExpression(String propertyName) {
+      super();
+      setPropertyName(propertyName);
+   }
 
-    /**
-     * Returns the value of a DynaBean property from the bean stored in 
-     * the Context.  Returns <code>null</code> if no DynaBean is stored 
-     * in the Context or if the propertyName has not been set.
-     * 
-     * @param context the content containing the DynaBean
-     * 
-     * @return the DynaBean property value or <code>null</code>
-     */
-    public Object evaluate(Context context) {
-        
-        if (context.getBean() instanceof DynaBean && propertyName != null) {
-            return ((DynaBean)context.getBean()).get(propertyName);
-        } else {
-            return null;
-        }
-    }
+   /**
+    * Returns the value of a DynaBean property from the bean stored in
+    * the Context.  Returns <code>null</code> if no DynaBean is stored
+    * in the Context or if the propertyName has not been set.
+    *
+    * @param context the content containing the DynaBean
+    *
+    * @return the DynaBean property value or <code>null</code>
+    */
+   public Object evaluate(Context context) {
 
-    /**
-     * Do nothing.
-     * @see Expression#update
-     */
-    public void update(Context context, String newValue) {
-        // do nothing
-    }
+      if (context.getBean() instanceof DynaBean && propertyName != null) {
+         return ((DynaBean) context.getBean()).get(propertyName);
+      } else {
+         return null;
+      }
+   }
 
-    /**
-     * Gets the name of the property to get from the DynaBean.
-     * @return the name of the property that this expression reads
-     */
-    public String getPropertyName() {
-        return propertyName;
-    }
+   /**
+    * Do nothing.
+    * @see Expression#update
+    */
+   public void update(Context context, String newValue) {
+      // do nothing
+   }
 
-    /**
-     * Sets the name of the property to get from the DynaBean.
-     * @param propertyName the property that this expression reads, not null
-     */
-    public void setPropertyName(String propertyName) {
-        if (propertyName == null) {
-            throw new IllegalArgumentException("propertyName is null");
-        }
-        this.propertyName = propertyName;
-    }
+   /**
+    * Gets the name of the property to get from the DynaBean.
+    * @return the name of the property that this expression reads
+    */
+   public String getPropertyName() {
+      return propertyName;
+   }
+
+   /**
+    * Sets the name of the property to get from the DynaBean.
+    * @param propertyName the property that this expression reads, not null
+    */
+   public void setPropertyName(String propertyName) {
+      if (propertyName == null) {
+         throw new IllegalArgumentException("propertyName is null");
+      }
+      this.propertyName = propertyName;
+   }
 
 }

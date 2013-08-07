@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -24,50 +24,49 @@ import org.apache.commons.betwixt.schema.strategy.impl.QualifiedPropertyTypeSche
 /**
  * Configuration for XMLBeanInfo to XML schema transcription.
  * All settings are gathered into this one class for convenience.
- * 
+ *
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class TranscriptionConfiguration {
-    
-    private DataTypeMapper dataTypeMapper = new DefaultDataTypeMapper();
-    
-    private SchemaTypeNamingStrategy schemaTypeNamingStrategy = new QualifiedPropertyTypeSchemaNamingStrategy();
-    
-    /**
-     * Gets the <code>DataTypeMapper</code> to be used during the transcription.
-     * @return DataTypeMapper, not null
-     */
-    public DataTypeMapper getDataTypeMapper() {
-        return dataTypeMapper;
-    }
 
-    /**
-     * Sets the <code>DataTypeMapper</code> to be used during the transcription/
-     * @param mapper DataTypeMapper, not null
-     */
-    public void setDataTypeMapper(DataTypeMapper mapper) {
-        dataTypeMapper = mapper;
-    }
+   private DataTypeMapper dataTypeMapper = new DefaultDataTypeMapper();
 
-    /**
-     * Gets the stategy to be used for naming types.
-     * @return <code>SchemaTypeNamingStrategy</code>, not null
-     * @since 0.8
-     */
-    public SchemaTypeNamingStrategy getSchemaTypeNamingStrategy() {
-        return schemaTypeNamingStrategy;
-    }
+   private SchemaTypeNamingStrategy schemaTypeNamingStrategy = new QualifiedPropertyTypeSchemaNamingStrategy();
 
-    /**
-     * Sets the strategy to be used for naming types.
-     * @param schemaTypeNamingStrategy <code>SchemaTypeNamingStrategy</code>, not null
-     * @since 0.8
-     */
-    public void setSchemaTypeNamingStrategy( SchemaTypeNamingStrategy schemaTypeNamingStrategy) {
-        this.schemaTypeNamingStrategy = schemaTypeNamingStrategy;
-    }
-    
-    
+   /**
+    * Gets the <code>DataTypeMapper</code> to be used during the transcription.
+    * @return DataTypeMapper, not null
+    */
+   public DataTypeMapper getDataTypeMapper() {
+      return dataTypeMapper;
+   }
+
+   /**
+    * Sets the <code>DataTypeMapper</code> to be used during the transcription/
+    * @param mapper DataTypeMapper, not null
+    */
+   public void setDataTypeMapper(DataTypeMapper mapper) {
+      dataTypeMapper = mapper;
+   }
+
+   /**
+    * Gets the stategy to be used for naming types.
+    * @return <code>SchemaTypeNamingStrategy</code>, not null
+    * @since 0.8
+    */
+   public SchemaTypeNamingStrategy getSchemaTypeNamingStrategy() {
+      return schemaTypeNamingStrategy;
+   }
+
+   /**
+    * Sets the strategy to be used for naming types.
+    * @param schemaTypeNamingStrategy <code>SchemaTypeNamingStrategy</code>, not null
+    * @since 0.8
+    */
+   public void setSchemaTypeNamingStrategy(SchemaTypeNamingStrategy schemaTypeNamingStrategy) {
+      this.schemaTypeNamingStrategy = schemaTypeNamingStrategy;
+   }
+
 
 }

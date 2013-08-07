@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.registry;
 
 import org.apache.commons.betwixt.io.read.ElementMapping;
@@ -32,13 +32,13 @@ import org.apache.commons.betwixt.io.read.ReadContext;
  */
 public interface PolymorphicReferenceResolver {
 
-    /**
-     * Resolves the bind-time type of a polymorphic element.
-     * @param mapping <code>ElementMapping</code> describing the (polymorphic) element being mapped,
-     * not null
-     * @param context <code>ReadContext</code>, not null
-     * @return the <code>Class</code> describing the type to which this element should be bound,
-     * or null if the reference cannot be resolved
-     */
-    public Class resolveType(ElementMapping mapping, ReadContext context);
+   /**
+    * Resolves the bind-time type of a polymorphic element.
+    * @param mapping <code>ElementMapping</code> describing the (polymorphic) element being mapped,
+    * not null
+    * @param context <code>ReadContext</code>, not null
+    * @return the <code>Class</code> describing the type to which this element should be bound,
+    * or null if the reference cannot be resolved
+    */
+   public Class resolveType(ElementMapping mapping, ReadContext context);
 }

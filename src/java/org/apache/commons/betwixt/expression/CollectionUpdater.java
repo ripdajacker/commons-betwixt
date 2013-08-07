@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.expression;
 
 import java.util.Collection;
@@ -24,31 +24,31 @@ import java.util.Collection;
  */
 public class CollectionUpdater implements Updater {
 
-    private static CollectionUpdater INSTANCE;
-    
-    /**
-     * Gets singleton instance.
-     * @return <code>CollectionUpdater</code>, not null
-     */
-    public static synchronized CollectionUpdater getInstance() {
-         if (INSTANCE == null) {
-             INSTANCE = new CollectionUpdater();
+   private static CollectionUpdater INSTANCE;
+
+   /**
+    * Gets singleton instance.
+    * @return <code>CollectionUpdater</code>, not null
+    */
+   public static synchronized CollectionUpdater getInstance() {
+      if (INSTANCE == null) {
+         INSTANCE = new CollectionUpdater();
+      }
+      return INSTANCE;
+   }
+
+   /**
+    * Updates collection contained by the context by adding the new value.
+    * @param context <code>Context</code>, not null
+    * @param newValue value to be added, possibly null
+    */
+   public void update(Context context, Object newValue) {
+      if (newValue != null) {
+         Object subject = context.getBean();
+         if (subject != null && subject instanceof Collection) {
+            Collection collection = (Collection) subject;
+            collection.add(newValue);
          }
-         return INSTANCE;
-    }
-    
-    /**
-     * Updates collection contained by the context by adding the new value.
-     * @param context <code>Context</code>, not null
-     * @param newValue value to be added, possibly null 
-     */
-    public void update(Context context, Object newValue) {
-            if (newValue != null) {
-                Object subject = context.getBean();
-                if (subject != null && subject instanceof Collection) {
-                    Collection collection = (Collection) subject;
-                    collection.add(newValue);
-                }
-            }
-    }
+      }
+   }
 }

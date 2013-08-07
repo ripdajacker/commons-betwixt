@@ -13,32 +13,36 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */  
+ */
 
 package org.apache.commons.betwixt.schema;
 
-import java.beans.IntrospectionException;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+
+import java.beans.IntrospectionException;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class ComplexLocalElement extends LocalElement {
-    
-    private LocalComplexType type;
-    public ComplexLocalElement(TranscriptionConfiguration configuration, ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
-        super(descriptor, schema);
-        setType(new LocalComplexType(configuration, descriptor, schema));
-    }
-    
-    public LocalComplexType getType() {
-        return type;
-    }
 
-    public void setType(LocalComplexType type) {
-        this.type = type;
-    }
+   private LocalComplexType type;
+
+   public ComplexLocalElement(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor descriptor,
+         Schema schema) throws IntrospectionException {
+      super(descriptor, schema);
+      setType(new LocalComplexType(configuration, descriptor, schema));
+   }
+
+   public LocalComplexType getType() {
+      return type;
+   }
+
+   public void setType(LocalComplexType type) {
+      this.type = type;
+   }
 
 }

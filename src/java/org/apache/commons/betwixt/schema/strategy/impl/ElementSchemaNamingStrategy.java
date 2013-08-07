@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema.strategy.impl;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -24,18 +24,18 @@ import org.apache.commons.betwixt.schema.strategy.SchemaTypeNamingStrategy;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a> of the <a href='http://www.apache.org'>Apache Software Foundation</a>
  * @since 0.8
  */
-public class ElementSchemaNamingStrategy extends SchemaTypeNamingStrategy{
+public class ElementSchemaNamingStrategy extends SchemaTypeNamingStrategy {
 
-    /**
-     * Names the schema from the element
-     * @see SchemaTypeNamingStrategy#nameSchemaType(ElementDescriptor)
-     * 
-     */
-    public String nameSchemaType(ElementDescriptor descriptor) {
-        return descriptor.getLocalName();
-    }
+   /**
+    * Names the schema from the element
+    * @see SchemaTypeNamingStrategy#nameSchemaType(ElementDescriptor)
+    *
+    */
+   public String nameSchemaType(ElementDescriptor descriptor) {
+      return descriptor.getLocalName();
+   }
 
-    public String toString() {
-        return "Element Schema Type Naming Strategy";
-    }
+   public String toString() {
+      return "Element Schema Type Naming Strategy";
+   }
 }

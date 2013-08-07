@@ -13,25 +13,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
-/** 
+/**
  * A plugin Strategy pattern for converting Java type names into
  * element names.
- * 
+ *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Revision$
  */
 public interface NameMapper {
 
-    /**
-     * Convert the given bean or property name to name for use in XML
-     * (as an element or an attribute qname).
-     *
-     * @param typeName the string to convert 
-     * @return the element name for the given bean type name
-     */
-    String mapTypeToElementName(String typeName);
+   /**
+    * Convert the given bean or property name to name for use in XML
+    * (as an element or an attribute qname).
+    *
+    * @param typeName the string to convert
+    * @return the element name for the given bean type name
+    */
+   String mapTypeToElementName(String typeName);
 
 }

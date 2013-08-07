@@ -13,45 +13,42 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 import org.apache.commons.betwixt.expression.Updater;
 import org.xml.sax.Attributes;
 
-/** 
-  * Action binds a simple type.
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision$
-  */
+/**
+ * Action binds a simple type.
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ * @version $Revision$
+ */
 public class SimpleTypeBindAction extends MappingAction.Base {
 
-    public static final SimpleTypeBindAction INSTANCE = new SimpleTypeBindAction();
+   public static final SimpleTypeBindAction INSTANCE = new SimpleTypeBindAction();
 
-    
 
-    public void body(String text, ReadContext context) throws Exception {
-        // add dyna-bean support!
-        // probably refactoring needed
-        Updater updater = context.getCurrentUpdater();
-        if (updater != null)
-        {
-            updater.update(context, text);
-        } else {
-            if (context.getLog().isDebugEnabled())
-            {
-                context.getLog().debug("No updater for simple type '" + context.getCurrentElement() + "'");
-            }
-        }
-    }
-    
-    public MappingAction next(
-        String namespace,
-        String name,
-        Attributes attributes,
-        ReadContext context)
-        throws Exception {
-        return MappingAction.IGNORE;
-    }
+   public void body(String text, ReadContext context) throws Exception {
+      // add dyna-bean support!
+      // probably refactoring needed
+      Updater updater = context.getCurrentUpdater();
+      if (updater != null) {
+         updater.update(context, text);
+      } else {
+         if (context.getLog().isDebugEnabled()) {
+            context.getLog().debug("No updater for simple type '" + context.getCurrentElement() + "'");
+         }
+      }
+   }
+
+   public MappingAction next(
+         String namespace,
+         String name,
+         Attributes attributes,
+         ReadContext context)
+         throws Exception {
+      return MappingAction.IGNORE;
+   }
 
 }

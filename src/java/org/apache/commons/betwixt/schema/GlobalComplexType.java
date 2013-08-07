@@ -13,15 +13,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
+
+import org.apache.commons.betwixt.ElementDescriptor;
 
 import java.beans.IntrospectionException;
 import java.util.Collection;
 import java.util.Iterator;
-
-import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
  * Models a <code>complexType</code> from an XML schema.
@@ -30,135 +30,141 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * @version $Revision$
  */
 public class GlobalComplexType extends ComplexType {
-	
-	private String name;
-    private TranscriptionConfiguration configuration;
-    
-	public GlobalComplexType() {}
-    
-    /**
-     * Constructs a new ComplexType from the descriptor given.
-     * @param elementDescriptor
-     */
-    public GlobalComplexType(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        super(configuration, elementDescriptor, schema); 
-    }
 
-    protected void init(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        this.configuration = configuration;
-        setName(nameFromDescriptor( elementDescriptor ));
-    }
+   private String name;
+   private TranscriptionConfiguration configuration;
 
-    /**
-     * Fills the complex type description.
-     * @since 0.7
-     * @param configuration
-     * @param elementDescriptor
-     * @param schema
-     * @throws IntrospectionException
-     */
-    protected void fill(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException
-    {
-        elementDescriptor = fillDescriptor(elementDescriptor, schema);
-        super.init(configuration, elementDescriptor, schema);
-    }
-    
-    private String nameFromDescriptor( ElementDescriptor elementDescriptor ) {
-        return configuration.getSchemaTypeNamingStrategy().nameSchemaType(elementDescriptor);
-    }
-    
-    /**
-     * Does the given element descriptor match this complex type?
-     * @since 0.7
-     * @param elementDescriptor
-     * @return true if the descriptor matches
-     */
-    public boolean matches(ElementDescriptor elementDescriptor) {
-        String nameFromDescriptor = nameFromDescriptor ( elementDescriptor );
-        return nameFromDescriptor.equals(getName());
-    }
-    
-	/**
-     * Gets the name of this type.
-     * @return the name of this type
-     */
-    public String getName() {
-        return name;
-    }
+   public GlobalComplexType() {
+   }
 
-    /**
-     * Sets the name of this type.
-     * @param string
-     */
-    public void setName(String string) {
-        name = string;
-    }
+   /**
+    * Constructs a new ComplexType from the descriptor given.
+    * @param elementDescriptor
+    */
+   public GlobalComplexType(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor elementDescriptor,
+         Schema schema) throws IntrospectionException {
+      super(configuration, elementDescriptor, schema);
+   }
 
-    public boolean equals(Object obj) {
-          boolean result = false;
-          if (obj instanceof GlobalComplexType) {
-              GlobalComplexType complexType = (GlobalComplexType) obj;
-              result =  isEqual(name, complexType.name) &&
-                        equalContents(attributes, complexType.attributes) &&
-                        equalContents(elements, complexType.elements);
-                                   
-          }
-          return result;
+   protected void init(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor elementDescriptor,
+         Schema schema) throws IntrospectionException {
+      this.configuration = configuration;
+      setName(nameFromDescriptor(elementDescriptor));
+   }
+
+   /**
+    * Fills the complex type description.
+    * @since 0.7
+    * @param configuration
+    * @param elementDescriptor
+    * @param schema
+    * @throws IntrospectionException
+    */
+   protected void fill(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor elementDescriptor,
+         Schema schema) throws IntrospectionException {
+      elementDescriptor = fillDescriptor(elementDescriptor, schema);
+      super.init(configuration, elementDescriptor, schema);
+   }
+
+   private String nameFromDescriptor(ElementDescriptor elementDescriptor) {
+      return configuration.getSchemaTypeNamingStrategy().nameSchemaType(elementDescriptor);
+   }
+
+   /**
+    * Does the given element descriptor match this complex type?
+    * @since 0.7
+    * @param elementDescriptor
+    * @return true if the descriptor matches
+    */
+   public boolean matches(ElementDescriptor elementDescriptor) {
+      String nameFromDescriptor = nameFromDescriptor(elementDescriptor);
+      return nameFromDescriptor.equals(getName());
+   }
+
+   /**
+    * Gets the name of this type.
+    * @return the name of this type
+    */
+   public String getName() {
+      return name;
+   }
+
+   /**
+    * Sets the name of this type.
+    * @param string
+    */
+   public void setName(String string) {
+      name = string;
+   }
+
+   public boolean equals(Object obj) {
+      boolean result = false;
+      if (obj instanceof GlobalComplexType) {
+         GlobalComplexType complexType = (GlobalComplexType) obj;
+         result = isEqual(name, complexType.name) &&
+               equalContents(attributes, complexType.attributes) &&
+               equalContents(elements, complexType.elements);
+
       }
+      return result;
+   }
 
-    public int hashCode() {
-        return 0;
-    }
-    
-    private boolean equalContents(Collection one, Collection two)
-    {
-        // doesn't check cardinality but should be ok
-        if (one.size() != two.size()) {
+   public int hashCode() {
+      return 0;
+   }
+
+   private boolean equalContents(Collection one, Collection two) {
+      // doesn't check cardinality but should be ok
+      if (one.size() != two.size()) {
+         return false;
+      }
+      for (Iterator it = one.iterator(); it.hasNext(); ) {
+         Object object = it.next();
+         if (!two.contains(object)) {
             return false;
-        }
-        for (Iterator it=one.iterator();it.hasNext();) {
-            Object object = it.next();
-            if (!two.contains(object)) {
-                return false;
-            }
-        }
-        return true;
-    }
+         }
+      }
+      return true;
+   }
 
-      /**
-       * Null safe equals method
-       * @param one
-       * @param two
-       * @return
-       */
-      private boolean isEqual(String one, String two) {
-          boolean result = false;
-          if (one == null) {
-              result = (two == null); 
-          }
-          else
-          {
-              result = one.equals(two);
-          }
-        
-          return result;
+   /**
+    * Null safe equals method
+    * @param one
+    * @param two
+    * @return
+    */
+   private boolean isEqual(String one, String two) {
+      boolean result = false;
+      if (one == null) {
+         result = (two == null);
+      } else {
+         result = one.equals(two);
       }
-      
-      public String toString() {
-          StringBuffer buffer = new StringBuffer();
-          buffer.append("<xsd:complexType name='");
-          buffer.append(name);
-          buffer.append("'>");
-          buffer.append("<xsd:sequence>");
-          for (Iterator it=elements.iterator(); it.hasNext();) {
-                buffer.append(it.next());    
-          }
-          buffer.append("</xsd:sequence>");
-          
-          for (Iterator it=attributes.iterator(); it.hasNext();) {
-                buffer.append(it.next());    
-          }
-          buffer.append("</xsd:complexType>");
-          return buffer.toString();
+
+      return result;
+   }
+
+   public String toString() {
+      StringBuffer buffer = new StringBuffer();
+      buffer.append("<xsd:complexType name='");
+      buffer.append(name);
+      buffer.append("'>");
+      buffer.append("<xsd:sequence>");
+      for (Iterator it = elements.iterator(); it.hasNext(); ) {
+         buffer.append(it.next());
       }
+      buffer.append("</xsd:sequence>");
+
+      for (Iterator it = attributes.iterator(); it.hasNext(); ) {
+         buffer.append(it.next());
+      }
+      buffer.append("</xsd:complexType>");
+      return buffer.toString();
+   }
 }

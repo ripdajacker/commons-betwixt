@@ -13,13 +13,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
-import java.beans.IntrospectionException;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+
+import java.beans.IntrospectionException;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
@@ -27,45 +27,45 @@ import org.apache.commons.betwixt.ElementDescriptor;
  */
 public class LocalElement implements Element {
 
-    protected String name;
-    
-    protected String maxOccurs = "1";
+   protected String name;
 
-    protected int minOccurs = 0;
-    
-    public LocalElement(String name) {
-        this.name = name;
-    }
+   protected String maxOccurs = "1";
 
-    public LocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
-        setName(descriptor.getLocalName());
-        if (descriptor.isCollective()) {
-            setMaxOccurs("unbounded");
-        }
-    }
+   protected int minOccurs = 0;
 
-    public String getName() {
-        return name;
-    }
+   public LocalElement(String name) {
+      this.name = name;
+   }
 
-    public void setName(String string) {
-        name = string;
-    }
+   public LocalElement(ElementDescriptor descriptor, Schema schema) throws IntrospectionException {
+      setName(descriptor.getLocalName());
+      if (descriptor.isCollective()) {
+         setMaxOccurs("unbounded");
+      }
+   }
 
-    public int getMinOccurs() {
-        return minOccurs;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setMinOccurs(int minOccurs) {
-        this.minOccurs = minOccurs;
-    }
+   public void setName(String string) {
+      name = string;
+   }
 
-    public String getMaxOccurs() {
-        return maxOccurs;
-    }
+   public int getMinOccurs() {
+      return minOccurs;
+   }
 
-    public void setMaxOccurs(String maxOccurs) {
-        this.maxOccurs = maxOccurs;
-    }
+   public void setMinOccurs(int minOccurs) {
+      this.minOccurs = minOccurs;
+   }
+
+   public String getMaxOccurs() {
+      return maxOccurs;
+   }
+
+   public void setMaxOccurs(String maxOccurs) {
+      this.maxOccurs = maxOccurs;
+   }
 
 }

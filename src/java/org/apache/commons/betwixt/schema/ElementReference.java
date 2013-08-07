@@ -13,13 +13,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
-import java.beans.IntrospectionException;
-
 import org.apache.commons.betwixt.ElementDescriptor;
+
+import java.beans.IntrospectionException;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
@@ -27,46 +27,49 @@ import org.apache.commons.betwixt.ElementDescriptor;
  */
 public class ElementReference extends GlobalElement {
 
-    protected String maxOccurs = "1";
+   protected String maxOccurs = "1";
 
-    protected int minOccurs = 0;
+   protected int minOccurs = 0;
 
-    public ElementReference(String string, GlobalComplexType complexType) {
-        
-        super(string, complexType);
-    }
+   public ElementReference(String string, GlobalComplexType complexType) {
 
-    public ElementReference(String name, String type) {
-        super(name, type);
-    }
+      super(string, complexType);
+   }
 
-    public ElementReference(TranscriptionConfiguration configuration, ElementDescriptor elementDescriptor, Schema schema) throws IntrospectionException {
-        setName(elementDescriptor.getLocalName());
-        if (elementDescriptor.isHollow()) {
-            setComplexType( schema.addGlobalComplexType( configuration, elementDescriptor ));
-            if (elementDescriptor.isCollective()) {
-                maxOccurs = "unbounded";
-            }
-        } else {
-            
-            setType("xsd:string");
-        }
-    }
+   public ElementReference(String name, String type) {
+      super(name, type);
+   }
 
-    public int getMinOccurs() {
-        return minOccurs;
-    }
+   public ElementReference(
+         TranscriptionConfiguration configuration,
+         ElementDescriptor elementDescriptor,
+         Schema schema) throws IntrospectionException {
+      setName(elementDescriptor.getLocalName());
+      if (elementDescriptor.isHollow()) {
+         setComplexType(schema.addGlobalComplexType(configuration, elementDescriptor));
+         if (elementDescriptor.isCollective()) {
+            maxOccurs = "unbounded";
+         }
+      } else {
 
-    public void setMinOccurs(int minOccurs) {
-        this.minOccurs = minOccurs;
-    }
+         setType("xsd:string");
+      }
+   }
 
-    public String getMaxOccurs() {
-        return maxOccurs;
-    }
+   public int getMinOccurs() {
+      return minOccurs;
+   }
 
-    public void setMaxOccurs(String maxOccurs) {
-        this.maxOccurs = maxOccurs;
-    }
+   public void setMinOccurs(int minOccurs) {
+      this.minOccurs = minOccurs;
+   }
+
+   public String getMaxOccurs() {
+      return maxOccurs;
+   }
+
+   public void setMaxOccurs(String maxOccurs) {
+      this.maxOccurs = maxOccurs;
+   }
 
 }

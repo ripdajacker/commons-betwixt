@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.digester;
 
 import org.apache.commons.betwixt.XMLBeanInfo;
@@ -23,58 +23,58 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /** <p><code>InfoRule</code> the digester Rule for parsing the info element.</p>
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class InfoRule extends RuleSupport {
 
-    /** Logger */
-    private static final Log log = LogFactory.getLog( InfoRule.class );
-    /** <code>XMLBeanInfo</code> being created */
-    private XMLBeanInfo xmlBeanInfo;
-    
-    /** Base constructor */
-    public InfoRule() {
-    }
-    
-    // Rule interface
-    //-------------------------------------------------------------------------    
-    
-    /**
-     * Process the beginning of this element.
-     *
-     * @param attributes The attribute list of this element
-     * @throws SAXException if the primitiveTypes attribute contains an invalid value
-     */
-    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
-        Class beanClass = getBeanClass();
-        
-        xmlBeanInfo = new XMLBeanInfo( beanClass );
-        
-        String value = attributes.getValue( "primitiveTypes" );
-        if ( value != null ) {
-            if ( value.equalsIgnoreCase( "element" ) ) {
-                getXMLInfoDigester().setAttributesForPrimitives( false );
-                
-            } else if ( value.equalsIgnoreCase( "attribute" ) ) {
-                getXMLInfoDigester().setAttributesForPrimitives( true );
-                
-            } else {
-                throw new SAXException(
-                    "Invalid value inside element <info> for attribute 'primitiveTypes'."
-                    + " Value should be 'element' or 'attribute'" );
-            }
-        }
-        
-        getDigester().push(xmlBeanInfo);       
-    }
+   /** Logger */
+   private static final Log log = LogFactory.getLog(InfoRule.class);
+   /** <code>XMLBeanInfo</code> being created */
+   private XMLBeanInfo xmlBeanInfo;
+
+   /** Base constructor */
+   public InfoRule() {
+   }
+
+   // Rule interface
+   //-------------------------------------------------------------------------
+
+   /**
+    * Process the beginning of this element.
+    *
+    * @param attributes The attribute list of this element
+    * @throws SAXException if the primitiveTypes attribute contains an invalid value
+    */
+   public void begin(String name, String namespace, Attributes attributes) throws SAXException {
+      Class beanClass = getBeanClass();
+
+      xmlBeanInfo = new XMLBeanInfo(beanClass);
+
+      String value = attributes.getValue("primitiveTypes");
+      if (value != null) {
+         if (value.equalsIgnoreCase("element")) {
+            getXMLInfoDigester().setAttributesForPrimitives(false);
+
+         } else if (value.equalsIgnoreCase("attribute")) {
+            getXMLInfoDigester().setAttributesForPrimitives(true);
+
+         } else {
+            throw new SAXException(
+                  "Invalid value inside element <info> for attribute 'primitiveTypes'."
+                        + " Value should be 'element' or 'attribute'");
+         }
+      }
+
+      getDigester().push(xmlBeanInfo);
+   }
 
 
-    /**
-     * Process the end of this element.
-     */
-    public void end(String name, String namespace) {
-        Object top = getDigester().pop();
-    }
+   /**
+    * Process the end of this element.
+    */
+   public void end(String name, String namespace) {
+      Object top = getDigester().pop();
+   }
 }

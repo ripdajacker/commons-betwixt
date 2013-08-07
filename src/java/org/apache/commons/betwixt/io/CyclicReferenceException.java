@@ -13,44 +13,44 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
 
 /**
-  * <p>Thrown when bean evaluation finds a cycle reference.</p>
-  *
-  * <p>There are two possible behaviours that <code>Betwixt</code> adopts when 
-  * a cycle in the object graph is encountered.
-  *
-  * <p>If <code>ID</code> attributes are being generated, 
-  * then the recursion will stop and the <code>IDREF</code> attribute will be
-  * written. 
-  * In this case, <em>no exception will be thrown</em>.</p>
-  *
-  * <p>If <code>ID</code> are <strong>not</strong> being generated, 
-  * then this exception will be thrown.</p>
-  *
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision$
-  */
+ * <p>Thrown when bean evaluation finds a cycle reference.</p>
+ *
+ * <p>There are two possible behaviours that <code>Betwixt</code> adopts when
+ * a cycle in the object graph is encountered.
+ *
+ * <p>If <code>ID</code> attributes are being generated,
+ * then the recursion will stop and the <code>IDREF</code> attribute will be
+ * written.
+ * In this case, <em>no exception will be thrown</em>.</p>
+ *
+ * <p>If <code>ID</code> are <strong>not</strong> being generated,
+ * then this exception will be thrown.</p>
+ *
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ * @version $Revision$
+ */
 public class CyclicReferenceException extends RuntimeException {
-    
-    /** Message used with empty constructor */
-    private static final String DEFAULT_MESSAGE 
-        = "Bean graph contains a cyclic reference";
-        
-    /** Construct exception with default message.
-      */
-    public CyclicReferenceException() {
-        super(DEFAULT_MESSAGE);
-    }
-    
-    /**  
-     * Construct exception with message
-     *
-     * @param message the detailed message string
-     */
-    public CyclicReferenceException(String message) {
-        super(message);
-    }
+
+   /** Message used with empty constructor */
+   private static final String DEFAULT_MESSAGE
+         = "Bean graph contains a cyclic reference";
+
+   /** Construct exception with default message.
+    */
+   public CyclicReferenceException() {
+      super(DEFAULT_MESSAGE);
+   }
+
+   /**
+    * Construct exception with message
+    *
+    * @param message the detailed message string
+    */
+   public CyclicReferenceException(String message) {
+      super(message);
+   }
 }

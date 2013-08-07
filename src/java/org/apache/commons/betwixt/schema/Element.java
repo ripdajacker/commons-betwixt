@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
@@ -23,5 +23,5 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public interface Element {
-    public String getName();
+   public String getName();
 }

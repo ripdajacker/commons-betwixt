@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.io;
 
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -37,14 +37,14 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * @since 0.5
  */
 public abstract class WriteContext {
-    
-    /**
-     * Gets the descriptor for the element who content 
-     * is currently being created. 
-     * 
-     * @return the <code>ElementDescriptor</code> for the 
-     * current element (or null if there is no current element) 
-     */
-    public abstract ElementDescriptor getCurrentDescriptor();
-    
+
+   /**
+    * Gets the descriptor for the element who content
+    * is currently being created.
+    *
+    * @return the <code>ElementDescriptor</code> for the
+    * current element (or null if there is no current element)
+    */
+   public abstract ElementDescriptor getCurrentDescriptor();
+
 }

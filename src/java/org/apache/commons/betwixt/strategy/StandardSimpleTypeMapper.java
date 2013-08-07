@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.strategy;
@@ -22,27 +22,26 @@ import org.apache.commons.betwixt.IntrospectionConfiguration;
 
 /**
  * Binds simple types as specified by {@link IntrospectionConfiguration#isAttributesForPrimitives()}.
- * 
+ *
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class StandardSimpleTypeMapper extends SimpleTypeMapper {
 
-    /**
-     * Implementation binds as per configuration 
-     */
-    public Binding bind(String propertyName, Class propertyType, IntrospectionConfiguration configuration) {
-        if ( configuration.isAttributesForPrimitives() ) {
-            
-             return StandardSimpleTypeMapper.Binding.ATTRIBUTE;
-        
-        } else {
-        
-             return StandardSimpleTypeMapper.Binding.ELEMENT;
-        
-        }
-    }
-    
-    
+   /**
+    * Implementation binds as per configuration
+    */
+   public Binding bind(String propertyName, Class propertyType, IntrospectionConfiguration configuration) {
+      if (configuration.isAttributesForPrimitives()) {
+
+         return StandardSimpleTypeMapper.Binding.ATTRIBUTE;
+
+      } else {
+
+         return StandardSimpleTypeMapper.Binding.ELEMENT;
+
+      }
+   }
+
 
 }

@@ -13,13 +13,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy.impl;
+
+import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
 
 /**
  * Strategy that allows specific classes to be marked as 
@@ -29,57 +29,57 @@ import org.apache.commons.betwixt.strategy.CollectiveTypeStrategy;
  */
 public class OverrideCollectiveTypeStategy extends CollectiveTypeStrategy {
 
-    private final CollectiveTypeStrategy delegate;
-    
-    private final Collection collectiveClasses;
-    private final Collection notCollectiveClasses;
-    
-    /**
-     * Constructs a strategy which delegates to CollectiveTypeStrategy#DEFAULT
-     *
-     */
-    public OverrideCollectiveTypeStategy() {
-        this(CollectiveTypeStrategy.DEFAULT);
-    }
-    
-    /**
-     * Constructs a strategy which delegates all those that it does not override.
-     * @param delegate
-     */
-    public OverrideCollectiveTypeStategy(CollectiveTypeStrategy delegate) {
-        super();
-        this.delegate = delegate;
-        collectiveClasses = new ArrayList();
-        notCollectiveClasses = new ArrayList();
-    }
+   private final CollectiveTypeStrategy delegate;
 
-    /**
-     * Marks the given type to be treated as collective.
-     * @param type <code>Class</code>, not null
-     */
-    public void overrideCollective(Class type) {
-        collectiveClasses.add(type);
-    }
+   private final Collection collectiveClasses;
+   private final Collection notCollectiveClasses;
 
-    /**
-     * Marks the given type to be treated as not collective
-     * @param type
-     */
-    public void overrideNotCollective(Class type) {
-        notCollectiveClasses.add(type);
-    }
-    
-    /**
-     * @see CollectiveTypeStrategy#isCollective(Class)
-     */
-    public boolean isCollective(Class type) {
-        boolean result = delegate.isCollective(type);
-        if (collectiveClasses.contains(type)) {
-            result = true;
-        } else if (notCollectiveClasses.contains(type)) {
-            result = false;
-        }
-        return result;
-    }
+   /**
+    * Constructs a strategy which delegates to CollectiveTypeStrategy#DEFAULT
+    *
+    */
+   public OverrideCollectiveTypeStategy() {
+      this(CollectiveTypeStrategy.DEFAULT);
+   }
+
+   /**
+    * Constructs a strategy which delegates all those that it does not override.
+    * @param delegate
+    */
+   public OverrideCollectiveTypeStategy(CollectiveTypeStrategy delegate) {
+      super();
+      this.delegate = delegate;
+      collectiveClasses = new ArrayList();
+      notCollectiveClasses = new ArrayList();
+   }
+
+   /**
+    * Marks the given type to be treated as collective.
+    * @param type <code>Class</code>, not null
+    */
+   public void overrideCollective(Class type) {
+      collectiveClasses.add(type);
+   }
+
+   /**
+    * Marks the given type to be treated as not collective
+    * @param type
+    */
+   public void overrideNotCollective(Class type) {
+      notCollectiveClasses.add(type);
+   }
+
+   /**
+    * @see CollectiveTypeStrategy#isCollective(Class)
+    */
+   public boolean isCollective(Class type) {
+      boolean result = delegate.isCollective(type);
+      if (collectiveClasses.contains(type)) {
+         result = true;
+      } else if (notCollectiveClasses.contains(type)) {
+         result = false;
+      }
+      return result;
+   }
 
 }

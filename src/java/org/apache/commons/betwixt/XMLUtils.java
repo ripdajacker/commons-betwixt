@@ -13,81 +13,82 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
- /**
-  * <p><code>XMLUtils</code> contains basic utility methods for XML.</p>
-  * 
-  * <p>The code for {@link #isWellFormedXMLName} is based on code in 
-  * <code>org.apache.xerces.util.XMLChar</code> 
-  * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
-  * The authors of this class are credited below.</p>
-  *
-  * @author Glenn Marcy, IBM
-  * @author Andy Clark, IBM
-  * @author Eric Ye, IBM
-  * @author Arnaud  Le Hors, IBM
-  * @author Rahul Srivastava, Sun Microsystems Inc.  
-  *
-  * @author Robert Burrell Donkin
-  * @since 0.5
-  */
+
+/**
+ * <p><code>XMLUtils</code> contains basic utility methods for XML.</p>
+ *
+ * <p>The code for {@link #isWellFormedXMLName} is based on code in
+ * <code>org.apache.xerces.util.XMLChar</code>
+ * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
+ * The authors of this class are credited below.</p>
+ *
+ * @author Glenn Marcy, IBM
+ * @author Andy Clark, IBM
+ * @author Eric Ye, IBM
+ * @author Arnaud  Le Hors, IBM
+ * @author Rahul Srivastava, Sun Microsystems Inc.
+ *
+ * @author Robert Burrell Donkin
+ * @since 0.5
+ */
 public class XMLUtils {
 
-    // Constants
-    //-------------------------------------------------------------------------   
+   // Constants
+   //-------------------------------------------------------------------------
 
-    /** Escaped <code>&lt;</code> entity */
-    public static final String LESS_THAN_ENTITY = "&lt;";
-    /** Escaped <code>&gt;</code> entity */
-    public static final String GREATER_THAN_ENTITY = "&gt;";
-    /** Escaped <code>&amp;</code> entity */
-    public static final String AMPERSAND_ENTITY = "&amp;";
-    /** Escaped <code>'</code> entity */
-    public static final String APOSTROPHE_ENTITY = "&apos;";
-    /** Escaped <code>"</code> entity */
-    public static final String QUOTE_ENTITY = "&quot;";
+   /** Escaped <code>&lt;</code> entity */
+   public static final String LESS_THAN_ENTITY = "&lt;";
+   /** Escaped <code>&gt;</code> entity */
+   public static final String GREATER_THAN_ENTITY = "&gt;";
+   /** Escaped <code>&amp;</code> entity */
+   public static final String AMPERSAND_ENTITY = "&amp;";
+   /** Escaped <code>'</code> entity */
+   public static final String APOSTROPHE_ENTITY = "&apos;";
+   /** Escaped <code>"</code> entity */
+   public static final String QUOTE_ENTITY = "&quot;";
 
-    // Used by isWellFormedXMLName
-    /** Name start character mask. */
-    private static final int MASK_NAME_START = 0x01;
-    /** Name character mask. */
-    private static final int MASK_NAME = 0x02;
-    
-    // Class attributes
-    //-------------------------------------------------------------------------   
-    
-    /** Character flags. */
-    private static final byte[] CHARS = new byte[1 << 16];
+   // Used by isWellFormedXMLName
+   /** Name start character mask. */
+   private static final int MASK_NAME_START = 0x01;
+   /** Name character mask. */
+   private static final int MASK_NAME = 0x02;
 
-    //
-    // Static initialization
-    //
+   // Class attributes
+   //-------------------------------------------------------------------------
 
-    static {
+   /** Character flags. */
+   private static final byte[] CHARS = new byte[1 << 16];
 
-        //
-        // [4] NameChar ::= Letter | Digit | '.' | '-' | '_' | ':' |
-        //                  CombiningChar | Extender
-        //
+   //
+   // Static initialization
+   //
 
-        int nameChar[] = { 
+   static {
+
+      //
+      // [4] NameChar ::= Letter | Digit | '.' | '-' | '_' | ':' |
+      //                  CombiningChar | Extender
+      //
+
+      int nameChar[] = {
             0x002D, 0x002E, // '-' and '.'
-        };
+      };
 
-        //
-        // [5] Name ::= (Letter | '_' | ':') (NameChar)*
-        //
+      //
+      // [5] Name ::= (Letter | '_' | ':') (NameChar)*
+      //
 
-        int nameStartChar[] = { 
+      int nameStartChar[] = {
             0x003A, 0x005F, // ':' and '_'
-        };
+      };
 
-        //
-        // [84] Letter ::= BaseChar | Ideographic
-        //
+      //
+      // [84] Letter ::= BaseChar | Ideographic
+      //
 
-        int letterRange[] = {
+      int letterRange[] = {
             // BaseChar
             0x0041, 0x005A, 0x0061, 0x007A, 0x00C0, 0x00D6, 0x00D8, 0x00F6,
             0x00F8, 0x0131, 0x0134, 0x013E, 0x0141, 0x0148, 0x014A, 0x017E,
@@ -129,8 +130,8 @@ public class XMLUtils {
             0xAC00, 0xD7A3,
             // Ideographic
             0x3021, 0x3029, 0x4E00, 0x9FA5,
-        };
-        int letterChar[] = {
+      };
+      int letterChar[] = {
             // BaseChar
             0x0386, 0x038C, 0x03DA, 0x03DC, 0x03DE, 0x03E0, 0x0559, 0x06D5,
             0x093D, 0x09B2, 0x0A5E, 0x0A8D, 0x0ABD, 0x0AE0, 0x0B3D, 0x0B9C,
@@ -141,13 +142,13 @@ public class XMLUtils {
             0x1F5D, 0x1FBE, 0x2126, 0x212E,
             // Ideographic
             0x3007,
-        };
+      };
 
-        //
-        // [87] CombiningChar ::= ...
-        //
+      //
+      // [87] CombiningChar ::= ...
+      //
 
-        int combiningCharRange[] = {
+      int combiningCharRange[] = {
             0x0300, 0x0345, 0x0360, 0x0361, 0x0483, 0x0486, 0x0591, 0x05A1,
             0x05A3, 0x05B9, 0x05BB, 0x05BD, 0x05C1, 0x05C2, 0x064B, 0x0652,
             0x06D6, 0x06DC, 0x06DD, 0x06DF, 0x06E0, 0x06E4, 0x06E7, 0x06E8,
@@ -165,271 +166,272 @@ public class XMLUtils {
             0x0EBB, 0x0EBC, 0x0EC8, 0x0ECD, 0x0F18, 0x0F19, 0x0F71, 0x0F84,
             0x0F86, 0x0F8B, 0x0F90, 0x0F95, 0x0F99, 0x0FAD, 0x0FB1, 0x0FB7,
             0x20D0, 0x20DC, 0x302A, 0x302F,
-        };
+      };
 
-        int combiningCharChar[] = {
+      int combiningCharChar[] = {
             0x05BF, 0x05C4, 0x0670, 0x093C, 0x094D, 0x09BC, 0x09BE, 0x09BF,
             0x09D7, 0x0A02, 0x0A3C, 0x0A3E, 0x0A3F, 0x0ABC, 0x0B3C, 0x0BD7,
             0x0D57, 0x0E31, 0x0EB1, 0x0F35, 0x0F37, 0x0F39, 0x0F3E, 0x0F3F,
             0x0F97, 0x0FB9, 0x20E1, 0x3099, 0x309A,
-        };
+      };
 
-        //
-        // [88] Digit ::= ...
-        //
+      //
+      // [88] Digit ::= ...
+      //
 
-        int digitRange[] = {
+      int digitRange[] = {
             0x0030, 0x0039, 0x0660, 0x0669, 0x06F0, 0x06F9, 0x0966, 0x096F,
             0x09E6, 0x09EF, 0x0A66, 0x0A6F, 0x0AE6, 0x0AEF, 0x0B66, 0x0B6F,
             0x0BE7, 0x0BEF, 0x0C66, 0x0C6F, 0x0CE6, 0x0CEF, 0x0D66, 0x0D6F,
             0x0E50, 0x0E59, 0x0ED0, 0x0ED9, 0x0F20, 0x0F29,
-        };
+      };
 
-        //
-        // [89] Extender ::= ...
-        //
+      //
+      // [89] Extender ::= ...
+      //
 
-        int extenderRange[] = {
+      int extenderRange[] = {
             0x3031, 0x3035, 0x309D, 0x309E, 0x30FC, 0x30FE,
-        };
+      };
 
-        int extenderChar[] = {
+      int extenderChar[] = {
             0x00B7, 0x02D0, 0x02D1, 0x0387, 0x0640, 0x0E46, 0x0EC6, 0x3005,
-        };
+      };
 
-        //
-        // Initialize
-        //
+      //
+      // Initialize
+      //
 
-        // set name start characters
-        for (int i = 0; i < nameStartChar.length; i++) {
-            CHARS[nameStartChar[i]] |= MASK_NAME_START | MASK_NAME;
-        }
-        for (int i = 0; i < letterRange.length; i += 2) {
-            for (int j = letterRange[i]; j <= letterRange[i + 1]; j++) {
-                CHARS[j] |= MASK_NAME_START | MASK_NAME;
-            }
-        }
-        for (int i = 0; i < letterChar.length; i++) {
-            CHARS[letterChar[i]] |= MASK_NAME_START | MASK_NAME;
-        }
+      // set name start characters
+      for (int i = 0; i < nameStartChar.length; i++) {
+         CHARS[nameStartChar[i]] |= MASK_NAME_START | MASK_NAME;
+      }
+      for (int i = 0; i < letterRange.length; i += 2) {
+         for (int j = letterRange[i]; j <= letterRange[i + 1]; j++) {
+            CHARS[j] |= MASK_NAME_START | MASK_NAME;
+         }
+      }
+      for (int i = 0; i < letterChar.length; i++) {
+         CHARS[letterChar[i]] |= MASK_NAME_START | MASK_NAME;
+      }
 
-        // set name characters
-        for (int i = 0; i < nameChar.length; i++) {
-            CHARS[nameChar[i]] |= MASK_NAME;
-        }
-        for (int i = 0; i < digitRange.length; i += 2) {
-            for (int j = digitRange[i]; j <= digitRange[i + 1]; j++) {
-                CHARS[j] |= MASK_NAME;
-            }
-        }
-        for (int i = 0; i < combiningCharRange.length; i += 2) {
-            for (int j = combiningCharRange[i]; j <= combiningCharRange[i + 1]; j++) {
-                CHARS[j] |= MASK_NAME;
-            }
-        }
-        for (int i = 0; i < combiningCharChar.length; i++) {
-            CHARS[combiningCharChar[i]] |= MASK_NAME;
-        }
-        for (int i = 0; i < extenderRange.length; i += 2) {
-            for (int j = extenderRange[i]; j <= extenderRange[i + 1]; j++) {
-                CHARS[j] |= MASK_NAME;
-            }
-        }
-        for (int i = 0; i < extenderChar.length; i++) {
-            CHARS[extenderChar[i]] |= MASK_NAME;
-        }
+      // set name characters
+      for (int i = 0; i < nameChar.length; i++) {
+         CHARS[nameChar[i]] |= MASK_NAME;
+      }
+      for (int i = 0; i < digitRange.length; i += 2) {
+         for (int j = digitRange[i]; j <= digitRange[i + 1]; j++) {
+            CHARS[j] |= MASK_NAME;
+         }
+      }
+      for (int i = 0; i < combiningCharRange.length; i += 2) {
+         for (int j = combiningCharRange[i]; j <= combiningCharRange[i + 1]; j++) {
+            CHARS[j] |= MASK_NAME;
+         }
+      }
+      for (int i = 0; i < combiningCharChar.length; i++) {
+         CHARS[combiningCharChar[i]] |= MASK_NAME;
+      }
+      for (int i = 0; i < extenderRange.length; i += 2) {
+         for (int j = extenderRange[i]; j <= extenderRange[i + 1]; j++) {
+            CHARS[j] |= MASK_NAME;
+         }
+      }
+      for (int i = 0; i < extenderChar.length; i++) {
+         CHARS[extenderChar[i]] |= MASK_NAME;
+      }
 
-    }
-        
-    // Constructor
-    //-------------------------------------------------------------------------   
+   }
 
-    /** 
-     * <p>Constructor for use by tools that required <code>JavaBean</code> instances.</p>
-     * 
-     * <p>This constructor is public <strong>only</strong> 
-     * to permit tools that require a JavaBean instance to operate.
-     * <code>XMLUtils</code> instances should <strong>not</strong> be constructed in standard 
-     * programming. Instead, the class methods should be called directly.</p>
-     */
-    public XMLUtils() {}
+   // Constructor
+   //-------------------------------------------------------------------------
 
-    // Class methods
-    //-------------------------------------------------------------------------  
-    
-    /** 
-     * <p>Escape the <code>toString</code> of the given object.
-     * For use as body text.</p>
-     *
-     * @param value escape <code>value.toString()</code>
-     * @return text with escaped delimiters 
-     */
-    public static final String escapeBodyValue(Object value) {
-        StringBuffer buffer = new StringBuffer(value.toString());
-        for (int i=0, size = buffer.length(); i <size; i++) {
-            switch (buffer.charAt(i)) {
-                case '<':
-                    buffer.replace(i, i+1, LESS_THAN_ENTITY);
-                    size += 3;
-                    i+=3;
-                    break;
-                 case '>':
-                    buffer.replace(i, i+1, GREATER_THAN_ENTITY);
-                    size += 3;
-                    i += 3;
-                    break;
-                 case '&':
-                    buffer.replace(i, i+1, AMPERSAND_ENTITY);
-                    size += 4;
-                    i += 4;
-                    break;        
-            }
-        }
-        return buffer.toString();
-    }
+   /**
+    * <p>Constructor for use by tools that required <code>JavaBean</code> instances.</p>
+    *
+    * <p>This constructor is public <strong>only</strong>
+    * to permit tools that require a JavaBean instance to operate.
+    * <code>XMLUtils</code> instances should <strong>not</strong> be constructed in standard
+    * programming. Instead, the class methods should be called directly.</p>
+    */
+   public XMLUtils() {
+   }
 
-    /** 
-     * <p>Escape the <code>toString</code> of the given object.
-     * For use in an attribute value.</p>
-     *
-     * @param value escape <code>value.toString()</code>
-     * @return text with characters restricted (for use in attributes) escaped
-     */
-    public static final String escapeAttributeValue(Object value) {
-        StringBuffer buffer = new StringBuffer(value.toString());
-        for (int i=0, size = buffer.length(); i <size; i++) {
-            switch (buffer.charAt(i)) {
-                case '<':
-                    buffer.replace(i, i+1, LESS_THAN_ENTITY);
-                    size += 3;
-                    i+=3;
-                    break;
-                 case '>':
-                    buffer.replace(i, i+1, GREATER_THAN_ENTITY);
-                    size += 3;
-                    i += 3;
-                    break;
-                 case '&':
-                    buffer.replace(i, i+1, AMPERSAND_ENTITY);
-                    size += 4;
-                    i += 4;
-                    break;
-                 case '\'':
-                    buffer.replace(i, i+1, APOSTROPHE_ENTITY);
-                    size += 5;
-                    i += 5;
-                    break;
-                 case '\"':
-                    buffer.replace(i, i+1, QUOTE_ENTITY);
-                    size += 5;
-                    i += 5;
-                    break;           
-            }
-        }
-        return buffer.toString();
-    }    
-    
-    
-    /**
-     * Escapes the given content suitable for insertion within a
-     * <code>CDATA</code> sequence.
-     * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
-     * string ']]>' is recognized as markup.
-     * @param content the body content whose character data should 
-     * be escaped in a way appropriate for use within a <code>CDATA</code>
-     * section of xml.
-     * @return escaped character data, not null
-     */
-    public static final String escapeCDATAContent(String content) {
-        StringBuffer buffer = new StringBuffer(content);
-        escapeCDATAContent(buffer);
-        return buffer.toString();
-    }
-     
-    /**
-     * Escapes the given content suitable for insertion within a
-     * <code>CDATA</code> sequence.
-     * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
-     * string ']]>' is recognized as markup.
-     * @param bufferedContent the body content within a buffer 
-     * whose character data should 
-     * be escaped in a way appropriate for use within a <code>CDATA</code>
-     * section of xml
-     */
-    public static final void escapeCDATAContent(StringBuffer bufferedContent) {
-        for (int i=2, size = bufferedContent.length(); i<size; i++) {
-            char at = bufferedContent.charAt(i);
-            if ( at == '>' 
-                && bufferedContent.charAt(i-1) == ']' 
-                && bufferedContent.charAt(i-2) == ']') {
-                    
-                    bufferedContent.replace(i, i+1, GREATER_THAN_ENTITY);
-                size += 3;
-                i+=3;
-            }
-        }
-    }    
- 
-    
-    /**
-     * <p>Is this string a well formed xml name?</p>
-     *
-     * <p>Only certain characters are allowed in well formed element and attribute
-     * names in xml. For example, white space is not allowed in a name.</p>
-     *
-     * <p>The code for this method is based on code in 
-     * <code>org.apache.xerces.util.XMLChar</code> 
-     * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
-     * The authors of this class are credited at the top of this class.</p>
-     *
-     * @param name the <code>String</code> to be checked for use as an xml attribute 
-     * or element name. Returns false if <code>name</code> is null
-     * @return true if this string would be a well-formed name
-     */
-    public static boolean isWellFormedXMLName( String name ) {
-        if ( name == null ) {
+   // Class methods
+   //-------------------------------------------------------------------------
+
+   /**
+    * <p>Escape the <code>toString</code> of the given object.
+    * For use as body text.</p>
+    *
+    * @param value escape <code>value.toString()</code>
+    * @return text with escaped delimiters
+    */
+   public static final String escapeBodyValue(Object value) {
+      StringBuffer buffer = new StringBuffer(value.toString());
+      for (int i = 0, size = buffer.length(); i < size; i++) {
+         switch (buffer.charAt(i)) {
+            case '<':
+               buffer.replace(i, i + 1, LESS_THAN_ENTITY);
+               size += 3;
+               i += 3;
+               break;
+            case '>':
+               buffer.replace(i, i + 1, GREATER_THAN_ENTITY);
+               size += 3;
+               i += 3;
+               break;
+            case '&':
+               buffer.replace(i, i + 1, AMPERSAND_ENTITY);
+               size += 4;
+               i += 4;
+               break;
+         }
+      }
+      return buffer.toString();
+   }
+
+   /**
+    * <p>Escape the <code>toString</code> of the given object.
+    * For use in an attribute value.</p>
+    *
+    * @param value escape <code>value.toString()</code>
+    * @return text with characters restricted (for use in attributes) escaped
+    */
+   public static final String escapeAttributeValue(Object value) {
+      StringBuffer buffer = new StringBuffer(value.toString());
+      for (int i = 0, size = buffer.length(); i < size; i++) {
+         switch (buffer.charAt(i)) {
+            case '<':
+               buffer.replace(i, i + 1, LESS_THAN_ENTITY);
+               size += 3;
+               i += 3;
+               break;
+            case '>':
+               buffer.replace(i, i + 1, GREATER_THAN_ENTITY);
+               size += 3;
+               i += 3;
+               break;
+            case '&':
+               buffer.replace(i, i + 1, AMPERSAND_ENTITY);
+               size += 4;
+               i += 4;
+               break;
+            case '\'':
+               buffer.replace(i, i + 1, APOSTROPHE_ENTITY);
+               size += 5;
+               i += 5;
+               break;
+            case '\"':
+               buffer.replace(i, i + 1, QUOTE_ENTITY);
+               size += 5;
+               i += 5;
+               break;
+         }
+      }
+      return buffer.toString();
+   }
+
+
+   /**
+    * Escapes the given content suitable for insertion within a
+    * <code>CDATA</code> sequence.
+    * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
+    * string ']]>' is recognized as markup.
+    * @param content the body content whose character data should
+    * be escaped in a way appropriate for use within a <code>CDATA</code>
+    * section of xml.
+    * @return escaped character data, not null
+    */
+   public static final String escapeCDATAContent(String content) {
+      StringBuffer buffer = new StringBuffer(content);
+      escapeCDATAContent(buffer);
+      return buffer.toString();
+   }
+
+   /**
+    * Escapes the given content suitable for insertion within a
+    * <code>CDATA</code> sequence.
+    * Within a <code>CDATA</code> section, only the <code>CDEnd</code>
+    * string ']]>' is recognized as markup.
+    * @param bufferedContent the body content within a buffer
+    * whose character data should
+    * be escaped in a way appropriate for use within a <code>CDATA</code>
+    * section of xml
+    */
+   public static final void escapeCDATAContent(StringBuffer bufferedContent) {
+      for (int i = 2, size = bufferedContent.length(); i < size; i++) {
+         char at = bufferedContent.charAt(i);
+         if (at == '>'
+               && bufferedContent.charAt(i - 1) == ']'
+               && bufferedContent.charAt(i - 2) == ']') {
+
+            bufferedContent.replace(i, i + 1, GREATER_THAN_ENTITY);
+            size += 3;
+            i += 3;
+         }
+      }
+   }
+
+
+   /**
+    * <p>Is this string a well formed xml name?</p>
+    *
+    * <p>Only certain characters are allowed in well formed element and attribute
+    * names in xml. For example, white space is not allowed in a name.</p>
+    *
+    * <p>The code for this method is based on code in
+    * <code>org.apache.xerces.util.XMLChar</code>
+    * in <a href='http://xerces.apache.org/xerces2-j/index.html'>Apache Xerces</a>.
+    * The authors of this class are credited at the top of this class.</p>
+    *
+    * @param name the <code>String</code> to be checked for use as an xml attribute
+    * or element name. Returns false if <code>name</code> is null
+    * @return true if this string would be a well-formed name
+    */
+   public static boolean isWellFormedXMLName(String name) {
+      if (name == null) {
+         return false;
+      }
+
+      if (name.length() == 0) {
+         return false;
+      }
+
+      char ch = name.charAt(0);
+      if (isNameStartChar(ch) == false) {
+         return false;
+
+      }
+
+      for (int i = 1; i < name.length(); i++) {
+         ch = name.charAt(i);
+         if (isNameChar(ch) == false) {
             return false;
-        }
-        
-        if ( name.length() == 0 ) {
-            return false;
-        }
-        
-        char ch = name.charAt(0);
-        if( isNameStartChar(ch) == false) {
-           return false;
-           
-        }
-        
-        for (int i = 1; i < name.length(); i++ ) {
-           ch = name.charAt(i);
-           if( isNameChar( ch ) == false ) {
-              return false;
-           }
-        }
-        return true;
-    }
+         }
+      }
+      return true;
+   }
 
-    /**
-     * Returns true if the specified character is a valid name
-     * character as defined by the XML 1.0 specification.
-     *
-     * @param c The character to check.
-     * @return true if this is an XML name character
-     */
-    public static boolean isNameChar(int c) {
-        return c < 0x10000 && (CHARS[c] & MASK_NAME) != 0;
-    }
-    
-    /**
-     * Returns true if the specified character is a valid name start
-     * character as defined in the XML 1.0 specification.
-     *
-     * @param c The character to check.
-     * @return trus if this is an XML name start character
-     */
-    public static boolean isNameStartChar(int c) {
-        return c < 0x10000 && (CHARS[c] & MASK_NAME_START) != 0;
-    }
+   /**
+    * Returns true if the specified character is a valid name
+    * character as defined by the XML 1.0 specification.
+    *
+    * @param c The character to check.
+    * @return true if this is an XML name character
+    */
+   public static boolean isNameChar(int c) {
+      return c < 0x10000 && (CHARS[c] & MASK_NAME) != 0;
+   }
+
+   /**
+    * Returns true if the specified character is a valid name start
+    * character as defined in the XML 1.0 specification.
+    *
+    * @param c The character to check.
+    * @return trus if this is an XML name start character
+    */
+   public static boolean isNameStartChar(int c) {
+      return c < 0x10000 && (CHARS[c] & MASK_NAME_START) != 0;
+   }
 }

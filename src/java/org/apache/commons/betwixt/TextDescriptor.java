@@ -13,27 +13,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 /** <p>Describes mixed-content text. 
-  * A mixed content element contains elements mixed with text.
-  * For example:
-  * <pre>
-  *    &lt;foo&gt;middle&lt;bar/&gt;&lt;/foo&gt;
-  * </pre>
-  * In the above example, a <code>TextDescriptor</code> could be used
-  * to allow the mixed content text <code>middle</code> to be mapped.</p>
-  *
-  * <p>This is really just a marker class - all functionality is inherited.</p>
-  *
-  * @author Robert Burrell Donkin
-  * @since 0.5
-  */
+ * A mixed content element contains elements mixed with text.
+ * For example:
+ * <pre>
+ *    &lt;foo&gt;middle&lt;bar/&gt;&lt;/foo&gt;
+ * </pre>
+ * In the above example, a <code>TextDescriptor</code> could be used
+ * to allow the mixed content text <code>middle</code> to be mapped.</p>
+ *
+ * <p>This is really just a marker class - all functionality is inherited.</p>
+ *
+ * @author Robert Burrell Donkin
+ * @since 0.5
+ */
 public class TextDescriptor extends Descriptor {
-    
-    /** Base constructor */
-    public TextDescriptor() {
-    }   
+
+   /** Base constructor */
+   public TextDescriptor() {
+   }
 
 }
