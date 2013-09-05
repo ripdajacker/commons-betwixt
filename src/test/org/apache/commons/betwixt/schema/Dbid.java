@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
@@ -24,35 +24,33 @@ import java.util.List;
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
  * @version $Id$
  */
-public class Dbid
-{
-    private ArrayList dbDataTypeCollection;
-    
-    public Dbid()
-    {
-        dbDataTypeCollection = new ArrayList();
-    }
-    
-    public void addDbDataType(DbDataType dbDataType) {
-        dbDataTypeCollection.add(dbDataType);
-    }
-    
-    public List getDbDataTypes() {
-        return dbDataTypeCollection;
-    }
-    
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        
-        if (object instanceof Dbid) {
-            Dbid dbid = (Dbid) object;
-            if (dbid.getDbDataTypes().equals(this.getDbDataTypes())) {
-                return true;
-            }
-        }
-        return false;
-    }
+public class Dbid {
+   private ArrayList dbDataTypeCollection;
+
+   public Dbid() {
+      dbDataTypeCollection = new ArrayList();
+   }
+
+   public void addDbDataType(DbDataType dbDataType) {
+      dbDataTypeCollection.add(dbDataType);
+   }
+
+   public List getDbDataTypes() {
+      return dbDataTypeCollection;
+   }
+
+   public boolean equals(Object object) {
+      if (object == null) {
+         return false;
+      }
+
+      if (object instanceof Dbid) {
+         Dbid dbid = (Dbid) object;
+         if (dbid.getDbDataTypes().equals(this.getDbDataTypes())) {
+            return true;
+         }
+      }
+      return false;
+   }
 }
 

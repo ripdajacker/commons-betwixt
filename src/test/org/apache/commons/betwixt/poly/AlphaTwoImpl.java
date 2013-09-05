@@ -13,34 +13,34 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- package org.apache.commons.betwixt.poly;
+ */
+package org.apache.commons.betwixt.poly;
 
 public class AlphaTwoImpl implements IAlpha {
 
-	public String alpha() {
-        return getTwo();
-	}
+   public String alpha() {
+      return getTwo();
+   }
 
-    private String two;
+   private String two;
 
-    public String getTwo() {
-        return two;
-    }
+   public String getTwo() {
+      return two;
+   }
 
-    public void setTwo(String two) {
-        this.two = two;
-    }
-    
-    
-    public AlphaTwoImpl(String two) {
-        super();
-        
-        setTwo(two);
-    }
-    
-    public AlphaTwoImpl() {
-        super();
-    }
-    
+   public void setTwo(String two) {
+      this.two = two;
+   }
+
+
+   public AlphaTwoImpl(String two) {
+      super();
+
+      setTwo(two);
+   }
+
+   public AlphaTwoImpl() {
+      super();
+   }
+
 }

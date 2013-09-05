@@ -22,57 +22,61 @@
 -->
 <rss version="0.91">
 
-  <channel>
+   <channel>
 
-    <title>MozillaZine</title>
-    <link>http://www.mozillazine.org</link>
-    <description>Your source for Mozilla news, advocacy,
-      interviews, builds, and more!</description>
-    <language>en-US</language>
-
-    <image>
       <title>MozillaZine</title>
-      <url>http://www.mozillazine.org/image/mynetscape88.gif</url>
       <link>http://www.mozillazine.org</link>
-      <width>88</width>
-      <height>31</height>
-      <description>Articles, discussions, builds, and more...</description>
-    </image>
+      <description>Your source for Mozilla news, advocacy,
+         interviews, builds, and more!
+      </description>
+      <language>en-US</language>
 
-    <item>
-      <title>Java2 in Navigator 5?</title>
-      <description>Will Java2 be an integrated part of Navigator 5?
-      Read more about it in this discussion...</description>
-    </item>
+      <image>
+         <title>MozillaZine</title>
+         <url>http://www.mozillazine.org/image/mynetscape88.gif</url>
+         <link>http://www.mozillazine.org</link>
+         <width>88</width>
+         <height>31</height>
+         <description>Articles, discussions, builds, and more...</description>
+      </image>
 
-    <item>
-      <title>Communicator 4.61 Out</title>
-      <link>http://www.mozillazine.org/talkback.html?article=606</link>
-      <description>The latest version of Communicator is now
-      available.  It includes security enhancements
-      and various bug fixes.</description>
-    </item>
+      <item>
+         <title>Java2 in Navigator 5?</title>
+         <description>Will Java2 be an integrated part of Navigator 5?
+            Read more about it in this discussion...
+         </description>
+      </item>
 
-    <item>
-      <title>Mozilla Dispenses with Old,
-      Proprietary DOM</title>
-      <link>http://www.mozillazine.org/talkback.html?article=604</link>
-    </item>
+      <item>
+         <title>Communicator 4.61 Out</title>
+         <link>http://www.mozillazine.org/talkback.html?article=606</link>
+         <description>The latest version of Communicator is now
+            available. It includes security enhancements
+            and various bug fixes.
+         </description>
+      </item>
 
-    <item>
-      <title>The Animation Contest is Now Closed</title>
-    </item>
+      <item>
+         <title>Mozilla Dispenses with Old,
+            Proprietary DOM
+         </title>
+         <link>http://www.mozillazine.org/talkback.html?article=604</link>
+      </item>
 
-    <textinput>
-      <title>Send</title>
-      <description>Comments about MozillaZine?</description>
-      <name>responseText</name>
-      <link>http://www.mozillazine.org/cgi-bin/sampleonly.cgi</link>
-    </textinput>
+      <item>
+         <title>The Animation Contest is Now Closed</title>
+      </item>
 
-    <skipDays>
-      <day>Tuesday</day>
-    </skipDays>
-  </channel>
+      <textinput>
+         <title>Send</title>
+         <description>Comments about MozillaZine?</description>
+         <name>responseText</name>
+         <link>http://www.mozillazine.org/cgi-bin/sampleonly.cgi</link>
+      </textinput>
+
+      <skipDays>
+         <day>Tuesday</day>
+      </skipDays>
+   </channel>
 
 </rss>

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
@@ -27,17 +27,17 @@ import java.util.List;
  */
 public class LibraryBean {
 
-    private static final BookBean[] EMPTY = {};
+   private static final BookBean[] EMPTY = {};
 
-    private BookBean[] books = EMPTY;
-    
-    public BookBean[] getBooks() {
-        return books;
-    }
-    
-    public void addBook(BookBean book) {
-        List bookList = new ArrayList(Arrays.asList(books));
-        bookList.add(book);
-        books = (BookBean[]) bookList.toArray(EMPTY);
-    }
+   private BookBean[] books = EMPTY;
+
+   public BookBean[] getBooks() {
+      return books;
+   }
+
+   public void addBook(BookBean book) {
+      List bookList = new ArrayList(Arrays.asList(books));
+      bookList.add(book);
+      books = (BookBean[]) bookList.toArray(EMPTY);
+   }
 }

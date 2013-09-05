@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -24,44 +24,45 @@ package org.apache.commons.betwixt.dotbetwixt;
  */
 public class PersonWithNamespace {
 
-    private String forename;
-    private String middlename;
-    private String lastname;
-    
-    public PersonWithNamespace () {}
-    
-    public PersonWithNamespace (String forename, String middlename, String lastname) {
-        setForename(forename);
-        setMiddlename(middlename);
-        setLastname(lastname);
-    }
-    
+   private String forename;
+   private String middlename;
+   private String lastname;
 
-    public String getForename() {
-        return forename;
-    }
+   public PersonWithNamespace() {
+   }
+
+   public PersonWithNamespace(String forename, String middlename, String lastname) {
+      setForename(forename);
+      setMiddlename(middlename);
+      setLastname(lastname);
+   }
 
 
-    public String getLastname() {
-        return lastname;
-    }
+   public String getForename() {
+      return forename;
+   }
 
 
-    public String getMiddlename() {
-        return middlename;
-    }
+   public String getLastname() {
+      return lastname;
+   }
 
 
-    public void setForename(String string) {
-        forename = string;
-    }
+   public String getMiddlename() {
+      return middlename;
+   }
 
-    public void setLastname(String string) {
-        lastname = string;
-    }
 
-    public void setMiddlename(String string) {
-        middlename = string;
-    }
+   public void setForename(String string) {
+      forename = string;
+   }
+
+   public void setLastname(String string) {
+      lastname = string;
+   }
+
+   public void setMiddlename(String string) {
+      middlename = string;
+   }
 
 }

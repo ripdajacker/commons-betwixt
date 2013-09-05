@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.betwixt.AbstractTestCase;
@@ -32,21 +32,21 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class TestBaseMappingStrategy extends AbstractTestCase {
 
-    public TestBaseMappingStrategy(String testName) {
-        super(testName);
-    }
+   public TestBaseMappingStrategy(String testName) {
+      super(testName);
+   }
 
-    public void testArrayMapping() throws Exception {
-        ReadContext context = new ReadContext(
-                    new BindingConfiguration(), 
-                    new ReadConfiguration()); 
-        
-        context.pushElement("LibraryBeanWithArraySetter");   
-        context.markClassMap(LibraryBeanWithArraySetter.class); 
-        context.pushElement("books");
-        
-        ActionMappingStrategy strategy = ActionMappingStrategy.DEFAULT;
-        MappingAction action = strategy.getMappingAction("", "books", new AttributesImpl(), context);
-        assertTrue("Should be mapped to an array bind action", action instanceof ArrayBindAction);
-    }
+   public void testArrayMapping() throws Exception {
+      ReadContext context = new ReadContext(
+            new BindingConfiguration(),
+            new ReadConfiguration());
+
+      context.pushElement("LibraryBeanWithArraySetter");
+      context.markClassMap(LibraryBeanWithArraySetter.class);
+      context.pushElement("books");
+
+      ActionMappingStrategy strategy = ActionMappingStrategy.DEFAULT;
+      MappingAction action = strategy.getMappingAction("", "books", new AttributesImpl(), context);
+      assertTrue("Should be mapped to an array bind action", action instanceof ArrayBindAction);
+   }
 }

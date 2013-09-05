@@ -13,11 +13,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
-
-import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
@@ -25,39 +23,41 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanWriter;
 
+import java.io.StringWriter;
+
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class TestMixedCollections extends AbstractTestCase {
 
-    public TestMixedCollections(String testName) {
-        super(testName);
-    }
+   public TestMixedCollections(String testName) {
+      super(testName);
+   }
 
-    public void testNoNameIntrospection() throws Exception {
-        
-        XMLIntrospector xmlIntrospector = new XMLIntrospector();
-        xmlIntrospector.getConfiguration().setWrapCollectionsInElement(false);
-        XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(MixedCollectionBean.class);
-        ElementDescriptor elementDescriptor = xmlBeanInfo.getElementDescriptor();
-        ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
-        assertEquals("One child", 1, childDescriptors.length);   
-        assertNull("Expected null name", childDescriptors[0].getLocalName());   
-    }
-    
-    public void testNoNameWrite() throws Exception {
-        MixedCollectionBean bean = new MixedCollectionBean();
-        bean.getGubbins().add(new String("Blake"));
-        bean.getGubbins().add(new Integer(7));
-        
-        StringWriter out = new StringWriter();
-        out.write("<?xml version='1.0'?>");
-        BeanWriter writer = new BeanWriter(out);
-        writer.getBindingConfiguration().setMapIDs(false);
-        writer.write(bean);
-        String expected = "<?xml version='1.0'?>" +
-        		"<stuff><String>Blake</String><Integer>7</Integer></stuff>";
-        
-        xmlAssertIsomorphic(parseString(expected), parseString(out));
-    }
+   public void testNoNameIntrospection() throws Exception {
+
+      XMLIntrospector xmlIntrospector = new XMLIntrospector();
+      xmlIntrospector.getConfiguration().setWrapCollectionsInElement(false);
+      XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(MixedCollectionBean.class);
+      ElementDescriptor elementDescriptor = xmlBeanInfo.getElementDescriptor();
+      ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
+      assertEquals("One child", 1, childDescriptors.length);
+      assertNull("Expected null name", childDescriptors[0].getLocalName());
+   }
+
+   public void testNoNameWrite() throws Exception {
+      MixedCollectionBean bean = new MixedCollectionBean();
+      bean.getGubbins().add(new String("Blake"));
+      bean.getGubbins().add(new Integer(7));
+
+      StringWriter out = new StringWriter();
+      out.write("<?xml version='1.0'?>");
+      BeanWriter writer = new BeanWriter(out);
+      writer.getBindingConfiguration().setMapIDs(false);
+      writer.write(bean);
+      String expected = "<?xml version='1.0'?>" +
+            "<stuff><String>Blake</String><Integer>7</Integer></stuff>";
+
+      xmlAssertIsomorphic(parseString(expected), parseString(out));
+   }
 }

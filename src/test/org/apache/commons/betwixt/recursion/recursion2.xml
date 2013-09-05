@@ -17,12 +17,12 @@
 -->
 <!-- $Id$ -->
 <ElementBean>
-    <element name="element1">
-        <element name="element11">
-          <element name="element111"/>
-          <element name="element112"/>
-        </element>
-        <element name="element12"/>
-    </element>
-    <element name="element2"/>
+   <element name="element1">
+      <element name="element11">
+         <element name="element111"/>
+         <element name="element112"/>
+      </element>
+      <element name="element12"/>
+   </element>
+   <element name="element2"/>
 </ElementBean>

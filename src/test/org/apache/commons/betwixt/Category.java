@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt;
 
@@ -22,43 +22,44 @@ package org.apache.commons.betwixt;
  * @version $Revision$
  */
 public class Category {
-    
-    private String name;
-    
-    public Category() {}
-    
-    public Category(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   private String name;
 
-    public int hashCode() {
-        return 0;
-    }
-    
-    public boolean equals(Object obj) {
-        boolean result = false;
-        
-        if (obj instanceof Category) {
-            Category category = (Category) obj;
-            result = isEqual(name, category.name);
-        }
-        
-        return result;
-    }
+   public Category() {
+   }
 
-    private boolean isEqual(String one, String two) {
-        if (one == null) {
-            return two == null;
-        }
-        
-        return one.equals(two);
-    }
+   public Category(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public int hashCode() {
+      return 0;
+   }
+
+   public boolean equals(Object obj) {
+      boolean result = false;
+
+      if (obj instanceof Category) {
+         Category category = (Category) obj;
+         result = isEqual(name, category.name);
+      }
+
+      return result;
+   }
+
+   private boolean isEqual(String one, String two) {
+      if (one == null) {
+         return two == null;
+      }
+
+      return one.equals(two);
+   }
 }

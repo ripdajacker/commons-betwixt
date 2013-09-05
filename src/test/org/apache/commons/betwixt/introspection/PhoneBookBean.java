@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.introspection;
@@ -27,29 +27,31 @@ import java.util.List;
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
-public class PhoneBookBean {   
-    private String name;
-    private List numbers = new ArrayList();
+public class PhoneBookBean {
+   private String name;
+   private List numbers = new ArrayList();
 
-    public PhoneBookBean() {}
-    public PhoneBookBean(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
+   public PhoneBookBean() {
+   }
 
-    public void setName(String string) {
-        name = string;
-    }
+   public PhoneBookBean(String name) {
+      setName(name);
+   }
 
-    public List getNumbers() {
-        return numbers;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void addNumber(PhoneNumberBean phoneNumber) {
-        numbers.add(phoneNumber);
-    }
+   public void setName(String string) {
+      name = string;
+   }
+
+   public List getNumbers() {
+      return numbers;
+   }
+
+   public void addNumber(PhoneNumberBean phoneNumber) {
+      numbers.add(phoneNumber);
+   }
 
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -25,50 +25,51 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public class SimpleBean {
-	private String one;
-	private String two;
-	private String three;
-	private String four;
-	
-	public SimpleBean() {}
+   private String one;
+   private String two;
+   private String three;
+   private String four;
 
-    public SimpleBean(String one, String two, String three, String four) {
-        setOne(one);
-        setTwo(two);
-        setThree(three);
-        setFour(four);
-    }
+   public SimpleBean() {
+   }
 
-    public String getOne() {
-        return one;
-    }
+   public SimpleBean(String one, String two, String three, String four) {
+      setOne(one);
+      setTwo(two);
+      setThree(three);
+      setFour(four);
+   }
 
-	public void setOne(String string) {
-		one = string;
-	}
-	
-	public String getTwo() {
-		return two;
-	}
-	
-	public void setTwo(String string) {
-		two = string;
-	}
-	
-    public String getThree() {
-        return three;
-    }
-    
-	public void setThree(String string) {
-		three = string;
-	}
-	
-	public String getFour() {
-		return four;
-	}
+   public String getOne() {
+      return one;
+   }
 
-    public void setFour(String string) {
-        four = string;
-    }
+   public void setOne(String string) {
+      one = string;
+   }
+
+   public String getTwo() {
+      return two;
+   }
+
+   public void setTwo(String string) {
+      two = string;
+   }
+
+   public String getThree() {
+      return three;
+   }
+
+   public void setThree(String string) {
+      three = string;
+   }
+
+   public String getFour() {
+      return four;
+   }
+
+   public void setFour(String string) {
+      four = string;
+   }
 
 }

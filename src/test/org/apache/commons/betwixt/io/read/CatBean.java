@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 /**
@@ -21,39 +21,41 @@ package org.apache.commons.betwixt.io.read;
  */
 public class CatBean extends Animal {
 
-    private String name;
-    private String colour;
-    
-    public CatBean() {}
-    
-    public CatBean(String name, String colour) {
-        super();
-        this.name = name;
-        this.colour = colour;
-    }
-    public String getCall() {
-        return "Meow";
-    }
+   private String name;
+   private String colour;
 
-    public String getLatinName() {
-        return "Felis catus";
-    }
-    
-    public String getColour() {
-        return colour;
-    }
+   public CatBean() {
+   }
 
+   public CatBean(String name, String colour) {
+      super();
+      this.name = name;
+      this.colour = colour;
+   }
 
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
+   public String getCall() {
+      return "Meow";
+   }
+
+   public String getLatinName() {
+      return "Felis catus";
+   }
+
+   public String getColour() {
+      return colour;
+   }
 
 
-    public String getName() {
-        return name;
-    }
+   public void setColour(String colour) {
+      this.colour = colour;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
 }

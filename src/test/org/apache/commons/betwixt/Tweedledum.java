@@ -13,36 +13,38 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 
 /** Simple bean that with a (brotherly) cycle class graph reference
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class Tweedledum {
 
-    private Tweedledee tweedledee;
-    
-    public Tweedledum () {}
-    public Tweedledum(Tweedledee tweedledee) {
-        setBrother(tweedledee);
-    }
+   private Tweedledee tweedledee;
 
-    public Tweedledee getBrother() {
-        return tweedledee;
-    }	
-    
-    public void setBrother(Tweedledee tweedledee) {
-        this.tweedledee = tweedledee;
-    }	
+   public Tweedledum() {
+   }
 
-    public String getName() {
-        return "Tweedledum";
-    }	
+   public Tweedledum(Tweedledee tweedledee) {
+      setBrother(tweedledee);
+   }
+
+   public Tweedledee getBrother() {
+      return tweedledee;
+   }
+
+   public void setBrother(Tweedledee tweedledee) {
+      this.tweedledee = tweedledee;
+   }
+
+   public String getName() {
+      return "Tweedledum";
+   }
 }
 
 

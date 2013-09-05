@@ -13,55 +13,56 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.dotbetwixt;
 
-/** 
-  * This is a simple bean used in testing id-attribute custom mapping.
-  *
-  * @author Robert Burrell Donkin
-  */
+/**
+ * This is a simple bean used in testing id-attribute custom mapping.
+ *
+ * @author Robert Burrell Donkin
+ */
 public class SimpleTestBean {
-    
-//-------------------------- Attributes
-    private String alpha;
-    private String beta;
-    private String gamma;
-    
+
+   //-------------------------- Attributes
+   private String alpha;
+   private String beta;
+   private String gamma;
+
 //-------------------------- Constructors
-    
-    public SimpleTestBean() {}
-    
-    public SimpleTestBean(String alpha, String beta, String gamma) {
-        setAlpha(alpha);
-        setBeta(beta);
-        setGamma(gamma);
-    }
-        
+
+   public SimpleTestBean() {
+   }
+
+   public SimpleTestBean(String alpha, String beta, String gamma) {
+      setAlpha(alpha);
+      setBeta(beta);
+      setGamma(gamma);
+   }
+
 //--------------------------- Properties
 
-    public String getAlpha() {
-        return alpha;
-    }
-    
-    public void setAlpha(String alpha) {
-        this.alpha = alpha;
-    }
-    
-    public String getBeta() {
-        return beta;
-    }
-    
-    public void setBeta(String beta) {
-        this.beta = beta;
-    }
-    
-    public String getGamma() {
-        return gamma;
-    }
-    
-    public void setGamma(String gamma) {
-        this.gamma = gamma;
-    }
+   public String getAlpha() {
+      return alpha;
+   }
+
+   public void setAlpha(String alpha) {
+      this.alpha = alpha;
+   }
+
+   public String getBeta() {
+      return beta;
+   }
+
+   public void setBeta(String beta) {
+      this.beta = beta;
+   }
+
+   public String getGamma() {
+      return gamma;
+   }
+
+   public void setGamma(String gamma) {
+      this.gamma = gamma;
+   }
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -27,25 +27,25 @@ import java.util.List;
  * @version $Revision$
  */
 public class LibraryBean {
-    
-    private String name;
-    private List books = new ArrayList();
 
-    public String getName() {
-        return name;
-    }
+   private String name;
+   private List books = new ArrayList();
+
+   public String getName() {
+      return name;
+   }
 
 
-    public void setName(String string) {
-        name = string;
-    }
+   public void setName(String string) {
+      name = string;
+   }
 
-    public Iterator getBooks() {
-        return books.iterator();
-    }
-    
-    public void addBook(Book book) {
-        books.add(book);
-    }
+   public Iterator getBooks() {
+      return books.iterator();
+   }
+
+   public void addBook(Book book) {
+      books.add(book);
+   }
 
 }

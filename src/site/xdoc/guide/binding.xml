@@ -18,69 +18,79 @@
 
 <document>
 
- <properties>
-  <title>Binding Bean To XML</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Binding Bean To XML</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
+   <body>
 
-<section name="Bean Naming Conventions">
+      <section name="Bean Naming Conventions">
 
-    <p>The Java Beans specification contains various naming conventions that should 
-    be used when writing beans that will allow the beans introspector to 
-    automatically guess the properties in a bean and their getters, their
-    setter methods etc. Betwixt will use these same naming conventions to deduce how to make the 
-    beans appear as XML. There are some other naming conventions that you can use to 
-    make your beans easier to output as XML or parse.
-    </p>
-    
-    <p>
-    One common requirement when mapping beans to xml is that the property and type names from the bean 
-    must be processed (in some way) before they are used in the xml. For example, a property 
-    called <code>WebApp</code> might need to be mapped to an element called <code>web-app</code>.
-    </p>
-    
-    <p>
-    Betwixt supports customization of these mappings through plug-in implementations of the 
-    <code>org.apache.commons.betwixt.strategy.NameMapper</code> interface. It is often useful to allow
-    different mappings for elements and attribute and so different implementations can be set for 
-    elements and attributes. The default NameMapper implementation simply returns the type name 
-    without modification.
-    </p>
-    
-    <p>
-    <strong>Note</strong> that the attribute and element names given in a .betwixt file (as usual)
-    override the name mapping settings on the <code>XMLIntrospector</code>.
-    </p>
+         <p>The Java Beans specification contains various naming conventions that should
+            be used when writing beans that will allow the beans introspector to
+            automatically guess the properties in a bean and their getters, their
+            setter methods etc. Betwixt will use these same naming conventions to deduce how to make the
+            beans appear as XML. There are some other naming conventions that you can use to
+            make your beans easier to output as XML or parse.
+         </p>
 
-<subsection name="Using A Custom Type Name To Element Name Mapping">
+         <p>
+            One common requirement when mapping beans to xml is that the property and type names from the bean
+            must be processed (in some way) before they are used in the xml. For example, a property
+            called
+            <code>WebApp</code>
+            might need to be mapped to an element called<code>web-app</code>.
+         </p>
 
-    <p>
-    Betwixt supports pluggable conversion of type names to element names. Setting the 
-    <code>ElementNameMapper</code> property on an <code>XMLIntrospector</code> determines
-    how names from the bean will be converted into element names.
-    </p>
+         <p>
+            Betwixt supports customization of these mappings through plug-in implementations of the
+            <code>org.apache.commons.betwixt.strategy.NameMapper</code>
+            interface. It is often useful to allow
+            different mappings for elements and attribute and so different implementations can be set for
+            elements and attributes. The default NameMapper implementation simply returns the type name
+            without modification.
+         </p>
 
-</subsection>
+         <p>
+            <strong>Note</strong>
+            that the attribute and element names given in a .betwixt file (as usual)
+            override the name mapping settings on the<code>XMLIntrospector</code>.
+         </p>
+
+         <subsection name="Using A Custom Type Name To Element Name Mapping">
+
+            <p>
+               Betwixt supports pluggable conversion of type names to element names. Setting the
+               <code>ElementNameMapper</code>
+               property on an
+               <code>XMLIntrospector</code>
+               determines
+               how names from the bean will be converted into element names.
+            </p>
+
+         </subsection>
 
 
-<subsection name="Using A Custom Property Name To Attribute Name Mapping">
+         <subsection name="Using A Custom Property Name To Attribute Name Mapping">
 
-    <p>
-    Betwixt supports pluggable conversion of type names to attribute names. Setting the 
-    <code>AttributeNameMapper</code> property on an <code>XMLIntrospector</code> determines
-    how names from the bean will be converted into attribute names.
-    </p>
+            <p>
+               Betwixt supports pluggable conversion of type names to attribute names. Setting the
+               <code>AttributeNameMapper</code>
+               property on an
+               <code>XMLIntrospector</code>
+               determines
+               how names from the bean will be converted into attribute names.
+            </p>
 
-</subsection>
+         </subsection>
 
-<subsection name="Custom Mapping Example">
+         <subsection name="Custom Mapping Example">
 
-    <p>
-    Here's a simple bean which will be mapped to xml:
-    
-<source><![CDATA[
+            <p>
+               Here's a simple bean which will be mapped to xml:
+
+               <source><![CDATA[
 public class TallTreeBean {
 
     private float heightOfTree;
@@ -99,12 +109,12 @@ public class TallTreeBean {
 }	
 ]]></source>
 
-    </p>
-    <p>
-    Next is an application that writes that bean to xml. Custom name mappers for elements
-    and attributes are set.
-    
-<source><![CDATA[
+            </p>
+            <p>
+               Next is an application that writes that bean to xml. Custom name mappers for elements
+               and attributes are set.
+
+               <source><![CDATA[
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.DecapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
@@ -131,32 +141,36 @@ public class NameMapperExampleApp {
     
 }
 ]]></source>
-    </p>
-    
-    <p>
-    The application should print out (to System.out) an xml fragment which looks like:
-    
-<source><![CDATA[
+            </p>
+
+            <p>
+               The application should print out (to System.out) an xml fragment which looks like:
+
+               <source><![CDATA[
 <tallTreeBean height-of-tree="15.1"/>
 ]]></source>
-    
-    </p>
-    <p>
-    As you can see, the first letter of the element name has been decapitalized and the 
-    capitals in the property separated by hyphens after being converted to lower case.
-    </p>
-</subsection>
-    <subsection name='Nested Classes'>
-        <p>
-When using a public nested class (whether static or not) the naming of the base type 
-passed into the <code>NameMapper</code> obeys the standard inner classes naming semantics
-(using $). Typically, the mappers that ship with <code>Betwixt</code> ignore this symbol
-during type name processing. It will therefore appear in the name of the element. 
-    </p>
-        <p>
-For example, running the following application:
-    </p>
-<source><![CDATA[
+
+            </p>
+            <p>
+               As you can see, the first letter of the element name has been decapitalized and the
+               capitals in the property separated by hyphens after being converted to lower case.
+            </p>
+         </subsection>
+         <subsection name='Nested Classes'>
+            <p>
+               When using a public nested class (whether static or not) the naming of the base type
+               passed into the
+               <code>NameMapper</code>
+               obeys the standard inner classes naming semantics
+               (using $). Typically, the mappers that ship with
+               <code>Betwixt</code>
+               ignore this symbol
+               during type name processing. It will therefore appear in the name of the element.
+            </p>
+            <p>
+               For example, running the following application:
+            </p>
+            <source><![CDATA[
 public class InnerClassWriter {
     public class TallTreeBean {
 
@@ -196,89 +210,108 @@ public class InnerClassWriter {
     }
 }
 ]]></source>
-        <p>
-results in:    
-    </p>
-<source><![CDATA[
+            <p>
+               results in:
+            </p>
+            <source><![CDATA[
     <innerClassWriter$TallTreeBean height-of-tree="15.1"/>
 ]]></source>
-        <p>
-It is recommended that those that make extensive use of inner classes create
-a custom <code>NameMapper</code> implementation that processes inner class names
-appropriately.
-    </p>
-        <p>
-<strong>Note:</strong> that since <code>Betwixt</code> uses reflection during 
-introspection, the usual rules concerning class scoping and visibility apply.
-    </p>
-        <p>
-For example, if the scope of the nested class in the example above is changed 
-from public to protected, friendly or private then the following result will be 
-produced:
-    </p>
-<source><![CDATA[
+            <p>
+               It is recommended that those that make extensive use of inner classes create
+               a custom
+               <code>NameMapper</code>
+               implementation that processes inner class names
+               appropriately.
+            </p>
+            <p>
+               <strong>Note:</strong>
+               that since
+               <code>Betwixt</code>
+               uses reflection during
+               introspection, the usual rules concerning class scoping and visibility apply.
+            </p>
+            <p>
+               For example, if the scope of the nested class in the example above is changed
+               from public to protected, friendly or private then the following result will be
+               produced:
+            </p>
+            <source><![CDATA[
     <innerClassWriter$TallTreeBean/>
 ]]></source>
-</subsection>    
-</section>
+         </subsection>
+      </section>
 
-<section name="Using Adder Methods For Composite Properties">
+      <section name="Using Adder Methods For Composite Properties">
 
-    <p>
-    This naming convention is used to indicate the singular type of some composite property.
-    </p>
-    
-    <p>
-    To use: create an add method to match the getter method for 'composite 
-    properties'.
-    </p>
+         <p>
+            This naming convention is used to indicate the singular type of some composite property.
+         </p>
 
-<source><![CDATA[public class SomeBean {
+         <p>
+            To use: create an add method to match the getter method for 'composite
+            properties'.
+         </p>
+
+         <source><![CDATA[public class SomeBean {
     public <CollectionType> getFoo*();
     public void addFoo(<SingularType> foo);
 }]]></source>
 
-    <p>
-    Where CollectionType can be an array, a Collection, Enumeration, Iterator, 
-    Map. The [SinglularType] refers to the type of an item in the collection. The 
-    name of the getter property starts with 'Foo'. So 'Foo' is the singular name, 
-    the plural collection name could be Foos, FooArray, FooList, FooIterator or some 
-    other encoding, though the plural name should start with the singular name for 
-    auto-detection to work properly.
-    </p>
+         <p>
+            Where CollectionType can be an array, a Collection, Enumeration, Iterator,
+            Map. The [SinglularType] refers to the type of an item in the collection. The
+            name of the getter property starts with 'Foo'. So 'Foo' is the singular name,
+            the plural collection name could be Foos, FooArray, FooList, FooIterator or some
+            other encoding, though the plural name should start with the singular name for
+            auto-detection to work properly.
+         </p>
 
-<subsection name="Using A Custom Plural Stemmer">
-    <p>
-    Betwixt allows this auto-detection of plurals from singulars to be customized.
-    Implementations of <code>org.apache.commons.betwixt.PluralStemmer</code> allow different
-    strategies for this mapping to be plugged into <code>XMLIntrospector</code>.
-    The strategy used by <code>XMLIntrospector</code> to match singular properties and plural methods
-    is determined by the <code>PluralStemmer</code> property value.
-    </p>
+         <subsection name="Using A Custom Plural Stemmer">
+            <p>
+               Betwixt allows this auto-detection of plurals from singulars to be customized.
+               Implementations of
+               <code>org.apache.commons.betwixt.PluralStemmer</code>
+               allow different
+               strategies for this mapping to be plugged into<code>XMLIntrospector</code>.
+               The strategy used by
+               <code>XMLIntrospector</code>
+               to match singular properties and plural methods
+               is determined by the
+               <code>PluralStemmer</code>
+               property value.
+            </p>
 
-    <p>
-    One important usage of custom plural stemmers is to support classes with non-english method names.
-    A custom <code>PluralStemmer</code> implementation can be created containing the plural rules for
-    the language. Betwixt will then be able to recognize matching plural and singular methods.
-    </p>
+            <p>
+               One important usage of custom plural stemmers is to support classes with non-english method names.
+               A custom
+               <code>PluralStemmer</code>
+               implementation can be created containing the plural rules for
+               the language. Betwixt will then be able to recognize matching plural and singular methods.
+            </p>
 
-    <p>
-    The default implementation supports common english plural patterns and then falls back to finding
-    any property that starts with the singular name. For example, it will match a plural property called
-    <code>FooBars</code> for a singular property called <code>FooBar</code>. 
-    </p>
-</subsection>
+            <p>
+               The default implementation supports common english plural patterns and then falls back to finding
+               any property that starts with the singular name. For example, it will match a plural property called
+               <code>FooBars</code>
+               for a singular property called<code>FooBar</code>.
+            </p>
+         </subsection>
 
-<subsection name="Reading And Writing Map Properties">
-    <p>
-Maps are a special kind of composite property. Each entry in a map has a key and a value. 
-Betwixt handles maps by adding extra elements which wrap each entry. Each entry is wrapped in
-a <code>&lt;entry&gt;</code> element. That element contains the key wrapped in a <code>&lt;key&gt;</code>
-element and the entry value wrapped in a <code>&lt;value&gt;</code> element.
-        </p>
-    <p>
-The structure is something like:
-<source><![CDATA[
+         <subsection name="Reading And Writing Map Properties">
+            <p>
+               Maps are a special kind of composite property. Each entry in a map has a key and a value.
+               Betwixt handles maps by adding extra elements which wrap each entry. Each entry is wrapped in
+               a
+               <code>&lt;entry&gt;</code>
+               element. That element contains the key wrapped in a
+               <code>&lt;key&gt;</code>
+               element and the entry value wrapped in a
+               <code>&lt;value&gt;</code>
+               element.
+            </p>
+            <p>
+               The structure is something like:
+               <source><![CDATA[
     ...
     <entry>
         <key>...</key>
@@ -290,96 +323,128 @@ The structure is something like:
     <entry>
     ...
 ]]></source>
-The key and the value content are standard betwixt mappings of the objects.
-        </p>
-    <p>
-Reading map properties is an extension of the ways that Betwixt handles collections. Rather than 
-searching for an <code>add*</code> method that takes a single parameter, now Betwixt looks 
-(in a similar fashion) for such a method that takes two parameters.
-        </p> 
-</subsection>
+               The key and the value content are standard betwixt mappings of the objects.
+            </p>
+            <p>
+               Reading map properties is an extension of the ways that Betwixt handles collections. Rather than
+               searching for an
+               <code>add*</code>
+               method that takes a single parameter, now Betwixt looks
+               (in a similar fashion) for such a method that takes two parameters.
+            </p>
+         </subsection>
 
-</section>
+      </section>
 
-<section name="Customized Mapping (Advanced)">
+      <section name="Customized Mapping (Advanced)">
 
-<subsection name="Caching and the XMLRegistry">
-    
-    <p>
-    Introspection is slow and so caching the results improves performance. Though the writers 
-    and readers can - by nature - only be used safely in a single thread, a single 
-    <code>XMLIntrospector</code> instance can be safely shared amongst multiple threads. Sharing a
-    single instance will improve performance by sharing it's <code>XMLBeanInfo</code> cache.
-    </p>
-    
-    <p>
-    The <code>XMLBeanInfoRegistry</code> interface allows finely grained, pluggable control over 
-    the caching strategy used by a <code>XMLIntrospector</code>. The implementation used can be set
-    by passing an instance to <code>XMLIntrospector.setRegistry</code>.
-    </p>
-    
-    <p>
-    Before using the standard introspection techniques to create a new <code>XMLBeanInfo</code> instance
-    for a bean, the current <code>XMLBeanInfoRegistry</code> is first checked. Only if the registry 
-    does not return an <code>XMLBeanInfo</code> will a new one be created. Once a new instance has been
-    created by introspection, the <code>XMLBeanInfoRegistry</code> implementation will be called so that
-    the <code>XMLBeanInfo</code> can (if required) be cached.
-    </p>
-    
-    <p>
-    The default strategy caches everything and supports flushes. Betwixt contains an alternative 
-    implementation that does not cache anything. Users that require more sophisticated caching 
-    strategies should create custom implementations.
-    </p>
-    
-    <p>
-    The <code>XMLBeanInfoRegistry</code> can also be used to override the standard introspection mechanism
-    on a per class basis. The safest way to do this is to create a custom <code>XMLBeanInfoRegistry</code> 
-    implementation that pre-loads <code>XMLBeanInfo</code>'s for the required classes. If flush is called, 
-    the cache should be reset that it contains only those that it contained at the start. 
-    </p>
+         <subsection name="Caching and the XMLRegistry">
 
-</subsection>
+            <p>
+               Introspection is slow and so caching the results improves performance. Though the writers
+               and readers can - by nature - only be used safely in a single thread, a single
+               <code>XMLIntrospector</code>
+               instance can be safely shared amongst multiple threads. Sharing a
+               single instance will improve performance by sharing it's
+               <code>XMLBeanInfo</code>
+               cache.
+            </p>
 
-<subsection name="Other XMLIntrospector Settings">
-    
-    <p>
-    Here are discussed the important settings that haven't been covered already. 
-    </p>
-    
-    <p>
-    The <strong><code>AttributesForPrimitives</code></strong> property determines whether a primitive
-    type (including strings) should be - by default - mapped to elements or attributes. For example, a
-    property called <code>Age</code> of a bean called <code>PersonBean</code> would be mapped to something
-    like:
-    
-<source><![CDATA[
+            <p>
+               The
+               <code>XMLBeanInfoRegistry</code>
+               interface allows finely grained, pluggable control over
+               the caching strategy used by a<code>XMLIntrospector</code>. The implementation used can be set
+               by passing an instance to<code>XMLIntrospector.setRegistry</code>.
+            </p>
+
+            <p>
+               Before using the standard introspection techniques to create a new
+               <code>XMLBeanInfo</code>
+               instance
+               for a bean, the current
+               <code>XMLBeanInfoRegistry</code>
+               is first checked. Only if the registry
+               does not return an
+               <code>XMLBeanInfo</code>
+               will a new one be created. Once a new instance has been
+               created by introspection, the
+               <code>XMLBeanInfoRegistry</code>
+               implementation will be called so that
+               the
+               <code>XMLBeanInfo</code>
+               can (if required) be cached.
+            </p>
+
+            <p>
+               The default strategy caches everything and supports flushes. Betwixt contains an alternative
+               implementation that does not cache anything. Users that require more sophisticated caching
+               strategies should create custom implementations.
+            </p>
+
+            <p>
+               The
+               <code>XMLBeanInfoRegistry</code>
+               can also be used to override the standard introspection mechanism
+               on a per class basis. The safest way to do this is to create a custom
+               <code>XMLBeanInfoRegistry</code>
+               implementation that pre-loads<code>XMLBeanInfo</code>'s for the required classes. If flush is called,
+               the cache should be reset that it contains only those that it contained at the start.
+            </p>
+
+         </subsection>
+
+         <subsection name="Other XMLIntrospector Settings">
+
+            <p>
+               Here are discussed the important settings that haven't been covered already.
+            </p>
+
+            <p>
+               The
+               <strong>
+                  <code>AttributesForPrimitives</code>
+               </strong>
+               property determines whether a primitive
+               type (including strings) should be - by default - mapped to elements or attributes. For example, a
+               property called
+               <code>Age</code>
+               of a bean called
+               <code>PersonBean</code>
+               would be mapped to something
+               like:
+
+               <source><![CDATA[
         <PersonBean>
             <age>21</age>
             ...
 ]]></source>
-    
-    when <code>isAttributesForPrimitives</code> is false but to 
-    
-<source><![CDATA[
+
+               when
+               <code>isAttributesForPrimitives</code>
+               is false but to
+
+               <source><![CDATA[
         <PersonBean age='21'>
             ...
 ]]></source>
-    
-    when it is true.
-    </p>
-    
-    <p>
-More finely grained control over which primitive properties are mapped to elements and which
-to attributes can be supplied by creating a custom <code>SimpleTypeMapper</code> strategy
-and plugging that into the introspection configuration. 
-    </p>
-    
-    <p>
-Here is an example implementation (which maps strings to elements 
-and everything else to attributes):
-    </p>
-<source><![CDATA[    
+
+               when it is true.
+            </p>
+
+            <p>
+               More finely grained control over which primitive properties are mapped to elements and which
+               to attributes can be supplied by creating a custom
+               <code>SimpleTypeMapper</code>
+               strategy
+               and plugging that into the introspection configuration.
+            </p>
+
+            <p>
+               Here is an example implementation (which maps strings to elements
+               and everything else to attributes):
+            </p>
+            <source><![CDATA[
     /** Implementation binds strings to elements but everything else to attributes */
     public class StringsAsElementsSimpleTypeMapper extends SimpleTypeMapper {
         /**
@@ -395,51 +460,81 @@ and everything else to attributes):
             return SimpleTypeMapper.Binding.ATTRIBUTE;
         }
     }
-]]></source>    
-    <p>
-This class can be used to configure <code>Betwixt</code> so that strings are bounds to
-elements but other primitives are bound to attributes as follows:
-    </p>
-<source><![CDATA[     
+]]></source>
+            <p>
+               This class can be used to configure
+               <code>Betwixt</code>
+               so that strings are bounds to
+               elements but other primitives are bound to attributes as follows:
+            </p>
+            <source><![CDATA[
         XMLIntrospector introspector = new XMLIntrospector();
         introspector.getConfiguration().setSimpleTypeMapper(
             new StringsAsElementsSimpleTypeMapper());
         ...
-]]></source> 
-    <p>
-    The <strong><code>WrapCollectionsInElement</code></strong> property determines whether the elements 
-    for a composite property (i.e. one that returns a collection or iterator) should be wrapped in a parent
-    element. For example, if <code>isWrapCollectionsInElement</code> is true then a property with signature 
-    <code>List getChildren()</code> would wrap a <code>&lt;children&gt;</code> element around the elements
-    representing the contents of the list.
-    </p>
-</subsection>
+]]></source>
+            <p>
+               The
+               <strong>
+                  <code>WrapCollectionsInElement</code>
+               </strong>
+               property determines whether the elements
+               for a composite property (i.e. one that returns a collection or iterator) should be wrapped in a parent
+               element. For example, if
+               <code>isWrapCollectionsInElement</code>
+               is true then a property with signature
+               <code>List getChildren()</code>
+               would wrap a
+               <code>&lt;children&gt;</code>
+               element around the elements
+               representing the contents of the list.
+            </p>
+         </subsection>
 
-<subsection name="Using .betwixt files To Read And Write Mixed Content">
-    <p>
-    An element with mixed content contains child elements and text. 
-    For example, element <code>foo</code> has mixed content in the following:
-<source>
-<![CDATA[<foo>
+         <subsection name="Using .betwixt files To Read And Write Mixed Content">
+            <p>
+               An element with mixed content contains child elements and text.
+               For example, element
+               <code>foo</code>
+               has mixed content in the following:
+               <source>
+                  <![CDATA[<foo>
         Some text
         <bar/>
     </foo>]]>
-</source>
-    Betwixt supports writing mixed content through <code>text</code> elements in the 
-    .betwixt file. 
-    </p>
-    
-    <p>
-    A <code>text</code> element can be mapped to a property in which case it must have
-    a <code>property</code> attribute and may (optionally) have a <code>type</code> attribute.
-    Otherwise, the <code>text</code> element is mapped to a static value, in which case it
-    must have a <code>value</code> attribute. If a <code>text</code> element has both 
-    <code>value</code> and <code>property</code> attributes then an exception will be thrown.
-    </p>
-    
-    <p>
-    For example, a simple bean with the .betwixt file 
-<source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+               </source>
+               Betwixt supports writing mixed content through
+               <code>text</code>
+               elements in the
+               .betwixt file.
+            </p>
+
+            <p>
+               A
+               <code>text</code>
+               element can be mapped to a property in which case it must have
+               a
+               <code>property</code>
+               attribute and may (optionally) have a
+               <code>type</code>
+               attribute.
+               Otherwise, the
+               <code>text</code>
+               element is mapped to a static value, in which case it
+               must have a
+               <code>value</code>
+               attribute. If a
+               <code>text</code>
+               element has both
+               <code>value</code>
+               and
+               <code>property</code>
+               attributes then an exception will be thrown.
+            </p>
+
+            <p>
+               For example, a simple bean with the .betwixt file
+               <source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
 <info primitiveTypes="attribute">
     <element name='foo'>
         <attribute name='version' value='1.0'/>
@@ -451,74 +546,97 @@ elements but other primitives are bound to attributes as follows:
         </element>
     </element>
 </info>]]>
-</source>
-    and with property values alpha='One', beta='Two' and gamma='Three' will write an output like:
-<source>
-<![CDATA[<foo version="1.0">
+               </source>
+               and with property values alpha='One', beta='Two' and gamma='Three' will write an output like:
+               <source>
+                  <![CDATA[<foo version="1.0">
     <bar version="One">static text<baa>Two</baa>Three</bar>
 </foo>
 ]]></source>
-    </p>
-        <p>
-Betwixt supports reading back mixed content in one special situation which happily is also a common 
-use case. Betwixt will call a single property with all the mixed content text. So, only one mixed content
-property is specified then the bean can be written and then read back.
-    </p>
-</subsection>
-        <subsection name='Introspection And Normalization'>
+            </p>
             <p>
-When an Object is introspected by the <code>XMLIntrospector</code>, the class is examined and 
-an <code>XMLBeanInfo</code> created based upon it. But there are occasions when some variation 
-is needed - for example when reading or writing Entity Beans or Proxy implementations.
-        </p>
-            <p> 
-Betwixt provides the <code>ClassNormalizer</code> strategy class as a way to allow users to customise
-the process by which Betwixt works out which Class should be introspected for a given Object. 
-The default implementation simply supplies the Class of the Object.
-But by setting the <code>classNormalizer</code> property of <code>XMLIntrospector</code>, 
-a custom implementation can be used instead.
-        </p>
+               Betwixt supports reading back mixed content in one special situation which happily is also a common
+               use case. Betwixt will call a single property with all the mixed content text. So, only one mixed content
+               property is specified then the bean can be written and then read back.
+            </p>
+         </subsection>
+         <subsection name='Introspection And Normalization'>
             <p>
-Betwixt supplies a second implementation called <code>ListedClassNormalizer</code>.
-This contains a list of classes to match together with the Class which should be returned 
-when the Class is matched. 
-        </p>
+               When an Object is introspected by the<code>XMLIntrospector</code>, the class is examined and
+               an
+               <code>XMLBeanInfo</code>
+               created based upon it. But there are occasions when some variation
+               is needed - for example when reading or writing Entity Beans or Proxy implementations.
+            </p>
             <p>
-For example, take a class <code>FaceImpl</code> that implements an interface <code>IFace</code>.
-Betwixt will introspect every instance of <code>FaceImpl</code> as if it just implemented
-<code>IFace</code> by use of the following code:             
-        </p>
-<code><pre>
-        XMLIntrospector introspector = ...;
-        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
-        classNormalizer.addSubstitution( IFace.class );
-        introspector.setClassNormalizer( classNormalizer );
-</pre></code>
-    </subsection>
-        <subsection name='Ignoring Properties'>
+               Betwixt provides the
+               <code>ClassNormalizer</code>
+               strategy class as a way to allow users to customise
+               the process by which Betwixt works out which Class should be introspected for a given Object.
+               The default implementation simply supplies the Class of the Object.
+               But by setting the
+               <code>classNormalizer</code>
+               property of<code>XMLIntrospector</code>,
+               a custom implementation can be used instead.
+            </p>
             <p>
-As well as the finely grained tuning available when using dot betwixt files, 
-it is sometimes very useful to be able to ignore all properties with a certain name
-or a certain type. For example, the default Betwixt configuration ignores all properties
-called 'class'. The <code>PropertySuppressionStrategy</code> pluggable strategy can
-be set on the <code>IntrospectionConfiguration</code> and allows course grained rules
-concerning which properties are to be ignored to be set.</p>
+               Betwixt supplies a second implementation called<code>ListedClassNormalizer</code>.
+               This contains a list of classes to match together with the Class which should be returned
+               when the Class is matched.
+            </p>
             <p>
-The following example shows a <code>PropertySuppressionStrategy</code> that shows all
-properties, including the class property:
-<source><![CDATA[
+               For example, take a class
+               <code>FaceImpl</code>
+               that implements an interface<code>IFace</code>.
+               Betwixt will introspect every instance of
+               <code>FaceImpl</code>
+               as if it just implemented
+               <code>IFace</code>
+               by use of the following code:
+            </p>
+            <code>
+               <pre>
+                  XMLIntrospector introspector = ...;
+                  ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+                  classNormalizer.addSubstitution( IFace.class );
+                  introspector.setClassNormalizer( classNormalizer );
+               </pre>
+            </code>
+         </subsection>
+         <subsection name='Ignoring Properties'>
+            <p>
+               As well as the finely grained tuning available when using dot betwixt files,
+               it is sometimes very useful to be able to ignore all properties with a certain name
+               or a certain type. For example, the default Betwixt configuration ignores all properties
+               called 'class'. The
+               <code>PropertySuppressionStrategy</code>
+               pluggable strategy can
+               be set on the
+               <code>IntrospectionConfiguration</code>
+               and allows course grained rules
+               concerning which properties are to be ignored to be set.
+            </p>
+            <p>
+               The following example shows a
+               <code>PropertySuppressionStrategy</code>
+               that shows all
+               properties, including the class property:
+               <source><![CDATA[
 beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
         new PropertySuppressionStrategy() {
              public boolean suppressProperty(Class clazz, Class type, String name) {
                  return false;
              }
         });
-]]></source></p>
+]]></source>
+            </p>
             <p>
-Here is another example making the choice dependent on what class contains the 
-property. This one shows the class property only for classes like 
-<code>Throwable</code>, <code>Exception</code>, <code>Error</code> and so on: 
-<source><![CDATA[
+               Here is another example making the choice dependent on what class contains the
+               property. This one shows the class property only for classes like
+               <code>Throwable</code>,<code>Exception</code>,
+               <code>Error</code>
+               and so on:
+               <source><![CDATA[
 beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
         new PropertySuppressionStrategy() {
              public boolean suppressProperty(Class classContainingTheProperty,
@@ -534,23 +652,28 @@ beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrateg
                  return false;
              }
          });
-]]></source></p>
-    </subsection>
-    <subsection name='Mixed Collections - Guessing Element Names'>
+]]></source>
+            </p>
+         </subsection>
+         <subsection name='Mixed Collections - Guessing Element Names'>
             <p>
-A collection may contain objects of several different types. If you 
-specify a name for the collections elements in the dot-betwixt-files (for these
-'mixed' collections), you can't say by its XML element what kind of object it was.
-Therefore, by omitting the <code>name</code>-attribute for a collection in  
-dot-betwixt-files, Betwixt will map each object contained in that collection separately.
+               A collection may contain objects of several different types. If you
+               specify a name for the collections elements in the dot-betwixt-files (for these
+               'mixed' collections), you can't say by its XML element what kind of object it was.
+               Therefore, by omitting the<code>name</code>-attribute for a collection in
+               dot-betwixt-files, Betwixt will map each object contained in that collection separately.
             </p>
             <p>
-As an example, we assume a small <code>TestClass</code> having only one property
-named <code>col</code> of type <code>java.util.Collection</code>. The collection
-contains object of different types. With a usual dot-betwixt-file we would expect
-to have all items in the collection be of the same element-type in the XML output.
-Now we omit the name and let Betwixt guess the names for the items in the collection:
-<source><![CDATA[
+               As an example, we assume a small
+               <code>TestClass</code>
+               having only one property
+               named
+               <code>col</code>
+               of type<code>java.util.Collection</code>. The collection
+               contains object of different types. With a usual dot-betwixt-file we would expect
+               to have all items in the collection be of the same element-type in the XML output.
+               Now we omit the name and let Betwixt guess the names for the items in the collection:
+               <source><![CDATA[
   <?xml version="1.0" encoding="ISO-8859-15"?>
   <info primitiveTypes="element">
     <element name="test-class">
@@ -560,8 +683,8 @@ Now we omit the name and let Betwixt guess the names for the items in the collec
     </element>
   </info>
 ]]></source>
-The output would now look like:
-<source><![CDATA[
+               The output would now look like:
+               <source><![CDATA[
   <test-class>
     <mixed-collection>
       <string>String x</string>
@@ -572,22 +695,28 @@ The output would now look like:
     </mixed-collection>
   </test-class>
 ]]></source>
-As you can see above the collection's items are named different depending on
-their type.
-      </p>
-    </subsection>
-       <subsection name='Writing To Inaccessible Setters'>
-             <p>
-Betwixt finds the getter from the bean property. When a custom updater is specified, though,
-Betwixt uses reflection to find a matching method name. By default, Betwixt will only search
-for a <code>public</code> method with the correct name. This behaviour can be controlled through
-the dot betwixt file. The <code>forceAccessible</code> attribute of the <code>element</code> element
-allows this behaviour to be configured. 
-         </p>
-             <p>
-For example, consider a bean such as:
-         </p>
-<source><![CDATA[
+               As you can see above the collection's items are named different depending on
+               their type.
+            </p>
+         </subsection>
+         <subsection name='Writing To Inaccessible Setters'>
+            <p>
+               Betwixt finds the getter from the bean property. When a custom updater is specified, though,
+               Betwixt uses reflection to find a matching method name. By default, Betwixt will only search
+               for a
+               <code>public</code>
+               method with the correct name. This behaviour can be controlled through
+               the dot betwixt file. The
+               <code>forceAccessible</code>
+               attribute of the
+               <code>element</code>
+               element
+               allows this behaviour to be configured.
+            </p>
+            <p>
+               For example, consider a bean such as:
+            </p>
+            <source><![CDATA[
 public class SomeBean {
     ...
     public SomeClass getSomeProperty() {
@@ -601,10 +730,10 @@ public class SomeBean {
 }
 ]]></source>
             <p>
-By default, the setter would not be found. To ensure that the method is found, 
-the following dot betwixt fragment could be used: 
-       </p>
-<source><![CDATA[
+               By default, the setter would not be found. To ensure that the method is found,
+               the following dot betwixt fragment could be used:
+            </p>
+            <source><![CDATA[
 ...
 <element
     name='SomeName' 
@@ -613,129 +742,181 @@ the following dot betwixt fragment could be used:
     forceAccessible="true"/>  <!-- for this line to work -->
 ...
 ]]></source>
-             <p>
-<strong>Note:</strong> when this attribute is set to true, Betwixt will conduct a search upwards through
-the superclasses if no matching methods are found in the implementation class.  Also note that
-the <code>updater</code> must be specified even if the method conforms to JavaBean
-standards in order to override the accessibility.  Overriding the accessibility of a
-method is subject to the <code>SecurityManager</code> currently in effect.
-         </p>
-    </subsection>
-</section>
+            <p>
+               <strong>Note:</strong>
+               when this attribute is set to true, Betwixt will conduct a search upwards through
+               the superclasses if no matching methods are found in the implementation class. Also note that
+               the
+               <code>updater</code>
+               must be specified even if the method conforms to JavaBean
+               standards in order to override the accessibility. Overriding the accessibility of a
+               method is subject to the
+               <code>SecurityManager</code>
+               currently in effect.
+            </p>
+         </subsection>
+      </section>
 
-    <section name='Converting Objects And Primitives To Strings (And Back Again)'>
+      <section name='Converting Objects And Primitives To Strings (And Back Again)'>
 
-        <subsection name='Using ConvertUtils To Customize Conversion Of Primitives'>
+         <subsection name='Using ConvertUtils To Customize Conversion Of Primitives'>
             <p>
-<code>ConvertUtils</code> is part of <a href='http://commons.apache.org/beanutils/index.html'>commons-beanutils</a>
-and it can be used to flexibly convert strings to objects and back again. By default, Betwixt uses ConvertUtils to 
-perform these conversions and so standard <code>ConvertUtils</code> methods can be called to customize these 
-conversions.
-        </p>	
-    </subsection>
-        <subsection name='Converting Dates (And Other Objects)'>
+               <code>ConvertUtils</code>
+               is part of
+               <a href='http://commons.apache.org/beanutils/index.html'>commons-beanutils</a>
+               and it can be used to flexibly convert strings to objects and back again. By default, Betwixt uses ConvertUtils to
+               perform these conversions and so standard
+               <code>ConvertUtils</code>
+               methods can be called to customize these
+               conversions.
+            </p>
+         </subsection>
+         <subsection name='Converting Dates (And Other Objects)'>
             <p>
-There are numerous situations when read beans from xml or writing beans to xml that String to Object 
-or Object to String conversions are required. Betwixt uses a <em>Strategy</em> class to allow a convenient
-default which will work well for most basic users whilst allowing advanced users to fully hook in and
-customize this process.
-        </p>
+               There are numerous situations when read beans from xml or writing beans to xml that String to Object
+               or Object to String conversions are required. Betwixt uses a
+               <em>Strategy</em>
+               class to allow a convenient
+               default which will work well for most basic users whilst allowing advanced users to fully hook in and
+               customize this process.
+            </p>
             <p>
-The default strategy uses <code>ConvertUtils</code> from  
-<a href='http://commons.apache.org/beanutils/index.html'>commons-beanutils</a> to perform these conversions.
-This is a powerful component that allows flexible customization of the conversion process.
-        </p>
+               The default strategy uses
+               <code>ConvertUtils</code>
+               from
+               <a href='http://commons.apache.org/beanutils/index.html'>commons-beanutils</a>
+               to perform these conversions.
+               This is a powerful component that allows flexible customization of the conversion process.
+            </p>
             <p>
-There is one exception to this rule. If the class is a <code>java.util.Date</code> - or a subclass of <code>java.util.Date</code> which is not a subclass of <code>java.sql.Date</code>, <code>java.sql.Time</code> or <code>java.sql.Timestamp</code> - then this is converted to and from a string following this pattern: 
-<code><pre>
-    EEE MMM dd HH:mm:ss zzz yyyy
-</pre></code>
-(using the SimpleDateFormat notation). Observant readers will realise that this is the same pattern 
-that is returned by <code>java.util.Date.toString</code> - and that's why this pattern was chosen.
-It provides a good default for casual users.
-        </p>
+               There is one exception to this rule. If the class is a
+               <code>java.util.Date</code>
+               - or a subclass of
+               <code>java.util.Date</code>
+               which is not a subclass of<code>java.sql.Date</code>,
+               <code>java.sql.Time</code>
+               or
+               <code>java.sql.Timestamp</code>
+               - then this is converted to and from a string following this pattern:
+               <code>
+                  <pre>
+                     EEE MMM dd HH:mm:ss zzz yyyy
+                  </pre>
+               </code>
+               (using the SimpleDateFormat notation). Observant readers will realise that this is the same pattern
+               that is returned by
+               <code>java.util.Date.toString</code>
+               - and that's why this pattern was chosen.
+               It provides a good default for casual users.
+            </p>
             <p>
-Advanced users will probably need a particular date format. The recommended way to do this is through
-registering appropriate converters with ConvertUtils. The default conversion strategy must also be 
-replaced with an instance of 
-<a href='../apidocs/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.html'>
-ConvertUtilsObjectStringConverter</a>. This is set though a <code>BindingConfiguration</code> property.
-        </p>
+               Advanced users will probably need a particular date format. The recommended way to do this is through
+               registering appropriate converters with ConvertUtils. The default conversion strategy must also be
+               replaced with an instance of
+               <a href='../apidocs/org/apache/commons/betwixt/strategy/ConvertUtilsObjectStringConverter.html'>
+                  ConvertUtilsObjectStringConverter</a>. This is set though a
+               <code>BindingConfiguration</code>
+               property.
+            </p>
             <p>
-For example, to delegate to <code>ConvertUtils</code> for <em>all</em> conversions in a read:
-<code><pre>
-    BeanReader reader = new BeanReader();
-    reader.getBindingConfiguration()
-        .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
-    reader.parse...
-</pre></code>
-and in a write:
-<code><pre>
-    BeanWriter writer = new BeanWriter();
-    writer.getBindingConfiguration()
-        .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
-    writer.write...
-</pre></code>
-        </p>
-    </subsection>
-        <subsection name='Custom ObjectStringConverters (Advanced)'>
+               For example, to delegate to
+               <code>ConvertUtils</code>
+               for
+               <em>all</em>
+               conversions in a read:
+               <code>
+                  <pre>
+                     BeanReader reader = new BeanReader();
+                     reader.getBindingConfiguration()
+                     .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
+                     reader.parse...
+                  </pre>
+               </code>
+               and in a write:
+               <code>
+                  <pre>
+                     BeanWriter writer = new BeanWriter();
+                     writer.getBindingConfiguration()
+                     .setObjectStringConverter(new ConvertUtilsObjectStringConverter());
+                     writer.write...
+                  </pre>
+               </code>
+            </p>
+         </subsection>
+         <subsection name='Custom ObjectStringConverters (Advanced)'>
             <p>
-<code>ConvertUtils</code> is flexible and powerful. It comes with a range of <code>Converter</code> 
-implementations which allow quick and easy customization. But, there are occasions where this will
-not suit all the requirements of the user. Betwixt supports this need by allowing a custom 
-<code>ObjectStringConverter</code> to be plugged in.
-        </p>
+               <code>ConvertUtils</code>
+               is flexible and powerful. It comes with a range of
+               <code>Converter</code>
+               implementations which allow quick and easy customization. But, there are occasions where this will
+               not suit all the requirements of the user. Betwixt supports this need by allowing a custom
+               <code>ObjectStringConverter</code>
+               to be plugged in.
+            </p>
             <p>
-The strategy class  
-<a href='../apidocs/org/apache/commons/betwixt/strategy/ObjectStringConverter.html'>ObjectStringConverter</a>
-is simple: containing only two simple methods. For more information about creating subclasses, see the javadocs.
-The implementation to be used is set through the <code>BindingConfiguration</code> 
-<code>ObjectStringConverter</code> property. 
-        </p>
+               The strategy class
+               <a href='../apidocs/org/apache/commons/betwixt/strategy/ObjectStringConverter.html'>ObjectStringConverter</a>
+               is simple: containing only two simple methods. For more information about creating subclasses, see the javadocs.
+               The implementation to be used is set through the
+               <code>BindingConfiguration</code>
+               <code>ObjectStringConverter</code>
+               property.
+            </p>
             <p>
-For example, to set a custom <code>ObjectStringConverter</code> for <em>all</em> conversions in a read:
-<code><pre>
-    ObjectStringConverter converter = new MyObjectStringConverter();
-    BeanReader reader = new BeanReader();
-    reader.getBindingConfiguration(converter);
-    reader.parse...
-</pre></code>
-and in a write:
-<code><pre>
-    ObjectStringConverter converter = new MyObjectStringConverter();
-    BeanWriter writer = new BeanWriter();
-    writer.getBindingConfiguration(converter);
-    writer.write...
-</pre></code>
-        </p>
+               For example, to set a custom
+               <code>ObjectStringConverter</code>
+               for
+               <em>all</em>
+               conversions in a read:
+               <code>
+                  <pre>
+                     ObjectStringConverter converter = new MyObjectStringConverter();
+                     BeanReader reader = new BeanReader();
+                     reader.getBindingConfiguration(converter);
+                     reader.parse...
+                  </pre>
+               </code>
+               and in a write:
+               <code>
+                  <pre>
+                     ObjectStringConverter converter = new MyObjectStringConverter();
+                     BeanWriter writer = new BeanWriter();
+                     writer.getBindingConfiguration(converter);
+                     writer.write...
+                  </pre>
+               </code>
+            </p>
             <p>
-Betwixt is distributed with a range of <code>ObjectStringConverter</code>'s in the 
-<code>org.apache.commons.betwixt.strategy</code> package. Examining the source code for these classes
-is a good please to start when creating your own implementation.
-        </p>
-	</subsection>
-        <subsection name='Flavours For Custom Converters'>
-        	<p>
-One problem facing those who create custom converters is that objects of the same type
-may (in different contexts) require different conversions. For example, a <code>java.util.Date</code>
-may in one context have the semantic meaning of a day (and so the conversion needs to suppress the 
-time component) and in another may indicate a date time (and so the conversion in this case needs to 
-render the time components). The same type may come in different <em>flavours</em>.	
-        </p>
-        	<p>
-The recommended way to solve this kind of problem is to added options to the betwixt file
-which can then be picked up by the custom converter and used to determine the appropriate
-conversion.	Note that options are not directly inherited. Instead use 
-<code>getInheritedOption</code> on <code>Context</code>.
-        </p>
-        	<p>
-For example, consider a bean representing a person with an attribute
-giving that person's date of birth. Suppose that this is stored
-as a <code>java.util.Date</code>. This needs to be rendered as 
-a date string (without a time component). A good approach would be 
-to add an option to the dot betwixt file as follows:
-		</p>
-<source><![CDATA[
+               Betwixt is distributed with a range of<code>ObjectStringConverter</code>'s in the
+               <code>org.apache.commons.betwixt.strategy</code>
+               package. Examining the source code for these classes
+               is a good please to start when creating your own implementation.
+            </p>
+         </subsection>
+         <subsection name='Flavours For Custom Converters'>
+            <p>
+               One problem facing those who create custom converters is that objects of the same type
+               may (in different contexts) require different conversions. For example, a
+               <code>java.util.Date</code>
+               may in one context have the semantic meaning of a day (and so the conversion needs to suppress the
+               time component) and in another may indicate a date time (and so the conversion in this case needs to
+               render the time components). The same type may come in different<em>flavours</em>.
+            </p>
+            <p>
+               The recommended way to solve this kind of problem is to added options to the betwixt file
+               which can then be picked up by the custom converter and used to determine the appropriate
+               conversion. Note that options are not directly inherited. Instead use
+               <code>getInheritedOption</code>
+               on<code>Context</code>.
+            </p>
+            <p>
+               For example, consider a bean representing a person with an attribute
+               giving that person's date of birth. Suppose that this is stored
+               as a<code>java.util.Date</code>. This needs to be rendered as
+               a date string (without a time component). A good approach would be
+               to add an option to the dot betwixt file as follows:
+            </p>
+            <source><![CDATA[
 <?xml version='1.0'?>
 <info primitiveTypes="attribute">
 	<element name=''>
@@ -749,12 +930,12 @@ to add an option to the dot betwixt file as follows:
 	</element>
 </info>
 ]]>
-</source>           
-			<p>  	
-The following code snippet illustrates how a custom converter
-can use this information:
-        </p>
-<source><![CDATA[
+            </source>
+            <p>
+               The following code snippet illustrates how a custom converter
+               can use this information:
+            </p>
+            <source><![CDATA[
     public String objectToString(Object object, Class type, Context context) {
         String flavour = null;
         Options options = context.getOptions();
@@ -771,27 +952,33 @@ can use this information:
         }
     }
 ]]>
-</source>
-			<p>
-Of course, the choice of the option name is purely arbitrary.			
-		</p>
-    </subsection>
-</section>
-    <section name='Multi Mapping'>
-        <subsection name='Custom Dot Betwixt Documents'>
+            </source>
             <p>
-There are occasions when it proves useful to be able to override the standard 
-loading behaviour for <code>.betwixt</code> mapping file. For example, this is 
-one way in which multiple mapping for the same object can be supported (but see
-later sections for more sophisticated solutions to this problem). 
-        </p>
+               Of course, the choice of the option name is purely arbitrary.
+            </p>
+         </subsection>
+      </section>
+      <section name='Multi Mapping'>
+         <subsection name='Custom Dot Betwixt Documents'>
             <p>
-Betwixt supports this by providing writing and reading methods which allow
-an <code>InputSource</code> specifying a <code>.betwixt</code> document to be passed in.
-For example:
-        </p>
+               There are occasions when it proves useful to be able to override the standard
+               loading behaviour for
+               <code>.betwixt</code>
+               mapping file. For example, this is
+               one way in which multiple mapping for the same object can be supported (but see
+               later sections for more sophisticated solutions to this problem).
+            </p>
+            <p>
+               Betwixt supports this by providing writing and reading methods which allow
+               an
+               <code>InputSource</code>
+               specifying a
+               <code>.betwixt</code>
+               document to be passed in.
+               For example:
+            </p>
             <source>
-<![CDATA[     
+               <![CDATA[
         StringReader dotBetwixtDocument = new StringReader(
                 "<?xml version='1.0' ?>" +
                 "<info>" +
@@ -804,12 +991,12 @@ For example:
         reader.registerBeanClass(new InputSource(dotBetwixtDocument), Address.class);
         Address address = reader.parse(in);
 ]]>
-        </source>
+            </source>
             <p>
-parses the input document using the mapping specified in the string whilst:
-        </p>
+               parses the input document using the mapping specified in the string whilst:
+            </p>
             <source>
-<![CDATA[     
+               <![CDATA[
         StringReader reader = new StringReader(
                 "<?xml version='1.0' ?>" +
                 "<info>" +
@@ -823,25 +1010,30 @@ parses the input document using the mapping specified in the string whilst:
 ...
         writer.write(bean, new InputSource(reader));
 ]]>
-        </source>
+            </source>
             <p>
-writes out a bean according to the mapping given in the string.
-        </p>
-    </subsection>
-        <subsection name='Multi Mapping Document Format'>
+               writes out a bean according to the mapping given in the string.
+            </p>
+         </subsection>
+         <subsection name='Multi Mapping Document Format'>
             <p>
-This xml document format extends the <code>.betwixt</code> vocabulary so that several
-different classes mapping can be registered by a single document.  
-The mapping file format is an intuitive extension to the standard .betwixt format.
-The root element is <code>&lt;betwixt-config&gt;</code> which contains one or more
-<code>&lt;class&gt;</code> elements. Each of these specifies a class and contains
-a mapping definition for that class (as found in a standard dot betwixt document).
-        </p>
+               This xml document format extends the
+               <code>.betwixt</code>
+               vocabulary so that several
+               different classes mapping can be registered by a single document.
+               The mapping file format is an intuitive extension to the standard .betwixt format.
+               The root element is
+               <code>&lt;betwixt-config&gt;</code>
+               which contains one or more
+               <code>&lt;class&gt;</code>
+               elements. Each of these specifies a class and contains
+               a mapping definition for that class (as found in a standard dot betwixt document).
+            </p>
             <p>
-For example:
-        </p>
-<source>
-<![CDATA[     
+               For example:
+            </p>
+            <source>
+               <![CDATA[
   <?xml version="1.0"?>
   <betwixt-config>
   <!--name of the class to map -->
@@ -864,13 +1056,13 @@ For example:
   ...
   </betwixt-config>
 ]]>
-    </source>
+            </source>
             <p>
-Multi mappings are used directly to register multiple mappings with a single introspector.
-For example,
-        </p>
+               Multi mappings are used directly to register multiple mappings with a single introspector.
+               For example,
+            </p>
             <source>
-<![CDATA[     
+               <![CDATA[
     String MAPPING = "<?xml version='1.0'?>" +
     		"     <betwixt-config>" +
     		"            <class name='org.apache.commons.betwixt.PartyBean'>" +
@@ -884,13 +1076,13 @@ For example,
     ...
     PartyBean result = (PartyBean)beanReader.parse(xmlReader);
 ]]>
-        </source>
+            </source>
             <p>
-registers all mappings in the file then reads beans according to those settings.
-The following does something similar for writing:
-        </p>
-<source>
-<![CDATA[     
+               registers all mappings in the file then reads beans according to those settings.
+               The following does something similar for writing:
+            </p>
+            <source>
+               <![CDATA[
     String MAPPING = "<?xml version='1.0'?>" +
     		"     <betwixt-config>" +
     		"            <class name='org.apache.commons.betwixt.PartyBean'>" +
@@ -905,47 +1097,57 @@ The following does something similar for writing:
                  .register(new InputSource(new StringReader(MAPPING)));
 		    beanWriter.write(partyBean);
 ]]>
-        </source>
-    </subsection>
-        <subsection name='Multiple Mappings For The Same Object'>
+            </source>
+         </subsection>
+         <subsection name='Multiple Mappings For The Same Object'>
             <p>
-Betwixt maps an entire object graph. So, though it might see (at first) that specifying
-a custom dot betwixt is all that's required, for all (but the most simple cases)
-several mappings must be specified to map the graph corrected. This is where multi mapping
-documents become very useful.
-        </p>
+               Betwixt maps an entire object graph. So, though it might see (at first) that specifying
+               a custom dot betwixt is all that's required, for all (but the most simple cases)
+               several mappings must be specified to map the graph corrected. This is where multi mapping
+               documents become very useful.
+            </p>
             <p>
-A common usage pattern for this problem is to use one <code>XMLIntrospector</code>
-for each of the different ways that the mappings should be done and register the mappings
-through a multi mapping file. All the reader and writers for that particular type can
-then share the same introspector.
-        </p>
-    </subsection>
-</section>
-    <section name='(Brief) Guide To Creating Custom Strategy Plugins'>
+               A common usage pattern for this problem is to use one
+               <code>XMLIntrospector</code>
+               for each of the different ways that the mappings should be done and register the mappings
+               through a multi mapping file. All the reader and writers for that particular type can
+               then share the same introspector.
+            </p>
+         </subsection>
+      </section>
+      <section name='(Brief) Guide To Creating Custom Strategy Plugins'>
+         <p>
+            It is common for users of Betwixt to need to develop their own custom strategies
+            to handle some parts of the binding process. This section contains some information
+            that may of of some use for those people. Help to create a more comprehensive guide
+            would be appreciated.
+         </p>
+         <subsection name='Using Options'>
             <p>
-It is common for users of Betwixt to need to develop their own custom strategies
-to handle some parts of the binding process. This section contains some information
-that may of of some use for those people. Help to create a more comprehensive guide
-would be appreciated.
-        </p>
-        <subsection name='Using Options'>
+               Options provide an extensible way for extra mapping information to be communicated
+               from the binding to those components executing the mapping. Each
+               <code>Descriptor</code>
+               exposes an
+               <a href='../apidocs/org/apache/commons/betwixt/Descriptor.html#getOptions()'>Options property</a>.
+               This contains a set of values indexed by name (both are strings). These options can be
+               set programmatically during the binding. They can also be set through the
+               <code>.betwixt</code>
+               file.
+            </p>
             <p>
-Options provide an extensible way for extra mapping information to be communicated
-from the binding to those components executing the mapping. Each <code>Descriptor</code>
-exposes an 
-<a href='../apidocs/org/apache/commons/betwixt/Descriptor.html#getOptions()'>Options property</a>.
-This contains a set of values indexed by name (both are strings). These options can be
-set programmatically during the binding. They can also be set through the <code>.betwixt</code>
-file.
-        </p>
-            <p>
-Setting option values through the <code>.betwixt</code> file is easy: just add an 
-<code>&lt;option&gt;</code> child element to an <code>&lt;element&gt;</code> element.
-For example, the <code>XMLBeanInfo</code> for the following betwixt file:
-        </p>
-<source>
-<![CDATA[
+               Setting option values through the
+               <code>.betwixt</code>
+               file is easy: just add an
+               <code>&lt;option&gt;</code>
+               child element to an
+               <code>&lt;element&gt;</code>
+               element.
+               For example, the
+               <code>XMLBeanInfo</code>
+               for the following betwixt file:
+            </p>
+            <source>
+               <![CDATA[
 <?xml version='1.0'?>
 <info primitiveTypes="attribute">
 	<element name='some-bean'>
@@ -964,27 +1166,35 @@ For example, the <code>XMLBeanInfo</code> for the following betwixt file:
 	</element>
 </info>
 ]]>
-</source>
+            </source>
             <p>
-will have the value <em>value-one</em> associated with the option name
-<em>org.apache.commons.betwixt.example-one</em> in the options for the 
-<code>some-property</code> descriptor and <em>value-two</em>
-associated with <em>org.apache.commons.betwixt.example-two</em>
-for <code>another-property</code>.
-Note that the last value set for a particular option name is the one that
-will be used.
-        </p>
+               will have the value
+               <em>value-one</em>
+               associated with the option name
+               <em>org.apache.commons.betwixt.example-one</em>
+               in the options for the
+               <code>some-property</code>
+               descriptor and
+               <em>value-two</em>
+               associated with
+               <em>org.apache.commons.betwixt.example-two</em>
+               for<code>another-property</code>.
+               Note that the last value set for a particular option name is the one that
+               will be used.
+            </p>
             <p>
-The recommended convention for naming option's is to prefix with the reverse domain
-name (the same convention that is used for the standard naming of packages). 
-In any case, all option names beginning with <code>org.apache</code> should be avoided since
-these may be used by ASF products in the future.
-        </p>
+               The recommended convention for naming option's is to prefix with the reverse domain
+               name (the same convention that is used for the standard naming of packages).
+               In any case, all option names beginning with
+               <code>org.apache</code>
+               should be avoided since
+               these may be used by ASF products in the future.
+            </p>
             <p>
-At the moment, there is no support for inheritance of options (from parent to child)
-through this may be considered later if there is sufficient demand.            
-        </p>
-    </subsection>
-</section>
-</body>
+               At the moment, there is no support for inheritance of options (from parent to child)
+               through this may be considered later if there is sufficient demand.
+            </p>
+         </subsection>
+      </section>
+   </body>
 </document>

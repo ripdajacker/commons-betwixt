@@ -13,56 +13,60 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
-  * Bean that has a property that is typed to an interface
-  *
-  * @author Robert Burrell Donkin
-  */
+/**
+ * Bean that has a property that is typed to an interface
+ *
+ * @author Robert Burrell Donkin
+ */
 public class ExampleBean {
-    
-    private String name;
-    private List examples = new ArrayList();
-    
-    public ExampleBean() {}
-    public ExampleBean(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public List getExamples() {
-        return examples;
-    }
-    
-    public void addExample(IExample example) {
-        examples.add(example);
-    }
-    
-    
-    public String toString() {
-        return "[" + this.getClass().getName() + ": name=" + name + ", examples="
-                + examples + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        return this.hashCode() == obj.hashCode();
-    }
-    
-    public int hashCode() {
-        return toString().hashCode();
-    }
+
+   private String name;
+   private List examples = new ArrayList();
+
+   public ExampleBean() {
+   }
+
+   public ExampleBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public List getExamples() {
+      return examples;
+   }
+
+   public void addExample(IExample example) {
+      examples.add(example);
+   }
+
+
+   public String toString() {
+      return "[" + this.getClass().getName() + ": name=" + name + ", examples="
+            + examples + "]";
+   }
+
+   public boolean equals(Object obj) {
+      if (obj == null) {
+         return false;
+      }
+      return this.hashCode() == obj.hashCode();
+   }
+
+   public int hashCode() {
+      return toString().hashCode();
+   }
 }
 

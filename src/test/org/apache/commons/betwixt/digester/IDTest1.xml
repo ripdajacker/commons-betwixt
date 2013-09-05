@@ -16,25 +16,25 @@
   limitations under the License.
 -->
 <IDBean id="1">
-    <name>alpha</name>
-    <children>
-        <child id="2">
-            <name>beta</name>
-            <children/>
-            <id>two</id>
-        </child>
-        <child id="3">
-            <name>gamma</name>
-            <children>	
-                <child id="4">
-                    <name>epsilon</name>
-                    <children/>
-                    <id>four</id>	
-                </child>
-                <child idref="2"/>
-            </children>
-            <id>three</id>
-        </child>
-    </children>
-    <id>one</id>
+   <name>alpha</name>
+   <children>
+      <child id="2">
+         <name>beta</name>
+         <children/>
+         <id>two</id>
+      </child>
+      <child id="3">
+         <name>gamma</name>
+         <children>
+            <child id="4">
+               <name>epsilon</name>
+               <children/>
+               <id>four</id>
+            </child>
+            <child idref="2"/>
+         </children>
+         <id>three</id>
+      </child>
+   </children>
+   <id>one</id>
 </IDBean>

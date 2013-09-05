@@ -13,28 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 public class SimpleClass {
 
-    private String testPropertyOne = "abc";
+   private String testPropertyOne = "abc";
 
-    private Integer testPropertyTwo = new Integer(12);
+   private Integer testPropertyTwo = new Integer(12);
 
-    public String getTestPropertyOne() {
-        return this.testPropertyOne;
-    }
+   public String getTestPropertyOne() {
+      return this.testPropertyOne;
+   }
 
-    public void setTestPropertyOne(String testPropertyOne) {
-        this.testPropertyOne = testPropertyOne;
-    }
+   public void setTestPropertyOne(String testPropertyOne) {
+      this.testPropertyOne = testPropertyOne;
+   }
 
-    public Integer getTestPropertyTwo() {
-        return this.testPropertyTwo;
-    }
+   public Integer getTestPropertyTwo() {
+      return this.testPropertyTwo;
+   }
 
-    public void setTestPropertyTwo(Integer testPropertyTwo) {
-        this.testPropertyTwo = testPropertyTwo;
-    }
+   public void setTestPropertyTwo(Integer testPropertyTwo) {
+      this.testPropertyTwo = testPropertyTwo;
+   }
 }

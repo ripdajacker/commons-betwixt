@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
 import java.util.ArrayList;
@@ -24,9 +24,9 @@ import java.util.Collection;
  */
 public class MixedCollectionBean {
 
-    private Collection gubbins = new ArrayList();
-    
-    public Collection getGubbins() {
-        return gubbins;
-    }
+   private Collection gubbins = new ArrayList();
+
+   public Collection getGubbins() {
+      return gubbins;
+   }
 }

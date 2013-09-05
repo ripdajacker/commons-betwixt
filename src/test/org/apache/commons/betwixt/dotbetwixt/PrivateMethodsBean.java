@@ -13,20 +13,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
 public class PrivateMethodsBean {
 
-    public int privateField = 0;
+   public int privateField = 0;
 
-    public int getSuperPrivate() {
-        return privateField;
-    }
+   public int getSuperPrivate() {
+      return privateField;
+   }
 
-    protected void setSuperPrivate(int privateField) {
-        this.privateField = privateField;
-    }
-    
-    
+   protected void setSuperPrivate(int privateField) {
+      this.privateField = privateField;
+   }
+
+
 }

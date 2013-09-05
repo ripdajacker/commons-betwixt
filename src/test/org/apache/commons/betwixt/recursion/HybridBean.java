@@ -13,37 +13,38 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */  
+ */
 package org.apache.commons.betwixt.recursion;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class HybridBean {
-    private AlienBean alienBean;
-    private PersonBean personBean;
+   private AlienBean alienBean;
+   private PersonBean personBean;
 
-    public HybridBean(AlienBean alienBean, PersonBean personBean) {
-        setAlien(alienBean);
-        setPerson(personBean);
-    }
-    
-    public HybridBean () {}
-    
-   
-    public AlienBean getAlien() {
-        return alienBean;
-    }
+   public HybridBean(AlienBean alienBean, PersonBean personBean) {
+      setAlien(alienBean);
+      setPerson(personBean);
+   }
 
-    public void setAlien(AlienBean alienBean) {
-        this.alienBean = alienBean;
-    }
+   public HybridBean() {
+   }
 
-    public PersonBean getPerson() {
-        return personBean;
-    }
 
-    public void setPerson(PersonBean personBean) {
-        this.personBean = personBean;
-    }
+   public AlienBean getAlien() {
+      return alienBean;
+   }
+
+   public void setAlien(AlienBean alienBean) {
+      this.alienBean = alienBean;
+   }
+
+   public PersonBean getPerson() {
+      return personBean;
+   }
+
+   public void setPerson(PersonBean personBean) {
+      this.personBean = personBean;
+   }
 }

@@ -17,23 +17,23 @@
 -->
 
 <document>
-  <properties>
-    <title>Community</title>
-    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
-  </properties>
+   <properties>
+      <title>Community</title>
+      <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+   </properties>
 
-  <body>
-    <section name="On The Apache Wiki">
-        <p>
-The Apache Wiki is a Wiki run by Apache for the Apache community. The Betwixt Wiki home page is
-<a href='http://wiki.apache.org/commons/Betwixt'>here</a>.
-            </p>
-        <p>
-Anyone is welcome to create new content about Betwixt providing that they 
-observe the usual rules of netiquette. Please note that you will need to register
-before you can make changes.
-            </p>
-        </section>
-  </body>
+   <body>
+      <section name="On The Apache Wiki">
+         <p>
+            The Apache Wiki is a Wiki run by Apache for the Apache community. The Betwixt Wiki home page is
+            <a href='http://wiki.apache.org/commons/Betwixt'>here</a>.
+         </p>
+         <p>
+            Anyone is welcome to create new content about Betwixt providing that they
+            observe the usual rules of netiquette. Please note that you will need to register
+            before you can make changes.
+         </p>
+      </section>
+   </body>
 </document>
 

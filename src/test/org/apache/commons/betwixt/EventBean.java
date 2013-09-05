@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt;
 
@@ -26,52 +26,52 @@ import java.sql.Timestamp;
  */
 public class EventBean {
 
-    private Timestamp start;
-    private Timestamp end;
-    private String type;
-    private String description;
-    
-    public EventBean() {}
-    
-    public EventBean(String type, String description, Timestamp start, Timestamp end)
-    {
-        this.type = type;
-        this.description = description;
-        this.start = start;
-        this.end = end;
-    }
-    
-    
-    public String getDescription() {
-        return description;
-    }
+   private Timestamp start;
+   private Timestamp end;
+   private String type;
+   private String description;
 
-    public Timestamp getEnd() {
-        return end;
-    }
+   public EventBean() {
+   }
 
-    public Timestamp getStart() {
-        return start;
-    }
+   public EventBean(String type, String description, Timestamp start, Timestamp end) {
+      this.type = type;
+      this.description = description;
+      this.start = start;
+      this.end = end;
+   }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setDescription(String string) {
-        description = string;
-    }
+   public String getDescription() {
+      return description;
+   }
 
-    public void setEnd(Timestamp timestamp) {
-        end = timestamp;
-    }
+   public Timestamp getEnd() {
+      return end;
+   }
 
-    public void setStart(Timestamp timestamp) {
-        start = timestamp;
-    }
+   public Timestamp getStart() {
+      return start;
+   }
 
-    public void setType(String string) {
-        type = string;
-    }
+   public String getType() {
+      return type;
+   }
+
+   public void setDescription(String string) {
+      description = string;
+   }
+
+   public void setEnd(Timestamp timestamp) {
+      end = timestamp;
+   }
+
+   public void setStart(Timestamp timestamp) {
+      start = timestamp;
+   }
+
+   public void setType(String string) {
+      type = string;
+   }
 
 }

@@ -18,100 +18,121 @@
 
 <document>
 
- <properties>
-  <title>Outputting Results</title>
-  <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
- </properties>
+   <properties>
+      <title>Outputting Results</title>
+      <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+   </properties>
 
-<body>
-<section name='Outputting Results (Of Bean Writing)'>
-        <p>
-Betwixt is flexible when it comes to outputting the results of bean writing.
-The abstract <code>AbstractBeanWriter</code> class provides a basic framework
-with an implementation API inspired by <a href='http://www.saxproject.org/'>SAX</a>.
-Betwixt ships with writers that support SAX and textual streams
-but others can be created with relative ease.
-    </p>
-</section>
-<section name='Pushing Results to a Textual Stream'>
-        <p>
-<code>BeanWriter</code> pushes results to a textual stream. This can be used
-to efficiently push content through a socket or just to create a simple String.
-        </p> 
-        <p>
-<strong>Note</strong> that only document fragments are created so you may need to append any
-prologs before writing the bean.
-    </p>
-        <p>
-<strong>Note:</strong> also that Betwixt leaves management of the streams and readers to the 
-user (respecting the maxim that the opener should close). When a fragment has been written, Betwixt will 
-not close the stream automatically. However, for convenience, <code>close()</code> and <code>flush</code> 
-methods have been provided in <code>BeanWriter</code> which will close or flush (respectively) the underlying 
-stream or reader.
-    </p>
-        <subsection name='Rendering Empty Tags'>
+   <body>
+      <section name='Outputting Results (Of Bean Writing)'>
+         <p>
+            Betwixt is flexible when it comes to outputting the results of bean writing.
+            The abstract
+            <code>AbstractBeanWriter</code>
+            class provides a basic framework
+            with an implementation API inspired by<a href='http://www.saxproject.org/'>SAX</a>.
+            Betwixt ships with writers that support SAX and textual streams
+            but others can be created with relative ease.
+         </p>
+      </section>
+      <section name='Pushing Results to a Textual Stream'>
+         <p>
+            <code>BeanWriter</code>
+            pushes results to a textual stream. This can be used
+            to efficiently push content through a socket or just to create a simple String.
+         </p>
+         <p>
+            <strong>Note</strong>
+            that only document fragments are created so you may need to append any
+            prologs before writing the bean.
+         </p>
+         <p>
+            <strong>Note:</strong>
+            also that Betwixt leaves management of the streams and readers to the
+            user (respecting the maxim that the opener should close). When a fragment has been written, Betwixt will
+            not close the stream automatically. However, for convenience,
+            <code>close()</code>
+            and
+            <code>flush</code>
+            methods have been provided in
+            <code>BeanWriter</code>
+            which will close or flush (respectively) the underlying
+            stream or reader.
+         </p>
+         <subsection name='Rendering Empty Tags'>
             <p>
-Empty tags (ones containing no body content and no child nodes) can be rendered 
-in two ways: as a single closed tag (for example <code>&lt;element/&gt;</code>) or as a 
-pair of tags (<code>&lt;element&gt;&lt;/element&gt;</code>). By default, Betwixt
-renders empty tags as a single close tag but setting the <code>BeanWriter</code>
-<code>endTagForEmptyElement</code> to true will ensures that all empty elements are 
-rendered as a pair of tags. For example:
-        </p>
-<source>
-        BeanWriter writer = new BeanWriter(out);
-        writer.setEndTagForEmptyElement(true);
-</source>
-    </subsection>
-        <subsection name='Content Encoding'>
+               Empty tags (ones containing no body content and no child nodes) can be rendered
+               in two ways: as a single closed tag (for example<code>&lt;element/&gt;</code>) or as a
+               pair of tags (<code>&lt;element&gt;&lt;/element&gt;</code>). By default, Betwixt
+               renders empty tags as a single close tag but setting the
+               <code>BeanWriter</code>
+               <code>endTagForEmptyElement</code>
+               to true will ensures that all empty elements are
+               rendered as a pair of tags. For example:
+            </p>
+            <source>
+               BeanWriter writer = new BeanWriter(out);
+               writer.setEndTagForEmptyElement(true);
+            </source>
+         </subsection>
+         <subsection name='Content Encoding'>
             <p>
-When writing character data (the content between markup tags) to a textual stream,
-sections of character data can be processed in various ways by Betwixt with the
-aim of easily producing valid xml from beans. In particular, Betwixt assumes that
-bean's property values are plain java rather than pre-processed xml and so
-may contain characters that should be escaped.
-        </p>
+               When writing character data (the content between markup tags) to a textual stream,
+               sections of character data can be processed in various ways by Betwixt with the
+               aim of easily producing valid xml from beans. In particular, Betwixt assumes that
+               bean's property values are plain java rather than pre-processed xml and so
+               may contain characters that should be escaped.
+            </p>
             <p>
-There are two primary use cases for this processing: 
-        </p>
-            <ul>    
-                <li>
-Escaping the character data
-            </li>
-                <li>
-Wrapping the entire section as <code>CDATA</code>
-            </li>
-        </ul>
+               There are two primary use cases for this processing:
+            </p>
+            <ul>
+               <li>
+                  Escaping the character data
+               </li>
+               <li>
+                  Wrapping the entire section as
+                  <code>CDATA</code>
+               </li>
+            </ul>
             <p>
-Betwixt provides a plug-in 
-<a href='../apidocs/org/apache/commons/betwixt/strategy/MixedContentEncodingStrategy.html'>
-MixedCharacterEncodingStrategy</a>
-and a property on
-<a href='../apidocs/org/apache/commons/betwixt/io/BeanWriter.html'>BeanWriter</a>
-which allows the processing to be varied.
-Factory constants are provided on <code>MixedCharacterEncodingStrategy</code>
-for the two common use cases above.
-        </p>
+               Betwixt provides a plug-in
+               <a href='../apidocs/org/apache/commons/betwixt/strategy/MixedContentEncodingStrategy.html'>
+                  MixedCharacterEncodingStrategy
+               </a>
+               and a property on
+               <a href='../apidocs/org/apache/commons/betwixt/io/BeanWriter.html'>BeanWriter</a>
+               which allows the processing to be varied.
+               Factory constants are provided on
+               <code>MixedCharacterEncodingStrategy</code>
+               for the two common use cases above.
+            </p>
             <p>
-For example, to have all content wrapped in <code>CDATA</code> sections:
-        </p>
-<source>
-        BeanWriter writer = ... 
-        writer.setMixedContentEncodingStrategy(MixedContentEncodingStrategy.CDATA);
-</source>
+               For example, to have all content wrapped in
+               <code>CDATA</code>
+               sections:
+            </p>
+            <source>
+               BeanWriter writer = ...
+               writer.setMixedContentEncodingStrategy(MixedContentEncodingStrategy.CDATA);
+            </source>
             <p>
-By default, Betwixt uses character escaping only. However, the default
-strategy also supports per-property specification through
-setting the appropriate <a href='binding.html#Using%20Options'>option</a>.
-Setting the <code>org.apache.commons.betwixt.mixed-content-encoding</code>
-option to <code>CDATA</code> will instruct the default strategy to wrap
-the element's body text in a CDATA section.
-For example, the following betwixt file fragment encodes the 
-<code>some-property</code> element's body text as CDATA
-(when the default strategy is used):
-        </p>
-<source>
-<![CDATA[
+               By default, Betwixt uses character escaping only. However, the default
+               strategy also supports per-property specification through
+               setting the appropriate<a href='binding.html#Using%20Options'>option</a>.
+               Setting the
+               <code>org.apache.commons.betwixt.mixed-content-encoding</code>
+               option to
+               <code>CDATA</code>
+               will instruct the default strategy to wrap
+               the element's body text in a CDATA section.
+               For example, the following betwixt file fragment encodes the
+               <code>some-property</code>
+               element's body text as CDATA
+               (when the default strategy is used):
+            </p>
+            <source>
+               <![CDATA[
 <?xml version='1.0'?>
 <info primitiveTypes="attribute">
 	<element name='some-bean'>
@@ -126,15 +147,16 @@ For example, the following betwixt file fragment encodes the
 	</element>
 </info>
 ]]>
-</source>
-    </subsection>
-</section>
-<section name='Pushing Results to SAX'>
-        <p>
-<code>SAXBeanWriter</code> pushes events to a SAX content handler. 
-This allows Betwixt to efficiently participate as a content generator
-in SAX-based pipelines such as <a href='http://cocoon.apache.org/'>cocoon</a>.
-    </p>
-</section>
-</body>
+            </source>
+         </subsection>
+      </section>
+      <section name='Pushing Results to SAX'>
+         <p>
+            <code>SAXBeanWriter</code>
+            pushes events to a SAX content handler.
+            This allows Betwixt to efficiently participate as a content generator
+            in SAX-based pipelines such as<a href='http://cocoon.apache.org/'>cocoon</a>.
+         </p>
+      </section>
+   </body>
 </document>

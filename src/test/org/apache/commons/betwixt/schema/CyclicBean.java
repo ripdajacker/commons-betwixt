@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema;
 
 import java.util.Vector;
@@ -26,37 +26,32 @@ import java.util.Vector;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class CyclicBean {
-    private Vector layers = new Vector(); //CyclicLayer 
-    
-  private String name;
-    
-  public CyclicBean(String name) 
-  {
-    this.name = name;
-  }
-    
-  public Vector getLayers()
-  {
-    return this.layers;
-  }
-    
-  public void setLayers(Vector vLayers)
-  {
-    this.layers = vLayers;
-  }
-    
-  public void addLayer(CyclicLayer aLayer)
-  {
-    layers.add(aLayer);
-  }
-  public String getName()
-  {
-    return name;
-  }
-    
-  public String toString()
-  {
-    return "[CyclicBean] name=" + name;
-  }
+   private Vector layers = new Vector(); //CyclicLayer
+
+   private String name;
+
+   public CyclicBean(String name) {
+      this.name = name;
+   }
+
+   public Vector getLayers() {
+      return this.layers;
+   }
+
+   public void setLayers(Vector vLayers) {
+      this.layers = vLayers;
+   }
+
+   public void addLayer(CyclicLayer aLayer) {
+      layers.add(aLayer);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public String toString() {
+      return "[CyclicBean] name=" + name;
+   }
 
 }

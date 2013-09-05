@@ -16,7 +16,7 @@
   limitations under the License.
 -->
 <VersioningTestData attribute1="attributevalue1"
-    attribute2="attributevalue2">
-    <element1>elementvalue1</element1>    
-    <element2>elementvalue2</element2>
+                    attribute2="attributevalue2">
+   <element1>elementvalue1</element1>
+   <element2>elementvalue2</element2>
 </VersioningTestData>

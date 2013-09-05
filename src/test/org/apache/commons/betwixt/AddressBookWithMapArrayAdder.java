@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt;
 
 import java.util.Collections;
@@ -26,13 +26,13 @@ import java.util.Map;
  * @version $Revision$
  */
 public class AddressBookWithMapArrayAdder {
-    private HashMap addressesByPerson = new HashMap();
-    
-    public Map getAddresses() {
-        return Collections.unmodifiableMap(addressesByPerson);
-    }
-    
-    public void addAddress(PersonBean person, AddressBean[] addresses) {
-        addressesByPerson.put(person, addresses);
-    }
+   private HashMap addressesByPerson = new HashMap();
+
+   public Map getAddresses() {
+      return Collections.unmodifiableMap(addressesByPerson);
+   }
+
+   public void addAddress(PersonBean person, AddressBean[] addresses) {
+      addressesByPerson.put(person, addresses);
+   }
 }

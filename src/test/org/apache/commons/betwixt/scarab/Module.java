@@ -15,7 +15,7 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,27 +26,23 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class Module
-{
-    private final static Log log = LogFactory.getLog(Module.class);
+public class Module {
+   private final static Log log = LogFactory.getLog(Module.class);
 
-    private String name;
-    
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public Module()
-    { 
-    }
+   private String name;
 
-    public void setName(String name)
-    {
-        log.debug("Module.setName(): " + name);
-        this.name = name;
-    }        
+   /**
+    * Constructor for the ScarabSettings object
+    */
+   public Module() {
+   }
 
-    public String getName()
-    {
-        return name;
-    }        
+   public void setName(String name) {
+      log.debug("Module.setName(): " + name);
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
+   }
 }

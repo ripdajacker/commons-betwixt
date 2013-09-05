@@ -18,57 +18,71 @@
 
 <document>
 
-  <properties>
-    <title>Powered By Betwixt</title>
-    <author email="martin@mvdb.net">Martin van den Bemt</author>
-  </properties>
+   <properties>
+      <title>Powered By Betwixt</title>
+      <author email="martin@mvdb.net">Martin van den Bemt</author>
+   </properties>
 
-  <body>
-    <section name="Powered By Betwixt">
-      <p>
-        This page contains a list of known projects successfully using
-        Betwixt.  We would be very interested if you would drop us a note
-        if you are using Betwixt with your project and would like to be
-        added to this list.
-      </p>
-      <subsection name="Projects Using Betwixt">
-      <table>
-        <tr><th>Project</th><th>Overview</th></tr>
-        <tr>
-          <td><a href="http://maven.apache.org/">Maven</a></td>
-          <td>
-            A java project management and project comprehension tool.
-          </td>
-        </tr>
-         <tr>
-           <td><a href="http://scarab.tigris.org">Scarab</a></td>
-           <td>
-             An Issue Tracking System created in java.
-           </td>
-          </tr>
-         <tr>
-           <td><a href="http://db.apache.org/ddlutils/">Apache DB DdlUtils</a></td>
-           <td>
-             DdlUtils is a small, easy-to-use component for working with Database Definition (DDL) files.
-           </td>
-          </tr>
-          <tr>
-           <td><a href="http://www.everyboat.com/">Every Boat Classifieds (Commercial)</a></td>
-           <td>
-             A dynamic self-publishing classifieds system utilizing Betwixt for caching ads as xml
-           </td>
-          </tr>
-          <tr>
-           <td><a href="http://www.triplemind.com/">Triplemind Vacation Homes (Commercial)</a></td>
-           <td>
-           	An Application Service for tourist information systems using 
-			Betwixt to convert business logic output to XML for tranformation to 
-			websites. References for the App are <a href="http://www.unterkunft.de">Unterkunft.de</a> 
-			and <a href="http://www.apartments.de">Apartments.de</a>.           
-			</td>
-          </tr>
-      </table>
-    </subsection>
-    </section>
-  </body>
+   <body>
+      <section name="Powered By Betwixt">
+         <p>
+            This page contains a list of known projects successfully using
+            Betwixt. We would be very interested if you would drop us a note
+            if you are using Betwixt with your project and would like to be
+            added to this list.
+         </p>
+         <subsection name="Projects Using Betwixt">
+            <table>
+               <tr>
+                  <th>Project</th>
+                  <th>Overview</th>
+               </tr>
+               <tr>
+                  <td>
+                     <a href="http://maven.apache.org/">Maven</a>
+                  </td>
+                  <td>
+                     A java project management and project comprehension tool.
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <a href="http://scarab.tigris.org">Scarab</a>
+                  </td>
+                  <td>
+                     An Issue Tracking System created in java.
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <a href="http://db.apache.org/ddlutils/">Apache DB DdlUtils</a>
+                  </td>
+                  <td>
+                     DdlUtils is a small, easy-to-use component for working with Database Definition (DDL) files.
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <a href="http://www.everyboat.com/">Every Boat Classifieds (Commercial)</a>
+                  </td>
+                  <td>
+                     A dynamic self-publishing classifieds system utilizing Betwixt for caching ads as xml
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <a href="http://www.triplemind.com/">Triplemind Vacation Homes (Commercial)</a>
+                  </td>
+                  <td>
+                     An Application Service for tourist information systems using
+                     Betwixt to convert business logic output to XML for tranformation to
+                     websites. References for the App are
+                     <a href="http://www.unterkunft.de">Unterkunft.de</a>
+                     and<a href="http://www.apartments.de">Apartments.de</a>.
+                  </td>
+               </tr>
+            </table>
+         </subsection>
+      </section>
+   </body>
 </document>

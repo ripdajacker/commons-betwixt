@@ -13,44 +13,43 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 
 
 /** A sample program to output a bean as pretty printed XML
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class SampleBeanWriter extends AbstractTestCase {
-    
-    public SampleBeanWriter(String testName) {
-        super(testName);
-    }
 
-    public static void main(String[] args) throws Exception {
-        SampleBeanWriter sample = new SampleBeanWriter("foo");
-        sample.run( args );
-    }
-    
-    public void run(String[] args) throws Exception {
-        Object bean = null;
-        if ( args.length > 0 ) {
-            bean = Class.forName( args[0] ).newInstance();
-        }
-        else {
-            bean = createBean();
-        }
-        write( bean );
-    }
-        
-    public void write(Object bean) throws Exception {
-        BeanWriter writer = new BeanWriter();
-        writer.enablePrettyPrint();
-        writer.write( bean );
-    }
+   public SampleBeanWriter(String testName) {
+      super(testName);
+   }
+
+   public static void main(String[] args) throws Exception {
+      SampleBeanWriter sample = new SampleBeanWriter("foo");
+      sample.run(args);
+   }
+
+   public void run(String[] args) throws Exception {
+      Object bean = null;
+      if (args.length > 0) {
+         bean = Class.forName(args[0]).newInstance();
+      } else {
+         bean = createBean();
+      }
+      write(bean);
+   }
+
+   public void write(Object bean) throws Exception {
+      BeanWriter writer = new BeanWriter();
+      writer.enablePrettyPrint();
+      writer.write(bean);
+   }
 }
 

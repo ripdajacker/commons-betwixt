@@ -16,22 +16,22 @@
   limitations under the License.
 -->
 <PersonListBean>
-  	<personList>
-    		<person>
-		    	<age>22</age>
-		    	<name>Athos</name>
-    		</person>
-    		<person>
-    			<age>25</age>
-    			<name>Porthos</name>
-    		</person>
-    		<person>
-    			<age>23</age>
-    			<name>Aramis</name>
-    		</person>
-    		<person>
-    			<age>18</age>
-    			<name>D'Artagnan</name>
-    		</person>
-    </personList>
+   <personList>
+      <person>
+         <age>22</age>
+         <name>Athos</name>
+      </person>
+      <person>
+         <age>25</age>
+         <name>Porthos</name>
+      </person>
+      <person>
+         <age>23</age>
+         <name>Aramis</name>
+      </person>
+      <person>
+         <age>18</age>
+         <name>D'Artagnan</name>
+      </person>
+   </personList>
 </PersonListBean>

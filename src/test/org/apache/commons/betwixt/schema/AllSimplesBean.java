@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
@@ -26,186 +26,186 @@ import java.math.BigInteger;
  */
 public class AllSimplesBean {
 
-    private String string;
-    private BigInteger bigInteger;
-    private int primitiveInt;
-    private Integer objectInt;
-    private long primitiveLong;
-    private Long objectLong;
-    private short primitiveShort;
-    private Short objectShort;
-    private BigDecimal bigDecimal;
-    private float primitiveFloat;
-    private Float objectFloat;
-    private double primitiveDouble;
-    private Double objectDouble;
-    private boolean primitiveBoolean;
-    private Boolean objectBoolean;
-    private byte primitiveByte;
-    private Byte objectByte;
-    private java.util.Date utilDate;
-    private java.sql.Date sqlDate;
-    private java.sql.Time sqlTime;
-    
-    
-    public BigDecimal getBigDecimal() {
-        return bigDecimal;
-    }
+   private String string;
+   private BigInteger bigInteger;
+   private int primitiveInt;
+   private Integer objectInt;
+   private long primitiveLong;
+   private Long objectLong;
+   private short primitiveShort;
+   private Short objectShort;
+   private BigDecimal bigDecimal;
+   private float primitiveFloat;
+   private Float objectFloat;
+   private double primitiveDouble;
+   private Double objectDouble;
+   private boolean primitiveBoolean;
+   private Boolean objectBoolean;
+   private byte primitiveByte;
+   private Byte objectByte;
+   private java.util.Date utilDate;
+   private java.sql.Date sqlDate;
+   private java.sql.Time sqlTime;
 
-    public BigInteger getBigInteger() {
-        return bigInteger;
-    }
 
-    public Boolean getObjectBoolean() {
-        return objectBoolean;
-    }
+   public BigDecimal getBigDecimal() {
+      return bigDecimal;
+   }
 
-    public Byte getObjectByte() {
-        return objectByte;
-    }
+   public BigInteger getBigInteger() {
+      return bigInteger;
+   }
 
-    public Double getObjectDouble() {
-        return objectDouble;
-    }
+   public Boolean getObjectBoolean() {
+      return objectBoolean;
+   }
 
-    public Float getObjectFloat() {
-        return objectFloat;
-    }
+   public Byte getObjectByte() {
+      return objectByte;
+   }
 
-    public Integer getObjectInt() {
-        return objectInt;
-    }
+   public Double getObjectDouble() {
+      return objectDouble;
+   }
 
-    public Long getObjectLong() {
-        return objectLong;
-    }
+   public Float getObjectFloat() {
+      return objectFloat;
+   }
 
-    public Short getObjectShort() {
-        return objectShort;
-    }
+   public Integer getObjectInt() {
+      return objectInt;
+   }
 
-    public boolean isPrimitiveBoolean() {
-        return primitiveBoolean;
-    }
+   public Long getObjectLong() {
+      return objectLong;
+   }
 
-    public byte getPrimitiveByte() {
-        return primitiveByte;
-    }
+   public Short getObjectShort() {
+      return objectShort;
+   }
 
-    public double getPrimitiveDouble() {
-        return primitiveDouble;
-    }
+   public boolean isPrimitiveBoolean() {
+      return primitiveBoolean;
+   }
 
-    public float getPrimitiveFloat() {
-        return primitiveFloat;
-    }
+   public byte getPrimitiveByte() {
+      return primitiveByte;
+   }
 
-    public int getPrimitiveInt() {
-        return primitiveInt;
-    }
+   public double getPrimitiveDouble() {
+      return primitiveDouble;
+   }
 
-    public long getPrimitiveLong() {
-        return primitiveLong;
-    }
+   public float getPrimitiveFloat() {
+      return primitiveFloat;
+   }
 
-    public short getPrimitiveShort() {
-        return primitiveShort;
-    }
+   public int getPrimitiveInt() {
+      return primitiveInt;
+   }
 
-    public java.sql.Date getSqlDate() {
-        return sqlDate;
-    }
+   public long getPrimitiveLong() {
+      return primitiveLong;
+   }
 
-    public java.sql.Time getSqlTime() {
-        return sqlTime;
-    }
+   public short getPrimitiveShort() {
+      return primitiveShort;
+   }
 
-    public String getString() {
-        return string;
-    }
+   public java.sql.Date getSqlDate() {
+      return sqlDate;
+   }
 
-    public java.util.Date getUtilDate() {
-        return utilDate;
-    }
+   public java.sql.Time getSqlTime() {
+      return sqlTime;
+   }
 
-    public void setBigDecimal(BigDecimal decimal) {
-        bigDecimal = decimal;
-    }
+   public String getString() {
+      return string;
+   }
 
-    public void setBigInteger(BigInteger integer) {
-        bigInteger = integer;
-    }
+   public java.util.Date getUtilDate() {
+      return utilDate;
+   }
 
-    public void setObjectBoolean(Boolean boolean1) {
-        objectBoolean = boolean1;
-    }
+   public void setBigDecimal(BigDecimal decimal) {
+      bigDecimal = decimal;
+   }
 
-    public void setObjectByte(Byte byte1) {
-        objectByte = byte1;
-    }
+   public void setBigInteger(BigInteger integer) {
+      bigInteger = integer;
+   }
 
-    public void setObjectDouble(Double double1) {
-        objectDouble = double1;
-    }
+   public void setObjectBoolean(Boolean boolean1) {
+      objectBoolean = boolean1;
+   }
 
-    public void setObjectFloat(Float float1) {
-        objectFloat = float1;
-    }
+   public void setObjectByte(Byte byte1) {
+      objectByte = byte1;
+   }
 
-    public void setObjectInt(Integer integer) {
-        objectInt = integer;
-    }
+   public void setObjectDouble(Double double1) {
+      objectDouble = double1;
+   }
 
-    public void setObjectLong(Long long1) {
-        objectLong = long1;
-    }
+   public void setObjectFloat(Float float1) {
+      objectFloat = float1;
+   }
 
-    public void setObjectShort(Short short1) {
-        objectShort = short1;
-    }
-    
-    public void setPrimitiveBoolean(boolean b) {
-        primitiveBoolean = b;
-    }
+   public void setObjectInt(Integer integer) {
+      objectInt = integer;
+   }
 
-    public void setPrimitiveByte(byte b) {
-        primitiveByte = b;
-    }
-    
-    public void setPrimitiveDouble(double d) {
-        primitiveDouble = d;
-    }
+   public void setObjectLong(Long long1) {
+      objectLong = long1;
+   }
 
-    public void setPrimitiveFloat(float f) {
-        primitiveFloat = f;
-    }
+   public void setObjectShort(Short short1) {
+      objectShort = short1;
+   }
 
-    public void setPrimitiveInt(int i) {
-        primitiveInt = i;
-    }
+   public void setPrimitiveBoolean(boolean b) {
+      primitiveBoolean = b;
+   }
 
-    public void setPrimitiveLong(long l) {
-        primitiveLong = l;
-    }
+   public void setPrimitiveByte(byte b) {
+      primitiveByte = b;
+   }
 
-    public void setPrimitiveShort(short s) {
-        primitiveShort = s;
-    }
+   public void setPrimitiveDouble(double d) {
+      primitiveDouble = d;
+   }
 
-    public void setSqlDate(java.sql.Date date) {
-        sqlDate = date;
-    }
+   public void setPrimitiveFloat(float f) {
+      primitiveFloat = f;
+   }
 
-    public void setSqlTime(java.sql.Time time) {
-        sqlTime = time;
-    }
+   public void setPrimitiveInt(int i) {
+      primitiveInt = i;
+   }
 
-    public void setString(String string) {
-        this.string = string;
-    }
+   public void setPrimitiveLong(long l) {
+      primitiveLong = l;
+   }
 
-    public void setUtilDate(java.util.Date date) {
-        utilDate = date;
-    }
+   public void setPrimitiveShort(short s) {
+      primitiveShort = s;
+   }
+
+   public void setSqlDate(java.sql.Date date) {
+      sqlDate = date;
+   }
+
+   public void setSqlTime(java.sql.Time time) {
+      sqlTime = time;
+   }
+
+   public void setString(String string) {
+      this.string = string;
+   }
+
+   public void setUtilDate(java.util.Date date) {
+      utilDate = date;
+   }
 
 }

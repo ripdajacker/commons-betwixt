@@ -13,8 +13,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.strategy;
 
 import junit.framework.Test;
@@ -23,30 +23,29 @@ import junit.framework.TestSuite;
 
 /**
  * Test that harnasses the CapitlizeNameMapper
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
  * @version $Id$
  */
-public class TestCapitalizeNameMapper extends TestCase
-{
+public class TestCapitalizeNameMapper extends TestCase {
 
-    public static Test suite() {
-        return new TestSuite(TestDecapitalizeNameMapper.class);
-    }
-    
-    public TestCapitalizeNameMapper(String testName) {
-        super(testName);
-    }
-    
-    public void testCapitalize() {
-        CapitalizeNameMapper mapper = new CapitalizeNameMapper();
-        String result = mapper.mapTypeToElementName("FOOBAR");
-        assertEquals("FOOBAR", result);
-        result = mapper.mapTypeToElementName("fooBar");
-        assertEquals("FooBar", result);
-        result = mapper.mapTypeToElementName("foobar");
-        assertEquals("Foobar", result);
-    }
+   public static Test suite() {
+      return new TestSuite(TestDecapitalizeNameMapper.class);
+   }
+
+   public TestCapitalizeNameMapper(String testName) {
+      super(testName);
+   }
+
+   public void testCapitalize() {
+      CapitalizeNameMapper mapper = new CapitalizeNameMapper();
+      String result = mapper.mapTypeToElementName("FOOBAR");
+      assertEquals("FOOBAR", result);
+      result = mapper.mapTypeToElementName("fooBar");
+      assertEquals("FooBar", result);
+      result = mapper.mapTypeToElementName("foobar");
+      assertEquals("Foobar", result);
+   }
 }
 
 

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.recursion;
 
 import java.util.ArrayList;
@@ -22,32 +22,27 @@ import java.util.List;
 /**
  * @author Robert Burrell Donkin
  */
-public class ElementBean
-{
-    ArrayList elements;
+public class ElementBean {
+   ArrayList elements;
 
-    /**
-     * Constructor for ElementBean.
-     */
-    public ElementBean()
-    {
-        elements = new ArrayList();
-    }
-    
-    public void addElement(Element element)
-    {
-        elements.add(element);
-    }
-    
-    public List getElements()
-    {
-        return elements;
-    }
+   /**
+    * Constructor for ElementBean.
+    */
+   public ElementBean() {
+      elements = new ArrayList();
+   }
 
-    public String toString()
-    {
-       return "list : " + getElements();
-    }
-    
+   public void addElement(Element element) {
+      elements.add(element);
+   }
+
+   public List getElements() {
+      return elements;
+   }
+
+   public String toString() {
+      return "list : " + getElements();
+   }
+
 
 }

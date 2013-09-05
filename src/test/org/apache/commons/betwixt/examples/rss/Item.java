@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.examples.rss;
@@ -35,50 +35,50 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
 
-    // ------------------------------------------------------------- Properties
+   // ------------------------------------------------------------- Properties
 
 
-    /**
-     * The item description (1-500 characters).
-     */
-    protected String description = null;
+   /**
+    * The item description (1-500 characters).
+    */
+   protected String description = null;
 
-    public String getDescription() {
-        if (this.description == null) {
-            return "";
-        }
-        return (this.description);
-    }
+   public String getDescription() {
+      if (this.description == null) {
+         return "";
+      }
+      return (this.description);
+   }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    /**
-     * The item link (1-500 characters).
-     */
-    protected String link = null;
-
-    public String getLink() {
-        return (this.link);
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
 
-    /**
-     * The item title (1-100 characters).
-     */
-    protected String title = null;
+   /**
+    * The item link (1-500 characters).
+    */
+   protected String link = null;
 
-    public String getTitle() {
-        return (this.title);
-    }
+   public String getLink() {
+      return (this.link);
+   }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+   public void setLink(String link) {
+      this.link = link;
+   }
+
+
+   /**
+    * The item title (1-100 characters).
+    */
+   protected String title = null;
+
+   public String getTitle() {
+      return (this.title);
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
 }

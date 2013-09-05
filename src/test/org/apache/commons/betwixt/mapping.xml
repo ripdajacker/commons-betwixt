@@ -16,19 +16,19 @@
   limitations under the License.
 -->
 <betwixt-config>
-  <class name="org.apache.commons.betwixt.PartyBean">
-    <element name="party">
-      <element name="the-excuse" property="excuse"/>
-      <element name="location" property="venue"/>      
-      <element name="time" property="fromHour"/>
-    </element>
-  </class>
-  <class name="org.apache.commons.betwixt.AddressBean">
-    <element name="address">
-      <element name="street" property="street"/>
-      <element name="city" property="city"/>
-      <element name="code" property="code"/>
-      <element name="country" property="country"/>
-    </element>
-  </class>
+   <class name="org.apache.commons.betwixt.PartyBean">
+      <element name="party">
+         <element name="the-excuse" property="excuse"/>
+         <element name="location" property="venue"/>
+         <element name="time" property="fromHour"/>
+      </element>
+   </class>
+   <class name="org.apache.commons.betwixt.AddressBean">
+      <element name="address">
+         <element name="street" property="street"/>
+         <element name="city" property="city"/>
+         <element name="code" property="code"/>
+         <element name="country" property="country"/>
+      </element>
+   </class>
 </betwixt-config>

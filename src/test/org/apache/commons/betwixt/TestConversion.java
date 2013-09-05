@@ -13,48 +13,47 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt;
 
-import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.betwixt.io.BeanReader;
+
+import java.io.StringReader;
 
 /**
  * Tests conversions.
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
-public class TestConversion extends TestCase{
+public class TestConversion extends TestCase {
 
-    public TestConversion(String name) {   
-        super(name);
-    }
+   public TestConversion(String name) {
+      super(name);
+   }
 
-    /**
-     * Betwixt does not (by default) try to convert nulls and empty strings
-     * @throws Exception
-     */
-    public void testNullTimestampConversion() throws Exception {
-        String xml = "<?xml version='1.0'?>" +
+   /**
+    * Betwixt does not (by default) try to convert nulls and empty strings
+    * @throws Exception
+    */
+   public void testNullTimestampConversion() throws Exception {
+      String xml = "<?xml version='1.0'?>" +
             "<EventBean>" +
             "<type>WARNING</type>" +
             "<start>2004-02-10 00:00:00.0</start>" +
             "<end/>" +
             "</EventBean>";
-            
-       StringReader in = new StringReader(xml);
-       BeanReader reader = new BeanReader();
-       reader.registerBeanClass(EventBean.class);
-       EventBean bean = (EventBean) reader.parse(in);
-       
-       assertNotNull("Parsing should work", bean);
-       assertEquals("Type property", "WARNING", bean.getType());
-       assertEquals("Start property", "2004-02-10 00:00:00.0", bean.getStart().toString());
-       assertNull("End property", bean.getEnd());
-    }
-   
+
+      StringReader in = new StringReader(xml);
+      BeanReader reader = new BeanReader();
+      reader.registerBeanClass(EventBean.class);
+      EventBean bean = (EventBean) reader.parse(in);
+
+      assertNotNull("Parsing should work", bean);
+      assertEquals("Type property", "WARNING", bean.getType());
+      assertEquals("Start property", "2004-02-10 00:00:00.0", bean.getStart().toString());
+      assertNull("End property", bean.getEnd());
+   }
+
 }

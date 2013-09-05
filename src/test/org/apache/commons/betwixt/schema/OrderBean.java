@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -27,40 +27,41 @@ import java.util.List;
  * @version $Revision$
  */
 public class OrderBean {
-    
-    private String code;
-    private List lines = new ArrayList();
-    private CustomerBean customer;
-    
-    public OrderBean() {}
-    
-    public OrderBean(String code, CustomerBean customer) {
-        this.customer = customer;
-        this.code = code;
-    }
-    
-    
-    public String getCode() {
-        return code;
-    }    
 
-    public CustomerBean getCustomer() {
-        return customer;
-    }
+   private String code;
+   private List lines = new ArrayList();
+   private CustomerBean customer;
 
-    public Iterator getLines() {
-        return lines.iterator();
-    }
+   public OrderBean() {
+   }
 
-    public void setCode(String string) {
-        code = string;
-    }
+   public OrderBean(String code, CustomerBean customer) {
+      this.customer = customer;
+      this.code = code;
+   }
 
-    public void setCustomer(CustomerBean bean) {
-        customer = bean;
-    }
 
-    public void addLine(OrderLineBean line) {
-        lines.add(line);
-    }
+   public String getCode() {
+      return code;
+   }
+
+   public CustomerBean getCustomer() {
+      return customer;
+   }
+
+   public Iterator getLines() {
+      return lines.iterator();
+   }
+
+   public void setCode(String string) {
+      code = string;
+   }
+
+   public void setCustomer(CustomerBean bean) {
+      customer = bean;
+   }
+
+   public void addLine(OrderLineBean line) {
+      lines.add(line);
+   }
 }

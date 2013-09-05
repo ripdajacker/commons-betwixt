@@ -13,12 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema;
 
 import java.util.Vector;
 
-/** 
+/**
  * <p> This is a bean specifically designed to test cyclic references. 
  * The idea is that there's a count that counts every time <code>getFriend</code>
  * gets called and throws a <code>RuntimeException</code> if the count gets too high.</p>
@@ -26,37 +26,32 @@ import java.util.Vector;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class CyclicLayer {
-    private Vector columns = new Vector(); //CyclicColumn
-    
-  private String name;
-    
-  public CyclicLayer(String name) 
-  {
-    this.name = name;
-  }
-    
-  public Vector getColumns()
-  {
-    return this.columns;
-  }
-    
-  public void setColumns(Vector vColumns)
-  {
-    this.columns = vColumns;
-  }
-    
-  public void addColumn(CyclicColumn aColumn)
-  {
-    columns.add(aColumn);
-  }
-  public String getName()
-  {
-    return name;
-  }
-    
-  public String toString()
-  {
-    return "[CyclicLayer] name=" + name;
-  }
+   private Vector columns = new Vector(); //CyclicColumn
+
+   private String name;
+
+   public CyclicLayer(String name) {
+      this.name = name;
+   }
+
+   public Vector getColumns() {
+      return this.columns;
+   }
+
+   public void setColumns(Vector vColumns) {
+      this.columns = vColumns;
+   }
+
+   public void addColumn(CyclicColumn aColumn) {
+      columns.add(aColumn);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public String toString() {
+      return "[CyclicLayer] name=" + name;
+   }
 
 }

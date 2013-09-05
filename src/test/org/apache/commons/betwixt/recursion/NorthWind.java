@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.recursion;
 
@@ -23,25 +23,25 @@ package org.apache.commons.betwixt.recursion;
  * @version $Revision$
  */
 public class NorthWind {
-	
-	private EastWind east;
-	
-	public NorthWind() {}
-	
-	
-	
-    /**
-     * @return
-     */
-    public EastWind getNextWindClockwise() {
-        return east;
-    }
 
-    /**
-     * @param east
-     */
-    public void setNextWindClockwise(EastWind east) {
-        this.east = east;
-    }
+   private EastWind east;
+
+   public NorthWind() {
+   }
+
+
+   /**
+    * @return
+    */
+   public EastWind getNextWindClockwise() {
+      return east;
+   }
+
+   /**
+    * @param east
+    */
+   public void setNextWindClockwise(EastWind east) {
+      this.east = east;
+   }
 
 }

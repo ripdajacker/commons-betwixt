@@ -18,335 +18,385 @@
 
 <document>
 
-  <properties>
-    <title>Betwixt FAQ</title>
-    <author email="jstrachan@apache.org">James Strachan</author>
-  </properties>
+   <properties>
+      <title>Betwixt FAQ</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-  <body>
+   <body>
 
-  <section name="Frequently Asked Questions">
-    <p>
-      This document attempts to answer some of the more frequently asked
-      questions regarding various aspects of Betwixt.  These questions are
-      typically asked over and over again on the mailing lists, as a
-      courtesy to the developers, we ask that you read this document
-      before posting to the mailing lists.  
-    </p>
-    <p><strong>General</strong></p>
-    <ol>
-      <li>
-        <a href="#what-is-betwixt">
-          What is Betwixt?
-        </a>
-      </li>
-      <li>
-        <a href="#why-called-betwixt">
-          Why is this called Betwixt?
-        </a>
-      </li>
-      <li>
-        <a href="#comparison">
-          How does Betwixt compare to technologies like JAXB and Castor?
-        </a>
-      </li>
-      <li>
-        <a href="#performance">
-          Why Can I Make Betwixt Bind Faster?
-        </a>
-      </li>
-    </ol>
-    <p><strong>Writing Beans</strong></p>
-    <ol>
-      <li>
-        <a href="#output-options">
-          In what forms can Betwixt output the xml?
-        </a>
-      </li>
-      <li>
-        <a href="#pretty-print">
-          Can <code>BeanWriter</code> produce xml that's easy (for a human ;) to read?
-        </a>
-      </li>
-      <li>
-        <a href="#cycles">
-          How does Betwixt cope with beans which have cyclic reference graphs?
-        </a>
-      </li>
-      <li>
-        <a href="#stop-generating-ids">
-          How can I stop Betwixt generating <code>ID</code> attribute values for my beans?
-        </a>
-      </li>
-      <li>
-        <a href="#empty-elements">
-          How can I stop Betwixt write out empty elements?
-        </a>
-      </li>
-      <li>
-        <a href="#cdata">
-          How can I stop Betwixt escaping my character data?
-        </a>
-      </li>            
-    </ol>
-    <p><strong>Reading Beans</strong></p>
-    <ol>
-      <li>
-        <a href="#digester-limitation">
-          How can I make my extra digestion <em>Rule</em>s work with Betwixt?
-        </a>
-      </li>
-      <li>
-        <a href="#bean-read-failure">
-          Why does reading my xml return null?
-        </a>
-      </li>
-      <li>
-      	<a href="#betwixt-matching-adders">
-How can I make Betwixt match adders to collective properties when using
-a <code>.betwixt</code> file <em>without</em> also adding default propertes?
-      	</a>
-      </li>
-      <li>
-        <a href="#read-validation">
-          Does Betwixt Validate Values Read?
-        </a>
-      </li>
-    </ol>
-    <p><strong>Building Betwixt</strong></p>
-    <ol>
-      <li>
-        <a href="#how-to-build">
-          How do I build Betwixt?
-        </a>
-      </li>
-    </ol>
+      <section name="Frequently Asked Questions">
+         <p>
+            This document attempts to answer some of the more frequently asked
+            questions regarding various aspects of Betwixt. These questions are
+            typically asked over and over again on the mailing lists, as a
+            courtesy to the developers, we ask that you read this document
+            before posting to the mailing lists.
+         </p>
+         <p>
+            <strong>General</strong>
+         </p>
+         <ol>
+            <li>
+               <a href="#what-is-betwixt">
+                  What is Betwixt?
+               </a>
+            </li>
+            <li>
+               <a href="#why-called-betwixt">
+                  Why is this called Betwixt?
+               </a>
+            </li>
+            <li>
+               <a href="#comparison">
+                  How does Betwixt compare to technologies like JAXB and Castor?
+               </a>
+            </li>
+            <li>
+               <a href="#performance">
+                  Why Can I Make Betwixt Bind Faster?
+               </a>
+            </li>
+         </ol>
+         <p>
+            <strong>Writing Beans</strong>
+         </p>
+         <ol>
+            <li>
+               <a href="#output-options">
+                  In what forms can Betwixt output the xml?
+               </a>
+            </li>
+            <li>
+               <a href="#pretty-print">
+                  Can
+                  <code>BeanWriter</code>
+                  produce xml that's easy (for a human ;) to read?
+               </a>
+            </li>
+            <li>
+               <a href="#cycles">
+                  How does Betwixt cope with beans which have cyclic reference graphs?
+               </a>
+            </li>
+            <li>
+               <a href="#stop-generating-ids">
+                  How can I stop Betwixt generating
+                  <code>ID</code>
+                  attribute values for my beans?
+               </a>
+            </li>
+            <li>
+               <a href="#empty-elements">
+                  How can I stop Betwixt write out empty elements?
+               </a>
+            </li>
+            <li>
+               <a href="#cdata">
+                  How can I stop Betwixt escaping my character data?
+               </a>
+            </li>
+         </ol>
+         <p>
+            <strong>Reading Beans</strong>
+         </p>
+         <ol>
+            <li>
+               <a href="#digester-limitation">
+                  How can I make my extra digestion<em>Rule</em>s work with Betwixt?
+               </a>
+            </li>
+            <li>
+               <a href="#bean-read-failure">
+                  Why does reading my xml return null?
+               </a>
+            </li>
+            <li>
+               <a href="#betwixt-matching-adders">
+                  How can I make Betwixt match adders to collective properties when using
+                  a
+                  <code>.betwixt</code>
+                  file
+                  <em>without</em>
+                  also adding default propertes?
+               </a>
+            </li>
+            <li>
+               <a href="#read-validation">
+                  Does Betwixt Validate Values Read?
+               </a>
+            </li>
+         </ol>
+         <p>
+            <strong>Building Betwixt</strong>
+         </p>
+         <ol>
+            <li>
+               <a href="#how-to-build">
+                  How do I build Betwixt?
+               </a>
+            </li>
+         </ol>
 
-    <subsection name="General">
-      <dl>
-        <dt>
-          <a name="what-is-betwixt">
-            What is Betwixt?
-          </a>
-        </dt>
-        <dd>
-          The Betwixt library provides an XML introspection mechanism
-   		  for mapping beans to XML in a flexible way.
-          Please see the <a href="index.html">Home page</a> and <a
-          href="guide/start.html">Guide</a> documents for more detail.
-        </dd>
-      </dl>
-      
-      <dl>
-        <dt>
-          <a name="why-called-betwixt">
-          	Why is this called Betwixt?
-          </a>
-        </dt>
-        <dd>
-          I grepped a dictionary for words containing B*T*X for Bean To XML.
-          There's not many words around containing those 3 letters in order. 
-		  Betwixt also seems a fitting name as its the stuff between (betwixt) Beans and XML.
-        </dd>
-      </dl>
-      
-      <dl>
-        <dt>
-          <a name="comparison">
-          	How does Betwixt compare to technologies like JAXB and Castor?
-          </a>
-        </dt>
-        <dd>
-			Where JAXP and Castor are strong is when you have a well agreed schema (XML
-			Schema for Castor or a DTD in the case of JAXB, last time I looked) and want
-			to auto-generate beans for parsing and processing the XML.
-        </dd>
-        <dd>
-			Betwixt is strong is when you've already got the beans and just want a nice
-			looking XML format to serialize/deserialize your beans. 
-			Indeed with Betwixt you can just write your beans and not even worry
-			about XML schemas and providing you follow a simple bean naming convention
-			(the use of getter, setter and <i>adder</i> methods) you'll get nice looking XML for free.
-        </dd>
-        <dd>
-			In JDK1.4 there is a 
-			<a href="http://java.sun.com/j2se/1.4/docs/guide/beans/changes14.html">long term bean serialization</a> 
-			mechanism which you can use. However Betwixt generates cleaner looking XML which can be customized
-			to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
-        </dd>
-      </dl>
-      <dl>
-        <dt>
-          <a name="performance">
-          	Why Can I Make Betwixt Faster?
-          </a>
-        </dt>
-        <dd>
-Betwixt is a dynamic binder. This means that it uses reflection. One of the biggest costs
-is introspection by reflection of the beans. Betwixt caches the results of reflection in a
-<code>XMLBeanInfoRegistry</code> implementation. One simple way to improve performance is to
-share a single, threadsafe implementation (<code>DefaultXMLBeanInfoRegistry</code>, for example) 
-between all readers and writers.
-        </dd>
-      </dl>
-    </subsection>
-    <subsection name="Writing Beans">     
-      <dl>
-        <dt>
-          <a name="output-options">
-          	In what forms can Betwixt output the xml?
-          </a>
-        </dt>
-        <dd>
-            Betwixt can output xml as streaming text or as SAX events.
-        </dd>
-      </dl>
-      <dl>
-        <dt>
-          <a name="pretty-print">
-          	Can <code>BeanWriter</code> produce xml that's easy (for a human ;) to read?
-          </a>
-        </dt>
-        <dd>
-            Yes! Call
-<source>
-beanWriter.enablePrettyPrint();
-</source>
-            (For those who are extra picky, how this is done can also be adjusted.
-            See java docs for details.)
-        </dd>
-      </dl>      
-      
-      <dl>
-        <dt>
-          <a name="cycles">
-          	How does Betwixt cope with beans which have cyclic reference graphs?
-          </a>
-        </dt>
-        <dd>
-            The default behaviour is to use the <code>ID</code>-<code>IDREF</code> mechanism
-            (described in the xml specification). Betwixt will automatically assign <code>ID</code>
-            values to beans as it write out the graph. If it comes to a bean that it's written
-            before, it will write an <code>IDREF</code> value matching the original.
-        </dd>
-      </dl>  
-      
-      <dl>
-        <dt>
-          <a name="stop-generating-ids">
-          	How can I stop Betwixt generating <code>ID</code> attribute values for my beans?
-          </a>
-        </dt>
-        <dd>
-            This is controlled by a property on <code>BeanWriter</code>. Call
-<source>
-beanWriter.setWriteIDs(false);
-</source>
-            and then Betwixt will no longer automatically add <code>ID</code> attributes.
-            Once this property is set (to false), when a cycle reference is encountered
-            in the bean graph, a <code>CyclicReferenceException</code> will be thrown.
-        </dd>
-      </dl>   
+         <subsection name="General">
+            <dl>
+               <dt>
+                  <a name="what-is-betwixt">
+                     What is Betwixt?
+                  </a>
+               </dt>
+               <dd>
+                  The Betwixt library provides an XML introspection mechanism
+                  for mapping beans to XML in a flexible way.
+                  Please see the
+                  <a href="index.html">Home page</a>
+                  and
+                  <a
+                        href="guide/start.html">Guide
+                  </a>
+                  documents for more detail.
+               </dd>
+            </dl>
 
-      <dl>
-        <dt>
-          <a name="empty-elements">
-          	How can I stop Betwixt writing out empty elements?
-          </a>
-        </dt>
-        <dd>
-            An empty element (for this discussion) is one which has no attributes and no
-            child elements which are not empty. 
-            If you want to stop Betwixt writing out empty elements, then call:
-<source>
-beanWriter.setWriteEmptyElements(false);
-</source>
-            (before writing your bean).
-        </dd>
-      </dl>   
+            <dl>
+               <dt>
+                  <a name="why-called-betwixt">
+                     Why is this called Betwixt?
+                  </a>
+               </dt>
+               <dd>
+                  I grepped a dictionary for words containing B*T*X for Bean To XML.
+                  There's not many words around containing those 3 letters in order.
+                  Betwixt also seems a fitting name as its the stuff between (betwixt) Beans and XML.
+               </dd>
+            </dl>
 
-      <dl>
-        <dt>
-          <a name="cdata">
-          	How can I stop Betwixt escaping my character data?
-          </a>
-        </dt>
-        <dd>
-Betwixt processes the character data so that valid xml is created.
-The detault is to escape all character data but this can be changed
-by plugging in a new <a href='guide/output.html#Content%20Encoding'>mixed context 
-encoding strategy</a>.
-        </dd>
-      </dl> 
-          
-    </subsection>
-    <subsection name="Reading Beans">
-      <dl>
-        <dt>
-          <a name="digester-limitation">
-            How can I make my extra digestion <em>Rule</em>s work with Betwixt?
-          </a>
-        </dt>
-        <dd>
-            Betwixt uses <a href='http://commons.apache.org/digester/index.html'>Digester</a> for bean
-            reading. With care and knowledge of the way that Betwixt reads beans,
-            extra rules can be used to add custom functionality.
-        </dd>
-        <dt>
-          <a name="bean-read-failure">
-            Why does reading my xml return null?
-          </a>
-        </dt>
-        <dd>
-            Here are some common reasons why this may happen:
-            <ul>
-            <li><strong>The class lacks a no-argument construct.</strong>
-            Betwixt only supports creation of beans with no-argument constructors.
-            This may be fixed in a future release. (Patches for this gratefully received!)</li>
-            <li><strong>The class need to be registered at a custom path.</strong>
-            You may need to use <code>registerBeanRegister(String path, Class beanClass)</code>
-            to register the class at a particular path.</li>
-            </ul>
-        </dd>
-         <dt>
-          <a name="betwixt-matching-adders">
-How can I make Betwixt match adders to collective properties when using
-a <code>.betwixt</code> file <em>without</em> also adding default propertes?
-          </a>
-        </dt>
-        <dd>
-Add the <code>&lt;addDefaults&gt;</code> and to it add an attribute 
-<code>add-properties=&quot;false&quot;</code>.
-        </dd>    
-         <dt>
-          <a name="read-validation">
-Does Betwixt Validate Values Read?
-          </a>
-        </dt>
-        <dd>
-Betwixt does not directly validate any property values read. The convertion of the string
-in the xml to values suitable for setting on the bean property is delegated to the 
-ObjectStringConverter. The converter may - or may not - validate values (and throw exceptions 
-when they fall outside acceptable ranges).
-        </dd>       
-      </dl>
-      
-    </subsection>
-    <subsection name="Building Betwixt">
-      <dl>
-        <dt>
-          <a name="how-to-build">
-            How do I build Betwixt?
-          </a>
-        </dt>
-        <dd>
-          Betwixt uses Maven for its build system. So you should be able to build Betwixt just like
-          any other Maven enabled project. Please see the 
-          <a href="http://maven.apache.org/maven-1.x/">Maven</a> 
-          documentation for details.
-        </dd>
-      </dl>
-    </subsection>
-  </section>
-</body>
+            <dl>
+               <dt>
+                  <a name="comparison">
+                     How does Betwixt compare to technologies like JAXB and Castor?
+                  </a>
+               </dt>
+               <dd>
+                  Where JAXP and Castor are strong is when you have a well agreed schema (XML
+                  Schema for Castor or a DTD in the case of JAXB, last time I looked) and want
+                  to auto-generate beans for parsing and processing the XML.
+               </dd>
+               <dd>
+                  Betwixt is strong is when you've already got the beans and just want a nice
+                  looking XML format to serialize/deserialize your beans.
+                  Indeed with Betwixt you can just write your beans and not even worry
+                  about XML schemas and providing you follow a simple bean naming convention
+                  (the use of getter, setter and
+                  <i>adder</i>
+                  methods) you'll get nice looking XML for free.
+               </dd>
+               <dd>
+                  In JDK1.4 there is a
+                  <a href="http://java.sun.com/j2se/1.4/docs/guide/beans/changes14.html">long term bean serialization</a>
+                  mechanism which you can use. However Betwixt generates cleaner looking XML which can be customized
+                  to your own look and feel. Long term bean serialization doesn't generate nice looking XML.
+               </dd>
+            </dl>
+            <dl>
+               <dt>
+                  <a name="performance">
+                     Why Can I Make Betwixt Faster?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt is a dynamic binder. This means that it uses reflection. One of the biggest costs
+                  is introspection by reflection of the beans. Betwixt caches the results of reflection in a
+                  <code>XMLBeanInfoRegistry</code>
+                  implementation. One simple way to improve performance is to
+                  share a single, threadsafe implementation (<code>DefaultXMLBeanInfoRegistry</code>, for example)
+                  between all readers and writers.
+               </dd>
+            </dl>
+         </subsection>
+         <subsection name="Writing Beans">
+            <dl>
+               <dt>
+                  <a name="output-options">
+                     In what forms can Betwixt output the xml?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt can output xml as streaming text or as SAX events.
+               </dd>
+            </dl>
+            <dl>
+               <dt>
+                  <a name="pretty-print">
+                     Can
+                     <code>BeanWriter</code>
+                     produce xml that's easy (for a human ;) to read?
+                  </a>
+               </dt>
+               <dd>
+                  Yes! Call
+                  <source>
+                     beanWriter.enablePrettyPrint();
+                  </source>
+                  (For those who are extra picky, how this is done can also be adjusted.
+                  See java docs for details.)
+               </dd>
+            </dl>
+
+            <dl>
+               <dt>
+                  <a name="cycles">
+                     How does Betwixt cope with beans which have cyclic reference graphs?
+                  </a>
+               </dt>
+               <dd>
+                  The default behaviour is to use the<code>ID</code>-
+                  <code>IDREF</code>
+                  mechanism
+                  (described in the xml specification). Betwixt will automatically assign
+                  <code>ID</code>
+                  values to beans as it write out the graph. If it comes to a bean that it's written
+                  before, it will write an
+                  <code>IDREF</code>
+                  value matching the original.
+               </dd>
+            </dl>
+
+            <dl>
+               <dt>
+                  <a name="stop-generating-ids">
+                     How can I stop Betwixt generating
+                     <code>ID</code>
+                     attribute values for my beans?
+                  </a>
+               </dt>
+               <dd>
+                  This is controlled by a property on<code>BeanWriter</code>. Call
+                  <source>
+                     beanWriter.setWriteIDs(false);
+                  </source>
+                  and then Betwixt will no longer automatically add
+                  <code>ID</code>
+                  attributes.
+                  Once this property is set (to false), when a cycle reference is encountered
+                  in the bean graph, a
+                  <code>CyclicReferenceException</code>
+                  will be thrown.
+               </dd>
+            </dl>
+
+            <dl>
+               <dt>
+                  <a name="empty-elements">
+                     How can I stop Betwixt writing out empty elements?
+                  </a>
+               </dt>
+               <dd>
+                  An empty element (for this discussion) is one which has no attributes and no
+                  child elements which are not empty.
+                  If you want to stop Betwixt writing out empty elements, then call:
+                  <source>
+                     beanWriter.setWriteEmptyElements(false);
+                  </source>
+                  (before writing your bean).
+               </dd>
+            </dl>
+
+            <dl>
+               <dt>
+                  <a name="cdata">
+                     How can I stop Betwixt escaping my character data?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt processes the character data so that valid xml is created.
+                  The detault is to escape all character data but this can be changed
+                  by plugging in a new<a href='guide/output.html#Content%20Encoding'>mixed context
+                  encoding strategy</a>.
+               </dd>
+            </dl>
+
+         </subsection>
+         <subsection name="Reading Beans">
+            <dl>
+               <dt>
+                  <a name="digester-limitation">
+                     How can I make my extra digestion<em>Rule</em>s work with Betwixt?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt uses
+                  <a href='http://commons.apache.org/digester/index.html'>Digester</a>
+                  for bean
+                  reading. With care and knowledge of the way that Betwixt reads beans,
+                  extra rules can be used to add custom functionality.
+               </dd>
+               <dt>
+                  <a name="bean-read-failure">
+                     Why does reading my xml return null?
+                  </a>
+               </dt>
+               <dd>
+                  Here are some common reasons why this may happen:
+                  <ul>
+                     <li>
+                        <strong>The class lacks a no-argument construct.</strong>
+                        Betwixt only supports creation of beans with no-argument constructors.
+                        This may be fixed in a future release. (Patches for this gratefully received!)
+                     </li>
+                     <li>
+                        <strong>The class need to be registered at a custom path.</strong>
+                        You may need to use
+                        <code>registerBeanRegister(String path, Class beanClass)</code>
+                        to register the class at a particular path.
+                     </li>
+                  </ul>
+               </dd>
+               <dt>
+                  <a name="betwixt-matching-adders">
+                     How can I make Betwixt match adders to collective properties when using
+                     a
+                     <code>.betwixt</code>
+                     file
+                     <em>without</em>
+                     also adding default propertes?
+                  </a>
+               </dt>
+               <dd>
+                  Add the
+                  <code>&lt;addDefaults&gt;</code>
+                  and to it add an attribute
+                  <code>add-properties=&quot;false&quot;</code>.
+               </dd>
+               <dt>
+                  <a name="read-validation">
+                     Does Betwixt Validate Values Read?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt does not directly validate any property values read. The convertion of the string
+                  in the xml to values suitable for setting on the bean property is delegated to the
+                  ObjectStringConverter. The converter may - or may not - validate values (and throw exceptions
+                  when they fall outside acceptable ranges).
+               </dd>
+            </dl>
+
+         </subsection>
+         <subsection name="Building Betwixt">
+            <dl>
+               <dt>
+                  <a name="how-to-build">
+                     How do I build Betwixt?
+                  </a>
+               </dt>
+               <dd>
+                  Betwixt uses Maven for its build system. So you should be able to build Betwixt just like
+                  any other Maven enabled project. Please see the
+                  <a href="http://maven.apache.org/maven-1.x/">Maven</a>
+                  documentation for details.
+               </dd>
+            </dl>
+         </subsection>
+      </section>
+   </body>
 </document>

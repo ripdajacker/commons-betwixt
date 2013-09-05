@@ -13,43 +13,44 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 /** <p><code>MapBean</code> is a sample bean used for testing maps.</p>
-  *
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ * @version $Revision$
+ */
 public class MapBean {
-    
-    private String title = "**UNSET**";
-    
-    private Map addresses = new TreeMap();
-    
-    public MapBean() {}
-    
-    public MapBean(String title) {
-        setTitle(title);
-    }	
-    
-    public String getTitle() {
-        return title;
-    }
-    
-    public void setTitle(String title) {
-        this.title = title;
-    }	
-    
-    public Map getAddresses() {
-        return addresses;
-    }	
-    
-    public void addAddress(String name, AddressBean address) {
-        addresses.put(name, address);
-    }
+
+   private String title = "**UNSET**";
+
+   private Map addresses = new TreeMap();
+
+   public MapBean() {
+   }
+
+   public MapBean(String title) {
+      setTitle(title);
+   }
+
+   public String getTitle() {
+      return title;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+   public Map getAddresses() {
+      return addresses;
+   }
+
+   public void addAddress(String name, AddressBean address) {
+      addresses.put(name, address);
+   }
 }

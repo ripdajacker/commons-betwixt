@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -24,20 +24,21 @@ package org.apache.commons.betwixt.schema;
  */
 public class SimplestBean {
 
-    private String name;
-    
-    public SimplestBean() {}
-    
-    public SimplestBean(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
+   private String name;
 
-    public void setName(String string) {
-        name = string;
-    }
+   public SimplestBean() {
+   }
+
+   public SimplestBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String string) {
+      name = string;
+   }
 
 }

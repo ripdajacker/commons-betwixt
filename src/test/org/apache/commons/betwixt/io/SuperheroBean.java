@@ -13,44 +13,44 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
 
 /**
  */
 public class SuperheroBean {
 
-    private String moniker;
-    private SidekickBean sidekick;
-    
-    public SuperheroBean() {
-        super();
-    }
+   private String moniker;
+   private SidekickBean sidekick;
 
-    public SuperheroBean(String moniker, SidekickBean sidekick) {
-        super();
-        this.moniker = moniker;
-        this.sidekick = sidekick;
-    }
-    
-    public SuperheroBean(SidekickBean sidekick) {
-        super();
-        this.sidekick = sidekick;
-    }
-    
-    public String getMoniker() {
-        return moniker;
-    }
- 
-    public void setMoniker(String moniker) {
-        this.moniker = moniker;
-    }
+   public SuperheroBean() {
+      super();
+   }
 
-    public SidekickBean getSidekick() {
-        return sidekick;
-    }
+   public SuperheroBean(String moniker, SidekickBean sidekick) {
+      super();
+      this.moniker = moniker;
+      this.sidekick = sidekick;
+   }
 
-    public void setSidekick(SidekickBean sidekick) {
-        this.sidekick = sidekick;
-    }
+   public SuperheroBean(SidekickBean sidekick) {
+      super();
+      this.sidekick = sidekick;
+   }
+
+   public String getMoniker() {
+      return moniker;
+   }
+
+   public void setMoniker(String moniker) {
+      this.moniker = moniker;
+   }
+
+   public SidekickBean getSidekick() {
+      return sidekick;
+   }
+
+   public void setSidekick(SidekickBean sidekick) {
+      this.sidekick = sidekick;
+   }
 }

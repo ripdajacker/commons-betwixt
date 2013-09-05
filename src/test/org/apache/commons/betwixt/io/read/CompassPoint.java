@@ -13,29 +13,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
-/** 
+/**
  * Example enum
- * 
+ *
  * @author Robert Burrell Donkin
  * @version $Id$
  */
 public class CompassPoint {
 
-    public static final CompassPoint NORTH = new CompassPoint("North");
-    public static final CompassPoint SOUTH = new CompassPoint("South");
-    public static final CompassPoint EAST = new CompassPoint("East");
-    public static final CompassPoint WEST = new CompassPoint("West");
-    
-    private String name;
-    
-    private CompassPoint(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
+   public static final CompassPoint NORTH = new CompassPoint("North");
+   public static final CompassPoint SOUTH = new CompassPoint("South");
+   public static final CompassPoint EAST = new CompassPoint("East");
+   public static final CompassPoint WEST = new CompassPoint("West");
+
+   private String name;
+
+   private CompassPoint(String name) {
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
+   }
 }

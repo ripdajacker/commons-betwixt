@@ -13,43 +13,45 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 /** <p><code>NameBean</code> very simple bean (useful to debug complex test cases).</p>
-  *
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  */
+ *
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ */
 public class NameBean {
-    
-    private String name;
-    
-    public NameBean() {}
-    
-    public NameBean(String name) 
-    {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String toString() {  
-        return "[" + this.getClass().getName() + ": name=" + name + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        if ( obj instanceof NameBean && getName() != null ) {
-            return getName().equals(((NameBean) obj).getName());
-        }
-        
-        return false;
-    }
+
+   private String name;
+
+   public NameBean() {
+   }
+
+   public NameBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String toString() {
+      return "[" + this.getClass().getName() + ": name=" + name + "]";
+   }
+
+   public boolean equals(Object obj) {
+      if (obj == null) {
+         return false;
+      }
+      if (obj instanceof NameBean && getName() != null) {
+         return getName().equals(((NameBean) obj).getName());
+      }
+
+      return false;
+   }
 }

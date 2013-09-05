@@ -13,48 +13,49 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.dotbetwixt;
 
-/** 
-  * This is a simple bean that allow an instance to contain another instance.
-  *
-  * @author Robert Burrell Donkin
-  */
+/**
+ * This is a simple bean that allow an instance to contain another instance.
+ *
+ * @author Robert Burrell Donkin
+ */
 public class RecursiveBean {
-    
-//-------------------------- Attributes
-    private String name;
-    
-    private RecursiveBean child;
-    
-//-------------------------- Constructors
-    public RecursiveBean() {}
-    
-    public RecursiveBean(String name) {
-        setName(name);
-    }
-    
-    public RecursiveBean(String name, RecursiveBean bean) {
-        setName(name);
-        setChild(bean);
-    }
-        
-//--------------------------- Properties
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public RecursiveBean getChild() {
-        return child;
-    }
-    
-    public void setChild(RecursiveBean child) {
-        this.child = child;
-    }
+
+   //-------------------------- Attributes
+   private String name;
+
+   private RecursiveBean child;
+
+   //-------------------------- Constructors
+   public RecursiveBean() {
+   }
+
+   public RecursiveBean(String name) {
+      setName(name);
+   }
+
+   public RecursiveBean(String name, RecursiveBean bean) {
+      setName(name);
+      setChild(bean);
+   }
+
+   //--------------------------- Properties
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public RecursiveBean getChild() {
+      return child;
+   }
+
+   public void setChild(RecursiveBean child) {
+      this.child = child;
+   }
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.schema;
 
@@ -25,69 +25,63 @@ import java.util.List;
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
  * @version $Id$
  */
-public class PhysicalSchema
-{
-    
-    private ArrayList dbmsCollection;
-    
-    
-    private boolean autoCreate = false;
-    
-    public PhysicalSchema()
-    {
-        dbmsCollection = new ArrayList();
-    }
-    public PhysicalSchema(String autoCreate)
-    {
-        this.autoCreate = autoCreate.equalsIgnoreCase("yes");
-    }
-    public void setAutocreate(String autoCreate)
-    {
-        this.autoCreate = (autoCreate.equalsIgnoreCase("yes"));
-    }
-    
-    public String getAutocreate() 
-    {
-        return this.autoCreate?"yes":"no";
-    }
-    
-    public void addDbms(Dbms dbms)
-    {
-        dbmsCollection.add(dbms);
-    }
-    
-    public List getDbmss()
-    {
-        return dbmsCollection;
-    }
-    
-    public boolean equals(Object object) 
-    {
-        if (object == null) { 
-            return false;
-        }
-        if (object instanceof PhysicalSchema) {
-            PhysicalSchema schema = (PhysicalSchema) object;
-            if (schema.getAutocreate().equals(this.getAutocreate())) {
-                int count = 0;
-                Iterator it = schema.getDbmss().iterator();
-                while ( it.hasNext() ) {
-                    if (count >= dbmsCollection.size() ) {
-                        return false;
-                    }
-                    if (! it.next().equals( dbmsCollection.get(count++) ) ) {
-                        return false;
-                    }
-                }
-                
-                return true;
+public class PhysicalSchema {
+
+   private ArrayList dbmsCollection;
+
+
+   private boolean autoCreate = false;
+
+   public PhysicalSchema() {
+      dbmsCollection = new ArrayList();
+   }
+
+   public PhysicalSchema(String autoCreate) {
+      this.autoCreate = autoCreate.equalsIgnoreCase("yes");
+   }
+
+   public void setAutocreate(String autoCreate) {
+      this.autoCreate = (autoCreate.equalsIgnoreCase("yes"));
+   }
+
+   public String getAutocreate() {
+      return this.autoCreate ? "yes" : "no";
+   }
+
+   public void addDbms(Dbms dbms) {
+      dbmsCollection.add(dbms);
+   }
+
+   public List getDbmss() {
+      return dbmsCollection;
+   }
+
+   public boolean equals(Object object) {
+      if (object == null) {
+         return false;
+      }
+      if (object instanceof PhysicalSchema) {
+         PhysicalSchema schema = (PhysicalSchema) object;
+         if (schema.getAutocreate().equals(this.getAutocreate())) {
+            int count = 0;
+            Iterator it = schema.getDbmss().iterator();
+            while (it.hasNext()) {
+               if (count >= dbmsCollection.size()) {
+                  return false;
+               }
+               if (!it.next().equals(dbmsCollection.get(count++))) {
+                  return false;
+               }
             }
-        }
-        return false;
-    }
-    
-    public String toString() {
-        return "[PhysicalSchema] autocreate=" + getAutocreate() + " dbmass=" + getDbmss();
-    }	
+
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public String toString() {
+      return "[PhysicalSchema] autocreate=" + getAutocreate() + " dbmass=" + getDbmss();
+   }
 }
 

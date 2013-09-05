@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt;
 
 /**
@@ -22,15 +22,15 @@ package org.apache.commons.betwixt;
  * @version $Revision$
  */
 public class LibraryBeanWithArraySetter {
-    private static final BookBean[] EMPTY = {};
+   private static final BookBean[] EMPTY = {};
 
-    private BookBean[] books = EMPTY;
-    
-    public BookBean[] getBooks() {
-        return books;
-    }
-    
-    public void setBooks(BookBean[] books) {
-        this.books = books;
-    }
+   private BookBean[] books = EMPTY;
+
+   public BookBean[] getBooks() {
+      return books;
+   }
+
+   public void setBooks(BookBean[] books) {
+      this.books = books;
+   }
 }

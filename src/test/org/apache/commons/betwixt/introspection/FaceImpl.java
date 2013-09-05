@@ -15,31 +15,31 @@ package org.apache.commons.betwixt.introspection;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 /**
-  * 
-  * @author Robert Burrell Donkin
-  * @version $Id$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Id$
+ */
 public class FaceImpl implements IFace {
-    
-    private String name;
-    private boolean smirked = false;
-    
-    public String getName() {
-        return name;
-    }	
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public void smirk() {
-        smirked = true;
-    }
-    
-    public boolean getFaceReallySmirked() {
-        return smirked;
-    }	
+
+   private String name;
+   private boolean smirked = false;
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public void smirk() {
+      smirked = true;
+   }
+
+   public boolean getFaceReallySmirked() {
+      return smirked;
+   }
 }

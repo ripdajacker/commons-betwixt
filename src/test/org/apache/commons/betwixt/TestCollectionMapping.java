@@ -13,9 +13,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
+
+import org.apache.commons.betwixt.io.BeanReader;
+import org.apache.commons.betwixt.io.BeanWriter;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.beans.IntrospectionException;
 import java.io.IOException;
@@ -25,136 +30,124 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.betwixt.io.BeanReader;
-import org.apache.commons.betwixt.io.BeanWriter;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 /**
  * Tests the multi-mapping of collections with polymorphic entries.
- * 
+ *
  * @author Thomas Dudziak (tomdz@apache.org)
  */
-public class TestCollectionMapping extends AbstractTestCase
-{
-    public static class Container
-    {
-        private List _elements = new ArrayList();
+public class TestCollectionMapping extends AbstractTestCase {
+   public static class Container {
+      private List _elements = new ArrayList();
 
-        public Iterator getElements()
-        {
-            return _elements.iterator();
-        }
+      public Iterator getElements() {
+         return _elements.iterator();
+      }
 
-        public void addElement(Element element)
-        {
-            _elements.add(element);
-        }
-    }
+      public void addElement(Element element) {
+         _elements.add(element);
+      }
+   }
 
-    public static interface Element
-    {}
+   public static interface Element {
+   }
 
-    public static class ElementA implements Element
-    {}
+   public static class ElementA implements Element {
+   }
 
-    public static class ElementB implements Element
-    {}
+   public static class ElementB implements Element {
+   }
 
-    public static class ElementC
-    {}
+   public static class ElementC {
+   }
 
-    private static final String MAPPING =
-        "<?xml version=\"1.0\"?>\n"+
-        "<betwixt-config>\n"+
-        "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$Container\">\n"+
-        "    <element name=\"container\">\n"+
-        "      <element name=\"elements\">\n"+
-        "        <element property=\"elements\" updater='addElement'/>\n"+
-        "      </element>\n"+
-        "    </element>\n"+
-        "  </class>\n"+
-        "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementA\">\n"+
-        "    <element name=\"elementA\"/>\n"+
-        "  </class>\n"+
-        "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementB\">\n"+
-        "    <element name=\"elementB\"/>\n"+
-        "  </class>\n"+
-        "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementC\">\n"+
-        "    <element name=\"elementC\"/>\n"+
-        "  </class>\n"+
-        "</betwixt-config>";
-    private static final String EXPECTED =
-        "<?xml version=\"1.0\" ?>\n"+
-        "  <container>\n"+
-        "    <elements>\n"+
-        "      <elementB/>\n"+
-        "      <elementA/>\n"+
-        "    </elements>\n"+
-        "  </container>\n";
-    private static final String INVALID_XML =
-        "<?xml version=\"1.0\" ?>\n"+
-        "  <container>\n"+
-        "    <elements>\n"+
-        "      <elementC/>\n"+
-        "    </elements>\n"+
-        "  </container>\n";
-    
-    public TestCollectionMapping(String testName)
-    {
-        super(testName);
-    }
+   private static final String MAPPING =
+         "<?xml version=\"1.0\"?>\n" +
+               "<betwixt-config>\n" +
+               "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$Container\">\n" +
+               "    <element name=\"container\">\n" +
+               "      <element name=\"elements\">\n" +
+               "        <element property=\"elements\" updater='addElement'/>\n" +
+               "      </element>\n" +
+               "    </element>\n" +
+               "  </class>\n" +
+               "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementA\">\n" +
+               "    <element name=\"elementA\"/>\n" +
+               "  </class>\n" +
+               "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementB\">\n" +
+               "    <element name=\"elementB\"/>\n" +
+               "  </class>\n" +
+               "  <class name=\"org.apache.commons.betwixt.TestCollectionMapping$ElementC\">\n" +
+               "    <element name=\"elementC\"/>\n" +
+               "  </class>\n" +
+               "</betwixt-config>";
+   private static final String EXPECTED =
+         "<?xml version=\"1.0\" ?>\n" +
+               "  <container>\n" +
+               "    <elements>\n" +
+               "      <elementB/>\n" +
+               "      <elementA/>\n" +
+               "    </elements>\n" +
+               "  </container>\n";
+   private static final String INVALID_XML =
+         "<?xml version=\"1.0\" ?>\n" +
+               "  <container>\n" +
+               "    <elements>\n" +
+               "      <elementC/>\n" +
+               "    </elements>\n" +
+               "  </container>\n";
 
-    public void testRoundTripWithSingleMappingFile() throws IOException, SAXException, IntrospectionException
-    {
-        Container container = new Container();
+   public TestCollectionMapping(String testName) {
+      super(testName);
+   }
 
-        container.addElement(new ElementB());
-        container.addElement(new ElementA());
+   public void testRoundTripWithSingleMappingFile() throws IOException, SAXException, IntrospectionException {
+      Container container = new Container();
 
-        StringWriter outputWriter = new StringWriter();
+      container.addElement(new ElementB());
+      container.addElement(new ElementA());
 
-        outputWriter.write("<?xml version=\"1.0\" ?>\n");
+      StringWriter outputWriter = new StringWriter();
 
-        BeanWriter beanWriter = new BeanWriter(outputWriter);
-        beanWriter.setEndOfLine("\n");
-        beanWriter.enablePrettyPrint();
-        beanWriter.setWriteEmptyElements(true);
-        beanWriter.getBindingConfiguration().setMapIDs(false);
-        beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
-        beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
-        beanWriter.write(container);
+      outputWriter.write("<?xml version=\"1.0\" ?>\n");
 
-        String output = outputWriter.toString();
+      BeanWriter beanWriter = new BeanWriter(outputWriter);
+      beanWriter.setEndOfLine("\n");
+      beanWriter.enablePrettyPrint();
+      beanWriter.setWriteEmptyElements(true);
+      beanWriter.getBindingConfiguration().setMapIDs(false);
+      beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
+      beanWriter.write(container);
 
-        assertEquals(EXPECTED, output);
-            
-        BeanReader beanReader = new BeanReader();
+      String output = outputWriter.toString();
 
-        beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+      assertEquals(EXPECTED, output);
 
-        StringReader xmlReader = new StringReader(output);
+      BeanReader beanReader = new BeanReader();
 
-        container = (Container)beanReader.parse(xmlReader);
+      beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
 
-        Iterator it = container.getElements();
+      StringReader xmlReader = new StringReader(output);
 
-        assertTrue(it.next() instanceof ElementB);
-        assertTrue(it.next() instanceof ElementA);
-        assertFalse(it.hasNext());
-    }
+      container = (Container) beanReader.parse(xmlReader);
 
-    public void testInvalidXML() throws IOException, IntrospectionException, SAXException
-    {
-        BeanReader beanReader = new BeanReader();
+      Iterator it = container.getElements();
 
-        beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+      assertTrue(it.next() instanceof ElementB);
+      assertTrue(it.next() instanceof ElementA);
+      assertFalse(it.hasNext());
+   }
 
-        StringReader xmlReader = new StringReader(INVALID_XML);
-        Container    container = (Container)beanReader.parse(xmlReader);
+   public void testInvalidXML() throws IOException, IntrospectionException, SAXException {
+      BeanReader beanReader = new BeanReader();
 
-        // either we get an exception in the parse method (would perhaps be better)
-        // or the collection is empty (ElementC cannot be added)
-        assertFalse(container.getElements().hasNext());
-    }
+      beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+
+      StringReader xmlReader = new StringReader(INVALID_XML);
+      Container container = (Container) beanReader.parse(xmlReader);
+
+      // either we get an exception in the parse method (would perhaps be better)
+      // or the collection is empty (ElementC cannot be added)
+      assertFalse(container.getElements().hasNext());
+   }
 }

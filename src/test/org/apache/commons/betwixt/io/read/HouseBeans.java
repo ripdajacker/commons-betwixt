@@ -13,31 +13,32 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/** 
+/**
  * Collective class for HouseBean
- * 
+ *
  * @author Robert Burrell Donkin
  * @version $Id$
  */
 public class HouseBeans {
 
-    protected ArrayList houses = new ArrayList();
-    
-    public HouseBeans() {}
-    
-    public Iterator getHouses() {
-        return houses.iterator();
-    }
-    
-    public void addHouse(HouseBean house) {
-        if (house != null) {
-            houses.add(house);
-        }
-    }
+   protected ArrayList houses = new ArrayList();
+
+   public HouseBeans() {
+   }
+
+   public Iterator getHouses() {
+      return houses.iterator();
+   }
+
+   public void addHouse(HouseBean house) {
+      if (house != null) {
+         houses.add(house);
+      }
+   }
 }

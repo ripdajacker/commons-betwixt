@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -26,26 +26,26 @@ import java.util.List;
  */
 public class Father {
 
-  private List kids;
-  private String spouse;
+   private List kids;
+   private String spouse;
 
-  public String getSpouse() {
-    return spouse;
-  }
+   public String getSpouse() {
+      return spouse;
+   }
 
-  public void setSpouse(String spouse) {
-    this.spouse = spouse;
-  }
+   public void setSpouse(String spouse) {
+      this.spouse = spouse;
+   }
 
-  public List getKids() {
-    return kids;
-  }
+   public List getKids() {
+      return kids;
+   }
 
-  public void addKid(String kid) {
-    if (this.kids == null) {
-      this.kids = new ArrayList();
-    }
-    this.kids.add(kid);
-  }
+   public void addKid(String kid) {
+      if (this.kids == null) {
+         this.kids = new ArrayList();
+      }
+      this.kids.add(kid);
+   }
 
 }

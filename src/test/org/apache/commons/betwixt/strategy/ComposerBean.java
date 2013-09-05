@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 
 package org.apache.commons.betwixt.strategy;
 
@@ -24,59 +24,60 @@ package org.apache.commons.betwixt.strategy;
  */
 public class ComposerBean {
 
-    private String forename;
-    private String surname;
-    private int born;
-    
-    public ComposerBean() {}
-    
-    public ComposerBean(String forename, String surname, int born) {
-        setForename(forename);
-        setSurname(surname);
-        setBorn(born);
-    }
-    
-    public int getBorn() {
-        return born;
-    }
+   private String forename;
+   private String surname;
+   private int born;
 
-    public String getForename() {
-        return forename;
-    }
+   public ComposerBean() {
+   }
 
+   public ComposerBean(String forename, String surname, int born) {
+      setForename(forename);
+      setSurname(surname);
+      setBorn(born);
+   }
 
-    public String getSurname() {
-        return surname;
-    }
+   public int getBorn() {
+      return born;
+   }
 
-    public void setBorn(int i) {
-        born = i;
-    }
-
-    public void setForename(String string) {
-        forename = string;
-    }
+   public String getForename() {
+      return forename;
+   }
 
 
-    public void setSurname(String string) {
-        surname = string;
-    }
+   public String getSurname() {
+      return surname;
+   }
 
-    public int hashCode() {
-        return born;
-    }
-    
-    public boolean equals(Object obj) {
-        boolean result = false;
-        if (obj instanceof ComposerBean) {
-            ComposerBean composer = (ComposerBean) obj;
-            result = 
-                born == composer.born &&
-                surname.equals(composer.surname) &&
-                forename.equals(composer.forename);   
-        }
-        return result;
-    }
-    
+   public void setBorn(int i) {
+      born = i;
+   }
+
+   public void setForename(String string) {
+      forename = string;
+   }
+
+
+   public void setSurname(String string) {
+      surname = string;
+   }
+
+   public int hashCode() {
+      return born;
+   }
+
+   public boolean equals(Object obj) {
+      boolean result = false;
+      if (obj instanceof ComposerBean) {
+         ComposerBean composer = (ComposerBean) obj;
+         result =
+               born == composer.born &&
+                     surname.equals(composer.surname) &&
+                     forename.equals(composer.forename);
+      }
+      return result;
+   }
+
 
 }

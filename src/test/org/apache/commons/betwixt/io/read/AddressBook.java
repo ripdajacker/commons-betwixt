@@ -14,26 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 
 package org.apache.commons.betwixt.io.read;
+
 import java.util.HashMap;
 
 /**
  * @author Brian Pugh
  */
 public class AddressBook {
-    private HashMap addressesMap = new HashMap();
+   private HashMap addressesMap = new HashMap();
 
-    public HashMap getAddressBookItems() {
-        return addressesMap;
-    }
-    
-    public void setAddressBookItems(HashMap map) {
-        this.addressesMap = map;
-    }
-     
-    public void addAddressBookItem(String name, AddressBean[] addresses) {
-        addressesMap.put(name, addresses);
-    }
+   public HashMap getAddressBookItems() {
+      return addressesMap;
+   }
+
+   public void setAddressBookItems(HashMap map) {
+      this.addressesMap = map;
+   }
+
+   public void addAddressBookItem(String name, AddressBean[] addresses) {
+      addressesMap.put(name, addresses);
+   }
 }

@@ -15,16 +15,15 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
+
+import junit.framework.AssertionFailedError;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.AssertionFailedError;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p><code>ScarabSettings</code> is a sample bean for use by the test cases.</p>
@@ -32,63 +31,54 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class ScarabSettings implements Serializable
-{
+public class ScarabSettings implements Serializable {
 
-    /**
-     * Logger
-     */
-    private final static Log log = LogFactory.getLog(ScarabSettings.class);
+   /**
+    * Logger
+    */
+   private final static Log log = LogFactory.getLog(ScarabSettings.class);
 
-    private List globalAttributes;
+   private List globalAttributes;
 
-    private List modules;
-    
-    private List globalIssueTypes;
-    
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public ScarabSettings() 
-    { 
-        globalAttributes = new ArrayList();
-        modules = new ArrayList();
-        globalIssueTypes = new ArrayList();
-    }
+   private List modules;
 
-    public List getGlobalAttributes()
-    {
-        return globalAttributes;
-    }
-    
-    public void addGlobalAttribute(GlobalAttribute globalAttribute)
-    {
-        // adds an assertion that the name must be populated first
-        // as an extra test case
-        if (globalAttribute.getName() == null) 
-        {
-            throw new AssertionFailedError("Cannot add a new GlobalAttribute that has no name: " + globalAttribute);            
-        }
-        globalAttributes.add(globalAttribute);
-    }        
+   private List globalIssueTypes;
 
-    public List getGlobalIssueTypes()
-    {
-        return globalIssueTypes;
-    }
-    
-    public void addGlobalIssueType(GlobalIssueType globalIssueType)
-    {
-        globalIssueTypes.add(globalIssueType);
-    }        
+   /**
+    * Constructor for the ScarabSettings object
+    */
+   public ScarabSettings() {
+      globalAttributes = new ArrayList();
+      modules = new ArrayList();
+      globalIssueTypes = new ArrayList();
+   }
 
-    public List getModules()
-    {
-        return modules;
-    }
-    
-    public void addModule(Module module)
-    {
-        modules.add(module);
-    }
+   public List getGlobalAttributes() {
+      return globalAttributes;
+   }
+
+   public void addGlobalAttribute(GlobalAttribute globalAttribute) {
+      // adds an assertion that the name must be populated first
+      // as an extra test case
+      if (globalAttribute.getName() == null) {
+         throw new AssertionFailedError("Cannot add a new GlobalAttribute that has no name: " + globalAttribute);
+      }
+      globalAttributes.add(globalAttribute);
+   }
+
+   public List getGlobalIssueTypes() {
+      return globalIssueTypes;
+   }
+
+   public void addGlobalIssueType(GlobalIssueType globalIssueType) {
+      globalIssueTypes.add(globalIssueType);
+   }
+
+   public List getModules() {
+      return modules;
+   }
+
+   public void addModule(Module module) {
+      modules.add(module);
+   }
 }

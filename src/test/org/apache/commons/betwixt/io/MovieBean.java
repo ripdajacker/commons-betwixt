@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.io;
 
 import java.util.ArrayList;
@@ -26,51 +26,53 @@ import java.util.Iterator;
  * @version $Revision$
  */
 public class MovieBean {
-    
-    private String name;
-    private int year;
-    private PersonBean director;
-    private Collection actors = new ArrayList();
-    
-    public MovieBean() {}
-    public MovieBean(String name, int year, PersonBean director) {
-        setName(name);
-        setYear(year);
-        setDirector(director);
-    }
 
-    public Iterator getActors() {
-        return actors.iterator();
-    }
+   private String name;
+   private int year;
+   private PersonBean director;
+   private Collection actors = new ArrayList();
 
-    public PersonBean getDirector() {
-        return director;
-    }
+   public MovieBean() {
+   }
 
-    public String getName() {
-        return name;
-    }
+   public MovieBean(String name, int year, PersonBean director) {
+      setName(name);
+      setYear(year);
+      setDirector(director);
+   }
 
+   public Iterator getActors() {
+      return actors.iterator();
+   }
 
-    public int getYear() {
-        return year;
-    }
+   public PersonBean getDirector() {
+      return director;
+   }
 
-    public void addActor(PersonBean actor) {
-        actors.add(actor);
-    }
-
-    public void setDirector(PersonBean bean) {
-        director = bean;
-    }
-
-    public void setName(String string) {
-        name = string;
-    }
+   public String getName() {
+      return name;
+   }
 
 
-    public void setYear(int i) {
-        year = i;
-    }
+   public int getYear() {
+      return year;
+   }
+
+   public void addActor(PersonBean actor) {
+      actors.add(actor);
+   }
+
+   public void setDirector(PersonBean bean) {
+      director = bean;
+   }
+
+   public void setName(String string) {
+      name = string;
+   }
+
+
+   public void setYear(int i) {
+      year = i;
+   }
 
 }

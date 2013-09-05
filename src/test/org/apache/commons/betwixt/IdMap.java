@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 
 package org.apache.commons.betwixt;
 
@@ -25,12 +25,14 @@ import java.util.Map;
  * @author Brian Pugh
  */
 public class IdMap {
-  private Map ids = new HashMap();
-  public Map getIds() {
-    return ids;
-  }
-  public void addId(String key, Integer value) {
-    this.ids.put(key, value);
-  }
+   private Map ids = new HashMap();
+
+   public Map getIds() {
+      return ids;
+   }
+
+   public void addId(String key, Integer value) {
+      this.ids.put(key, value);
+   }
 }
 

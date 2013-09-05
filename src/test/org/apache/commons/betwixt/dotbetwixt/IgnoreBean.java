@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -23,24 +23,24 @@ package org.apache.commons.betwixt.dotbetwixt;
  * @version $Revision$
  */
 public class IgnoreBean {
-    
-    private String alpha;
-    private String beta;
-    
-    public String getAlpha() {
-        return alpha;
-    }
 
-    public void setAlpha(String string) {
-        alpha = string;
-    }
-    
-    public String getBeta() {
-        return beta;
-    }
+   private String alpha;
+   private String beta;
 
-    public void setBeta(String string) {
-        beta = string;
-    }
+   public String getAlpha() {
+      return alpha;
+   }
+
+   public void setAlpha(String string) {
+      alpha = string;
+   }
+
+   public String getBeta() {
+      return beta;
+   }
+
+   public void setBeta(String string) {
+      beta = string;
+   }
 
 }

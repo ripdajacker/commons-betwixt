@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.strategy;
 
 /**
@@ -22,41 +22,42 @@ package org.apache.commons.betwixt.strategy;
  * @version $Revision$
  */
 public class ABCBean {
-    
-    private String a;
-    private String b;
-    private String c;
-    
-    public ABCBean() {}
-    
-    public ABCBean(String a, String b, String c) {
-        setA(a);
-        setB(b);
-        setC(c);
-    }
 
-    public String getA() {
-        return a;
-    }
+   private String a;
+   private String b;
+   private String c;
 
-    public String getB() {
-        return b;
-    }
+   public ABCBean() {
+   }
 
-    public String getC() {
-        return c;
-    }
+   public ABCBean(String a, String b, String c) {
+      setA(a);
+      setB(b);
+      setC(c);
+   }
 
-    public void setA(String string) {
-        a = string;
-    }
+   public String getA() {
+      return a;
+   }
 
-    public void setB(String string) {
-        b = string;
-    }
+   public String getB() {
+      return b;
+   }
 
-    public void setC(String string) {
-        c = string;
-    }
+   public String getC() {
+      return c;
+   }
+
+   public void setA(String string) {
+      a = string;
+   }
+
+   public void setB(String string) {
+      b = string;
+   }
+
+   public void setC(String string) {
+      c = string;
+   }
 
 }

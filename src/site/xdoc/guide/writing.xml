@@ -18,127 +18,154 @@
 
 <document>
 
- <properties>
-  <title>Writing Beans (Advanced)</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Writing Beans (Advanced)</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
-<section name='Writing Beans (Advanced)'>
-        <subsection name='Writing DynaBeans'>
+   <body>
+      <section name='Writing Beans (Advanced)'>
+         <subsection name='Writing DynaBeans'>
             <p>
-A <strong>DynaBean</strong> is a pseudo-bean whose properties may differ between instances of the same Class.
-Pseudo-introspection of the available properties uses a pseudo-class of type DynaClass.
-For more details see <a href='http://commons.apache.org/beanutils/index.html'>BeanUtils</a>.
-                </p>
+               A
+               <strong>DynaBean</strong>
+               is a pseudo-bean whose properties may differ between instances of the same Class.
+               Pseudo-introspection of the available properties uses a pseudo-class of type DynaClass.
+               For more details see<a href='http://commons.apache.org/beanutils/index.html'>BeanUtils</a>.
+            </p>
             <p>
-Betwixt now supports the (correct) writing of objects implementing DynaBean. Rather than using standard
-introspection for these objects, <code>Betwixt</code> now interrogates the DynaClass. Using .betwixt files
-with DynaBeans is not yet supported. The special behaviour of DynaBean classes will be overridden when a
-.betwixt file is present.
-                </p>
-    </subsection>
-        <subsection name='Writing Entity Beans'>
+               Betwixt now supports the (correct) writing of objects implementing DynaBean. Rather than using standard
+               introspection for these objects,
+               <code>Betwixt</code>
+               now interrogates the DynaClass. Using .betwixt files
+               with DynaBeans is not yet supported. The special behaviour of DynaBean classes will be overridden when a
+               .betwixt file is present.
+            </p>
+         </subsection>
+         <subsection name='Writing Entity Beans'>
             <p>
-Entity beans are a kind of Enterprise Java Bean. For more details see the
-<a href='http://java.sun.com/j2ee/'>J2EE</a> specification. They are a common way to persist data.
-When dealing with an entity bean, you usually deal with the remote interface rather than the
-concrete implementation. There is no guarantee that the class presented by the container will be
-the class your created to provide the bean's functionality. 
-Indeed, <code>Proxy</code> implementations are 
-one common way in which the remote interfaces are implemented. 
-        </p>
+               Entity beans are a kind of Enterprise Java Bean. For more details see the
+               <a href='http://java.sun.com/j2ee/'>J2EE</a>
+               specification. They are a common way to persist data.
+               When dealing with an entity bean, you usually deal with the remote interface rather than the
+               concrete implementation. There is no guarantee that the class presented by the container will be
+               the class your created to provide the bean's functionality.
+               Indeed,
+               <code>Proxy</code>
+               implementations are
+               one common way in which the remote interfaces are implemented.
+            </p>
             <p>
-This causes some difficulties for Betwixt. Betwixt (by default) will introspect the actual implementation
-presented by the container.
-Fortunately, the normalization mechanism described <a href='binding.html#Introspection_And_Normalization'>here</a> 
-can be used to allow betwixt to introspect the actual interface (rather than the implementation).
-        </p>
+               This causes some difficulties for Betwixt. Betwixt (by default) will introspect the actual implementation
+               presented by the container.
+               Fortunately, the normalization mechanism described
+               <a href='binding.html#Introspection_And_Normalization'>here</a>
+               can be used to allow betwixt to introspect the actual interface (rather than the implementation).
+            </p>
             <p>
-There are two different strategies that can be used. The first is to create a special 
-<code>ClassNormalizer</code> which extracts an interface from a <code>Proxy</code>.
-(Thanks to Christoph Gaffga for suggesting this.)
-For example:
-        </p>
-<code><pre>
-        XMLIntrospector introspector = ...;
-        introspector.setClassNormalizer( new ClassNormalizer() {
-                public Class normalize( Class clazz ) {
-                    if ( Proxy.isProxyClass(clazz) &amp;&amp; clazz.getInterfaces().length >0 ) {
-                        return clazz.getInterfaces()[0];
-                    }
-                    return clazz;
-                }
-            });
-</pre></code>
+               There are two different strategies that can be used. The first is to create a special
+               <code>ClassNormalizer</code>
+               which extracts an interface from a<code>Proxy</code>.
+               (Thanks to Christoph Gaffga for suggesting this.)
+               For example:
+            </p>
+            <code>
+               <pre>
+                  XMLIntrospector introspector = ...;
+                  introspector.setClassNormalizer( new ClassNormalizer() {
+                  public Class normalize( Class clazz ) {
+                  if ( Proxy.isProxyClass(clazz) &amp;&amp; clazz.getInterfaces().length >0 ) {
+                  return clazz.getInterfaces()[0];
+                  }
+                  return clazz;
+                  }
+                  });
+               </pre>
+            </code>
             <p>
-Of course, this will only work if your J2EE implementation uses <code>Proxy</code> classes to implement
-it's Entity Beans.
-        </p>
+               Of course, this will only work if your J2EE implementation uses
+               <code>Proxy</code>
+               classes to implement
+               it's Entity Beans.
+            </p>
             <p>
-The alternative is to use a <code>ListedClassNormalizer</code> and register all remote interfaces.
-For example:
-        </p>
-<code><pre>
-        XMLIntrospector introspector = ...;
-        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
-        classNormalizer.addSubstitution( MyRemoteInterfaceOne.class );
-        classNormalizer.addSubstitution( MyRemoteInterfaceTwo.class );
-        ...
-        introspector.setClassNormalizer( classNormalizer );
-</pre></code>
-    </subsection>
-        <subsection name='Suppressing The Expression Of Attributes'>
+               The alternative is to use a
+               <code>ListedClassNormalizer</code>
+               and register all remote interfaces.
+               For example:
+            </p>
+            <code>
+               <pre>
+                  XMLIntrospector introspector = ...;
+                  ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+                  classNormalizer.addSubstitution( MyRemoteInterfaceOne.class );
+                  classNormalizer.addSubstitution( MyRemoteInterfaceTwo.class );
+                  ...
+                  introspector.setClassNormalizer( classNormalizer );
+               </pre>
+            </code>
+         </subsection>
+         <subsection name='Suppressing The Expression Of Attributes'>
             <p>
-Sometimes there are certain values for some attributes which should result in
-the attribute not being expressed at all. A typical use case is the requirement
-for null property values to result in the absence of the mapped attributes
-(as opposed to their expression with an empty value).
-        </p>
+               Sometimes there are certain values for some attributes which should result in
+               the attribute not being expressed at all. A typical use case is the requirement
+               for null property values to result in the absence of the mapped attributes
+               (as opposed to their expression with an empty value).
+            </p>
             <p>
-Betwixt allows this behaviour to be customized through the setting of the
-<code>ValueSuppressionStrategy</code> property of the writer's
-<code>BindingConfiguration</code> to an appropriate 
-<code>ValueSuppressionStrategy</code> implementation.
-        </p>
+               Betwixt allows this behaviour to be customized through the setting of the
+               <code>ValueSuppressionStrategy</code>
+               property of the writer's
+               <code>BindingConfiguration</code>
+               to an appropriate
+               <code>ValueSuppressionStrategy</code>
+               implementation.
+            </p>
             <p>
-By default, Betwixt suppresses empty attributes.
-        </p>
-    </subsection>
-    		<subsection name='Suppressing The Expression Of Elements At Bind Type'>
-    				<p>
-The expression of elements can be suppressed at bind time in a similar fashion. 
-This is particularly useful when particular property values must not to expressed.
-This can help to prevent complete tree traversal when using tools such as Hibernate. 
-Again, a custom <code>ValueSuppressionStrategy</code> implementation should be created.
-    			</p>
-    	</subsection>
-</section>
-<section name='Pretty Print'>
-    <subsection name='Pretty Printing'>
-        <p>
-<code>BeanWriter</code> supports pretty printing. When pretty printing, extra white space will be inserted
-with the aim of making the xml produced more readable by humans. Pretty printing is off by default.
-Call <code>enablePrettyPrint</code> to switch it on. For example:
-        </p>
-<source>
-    BeanWriter writer = ...
-    ...
-    writer.enablePrettyPrinting();
-</source>
-    </subsection>
-    <subsection name='Setting Initial Indent'>
-        <p>
-Pretty printing indents elements so that the xml can be read more easily. The number of indentations
-for the root element defaults to one. Some users may prefer this to start at zero. This value is configurable through 
-the <code>initialIndentLevel</code> property of <code>BeanWriter</code>. For example
-        </p>
-<source>
-    BeanWriter writer = ...
-    ...
-    writer.setInitialIndentLevel(0);
-</source>
-    </subsection>
-</section>
-</body>
+               By default, Betwixt suppresses empty attributes.
+            </p>
+         </subsection>
+         <subsection name='Suppressing The Expression Of Elements At Bind Type'>
+            <p>
+               The expression of elements can be suppressed at bind time in a similar fashion.
+               This is particularly useful when particular property values must not to expressed.
+               This can help to prevent complete tree traversal when using tools such as Hibernate.
+               Again, a custom
+               <code>ValueSuppressionStrategy</code>
+               implementation should be created.
+            </p>
+         </subsection>
+      </section>
+      <section name='Pretty Print'>
+         <subsection name='Pretty Printing'>
+            <p>
+               <code>BeanWriter</code>
+               supports pretty printing. When pretty printing, extra white space will be inserted
+               with the aim of making the xml produced more readable by humans. Pretty printing is off by default.
+               Call
+               <code>enablePrettyPrint</code>
+               to switch it on. For example:
+            </p>
+            <source>
+               BeanWriter writer = ...
+               ...
+               writer.enablePrettyPrinting();
+            </source>
+         </subsection>
+         <subsection name='Setting Initial Indent'>
+            <p>
+               Pretty printing indents elements so that the xml can be read more easily. The number of indentations
+               for the root element defaults to one. Some users may prefer this to start at zero. This value is configurable through
+               the
+               <code>initialIndentLevel</code>
+               property of<code>BeanWriter</code>. For example
+            </p>
+            <source>
+               BeanWriter writer = ...
+               ...
+               writer.setInitialIndentLevel(0);
+            </source>
+         </subsection>
+      </section>
+   </body>
 </document>

@@ -13,32 +13,32 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
 
-import java.io.StringWriter;
-
 import org.apache.commons.betwixt.AbstractTestCase;
+
+import java.io.StringWriter;
 
 /**
  */
 public class TestWriteIDs extends AbstractTestCase {
 
-    public TestWriteIDs(String testName) {
-        super(testName);
-    }
-    public void testTest() throws Exception
-    {
-        PersonBean bean = new PersonBean();
-        StringWriter out = new StringWriter();
-        out.write("<?xml version='1.0'?>");
-        BeanWriter beanWriter = new BeanWriter(out);
-        beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-        beanWriter.getBindingConfiguration().setMapIDs(true);
-        beanWriter.enablePrettyPrint();
-        beanWriter.write("bean", bean);
-        
-        String expected = "<?xml version='1.0'?><bean id='1'/>";
-        xmlAssertIsomorphic(parseString(expected), parseString(out), true);
-    }
+   public TestWriteIDs(String testName) {
+      super(testName);
+   }
+
+   public void testTest() throws Exception {
+      PersonBean bean = new PersonBean();
+      StringWriter out = new StringWriter();
+      out.write("<?xml version='1.0'?>");
+      BeanWriter beanWriter = new BeanWriter(out);
+      beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      beanWriter.getBindingConfiguration().setMapIDs(true);
+      beanWriter.enablePrettyPrint();
+      beanWriter.write("bean", bean);
+
+      String expected = "<?xml version='1.0'?><bean id='1'/>";
+      xmlAssertIsomorphic(parseString(expected), parseString(out), true);
+   }
 }

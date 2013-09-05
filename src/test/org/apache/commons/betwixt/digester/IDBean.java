@@ -14,65 +14,67 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.digester;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/** Bean for testing ID-IDRef reading.
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
-public class IDBean {
-    
-    static Log log = LogFactory.getLog( IDBean.class );
-    
-    private String id;
-    private String name;
-    
-    private IDBean child;
-    
-    private List children = new ArrayList();
-    
-    public IDBean() { log.debug("Created"); }
-    
-    public IDBean(String id, String name) {
-        setId(id);
-        setName(name);
-    }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public String getName() {
-        return name;
-    }	
-    
-    public void setName(String name) {
-        log.debug("Set name: " + name);
-        this.name = name;
-    }
+import java.util.ArrayList;
+import java.util.List;
 
-    public List getChildren() {
-        return children;
-    }
-    
-    public void addChild(IDBean child) {
-        log.debug("Added child " + child + " to bean " + this);
-        children.add(child);
-    }
-    
-    public String toString() {
-        return "IDBean[name=" + getName() + ",id=" + getId() + ", children=" + children.size() + "] " + super.toString();
-    }
+/** Bean for testing ID-IDRef reading.
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
+public class IDBean {
+
+   static Log log = LogFactory.getLog(IDBean.class);
+
+   private String id;
+   private String name;
+
+   private IDBean child;
+
+   private List children = new ArrayList();
+
+   public IDBean() {
+      log.debug("Created");
+   }
+
+   public IDBean(String id, String name) {
+      setId(id);
+      setName(name);
+   }
+
+   public String getId() {
+      return id;
+   }
+
+   public void setId(String id) {
+      this.id = id;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      log.debug("Set name: " + name);
+      this.name = name;
+   }
+
+   public List getChildren() {
+      return children;
+   }
+
+   public void addChild(IDBean child) {
+      log.debug("Added child " + child + " to bean " + this);
+      children.add(child);
+   }
+
+   public String toString() {
+      return "IDBean[name=" + getName() + ",id=" + getId() + ", children=" + children.size() + "] " + super.toString();
+   }
 }

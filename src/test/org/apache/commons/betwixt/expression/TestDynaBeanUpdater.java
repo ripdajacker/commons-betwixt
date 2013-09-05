@@ -13,11 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.expression;
 
 import junit.framework.TestCase;
-
 import org.apache.commons.beanutils.BasicDynaBean;
 import org.apache.commons.beanutils.BasicDynaClass;
 import org.apache.commons.beanutils.DynaBean;
@@ -28,21 +27,22 @@ import org.apache.commons.beanutils.DynaProperty;
  */
 public class TestDynaBeanUpdater extends TestCase {
 
-    public void testSimpleTest() throws Exception {
-        DynaProperty[] dynaProperties = {
-                new DynaProperty("alpha", Integer.class),
-                new DynaProperty("beta", String.class)};
-        BasicDynaClass dynaClass = new BasicDynaClass("ADynaBean", BasicDynaBean.class, 
-                dynaProperties);
-        DynaBean dynaBean = dynaClass.newInstance();
-        
-        Context context = new Context();
-        context.setBean(dynaBean);
-        
-        DynaBeanUpdater dynaBeanUpdater = new DynaBeanUpdater("beta", String.class);
-        dynaBeanUpdater.update(context, "Zenith Lives");
-        
-        assertEquals("Expected dyna property set", "Zenith Lives", dynaBean.get("beta"));
-    }
-    
+   public void testSimpleTest() throws Exception {
+      DynaProperty[] dynaProperties = {
+            new DynaProperty("alpha", Integer.class),
+            new DynaProperty("beta", String.class)};
+      BasicDynaClass dynaClass = new BasicDynaClass(
+            "ADynaBean", BasicDynaBean.class,
+            dynaProperties);
+      DynaBean dynaBean = dynaClass.newInstance();
+
+      Context context = new Context();
+      context.setBean(dynaBean);
+
+      DynaBeanUpdater dynaBeanUpdater = new DynaBeanUpdater("beta", String.class);
+      dynaBeanUpdater.update(context, "Zenith Lives");
+
+      assertEquals("Expected dyna property set", "Zenith Lives", dynaBean.get("beta"));
+   }
+
 }

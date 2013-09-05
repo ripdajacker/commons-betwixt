@@ -13,14 +13,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.examples.rss;
 
+import org.apache.commons.betwixt.io.BeanReader;
+
 import java.io.File;
 import java.util.Iterator;
-
-import org.apache.commons.betwixt.io.BeanReader;
 
 
 /**
@@ -34,66 +34,66 @@ import org.apache.commons.betwixt.io.BeanReader;
 
 public class RSSApplication {
 
-    /**
-     * 
-     */
-    public static void main(String args[]) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Usage: <filename>");
-            System.exit(1);
-        }
-        
-        RSSApplication rssApplication = new RSSApplication();
-        System.out.println(rssApplication.plainTextSummary(args[0]));
-        System.exit(0);
-    }
-    
-    private BeanReader reader = new BeanReader();
-    
-    public RSSApplication() throws Exception {
-        configure();
-    }
-    
-    private void configure() throws Exception {
-        reader.registerBeanClass( Channel.class );
-    }
-    
-    public String plainTextSummary(String filename) throws Exception {
-        return plainTextSummary(new File(filename));
-    } 
-    
-    public String plainTextSummary(File file) throws Exception {
-        Channel channel = (Channel) reader.parse(file);
-        return plainTextSummary(channel);
-    } 
-    
-    
-    public String plainTextSummary(Channel channel) {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("channel: ");
-        buffer.append(channel.getTitle());
-        buffer.append('\n');
-        buffer.append("url: ");
-        buffer.append(channel.getLink());    
-        buffer.append('\n');    
-        buffer.append("copyright: ");
-        buffer.append(channel.getCopyright());
-        buffer.append('\n');
-                
-        for (Iterator it = channel.getItems().iterator(); it.hasNext(); ) {
-            Item item = (Item) it.next();
-            buffer.append('\n');
-            buffer.append("title: ");
-            buffer.append(item.getTitle());
-            buffer.append('\n');
-            buffer.append("link: ");
-            buffer.append(item.getLink());
-            buffer.append('\n');
-            buffer.append("description: ");
-            buffer.append(item.getDescription());
-            buffer.append('\n');
-        }
-        
-        return buffer.toString();
-    }
+   /**
+    *
+    */
+   public static void main(String args[]) throws Exception {
+      if (args.length != 1) {
+         System.err.println("Usage: <filename>");
+         System.exit(1);
+      }
+
+      RSSApplication rssApplication = new RSSApplication();
+      System.out.println(rssApplication.plainTextSummary(args[0]));
+      System.exit(0);
+   }
+
+   private BeanReader reader = new BeanReader();
+
+   public RSSApplication() throws Exception {
+      configure();
+   }
+
+   private void configure() throws Exception {
+      reader.registerBeanClass(Channel.class);
+   }
+
+   public String plainTextSummary(String filename) throws Exception {
+      return plainTextSummary(new File(filename));
+   }
+
+   public String plainTextSummary(File file) throws Exception {
+      Channel channel = (Channel) reader.parse(file);
+      return plainTextSummary(channel);
+   }
+
+
+   public String plainTextSummary(Channel channel) {
+      StringBuffer buffer = new StringBuffer();
+      buffer.append("channel: ");
+      buffer.append(channel.getTitle());
+      buffer.append('\n');
+      buffer.append("url: ");
+      buffer.append(channel.getLink());
+      buffer.append('\n');
+      buffer.append("copyright: ");
+      buffer.append(channel.getCopyright());
+      buffer.append('\n');
+
+      for (Iterator it = channel.getItems().iterator(); it.hasNext(); ) {
+         Item item = (Item) it.next();
+         buffer.append('\n');
+         buffer.append("title: ");
+         buffer.append(item.getTitle());
+         buffer.append('\n');
+         buffer.append("link: ");
+         buffer.append(item.getLink());
+         buffer.append('\n');
+         buffer.append("description: ");
+         buffer.append(item.getDescription());
+         buffer.append('\n');
+      }
+
+      return buffer.toString();
+   }
 }

@@ -18,134 +18,138 @@
 
 <document>
 
- <properties>
-  <title>Betwixt - Turning beans into XML</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Betwixt - Turning beans into XML</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
+   <body>
 
-<section name="Commons Betwixt : Turning beans into XML">
+      <section name="Commons Betwixt : Turning beans into XML">
 
 
-<p>
-   The Betwixt library provides an XML introspection mechanism
-   for mapping beans to XML in a flexible way. It is implemented using an 
-   XMLIntrospector and XMLBeanInfo classes which are similar to the standard 
-   Introspector and BeanInfo from the Java Beans specification.</p>
-<p>
-   Betwixt provides a way of turning beans into XML as well as automatically 
-   generating digester rules in a way that can be customized on a per type 
-   manner in the same way that the BeanInfo mechanism can be used to customize 
-   the default introspection on a java object.</p>
+         <p>
+            The Betwixt library provides an XML introspection mechanism
+            for mapping beans to XML in a flexible way. It is implemented using an
+            XMLIntrospector and XMLBeanInfo classes which are similar to the standard
+            Introspector and BeanInfo from the Java Beans specification.
+         </p>
+         <p>
+            Betwixt provides a way of turning beans into XML as well as automatically
+            generating digester rules in a way that can be customized on a per type
+            manner in the same way that the BeanInfo mechanism can be used to customize
+            the default introspection on a java object.
+         </p>
 
-</section>
+      </section>
 
-<section name="Releases">
+      <section name="Releases">
 
-  <subsection name='Betwixt 0.8'>
-    <p>
-Betwixt 0.8 is a feature release.
-Improvements have been made to suppression strategies.
-Enhancements have been made to mapping formats.
-Mixed collections are now handled more completely.
-For full details see the <a href='http://commons.apache.org/betwixt/betwixt-0.8/RELEASE-NOTES.txt'>release notes</a>
-and <a href='http://commons.apache.org/betwixt/betwixt-0.8/docs/index.html'>release documentation</a>. 
-	</p>
-    <p>
-Betwixt 0.8 is 
-<a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
-in binary and source distributions.
-    </p>
-  </subsection>
-  <subsection name='Betwixt 0.7'>
-    <p>
-Betwixt 0.7 is a feature release. 
-A number of new strategies have been introduced to add flexibility. Improvements
-have been made to binding and introspection including improved support for polymophism.
-Improvements have been made to the dot betwixt file format including support
-for multiple specifications within the same file. 
-For full details see the <a href='tasks.html#Completed'>tasks documentation</a>.
-    </p>
-    <p>
-Betwixt 0.7 is binary compatible with 0.6 but a number of changes have been
-made to some semantics. It is believed that the impact of these changes
-should be minimal. Details (together with some ways to mitigate) can be found on the 
- <a href='tasks.html#Semantic%20Changes'>list of semantic incompatibilities</a>.
-    </p>
-    <p>
-This release is binary compatible with the 0.6 codebase but the methods deprecated
-in 0.6 (and earlier) are likely to be removed soon.
-    </p>
-    <p>
-Betwixt 0.7 is 
-<a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
-in binary and source distributions.
-    </p>
-  </subsection>
-  <subsection name='Betwixt 0.6'>
-    <p>
-Betwixt release 0.6 is the first release containing the refactored codebase 
-featuring an improved design. This is a service release for those who have been
-using the code from the CVS branch and offers an easy, compatible upgrade path
-for those using the 0.5 design. It is recommended that all users should upgrade
-to this release since the 0.5 design is no longer actively supported and is 
-limited in terms of functionality. 
-    </p>
-    <p>
-This release is binary compatible with the 0.5 codebase but the methods deprecated
-in 0.5 are likely to be removed soon after 0.6 is released.
-    </p>
-    <p>
-Betwixt 0.6 is available in 
-<a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
-in binary and source distributions.
-    </p>
-  </subsection>
-  <subsection name="Betwixt 0.5">
-    <p>
-Betwixt release 0.5 is intended to consolidate the codebase released as 1.0 Alpha 1. 
-It is a service release for those users who want or need an official release of this 
-codebase. This numbering system more accurately reflects the current state of the codebase 
-- stable, mature but limited with APIs that may be subject to change in future releases. 
-It is unlikely that active ASF development will continue for this released codebase 
-since further development efforts are already focussed on newer designs.
-    </p>
-    <p>
-The current CVS HEAD code now contains the merged refactoring branch. A 
-baseline 0.6 release is planned for this code once 0.5 has been released.
-    </p>
-    <p>
-For more information, see the road map <a href='http://wiki.apache.org/commons/Betwixt'>
-on the wiki</a>.
-    </p>
-    <p>
-Betwixt 0.5 is 
-<a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
-in binary and source distributions.
-    </p>
-  </subsection>
-  <subsection name="Betwixt 1.0 Alpha 1">
-    <p>
-    <strong>Betwixt 1.0 Alpha 1</strong> - 28 Jan 2003
-    </p>
-    <p>
-Betwixt 1.0 Alpha 1 is 
-<a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
-in binary and source distributions.
-    </p>
-  </subsection>
-</section>
-<section name="Nightly Builds">
-    <p>
-        Nightly builds are built once a day from the current HEAD.
-        This is (nearly) the lastest code and so should be treated with caution!
-    </p>
-    <p>
-        You can get the nightly builds from 
-        <a href="http://people.apache.org/builds/commons/nightly/commons-betwixt/">here</a>
-    </p>
-</section>
+         <subsection name='Betwixt 0.8'>
+            <p>
+               Betwixt 0.8 is a feature release.
+               Improvements have been made to suppression strategies.
+               Enhancements have been made to mapping formats.
+               Mixed collections are now handled more completely.
+               For full details see the
+               <a href='http://commons.apache.org/betwixt/betwixt-0.8/RELEASE-NOTES.txt'>release notes</a>
+               and<a href='http://commons.apache.org/betwixt/betwixt-0.8/docs/index.html'>release documentation</a>.
+            </p>
+            <p>
+               Betwixt 0.8 is
+               <a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
+               in binary and source distributions.
+            </p>
+         </subsection>
+         <subsection name='Betwixt 0.7'>
+            <p>
+               Betwixt 0.7 is a feature release.
+               A number of new strategies have been introduced to add flexibility. Improvements
+               have been made to binding and introspection including improved support for polymophism.
+               Improvements have been made to the dot betwixt file format including support
+               for multiple specifications within the same file.
+               For full details see the<a href='tasks.html#Completed'>tasks documentation</a>.
+            </p>
+            <p>
+               Betwixt 0.7 is binary compatible with 0.6 but a number of changes have been
+               made to some semantics. It is believed that the impact of these changes
+               should be minimal. Details (together with some ways to mitigate) can be found on the
+               <a href='tasks.html#Semantic%20Changes'>list of semantic incompatibilities</a>.
+            </p>
+            <p>
+               This release is binary compatible with the 0.6 codebase but the methods deprecated
+               in 0.6 (and earlier) are likely to be removed soon.
+            </p>
+            <p>
+               Betwixt 0.7 is
+               <a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
+               in binary and source distributions.
+            </p>
+         </subsection>
+         <subsection name='Betwixt 0.6'>
+            <p>
+               Betwixt release 0.6 is the first release containing the refactored codebase
+               featuring an improved design. This is a service release for those who have been
+               using the code from the CVS branch and offers an easy, compatible upgrade path
+               for those using the 0.5 design. It is recommended that all users should upgrade
+               to this release since the 0.5 design is no longer actively supported and is
+               limited in terms of functionality.
+            </p>
+            <p>
+               This release is binary compatible with the 0.5 codebase but the methods deprecated
+               in 0.5 are likely to be removed soon after 0.6 is released.
+            </p>
+            <p>
+               Betwixt 0.6 is available in
+               <a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
+               in binary and source distributions.
+            </p>
+         </subsection>
+         <subsection name="Betwixt 0.5">
+            <p>
+               Betwixt release 0.5 is intended to consolidate the codebase released as 1.0 Alpha 1.
+               It is a service release for those users who want or need an official release of this
+               codebase. This numbering system more accurately reflects the current state of the codebase
+               - stable, mature but limited with APIs that may be subject to change in future releases.
+               It is unlikely that active ASF development will continue for this released codebase
+               since further development efforts are already focussed on newer designs.
+            </p>
+            <p>
+               The current CVS HEAD code now contains the merged refactoring branch. A
+               baseline 0.6 release is planned for this code once 0.5 has been released.
+            </p>
+            <p>
+               For more information, see the road map<a href='http://wiki.apache.org/commons/Betwixt'>
+               on the wiki</a>.
+            </p>
+            <p>
+               Betwixt 0.5 is
+               <a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
+               in binary and source distributions.
+            </p>
+         </subsection>
+         <subsection name="Betwixt 1.0 Alpha 1">
+            <p>
+               <strong>Betwixt 1.0 Alpha 1</strong>
+               - 28 Jan 2003
+            </p>
+            <p>
+               Betwixt 1.0 Alpha 1 is
+               <a href='http://commons.apache.org/betwixt/download_betwixt.cgi'>available</a>
+               in binary and source distributions.
+            </p>
+         </subsection>
+      </section>
+      <section name="Nightly Builds">
+         <p>
+            Nightly builds are built once a day from the current HEAD.
+            This is (nearly) the lastest code and so should be treated with caution!
+         </p>
+         <p>
+            You can get the nightly builds from
+            <a href="http://people.apache.org/builds/commons/nightly/commons-betwixt/">here</a>
+         </p>
+      </section>
 
-</body>
+   </body>
 </document>

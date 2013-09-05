@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt;
@@ -27,18 +27,18 @@ import java.util.List;
  * @version $Revision$
  */
 public class Categories {
-    
-    private List categories = new ArrayList();
-    
-    public int size() {
-        return categories.size(); 
-    }
-    
-    public Iterator getCategories() {
-        return categories.iterator();
-    }
-    
-    public void addCategory(Category category) {
-        categories.add(category);
-    }
+
+   private List categories = new ArrayList();
+
+   public int size() {
+      return categories.size();
+   }
+
+   public Iterator getCategories() {
+      return categories.iterator();
+   }
+
+   public void addCategory(Category category) {
+      categories.add(category);
+   }
 }

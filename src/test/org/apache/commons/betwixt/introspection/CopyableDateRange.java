@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.introspection;
 
@@ -24,24 +24,24 @@ import java.util.Date;
  */
 public class CopyableDateRange implements ICopyableDateRange {
 
-    private Date startDate;
-    private Date endDate;
-    
-    public CopyableDateRange(Date startDate, Date endDate) {
-        super();
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-    
-    public Object copy() {
-        return new CopyableDateRange(getStartDate(), getEndDate());
-    }
+   private Date startDate;
+   private Date endDate;
 
-    public Date getStartDate() {
-        return startDate;
-    }
+   public CopyableDateRange(Date startDate, Date endDate) {
+      super();
+      this.startDate = startDate;
+      this.endDate = endDate;
+   }
 
-    public Date getEndDate() {
-        return endDate;
-    }
+   public Object copy() {
+      return new CopyableDateRange(getStartDate(), getEndDate());
+   }
+
+   public Date getStartDate() {
+      return startDate;
+   }
+
+   public Date getEndDate() {
+      return endDate;
+   }
 }

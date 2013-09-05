@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.introspection;
@@ -26,14 +26,14 @@ import java.util.HashMap;
  */
 public class BeanWithConcreteMap {
 
-    private HashMap someMap = new HashMap();
+   private HashMap someMap = new HashMap();
 
-    public HashMap getSomeThingies() {
-        return someMap;
-    }
+   public HashMap getSomeThingies() {
+      return someMap;
+   }
 
-    public void addSomeThingy(String whatever, String thing) {
-        someMap.put(whatever, thing);
-    }
+   public void addSomeThingy(String whatever, String thing) {
+      someMap.put(whatever, thing);
+   }
 }
 

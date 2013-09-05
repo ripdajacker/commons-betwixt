@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt;
 
 /**
@@ -22,57 +22,58 @@ package org.apache.commons.betwixt;
  * @version $Revision$
  */
 public class BookBean {
-    
-    private String author;
-    private String title;
-    private String publisher;
-    
-    public BookBean() {}
-    
-    public BookBean(String author, String title, String publisher) {
-        setAuthor(author);
-        setTitle(title);
-        setPublisher(publisher);
-    }
-    
-    public String getAuthor() {
-        return author;
-    }
 
-    public String getPublisher() {
-        return publisher;
-    }
+   private String author;
+   private String title;
+   private String publisher;
 
-    public String getTitle() {
-        return title;
-    }
+   public BookBean() {
+   }
+
+   public BookBean(String author, String title, String publisher) {
+      setAuthor(author);
+      setTitle(title);
+      setPublisher(publisher);
+   }
+
+   public String getAuthor() {
+      return author;
+   }
+
+   public String getPublisher() {
+      return publisher;
+   }
+
+   public String getTitle() {
+      return title;
+   }
 
 
-    public void setAuthor(String string) {
-        author = string;
-    }
+   public void setAuthor(String string) {
+      author = string;
+   }
 
-    public void setPublisher(String string) {
-        publisher = string;
-    }
+   public void setPublisher(String string) {
+      publisher = string;
+   }
 
-    public void setTitle(String string) {
-        title = string;
-    }
+   public void setTitle(String string) {
+      title = string;
+   }
 
-    public boolean equals(Object obj) {
-        boolean result = false;
-        if (obj instanceof BookBean) {
-            BookBean book = (BookBean) obj;
-            result = author.equals(book.author) &&
-                    publisher.equals(book.publisher) &&
-                    title.equals(book.title);
-        }
-        return result;
-    }
-    
-    public String toString() {
-        return "[BookBean title=" + title + "]";
-    }
-    
+   public boolean equals(Object obj) {
+      boolean result = false;
+      if (obj instanceof BookBean) {
+         BookBean book = (BookBean) obj;
+         result = author.equals(book.author) &&
+               publisher.equals(book.publisher) &&
+               title.equals(book.title);
+      }
+      return result;
+   }
+
+   public String toString() {
+      return "[BookBean title=" + title + "]";
+   }
+
 }

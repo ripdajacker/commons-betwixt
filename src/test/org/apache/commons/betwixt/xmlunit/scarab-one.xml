@@ -15,47 +15,47 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-       <scarab-settings>
-         <modules>
-           <module>
-             <name>Source</name>
-           </module>
-         </modules>
-         <global-issue-types>
-           <global-issue-type>
-             <name>Defect</name>
-           </global-issue-type>
-           <global-issue-type>
-             <name>Enhancement</name>
-           </global-issue-type>
-         </global-issue-types>
-         <global-attributes>
-           <global-attribute>
-             <created-date>
-               <timestamp>2002-05-31 13:29:27.0</timestamp>
-               <format>yyyy-MM-dd HH:mm:ss</format>
-             </created-date>
-             <name>Description</name>
-             <global-attribute-options/>
-           </global-attribute>
-           <global-attribute>
-             <created-date>
-               <timestamp>2002-05-31 13:29:27.0</timestamp>
-               <format>yyyy-MM-dd HH:mm:ss</format>
-             </created-date>
-             <name>Functional area</name>
-             <global-attribute-options>
-               <global-attribute-option>
-                 <name>Root</name>
-                 <child-option>UI</child-option>
-                 <preferred-order>1</preferred-order>
-               </global-attribute-option>
-               <global-attribute-option>
-                 <name>Root</name>
-                 <child-option>Code</child-option>
-                 <preferred-order>1</preferred-order>
-               </global-attribute-option>
-             </global-attribute-options>
-           </global-attribute>
-         </global-attributes>
-       </scarab-settings>
+<scarab-settings>
+   <modules>
+      <module>
+         <name>Source</name>
+      </module>
+   </modules>
+   <global-issue-types>
+      <global-issue-type>
+         <name>Defect</name>
+      </global-issue-type>
+      <global-issue-type>
+         <name>Enhancement</name>
+      </global-issue-type>
+   </global-issue-types>
+   <global-attributes>
+      <global-attribute>
+         <created-date>
+            <timestamp>2002-05-31 13:29:27.0</timestamp>
+            <format>yyyy-MM-dd HH:mm:ss</format>
+         </created-date>
+         <name>Description</name>
+         <global-attribute-options/>
+      </global-attribute>
+      <global-attribute>
+         <created-date>
+            <timestamp>2002-05-31 13:29:27.0</timestamp>
+            <format>yyyy-MM-dd HH:mm:ss</format>
+         </created-date>
+         <name>Functional area</name>
+         <global-attribute-options>
+            <global-attribute-option>
+               <name>Root</name>
+               <child-option>UI</child-option>
+               <preferred-order>1</preferred-order>
+            </global-attribute-option>
+            <global-attribute-option>
+               <name>Root</name>
+               <child-option>Code</child-option>
+               <preferred-order>1</preferred-order>
+            </global-attribute-option>
+         </global-attribute-options>
+      </global-attribute>
+   </global-attributes>
+</scarab-settings>

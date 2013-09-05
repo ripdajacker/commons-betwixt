@@ -13,45 +13,44 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.strategy;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * Tests ObjectStringConverters in FRENCH locale
- * 
+ *
  * @author Robert Burrell Donkin
  * @version $Id$
  */
-public class Testi18nObjectStringConversion extends TestObjectStringConverters
-{    
-    static {
-        Locale.setDefault(Locale.FRENCH);
-    }
+public class Testi18nObjectStringConversion extends TestObjectStringConverters {
+   static {
+      Locale.setDefault(Locale.FRENCH);
+   }
 
-    public static Test suite() {
-        return new TestSuite(Testi18nObjectStringConversion.class);
-    }
-    
-    public Testi18nObjectStringConversion(String testName) {
-        super(testName);
-    }
+   public static Test suite() {
+      return new TestSuite(Testi18nObjectStringConversion.class);
+   }
 
-    public void testFrenchDefaultLocale() throws Exception {
-        //check locale has been changed
-        SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:sss yyyy");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1980, 11, 9, 5, 0, 0);
-        java.util.Date date = calendar.getTime();
-        String formatted = format.format(date);
-        assertEquals("Locale dependent conversions", "mar. d\u00E9c. 09 05:00:000 1980", formatted);
-        
-    }
+   public Testi18nObjectStringConversion(String testName) {
+      super(testName);
+   }
+
+   public void testFrenchDefaultLocale() throws Exception {
+      //check locale has been changed
+      SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:sss yyyy");
+      Calendar calendar = Calendar.getInstance();
+      calendar.set(1980, 11, 9, 5, 0, 0);
+      java.util.Date date = calendar.getTime();
+      String formatted = format.format(date);
+      assertEquals("Locale dependent conversions", "mar. d\u00E9c. 09 05:00:000 1980", formatted);
+
+   }
 }

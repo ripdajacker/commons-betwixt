@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.io;
 
 /**
@@ -22,30 +22,31 @@ package org.apache.commons.betwixt.io;
  * @version $Revision$
  */
 public class PersonBean {
-    private String forenames;
-    private String surname;
-    
-    public PersonBean() {}
-    
-    public PersonBean(String forenames, String surname) {
-        setSurname(surname);
-        setForenames(forenames);
-    }
+   private String forenames;
+   private String surname;
 
-    public String getForenames() {
-        return forenames;
-    }
+   public PersonBean() {
+   }
 
-    public String getSurname() {
-        return surname;
-    }
+   public PersonBean(String forenames, String surname) {
+      setSurname(surname);
+      setForenames(forenames);
+   }
 
-    public void setForenames(String string) {
-        forenames = string;
-    }
+   public String getForenames() {
+      return forenames;
+   }
 
-    public void setSurname(String string) {
-        surname = string;
-    }
+   public String getSurname() {
+      return surname;
+   }
+
+   public void setForenames(String string) {
+      forenames = string;
+   }
+
+   public void setSurname(String string) {
+      surname = string;
+   }
 
 }

@@ -15,7 +15,7 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 import java.io.Serializable;
 
@@ -25,24 +25,20 @@ import java.io.Serializable;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class GlobalIssueType implements Serializable
-{
-    private String name;
-    
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public GlobalIssueType()
-    { 
-    }
+public class GlobalIssueType implements Serializable {
+   private String name;
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }        
+   /**
+    * Constructor for the ScarabSettings object
+    */
+   public GlobalIssueType() {
+   }
 
-    public String getName()
-    {
-        return name;
-    }        
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
+   }
 }

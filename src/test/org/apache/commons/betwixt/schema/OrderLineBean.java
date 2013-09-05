@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -23,30 +23,32 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public class OrderLineBean {
-    
-    private int quantity;
-    private ProductBean product;
-    
-    public OrderLineBean() {}
-    public OrderLineBean(int quantity, ProductBean product) {
-        setQuantity(quantity);
-        setProduct(product);        
-    }
-    
-    public ProductBean getProduct() {
-        return product;
-    }
 
-    public int getQuantity() {
-        return quantity;
-    }
+   private int quantity;
+   private ProductBean product;
 
-    public void setProduct(ProductBean product) {
-        this.product = product;
-    }
+   public OrderLineBean() {
+   }
 
-    public void setQuantity(int i) {
-        quantity = i;
-    }
+   public OrderLineBean(int quantity, ProductBean product) {
+      setQuantity(quantity);
+      setProduct(product);
+   }
+
+   public ProductBean getProduct() {
+      return product;
+   }
+
+   public int getQuantity() {
+      return quantity;
+   }
+
+   public void setProduct(ProductBean product) {
+      this.product = product;
+   }
+
+   public void setQuantity(int i) {
+      quantity = i;
+   }
 
 }

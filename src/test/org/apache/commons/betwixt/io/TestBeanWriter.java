@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.io;
 
-import java.io.StringWriter;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.xml.sax.helpers.AttributesImpl;
+
+import java.io.StringWriter;
 
 /**
  * Test for <code>BeanWriter</code>
@@ -31,56 +30,54 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class TestBeanWriter extends TestCase {
 
-    public void testSetEndTagForEmptyElementTrue() throws Exception
-    {        
-        StringWriter out = new StringWriter();
-        BeanWriter writer = new BeanWriter(out);
-        writer.setEndTagForEmptyElement(true);
-        WriteContext context = new WriteContext() {
+   public void testSetEndTagForEmptyElementTrue() throws Exception {
+      StringWriter out = new StringWriter();
+      BeanWriter writer = new BeanWriter(out);
+      writer.setEndTagForEmptyElement(true);
+      WriteContext context = new WriteContext() {
 
-            public ElementDescriptor getCurrentDescriptor() {
-                return null;
-            }
-            
-        };
-        writer.startElement(
-                context, 
-                null, 
-                null, 
-                "element", 
-                new AttributesImpl());
-        writer.endElement(
-                context,
-                null, 
-                null, 
-                "element");
-         assertEquals("<element></element>" + writer.getEndOfLine(), out.getBuffer().toString());       
-    }
+         public ElementDescriptor getCurrentDescriptor() {
+            return null;
+         }
+
+      };
+      writer.startElement(
+            context,
+            null,
+            null,
+            "element",
+            new AttributesImpl());
+      writer.endElement(
+            context,
+            null,
+            null,
+            "element");
+      assertEquals("<element></element>" + writer.getEndOfLine(), out.getBuffer().toString());
+   }
 
 
-    public void testSetEndTagForEmptyElementFalse() throws Exception
-    {        
-        StringWriter out = new StringWriter();
-        BeanWriter writer = new BeanWriter(out);
-        writer.setEndTagForEmptyElement(false);
-        WriteContext context = new WriteContext() {
+   public void testSetEndTagForEmptyElementFalse() throws Exception {
+      StringWriter out = new StringWriter();
+      BeanWriter writer = new BeanWriter(out);
+      writer.setEndTagForEmptyElement(false);
+      WriteContext context = new WriteContext() {
 
-            public ElementDescriptor getCurrentDescriptor() {
-                return null;
-            }
-            
-        };
-        writer.startElement(
-                context, 
-                null, 
-                null, 
-                "element", 
-                new AttributesImpl());
-        writer.endElement(
-                context,
-                null, 
-                null, 
-                "element");
-         assertEquals("<element/>" + writer.getEndOfLine(), out.getBuffer().toString());       
-    }
+         public ElementDescriptor getCurrentDescriptor() {
+            return null;
+         }
+
+      };
+      writer.startElement(
+            context,
+            null,
+            null,
+            "element",
+            new AttributesImpl());
+      writer.endElement(
+            context,
+            null,
+            null,
+            "element");
+      assertEquals("<element/>" + writer.getEndOfLine(), out.getBuffer().toString());
+   }
 }

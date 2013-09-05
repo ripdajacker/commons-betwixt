@@ -18,31 +18,33 @@
 
 <document>
 
- <properties>
-  <title>Derived Beans</title>
-  <author email="rdonkin at apache dot org">Robert Burrell Donkin</author>
- </properties>
+   <properties>
+      <title>Derived Beans</title>
+      <author email="rdonkin at apache dot org">Robert Burrell Donkin</author>
+   </properties>
 
-<body>
-<section name='Derived Beans'>
-        <subsection name='What Is A Derived Bean?'>
+   <body>
+      <section name='Derived Beans'>
+         <subsection name='What Is A Derived Bean?'>
             <p>
-A derived bean is one whose runtime class differs from the mapped property type
-(as determined during introspection).
-                </p>
-    </subsection>   
-</section>
-    <section name='Specifying The Bind Time Type'>
-        <subsection name='Using An Attribute To Specify Class'>
+               A derived bean is one whose runtime class differs from the mapped property type
+               (as determined during introspection).
+            </p>
+         </subsection>
+      </section>
+      <section name='Specifying The Bind Time Type'>
+         <subsection name='Using An Attribute To Specify Class'>
             <p>
-An easy way to specify the class to be loaded is for the class name to be 
-specified by an xml attribute. By default, the <code>className</code> attribute
-(if present) is assumed to contain the name of the class to be loaded. 
-        </p>
+               An easy way to specify the class to be loaded is for the class name to be
+               specified by an xml attribute. By default, the
+               <code>className</code>
+               attribute
+               (if present) is assumed to contain the name of the class to be loaded.
+            </p>
             <p>
-For example the following xml:
-        </p>
-<source><![CDATA[
+               For example the following xml:
+            </p>
+            <source><![CDATA[
     <Animals> 
         <animal className='org.apache.commons.betwixt.io.read.FerretBean'> 
             <call>Dook</call>
@@ -65,27 +67,31 @@ For example the following xml:
         </animal> 
     </Animals>
 ]]>
-</source>
+            </source>
             <p>
-will construct objects of type <code>FerretBean</code>, <code>CatBean</code> and 
-<code>DogBean</code>.
-        </p>
+               will construct objects of type<code>FerretBean</code>,
+               <code>CatBean</code>
+               and
+               <code>DogBean</code>.
+            </p>
             <p>
-The attribute which contains the fully qualified class name can be configured through
-the <code>classNameAttribute</code> property of the <code>BindingConfiguration</code>.
-        </p>
+               The attribute which contains the fully qualified class name can be configured through
+               the
+               <code>classNameAttribute</code>
+               property of the<code>BindingConfiguration</code>.
+            </p>
             <p>
-The classname mapping is implemented by a <code>ChainedBeanCreator</code>. If this
-feature is not required, a custom bean creation chain should be used.
-        </p>
-    </subsection>
-        <subsection name='Mapping An Element To A Class Name'>
+               The classname mapping is implemented by a<code>ChainedBeanCreator</code>. If this
+               feature is not required, a custom bean creation chain should be used.
+            </p>
+         </subsection>
+         <subsection name='Mapping An Element To A Class Name'>
             <p>
-A common variation on the above occurs when the java and the xml should be decoupled.
-So, no attributes with class names permitted. A common use case requires that different
-elements are associated with different types of bean. For example:  
-        </p>
-<source><![CDATA[
+               A common variation on the above occurs when the java and the xml should be decoupled.
+               So, no attributes with class names permitted. A common use case requires that different
+               elements are associated with different types of bean. For example:
+            </p>
+            <source><![CDATA[
     <animals> 
         <ferret> 
             <call>Dook</call>
@@ -108,14 +114,18 @@ elements are associated with different types of bean. For example:
         </dog> 
     </animals>
 ]]>
-</source>
-          <p>
-To read this xml, the class corresponding to each element must be known.
-Of course, this is a <a href='binding.html#Mixed%20Collections%20-%20Guessing%20Element%20Names'>mixed collection</a>
-and so needs to be mapped as such. Then a suitable <a href='reading.html#Reading%20Polymorphic%20Mappings'>polymophoric
-mapping</a> needs to be created. For example:
-      </p>
-<source><![CDATA[
+            </source>
+            <p>
+               To read this xml, the class corresponding to each element must be known.
+               Of course, this is a
+               <a href='binding.html#Mixed%20Collections%20-%20Guessing%20Element%20Names'>mixed collection</a>
+               and so needs to be mapped as such. Then a suitable
+               <a href='reading.html#Reading%20Polymorphic%20Mappings'>polymophoric
+                  mapping
+               </a>
+               needs to be created. For example:
+            </p>
+            <source><![CDATA[
 <betwixt-config>
   <class name='org.apache.commons.betwixt.io.read.Animals'>
     <element name='animals'>
@@ -143,67 +153,95 @@ Note that an adder must be set but addDefaults will add a name
   </class>
 </betwixt-config>
 ]]>
-</source>
-          <p>
-This <a href='binding.html#Multi%20Mapping'>multi mapping</a> should be registered with
-the <code>XMLIntrospector</code> before the beans are written or read. For example (read):
-        </p>
-<source><![CDATA[
+            </source>
+            <p>
+               This
+               <a href='binding.html#Multi%20Mapping'>multi mapping</a>
+               should be registered with
+               the
+               <code>XMLIntrospector</code>
+               before the beans are written or read. For example (read):
+            </p>
+            <source><![CDATA[
    BeanReader reader = new BeanReader();
    ...
    reader.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
    reader.registerBeanClass(Animals.class);
    Animals animals = (Animals) reader.parse(in);
 ]]>
-</source>
-    </subsection>
-</section>
-    <section name='Mapping Derived Beans'>
-        <subsection name="Bind Time Type Verses Introspection Time Type">
+            </source>
+         </subsection>
+      </section>
+      <section name='Mapping Derived Beans'>
+         <subsection name="Bind Time Type Verses Introspection Time Type">
             <p>
-The introspection time type is the (expected) type as discovered during introspection.
-The bind time type is the actual type of the object found as Betwixt runs. For example,
-a property might have type <code>Animal</code> but when the getter of that property is 
-called, the object returned might be a subclass (if <code>Animal</code> is a class) 
-or an implementation (if <code>Animal</code> is an interface) - <code>Cat</code>, say.
-In this case, <code>Animal</code> would be the introspection time type but <code>Cat</code>
-the bind time type.
-        </p>
+               The introspection time type is the (expected) type as discovered during introspection.
+               The bind time type is the actual type of the object found as Betwixt runs. For example,
+               a property might have type
+               <code>Animal</code>
+               but when the getter of that property is
+               called, the object returned might be a subclass (if
+               <code>Animal</code>
+               is a class)
+               or an implementation (if
+               <code>Animal</code>
+               is an interface) -<code>Cat</code>, say.
+               In this case,
+               <code>Animal</code>
+               would be the introspection time type but
+               <code>Cat</code>
+               the bind time type.
+            </p>
             <p>
-There are two approaches to deal with this situation: either the object can be mapped 
-on the basis of it's bind time type (the actual class of the object) or on the basis
-of it's introspection time type. In the first case, all the properties present will be 
-mapped, in the second only a subset.
-        </p>    
+               There are two approaches to deal with this situation: either the object can be mapped
+               on the basis of it's bind time type (the actual class of the object) or on the basis
+               of it's introspection time type. In the first case, all the properties present will be
+               mapped, in the second only a subset.
+            </p>
             <p>
-For example, say that <code>Animal</code> has properties <code>latinName</code>
-and <code>call</code> and that <code>Cat</code> is a subclass with an additional
-<code>colour</code> property. Consider a bean with a property returning an <code>Animal</code>.
-If the introspection time type is used, only the <code>latinName</code>
-and <code>call</code> properties of a<code>Cat</code> bean will be read and written
-whereas when bind time typing is used, all properties will be.
-        </p>
+               For example, say that
+               <code>Animal</code>
+               has properties
+               <code>latinName</code>
+               and
+               <code>call</code>
+               and that
+               <code>Cat</code>
+               is a subclass with an additional
+               <code>colour</code>
+               property. Consider a bean with a property returning an<code>Animal</code>.
+               If the introspection time type is used, only the
+               <code>latinName</code>
+               and
+               <code>call</code>
+               properties of a
+               <code>Cat</code>
+               bean will be read and written
+               whereas when bind time typing is used, all properties will be.
+            </p>
             <p>
-There are typical use cases which demonstrate the need for each approach. Betwixt 
-supports both in a flexible way, for both reading and writing but defaults to 
-bind time typing (which is typically more intuitive).
-        </p>
-    </subsection>
-        <subsection name='Configuring Mapping Derivation'>
+               There are typical use cases which demonstrate the need for each approach. Betwixt
+               supports both in a flexible way, for both reading and writing but defaults to
+               bind time typing (which is typically more intuitive).
+            </p>
+         </subsection>
+         <subsection name='Configuring Mapping Derivation'>
             <p>
-Whether the bind time type or the introspection time type should determine the mapping
-is configurable in two different ways. The <code>MappingDerivationStrategy</code> 
-implementation set on the introspection configuration allows powerful but course-grained
-control over which types of property should have their mappings determine in which ways.
-Per-element control is also available through the dot betwixt document. This is typically
-used for more finely grained refinements. The dot betwixt settings override the strategy.
-        </p>
+               Whether the bind time type or the introspection time type should determine the mapping
+               is configurable in two different ways. The
+               <code>MappingDerivationStrategy</code>
+               implementation set on the introspection configuration allows powerful but course-grained
+               control over which types of property should have their mappings determine in which ways.
+               Per-element control is also available through the dot betwixt document. This is typically
+               used for more finely grained refinements. The dot betwixt settings override the strategy.
+            </p>
             <p>
-For example, the following code snippet configures an <code>XMLIntrospector</code> 
-so that (unless overridden by a dot betwixt document setting), introspection time types
-will determine the mapping:
-        </p>
-<source><![CDATA[
+               For example, the following code snippet configures an
+               <code>XMLIntrospector</code>
+               so that (unless overridden by a dot betwixt document setting), introspection time types
+               will determine the mapping:
+            </p>
+            <source><![CDATA[
         XMLIntrospector xmlIntrospector = ...;
         xmlIntrospector.getConfiguration()
             .setMappingDerivationStrategy(
@@ -211,17 +249,28 @@ will determine the mapping:
 }	
 ]]></source>
             <p>
-The optional <code>mappingDerivation</code> attribute on an <code>&lt;element&gt;</code> element.
-This attribute takes two enumerated values: <code>bind</code> and <code>introspection</code>.
-As might be expected, <code>bind</code> indicates that the element should use 
-the bind time type whereas <code>introspection</code> indicates that the introspection time
-type should be used.
-        </p>
+               The optional
+               <code>mappingDerivation</code>
+               attribute on an
+               <code>&lt;element&gt;</code>
+               element.
+               This attribute takes two enumerated values:
+               <code>bind</code>
+               and<code>introspection</code>.
+               As might be expected,
+               <code>bind</code>
+               indicates that the element should use
+               the bind time type whereas
+               <code>introspection</code>
+               indicates that the introspection time
+               type should be used.
+            </p>
             <p>
-For example, when the following dot betwixt document is used, the <code>pet</code>
-property's mapping will be determined by the introspection time type mapping.
-        </p>
-<source><![CDATA[
+               For example, when the following dot betwixt document is used, the
+               <code>pet</code>
+               property's mapping will be determined by the introspection time type mapping.
+            </p>
+            <source><![CDATA[
     <?xml version='1.0'?>
     <info>
         <element name='pet-record'>
@@ -232,36 +281,49 @@ property's mapping will be determined by the introspection time type mapping.
 ]]></source>
 
             <p>
-Note that the mapping derivations are added together with all of the other defaults
-and so all elements without the <code>mappingDerivation</code> attribute will
-default to bind time typing unless and <code>addDefaults</code> is present.
-        </p>
-    </subsection>
-</section>
-<section name='Default Mapping For Collections Implementations'>
-	<p>
-The default mapping for a collection is the one created automatically
-by Betwixt. This is controlled by a number of general configuration settings.
-For some classes (including <code>Collection</code> implementations)
-special rules are applied. For collection implementations, these special
-rules ensure that the contents are written and polymorphism is supported
-for reading.
-	</p>
-	<p>
-For example, suppose <code>AlphaList extends ArrayList</code>. It usually
-contains <code>BetaBean</code>'s and <code>GammaBean</code>'s. Use a 
-<a href='binding.html#Multi Mapping Document Format'>multi-mapping</a> contain
-mappings for just <code>BetaBean</code> and <code>GammaBean</code> and not
-<code>AlphaList</code>. This will force the default mapping to be used. 
-When reading, <code>AlphaList</code> should be registered after the 
-multimapping thus:
-	</p>
-<source><![CDATA[
+               Note that the mapping derivations are added together with all of the other defaults
+               and so all elements without the
+               <code>mappingDerivation</code>
+               attribute will
+               default to bind time typing unless and
+               <code>addDefaults</code>
+               is present.
+            </p>
+         </subsection>
+      </section>
+      <section name='Default Mapping For Collections Implementations'>
+         <p>
+            The default mapping for a collection is the one created automatically
+            by Betwixt. This is controlled by a number of general configuration settings.
+            For some classes (including
+            <code>Collection</code>
+            implementations)
+            special rules are applied. For collection implementations, these special
+            rules ensure that the contents are written and polymorphism is supported
+            for reading.
+         </p>
+         <p>
+            For example, suppose<code>AlphaList extends ArrayList</code>. It usually
+            contains<code>BetaBean</code>'s and<code>GammaBean</code>'s. Use a
+            <a href='binding.html#Multi Mapping Document Format'>multi-mapping</a>
+            contain
+            mappings for just
+            <code>BetaBean</code>
+            and
+            <code>GammaBean</code>
+            and not
+            <code>AlphaList</code>. This will force the default mapping to be used.
+            When reading,
+            <code>AlphaList</code>
+            should be registered after the
+            multimapping thus:
+         </p>
+         <source><![CDATA[
 	BeanReader reader = ...
 	...
 	reader.registerMultiMapping(...);
     reader.registerBeanClass(AlphaList.class);
 ]]></source>
-</section>
-</body>
+      </section>
+   </body>
 </document>

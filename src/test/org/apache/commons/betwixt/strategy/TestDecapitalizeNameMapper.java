@@ -13,8 +13,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.strategy;
 
 import junit.framework.Test;
@@ -23,29 +23,28 @@ import junit.framework.TestSuite;
 
 /**
  * Test that harnasses the DecapitlizeNameMapper
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
  * @version $Id$
  */
-public class TestDecapitalizeNameMapper extends TestCase
-{
+public class TestDecapitalizeNameMapper extends TestCase {
 
-    public static Test suite() {
-        return new TestSuite(TestDecapitalizeNameMapper.class);
-    }
-    
-    public TestDecapitalizeNameMapper(String testName) {
-        super(testName);
-    }
-    
-    public void testDecapitalize() {
-        DecapitalizeNameMapper mapper = new DecapitalizeNameMapper();
-        String result = mapper.mapTypeToElementName("FOOBAR");
-        assertEquals("FOOBAR", result);
-        result = mapper.mapTypeToElementName("FooBar");
-        assertEquals("fooBar", result);
-        result = mapper.mapTypeToElementName("FOOBar");
-        assertEquals("FOOBar", result);
-    }
+   public static Test suite() {
+      return new TestSuite(TestDecapitalizeNameMapper.class);
+   }
+
+   public TestDecapitalizeNameMapper(String testName) {
+      super(testName);
+   }
+
+   public void testDecapitalize() {
+      DecapitalizeNameMapper mapper = new DecapitalizeNameMapper();
+      String result = mapper.mapTypeToElementName("FOOBAR");
+      assertEquals("FOOBAR", result);
+      result = mapper.mapTypeToElementName("FooBar");
+      assertEquals("fooBar", result);
+      result = mapper.mapTypeToElementName("FOOBar");
+      assertEquals("FOOBar", result);
+   }
 }
 

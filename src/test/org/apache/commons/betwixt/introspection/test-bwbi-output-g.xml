@@ -16,6 +16,6 @@
   limitations under the License.
 -->
 <BeanWithBeanInfoBean>
-	<gamma>gamma value</gamma>
-	<alpha>alpha value</alpha>
+   <gamma>gamma value</gamma>
+   <alpha>alpha value</alpha>
 </BeanWithBeanInfoBean>

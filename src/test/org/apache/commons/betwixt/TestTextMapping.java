@@ -13,92 +13,88 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
-
-import java.beans.IntrospectionException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.beans.IntrospectionException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+
 /**
  * Tests the mapping of a property to the inner text of an element.
- * 
+ *
  * @author Thomas Dudziak (tomdz@apache.org)
  */
-public class TestTextMapping extends AbstractTestCase
-{
-    public static class Element
-    {
-        private String value;
+public class TestTextMapping extends AbstractTestCase {
+   public static class Element {
+      private String value;
 
-        public String getValue()
-        {
-            return value;
-        }
-        public void setValue(String value)
-        {
-            this.value = value;
-        }
-    }
+      public String getValue() {
+         return value;
+      }
 
-    private static final String MAPPING =
-        "<?xml version=\"1.0\"?>\n"+
-        "<betwixt-config>\n"+
-        "  <class name=\"org.apache.commons.betwixt.TestTextMapping$Element\">\n"+
-        "    <element name=\"element\">\n"+
-        "      <text property=\"value\"/>\n"+
-        "    </element>\n"+
-        "  </class>\n"+
-        "</betwixt-config>";
-    private static final String EXPECTED =
-        "<?xml version=\"1.0\" ?>\n"+
-        "  <element>Some text</element>\n";
-    
-    public TestTextMapping(String testName)
-    {
-        super(testName);
-    }
+      public void setValue(String value) {
+         this.value = value;
+      }
+   }
 
-    public void testRoundTripWithSingleMappingFile() throws IOException, SAXException, IntrospectionException
-    {
-        Element element = new Element();
+   private static final String MAPPING =
+         "<?xml version=\"1.0\"?>\n" +
+               "<betwixt-config>\n" +
+               "  <class name=\"org.apache.commons.betwixt.TestTextMapping$Element\">\n" +
+               "    <element name=\"element\">\n" +
+               "      <text property=\"value\"/>\n" +
+               "    </element>\n" +
+               "  </class>\n" +
+               "</betwixt-config>";
+   private static final String EXPECTED =
+         "<?xml version=\"1.0\" ?>\n" +
+               "  <element>Some text</element>\n";
 
-        element.setValue("Some text");
+   public TestTextMapping(String testName) {
+      super(testName);
+   }
 
-        StringWriter outputWriter = new StringWriter();
+   public void testRoundTripWithSingleMappingFile() throws IOException, SAXException, IntrospectionException {
+      Element element = new Element();
 
-        outputWriter.write("<?xml version=\"1.0\" ?>\n");
+      element.setValue("Some text");
 
-        BeanWriter beanWriter = new BeanWriter(outputWriter);
-        beanWriter.setEndOfLine("\n");
-        beanWriter.enablePrettyPrint();
-        beanWriter.setWriteEmptyElements(true);
-        beanWriter.getBindingConfiguration().setMapIDs(false);
-        beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
-        beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
-        beanWriter.write(element);
+      StringWriter outputWriter = new StringWriter();
 
-        String output = outputWriter.toString();
+      outputWriter.write("<?xml version=\"1.0\" ?>\n");
 
-        assertEquals(EXPECTED, output);
-            
-        BeanReader beanReader = new BeanReader();
+      BeanWriter beanWriter = new BeanWriter(outputWriter);
+      beanWriter.setEndOfLine("\n");
+      beanWriter.enablePrettyPrint();
+      beanWriter.setWriteEmptyElements(true);
+      beanWriter.getBindingConfiguration().setMapIDs(false);
+      beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
+      beanWriter.write(element);
 
-        beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+      String output = outputWriter.toString();
 
-        StringReader xmlReader = new StringReader(output);
+      assertEquals(EXPECTED, output);
 
-        element = (Element)beanReader.parse(xmlReader);
+      BeanReader beanReader = new BeanReader();
 
-        assertEquals("Some text",
-                     element.getValue());
-    }
-    
+      beanReader.registerMultiMapping(new InputSource(new StringReader(MAPPING)));
+
+      StringReader xmlReader = new StringReader(output);
+
+      element = (Element) beanReader.parse(xmlReader);
+
+      assertEquals(
+            "Some text",
+            element.getValue());
+   }
+
 }

@@ -13,41 +13,42 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.introspection;
 
+import org.apache.commons.betwixt.AddressBean;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.betwixt.AddressBean;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public class AddressBook {
-    
-    private Map addressesByName = new HashMap();
-    private Map namesByAddress = new HashMap();
-    
-    public AddressBook() {}
-    
-    public Map getAddressesByName() {
-        return addressesByName;   
-    }
-    
-    public void addAddress(String name, AddressBean address) {
-        addressesByName.put(name, address);
-    }
-    
-    public Map getNamesByAddress() {
-        return namesByAddress;
-    }
-    
-    public void addName(AddressBean address, String name) {
-        namesByAddress.put(address, name);        
-    }
-    
+
+   private Map addressesByName = new HashMap();
+   private Map namesByAddress = new HashMap();
+
+   public AddressBook() {
+   }
+
+   public Map getAddressesByName() {
+      return addressesByName;
+   }
+
+   public void addAddress(String name, AddressBean address) {
+      addressesByName.put(name, address);
+   }
+
+   public Map getNamesByAddress() {
+      return namesByAddress;
+   }
+
+   public void addName(AddressBean address, String name) {
+      namesByAddress.put(address, name);
+   }
+
 }

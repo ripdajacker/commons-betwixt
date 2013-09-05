@@ -13,26 +13,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 
 
 /** A sample program to output system properties as XML
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class SystemProperties {
-    
-    public static void main(String[] args) throws Exception {
-        Object bean = System.getProperties();
-        
-        BeanWriter writer = new BeanWriter();
-        writer.enablePrettyPrint();
-        writer.write( bean );
-    }
+
+   public static void main(String[] args) throws Exception {
+      Object bean = System.getProperties();
+
+      BeanWriter writer = new BeanWriter();
+      writer.enablePrettyPrint();
+      writer.write(bean);
+   }
 }
 

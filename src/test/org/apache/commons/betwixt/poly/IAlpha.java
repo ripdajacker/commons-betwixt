@@ -13,10 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- package org.apache.commons.betwixt.poly;
+ */
+package org.apache.commons.betwixt.poly;
 
 public interface IAlpha {
 
-	public String alpha();
+   public String alpha();
 }

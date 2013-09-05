@@ -13,11 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
 import junit.framework.TestCase;
-
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
@@ -25,17 +24,16 @@ import org.apache.commons.betwixt.io.read.AddressBean;
 
 public class TestValueSuppressionStrategy extends TestCase {
 
-    public void testALLOW_ALL_VALUESStrategy() throws Exception {
-        XMLIntrospector introspector = new XMLIntrospector();
-        introspector.getConfiguration().setAttributesForPrimitives(true);
-        XMLBeanInfo beanInfo = introspector.introspect(AddressBean.class);
-        AttributeDescriptor[] descriptors = beanInfo.getElementDescriptor().getAttributeDescriptors();
-        assertTrue(descriptors.length>0);
-        for (int i=0;i<descriptors.length;i++)
-        {
-            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], "Arbitrary Value"));
-            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], ""));
-            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], null));
-        }
-    }
+   public void testALLOW_ALL_VALUESStrategy() throws Exception {
+      XMLIntrospector introspector = new XMLIntrospector();
+      introspector.getConfiguration().setAttributesForPrimitives(true);
+      XMLBeanInfo beanInfo = introspector.introspect(AddressBean.class);
+      AttributeDescriptor[] descriptors = beanInfo.getElementDescriptor().getAttributeDescriptors();
+      assertTrue(descriptors.length > 0);
+      for (int i = 0; i < descriptors.length; i++) {
+         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], "Arbitrary Value"));
+         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], ""));
+         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], null));
+      }
+   }
 }

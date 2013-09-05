@@ -18,58 +18,58 @@
    under the License.  
 -->
 <document>
-  <properties>
-    <title>Design</title>
-    <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
-  </properties>
+   <properties>
+      <title>Design</title>
+      <author email="rdonkin@apache.org">Robert Burrell Donkin</author>
+   </properties>
 
-  <body>
-    <section name="Design Changes">
-    <subsection name='Primitives'>
-        <p>
-Betwixt used to analyse the bound class type at mapping time.
-Those regarded as primitives were recognized and a different
-mapping algorithm used. 
-        </p>
-        <p>
-This is inefficient and also leads to greater complexity in the
-mapping algorithm. Primitives should be recognized at introspection
-time and the Descriptors produced should reflect these changes.        
-        </p>
-        <p>
-The first work should be to change how the primitive mapping to 
-elements works. The introspector should recognize primitives
-at Introspection time and create an appropriate ElementDescriptor
-containing a TextDescriptor with an appropriate Updator.
-This updator should be called in the same way as any other.         
-        </p>
-    </subsection>
-    <subsection name='Mapping Collectives'>
-    	<p>
-This means mapping such collectives as Maps and Collections.   	
-    	</p>
-    	<p>
-Previously, this has been done through special algorithms at
-binding time. 
-    	</p>
-    	<p>
-In particular, the isWrapCollectionsInElement needs to be 
-decrepated and all calls removed.    	
-    	</p>
-    </subsection>
-    <subsection name='Hollow Elements'>
-		<p>
-A hollow element is an element which is one that is mapped
-to the root of a newly bean instance. A hollow element may
-correspond to a singular or collective property.		
-		</p>    
-    </subsection>
-    <subsection name='Frame Element'>
-    	<p>
-A frame element is present in the xml and is unbound to any    	
-    	</p>
-    </subsection>
-  </section>
-  </body>
+   <body>
+      <section name="Design Changes">
+         <subsection name='Primitives'>
+            <p>
+               Betwixt used to analyse the bound class type at mapping time.
+               Those regarded as primitives were recognized and a different
+               mapping algorithm used.
+            </p>
+            <p>
+               This is inefficient and also leads to greater complexity in the
+               mapping algorithm. Primitives should be recognized at introspection
+               time and the Descriptors produced should reflect these changes.
+            </p>
+            <p>
+               The first work should be to change how the primitive mapping to
+               elements works. The introspector should recognize primitives
+               at Introspection time and create an appropriate ElementDescriptor
+               containing a TextDescriptor with an appropriate Updator.
+               This updator should be called in the same way as any other.
+            </p>
+         </subsection>
+         <subsection name='Mapping Collectives'>
+            <p>
+               This means mapping such collectives as Maps and Collections.
+            </p>
+            <p>
+               Previously, this has been done through special algorithms at
+               binding time.
+            </p>
+            <p>
+               In particular, the isWrapCollectionsInElement needs to be
+               decrepated and all calls removed.
+            </p>
+         </subsection>
+         <subsection name='Hollow Elements'>
+            <p>
+               A hollow element is an element which is one that is mapped
+               to the root of a newly bean instance. A hollow element may
+               correspond to a singular or collective property.
+            </p>
+         </subsection>
+         <subsection name='Frame Element'>
+            <p>
+               A frame element is present in the xml and is unbound to any
+            </p>
+         </subsection>
+      </section>
+   </body>
 </document>
 

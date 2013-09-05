@@ -13,42 +13,43 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
 
 /** Bean that contains an array property.
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class ArrayBean {
-    
-    private String name;
-    private String[] typeList = {"placeholder"};
-    private ArrayList hobbies = new ArrayList();
-    
-    public ArrayBean() {}
 
-    public ArrayBean(String name) {
-        setName(name);
-    }
+   private String name;
+   private String[] typeList = {"placeholder"};
+   private ArrayList hobbies = new ArrayList();
 
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String[] getHobbies() {
-        return (String[]) hobbies.toArray(typeList);
-    }
-    
-    public void addHobby(String hobby) {
-        hobbies.add(hobby);
-    }	
+   public ArrayBean() {
+   }
+
+   public ArrayBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String[] getHobbies() {
+      return (String[]) hobbies.toArray(typeList);
+   }
+
+   public void addHobby(String hobby) {
+      hobbies.add(hobby);
+   }
 }
 

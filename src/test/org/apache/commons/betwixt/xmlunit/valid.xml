@@ -18,48 +18,48 @@
    under the License.  
 -->
 <address-book
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:noNamespaceSchemaLocation='test.xsd'>
-	<address>
-		<addressee>Chippy Minton</addressee>
-		<street>14, The High Street</street>
-		<city>Trumpton</city>
-	    <region>Trumptonshire</region>
-		<country>UK</country>
-		<postcode>TP2 5TY</postcode>
-	</address>
-	<address>
-		<addressee>Mr Clamp</addressee>
-		<street>1, Green Lane</street>
-		<city>Trumpton</city>
-	    <region>Trumptonshire</region>
-		<country>UK</country>
-		<postcode>TP2 4RS</postcode>
-	</address>
-	<address>
-		<addressee>Mr Troop</addressee>
-		<street>45, The High Street</street>
-		<city>Trumpton</city>
-	    <region>Trumptonshire</region>
-		<country>UK</country>
-		<postcode>TP2 5TY</postcode>
-	</address>
-    <address>
-		<addressee>Barney McGrew</addressee>
-		<street>4, Park Road</street>
-		<city>Trumpton</city>
-	    <region>Trumptonshire</region>
-		<country>UK</country>
-		<postcode>TP2 7TY</postcode>
-	</address>
-	<address>
-		<addressee>Miss Lovelace</addressee>
-		<street>17, The High Street</street>
-		<city>Trumpton</city>
-	    <region>Trumptonshire</region>
-		<country>UK</country>
-		<postcode>TP2 5TY</postcode>
-	</address>
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation='test.xsd'>
+   <address>
+      <addressee>Chippy Minton</addressee>
+      <street>14, The High Street</street>
+      <city>Trumpton</city>
+      <region>Trumptonshire</region>
+      <country>UK</country>
+      <postcode>TP2 5TY</postcode>
+   </address>
+   <address>
+      <addressee>Mr Clamp</addressee>
+      <street>1, Green Lane</street>
+      <city>Trumpton</city>
+      <region>Trumptonshire</region>
+      <country>UK</country>
+      <postcode>TP2 4RS</postcode>
+   </address>
+   <address>
+      <addressee>Mr Troop</addressee>
+      <street>45, The High Street</street>
+      <city>Trumpton</city>
+      <region>Trumptonshire</region>
+      <country>UK</country>
+      <postcode>TP2 5TY</postcode>
+   </address>
+   <address>
+      <addressee>Barney McGrew</addressee>
+      <street>4, Park Road</street>
+      <city>Trumpton</city>
+      <region>Trumptonshire</region>
+      <country>UK</country>
+      <postcode>TP2 7TY</postcode>
+   </address>
+   <address>
+      <addressee>Miss Lovelace</addressee>
+      <street>17, The High Street</street>
+      <city>Trumpton</city>
+      <region>Trumptonshire</region>
+      <country>UK</country>
+      <postcode>TP2 5TY</postcode>
+   </address>
 </address-book>
 	
 	

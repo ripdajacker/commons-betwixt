@@ -13,26 +13,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** <p>A bean with a list property with a setter but no adder.</p>
-  *
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  */
+ *
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ */
 public class NoAdderBean {
-    
-    private List things = new ArrayList();
-    
-    public List getThings() {
-        return things;
-    }
-    
-    public void setThings(List things) {
-        this.things = things;
-    }
+
+   private List things = new ArrayList();
+
+   public List getThings() {
+      return things;
+   }
+
+   public void setThings(List things) {
+      this.things = things;
+   }
 }

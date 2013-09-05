@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.digester.rss;
@@ -31,81 +31,81 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
 
-    // ------------------------------------------------------------- Properties
+   // ------------------------------------------------------------- Properties
 
 
-    /**
-     * The item description (1-500 characters).
-     */
-    protected String description = null;
+   /**
+    * The item description (1-500 characters).
+    */
+   protected String description = null;
 
-    public String getDescription() {
-        return (this.description);
-    }
+   public String getDescription() {
+      return (this.description);
+   }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    /**
-     * The item link (1-500 characters).
-     */
-    protected String link = null;
-
-    public String getLink() {
-        return (this.link);
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
 
-    /**
-     * The item title (1-100 characters).
-     */
-    protected String title = null;
+   /**
+    * The item link (1-500 characters).
+    */
+   protected String link = null;
 
-    public String getTitle() {
-        return (this.title);
-    }
+   public String getLink() {
+      return (this.link);
+   }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    // -------------------------------------------------------- Package Methods
+   public void setLink(String link) {
+      this.link = link;
+   }
 
 
-    /**
-     * Render this channel as XML conforming to the RSS 0.91 specification,
-     * to the specified writer.
-     *
-     * @param writer The writer to render output to
-     */
-    void render(PrintWriter writer) {
+   /**
+    * The item title (1-100 characters).
+    */
+   protected String title = null;
 
-        writer.println("    <item>");
+   public String getTitle() {
+      return (this.title);
+   }
 
-        writer.print("      <title>");
-        writer.print(title);
-        writer.println("</title>");
+   public void setTitle(String title) {
+      this.title = title;
+   }
 
-        writer.print("      <link>");
-        writer.print(link);
-        writer.println("</link>");
 
-        if (description != null) {
-            writer.print("      <description>");
-            writer.print(description);
-            writer.println("</description>");
-        }
+   // -------------------------------------------------------- Package Methods
 
-        writer.println("    </item>");
 
-    }
+   /**
+    * Render this channel as XML conforming to the RSS 0.91 specification,
+    * to the specified writer.
+    *
+    * @param writer The writer to render output to
+    */
+   void render(PrintWriter writer) {
+
+      writer.println("    <item>");
+
+      writer.print("      <title>");
+      writer.print(title);
+      writer.println("</title>");
+
+      writer.print("      <link>");
+      writer.print(link);
+      writer.println("</link>");
+
+      if (description != null) {
+         writer.print("      <description>");
+         writer.print(description);
+         writer.println("</description>");
+      }
+
+      writer.println("    </item>");
+
+   }
 
 
 }

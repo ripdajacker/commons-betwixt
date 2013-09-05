@@ -15,22 +15,21 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
-
-import java.io.FileInputStream;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.List;
+ */
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.BeanReader;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
+
+import java.io.FileInputStream;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.List;
 
 /**
  * Test harness which round trips a Scarab's settings xml file
@@ -38,54 +37,49 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class TestScarabSettings extends AbstractTestCase
-{
-    public static void main( String[] args )
-    {
-        TestRunner.run( suite() );
-    }
+public class TestScarabSettings extends AbstractTestCase {
+   public static void main(String[] args) {
+      TestRunner.run(suite());
+   }
 
-    /**
-     * A unit test suite for JUnit
-     */
-    public static Test suite()
-    {
-        return new TestSuite(TestScarabSettings.class);
-    }
+   /**
+    * A unit test suite for JUnit
+    */
+   public static Test suite() {
+      return new TestSuite(TestScarabSettings.class);
+   }
 
-    /**
-     * Constructor for the TestScarabSettings object
-     *
-     * @param testName
-     */
-    public TestScarabSettings(String testName)
-    {
-        super(testName);
-    }
+   /**
+    * Constructor for the TestScarabSettings object
+    *
+    * @param testName
+    */
+   public TestScarabSettings(String testName) {
+      super(testName);
+   }
 
-    /**
-     * Tests we can round trip from the XML -> bean -> XML -> bean. Ideally this
-     * method should test both Project objects are identical
-     */
-    public void testRoundTrip()
-        throws Exception
-    {
-        BeanReader reader = createBeanReader();
+   /**
+    * Tests we can round trip from the XML -> bean -> XML -> bean. Ideally this
+    * method should test both Project objects are identical
+    */
+   public void testRoundTrip()
+         throws Exception {
+      BeanReader reader = createBeanReader();
 
-        ScarabSettings ss = (ScarabSettings) reader.parse(
+      ScarabSettings ss = (ScarabSettings) reader.parse(
             new FileInputStream(getTestFile("src/test/org/apache/commons/betwixt/scarab/scarab-settings.xml")));
 
-        // now lets output it to a buffer
-        StringWriter buffer = new StringWriter();
-        write(ss, buffer);
+      // now lets output it to a buffer
+      StringWriter buffer = new StringWriter();
+      write(ss, buffer);
 
-        // create a new BeanReader
-        reader = createBeanReader();
+      // create a new BeanReader
+      reader = createBeanReader();
 
-        // now lets try parse the output sing the BeanReader
-        String text = buffer.toString();
+      // now lets try parse the output sing the BeanReader
+      String text = buffer.toString();
 
-        System.out.println(text);
+      System.out.println(text);
 
         /*
         ScarabSettings newScarabSettings = (ScarabSettings) reader.parse(new StringReader(text));
@@ -93,91 +87,87 @@ public class TestScarabSettings extends AbstractTestCase
         // managed to parse it again!
         testScarabSettings(newScarabSettings);
         */
-        testScarabSettings(ss);
+      testScarabSettings(ss);
 
-        // #### should now test the old and new Project instances for equality.
-    }
+      // #### should now test the old and new Project instances for equality.
+   }
 
 
-    // Implementation methods
-    //-------------------------------------------------------------------------
+   // Implementation methods
+   //-------------------------------------------------------------------------
 
-    /**
-     * Description of the Method
-     */
-    protected BeanReader createBeanReader()
-        throws Exception
-    {
-        BeanReader reader = new BeanReader();
-        reader.setXMLIntrospector(createXMLIntrospector());
-        reader.registerBeanClass(ScarabSettings.class);
-        return reader;
-    }
+   /**
+    * Description of the Method
+    */
+   protected BeanReader createBeanReader()
+         throws Exception {
+      BeanReader reader = new BeanReader();
+      reader.setXMLIntrospector(createXMLIntrospector());
+      reader.registerBeanClass(ScarabSettings.class);
+      return reader;
+   }
 
-    /**
-     * ### it would be really nice to move this somewhere shareable across Maven
-     * / Turbine projects. Maybe a static helper method - question is what to
-     * call it???
-     */
-    protected XMLIntrospector createXMLIntrospector()
-    {
-        XMLIntrospector introspector = new XMLIntrospector();
+   /**
+    * ### it would be really nice to move this somewhere shareable across Maven
+    * / Turbine projects. Maybe a static helper method - question is what to
+    * call it???
+    */
+   protected XMLIntrospector createXMLIntrospector() {
+      XMLIntrospector introspector = new XMLIntrospector();
 
-        // set elements for attributes to true
-        introspector.getConfiguration().setAttributesForPrimitives(false);
+      // set elements for attributes to true
+      introspector.getConfiguration().setAttributesForPrimitives(false);
 
-        // wrap collections in an XML element
-        //introspector.setWrapCollectionsInElement(true);
+      // wrap collections in an XML element
+      //introspector.setWrapCollectionsInElement(true);
 
-        // turn bean elements into lower case
-        introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+      // turn bean elements into lower case
+      introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
 
-        return introspector;
-    }
+      return introspector;
+   }
 
-    /**
-     * Tests the value of the Project object that has just been parsed
-     */
-    protected void testScarabSettings(ScarabSettings ss)
-        throws Exception
-    {
-        List globalAttributes = ss.getGlobalAttributes();
-        GlobalAttribute ga = (GlobalAttribute) globalAttributes.get(1);
-        assertEquals("Functional area", ga.getName());
+   /**
+    * Tests the value of the Project object that has just been parsed
+    */
+   protected void testScarabSettings(ScarabSettings ss)
+         throws Exception {
+      List globalAttributes = ss.getGlobalAttributes();
+      GlobalAttribute ga = (GlobalAttribute) globalAttributes.get(1);
+      assertEquals("Functional area", ga.getName());
 
-        List globalAttributeOptions = ga.getGlobalAttributeOptions();
-        
-        System.out.println( "GlobalAttribute: " + ga);
-        System.out.println( "globalAttributeOptions: " + globalAttributeOptions);
+      List globalAttributeOptions = ga.getGlobalAttributeOptions();
 
-        assertEquals(ga.getCreatedDate().getTimestamp(), "2002-05-31 13:29:27.0");
-        
-        assertEquals(globalAttributeOptions.size(), 2);
-        GlobalAttributeOption gao = (GlobalAttributeOption) globalAttributeOptions.get(0);
-        assertEquals("UI", gao.getChildOption());        
-        gao = (GlobalAttributeOption) globalAttributeOptions.get(1);
-        assertEquals("Code", gao.getChildOption());        
+      System.out.println("GlobalAttribute: " + ga);
+      System.out.println("globalAttributeOptions: " + globalAttributeOptions);
 
-        List globalIssueTypes = ss.getGlobalIssueTypes();
-        GlobalIssueType git = (GlobalIssueType) globalIssueTypes.get(0);
-        assertEquals("Defect", git.getName());
+      assertEquals(ga.getCreatedDate().getTimestamp(), "2002-05-31 13:29:27.0");
 
-        List modules = ss.getModules();
-        Module m = (Module) modules.get(0);
-        assertEquals("Source", m.getName());
-    }
+      assertEquals(globalAttributeOptions.size(), 2);
+      GlobalAttributeOption gao = (GlobalAttributeOption) globalAttributeOptions.get(0);
+      assertEquals("UI", gao.getChildOption());
+      gao = (GlobalAttributeOption) globalAttributeOptions.get(1);
+      assertEquals("Code", gao.getChildOption());
 
-    /**
-     * Description of the Method
-     */
-    protected void write(Object bean, Writer out)
-        throws Exception
-    {
-        BeanWriter writer = new BeanWriter(out);
-        writer.setXMLIntrospector(createXMLIntrospector());
-        writer.setEndOfLine("\n");
-        writer.enablePrettyPrint();
-        writer.write(bean);
-    }
+      List globalIssueTypes = ss.getGlobalIssueTypes();
+      GlobalIssueType git = (GlobalIssueType) globalIssueTypes.get(0);
+      assertEquals("Defect", git.getName());
+
+      List modules = ss.getModules();
+      Module m = (Module) modules.get(0);
+      assertEquals("Source", m.getName());
+   }
+
+   /**
+    * Description of the Method
+    */
+   protected void write(Object bean, Writer out)
+         throws Exception {
+      BeanWriter writer = new BeanWriter(out);
+      writer.setXMLIntrospector(createXMLIntrospector());
+      writer.setEndOfLine("\n");
+      writer.enablePrettyPrint();
+      writer.write(bean);
+   }
 }
 

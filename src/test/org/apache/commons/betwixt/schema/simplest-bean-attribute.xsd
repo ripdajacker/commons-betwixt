@@ -18,11 +18,11 @@
    under the License.  
 -->
 <xsd:schema xmlns:xsd='http://www.w3c.org/2001/XMLSchema'>
-	<xsd:complexType name='org.apache.commons.betwixt.schema.SimplestBean'>
-		<xsd:sequence/>
-		<xsd:attribute name='name' type='xsd:string'/>
-	</xsd:complexType>
-	
-	<xsd:element name='SimplestBean' type='org.apache.commons.betwixt.schema.SimplestBean'>
-	</xsd:element>
+   <xsd:complexType name='org.apache.commons.betwixt.schema.SimplestBean'>
+      <xsd:sequence/>
+      <xsd:attribute name='name' type='xsd:string'/>
+   </xsd:complexType>
+
+   <xsd:element name='SimplestBean' type='org.apache.commons.betwixt.schema.SimplestBean'>
+   </xsd:element>
 </xsd:schema>

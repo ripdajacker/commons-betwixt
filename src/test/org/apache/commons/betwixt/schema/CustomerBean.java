@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -23,74 +23,76 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public class CustomerBean {
-    
-    private String code;
-    private String name;
-    private String street;
-    private String town;
-    private String country;
-    private String postcode;
-    
-    public CustomerBean () {}
-    
-    public CustomerBean(String code, String name, String street,
-                        String town, String country, String postcode) {
-        setCode(code);
-        setName(name);
-        setStreet(street);
-        setTown(town);
-        setPostcode(postcode);
-        setCountry(country);
-    }
 
-    public String getCode() {
-        return code;
-    }
+   private String code;
+   private String name;
+   private String street;
+   private String town;
+   private String country;
+   private String postcode;
 
+   public CustomerBean() {
+   }
 
-    public String getCountry() {
-        return country;
-    }
+   public CustomerBean(
+         String code, String name, String street,
+         String town, String country, String postcode) {
+      setCode(code);
+      setName(name);
+      setStreet(street);
+      setTown(town);
+      setPostcode(postcode);
+      setCountry(country);
+   }
+
+   public String getCode() {
+      return code;
+   }
 
 
-    public String getName() {
-        return name;
-    }
+   public String getCountry() {
+      return country;
+   }
 
-    public String getPostcode() {
-        return postcode;
-    }
 
-    public String getStreet() {
-        return street;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public String getTown() {
-        return town;
-    }
+   public String getPostcode() {
+      return postcode;
+   }
 
-    public void setCode(String string) {
-        code = string;
-    }
+   public String getStreet() {
+      return street;
+   }
 
-    public void setCountry(String string) {
-        country = string;
-    }
+   public String getTown() {
+      return town;
+   }
 
-    public void setName(String string) {
-        name = string;
-    }
+   public void setCode(String string) {
+      code = string;
+   }
 
-    public void setPostcode(String string) {
-        postcode = string;
-    }
+   public void setCountry(String string) {
+      country = string;
+   }
 
-    public void setStreet(String string) {
-        street = string;
-    }
+   public void setName(String string) {
+      name = string;
+   }
 
-    public void setTown(String string) {
-        town = string;
-    }
+   public void setPostcode(String string) {
+      postcode = string;
+   }
+
+   public void setStreet(String string) {
+      street = string;
+   }
+
+   public void setTown(String string) {
+      town = string;
+   }
 
 }

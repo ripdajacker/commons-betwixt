@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.introspection;
 
@@ -21,6 +21,6 @@ package org.apache.commons.betwixt.introspection;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public interface ICopyable {
-    
-    public Object copy();
+
+   public Object copy();
 }

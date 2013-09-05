@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.introspection;
@@ -25,33 +25,33 @@ import org.apache.commons.betwixt.AddressBean;
  * @version $Revision$
  */
 public class CompanyBean {
-    
-    private String name;
-    private AddressBean registeredAddress;
-    
-    public CompanyBean() {}
-    
-    public CompanyBean(String name, AddressBean address)
-    {
-        setName(name);
-        setRegisteredAddress(address); 
-    }
-    
 
-    public String getName() {
-        return name;
-    }
+   private String name;
+   private AddressBean registeredAddress;
 
-    public AddressBean getRegisteredAddress() {
-        return registeredAddress;
-    }
+   public CompanyBean() {
+   }
 
-    public void setName(String string) {
-        name = string;
-    }
+   public CompanyBean(String name, AddressBean address) {
+      setName(name);
+      setRegisteredAddress(address);
+   }
 
-    public void setRegisteredAddress(AddressBean bean) {
-        registeredAddress = bean;
-    }
+
+   public String getName() {
+      return name;
+   }
+
+   public AddressBean getRegisteredAddress() {
+      return registeredAddress;
+   }
+
+   public void setName(String string) {
+      name = string;
+   }
+
+   public void setRegisteredAddress(AddressBean bean) {
+      registeredAddress = bean;
+   }
 
 }

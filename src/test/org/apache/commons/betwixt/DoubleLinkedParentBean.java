@@ -13,49 +13,50 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /** This is a child that has a property containing it's parent.
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class DoubleLinkedParentBean {
 
-    private ArrayList children = new ArrayList();
-    private String name;
-    
-    public DoubleLinkedParentBean () {}
-    
-    public DoubleLinkedParentBean(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }	
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Iterator getChildren() {
-        return children.iterator();
-    }
-    
-    public int getSize() {
-        return children.size();
-    }
-    
-    
-    public void addChild(DoubleLinkedChildBean child) {
-        children.add(child);
-        child.setParent(this);
-    }
+   private ArrayList children = new ArrayList();
+   private String name;
+
+   public DoubleLinkedParentBean() {
+   }
+
+   public DoubleLinkedParentBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public Iterator getChildren() {
+      return children.iterator();
+   }
+
+   public int getSize() {
+      return children.size();
+   }
+
+
+   public void addChild(DoubleLinkedChildBean child) {
+      children.add(child);
+      child.setParent(this);
+   }
 }
 

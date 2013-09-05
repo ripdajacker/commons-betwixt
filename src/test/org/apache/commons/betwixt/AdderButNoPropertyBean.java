@@ -13,26 +13,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 /** <p>Bean to test finding an adder without an associated property.</p>
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class AdderButNoPropertyBean {
-    
-    private int callStringCount = 0;
-    
-    public AdderButNoPropertyBean() {}
-    
-    public int stringCallCount() {
-        return callStringCount;
-    }
 
-    public void addString(String string) {
-        callStringCount ++;
-    }
-    
+   private int callStringCount = 0;
+
+   public AdderButNoPropertyBean() {
+   }
+
+   public int stringCallCount() {
+      return callStringCount;
+   }
+
+   public void addString(String string) {
+      callStringCount++;
+   }
+
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -25,33 +25,33 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class IgnoreAddersBean {
-    
-    private String alpha;
-    private String beta;
-    private ArrayList gammas;
-    
-    public String getAlpha() {
-        return alpha;
-    }
 
-    public void setAlpha(String string) {
-        alpha = string;
-    }
-    
-    public String getBeta() {
-        return beta;
-    }
+   private String alpha;
+   private String beta;
+   private ArrayList gammas;
 
-    public void setBeta(String string) {
-        beta = string;
-    }
-    
-    public ArrayList getGammas() {
-        return gammas;
-    }
+   public String getAlpha() {
+      return alpha;
+   }
 
-    public void addGamma(String gamma) {
-        gammas.add(gamma);
-    }
-    
+   public void setAlpha(String string) {
+      alpha = string;
+   }
+
+   public String getBeta() {
+      return beta;
+   }
+
+   public void setBeta(String string) {
+      beta = string;
+   }
+
+   public ArrayList getGammas() {
+      return gammas;
+   }
+
+   public void addGamma(String gamma) {
+      gammas.add(gamma);
+   }
+
 }

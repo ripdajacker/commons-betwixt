@@ -13,55 +13,56 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.dotbetwixt;
 
-/** 
-  * This is a simple bean used in testing mixed content.
-  * This bean has the simpliest mapping.
-  *
-  * @author Robert Burrell Donkin
-  */
+/**
+ * This is a simple bean used in testing mixed content.
+ * This bean has the simpliest mapping.
+ *
+ * @author Robert Burrell Donkin
+ */
 public class MixedContentOne {
-    
-//-------------------------- Attributes
-    private String alpha;
-    private String beta;
-    private int gamma;
-    
-//-------------------------- Constructors
-    public MixedContentOne(String alpha, String beta, int gamma) {
-        setAlpha(alpha);
-        setBeta(beta);
-        setGamma(gamma);
-    }
-    
-    public MixedContentOne() {}
-        
+
+   //-------------------------- Attributes
+   private String alpha;
+   private String beta;
+   private int gamma;
+
+   //-------------------------- Constructors
+   public MixedContentOne(String alpha, String beta, int gamma) {
+      setAlpha(alpha);
+      setBeta(beta);
+      setGamma(gamma);
+   }
+
+   public MixedContentOne() {
+   }
+
 //--------------------------- Properties
 
-    public String getAlpha() {
-        return alpha;
-    }
-    
-    public void setAlpha(String alpha) {
-        this.alpha = alpha;
-    }
-    
-    public String getBeta() {
-        return beta;
-    }
-    
-    public void setBeta(String beta) {
-        this.beta = beta;
-    }
-    
-    public int getGamma() {
-        return gamma;
-    }
-    
-    public void setGamma(int gamma) {
-        this.gamma = gamma;
-    }
+   public String getAlpha() {
+      return alpha;
+   }
+
+   public void setAlpha(String alpha) {
+      this.alpha = alpha;
+   }
+
+   public String getBeta() {
+      return beta;
+   }
+
+   public void setBeta(String beta) {
+      this.beta = beta;
+   }
+
+   public int getGamma() {
+      return gamma;
+   }
+
+   public void setGamma(int gamma) {
+      this.gamma = gamma;
+   }
 }

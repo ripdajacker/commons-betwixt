@@ -13,52 +13,51 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.digester.rss.RSSDigester;
 
-/** Reads an RSS file using Digesters's RSS demo then uses Betwixt
-  * to output it as XML again.
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
-public class RSSBeanWriter extends AbstractTestCase {
-    
-    public RSSBeanWriter(String testName) {
-        super(testName);
-    }
+import java.io.FileInputStream;
+import java.io.InputStream;
 
-    public static void main(String[] args) throws Exception {
-        RSSBeanWriter sample = new RSSBeanWriter("RSS");
-        sample.run( args );
-    }
-    
-    public void run(String[] args) throws Exception {
-        RSSDigester digester = new RSSDigester();
-        Object bean = null;
-        if ( args.length > 0 ) {
-            bean = digester.parse( args[0] );
-        }
-        else {
-            InputStream in = new FileInputStream( getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml") );
-            bean = digester.parse( in ); 
-            in.close();
-        }
-        
-        write( bean );
-    }
-        
-    public void write(Object bean) throws Exception {
-        BeanWriter writer = new BeanWriter();
-        writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
-        writer.enablePrettyPrint();
-        writer.write( bean );
-    }
+/** Reads an RSS file using Digesters's RSS demo then uses Betwixt
+ * to output it as XML again.
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
+public class RSSBeanWriter extends AbstractTestCase {
+
+   public RSSBeanWriter(String testName) {
+      super(testName);
+   }
+
+   public static void main(String[] args) throws Exception {
+      RSSBeanWriter sample = new RSSBeanWriter("RSS");
+      sample.run(args);
+   }
+
+   public void run(String[] args) throws Exception {
+      RSSDigester digester = new RSSDigester();
+      Object bean = null;
+      if (args.length > 0) {
+         bean = digester.parse(args[0]);
+      } else {
+         InputStream in = new FileInputStream(getTestFile("src/test/org/apache/commons/betwixt/rss-example.xml"));
+         bean = digester.parse(in);
+         in.close();
+      }
+
+      write(bean);
+   }
+
+   public void write(Object bean) throws Exception {
+      BeanWriter writer = new BeanWriter();
+      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.enablePrettyPrint();
+      writer.write(bean);
+   }
 }
 

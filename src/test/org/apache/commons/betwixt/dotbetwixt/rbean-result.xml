@@ -16,11 +16,11 @@
   limitations under the License.
 -->
 <bill>
-    <ben>alpha</ben>
-    <weed>
-        <pot>beta</pot>
-        <inner-weed>
-            <inner-pot>gamma</inner-pot>
-        </inner-weed>	
-    </weed>
+   <ben>alpha</ben>
+   <weed>
+      <pot>beta</pot>
+      <inner-weed>
+         <inner-pot>gamma</inner-pot>
+      </inner-weed>
+   </weed>
 </bill>

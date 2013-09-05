@@ -13,29 +13,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.expression;
 
 /** <p><code>AdderBean</code> used to test map updates.</p>
-  *
-  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
-  */
+ *
+ * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
+ */
 public class AdderBean {
 
-    private String key;
-    private String value;
-    
-    public String getKey() {
-        return key;
-    }	
-    
-    public String getValue() {
-        return value;
-    }
-    
-    public void add(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
+   private String key;
+   private String value;
+
+   public String getKey() {
+      return key;
+   }
+
+   public String getValue() {
+      return value;
+   }
+
+   public void add(String key, String value) {
+      this.key = key;
+      this.value = value;
+   }
 }

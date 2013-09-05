@@ -18,31 +18,32 @@
 
 <document>
 
- <properties>
-  <title>Examples</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Examples</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
+   <body>
 
-<section name="Examples">
-<a name="simple-example"/>
-<subsection name='A Simple Example'>
-    <p>
-    This is a simple example to help those new to betwixt. It shows how a simple bean can be converted to
-    xml and back again. A round trip, no less!
-    </p>
-    <p>
-    In order to run these simple examples, the classpath needs to contain Betwixt and all its 
-    <a href='../dependencies.html'>dependencies</a>. Note that any 
-    <a href='http://java.sun.com/xml/jaxp/index.html'>JAXP (1.1 or later)</a> compliant parser 
-    can be used to replace xerces and xml-apis. JUnit is not required to run betwixt (but is needed
-    if you want to run the unit tests in CVS).
-    </p>
-    <p>
-    This example is based around a very simple bean representing a person:
-    
-<source><![CDATA[
+      <section name="Examples">
+         <a name="simple-example"/>
+         <subsection name='A Simple Example'>
+            <p>
+               This is a simple example to help those new to betwixt. It shows how a simple bean can be converted to
+               xml and back again. A round trip, no less!
+            </p>
+            <p>
+               In order to run these simple examples, the classpath needs to contain Betwixt and all its
+               <a href='../dependencies.html'>dependencies</a>. Note that any
+               <a href='http://java.sun.com/xml/jaxp/index.html'>JAXP (1.1 or later)</a>
+               compliant parser
+               can be used to replace xerces and xml-apis. JUnit is not required to run betwixt (but is needed
+               if you want to run the unit tests in CVS).
+            </p>
+            <p>
+               This example is based around a very simple bean representing a person:
+
+               <source><![CDATA[
 public class PersonBean {
     
     private String name;
@@ -77,15 +78,18 @@ public class PersonBean {
     }
 }
 ]]></source>
-    </p>
-    <p>
-    The basic usage pattern for writing beans using Betwixt is to create a BeanWriter, configure it 
-    and then pass a bean into the <code>write</code> method. Pretty easy. 
-    </p>
-    <p>
-    Here's a simple application which converts a person bean to xml which is then sent to <code>System.out</code>:
-    
-<source><![CDATA[
+            </p>
+            <p>
+               The basic usage pattern for writing beans using Betwixt is to create a BeanWriter, configure it
+               and then pass a bean into the
+               <code>write</code>
+               method. Pretty easy.
+            </p>
+            <p>
+               Here's a simple application which converts a person bean to xml which is then sent to
+               <code>System.out</code>:
+
+               <source><![CDATA[
 import java.io.StringWriter;
 
 import org.apache.commons.betwixt.io.BeanWriter;
@@ -131,17 +135,17 @@ public class WriteExampleApp {
 }
 
 ]]></source>
-    </p>
-    <p>
-    The basic usage pattern for reading beans is only a little more complex. This time, you need to
-    create a BeanReader, configure it, register the bean classes that the xml will be mapped to and 
-    then parse should be called.
-    </p>
-    <p>
-    Here's a simple application that converts some xml to a person bean. The bean is then converted
-    to string and the result sent to <code>System.out</code>:
-    
-<source><![CDATA[
+            </p>
+            <p>
+               The basic usage pattern for reading beans is only a little more complex. This time, you need to
+               create a BeanReader, configure it, register the bean classes that the xml will be mapped to and
+               then parse should be called.
+            </p>
+            <p>
+               Here's a simple application that converts some xml to a person bean. The bean is then converted
+               to string and the result sent to<code>System.out</code>:
+
+               <source><![CDATA[
 import java.io.StringReader;
 
 import org.apache.commons.betwixt.io.BeanReader;
@@ -178,13 +182,13 @@ public class ReadExampleApp {
     
 }
 ]]></source>
-    </p>
-</subsection>
-<subsection name='A Rich Site Summary Mapping'>
+            </p>
+         </subsection>
+         <subsection name='A Rich Site Summary Mapping'>
 
-    <p>In the RSS example from Digester there's a bean which matches this pattern.</p>
+            <p>In the RSS example from Digester there's a bean which matches this pattern.</p>
 
-<source><![CDATA[
+            <source><![CDATA[
 public class Channel
 
     public Item[] getItems();
@@ -193,17 +197,18 @@ public class Channel
 }
 ]]></source>
 
-    <p>This means that the following bean does not match this naming convention, 
-    since the plural property name does not start with the singular name.</p>
-    
-<source><![CDATA[public class Foo {
+            <p>This means that the following bean does not match this naming convention,
+               since the plural property name does not start with the singular name.
+            </p>
+
+            <source><![CDATA[public class Foo {
     public Collection getPeople();
     public void addPerson(Person person);
 }]]></source>
 
-    <p>Though these two beans do match</p>
+            <p>Though these two beans do match</p>
 
-<source><![CDATA[public class Foo {
+            <source><![CDATA[public class Foo {
     public Collection getPersonCollection();
     public void addPerson(Person person);
 }
@@ -213,40 +218,50 @@ public class Foo {
 }
 ]]></source>
 
-    <p>The following are other valid examples of <i>composite-getter</i> methods and 
-    their matching <i>adder</i> methods.</p>
+            <p>The following are other valid examples of
+               <i>composite-getter</i>
+               methods and
+               their matching
+               <i>adder</i>
+               methods.
+            </p>
 
-<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%">
-  <tr>
-    <td width="50%" align="center"><b>Composite getter method</b></td>
-    <td width="50%" align="center"><b>Adder method</b></td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">getChildren()</td>
-    <td width="50%" align="center">addChild()</td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">getPersonList()</td>
-    <td width="50%" align="center">addPerson()</td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">getItems()</td>
-    <td width="50%" align="center">addItem()</td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">getChannels()</td>
-    <td width="50%" align="center">addChannel()</td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">getSheep()</td>
-    <td width="50%" align="center">addSheep()</td>
-  </tr>
-</table>
+            <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111"
+                   width="100%">
+               <tr>
+                  <td width="50%" align="center">
+                     <b>Composite getter method</b>
+                  </td>
+                  <td width="50%" align="center">
+                     <b>Adder method</b>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="50%" align="center">getChildren()</td>
+                  <td width="50%" align="center">addChild()</td>
+               </tr>
+               <tr>
+                  <td width="50%" align="center">getPersonList()</td>
+                  <td width="50%" align="center">addPerson()</td>
+               </tr>
+               <tr>
+                  <td width="50%" align="center">getItems()</td>
+                  <td width="50%" align="center">addItem()</td>
+               </tr>
+               <tr>
+                  <td width="50%" align="center">getChannels()</td>
+                  <td width="50%" align="center">addChannel()</td>
+               </tr>
+               <tr>
+                  <td width="50%" align="center">getSheep()</td>
+                  <td width="50%" align="center">addSheep()</td>
+               </tr>
+            </table>
 
-</subsection>
+         </subsection>
 
-</section>
+      </section>
 
 
-</body>
+   </body>
 </document>

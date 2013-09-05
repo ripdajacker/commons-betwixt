@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.examples.rss;
@@ -35,61 +35,61 @@ import java.io.Serializable;
 public class TextInput implements Serializable {
 
 
-    // ------------------------------------------------------------- Properties
+   // ------------------------------------------------------------- Properties
 
 
-    /**
-     * The text input description (1-100 characters).
-     */
-    protected String description = null;
+   /**
+    * The text input description (1-100 characters).
+    */
+   protected String description = null;
 
-    public String getDescription() {
-        return (this.description);
-    }
+   public String getDescription() {
+      return (this.description);
+   }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    /**
-     * The text input link (1-500 characters).
-     */
-    protected String link = null;
-
-    public String getLink() {
-        return (this.link);
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
 
-    /**
-     * The text input field name (1-100 characters).
-     */
-    protected String name = null;
+   /**
+    * The text input link (1-500 characters).
+    */
+   protected String link = null;
 
-    public String getName() {
-        return (this.name);
-    }
+   public String getLink() {
+      return (this.link);
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public void setLink(String link) {
+      this.link = link;
+   }
 
 
-    /**
-     * The text input submit button label (1-100 characters).
-     */
-    protected String title = null;
+   /**
+    * The text input field name (1-100 characters).
+    */
+   protected String name = null;
 
-    public String getTitle() {
-        return (this.title);
-    }
+   public String getName() {
+      return (this.name);
+   }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+   public void setName(String name) {
+      this.name = name;
+   }
+
+
+   /**
+    * The text input submit button label (1-100 characters).
+    */
+   protected String title = null;
+
+   public String getTitle() {
+      return (this.title);
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
 }

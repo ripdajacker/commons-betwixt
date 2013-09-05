@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
 import java.util.ArrayList;
@@ -23,18 +23,17 @@ import java.util.List;
 /**
  */
 public class ElementsList {
-    private List elements = new ArrayList();
-    
-    public Iterator getElements() {
-        return elements.iterator();
-    }
-    
-    public void addElement(Element element) {
-        elements.add(element);
-    }
-    
-    public Element get(int index)
-    {
-        return (Element) elements.get(index);
-    }
+   private List elements = new ArrayList();
+
+   public Iterator getElements() {
+      return elements.iterator();
+   }
+
+   public void addElement(Element element) {
+      elements.add(element);
+   }
+
+   public Element get(int index) {
+      return (Element) elements.get(index);
+   }
 }

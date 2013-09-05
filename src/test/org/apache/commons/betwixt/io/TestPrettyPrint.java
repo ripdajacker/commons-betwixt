@@ -13,39 +13,39 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
-
-import java.io.StringWriter;
 
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.xml.sax.helpers.AttributesImpl;
 
+import java.io.StringWriter;
+
 
 public class TestPrettyPrint extends AbstractTestCase {
 
-    public TestPrettyPrint(String testName) {
-        super(testName);
-    }
+   public TestPrettyPrint(String testName) {
+      super(testName);
+   }
 
-    public void testEndElement() throws Exception {
-        StringWriter out = new StringWriter();
-        BeanWriter writer = new BeanWriter(out);
-        writer.enablePrettyPrint();
-        writer.setEndTagForEmptyElement(true);
-        
-        WriteContext context = new WriteContext() {
+   public void testEndElement() throws Exception {
+      StringWriter out = new StringWriter();
+      BeanWriter writer = new BeanWriter(out);
+      writer.enablePrettyPrint();
+      writer.setEndTagForEmptyElement(true);
 
-            public ElementDescriptor getCurrentDescriptor() {
-                return null;
-            }
-            
-        };
-        
-        writer.startElement(context, "", "emptytag", "emptytag", new AttributesImpl());
-        writer.endElement(context, "", "emptytag", "emptytag");
-        
-        assertEquals("",  "<emptytag></emptytag>", out.toString().trim());
-    }
+      WriteContext context = new WriteContext() {
+
+         public ElementDescriptor getCurrentDescriptor() {
+            return null;
+         }
+
+      };
+
+      writer.startElement(context, "", "emptytag", "emptytag", new AttributesImpl());
+      writer.endElement(context, "", "emptytag", "emptytag");
+
+      assertEquals("", "<emptytag></emptytag>", out.toString().trim());
+   }
 }

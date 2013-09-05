@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 /**
@@ -21,39 +21,42 @@ package org.apache.commons.betwixt;
  */
 public class MoonBean {
 
-    protected PlanetBean planet;
-    protected String name;
-    
-    public MoonBean() {}
-    
-    public MoonBean(String name) {
-        this.name = name;
-    }
-    
-    
-    /**
-     * @return Returns the name.
-     */
-    public String getName() {
-        return name;
-    }
-    
-    /**
-     * @param name The name to set.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-    /**
-     * @return Returns the planet.
-     */
-    public PlanetBean getPlanet() {
-        return planet;
-    }
-    /**
-     * @param planet The planet to set.
-     */
-    public void setPlanet(PlanetBean planet) {
-        this.planet = planet;
-    }
+   protected PlanetBean planet;
+   protected String name;
+
+   public MoonBean() {
+   }
+
+   public MoonBean(String name) {
+      this.name = name;
+   }
+
+
+   /**
+    * @return Returns the name.
+    */
+   public String getName() {
+      return name;
+   }
+
+   /**
+    * @param name The name to set.
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   /**
+    * @return Returns the planet.
+    */
+   public PlanetBean getPlanet() {
+      return planet;
+   }
+
+   /**
+    * @param planet The planet to set.
+    */
+   public void setPlanet(PlanetBean planet) {
+      this.planet = planet;
+   }
 }

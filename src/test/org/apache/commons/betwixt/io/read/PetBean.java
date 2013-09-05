@@ -13,40 +13,41 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class PetBean {
-    
-    private Animal pet;
-    private PersonBean owner;
-    
-    public PetBean() {}
-    
-    
-    public PetBean(Animal pet, PersonBean owner) {
-        super();
-        this.pet = pet;
-        this.owner = owner;
-    }
-    
-    public PersonBean getOwner() {
-        return owner;
-    }
 
-    public void setOwner(PersonBean owner) {
-        this.owner = owner;
-    }
+   private Animal pet;
+   private PersonBean owner;
 
-    public Animal getPet() {
-        return pet;
-    }
+   public PetBean() {
+   }
 
 
-    public void setPet(Animal pet) {
-        this.pet = pet;
-    }
+   public PetBean(Animal pet, PersonBean owner) {
+      super();
+      this.pet = pet;
+      this.owner = owner;
+   }
+
+   public PersonBean getOwner() {
+      return owner;
+   }
+
+   public void setOwner(PersonBean owner) {
+      this.owner = owner;
+   }
+
+   public Animal getPet() {
+      return pet;
+   }
+
+
+   public void setPet(Animal pet) {
+      this.pet = pet;
+   }
 }

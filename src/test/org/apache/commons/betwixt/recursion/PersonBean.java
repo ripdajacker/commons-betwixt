@@ -13,27 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.recursion;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class PersonBean {
-    
-	   private NameBean name;
-	   
-	   public PersonBean() {}
-	   
-	   public PersonBean(NameBean name) {
-	       setName(name);
-	   }
-	   
-	   public NameBean getName() {
-		    return name;
-	   }
-	   
-	   public void setName(NameBean name) {
-		    this.name = name;
-	   }
+
+   private NameBean name;
+
+   public PersonBean() {
+   }
+
+   public PersonBean(NameBean name) {
+      setName(name);
+   }
+
+   public NameBean getName() {
+      return name;
+   }
+
+   public void setName(NameBean name) {
+      this.name = name;
+   }
 }

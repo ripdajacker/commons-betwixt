@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 
@@ -24,31 +24,31 @@ import java.util.Date;
  */
 public class AlertBean {
 
-    private Date timestamp;
-    private String summary;
-    private String message;
-    
-    public String getMessage() {
-        return message;
-    }
+   private Date timestamp;
+   private String summary;
+   private String message;
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+   public String getMessage() {
+      return message;
+   }
 
-    public String getSummary() {
-        return summary;
-    }
+   public void setMessage(String message) {
+      this.message = message;
+   }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+   public String getSummary() {
+      return summary;
+   }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
+   public void setSummary(String summary) {
+      this.summary = summary;
+   }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+   public Date getTimestamp() {
+      return timestamp;
+   }
+
+   public void setTimestamp(Date timestamp) {
+      this.timestamp = timestamp;
+   }
 }

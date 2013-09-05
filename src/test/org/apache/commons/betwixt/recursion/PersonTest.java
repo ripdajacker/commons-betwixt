@@ -13,24 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
-  
+
 package org.apache.commons.betwixt.recursion;
 
 public class PersonTest {
-  private String name;
-  private AddressTest address;
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-  public AddressTest getAddress() {
-    return address;
-  }
-  public void setAddress(AddressTest address) {
-    this.address = address;
-  }
+   private String name;
+   private AddressTest address;
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public AddressTest getAddress() {
+      return address;
+   }
+
+   public void setAddress(AddressTest address) {
+      this.address = address;
+   }
 }

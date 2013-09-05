@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 /**
@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.io.read;
  */
 public abstract class Animal {
 
-    public abstract String getLatinName();
-    
-    public abstract String getCall();
+   public abstract String getLatinName();
+
+   public abstract String getCall();
 }

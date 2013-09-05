@@ -13,25 +13,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
 /**
  */
 public class BetaBean {
 
-    private String name;
-    
-    public BetaBean() {}
-    public BetaBean(String name) {
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
+   private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public BetaBean() {
+   }
+
+   public BetaBean(String name) {
+      setName(name);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
 }

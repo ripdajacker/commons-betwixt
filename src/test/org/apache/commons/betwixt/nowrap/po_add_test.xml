@@ -14,18 +14,18 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
--->  
+-->
 <content>
-  <printingno>555008805581</printingno>
+   <printingno>555008805581</printingno>
 
-  <componenttest>
-    <compdescription>Text</compdescription>
-  </componenttest>
-  <componenttest>
-    <compdescription>Binding</compdescription>
-  </componenttest>
-  <componenttest>
-    <compdescription>Paper Cover</compdescription>
-  </componenttest>
+   <componenttest>
+      <compdescription>Text</compdescription>
+   </componenttest>
+   <componenttest>
+      <compdescription>Binding</compdescription>
+   </componenttest>
+   <componenttest>
+      <compdescription>Paper Cover</compdescription>
+   </componenttest>
 
 </content>

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 import java.util.ArrayList;
@@ -25,18 +25,18 @@ import java.util.List;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class Animals {
-    
-    private List animals = new ArrayList();
-    
-    public Iterator getAnimals() {
-        return animals.iterator();
-    }
-    
-    public void addAnimal(Animal animal) {
-        animals.add(animal);
-    }
-    
-    public int size() {
-        return animals.size();
-    }
+
+   private List animals = new ArrayList();
+
+   public Iterator getAnimals() {
+      return animals.iterator();
+   }
+
+   public void addAnimal(Animal animal) {
+      animals.add(animal);
+   }
+
+   public int size() {
+      return animals.size();
+   }
 }

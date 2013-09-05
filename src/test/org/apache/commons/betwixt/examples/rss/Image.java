@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.examples.rss;
@@ -35,89 +35,89 @@ import java.io.Serializable;
 public class Image implements Serializable {
 
 
-    // ------------------------------------------------------------- Properties
+   // ------------------------------------------------------------- Properties
 
 
-    /**
-     * The image description (1-100 characters).
-     */
-    protected String description = null;
+   /**
+    * The image description (1-100 characters).
+    */
+   protected String description = null;
 
-    public String getDescription() {
-        return (this.description);
-    }
+   public String getDescription() {
+      return (this.description);
+   }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    /**
-     * The image height in pixels (1-400).
-     */
-    protected int height = 31;
-
-    public int getHeight() {
-        return (this.height);
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
 
-    /**
-     * The image link (1-500 characters).
-     */
-    protected String link = null;
+   /**
+    * The image height in pixels (1-400).
+    */
+   protected int height = 31;
 
-    public String getLink() {
-        return (this.link);
-    }
+   public int getHeight() {
+      return (this.height);
+   }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-
-    /**
-     * The image alternate text (1-100 characters).
-     */
-    protected String title = null;
-
-    public String getTitle() {
-        return (this.title);
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+   public void setHeight(int height) {
+      this.height = height;
+   }
 
 
-    /**
-     * The image location URL (1-500 characters).
-     */
-    protected String url = null;
+   /**
+    * The image link (1-500 characters).
+    */
+   protected String link = null;
 
-    public String getURL() {
-        return (this.url);
-    }
+   public String getLink() {
+      return (this.link);
+   }
 
-    public void setURL(String url) {
-        this.url = url;
-    }
+   public void setLink(String link) {
+      this.link = link;
+   }
 
 
-    /**
-     * The image width in pixels (1-400).
-     */
-    protected int width = 31;
+   /**
+    * The image alternate text (1-100 characters).
+    */
+   protected String title = null;
 
-    public int getWidth() {
-        return (this.width);
-    }
+   public String getTitle() {
+      return (this.title);
+   }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+
+   /**
+    * The image location URL (1-500 characters).
+    */
+   protected String url = null;
+
+   public String getURL() {
+      return (this.url);
+   }
+
+   public void setURL(String url) {
+      this.url = url;
+   }
+
+
+   /**
+    * The image width in pixels (1-400).
+    */
+   protected int width = 31;
+
+   public int getWidth() {
+      return (this.width);
+   }
+
+   public void setWidth(int width) {
+      this.width = width;
+   }
 }

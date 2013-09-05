@@ -13,67 +13,70 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
-/** 
+/**
  * Example enum
- * 
+ *
  * @author Robert Burrell Donkin
  * @version $Id$
  */
 public class HouseBean {
 
-    private CompassPoint facing;
-    private AddressBean address;
-    private PersonBean householder;
-    private boolean isTenant;
-    
-    public HouseBean() {}
-    
-    public AddressBean getAddress() {
-        return address;
-    }
-    
-    public void setAddress(AddressBean address) {
-        this.address = address;
-    }
-    
-    public PersonBean getHouseholder() {
-        return householder;
-    }
-        
-    public void setHouseholder(PersonBean householder) {
-        this.householder = householder;
-    }
-    
-    public boolean isTenant() {
-        return isTenant;
-    }
-    
-    public void setTenant(boolean isTenant) {
-        this.isTenant = isTenant;
-    }
-    
-    public CompassPoint getFacing() {
-        return facing;
-    }
-    
-    public void setFacing(CompassPoint facing) {
-        this.facing = facing;
-    }
+   private CompassPoint facing;
+   private AddressBean address;
+   private PersonBean householder;
+   private boolean isTenant;
 
-    public String toString() {  
-        return "[" + this.getClass().getName() + ": address=" + address + " householder=" + householder 
-        + " facing=" + facing + " tenant=" + isTenant + "]";
-    }
-    
-    public boolean equals( Object obj ) {
-        if ( obj == null ) return false;
-        return this.hashCode() == obj.hashCode();
-    }
-    
-    public int hashCode() {
-        return toString().hashCode();
-    }
+   public HouseBean() {
+   }
+
+   public AddressBean getAddress() {
+      return address;
+   }
+
+   public void setAddress(AddressBean address) {
+      this.address = address;
+   }
+
+   public PersonBean getHouseholder() {
+      return householder;
+   }
+
+   public void setHouseholder(PersonBean householder) {
+      this.householder = householder;
+   }
+
+   public boolean isTenant() {
+      return isTenant;
+   }
+
+   public void setTenant(boolean isTenant) {
+      this.isTenant = isTenant;
+   }
+
+   public CompassPoint getFacing() {
+      return facing;
+   }
+
+   public void setFacing(CompassPoint facing) {
+      this.facing = facing;
+   }
+
+   public String toString() {
+      return "[" + this.getClass().getName() + ": address=" + address + " householder=" + householder
+            + " facing=" + facing + " tenant=" + isTenant + "]";
+   }
+
+   public boolean equals(Object obj) {
+      if (obj == null) {
+         return false;
+      }
+      return this.hashCode() == obj.hashCode();
+   }
+
+   public int hashCode() {
+      return toString().hashCode();
+   }
 }

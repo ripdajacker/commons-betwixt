@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.strategy.alt;
 
@@ -29,21 +29,21 @@ import java.util.Iterator;
  */
 public class Elements {
 
-    private HashMap elements = new HashMap();
+   private HashMap elements = new HashMap();
 
-    public Elements() {
-    }
+   public Elements() {
+   }
 
-    public void addElement(Element element) {
-        elements.put(element.getValue(), element);
-    }
+   public void addElement(Element element) {
+      elements.put(element.getValue(), element);
+   }
 
-    public Iterator getElements() {
-        return elements.values().iterator();
-    }
+   public Iterator getElements() {
+      return elements.values().iterator();
+   }
 
-    public Element getElement(String name) {
-        return (Element) elements.get(name);
-    }
-    
+   public Element getElement(String name) {
+      return (Element) elements.get(name);
+   }
+
 }

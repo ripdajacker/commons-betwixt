@@ -13,91 +13,87 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
-
-import java.io.IOException;
-import java.io.Writer;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Simple SAXContentHandler to test the SAXBeanWriter
- * 
+ *
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
  * @version $Id$
  */
 public class SAXContentHandler extends DefaultHandler {
-    
-    private Writer out;
-    /**
-     * Constructor for SAXContentHandler.
-     */
-    public SAXContentHandler(Writer out) {
-        this.out = out;
-    }
 
-    /**
-     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
-     */
-    public void characters(char[] ch, int start, int length)
-        throws SAXException
-    {
-        try {
-            out.write("  "+new String(ch, start, length)+"\n");
-        }catch(IOException ioe) {
-        }
-    }
+   private Writer out;
 
-    /**
-     * @see org.xml.sax.ContentHandler#endElement(String, String, String)
-     */
-    public void endElement(String namespaceURI, String localName, String qName)
-        throws SAXException
-    {
-        try {
-            out.write("</"+qName+">\n");
-        }catch (IOException e) {
-        }
-    }
+   /**
+    * Constructor for SAXContentHandler.
+    */
+   public SAXContentHandler(Writer out) {
+      this.out = out;
+   }
 
-    /**
-     * @see org.xml.sax.ContentHandler#startDocument()
-     */
-    public void startDocument() throws SAXException
-    {
-        try {
-            out.write("<?xml version=\"1.0\"?>\n");
-        }catch (IOException e){
-        }
-    }
+   /**
+    * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+    */
+   public void characters(char[] ch, int start, int length)
+         throws SAXException {
+      try {
+         out.write("  " + new String(ch, start, length) + "\n");
+      } catch (IOException ioe) {
+      }
+   }
 
-    /**
-     * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
-     */
-    public void startElement(
-        String namespaceURI,
-        String localName,
-        String qName,
-        Attributes atts)
-        throws SAXException
-    {
-        try {
-            StringBuffer sb = new StringBuffer();
-            sb.append("<"+qName);
-            for (int i=0; i < atts.getLength();i++)
-            {
-                sb.append(" "+atts.getQName(i));
-                sb.append("=\"");
-                sb.append(atts.getValue(i));
-                sb.append("\"");
-            }
-            sb.append(">\n");
-            out.write(sb.toString());
-        } catch (IOException e)  {
-        }
-    }
+   /**
+    * @see org.xml.sax.ContentHandler#endElement(String, String, String)
+    */
+   public void endElement(String namespaceURI, String localName, String qName)
+         throws SAXException {
+      try {
+         out.write("</" + qName + ">\n");
+      } catch (IOException e) {
+      }
+   }
+
+   /**
+    * @see org.xml.sax.ContentHandler#startDocument()
+    */
+   public void startDocument() throws SAXException {
+      try {
+         out.write("<?xml version=\"1.0\"?>\n");
+      } catch (IOException e) {
+      }
+   }
+
+   /**
+    * @see org.xml.sax.ContentHandler#startElement(String, String, String, Attributes)
+    */
+   public void startElement(
+         String namespaceURI,
+         String localName,
+         String qName,
+         Attributes atts)
+         throws SAXException {
+      try {
+         StringBuffer sb = new StringBuffer();
+         sb.append("<" + qName);
+         for (int i = 0; i < atts.getLength(); i++) {
+            sb.append(" " + atts.getQName(i));
+            sb.append("=\"");
+            sb.append(atts.getValue(i));
+            sb.append("\"");
+         }
+         sb.append(">\n");
+         out.write(sb.toString());
+      } catch (IOException e) {
+      }
+   }
 
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 
 package org.apache.commons.betwixt.strategy;
 
@@ -29,61 +29,63 @@ import java.util.Iterator;
  */
 public class TuneBean {
 
-    private ArrayList composers = new ArrayList();
-    private String name;
-    private String artist;
-    private int recorded;
-    
-    public TuneBean() {}
-    public TuneBean(String name, String artist, int recorded) {
-        setName(name);
-        setArtist(artist);
-        setRecorded(recorded);
-    }
- 
-    public String getArtist() {
-        return artist;
-    }
+   private ArrayList composers = new ArrayList();
+   private String name;
+   private String artist;
+   private int recorded;
 
-    public Iterator getComposers() {
-        return composers.iterator();
-    }
+   public TuneBean() {
+   }
 
-    public String getName() {
-        return name;
-    }
+   public TuneBean(String name, String artist, int recorded) {
+      setName(name);
+      setArtist(artist);
+      setRecorded(recorded);
+   }
 
-    public int getRecorded() {
-        return recorded;
-    }
+   public String getArtist() {
+      return artist;
+   }
 
-    public void setArtist(String string) {
-        artist = string;
-    }
+   public Iterator getComposers() {
+      return composers.iterator();
+   }
 
-    public void addComposer(ComposerBean composer) {
-        composers.add(composer);
-    }
-    
-    public void setName(String string) {
-        name = string;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setRecorded(int i) {
-        recorded = i;
-    }
+   public int getRecorded() {
+      return recorded;
+   }
 
-    public boolean sameComposers(Collection otherComposers) {
-                // doesn't check cardinality but should be ok
-        if (otherComposers.size() != composers.size()) {
+   public void setArtist(String string) {
+      artist = string;
+   }
+
+   public void addComposer(ComposerBean composer) {
+      composers.add(composer);
+   }
+
+   public void setName(String string) {
+      name = string;
+   }
+
+   public void setRecorded(int i) {
+      recorded = i;
+   }
+
+   public boolean sameComposers(Collection otherComposers) {
+      // doesn't check cardinality but should be ok
+      if (otherComposers.size() != composers.size()) {
+         return false;
+      }
+      for (Iterator it = composers.iterator(); it.hasNext(); ) {
+         Object object = it.next();
+         if (!otherComposers.contains(object)) {
             return false;
-        }
-        for (Iterator it=composers.iterator();it.hasNext();) {
-            Object object = it.next();
-            if (!otherComposers.contains(object)) {
-                return false;
-            }
-        }
-        return true;
-    }
+         }
+      }
+      return true;
+   }
 }

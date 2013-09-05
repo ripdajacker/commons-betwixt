@@ -15,14 +15,14 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p><code>GlobalAttribute</code> is a sample bean for use by the test cases.</p>
@@ -30,57 +30,49 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class GlobalAttribute implements Serializable
-{
-    /**
-     * Logger
-     */
-    private final static Log log = LogFactory.getLog(GlobalAttribute.class);
+public class GlobalAttribute implements Serializable {
+   /**
+    * Logger
+    */
+   private final static Log log = LogFactory.getLog(GlobalAttribute.class);
 
-    private List globalAttributeOptions;
-    
-    private String name;
-    private CreatedDate createdDate;
+   private List globalAttributeOptions;
 
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public GlobalAttribute() 
-    {
-        globalAttributeOptions = new ArrayList();
-    }
+   private String name;
+   private CreatedDate createdDate;
 
-    public String toString() {
-        return super.toString() + "[name=" + name + ";createdDate=" + createdDate + ";options=" + globalAttributeOptions + "]";
-    }
+   /**
+    * Constructor for the ScarabSettings object
+    */
+   public GlobalAttribute() {
+      globalAttributeOptions = new ArrayList();
+   }
 
-    public void addGlobalAttributeOption(GlobalAttributeOption globalAttributeOption)
-    {
-        globalAttributeOptions.add(globalAttributeOption);
-    }        
+   public String toString() {
+      return super.toString() + "[name=" + name + ";createdDate=" + createdDate + ";options=" + globalAttributeOptions + "]";
+   }
 
-    public List getGlobalAttributeOptions()
-    {
-        return globalAttributeOptions;
-    }        
+   public void addGlobalAttributeOption(GlobalAttributeOption globalAttributeOption) {
+      globalAttributeOptions.add(globalAttributeOption);
+   }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }        
+   public List getGlobalAttributeOptions() {
+      return globalAttributeOptions;
+   }
 
-    public String getName()
-    {
-        return name;
-    }
-    
-    public void addCreatedDate(CreatedDate cd)
-    {
-        this.createdDate = cd;
-    }
-    
-    public CreatedDate getCreatedDate()
-    {
-        return this.createdDate;
-    }
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void addCreatedDate(CreatedDate cd) {
+      this.createdDate = cd;
+   }
+
+   public CreatedDate getCreatedDate() {
+      return this.createdDate;
+   }
 }

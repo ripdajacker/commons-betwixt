@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.strategy;
 
 import java.util.ArrayList;
@@ -23,41 +23,41 @@ import java.util.Map;
 
 
 public class AlphaBean {
-    
-    private Collection children = new ArrayList();
-    private Map mapped = new HashMap();
-    private BetaBean betaBean;
-    private String name;
-   
-    public BetaBean getBetaBean() {
-        return betaBean;
-    }
-    
-    public void setBetaBean(BetaBean betaBean) {
-        this.betaBean = betaBean;
-    }
-    
-    public Collection getChildren() {
-        return children;
-    }
 
-    public void addChild(BetaBean bean) {
-        this.children.add(bean);
-    }
+   private Collection children = new ArrayList();
+   private Map mapped = new HashMap();
+   private BetaBean betaBean;
+   private String name;
 
-    public Map getMapped() {
-        return mapped;
-    }
+   public BetaBean getBetaBean() {
+      return betaBean;
+   }
 
-    public void put(String key, BetaBean value) {
-        this.mapped.put(key, value);
-    }
+   public void setBetaBean(BetaBean betaBean) {
+      this.betaBean = betaBean;
+   }
 
-    public String getName() {
-        return name;
-    }
+   public Collection getChildren() {
+      return children;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public void addChild(BetaBean bean) {
+      this.children.add(bean);
+   }
+
+   public Map getMapped() {
+      return mapped;
+   }
+
+   public void put(String key, BetaBean value) {
+      this.mapped.put(key, value);
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
 }

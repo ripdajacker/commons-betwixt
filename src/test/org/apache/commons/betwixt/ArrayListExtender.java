@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
@@ -22,23 +22,21 @@ import java.util.ArrayList;
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class ArrayListExtender extends ArrayList {
-    
-    private String another;
-    
-    public ArrayListExtender() {}
-    
-    public ArrayListExtender(String another)
-    {
-        setAnother(another);
-    }
-    
-    public String getAnother()
-    {
-        return another;
-    }
-    
-    public void setAnother(String another)
-    {
-        this.another = another;
-    }
+
+   private String another;
+
+   public ArrayListExtender() {
+   }
+
+   public ArrayListExtender(String another) {
+      setAnother(another);
+   }
+
+   public String getAnother() {
+      return another;
+   }
+
+   public void setAnother(String another) {
+      this.another = another;
+   }
 }

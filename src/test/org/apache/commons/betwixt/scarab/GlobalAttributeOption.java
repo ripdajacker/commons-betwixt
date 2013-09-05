@@ -15,7 +15,8 @@ package org.apache.commons.betwixt.scarab;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
+
 import java.io.Serializable;
 
 /**
@@ -24,50 +25,42 @@ import java.io.Serializable;
  * @author <a href="mailto:jason@zenplex.com">Jason van Zyl</a>
  * @version $Id$
  */
-public class GlobalAttributeOption implements Serializable
-{
-    private String name;
-    private String preferredOrder;
-    private String childOption;
+public class GlobalAttributeOption implements Serializable {
+   private String name;
+   private String preferredOrder;
+   private String childOption;
 
-    /**
-     * Constructor for the ScarabSettings object
-     */
-    public GlobalAttributeOption()
-    { 
-    }
-    
-    public String toString() {
-        return super.toString() + "[name=" + name + ";childOption=" + childOption + "]";
-    }
+   /**
+    * Constructor for the ScarabSettings object
+    */
+   public GlobalAttributeOption() {
+   }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    public String getName()
-    {
-        return name;
-    }        
+   public String toString() {
+      return super.toString() + "[name=" + name + ";childOption=" + childOption + "]";
+   }
 
-    public void setChildOption(String name)
-    {
-        this.childOption = name;
-    }
-    
-    public String getChildOption()
-    {
-        return childOption;
-    }        
+   public void setName(String name) {
+      this.name = name;
+   }
 
-    public String getPreferredOrder()
-    {
-        return preferredOrder;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setPreferredOrder(String value)
-    {
-        this.preferredOrder = value;
-    }
+   public void setChildOption(String name) {
+      this.childOption = name;
+   }
+
+   public String getChildOption() {
+      return childOption;
+   }
+
+   public String getPreferredOrder() {
+      return preferredOrder;
+   }
+
+   public void setPreferredOrder(String value) {
+      this.preferredOrder = value;
+   }
 }

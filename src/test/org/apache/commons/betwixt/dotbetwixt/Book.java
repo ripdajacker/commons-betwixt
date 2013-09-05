@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.dotbetwixt;
@@ -23,36 +23,36 @@ package org.apache.commons.betwixt.dotbetwixt;
  * @version $Revision$
  */
 public class Book {
-    
-    private String author;
-    private String title;
-    private String ISBN;
-    
-    
-    public String getAuthor() {
-        return author;
-    }
+
+   private String author;
+   private String title;
+   private String ISBN;
 
 
-    public String getISBN() {
-        return ISBN;
-    }
+   public String getAuthor() {
+      return author;
+   }
 
 
-    public String getTitle() {
-        return title;
-    }
+   public String getISBN() {
+      return ISBN;
+   }
 
-    public void setAuthor(String string) {
-        author = string;
-    }
 
-    public void setISBN(String string) {
-        ISBN = string;
-    }
+   public String getTitle() {
+      return title;
+   }
 
-    public void setTitle(String string) {
-        title = string;
-    }
+   public void setAuthor(String string) {
+      author = string;
+   }
+
+   public void setISBN(String string) {
+      ISBN = string;
+   }
+
+   public void setTitle(String string) {
+      title = string;
+   }
 
 }

@@ -13,68 +13,71 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.derived;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class BeanWithSecrets {
-    
-    private String job;
-    private String employer;
-    private String name;
-    private String secretCodeName;
-    private String secretEmployer;
-    
-    public BeanWithSecrets() {}
-    
-    public BeanWithSecrets(String job, String employer, String name,
-            String secretCodeName, String secretEmployer) {
-        super();
-        this.job = job;
-        this.employer = employer;
-        this.name = name;
-        this.secretCodeName = secretCodeName;
-        this.secretEmployer = secretEmployer;
-    }
-    public String getEmployer() {
-        return employer;
-    }
 
-    public void setEmployer(String employer) {
-        this.employer = employer;
-    }
-    
-    public String getJob() {
-        return job;
-    }
+   private String job;
+   private String employer;
+   private String name;
+   private String secretCodeName;
+   private String secretEmployer;
 
-    public void setJob(String job) {
-        this.job = job;
-    }
+   public BeanWithSecrets() {
+   }
 
-    public String getName() {
-        return name;
-    }
+   public BeanWithSecrets(
+         String job, String employer, String name,
+         String secretCodeName, String secretEmployer) {
+      super();
+      this.job = job;
+      this.employer = employer;
+      this.name = name;
+      this.secretCodeName = secretCodeName;
+      this.secretEmployer = secretEmployer;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public String getEmployer() {
+      return employer;
+   }
 
-    public String getSecretCodeName() {
-        return secretCodeName;
-    }
+   public void setEmployer(String employer) {
+      this.employer = employer;
+   }
 
-    public void setSecretCodeName(String secretCodeName) {
-        this.secretCodeName = secretCodeName;
-    }
+   public String getJob() {
+      return job;
+   }
 
-    public String getSecretEmployer() {
-        return secretEmployer;
-    }
-    
-    public void setSecretEmployer(String secretEmployer) {
-        this.secretEmployer = secretEmployer;
-    }
+   public void setJob(String job) {
+      this.job = job;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getSecretCodeName() {
+      return secretCodeName;
+   }
+
+   public void setSecretCodeName(String secretCodeName) {
+      this.secretCodeName = secretCodeName;
+   }
+
+   public String getSecretEmployer() {
+      return secretEmployer;
+   }
+
+   public void setSecretEmployer(String secretEmployer) {
+      this.secretEmployer = secretEmployer;
+   }
 }

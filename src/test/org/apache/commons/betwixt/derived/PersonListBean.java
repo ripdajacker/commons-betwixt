@@ -13,45 +13,46 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.derived;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** <p>Bean to test lists of people</p>
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class PersonListBean {
 
-    private PersonBean owner;    
-    private ArrayList people = new ArrayList();
-    
-    public PersonListBean() {}
+   private PersonBean owner;
+   private ArrayList people = new ArrayList();
 
-    public List getPersonList() {
-        return people;
-    }
+   public PersonListBean() {
+   }
 
-    public void addPerson(PersonBean person) {
-        people.add(person);
-    }
-    
-    /**
-     * @return PersonBean
-     */
-    public PersonBean getOwner() {
-        return owner;
-    }
+   public List getPersonList() {
+      return people;
+   }
 
-    /**
-     * Sets the owner.
-     * @param owner The owner to set
-     */
-    public void setOwner(PersonBean owner) {
-        this.owner = owner;
-    }
+   public void addPerson(PersonBean person) {
+      people.add(person);
+   }
+
+   /**
+    * @return PersonBean
+    */
+   public PersonBean getOwner() {
+      return owner;
+   }
+
+   /**
+    * Sets the owner.
+    * @param owner The owner to set
+    */
+   public void setOwner(PersonBean owner) {
+      this.owner = owner;
+   }
 
 }

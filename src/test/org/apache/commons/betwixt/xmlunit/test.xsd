@@ -18,24 +18,24 @@
    under the License.  
 -->
 <xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
-	<xsd:element name='address-book'>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="address" minOccurs='1' maxOccurs='unbounded'/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>	
-	
-	<xsd:element name='address'>
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name='addressee' type='xsd:string'/>
-				<xsd:element name='street' type='xsd:string'/>
-				<xsd:element name='city' type='xsd:string'/>
-				<xsd:element name='region' type='xsd:string'/>
-				<xsd:element name='country' type='xsd:string'/>
-				<xsd:element name='postcode' type='xsd:string'/>
-			</xsd:sequence>
-		</xsd:complexType>
-	</xsd:element>
+   <xsd:element name='address-book'>
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="address" minOccurs='1' maxOccurs='unbounded'/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name='address'>
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name='addressee' type='xsd:string'/>
+            <xsd:element name='street' type='xsd:string'/>
+            <xsd:element name='city' type='xsd:string'/>
+            <xsd:element name='region' type='xsd:string'/>
+            <xsd:element name='country' type='xsd:string'/>
+            <xsd:element name='postcode' type='xsd:string'/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
 </xsd:schema>

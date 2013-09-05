@@ -15,15 +15,18 @@ package org.apache.commons.betwixt.introspection;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */  
+ */
+
 /**
-  * Simple interface
-  * @author Robert Burrell Donkin
-  * @version $Id$
-  */
+ * Simple interface
+ * @author Robert Burrell Donkin
+ * @version $Id$
+ */
 public interface IFace {
-    
-    public String getName();
-    public void setName(String name);
-    public void smirk();
+
+   public String getName();
+
+   public void setName(String name);
+
+   public void smirk();
 }

@@ -13,29 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.expression;
 
 import junit.framework.TestCase;
-
 import org.apache.commons.betwixt.Options;
 
 /**
  */
 public class TestContext extends TestCase {
 
-    public void testOptions() throws Exception {
-        Context context = new Context();
-        assertNull(context.getOptions());
-        Options firstOptions = new Options();
-        context.pushOptions(firstOptions);
-        assertEquals(firstOptions, context.getOptions());
-        Options secondOptions = new Options();
-        context.pushOptions(secondOptions);
-        assertEquals(secondOptions, context.getOptions());
-        context.popOptions();
-        assertEquals(firstOptions, context.getOptions());
-        context.popOptions();
-        assertNull(context.getOptions());
-    }
+   public void testOptions() throws Exception {
+      Context context = new Context();
+      assertNull(context.getOptions());
+      Options firstOptions = new Options();
+      context.pushOptions(firstOptions);
+      assertEquals(firstOptions, context.getOptions());
+      Options secondOptions = new Options();
+      context.pushOptions(secondOptions);
+      assertEquals(secondOptions, context.getOptions());
+      context.popOptions();
+      assertEquals(firstOptions, context.getOptions());
+      context.popOptions();
+      assertNull(context.getOptions());
+   }
 }

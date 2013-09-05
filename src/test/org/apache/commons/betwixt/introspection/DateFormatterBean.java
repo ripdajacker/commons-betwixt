@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.introspection;
@@ -30,35 +30,32 @@ import java.util.Map;
  * @version $Revision$
  */
 public class DateFormatterBean {
-    
-    private Map formatsByLocale = new HashMap();
-    
-    //TODO: want to be able to match iterators from maps...
-    //      but this mean ammending the descriptors when the property type
-    //      is discovered
-    public Map getFormats() {
-        return formatsByLocale;
-    }
-    
-    //TODO: should be able to use another verb eg register
-    //TODO: support for specifying adders in the dot betwixt file
-    //TODO: support for Simple types so that we can use Locale -> String
-    public void addFormat(Locale locale, SimpleDateFormat format) {
-        formatsByLocale.put(locale, format);
-    }
-    
-    public String format(Date date, Locale locale) {
-        String result = "";
-        SimpleDateFormat simpleDateFormat = (SimpleDateFormat) formatsByLocale.get(locale);
-        if (simpleDateFormat == null)
-        {
-             result = DateFormat.getDateInstance(DateFormat.SHORT, locale).format(date);
-        }
-        else
-        {
-            result = simpleDateFormat.format(date);
-        }
-        return result;
-    }
-    
+
+   private Map formatsByLocale = new HashMap();
+
+   //TODO: want to be able to match iterators from maps...
+   //      but this mean ammending the descriptors when the property type
+   //      is discovered
+   public Map getFormats() {
+      return formatsByLocale;
+   }
+
+   //TODO: should be able to use another verb eg register
+   //TODO: support for specifying adders in the dot betwixt file
+   //TODO: support for Simple types so that we can use Locale -> String
+   public void addFormat(Locale locale, SimpleDateFormat format) {
+      formatsByLocale.put(locale, format);
+   }
+
+   public String format(Date date, Locale locale) {
+      String result = "";
+      SimpleDateFormat simpleDateFormat = (SimpleDateFormat) formatsByLocale.get(locale);
+      if (simpleDateFormat == null) {
+         result = DateFormat.getDateInstance(DateFormat.SHORT, locale).format(date);
+      } else {
+         result = simpleDateFormat.format(date);
+      }
+      return result;
+   }
+
 }

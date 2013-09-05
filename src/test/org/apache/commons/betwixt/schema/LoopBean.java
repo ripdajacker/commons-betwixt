@@ -13,48 +13,42 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.schema;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class LoopBean {
-    private static int count = 0;
-    
-    private static final int max_count = 100;
+   private static int count = 0;
 
-    private LoopBean friend;
-    
-    private String name;
-    
-    public LoopBean(String name) 
-    {
-        this.name = name;
-    }
-    
-    public LoopBean getFriend()
-    {
-        if (++count > max_count)
-        {
-            throw new RuntimeException("Looping!");
-        }
-        return friend;
-    }
-    
-    public void setFriend(LoopBean friend)
-    {
-        this.friend = friend;
-    }
-    
-    public String getName()
-    {
-        return name;
-    }
-    
-    public String toString()
-    {
-        return "[LoopBean] name=" + name;
-    }
+   private static final int max_count = 100;
+
+   private LoopBean friend;
+
+   private String name;
+
+   public LoopBean(String name) {
+      this.name = name;
+   }
+
+   public LoopBean getFriend() {
+      if (++count > max_count) {
+         throw new RuntimeException("Looping!");
+      }
+      return friend;
+   }
+
+   public void setFriend(LoopBean friend) {
+      this.friend = friend;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public String toString() {
+      return "[LoopBean] name=" + name;
+   }
 
 }

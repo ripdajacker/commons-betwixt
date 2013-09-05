@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.commons.betwixt.digester;
 
-import java.io.StringReader;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.dotbetwixt.ExampleBean;
+
+import java.io.StringReader;
 
 /**
  * Tests for reading dot betwist files.
@@ -32,10 +31,10 @@ import org.apache.commons.betwixt.dotbetwixt.ExampleBean;
  * @version $Revision$
  */
 public class TestDigestDotBetwixt extends TestCase {
-    
-    
-    public void testDigestWithOptions() throws Exception {
-        String xml = "<?xml version='1.0'?>" +
+
+
+   public void testDigestWithOptions() throws Exception {
+      String xml = "<?xml version='1.0'?>" +
             "<info>" +
             "    <element name='example-bean'>" +
             "        <option>" +
@@ -54,22 +53,22 @@ public class TestDigestDotBetwixt extends TestCase {
             "        </element>" +
             "    </element>" +
             "</info>";
-            
-        XMLBeanInfoDigester digester = new XMLBeanInfoDigester();
-        digester.setXMLIntrospector(new XMLIntrospector());
-        digester.setBeanClass(ExampleBean.class);
-        XMLBeanInfo xmlBeanInfo = (XMLBeanInfo) digester.parse(new StringReader(xml));
-        ElementDescriptor baseDescriptor = xmlBeanInfo.getElementDescriptor();
-        
-        assertEquals("Value one set on base", "value one",  baseDescriptor.getOptions().getValue("one"));
-        assertEquals("Value two set on base", "value two",  baseDescriptor.getOptions().getValue("two"));
-        assertNull("Value three not set on base",  baseDescriptor.getOptions().getValue("three"));
 
-        assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().length);
-        
-        ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors()[0];
-        assertNull("Value one set on base",  childDescriptor.getOptions().getValue("one"));
-        assertNull("Value two set on base",  childDescriptor.getOptions().getValue("two"));
-        assertEquals("Value three set on child", "value three",  childDescriptor.getOptions().getValue("three"));
-    }
+      XMLBeanInfoDigester digester = new XMLBeanInfoDigester();
+      digester.setXMLIntrospector(new XMLIntrospector());
+      digester.setBeanClass(ExampleBean.class);
+      XMLBeanInfo xmlBeanInfo = (XMLBeanInfo) digester.parse(new StringReader(xml));
+      ElementDescriptor baseDescriptor = xmlBeanInfo.getElementDescriptor();
+
+      assertEquals("Value one set on base", "value one", baseDescriptor.getOptions().getValue("one"));
+      assertEquals("Value two set on base", "value two", baseDescriptor.getOptions().getValue("two"));
+      assertNull("Value three not set on base", baseDescriptor.getOptions().getValue("three"));
+
+      assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().length);
+
+      ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors()[0];
+      assertNull("Value one set on base", childDescriptor.getOptions().getValue("one"));
+      assertNull("Value two set on base", childDescriptor.getOptions().getValue("two"));
+      assertEquals("Value three set on child", "value three", childDescriptor.getOptions().getValue("three"));
+   }
 }

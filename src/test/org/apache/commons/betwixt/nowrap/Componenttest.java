@@ -13,29 +13,31 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt.nowrap;
 
-public class Componenttest
-{
-    private boolean debug = false;
-    private String compDescription = "";
+public class Componenttest {
+   private boolean debug = false;
+   private String compDescription = "";
 
-    public Componenttest()
-    {
-        if (debug) System.out.println("-- INSTANTIATING NEW COMPONENTTEST");
-    }
+   public Componenttest() {
+      if (debug) {
+         System.out.println("-- INSTANTIATING NEW COMPONENTTEST");
+      }
+   }
 
-    public void setCompDescription(String s)
-    {
-        if (debug) System.out.println("SET component description");
-        compDescription = s;
-    }
+   public void setCompDescription(String s) {
+      if (debug) {
+         System.out.println("SET component description");
+      }
+      compDescription = s;
+   }
 
-    public String getCompDescription()
-    {
-        if (debug) System.out.println("GET component description");
-        return compDescription;
-    }
+   public String getCompDescription() {
+      if (debug) {
+         System.out.println("GET component description");
+      }
+      return compDescription;
+   }
 }

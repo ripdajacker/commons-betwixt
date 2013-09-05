@@ -16,11 +16,11 @@
  */
 package org.apache.commons.betwixt;
 
-import java.io.StringWriter;
-import java.util.Locale;
-
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
+
+import java.io.StringWriter;
+import java.util.Locale;
 
 /**
  * This test is the result of a problem I had with outputting a bean's class
@@ -29,7 +29,7 @@ import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
  * added to made this possible. It worked quite well, until I used beans
  * described in dot-betwixt files that also output the class property like the
  * following:
- * 
+ *
  * <pre>
  *   &lt;info primitiveTypes="element"&gt;
  *     &lt;element name="test-class"&gt;
@@ -39,59 +39,61 @@ import org.apache.commons.betwixt.strategy.PropertySuppressionStrategy;
  *     &lt;/element&gt;
  *   &lt;/info&gt;
  * </pre>
- * 
+ *
  * So it worked without dot-betwixt files, but the seconds test
  * {@link #testHasClassElementWithDotBetwixtFile()}would fail. There was a
  * small block in {@link org.apache.commons.betwixt.digester.ElementRule}that
  * was marked with ToDo, without that block it works.
- * 
+ *
  * @author Christoph Gaffga, cgaffga@triplemind.com
  */
 public class TestClassProperty extends AbstractTestCase {
 
-    public TestClassProperty(String testName) {
-        super(testName);
-    }
+   public TestClassProperty(String testName) {
+      super(testName);
+   }
 
-    public void testHasClassElementWithoutDotBetwixtFile() throws Exception {
-        // configure bean writer with counting suppression strategy...
-        StringWriter buffer = new StringWriter();
-        BeanWriter beanWriter = new BeanWriter(buffer);
-        beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
-                new PropertySuppressionStrategy() {
+   public void testHasClassElementWithoutDotBetwixtFile() throws Exception {
+      // configure bean writer with counting suppression strategy...
+      StringWriter buffer = new StringWriter();
+      BeanWriter beanWriter = new BeanWriter(buffer);
+      beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+            new PropertySuppressionStrategy() {
 
-                    public boolean suppressProperty(Class clazz, Class propertyType,
-                            String propertyName) {
-                        return false;
-                    }
-                });
+               public boolean suppressProperty(
+                     Class clazz, Class propertyType,
+                     String propertyName) {
+                  return false;
+               }
+            });
 
-        // test with class without dot-betwixt file...
-        Object bean = new Locale("de", "de"); // just a bean with some properties
-        beanWriter.write(bean);
+      // test with class without dot-betwixt file...
+      Object bean = new Locale("de", "de"); // just a bean with some properties
+      beanWriter.write(bean);
 
-        // was the class element written?..
-        assertTrue(buffer.toString().indexOf("<class>" + bean.getClass().getName() + "</class>") > 0);  
-    }
+      // was the class element written?..
+      assertTrue(buffer.toString().indexOf("<class>" + bean.getClass().getName() + "</class>") > 0);
+   }
 
-    public void testHasClassElementWithDotBetwixtFile() throws Exception {
-        // configure bean writer with counting suppression strategy...
-        StringWriter buffer = new StringWriter();
-        BeanWriter beanWriter = new BeanWriter(buffer);
-        beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
-                new PropertySuppressionStrategy() {
+   public void testHasClassElementWithDotBetwixtFile() throws Exception {
+      // configure bean writer with counting suppression strategy...
+      StringWriter buffer = new StringWriter();
+      BeanWriter beanWriter = new BeanWriter(buffer);
+      beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+            new PropertySuppressionStrategy() {
 
-                    public boolean suppressProperty(Class clazz, Class propertyType,
-                            String propertyName) {
-                        return false;
-                    }
-                });
+               public boolean suppressProperty(
+                     Class clazz, Class propertyType,
+                     String propertyName) {
+                  return false;
+               }
+            });
 
-        // test with class without dot-betwixt file...
-        Object bean = new SimpleClass();
-        beanWriter.write(bean);
+      // test with class without dot-betwixt file...
+      Object bean = new SimpleClass();
+      beanWriter.write(bean);
 
-        // was the class element written?..
-        assertTrue(buffer.toString().indexOf("<class>" + bean.getClass().getName() + "</class>") > 0);
-    }
+      // was the class element written?..
+      assertTrue(buffer.toString().indexOf("<class>" + bean.getClass().getName() + "</class>") > 0);
+   }
 }

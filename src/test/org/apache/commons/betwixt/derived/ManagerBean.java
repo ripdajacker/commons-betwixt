@@ -13,33 +13,34 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.derived;
 
 /** <p><code>ManagerBean</code> a sample derived bean.</p>
-  *
-  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @version $Revision$
-  */
+ *
+ * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
+ * @version $Revision$
+ */
 public class ManagerBean extends EmployeeBean {
-    
-    private int cheeseSize;
-     
-    public ManagerBean() {
-    }
-    /**
-     * @return int
-     */
-    public int getCheeseSize() {
-        return cheeseSize;
-    }
 
-    /**
-     * Sets the cheeseSize.
-     * @param cheeseSize The cheeseSize to set
-     */
-    public void setCheeseSize(int cheeseSize) {
-        this.cheeseSize = cheeseSize;
-    }
+   private int cheeseSize;
+
+   public ManagerBean() {
+   }
+
+   /**
+    * @return int
+    */
+   public int getCheeseSize() {
+      return cheeseSize;
+   }
+
+   /**
+    * Sets the cheeseSize.
+    * @param cheeseSize The cheeseSize to set
+    */
+   public void setCheeseSize(int cheeseSize) {
+      this.cheeseSize = cheeseSize;
+   }
 
 }

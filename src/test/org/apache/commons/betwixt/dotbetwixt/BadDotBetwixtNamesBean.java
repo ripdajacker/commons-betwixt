@@ -13,43 +13,44 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
-/** 
-  * This is a simple bean
-  *
-  * @author Robert Burrell Donkin
-  */
+/**
+ * This is a simple bean
+ *
+ * @author Robert Burrell Donkin
+ */
 public class BadDotBetwixtNamesBean {
-    
-//-------------------------- Attributes
-    private String alpha;
-    private String beta;
-    
-//-------------------------- Constructors
-    public BadDotBetwixtNamesBean() {}
-    
-    public BadDotBetwixtNamesBean(String alpha, String beta) {
-        setAlpha(alpha);
-        setBeta(beta);
-    }
-        
+
+   //-------------------------- Attributes
+   private String alpha;
+   private String beta;
+
+   //-------------------------- Constructors
+   public BadDotBetwixtNamesBean() {
+   }
+
+   public BadDotBetwixtNamesBean(String alpha, String beta) {
+      setAlpha(alpha);
+      setBeta(beta);
+   }
+
 //--------------------------- Properties
 
-    public String getAlpha() {
-        return alpha;
-    }	
-    
-    public void setAlpha(String alpha) {
-        this.alpha = alpha;
-    }
-    
-    public String getBeta() {
-        return beta;
-    }	
-    
-    public void setBeta(String beta) {
-        this.beta = beta;
-    }
+   public String getAlpha() {
+      return alpha;
+   }
+
+   public void setAlpha(String alpha) {
+      this.alpha = alpha;
+   }
+
+   public String getBeta() {
+      return beta;
+   }
+
+   public void setBeta(String beta) {
+      this.beta = beta;
+   }
 }

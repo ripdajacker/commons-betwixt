@@ -15,14 +15,13 @@ package org.apache.commons.betwixt.xmlunit;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
+
+import junit.framework.AssertionFailedError;
+import org.xml.sax.InputSource;
 
 import java.io.File;
 import java.io.FileInputStream;
-
-import junit.framework.AssertionFailedError;
-
-import org.xml.sax.InputSource;
 
 /**
  * Test harness which test xml unit
@@ -30,127 +29,135 @@ import org.xml.sax.InputSource;
  * @author Robert Burrell Donkin
  * @version $Id$
  */
- public class TestXmlTestCase extends XmlTestCase {
- 
-    public TestXmlTestCase(String name) {
-        super(name);
-    }
- 
-    public void testXMLUnit() throws Exception {
-        xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"));
-    }
-    
-    public void testXMLUnit2() throws Exception {
-        boolean failed = false;
-        try {
-            xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-morphed.xml"),
-                    false);
-            failed = true;
-        } catch (AssertionFailedError er) {
-            // this is expected
-        }
-        if (failed) {
-            fail("Expected unit test to fail!");
-        }
-    }
-    
-    public void testXMLUnit3() throws Exception {
-        boolean failed = false;
-        try {
-            xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-not.xml"));
-            failed = true;
-        } catch (AssertionFailedError er) {
-            // this is expected
-        }
-        if (failed) {
-            fail("Expected unit test to fail!");
-        }
-    }
+public class TestXmlTestCase extends XmlTestCase {
 
-    
-    public void testXMLUnit4() throws Exception {
-        xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-morphed.xml"),
-                    true);
-    }
-    
-    
-    public void testXMLUnit5() throws Exception {
-        boolean failed = false;
-        try {
-            xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-not.xml"),
-                    true);
-            failed = true;
-        } catch (AssertionFailedError er) {
-            // this is expected
-        }
-        if (failed) {
-            fail("Expected unit test to fail!");
-        }
-    }
-    
-    
-    public void testXMLUnit6() throws Exception {
-        boolean failed = false;
-        try {
-            xmlAssertIsomorphicContent(
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/scarab-one.xml"),
-                    parseFile("src/test/org/apache/commons/betwixt/xmlunit/scarab-two.xml"),
-                    true);
-            failed = true;
-        } catch (AssertionFailedError er) {
-            // this is expected
-        }
-        if (failed) {
-            fail("Expected unit test to fail!");
-        }
-    }
-    
-    public void testValidateSchemaValidOne() throws Exception {
-        String basedir = System.getProperty("basedir");
-        InputSource document = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/valid.xml")));
-        InputSource schema = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
-        assertTrue(isValid(document, schema));
-    }
-  
-   
-    public void testValidateSchemaInvalidOne() throws Exception {
-        String basedir = System.getProperty("basedir");
-        InputSource document = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/invalid.xml")));
-        InputSource schema = new InputSource(new FileInputStream( 
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
-        assertFalse(isValid(document, schema));
-    }
-    
-    public void testValidateSchemaValidTwo() throws Exception {
-        String basedir = System.getProperty("basedir");
-        InputSource document = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/valid-personnel-schema.xml")));
-        InputSource schema = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
-        assertTrue(isValid(document, schema));
-    }
-  
-   
-    public void testValidateSchemaInvalidTwo() throws Exception {
-        String basedir = System.getProperty("basedir");
-        InputSource document = new InputSource(new FileInputStream(
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/invalid-personnel-schema.xml")));
-        InputSource schema = new InputSource(new FileInputStream( 
-            new File(basedir,"src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
-        assertFalse(isValid(document, schema));
-    }
-    
+   public TestXmlTestCase(String name) {
+      super(name);
+   }
+
+   public void testXMLUnit() throws Exception {
+      xmlAssertIsomorphicContent(
+            parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
+            parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"));
+   }
+
+   public void testXMLUnit2() throws Exception {
+      boolean failed = false;
+      try {
+         xmlAssertIsomorphicContent(
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-morphed.xml"),
+               false);
+         failed = true;
+      } catch (AssertionFailedError er) {
+         // this is expected
+      }
+      if (failed) {
+         fail("Expected unit test to fail!");
+      }
+   }
+
+   public void testXMLUnit3() throws Exception {
+      boolean failed = false;
+      try {
+         xmlAssertIsomorphicContent(
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-not.xml"));
+         failed = true;
+      } catch (AssertionFailedError er) {
+         // this is expected
+      }
+      if (failed) {
+         fail("Expected unit test to fail!");
+      }
+   }
+
+
+   public void testXMLUnit4() throws Exception {
+      xmlAssertIsomorphicContent(
+            parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
+            parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-morphed.xml"),
+            true);
+   }
+
+
+   public void testXMLUnit5() throws Exception {
+      boolean failed = false;
+      try {
+         xmlAssertIsomorphicContent(
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example.xml"),
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/rss-example-not.xml"),
+               true);
+         failed = true;
+      } catch (AssertionFailedError er) {
+         // this is expected
+      }
+      if (failed) {
+         fail("Expected unit test to fail!");
+      }
+   }
+
+
+   public void testXMLUnit6() throws Exception {
+      boolean failed = false;
+      try {
+         xmlAssertIsomorphicContent(
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/scarab-one.xml"),
+               parseFile("src/test/org/apache/commons/betwixt/xmlunit/scarab-two.xml"),
+               true);
+         failed = true;
+      } catch (AssertionFailedError er) {
+         // this is expected
+      }
+      if (failed) {
+         fail("Expected unit test to fail!");
+      }
+   }
+
+   public void testValidateSchemaValidOne() throws Exception {
+      String basedir = System.getProperty("basedir");
+      InputSource document = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/valid.xml")));
+      InputSource schema = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
+      assertTrue(isValid(document, schema));
+   }
+
+
+   public void testValidateSchemaInvalidOne() throws Exception {
+      String basedir = System.getProperty("basedir");
+      InputSource document = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/invalid.xml")));
+      InputSource schema = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/test.xsd")));
+      assertFalse(isValid(document, schema));
+   }
+
+   public void testValidateSchemaValidTwo() throws Exception {
+      String basedir = System.getProperty("basedir");
+      InputSource document = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/valid-personnel-schema.xml")));
+      InputSource schema = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
+      assertTrue(isValid(document, schema));
+   }
+
+
+   public void testValidateSchemaInvalidTwo() throws Exception {
+      String basedir = System.getProperty("basedir");
+      InputSource document = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/invalid-personnel-schema.xml")));
+      InputSource schema = new InputSource(
+            new FileInputStream(
+                  new File(basedir, "src/test/org/apache/commons/betwixt/xmlunit/personnel.xsd")));
+      assertFalse(isValid(document, schema));
+   }
+
 }

@@ -1,96 +1,96 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!-- 
- Licensed to the Apache Software Foundation (ASF) under one or more
-  contributor license agreements.  See the NOTICE file distributed with
-  this work for additional information regarding copyright ownership.
-  The ASF licenses this file to You under the Apache License, Version 2.0
-  (the "License"); you may not use this file except in compliance with
-  the License.  You may obtain a copy of the License at
-  
-       http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+      <!--
+       Licensed to the Apache Software Foundation (ASF) under one or more
+        contributor license agreements.  See the NOTICE file distributed with
+        this work for additional information regarding copyright ownership.
+        The ASF licenses this file to You under the Apache License, Version 2.0
+        (the "License"); you may not use this file except in compliance with
+        the License.  You may obtain a copy of the License at
 
-<!-- $Id$ -->
-<!-- 
-	The DTD for .betwixt files 
-	Suggested public ID: "-//Jakarta Apache //DTD digester-rules XML V1.0//EN";
+             http://www.apache.org/licenses/LICENSE-2.0
 
-	-->
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+      -->
 
-<!ELEMENT attribute EMPTY>
-<!ATTLIST attribute
-    name CDATA #IMPLIED
-    type CDATA #IMPLIED
-    uri CDATA #IMPLIED
-    value CDATA #IMPLIED
-    property CDATA #IMPLIED
-  >
+      <!-- $Id$ -->
+      <!--
+         The DTD for .betwixt files
+         Suggested public ID: "-//Jakarta Apache //DTD digester-rules XML V1.0//EN";
 
-<!-- 
-addDefaults element indicates that betwixt should use standard introspection
-to deduce any unspecified values. The attributes allow the behaviour to be
-customised but reasonal defaults have been chosen.
--->
-<!ELEMENT addDefaults EMPTY>
-<!ATTLIST attribute
-    add-properties (true|false) CDATA #IMPLIED
-    add-adders (true|false) CDATA #IMPLIED
-    guess-names (true|false) CDATA #IMPLIED
-  >
+         -->
 
-<!--
-    Represents an element in the xml.
-    An element may be mapped to properties of the bean
-    (when it has a property attribute)
-    or it can be purely structure (when it does not)
-    
-    the updater attribute can be used 
-    (in conjunction with the property attribute) to specify a custom update
-    method.
-    
-    the (optional) class attribute specifies an implementation class that should
-    be used for instantiation (as opposed to the type of the property)
-    
-    Note that name is required except when the property is a collective
--->
-<!ELEMENT element (attribute|addDefaults|element|text)*>
-<!-- 
-  forceAccessible is used to control whether Betwixt forces access (by reflection) 
-  to methods which are not public but are accessible (by reflection).
--->
-<!ATTLIST element
-    name CDATA #IMPLIED 
-    type CDATA #IMPLIED
-    uri CDATA #IMPLIED
-    value CDATA #IMPLIED
-    property CDATA #IMPLIED
-    updater CDATA #IMPLIED
-    class CDATA #IMPLIED
-    mappingDerivation (bind|introspection) #IMPLIED
-    forceAccessible (true|false) #IMPLIED
-  >
+      <!ELEMENT attribute EMPTY>
+      <!ATTLIST attribute
+            name CDATA #IMPLIED
+            type CDATA #IMPLIED
+            uri CDATA #IMPLIED
+            value CDATA #IMPLIED
+            property CDATA #IMPLIED
+            >
 
-<!-- Use for mixed content text -->
-<!ELEMENT text EMPTY>
-<!-- If you specify value, you cannot specify type or property -->
-<!ATTLIST text
-    type CDATA #IMPLIED
-    value CDATA #IMPLIED
-    property CDATA #IMPLIED
-  >
+      <!--
+      addDefaults element indicates that betwixt should use standard introspection
+      to deduce any unspecified values. The attributes allow the behaviour to be
+      customised but reasonal defaults have been chosen.
+      -->
+      <!ELEMENT addDefaults EMPTY>
+      <!ATTLIST attribute
+            add-properties (true|false) CDATA #IMPLIED
+            add-adders (true|false) CDATA #IMPLIED
+            guess-names (true|false) CDATA #IMPLIED
+            >
 
-<!ELEMENT hide EMPTY>
-<!ATTLIST hide
-    property CDATA #REQUIRED
-  >
-  
-<!ELEMENT info (hide|element)*>
-<!ATTLIST info
-    primitiveTypes (element|attribute) "attribute"
-  >
+      <!--
+          Represents an element in the xml.
+          An element may be mapped to properties of the bean
+          (when it has a property attribute)
+          or it can be purely structure (when it does not)
+
+          the updater attribute can be used
+          (in conjunction with the property attribute) to specify a custom update
+          method.
+
+          the (optional) class attribute specifies an implementation class that should
+          be used for instantiation (as opposed to the type of the property)
+
+          Note that name is required except when the property is a collective
+      -->
+      <!ELEMENT element (attribute|addDefaults|element|text)*>
+      <!--
+        forceAccessible is used to control whether Betwixt forces access (by reflection)
+        to methods which are not public but are accessible (by reflection).
+      -->
+      <!ATTLIST element
+            name CDATA #IMPLIED
+            type CDATA #IMPLIED
+            uri CDATA #IMPLIED
+            value CDATA #IMPLIED
+            property CDATA #IMPLIED
+            updater CDATA #IMPLIED
+            class CDATA #IMPLIED
+            mappingDerivation (bind|introspection) #IMPLIED
+            forceAccessible (true|false) #IMPLIED
+            >
+
+      <!-- Use for mixed content text -->
+      <!ELEMENT text EMPTY>
+      <!-- If you specify value, you cannot specify type or property -->
+      <!ATTLIST text
+            type CDATA #IMPLIED
+            value CDATA #IMPLIED
+            property CDATA #IMPLIED
+            >
+
+      <!ELEMENT hide EMPTY>
+      <!ATTLIST hide
+            property CDATA #REQUIRED
+            >
+
+      <!ELEMENT info (hide|element)*>
+      <!ATTLIST info
+            primitiveTypes (element|attribute) "attribute"
+            >

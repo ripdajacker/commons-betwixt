@@ -13,25 +13,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
- 
+
 package org.apache.commons.betwixt.recursion;
 
 public class AddressTest {
-	
-  private String streetAddress;
-  private ReferenceTest reference;
-  public String getStreetAddress() {
-    return streetAddress;
-  }
-  public void setStreetAddress(String streetAddress) {
-    this.streetAddress = streetAddress;
-  }
-  public ReferenceTest getReference() {
-    return reference;
-  }
-  public void setReference(ReferenceTest reference) {
-    this.reference = reference;
-  }
+
+   private String streetAddress;
+   private ReferenceTest reference;
+
+   public String getStreetAddress() {
+      return streetAddress;
+   }
+
+   public void setStreetAddress(String streetAddress) {
+      this.streetAddress = streetAddress;
+   }
+
+   public ReferenceTest getReference() {
+      return reference;
+   }
+
+   public void setReference(ReferenceTest reference) {
+      this.reference = reference;
+   }
 }

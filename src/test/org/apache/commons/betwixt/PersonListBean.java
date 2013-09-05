@@ -13,30 +13,31 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
- 
+ */
+
 package org.apache.commons.betwixt;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** <p>Bean to test lists of people</p>
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class PersonListBean {
-    
-    private ArrayList people = new ArrayList();
-    
-    public PersonListBean() {}
 
-    public List getPersonList() {
-        return people;
-    }
+   private ArrayList people = new ArrayList();
 
-    public void addPerson(PersonBean person) {
-        people.add(person);
-    }
-    
+   public PersonListBean() {
+   }
+
+   public List getPersonList() {
+      return people;
+   }
+
+   public void addPerson(PersonBean person) {
+      people.add(person);
+   }
+
 }

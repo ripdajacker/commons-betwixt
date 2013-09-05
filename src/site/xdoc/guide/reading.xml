@@ -18,38 +18,42 @@
 
 <document>
 
- <properties>
-  <title>Reading Beans (Advanced)</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Reading Beans (Advanced)</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
+   <body>
 
-    <section name='Interfaces And Abstract Classes'>
-        <subsection name='Understanding The Problem'>
+      <section name='Interfaces And Abstract Classes'>
+         <subsection name='Understanding The Problem'>
             <p>
-Betwixt uses the type of the corresponding mapped property to determine the class to be instantiated
-when reading xml. But what happens when the type of the mapped property is an interface or
-an abstract class and so cannot be instantiated? Well - unless steps are taken to solve this problem,
-the read will fail. 
-        </p>
+               Betwixt uses the type of the corresponding mapped property to determine the class to be instantiated
+               when reading xml. But what happens when the type of the mapped property is an interface or
+               an abstract class and so cannot be instantiated? Well - unless steps are taken to solve this problem,
+               the read will fail.
+            </p>
             <p>
-Betwixt provides a number of different ways to solve this problem. 
-One solution is to use <a href='derived.html'>derived beans</a>. This is flexible but means coupling
-the xml to a java class structure. Another solution is to use <a href='#Customizing Bean Creation'>custom
-bean creation</a> to ensure that an appropriate class is created.
-Other solutions follow in this section.
-        </p>
-    </subsection>
-        <subsection name='Specifying An Implementation Class In The Betwixt File'>
+               Betwixt provides a number of different ways to solve this problem.
+               One solution is to use<a href='derived.html'>derived beans</a>. This is flexible but means coupling
+               the xml to a java class structure. Another solution is to use
+               <a href='#Customizing Bean Creation'>custom
+                  bean creation
+               </a>
+               to ensure that an appropriate class is created.
+               Other solutions follow in this section.
+            </p>
+         </subsection>
+         <subsection name='Specifying An Implementation Class In The Betwixt File'>
             <p>
-The class to be instantiated when a (mapped) element is read can be specified via the <code>class</code>
-attribute. When present, this should be a fully qualified java class name. A bean of this type
-will then be instantiated when the element is read.
-        </p>
+               The class to be instantiated when a (mapped) element is read can be specified via the
+               <code>class</code>
+               attribute. When present, this should be a fully qualified java class name. A bean of this type
+               will then be instantiated when the element is read.
+            </p>
             <p>
-For example, here's a bean:
-<source><![CDATA[
+               For example, here's a bean:
+               <source><![CDATA[
 package org.apache.commons.betwixt.example;
 
 import java.util.ArrayList;
@@ -79,8 +83,10 @@ public class ExampleBean {
     }
 }
 ]]></source>
-which contains a List whose contents each implement the <code>IExample</code> interface:
-<source><![CDATA[
+               which contains a List whose contents each implement the
+               <code>IExample</code>
+               interface:
+               <source><![CDATA[
 package org.apache.commons.betwixt.example;
 
 public interface IExample {
@@ -91,8 +97,8 @@ public interface IExample {
     public void setName(String id);
 }
 ]]></source>
-Betwixt will create an instance of the following standard implementation:
-<source><![CDATA[
+               Betwixt will create an instance of the following standard implementation:
+               <source><![CDATA[
 package org.apache.commons.betwixt.example;
 
 public class ExampleImpl implements IExample {
@@ -118,68 +124,86 @@ public class ExampleImpl implements IExample {
     }
 }
 ]]></source>
-for each <code>example</code> element if the following <code>ExampleBean.betwixt</code> file:
+               for each
+               <code>example</code>
+               element if the following
+               <code>ExampleBean.betwixt</code>
+               file:
 
-<source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+               <source><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
 <info>
     <element name='example-bean'>
         <element name='example' property='examples' class='org.apache.commons.betwixt.example.ExampleImpl'/>
         <addDefaults/>
     </element>
 </info>]]></source>
-is used.
-        </p>        
-    </subsection>
-</section>
+               is used.
+            </p>
+         </subsection>
+      </section>
 
-<section name='Reading Beans (Advanced)'>
-<subsection name='Adding Custom Digestion Rules'>
-    <p>
-    Betwixt builds on <code>Apache Digester</code> for bean reading. 
-    <code>BeanReader</code> extends <code>Digester</code> 
-    and this makes a wide range of functionality available.
-    </p>
-    
-    <p>
-    Digester uses <code>Rule</code>'s to specify the xml mapping (for more details see the 
-    <a href='http://commons.apache.org/digester/index.html'>Digester documentation</a>).
-    Betwixt provides a custom ruleset (<code>BeanRuleSet</code>). This creates <code>Rule</code>'s that
-    implement the standard Betwixt mapping for a class. <code>BeanReader.registerBeanClass</code> 
-    uses this <code>RuleSet</code> to add these standard betwixt mapping <code>Rule</code>'s
-    for the bean class.
-    </p>
-    
-    <p>
-    These standard Betwixt mapping rules can be integrated with other Digester <code>Rule</code>'s.
-    <code>Rule</code>'s added before <code>registerBeanClass</code> is called will come before (in a 
-    Digester sense) the standard betwixt <code>Rule</code>'s. Those added after will come afterwards.
-    </p>
-    
-    <p>
-    <strong>Note</strong> that care must be taken with the patterns for additional <code>Rule</code>'s.
-    The standard Betwixt mapping will only work if all it's <code>Rule</code>'s are matched.
-    </p>
-    
-</subsection>
-<subsection name='Advanced Updaters'>
-    <p>
-Betwixt by default uses the property write method for standard properties 
-and matched stems for composite properties (for more details, see 
-<a href="#Using adder methods for composite properties">here</a>) 
-to update property values when reading beans. 
-These approaches should be sufficient for most cases. 
-But this can be overruled on a per element basis.
-    </p>
-    <p>
-By using a .betwixt file, the method used to update the bean can be controlled on a per element basis.
-When the value of the <code>updater</code> attribute of an <code>&lt;element&gt;</code> element is set,
-Betwixt will try to find a bean method with a matching name which takes a single parameter.
-When such a matching method exists, this will be called to update the property value.
-    </p>
-    <p>
-For example, the following betwixt file fragment: 
-    
-<source><![CDATA[
+      <section name='Reading Beans (Advanced)'>
+         <subsection name='Adding Custom Digestion Rules'>
+            <p>
+               Betwixt builds on
+               <code>Apache Digester</code>
+               for bean reading.
+               <code>BeanReader</code>
+               extends
+               <code>Digester</code>
+               and this makes a wide range of functionality available.
+            </p>
+
+            <p>
+               Digester uses<code>Rule</code>'s to specify the xml mapping (for more details see the
+               <a href='http://commons.apache.org/digester/index.html'>Digester documentation</a>).
+               Betwixt provides a custom ruleset (<code>BeanRuleSet</code>). This creates<code>Rule</code>'s that
+               implement the standard Betwixt mapping for a class.
+               <code>BeanReader.registerBeanClass</code>
+               uses this
+               <code>RuleSet</code>
+               to add these standard betwixt mapping<code>Rule</code>'s
+               for the bean class.
+            </p>
+
+            <p>
+               These standard Betwixt mapping rules can be integrated with other Digester<code>Rule</code>'s.
+               <code>Rule</code>'s added before
+               <code>registerBeanClass</code>
+               is called will come before (in a
+               Digester sense) the standard betwixt<code>Rule</code>'s. Those added after will come afterwards.
+            </p>
+
+            <p>
+               <strong>Note</strong>
+               that care must be taken with the patterns for additional<code>Rule</code>'s.
+               The standard Betwixt mapping will only work if all it's<code>Rule</code>'s are matched.
+            </p>
+
+         </subsection>
+         <subsection name='Advanced Updaters'>
+            <p>
+               Betwixt by default uses the property write method for standard properties
+               and matched stems for composite properties (for more details, see
+               <a href="#Using adder methods for composite properties">here</a>)
+               to update property values when reading beans.
+               These approaches should be sufficient for most cases.
+               But this can be overruled on a per element basis.
+            </p>
+            <p>
+               By using a .betwixt file, the method used to update the bean can be controlled on a per element basis.
+               When the value of the
+               <code>updater</code>
+               attribute of an
+               <code>&lt;element&gt;</code>
+               element is set,
+               Betwixt will try to find a bean method with a matching name which takes a single parameter.
+               When such a matching method exists, this will be called to update the property value.
+            </p>
+            <p>
+               For example, the following betwixt file fragment:
+
+               <source><![CDATA[
 <?xml version="1.0" encoding="UTF-8" ?>
 <info primitiveTypes="element">
   <element name="bean">
@@ -190,28 +214,32 @@ For example, the following betwixt file fragment:
 </info>
 ]]></source>
 
-will look for a method called 'nameSetter' and use that to update the value mapped to the 'name' element.
-    </p>
-</subsection>
-</section>
+               will look for a method called 'nameSetter' and use that to update the value mapped to the 'name' element.
+            </p>
+         </subsection>
+      </section>
 
-    <section name='Reading Beans - In Depth'>
-    
-        <subsection name='Understanding The Class Creation Chain'>
+      <section name='Reading Beans - In Depth'>
+
+         <subsection name='Understanding The Class Creation Chain'>
             <p>
-Betwixt uses the <em>Chain Of Responsibility</em> pattern to decide the object which should be created 
-for a particular element. The standard chain contains <code>ChainedBeanCreator</code>s which implement
-functionality such as standard bean creation based on the expected type and the returning of beans by ID.
-This allows users to easily insert their own <code>ChainedBeanCreator</code>s into the chain - or to 
-replace the standard Betwixt chain completely.
-        </p>
-    </subsection>
-    
-        <subsection name='Customizing Bean Creation'>
+               Betwixt uses the
+               <em>Chain Of Responsibility</em>
+               pattern to decide the object which should be created
+               for a particular element. The standard chain contains<code>ChainedBeanCreator</code>s which implement
+               functionality such as standard bean creation based on the expected type and the returning of beans by ID.
+               This allows users to easily insert their own<code>ChainedBeanCreator</code>s into the chain - or to
+               replace the standard Betwixt chain completely.
+            </p>
+         </subsection>
+
+         <subsection name='Customizing Bean Creation'>
             <p>
-The chain used by the BeanReader is part of the <code>ReadConfiguration</code> and is accessed via the 
-BeanCreationChain property. For example the following sets a custom chain.
-<source><![CDATA[
+               The chain used by the BeanReader is part of the
+               <code>ReadConfiguration</code>
+               and is accessed via the
+               BeanCreationChain property. For example the following sets a custom chain.
+               <source><![CDATA[
         BeanCreationChain chain = MyBeanCreationChain();
         BeanReader reader = new BeanReader();
         ...
@@ -221,30 +249,31 @@ BeanCreationChain property. For example the following sets a custom chain.
         Bean bean = (Bean) reader.parse(in);
         ...
 ]]></source>
-        </p>
+            </p>
             <p>
-Betwixt provides a standard (list-backed) chain called BeanCreationList. This provides an easy methods to 
-register your own <code>ChainedBeanCreator</code>. It also provides a factory method which creates an instance
-with the standard betwixt chain already set. For example, the following inserts a custom in second place:
-<source><![CDATA[
+               Betwixt provides a standard (list-backed) chain called BeanCreationList. This provides an easy methods to
+               register your own
+               <code>ChainedBeanCreator</code>. It also provides a factory method which creates an instance
+               with the standard betwixt chain already set. For example, the following inserts a custom in second place:
+               <source><![CDATA[
         BeanCreationList chain = BeanCreationList.createStandardChain();
         BeanCreator creator = MyBeanCreator();
         chain.insertBeanCreator(1, creator);
 ]]></source>
-        </p>
+            </p>
             <p>
-Another useful class is <code>ChainedBeanCreationFactory</code>. This contains factory methods for the 
-<code>BeanCreator</code>s used by Betwixt. This allows a user to easily mix custom and standard creators.
-        </p>
-    </subsection>
-    
-        <subsection name='Example: Enums'>
+               Another useful class is<code>ChainedBeanCreationFactory</code>. This contains factory methods for the
+               <code>BeanCreator</code>s used by Betwixt. This allows a user to easily mix custom and standard creators.
+            </p>
+         </subsection>
+
+         <subsection name='Example: Enums'>
             <p>
-Herein is contained a practical example demonstrating how custom bean creation may be used.
-        </p>
+               Herein is contained a practical example demonstrating how custom bean creation may be used.
+            </p>
             <p>
-A common java pattern is the use of strongly typed Enum classes. Let's say that you have the following class:
-<source><![CDATA[
+               A common java pattern is the use of strongly typed Enum classes. Let's say that you have the following class:
+               <source><![CDATA[
 public class CompassPoint {
 
     public static final CompassPoint NORTH = new CompassPoint("North");
@@ -263,14 +292,16 @@ public class CompassPoint {
     }
 }
 ]]></source>
-and you have a bean which you would like to map to xml and back using Betwixt. Betwixt is bean-centric. 
-It aims to make mapping beans easy. But, <code>CompassPoint</code> objects are not beans and do not
-have the empty constructors that Betwixt requires.
-        </p>
+               and you have a bean which you would like to map to xml and back using Betwixt. Betwixt is bean-centric.
+               It aims to make mapping beans easy. But,
+               <code>CompassPoint</code>
+               objects are not beans and do not
+               have the empty constructors that Betwixt requires.
+            </p>
             <p>
-A good way to solve this problem is to create a custom BeanCreator which knows how to create an enum
-of the right type from the 'name' attribute value. For example:
-<source><![CDATA[
+               A good way to solve this problem is to create a custom BeanCreator which knows how to create an enum
+               of the right type from the 'name' attribute value. For example:
+               <source><![CDATA[
 public class CompassPointEnumCreator implements ChainedBeanCreator {
     public Object create(ElementMapping mapping, ReadContext context, BeanCreationChain chain) {
         if (CompassPoint.class.equals(mapping.getType())) {
@@ -292,12 +323,12 @@ public class CompassPointEnumCreator implements ChainedBeanCreator {
     }
 }
 ]]></source>
-        </p>
+            </p>
             <p>
-Once this class has been created, all that remains is to add this into the chain. In this case,
-it's probably most convenient to use the factory method to create a standard chain and then insert
-the BeanCreator at a suitable position:
-<source><![CDATA[
+               Once this class has been created, all that remains is to add this into the chain. In this case,
+               it's probably most convenient to use the factory method to create a standard chain and then insert
+               the BeanCreator at a suitable position:
+               <source><![CDATA[
     BeanCreationList chain = BeanCreationList.createStandardChain();
     chain.insertBeanCreator(1, new EnumCreator());
     ...
@@ -307,44 +338,51 @@ the BeanCreator at a suitable position:
     reader.getReadConfiguration().setBeanCreationChain(chain);
     ...
 ]]></source>
-Now you're ready to start reading enums!
-        </p>
-    </subsection>
-    
-        <subsection name='Using Bean Includes'>
+               Now you're ready to start reading enums!
+            </p>
+         </subsection>
+
+         <subsection name='Using Bean Includes'>
             <p>
-<code>IncludeBeanCreator</code> is a <code>ChainedBeanCreator</code> that implements a system
-of 'includes' files. Adding this class to the bean creation chain will load and read the file
-specified by the <code>include-file</code> attribute whenever it is encountered.
-The file will be loaded as a resource by the current <code>ClassLoader</code> using the standard rules.
-        </p>
+               <code>IncludeBeanCreator</code>
+               is a
+               <code>ChainedBeanCreator</code>
+               that implements a system
+               of 'includes' files. Adding this class to the bean creation chain will load and read the file
+               specified by the
+               <code>include-file</code>
+               attribute whenever it is encountered.
+               The file will be loaded as a resource by the current
+               <code>ClassLoader</code>
+               using the standard rules.
+            </p>
             <p>
-A similar effect could be accumplished through the using of xml entity's.
-There are occasions when this is inconvenient and so it's useful to have an alternative
-available.
-        </p>
-    </subsection>
-    	<subsection name='Reading Polymorphic Mappings'>
-    		<p>
-A polymorphic mapping is one where the decision about the element type and name
-is postponed from introspection time to bind time. This allows reading of
-collections containing mixed types distinguished by element name. For example:
-		</p>    		
-<source><![CDATA[
+               A similar effect could be accumplished through the using of xml entity's.
+               There are occasions when this is inconvenient and so it's useful to have an alternative
+               available.
+            </p>
+         </subsection>
+         <subsection name='Reading Polymorphic Mappings'>
+            <p>
+               A polymorphic mapping is one where the decision about the element type and name
+               is postponed from introspection time to bind time. This allows reading of
+               collections containing mixed types distinguished by element name. For example:
+            </p>
+            <source><![CDATA[
 <?xml version="1.0" ?>
 <container>
   <elementA/>
   <elementB/>
 </container>
 ]]></source>
-			<p>
-Polymorphic mappings should be set up using dot betwixt files. 
-The name attribute for the element should be omitted
-and mappings registered for the contained object types.
-It is usually more convenient to use a single file containing all the mappings.
-For example:
-		</p>
-<source><![CDATA[
+            <p>
+               Polymorphic mappings should be set up using dot betwixt files.
+               The name attribute for the element should be omitted
+               and mappings registered for the contained object types.
+               It is usually more convenient to use a single file containing all the mappings.
+               For example:
+            </p>
+            <source><![CDATA[
 <?xml version="1.0"?>
 <betwixt-config>
   <class name='SomeContainer'>
@@ -363,28 +401,33 @@ For example:
   </class>
 </betwixt-config>
 ]]></source>
-			<p>
-By default, in this circumstance Betwixt will try to guess the correct resolution
-by searching all registered <code>XMLBeanInfo</code>'s for an appropriate match.
-If more than one is found, an arbitrary one is used. 
-In many cases, this accords well with intuition. There are
-occasions when more finely grained control may be required. The resolution is
-therefore factored into <code>PolymorphicReferenceResolver</code> 
-(a pluggable strategy) on <code>XMLIntrospector</code>. 
-A custom resolver allows alternative algorithms for determining
-type to be used which can (for example) ignore the mappings registered.
-Note that the default implementation is provided by the default
-<code>XMLBeanInfoRegistry</code> implementation.
-Therefore, when using a custom registry a custom resolver must also
-be used.
-		</p>
-    <p>
-<strong>Note:</strong> when using mixed collections with dot betwixt files containing 
-<code>addDefaults</code> it may be necessary to set the <code>guess-names</code> 
-attribute to false. 
-    </p>
-    </subsection>
-</section>
+            <p>
+               By default, in this circumstance Betwixt will try to guess the correct resolution
+               by searching all registered<code>XMLBeanInfo</code>'s for an appropriate match.
+               If more than one is found, an arbitrary one is used.
+               In many cases, this accords well with intuition. There are
+               occasions when more finely grained control may be required. The resolution is
+               therefore factored into
+               <code>PolymorphicReferenceResolver</code>
+               (a pluggable strategy) on<code>XMLIntrospector</code>.
+               A custom resolver allows alternative algorithms for determining
+               type to be used which can (for example) ignore the mappings registered.
+               Note that the default implementation is provided by the default
+               <code>XMLBeanInfoRegistry</code>
+               implementation.
+               Therefore, when using a custom registry a custom resolver must also
+               be used.
+            </p>
+            <p>
+               <strong>Note:</strong>
+               when using mixed collections with dot betwixt files containing
+               <code>addDefaults</code>
+               it may be necessary to set the
+               <code>guess-names</code>
+               attribute to false.
+            </p>
+         </subsection>
+      </section>
 
-</body>
+   </body>
 </document>

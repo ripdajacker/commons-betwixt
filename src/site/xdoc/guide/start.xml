@@ -18,55 +18,59 @@
 
 <document>
 
- <properties>
-  <title>Getting Started</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+   <properties>
+      <title>Getting Started</title>
+      <author email="jstrachan@apache.org">James Strachan</author>
+   </properties>
 
-<body>
+   <body>
 
-<section name="Getting Started">
-    <p>
-    Probably the best way to get started is to look at some examples. 
-    <a href='examples.html#simple-example'>Here</a> is some simple example code that reads and writes a bean (together
-    with some comments). It's a good place to start. 
-    </p>
-</section>
+      <section name="Getting Started">
+         <p>
+            Probably the best way to get started is to look at some examples.
+            <a href='examples.html#simple-example'>Here</a>
+            is some simple example code that reads and writes a bean (together
+            with some comments). It's a good place to start.
+         </p>
+      </section>
 
-<section name="Mapping beans to XML">
+      <section name="Mapping beans to XML">
 
-    <p>There are various ways of mapping beans to an XML structure. For example 
-    consider a simple bean</p>
-    
-<source><![CDATA[public class CustomerBean {
+         <p>There are various ways of mapping beans to an XML structure. For example
+            consider a simple bean
+         </p>
+
+         <source><![CDATA[public class CustomerBean {
     public String getName();
     public Order[] getOrders();
     public String[] getEmailAddresses();
 }]]></source>
-    
-    <p>This could be mapped to XML in various ways. 
-    A couple of examples of these different ways follow.</p>
+
+         <p>This could be mapped to XML in various ways.
+            A couple of examples of these different ways follow.
+         </p>
 
 
-<subsection name="Example 1">
-    
-    <p>This example uses attributes for primitive types.</p>
+         <subsection name="Example 1">
 
-<source><![CDATA[<CustomerBean name='James'>
+            <p>This example uses attributes for primitive types.</p>
+
+            <source><![CDATA[<CustomerBean name='James'>
     <order id='1'>...</order>
     <order id='2'>...</order>
     <emailAddress>jstrachan@apache.org</emailAddress>
 </CustomerBean>]]></source>
-</subsection>
-    
-    
-    <subsection name="Example 2">
-    
-    <p>This example uses elements for all properties and wraps collections in an 
-    extra element (which can be quite common in XML schemas). Also note that some 
-    element names have been changed.</p>
-    
-<source><![CDATA[<customer>
+         </subsection>
+
+
+         <subsection name="Example 2">
+
+            <p>This example uses elements for all properties and wraps collections in an
+               extra element (which can be quite common in XML schemas). Also note that some
+               element names have been changed.
+            </p>
+
+            <source><![CDATA[<customer>
     <name>James</name>
     <orders>
         <order id='1'>...</order>
@@ -76,48 +80,60 @@
         <email-address>jstrachan@apache.org</email-address>
     </email-addresses>
 </customer>    ]]></source>
-    
-    <p>Betwixt aims to provide a diversity of possible mappings such that the 
-    developer can choose, if they wish, how their beans appear as XML to support 
-    whatever XML encoding scheme that is desired. If no particular mapping is 
-    provided then Betwixt will create a default mapping for you. Also the 
-    customization mechanism allows you to just override the parts you want to and 
-    let Betwixt default the rest. So if you just want to rename a property in XML 
-    for a certain type, thats all you need to do. No need to hand-code what Betwixt 
-    can deduce for itself. </p>
-</subsection>
 
-</section>
+            <p>Betwixt aims to provide a diversity of possible mappings such that the
+               developer can choose, if they wish, how their beans appear as XML to support
+               whatever XML encoding scheme that is desired. If no particular mapping is
+               provided then Betwixt will create a default mapping for you. Also the
+               customization mechanism allows you to just override the parts you want to and
+               let Betwixt default the rest. So if you just want to rename a property in XML
+               for a certain type, thats all you need to do. No need to hand-code what Betwixt
+               can deduce for itself.
+            </p>
+         </subsection>
 
-<section name="Customizing the mapping of a bean to XML (basic)">
-    
-<subsection name=".betwixt files">
+      </section>
 
-    <p>The XMLIntrospector will look for files of the form <i>className.betwixt</i> 
-    on the classpath using the same ClassLoader used to load the given class and use 
-    that document to specify the mapping to XML. If this file does not exist 
-    then the default introspection rules are used. (Note that there are also various
-    more advanced ways to vary this rule. For more details see 
-    <a href='binding.html#Multi%20Mapping'>multi mapping</a> for more details)</p>
-    <p>The simplest possible file may just set the name of the element. e.g.</p>
-    
-<source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
+      <section name="Customizing the mapping of a bean to XML (basic)">
+
+         <subsection name=".betwixt files">
+
+            <p>The XMLIntrospector will look for files of the form
+               <i>className.betwixt</i>
+               on the classpath using the same ClassLoader used to load the given class and use
+               that document to specify the mapping to XML. If this file does not exist
+               then the default introspection rules are used. (Note that there are also various
+               more advanced ways to vary this rule. For more details see
+               <a href='binding.html#Multi%20Mapping'>multi mapping</a>
+               for more details)
+            </p>
+            <p>The simplest possible file may just set the name of the element. e.g.</p>
+
+            <source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
 <info>
 <element name='channel'/>
 <addDefaults/>
 </info>]]></source>
-    
-    <p>The above means to use the name 'channel' for the outer most element for the 
-    given type. The <code>&lt;addDefaults&gt;</code> means to add the defaults from the introspector. 
-    This allows you to just rename a few properties then let the introspector do the 
-    rest. There is also a <code>&lt;hide&gt;</code> element which allows one or more properties to be 
-    hidden. Also note that the <code>&lt;element&gt;</code> and 
-    <code>&lt;attribute&gt;</code> tags can be nested to any 
-    kind of depth allowing whatever XML structure you wish. This can be useful if 
-    you wish to wrap collections in some arbitrary collection tags or to group 
-    properties of a bean together in some XML structure. e.g.</p>
-    
-<source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
+
+            <p>The above means to use the name 'channel' for the outer most element for the
+               given type. The
+               <code>&lt;addDefaults&gt;</code>
+               means to add the defaults from the introspector.
+               This allows you to just rename a few properties then let the introspector do the
+               rest. There is also a
+               <code>&lt;hide&gt;</code>
+               element which allows one or more properties to be
+               hidden. Also note that the
+               <code>&lt;element&gt;</code>
+               and
+               <code>&lt;attribute&gt;</code>
+               tags can be nested to any
+               kind of depth allowing whatever XML structure you wish. This can be useful if
+               you wish to wrap collections in some arbitrary collection tags or to group
+               properties of a bean together in some XML structure. e.g.
+            </p>
+
+            <source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
 <info primitiveTypes='attribute'>
 <hide property='something'/>
 <element name='channel'/>
@@ -131,20 +147,32 @@
 </element>
 </info>
 ]]></source>
-    
-    <p>Note that the <code>.betwixt</code> file specifies the mapping for a single bean.
-    So, whilst you can add extra elements (as above), it can't be used to specify 
-    to names for child beans through nesting <code>element</code> elements.</p>
-    
-    <p>The primitiveTypes attribute in the <code>&lt;info&gt;</code> element is 
-    optional and can be used to specify whether primitive java types (strings, numbers, dates etc) are 
-    specified as attributes or elements by default.</p>
-    <p>Finally static text can be specified using a value attribute inside an 
-    <code>&lt;element&gt;</code> or <code>&lt;attribute&gt;</code> tag. 
-    e.g. to add constant attributes such as a version label to the 
-    generated XML...</p>
-    
-<source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
+
+            <p>Note that the
+               <code>.betwixt</code>
+               file specifies the mapping for a single bean.
+               So, whilst you can add extra elements (as above), it can't be used to specify
+               to names for child beans through nesting
+               <code>element</code>
+               elements.
+            </p>
+
+            <p>The primitiveTypes attribute in the
+               <code>&lt;info&gt;</code>
+               element is
+               optional and can be used to specify whether primitive java types (strings, numbers, dates etc) are
+               specified as attributes or elements by default.
+            </p>
+            <p>Finally static text can be specified using a value attribute inside an
+               <code>&lt;element&gt;</code>
+               or
+               <code>&lt;attribute&gt;</code>
+               tag.
+               e.g. to add constant attributes such as a version label to the
+               generated XML...
+            </p>
+
+            <source><![CDATA[<?xml version='1.0' encoding='UTF-8' ?>
 <info primitiveTypes='element'>
 <element name='rss'/>
     <attribute name='version' value='0.91'/>
@@ -154,30 +182,60 @@
 </info>
 ]]></source>
 
-	<p>The plain <code>&lt;addDefaults&gt;</code> tag adds default properties
-	and the adders (it can find) for all the properties (both explicitly 
-	described in the <code>.betwixt</code> file and the default ones discovered).
-	Usually, this is really pretty useful but sometimes more finely grained
-	control is needed. In this case, there are two properties that can be set
-	to given this extra control:</p>
-	
-	<ul>
-		<li><strong><code>add-properties</code></strong> If this property is set to any value
-		other than <code>true</code> the discovery of default properties will
-		be suppressed.</li>
-		<li><strong><code>add-adders</code></strong> if this property is set to
-		any value other than <code>true</code> the matching of adders will be suppressed.</li>
-		<li><strong><code>guess-name</code></strong> if this property is set to
-		any value other than <code>true</code> the guessing of names for elements without a name attribute
-    will be suppressed. Note that this may need to be set to <code>false</code> when mapping mixed
-    collections.
-    By default, Betwixt will guess names.</li>
-	</ul>
-	
-	<p>Using <code>&lt;addDefaults add-properties='false' add-adders='false'/&gt;</code>
-	doesn't really make any sense but no error will be thrown.</p>
-</subsection>
+            <p>The plain
+               <code>&lt;addDefaults&gt;</code>
+               tag adds default properties
+               and the adders (it can find) for all the properties (both explicitly
+               described in the
+               <code>.betwixt</code>
+               file and the default ones discovered).
+               Usually, this is really pretty useful but sometimes more finely grained
+               control is needed. In this case, there are two properties that can be set
+               to given this extra control:
+            </p>
 
-</section>
-</body>
+            <ul>
+               <li>
+                  <strong>
+                     <code>add-properties</code>
+                  </strong>
+                  If this property is set to any value
+                  other than
+                  <code>true</code>
+                  the discovery of default properties will
+                  be suppressed.
+               </li>
+               <li>
+                  <strong>
+                     <code>add-adders</code>
+                  </strong>
+                  if this property is set to
+                  any value other than
+                  <code>true</code>
+                  the matching of adders will be suppressed.
+               </li>
+               <li>
+                  <strong>
+                     <code>guess-name</code>
+                  </strong>
+                  if this property is set to
+                  any value other than
+                  <code>true</code>
+                  the guessing of names for elements without a name attribute
+                  will be suppressed. Note that this may need to be set to
+                  <code>false</code>
+                  when mapping mixed
+                  collections.
+                  By default, Betwixt will guess names.
+               </li>
+            </ul>
+
+            <p>Using
+               <code>&lt;addDefaults add-properties='false' add-adders='false'/&gt;</code>
+               doesn't really make any sense but no error will be thrown.
+            </p>
+         </subsection>
+
+      </section>
+   </body>
 </document>

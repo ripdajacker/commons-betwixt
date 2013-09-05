@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 /**
@@ -21,37 +21,38 @@ package org.apache.commons.betwixt.io.read;
  */
 public class FerretBean extends Animal {
 
-    private String colour;
-    private String name;
+   private String colour;
+   private String name;
 
-    public FerretBean() {}
-    
-    public FerretBean(String colour, String name) {
-        this.colour = colour;
-        setName(name);
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getLatinName() {
-        return "Mustela putoris furo";
-    }
+   public FerretBean() {
+   }
 
-    public String getCall() {
-        return "Dook";
-    }
+   public FerretBean(String colour, String name) {
+      this.colour = colour;
+      setName(name);
+   }
 
-    public String getColour() {
-        return colour;
-    }
-    
-    public void setColour(String colour) {
-        this.colour = colour;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public String getLatinName() {
+      return "Mustela putoris furo";
+   }
+
+   public String getCall() {
+      return "Dook";
+   }
+
+   public String getColour() {
+      return colour;
+   }
+
+   public void setColour(String colour) {
+      this.colour = colour;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
 }

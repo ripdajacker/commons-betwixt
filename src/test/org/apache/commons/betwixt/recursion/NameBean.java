@@ -13,27 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.recursion;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public class NameBean {
-    
-    private String moniker;
-    
-    public NameBean() {}
-   
-    public NameBean(String moniker) {
-        setMoniker(moniker);
-    }
-    
-    public String getMoniker() {
-        return moniker;
-    }
 
-    public void setMoniker(String moniker) {
-        this.moniker = moniker;
-    }
+   private String moniker;
+
+   public NameBean() {
+   }
+
+   public NameBean(String moniker) {
+      setMoniker(moniker);
+   }
+
+   public String getMoniker() {
+      return moniker;
+   }
+
+   public void setMoniker(String moniker) {
+      this.moniker = moniker;
+   }
 }

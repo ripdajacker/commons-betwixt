@@ -13,27 +13,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io;
 
 /**
  */
 public class SidekickBean {
-    
-    private String nickname;
 
-    public SidekickBean() {}
-    
-    public SidekickBean(String name) {
-        setNickname(name);
-    }
+   private String nickname;
 
-    public String getNickname() {
-        return nickname;
-    }
+   public SidekickBean() {
+   }
+
+   public SidekickBean(String name) {
+      setNickname(name);
+   }
+
+   public String getNickname() {
+      return nickname;
+   }
 
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+   public void setNickname(String nickname) {
+      this.nickname = nickname;
+   }
 }

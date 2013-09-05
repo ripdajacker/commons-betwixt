@@ -13,161 +13,143 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.dotbetwixt;
 
 /**
  * The bean used to identify a problem there was when a dotbetwixt file
  * did not have any update methods on the element, but on the attributes.
- * 
+ *
  * @author <a href="mstanley@cauldronsolutions.com">Mike Stanley</a>
  * @version $Id$
  */
-public class MsgBean
-{
-    private String type;
-    private String status;
-    private String name;
-    private String description;
-    private String toAddress;
-    private String fromAddress;
-    private String optionalField1;
-    private String optionalField2;    
+public class MsgBean {
+   private String type;
+   private String status;
+   private String name;
+   private String description;
+   private String toAddress;
+   private String fromAddress;
+   private String optionalField1;
+   private String optionalField2;
 
-    /**
-     * 
-     */
-    public MsgBean()
-    {
-        super();
-    }
+   /**
+    *
+    */
+   public MsgBean() {
+      super();
+   }
 
-    /**
-     * @return
-     */
-    public String getFromAddress()
-    {
-        return fromAddress;
-    }
+   /**
+    * @return
+    */
+   public String getFromAddress() {
+      return fromAddress;
+   }
 
-    /**
-     * @param fromAddress
-     */
-    public void setFromAddress(String fromAddress)
-    {
-        this.fromAddress = fromAddress;
-    }
+   /**
+    * @param fromAddress
+    */
+   public void setFromAddress(String fromAddress) {
+      this.fromAddress = fromAddress;
+   }
 
-    /**
-     * @return
-     */
-    public String getName()
-    {
-        return name;
-    }
+   /**
+    * @return
+    */
+   public String getName() {
+      return name;
+   }
 
-    /**
-     * @param name
-     */
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+   /**
+    * @param name
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
 
-    /**
-     * @return
-     */
-    public String getStatus()
-    {
-        return status;
-    }
+   /**
+    * @return
+    */
+   public String getStatus() {
+      return status;
+   }
 
-    /**
-     * @param status
-     */
-    public void setStatus(String status)
-    {
-        this.status = status;
-    }
+   /**
+    * @param status
+    */
+   public void setStatus(String status) {
+      this.status = status;
+   }
 
-    /**
-     * @return
-     */
-    public String getToAddress()
-    {
-        return toAddress;
-    }
+   /**
+    * @return
+    */
+   public String getToAddress() {
+      return toAddress;
+   }
 
-    /**
-     * @param toAddress
-     */
-    public void setToAddress(String toAddress)
-    {
-        this.toAddress = toAddress;
-    }
+   /**
+    * @param toAddress
+    */
+   public void setToAddress(String toAddress) {
+      this.toAddress = toAddress;
+   }
 
-    /**
-     * @return
-     */
-    public String getType()
-    {
-        return type;
-    }
+   /**
+    * @return
+    */
+   public String getType() {
+      return type;
+   }
 
-    /**
-     * @param type
-     */
-    public void setType(String type)
-    {
-        this.type = type;
-    }
+   /**
+    * @param type
+    */
+   public void setType(String type) {
+      this.type = type;
+   }
 
-    /**
-     * @return
-     */
-    public String getDescription()
-    {
-        return description;
-    }
+   /**
+    * @return
+    */
+   public String getDescription() {
+      return description;
+   }
 
-    /**
-     * @param description
-     */
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+   /**
+    * @param description
+    */
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
-    /**
-     * @return
-     */
-    public String getOptionalField1()
-    {
-        return optionalField1;
-    }
+   /**
+    * @return
+    */
+   public String getOptionalField1() {
+      return optionalField1;
+   }
 
-    /**
-     * @param optionalField1
-     */
-    public void setOptionalField1(String optionalField1)
-    {
-        this.optionalField1 = optionalField1;
-    }
+   /**
+    * @param optionalField1
+    */
+   public void setOptionalField1(String optionalField1) {
+      this.optionalField1 = optionalField1;
+   }
 
-    /**
-     * @return
-     */
-    public String getOptionalField2()
-    {
-        return optionalField2;
-    }
+   /**
+    * @return
+    */
+   public String getOptionalField2() {
+      return optionalField2;
+   }
 
-    /**
-     * @param optionalField2
-     */
-    public void setOptionalField2(String optionalField2)
-    {
-        this.optionalField2 = optionalField2;
-    }
+   /**
+    * @param optionalField2
+    */
+   public void setOptionalField2(String optionalField2) {
+      this.optionalField2 = optionalField2;
+   }
 
 }

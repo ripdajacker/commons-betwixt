@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 
 package org.apache.commons.betwixt.schema;
@@ -23,48 +23,50 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public class ProductBean {
-    private String barcode;
-    private String code;
-    private String name;
-    private String displayName;
-    
-    public ProductBean() {}
-    public ProductBean(String barcode, String code, String name, String displayName) {
-        setBarcode(barcode);
-        setCode(code);
-        setName(name);
-        setDisplayName(displayName);
-    }
-    
-    public String getBarcode() {
-        return barcode;
-    }
+   private String barcode;
+   private String code;
+   private String name;
+   private String displayName;
 
-    public String getCode() {
-        return code;
-    }
+   public ProductBean() {
+   }
 
-    public String getDisplayName() {
-        return displayName;
-    }
+   public ProductBean(String barcode, String code, String name, String displayName) {
+      setBarcode(barcode);
+      setCode(code);
+      setName(name);
+      setDisplayName(displayName);
+   }
 
-    public String getName() {
-        return name;
-    }
+   public String getBarcode() {
+      return barcode;
+   }
 
-    public void setBarcode(String string) {
-        barcode = string;
-    }
+   public String getCode() {
+      return code;
+   }
 
-    public void setCode(String string) {
-        code = string;
-    }
+   public String getDisplayName() {
+      return displayName;
+   }
 
-    public void setDisplayName(String string) {
-        displayName = string;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public void setName(String string) {
-        name = string;
-    }
+   public void setBarcode(String string) {
+      barcode = string;
+   }
+
+   public void setCode(String string) {
+      code = string;
+   }
+
+   public void setDisplayName(String string) {
+      displayName = string;
+   }
+
+   public void setName(String string) {
+      name = string;
+   }
 }

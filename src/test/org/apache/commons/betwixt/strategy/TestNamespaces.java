@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 
 package org.apache.commons.betwixt.strategy;
 
@@ -26,26 +26,26 @@ import org.apache.commons.betwixt.AbstractTestCase;
  */
 public class TestNamespaces extends AbstractTestCase {
 
-    public TestNamespaces(String name) {
-        super(name);
-    }
-    
-    public void testNamespacePrefixMapper() {
-        NamespacePrefixMapper mapper = new NamespacePrefixMapper();
-        mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "xsd");
-        assertEquals("Expected prefix set earlier", "xsd", mapper.getPrefix("http://www.w3.org/2001/XMLSchema"));
-    }
-    
-    public void testNamespacePrefixMapperPrefixGeneration() {
-        NamespacePrefixMapper mapper = new NamespacePrefixMapper();
-        mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "xsd");
-        assertNotNull("Expected prefix assigned not to be null", mapper.getPrefix("http://commons.apache.org/Betwixt"));
-    }
-    
-    public void testNamespacePrefixMapperMatchingPrefix() {
-        NamespacePrefixMapper mapper = new NamespacePrefixMapper();
-        mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "bt1"); 
-        String prefix = mapper.getPrefix("http://commons.apache.org/Betwixt"); 
-        assertFalse("Generated should not clash", prefix.equals(mapper.getPrefix("http://www.w3.org/2001/XMLSchema")));       
-    }
+   public TestNamespaces(String name) {
+      super(name);
+   }
+
+   public void testNamespacePrefixMapper() {
+      NamespacePrefixMapper mapper = new NamespacePrefixMapper();
+      mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "xsd");
+      assertEquals("Expected prefix set earlier", "xsd", mapper.getPrefix("http://www.w3.org/2001/XMLSchema"));
+   }
+
+   public void testNamespacePrefixMapperPrefixGeneration() {
+      NamespacePrefixMapper mapper = new NamespacePrefixMapper();
+      mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "xsd");
+      assertNotNull("Expected prefix assigned not to be null", mapper.getPrefix("http://commons.apache.org/Betwixt"));
+   }
+
+   public void testNamespacePrefixMapperMatchingPrefix() {
+      NamespacePrefixMapper mapper = new NamespacePrefixMapper();
+      mapper.setPrefix("http://www.w3.org/2001/XMLSchema", "bt1");
+      String prefix = mapper.getPrefix("http://commons.apache.org/Betwixt");
+      assertFalse("Generated should not clash", prefix.equals(mapper.getPrefix("http://www.w3.org/2001/XMLSchema")));
+   }
 }

@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 package org.apache.commons.betwixt.io.read;
 
 /**
@@ -21,51 +21,52 @@ package org.apache.commons.betwixt.io.read;
  */
 public class DogBean extends Animal {
 
-    private boolean pedigree;
-    private String breed;
-    private String name;
-   
-    public DogBean() {}
-    
-    public DogBean(String name) {
-        this(false, "mongrol", name);
-    }
-    
-    public DogBean(boolean pedigree, String breed, String name) {
-        this.pedigree = pedigree;
-        this.breed = breed;
-        this.name = name;
-    }
-    
-    public String getCall() {
-        return "Woof";
-    }
-    
-    public String getBreed() {
-        return breed;
-    }
+   private boolean pedigree;
+   private String breed;
+   private String name;
 
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
+   public DogBean() {
+   }
 
-    public String getName() {
-        return name;
-    }
+   public DogBean(String name) {
+      this(false, "mongrol", name);
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public DogBean(boolean pedigree, String breed, String name) {
+      this.pedigree = pedigree;
+      this.breed = breed;
+      this.name = name;
+   }
 
-    public boolean isPedigree() {
-        return pedigree;
-    }
+   public String getCall() {
+      return "Woof";
+   }
 
-    public void setPedigree(boolean pedigree) {
-        this.pedigree = pedigree;
-    }
+   public String getBreed() {
+      return breed;
+   }
 
-    public String getLatinName() {
-        return "Canis familiaris";
-    }
+   public void setBreed(String breed) {
+      this.breed = breed;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public boolean isPedigree() {
+      return pedigree;
+   }
+
+   public void setPedigree(boolean pedigree) {
+      this.pedigree = pedigree;
+   }
+
+   public String getLatinName() {
+      return "Canis familiaris";
+   }
 }

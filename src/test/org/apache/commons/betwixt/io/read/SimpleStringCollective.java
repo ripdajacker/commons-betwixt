@@ -13,25 +13,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.commons.betwixt.io.read;
 
 import java.util.ArrayList;
 
 /** Simple bean that wraps a primitive collection
-  *
-  * @author Robert Burrell Donkin
-  * @version $Revision$
-  */
+ *
+ * @author Robert Burrell Donkin
+ * @version $Revision$
+ */
 public class SimpleStringCollective {
-    private ArrayList strings = new ArrayList();
-    
-    public ArrayList getStrings() {
-        return strings;
-    }	
-    
-    public void addString(String string) {
-        strings.add(string);
-    }
+   private ArrayList strings = new ArrayList();
+
+   public ArrayList getStrings() {
+      return strings;
+   }
+
+   public void addString(String string) {
+      strings.add(string);
+   }
 }
