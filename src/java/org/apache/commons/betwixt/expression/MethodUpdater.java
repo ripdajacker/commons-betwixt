@@ -22,7 +22,8 @@ import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Method;
 
-/** <p><code>MethodUpdater</code> updates the current bean context 
+/**
+ * <p><code>MethodUpdater</code> updates the current bean context
  * by calling a WriteMethod with the String value from the XML attribute
  * or element.</p>
  *
@@ -31,83 +32,103 @@ import java.lang.reflect.Method;
  */
 public class MethodUpdater extends TypedUpdater {
 
-   /** Logger */
-   private static Log log = LogFactory.getLog(MethodUpdater.class);
+    /**
+     * Logger
+     */
+    private static Log log = LogFactory.getLog(MethodUpdater.class);
 
-   /**
-    * Programmatically set log
-    * @param aLog the implementation to which this class should log
-    */
-   public static void setLog(Log aLog) {
-      log = aLog;
-   }
+    /**
+     * Programmatically set log
+     *
+     * @param aLog the implementation to which this class should log
+     */
+    public static void setLog(Log aLog) {
+        log = aLog;
+    }
 
-   /** The method to call on the bean */
-   private Method method;
+    /**
+     * The method to call on the bean
+     */
+    private Method method;
+    private String propertyName;
 
-   /** Base constructor */
-   public MethodUpdater() {
-   }
+    /**
+     * Base constructor
+     */
+    public MethodUpdater() {
+    }
 
-   /**
-    * Convenience constructor sets method property
-    * @param method the Method to be invoked on the context's bean in the update
-    */
-   public MethodUpdater(Method method) {
-      setMethod(method);
-   }
+    /**
+     * Convenience constructor sets method property
+     *
+     * @param method       the Method to be invoked on the context's bean in the update
+     * @param propertyName
+     */
+    public MethodUpdater(Method method, String propertyName) {
+        this.propertyName = propertyName;
+        setMethod(method);
+    }
 
-   /**
-    * Gets the method which will be invoked by the update
-    *
-    * @return the Method to be invoked by the update
-    */
-   public Method getMethod() {
-      return method;
-   }
+    /**
+     * Gets the method which will be invoked by the update
+     *
+     * @return the Method to be invoked by the update
+     */
+    public Method getMethod() {
+        return method;
+    }
 
-   /**
-    * Sets the constant value of this expression
-    * @param method the Method to be invoked by the update
-    */
-   public void setMethod(Method method) {
-      this.method = method;
-      Class[] types = method.getParameterTypes();
-      if (types == null || types.length <= 0) {
-         throw new IllegalArgumentException("The Method must have at least one parameter");
-      }
-      setValueType(types[0]);
-   }
+    /**
+     * Sets the constant value of this expression
+     *
+     * @param method the Method to be invoked by the update
+     */
+    public void setMethod(Method method) {
+        this.method = method;
+        Class[] types = method.getParameterTypes();
+        if (types == null || types.length <= 0) {
+            throw new IllegalArgumentException("The Method must have at least one parameter");
+        }
+        setValueType(types[0]);
+    }
 
-   // Implementation methods
-   //-------------------------------------------------------------------------
+    // Implementation methods
+    //-------------------------------------------------------------------------
 
 
-   /**
-    * Returns something useful for logging.
-    * @return something useful for logging
-    */
-   public String toString() {
-      return "MethodUpdater [method=" + method + "]";
-   }
+    /**
+     * Returns something useful for logging.
+     *
+     * @return something useful for logging
+     */
+    public String toString() {
+        return "MethodUpdater [method=" + method + "]";
+    }
 
-   /**
-    * Updates the bean by method invocation.
-    * @since 0.7
-    */
-   protected void executeUpdate(Context context, Object bean, Object newValue) throws Exception {
-      if (log.isDebugEnabled()) {
-         log.debug(
-               "Calling setter method: " + method.getName() + " on bean: " + bean
-                     + " with new value: " + newValue
-         );
-      }
-      Object[] arguments = {newValue};
-      try {
-         method.invoke(bean, arguments);
-      } catch (IllegalAccessException e) {
-         method.setAccessible(true);
-         method.invoke(bean, arguments);
-      }
-   }
+    /**
+     * Updates the bean by method invocation.
+     *
+     * @since 0.7
+     */
+    protected void executeUpdate(Context context, Object bean, Object newValue) throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug(
+                    "Calling setter method: " + method.getName() + " on bean: " + bean
+                            + " with new value: " + newValue
+            );
+        }
+        Object[] arguments = {newValue};
+        try {
+            method.invoke(bean, arguments);
+        } catch (IllegalAccessException e) {
+            method.setAccessible(true);
+            method.invoke(bean, arguments);
+        } catch (Throwable throwable) {
+            System.out.println();
+        }
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
 }

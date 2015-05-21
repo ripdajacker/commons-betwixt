@@ -98,10 +98,10 @@ public class TextRule extends MappedPropertyRule {
                   getPropertyDescriptor(beanClass, descriptorPropertyName);
             if (propertyDescriptor != null) {
                Method readMethod = propertyDescriptor.getReadMethod();
-               descriptor.setTextExpression(new MethodExpression(readMethod));
+               descriptor.setTextExpression(new MethodExpression(readMethod, propertyName));
                Method writeMethod = propertyDescriptor.getWriteMethod();
                if (writeMethod != null) {
-                  descriptor.setUpdater(new MethodUpdater(writeMethod));
+                  descriptor.setUpdater(new MethodUpdater(writeMethod, descriptor.getPropertyName()));
                }
                getProcessedPropertyNameSet().add(descriptorPropertyName);
             }

@@ -17,6 +17,7 @@
 
 package org.apache.commons.betwixt.introspection;
 
+import dk.mehmedbasic.betwixt.BeanIntrospector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -29,7 +30,6 @@ import org.apache.commons.betwixt.strategy.ListedClassNormalizer;
 import org.apache.commons.digester.rss.Channel;
 
 import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.StringWriter;
 
@@ -126,16 +126,15 @@ public class TestXMLIntrospector extends AbstractTestCase {
    public void testBeanWithBeanInfo() throws Exception {
 
       // let's check that bean info's ok
-      BeanInfo bwbiBeanInfo = Introspector.getBeanInfo(BeanWithBeanInfoBean.class);
+      BeanInfo bwbiBeanInfo = BeanIntrospector.getBeanInfo(BeanWithBeanInfoBean.class);
 
       PropertyDescriptor[] propertyDescriptors = bwbiBeanInfo.getPropertyDescriptors();
 
-      assertEquals("Wrong number of properties", 2, propertyDescriptors.length);
+      assertEquals("Wrong number of properties", 3, propertyDescriptors.length);
 
       // order of properties isn't guarenteed
       if ("alpha".equals(propertyDescriptors[0].getName())) {
-
-         assertEquals("Second property name", "gamma", propertyDescriptors[1].getName());
+         assertEquals("Second property name", "beta", propertyDescriptors[1].getName());
 
       } else {
 
@@ -157,26 +156,15 @@ public class TestXMLIntrospector extends AbstractTestCase {
 
       ElementDescriptor[] elementDescriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
 
-//        log = new SimpleLog("[testBeanWithBeanInfo]");
-//        log.setLevel(SimpleLog.LOG_LEVEL_DEBUG);
-
-//        log.debug("XMLBeanInfo:");
-//        log.debug(xmlBeanInfo);
-//        log.debug("Elements:");
-//        log.debug(elementDescriptors[0].getPropertyName());
-//        log.debug(elementDescriptors[1].getPropertyName());
-
       assertEquals("Wrong number of elements", 2, elementDescriptors.length);
 
       // order of properties isn't guarenteed
       boolean alphaFirst = true;
       if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-
-         assertEquals("Second element name", "gamma", elementDescriptors[1].getPropertyName());
-
+         assertEquals("Second element name", "beta", elementDescriptors[1].getPropertyName());
       } else {
          alphaFirst = false;
-         assertEquals("First element name", "gamma", elementDescriptors[0].getPropertyName());
+         assertEquals("First element name", "beta", elementDescriptors[0].getPropertyName());
          assertEquals("Second element name", "alpha", elementDescriptors[1].getPropertyName());
       }
 
@@ -298,7 +286,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
       ElementDescriptor[] elementDescriptors = info.getElementDescriptor().getElementDescriptors();
       // When BeanInfo is used the properties alpha and gamma will be found
       if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-         assertEquals("Second element name", "gamma", elementDescriptors[1].getPropertyName());
+         assertEquals("Second element name", "beta", elementDescriptors[1].getPropertyName());
       } else {
          assertEquals("First element name", "gamma", elementDescriptors[0].getPropertyName());
          assertEquals("Second element name", "alpha", elementDescriptors[1].getPropertyName());

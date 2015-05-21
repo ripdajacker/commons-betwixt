@@ -30,7 +30,7 @@ import junit.framework.TestSuite;
 public class TestCapitalizeNameMapper extends TestCase {
 
    public static Test suite() {
-      return new TestSuite(TestDecapitalizeNameMapper.class);
+      return new TestSuite(TestCapitalizeNameMapper.class);
    }
 
    public TestCapitalizeNameMapper(String testName) {

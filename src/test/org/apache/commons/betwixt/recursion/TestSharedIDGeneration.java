@@ -16,10 +16,10 @@
  */
 package org.apache.commons.betwixt.recursion;
 
+import dk.mehmedbasic.betwixt.BeanIntrospector;
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
 
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.StringWriter;
 
@@ -43,7 +43,7 @@ public class TestSharedIDGeneration extends AbstractTestCase {
       writer.write(hybrid);
 
       boolean isAlienBeforePerson = false;
-      PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(HybridBean.class).getPropertyDescriptors();
+      PropertyDescriptor[] propertyDescriptors = BeanIntrospector.getBeanInfo(HybridBean.class).getPropertyDescriptors();
 
       for (int i = 0; i < propertyDescriptors.length; i++) {
          String methodName = propertyDescriptors[i].getName();

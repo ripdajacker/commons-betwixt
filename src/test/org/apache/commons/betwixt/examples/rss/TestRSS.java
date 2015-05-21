@@ -50,7 +50,7 @@ public class TestRSS extends AbstractTestCase {
             "title: Communicator 4.61 Out\n" +
             "link: http://www.mozillazine.org/talkback.html?article=606\n" +
             "description: The latest version of Communicator is now " +
-            "available.  It includes security enhancements " +
+              "available. It includes security enhancements " +
             "and various bug fixes.\n\n" +
             "title: Mozilla Dispenses with Old, Proprietary DOM\n" +
             "link: http://www.mozillazine.org/talkback.html?article=604\n" +

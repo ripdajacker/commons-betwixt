@@ -335,7 +335,7 @@ public class ElementRule extends MappedPropertyRule {
 
       // choose response from property type
 
-      final MethodExpression methodExpression = new MethodExpression(readMethod);
+       final MethodExpression methodExpression = new MethodExpression(readMethod, elementDescriptor.getPropertyName());
       if (getXMLIntrospector().isPrimitiveType(type)) {
          elementDescriptor
                .setTextExpression(methodExpression);
@@ -390,7 +390,7 @@ public class ElementRule extends MappedPropertyRule {
       if (updateMethodName == null) {
          // set standard write method
          if (writeMethod != null) {
-            elementDescriptor.setUpdater(new MethodUpdater(writeMethod));
+             elementDescriptor.setUpdater(new MethodUpdater(writeMethod, elementDescriptor.getPropertyName()));
          }
 
       } else {
@@ -424,7 +424,7 @@ public class ElementRule extends MappedPropertyRule {
 
             } else {
                elementDescriptor
-                     .setUpdater(new MethodUpdater(updateMethod));
+                       .setUpdater(new MethodUpdater(updateMethod, elementDescriptor.getPropertyName()));
                Class singularType = updateMethod.getParameterTypes()[0];
                elementDescriptor.setSingularPropertyType(singularType);
                if (singularType != null) {

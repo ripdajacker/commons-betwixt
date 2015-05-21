@@ -16,6 +16,7 @@
  */
 package org.apache.commons.betwixt.digester;
 
+import dk.mehmedbasic.betwixt.BeanIntrospector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -64,9 +65,9 @@ public abstract class MappedPropertyRule extends RuleSupport {
             // this allows extra property descriptors to be added
             BeanInfo beanInfo;
             if (getXMLIntrospector().getConfiguration().ignoreAllBeanInfo()) {
-               beanInfo = Introspector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
+               beanInfo = BeanIntrospector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
             } else {
-               beanInfo = Introspector.getBeanInfo(beanClass);
+               beanInfo = BeanIntrospector.getBeanInfo(beanClass);
             }
             PropertyDescriptor[] descriptors =
                   beanInfo.getPropertyDescriptors();

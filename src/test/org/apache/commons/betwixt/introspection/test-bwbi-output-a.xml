@@ -17,5 +17,5 @@
 -->
 <BeanWithBeanInfoBean>
    <alpha>alpha value</alpha>
-   <gamma>gamma value</gamma>
+    <beta>beta value</beta>
 </BeanWithBeanInfoBean>

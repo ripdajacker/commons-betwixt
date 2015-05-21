@@ -20,6 +20,7 @@ import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.strategy.ValueSuppressionStrategy;
+import org.w3c.dom.Document;
 
 import java.io.StringWriter;
 
@@ -126,7 +127,9 @@ public class TestSuppressElement extends AbstractTestCase {
             "    </actors>" +
             "</movie>";
 
-      xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+       Document documentOne = parseString(expected);
+       Document documentTwo = parseString(out);
+       xmlAssertIsomorphicContent(documentOne, documentTwo);
    }
 
 
@@ -187,7 +190,9 @@ public class TestSuppressElement extends AbstractTestCase {
             "    </actors>" +
             "</movie>";
 
-      xmlAssertIsomorphicContent(parseString(expected), parseString(out));
+       Document documentOne = parseString(expected);
+       Document documentTwo = parseString(out);
+       xmlAssertIsomorphicContent(documentOne, documentTwo);
    }
 
    public void testSuppressName() throws Exception {

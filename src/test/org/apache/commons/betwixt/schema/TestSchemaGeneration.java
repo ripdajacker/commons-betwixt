@@ -18,12 +18,12 @@
 
 package org.apache.commons.betwixt.schema;
 
+import dk.mehmedbasic.betwixt.BeanIntrospector;
 import org.apache.commons.betwixt.AbstractTestCase;
 import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.StringWriter;
 
@@ -147,7 +147,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
                   "<xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>" +
                   "<xsd:sequence/>");
 
-      PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(ProductBean.class).getPropertyDescriptors();
+       PropertyDescriptor[] propertyDescriptors = BeanIntrospector.getBeanInfo(ProductBean.class).getPropertyDescriptors();
       for (int i = 0; i < propertyDescriptors.length; i++) {
          PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
          if ("barcode".equals(propertyDescriptor.getName())) {
@@ -193,8 +193,8 @@ public class TestSchemaGeneration extends AbstractTestCase {
 
       String xsd = out.getBuffer().toString();
 
-      PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(
-            OrderBean.class).getPropertyDescriptors();
+       PropertyDescriptor[] propertyDescriptors = BeanIntrospector.getBeanInfo(
+               OrderBean.class).getPropertyDescriptors();
       boolean linesFirst = false;
       for (int i = 0; i < propertyDescriptors.length; i++) {
          PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
@@ -265,7 +265,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
                   + "<xsd:complexType name='org.apache.commons.betwixt.schema.ProductBean'>"
                   + "	<xsd:sequence/>");
 
-      propertyDescriptors = Introspector.getBeanInfo(ProductBean.class)
+       propertyDescriptors = BeanIntrospector.getBeanInfo(ProductBean.class)
             .getPropertyDescriptors();
       for (int i = 0; i < propertyDescriptors.length; i++) {
          PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
@@ -294,7 +294,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
             "<xsd:complexType name='org.apache.commons.betwixt.schema.CustomerBean'>"
                   + "	<xsd:sequence/>");
 
-      propertyDescriptors = Introspector.getBeanInfo(CustomerBean.class)
+       propertyDescriptors = BeanIntrospector.getBeanInfo(CustomerBean.class)
             .getPropertyDescriptors();
       for (int i = 0; i < propertyDescriptors.length; i++) {
          PropertyDescriptor propertyDescriptor = propertyDescriptors[i];

@@ -17,6 +17,7 @@
  */
 package org.apache.commons.betwixt.digester;
 
+import dk.mehmedbasic.betwixt.BeanIntrospector;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -29,7 +30,6 @@ import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
 /** Test harness for the XMLIntrospectorHelper
@@ -59,7 +59,7 @@ public class TestXMLIntrospectorHelper extends TestCase {
       XMLIntrospector introspector = new XMLIntrospector();
       introspector.getConfiguration().setAttributesForPrimitives(false);
       introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
-      BeanInfo beanInfo = Introspector.getBeanInfo(CustomerBean.class);
+      BeanInfo beanInfo = BeanIntrospector.getBeanInfo(CustomerBean.class);
 
       NodeDescriptor nickNameProperty = createDescriptor("nickName", beanInfo, introspector);
       assertNotNull("nickName property not found", nickNameProperty);
