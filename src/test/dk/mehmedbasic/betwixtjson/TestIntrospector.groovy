@@ -37,6 +37,5 @@ class TestIntrospector extends TestCase {
             }
             Assert.assertTrue("Properties should exist in both cases: ${first.getName()}", found)
         }
-        println()
     }
 }
