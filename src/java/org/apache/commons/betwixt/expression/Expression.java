@@ -28,7 +28,7 @@ public interface Expression {
     * @param context evaluate against this <code>Context</code>
     * @return the value of the expression
     */
-   public Object evaluate(Context context);
+   Object evaluate(Context context);
     
     
     /* XXX 
@@ -46,5 +46,5 @@ public interface Expression {
     * @param newValue the new value for this expression
     * @deprecated 0.5 use {@link Updater} instead
     */
-   public void update(Context context, String newValue);
+   void update(Context context, String newValue);
 }

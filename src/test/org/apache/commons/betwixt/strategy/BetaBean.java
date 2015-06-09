@@ -20,20 +20,20 @@ package org.apache.commons.betwixt.strategy;
  */
 public class BetaBean {
 
-   private String name;
+    private String name;
 
-   public BetaBean() {
-   }
+    public BetaBean() {
+    }
 
-   public BetaBean(String name) {
-      setName(name);
-   }
+    public BetaBean(String name) {
+        setName(name);
+    }
 
-   public String getName() {
-      return name;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public void setName(String name) {
-      this.name = name;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 }
