@@ -3,6 +3,7 @@ package dk.mehmedbasic.betwixtjson
 import dk.mehmedbasic.betwixt.model.Traverser
 import junit.framework.TestCase
 import org.apache.commons.betwixt.XMLIntrospector
+import org.apache.commons.betwixt.io.BeanWriter
 import org.apache.commons.betwixt.strategy.AlphaBean
 import org.apache.commons.betwixt.strategy.BetaBean
 
@@ -20,10 +21,7 @@ class TestTraverser extends TestCase {
 
         def traverser = new Traverser()
 
-        def alpha = new AlphaBean()
-        alpha.setName("penis")
-        alpha.addChild(new BetaBean("hej"))
-        alpha.setBetaBean(new BetaBean("I am beta"))
+        AlphaBean alpha = createAlpha()
 
         traverser.introspect(AlphaBean.class)
         traverser.introspect(BetaBean.class)
@@ -31,6 +29,25 @@ class TestTraverser extends TestCase {
         traverser.traverse(alpha)
 
         traverser.close()
+    }
+    public void testXml() {
+        def writer = new BeanWriter(new PrintWriter(System.out))
+        writer.getXMLIntrospector().introspect(AlphaBean.class)
+        writer.getXMLIntrospector().introspect(BetaBean.class)
+
+        writer.write(createAlpha())
+        writer.close()
+    }
+
+    private AlphaBean createAlpha() {
+        def alpha = new AlphaBean()
+        alpha.setName("penis")
+
+        def bean = new BetaBean("hej")
+        alpha.addChild(bean)
+        alpha.addChild(bean)
+        alpha.setBetaBean(new BetaBean("I am beta"))
+        alpha
     }
 
 }

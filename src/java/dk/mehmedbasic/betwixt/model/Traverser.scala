@@ -3,6 +3,7 @@ package dk.mehmedbasic.betwixt.model
 import java.io.PrintWriter
 
 import com.google.gson.stream.JsonWriter
+import dk.mehmedbasic.betwixt.HexIdGenerator
 import org.apache.commons.betwixt.expression.{Context, Expression, IteratorExpression}
 import org.apache.commons.betwixt.{BindingConfiguration, ElementDescriptor, XMLBeanInfo, XMLIntrospector}
 import org.apache.commons.logging.LogFactory
@@ -20,12 +21,14 @@ class Traverser extends DescriptorImplicits {
   private val log = LogFactory.getLog(getClass)
   private val binding = new BindingConfiguration()
 
+  private val idGenerator = new HexIdGenerator
+
   private val json: JsonWriter = new JsonWriter(new PrintWriter(System.out))
 
   def introspect(clazz: Class[_]) = introspector.introspect(clazz)
 
   def traverse(bean: AnyRef): Unit = {
-    json.setIndent("  ")
+        json.setIndent(" ")
     json.beginObject()
 
     traverseInner(bean)
@@ -34,19 +37,44 @@ class Traverser extends DescriptorImplicits {
     println()
   }
 
+  def findReference(bean: Any) = Option(binding.getIdMappingStrategy.getReferenceFor(null, bean))
+
   def traverseInner(bean: Any, name: String = "", inCollection: Boolean = false): Unit = {
 
     val info: XMLBeanInfo = introspector.getRegistry.get(bean.getClass)
     val descriptor: ElementDescriptor = info.getElementDescriptor
 
+    val reference: Option[String] = findReference(bean)
+    val id = reference match {
+      case None => idGenerator.nextId()
+      case Some(x) => x
+    }
+
+    if (reference.isDefined) {
+      if (!inCollection) {
+        json.name(formatNameNoId(name, descriptor))
+        json.value("@ref:%s".format(id))
+      } else {
+        json.beginObject()
+        json.name("@ref")
+        json.value(id)
+        json.endObject()
+      }
+
+      return
+    }
+
+    binding.getIdMappingStrategy.setReference(null, bean, id)
+
+
     if (!inCollection) {
-      json.name(formatName(name, descriptor))
+      json.name(formatName(name, descriptor, id))
       json.beginObject()
     } else {
       json.beginObject()
 
       json.name("@tag")
-      json.value(descriptor.getLocalName)
+      json.value("%s #%s".format(descriptor.getLocalName, id))
     }
 
     val parentNode: Node = descriptor.toNode
@@ -94,13 +122,20 @@ class Traverser extends DescriptorImplicits {
     json.endObject()
   }
 
-  def formatName(name: String, descriptor: ElementDescriptor): String = {
-    val format: String = if (name.isEmpty) {
+  def formatName(name: String, descriptor: ElementDescriptor, id: String): String = {
+    if (name.isEmpty) {
+      "@%s #%s".format(descriptor.getLocalName, id)
+    } else {
+      "@%s:%s #%s".format(descriptor.getLocalName, name, id)
+    }
+  }
+
+  def formatNameNoId(name: String, descriptor: ElementDescriptor): String = {
+    if (name.isEmpty) {
       "@%s".format(descriptor.getLocalName)
     } else {
       "@%s:%s".format(descriptor.getLocalName, name)
     }
-    format
   }
 
   def evaluateExpression(e: Expression, bean: Any) = e.evaluate(new Context(bean, log, binding))
