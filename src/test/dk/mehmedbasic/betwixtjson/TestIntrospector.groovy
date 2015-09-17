@@ -8,10 +8,7 @@ import org.junit.Assert
 import java.beans.Introspector
 
 /**
- * TODO - someone remind me to document this class 
- *
- * @author Jesenko Mehmedbasic
- * created 5/21/2015.
+ * A test of the new introspector.
  */
 class TestIntrospector extends TestCase {
     public void testDifference() throws Exception {
