@@ -451,4 +451,7 @@ public class IteratorExpression implements Expression {
       }
    }
 
+   public Expression getExpression() {
+      return expression;
+   }
 }
