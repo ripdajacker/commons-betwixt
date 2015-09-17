@@ -7,9 +7,7 @@ import java.lang.reflect.Modifier
 import java.util.List
 
 /**
- * TODO - someone remind me to document this class
- *
- * @author Jesenko Mehmedbasic created 5/19/2015.
+ * A bean info that enhances the default BeanInfo used in Betwixt.
  */
 public class EnhancedBeanInfo<T> implements BeanInfo {
     static final String ADD_PREFIX = "add";
@@ -94,7 +92,7 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
 
         List<Method> methodList = new LinkedList<Method>();
         Class current = clazz;
-        while (current != null && current != Object.class) {
+        while (current != null && current != Object.class && current != Enum.class) {
             def methods = current.getMethods()
             Collections.addAll(methodList, methods);
             current = current.getSuperclass();

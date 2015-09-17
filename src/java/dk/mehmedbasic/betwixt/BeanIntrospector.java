@@ -6,21 +6,19 @@ import java.beans.Introspector;
 import java.util.WeakHashMap;
 
 /**
- * TODO - someone remind me to document this class
- *
- * @author Jesenko Mehmedbasic created 5/19/2015.
+ * A very nice Introspector replacement that handles properties that are not public.
  */
 public class BeanIntrospector {
     private static ThreadLocal<WeakHashMap<Class, BeanInfo>> ignoreMap = new ThreadLocal<WeakHashMap<Class, BeanInfo>>() {
         @Override
         protected WeakHashMap<Class, BeanInfo> initialValue() {
-            return new WeakHashMap<Class, BeanInfo>();
+            return new WeakHashMap<>();
         }
     };
     private static ThreadLocal<WeakHashMap<Class, BeanInfo>> beanMap = new ThreadLocal<WeakHashMap<Class, BeanInfo>>() {
         @Override
         protected WeakHashMap<Class, BeanInfo> initialValue() {
-            return new WeakHashMap<Class, BeanInfo>();
+            return new WeakHashMap<>();
         }
     };
 
