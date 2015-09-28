@@ -41,4 +41,12 @@ object Identifier {
    def inArray(): Identifier = Identifier(null, null, null)
 
    def nameOnly(name: String) = Identifier(null, null, name)
+
+   def stripId(input: String): String = {
+      val end = input.indexOf("#")
+      if (end == -1) {
+         return input
+      }
+      input.substring(0, end).trim
+   }
 }

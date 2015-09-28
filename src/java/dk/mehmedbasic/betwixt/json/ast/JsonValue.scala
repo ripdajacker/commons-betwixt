@@ -10,4 +10,15 @@ class JsonValue[Value](parent: JsonNode,
    def getValue: Value = value
 
    override def getIdentifier: Identifier = identifier
+
+   override def getNodeType: JsonNodeType = value match {
+      case d: Double => JsonNodeType.NUMBER
+      case s: String => JsonNodeType.STRING
+      case b: Boolean => JsonNodeType.BOOLEAN
+      case _ => JsonNodeType.NULL
+   }
+
+   override def apply(name: String): Option[JsonNode] = None
+
+   override def apply(index: Int): Option[JsonNode] = None
 }

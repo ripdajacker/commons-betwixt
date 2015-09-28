@@ -9,6 +9,13 @@ abstract class JsonNode(parent: JsonNode, dom: JsonDom) {
 
    def getIdentifier: Identifier
 
+   def getNodeType: JsonNodeType
+
+   def apply(name: String): Option[JsonNode]
+
+   def apply(index: Int): Option[JsonNode]
+
+   def isInCollection = parent != null && parent.getNodeType.isCollection
 }
 
 object JsonNode {

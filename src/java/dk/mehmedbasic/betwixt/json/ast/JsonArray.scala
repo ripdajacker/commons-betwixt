@@ -21,4 +21,15 @@ class JsonArray(parent: JsonNode,
    }
 
    override def getIdentifier: Identifier = identifier
+
+   override def getNodeType: JsonNodeType = JsonNodeType.ARRAY
+
+   override def apply(name: String): Option[JsonNode] = None
+
+   override def apply(index: Int): Option[JsonNode] = {
+      if (index < 0 || values.length > index) {
+         return None
+      }
+      Some(values.get(index))
+   }
 }
