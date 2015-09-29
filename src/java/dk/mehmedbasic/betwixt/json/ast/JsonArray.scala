@@ -10,7 +10,7 @@ class JsonArray(parent: JsonNode,
                 identifier: Identifier,
                 rawValues: java.util.Collection[Any],
                 dom: JsonDom) extends JsonNode(parent, dom) {
-   private val values = readValues()
+   private val values: ListBuffer[JsonNode] = readValues()
 
    def getValues = values
 
@@ -32,4 +32,6 @@ class JsonArray(parent: JsonNode,
       }
       Some(values.get(index))
    }
+
+   def addValue(node: JsonNode) = values += node
 }

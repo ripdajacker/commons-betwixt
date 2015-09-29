@@ -1,7 +1,7 @@
 package dk.mehmedbasic.betwixt.json.ast
 
 /**
- * A JsonValue that is not an object
+ * A json value.
  */
 class JsonValue[Value](parent: JsonNode,
                        identifier: Identifier,

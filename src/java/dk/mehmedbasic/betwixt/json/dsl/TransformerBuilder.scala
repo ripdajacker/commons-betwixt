@@ -1,13 +1,15 @@
 package dk.mehmedbasic.betwixt.json.dsl
 
-import dk.mehmedbasic.betwixt.json.dsl.transformations.{MergeKeysTransformation, RenameTransformation, Transformation}
+import dk.mehmedbasic.betwixt.json.dsl.transformations.{MergeKeysTransformation, RenameTransformation, Transformation, ValueManipulation}
 
 import scala.collection.mutable.ListBuffer
 
 /**
  * A small builder DSL for chaining transformations.
  */
-class TransformerBuilder(selector: String, transformation: Transformation) {
+class TransformerBuilder(selector: String, transformation: Transformation, parent: TransformerBuilder = null)
+   extends TransformationImplicits {
+
    def this(selector: String) = this(selector, null)
 
    def renameKey(pair: (String, String)) = {
@@ -15,11 +17,25 @@ class TransformerBuilder(selector: String, transformation: Transformation) {
       new TransformerBuilder(selector, rename)
    }
 
-   def mergeKeys[V1, V2](pair: (String, String)): TransformerBuilder = mergeKeys(pair, null)
+   def doSomething(parameters: TransformationParameters) = this
 
-   def mergeKeys[V1, V2](pair: (String, String), function: (V1, V2) => V2): TransformerBuilder = {
+   def mergeKeys(parameters: TransformationParameters): TransformerBuilder = {
+      val nextTransformation = new MergeKeysTransformation[_, _](parameters.keys._1, parameters.keys._2, null, transformation)
+      if (parameters.switchesContext()) {
+         return new TransformerBuilder(parameters.selector, nextTransformation, this)
+      }
+
+      new TransformerBuilder(selector, nextTransformation)
+   }
+
+   def mergeKeys[V1, V2](pair: (String, String, String), function: (V1, V2) => V2): TransformerBuilder = {
       val merge = new MergeKeysTransformation[V1, V2](pair._1, pair._2, function, transformation)
       new TransformerBuilder(selector, merge)
+   }
+
+   def manipulateValue[S, D](key: String, function: (S) => D): TransformerBuilder = {
+      val manipulation: ValueManipulation[S, D] = new ValueManipulation[S, D](key, transformation, function)
+      new TransformerBuilder(selector, manipulation)
    }
 
    /**
@@ -37,48 +53,32 @@ class TransformerBuilder(selector: String, transformation: Transformation) {
       }
       buffer.reverse.toList
    }
+
+   private implicit def tupleToParameters(keys: (String, String)): TransformationParameters = TransformationParameters(null, keys)
 }
+
+case class TransformationParameters(selector: String, keys: (String, String), direction: Direction = Up) {
+   def upward = TransformationParameters(selector, keys, Up)
+
+   def downward = TransformationParameters(selector, keys, Down)
+
+   def switchesContext() = selector != null
+}
+
 
 /**
  * A small collection of implicit conversion to ease the creation of transformations.
  */
-sealed trait TransformationImplicits {
-   implicit def stringToBuilder(selector: String): TransformerBuilder = new TransformerBuilder(selector)
-}
+trait TransformationImplicits {
 
-/*
-object TestShit extends TransformationImplicits {
-   val source =
-      """|{
-        |    "person": {
-        |        "father": {
-        |            "firstName": "John",
-        |            "lastName": "Hancock",
-        |            "birthday": "1956"
-        |        },
-        |        "cat": {
-        |            "name": "Jenny The Cat",
-        |            "age": "6"
-        |        }
-        |    }
-        |}""".stripMargin
+   implicit class TupleExtensions(input: (String, String)) {
+      def ++(appended: String) = (input._1, input._2, appended)
 
-   def main(args: Array[String]) {
-      def map: java.util.Map[String, Any] = new Gson().fromJson(source, classOf[java.util.Map[String, Any]])
-
-      val foo = ".person"
-                .renameKey("father" -> "john")
-                .renameKey("john" -> "hej")
-                .mergeKeys("cat" -> "hej")
-                .transformations()
-
-      val personSubtree = map
-                          .get("house").asInstanceOf[java.util.Map[String, Any]]
-                          .get("person").asInstanceOf[java.util.Map[String, Any]]
-
-      foo.foreach(_.apply(personSubtree))
-
-      println()
+      def in(selector: String) = new TransformationParameters(selector, input, null)
    }
+
 }
-*/
+
+object TransformerBuilder {
+   def apply(selector: String): TransformerBuilder = new TransformerBuilder(selector)
+}
