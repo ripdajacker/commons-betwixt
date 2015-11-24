@@ -60,7 +60,7 @@ public class TestDefaultNameMapper extends TestCase {
    }
 
    public void testBadCharBadFirstTwo() {
-      String name = "$LOADS£OF$MONEY";
+      String name = "$LOADSÂ£OF$MONEY";
       DefaultNameMapper mapper = new DefaultNameMapper();
       String out = mapper.mapTypeToElementName(name);
       assertEquals("Expected", "LOADSOFMONEY", out);

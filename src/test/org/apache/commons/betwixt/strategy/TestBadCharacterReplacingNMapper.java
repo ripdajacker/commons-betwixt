@@ -45,7 +45,7 @@ public class TestBadCharacterReplacingNMapper extends TestCase {
    }
 
    public void testNoReplacementBadFirstWithChainedMapper() {
-      String name = "$LOADS£OF$MONEY";
+      String name = "$LOADSÂ£OF$MONEY";
       BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
       String out = mapper.mapTypeToElementName(name);
       assertEquals("Expected", "LOADSOFMONEY", out);
@@ -74,7 +74,7 @@ public class TestBadCharacterReplacingNMapper extends TestCase {
    }
 
    public void testReplacementBadFirstWithChainedMapper() {
-      String name = "$LOADS£OF$MONEY";
+      String name = "$LOADSÂ£OF$MONEY";
       BadCharacterReplacingNMapper mapper = new BadCharacterReplacingNMapper(new PlainMapper());
       mapper.setReplacement(new Character('_'));
       String out = mapper.mapTypeToElementName(name);
