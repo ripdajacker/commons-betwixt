@@ -1463,8 +1463,14 @@ public class XMLIntrospector {
         // TODO: this method will probably be deprecated when primitive types
         // are subsumed into the simple type concept
         TypeBindingStrategy.BindingType bindingType = configuration.getTypeBindingStrategy().bindingType(type);
-        boolean result = (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));
-        return result;
+        return (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));
+    }
+
+    public XMLBeanInfo introspectOrGet(Class<?> clazz) throws IntrospectionException {
+        if (getRegistry().get(clazz) == null) {
+            return introspect(clazz);
+        }
+        return getRegistry().get(clazz);
     }
 
     /**

@@ -55,6 +55,11 @@ public class EmptyExpression implements Expression {
       // do nothing
    }
 
+   @Override
+   public boolean isSimpleExpression() {
+      return false;
+   }
+
    /**
     * Return something useful for logging.
     * @return short name for this class

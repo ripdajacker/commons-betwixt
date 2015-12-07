@@ -16,8 +16,9 @@
  */
 package org.apache.commons.betwixt.expression;
 
-/** <p><code>ConstantExpression</code> represents a constant expression.</p>
- *
+/**
+ * <p><code>ConstantExpression</code> represents a constant expression.</p>
+ * <p/>
  * <p> In other words, {@link #evaluate} returns a value independent of the context. </p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
@@ -25,61 +26,77 @@ package org.apache.commons.betwixt.expression;
  */
 public class ConstantExpression implements Expression {
 
-   /** The value of this expression */
-   private Object value;
+    /**
+     * The value of this expression
+     */
+    private Object value;
 
-   /** Base constructor
-    */
-   public ConstantExpression() {
-   }
+    /**
+     * Base constructor
+     */
+    public ConstantExpression() {
+    }
 
-   /**
-    * Convenience constructor sets <code>value</code> property.
-    * @param value the Object which is the constant value for this expression
-    */
-   public ConstantExpression(Object value) {
-      this.value = value;
-   }
+    /**
+     * Convenience constructor sets <code>value</code> property.
+     *
+     * @param value the Object which is the constant value for this expression
+     */
+    public ConstantExpression(Object value) {
+        this.value = value;
+    }
 
-   /**
-    * Evaluate expression against given context.
-    *
-    * @param context evaluate expression against this context
-    * @return current value of <code>value</code> property
-    */
-   public Object evaluate(Context context) {
-      return value;
-   }
+    /**
+     * Evaluate expression against given context.
+     *
+     * @param context evaluate expression against this context
+     * @return current value of <code>value</code> property
+     */
+    public Object evaluate(Context context) {
+        return value;
+    }
 
-   /**
-    * Do nothing
-    * @see org.apache.commons.betwixt.expression.Expression
-    */
-   public void update(Context context, String newValue) {
-      // do nothing
-   }
+    /**
+     * Do nothing
+     *
+     * @see org.apache.commons.betwixt.expression.Expression
+     */
+    public void update(Context context, String newValue) {
+        // do nothing
+    }
 
-   /**
-    * Gets the constant value of this expression
-    * @return this expression's constant value
-    */
-   public Object getValue() {
-      return value;
-   }
+    @Override
+    public boolean isSimpleExpression() {
+        if (value == null) {
+            return false;
+        }
+        return Expression.validClasses.contains(value.getClass());
+    }
 
-   /**
-    * Sets the constant value of this expression
-    * @param value the constant value for this expression
-    */
-   public void setValue(Object value) {
-      this.value = value;
-   }
+    /**
+     * Gets the constant value of this expression
+     *
+     * @return this expression's constant value
+     */
+    public Object getValue() {
+        return value;
+    }
 
-   /**
-    * Returns something useful for logging
-    * @return something useful for logging
-    */
-   public String toString() {
-      return "ConstantExpression [value=" + value + "]";
-   }
+    /**
+     * Sets the constant value of this expression
+     *
+     * @param value the constant value for this expression
+     */
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    /**
+     * Returns something useful for logging
+     *
+     * @return something useful for logging
+     */
+    public String toString() {
+        return "ConstantExpression [value=" + value + "]";
+    }
 }

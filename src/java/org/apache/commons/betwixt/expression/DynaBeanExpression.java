@@ -75,6 +75,11 @@ public class DynaBeanExpression implements Expression {
       // do nothing
    }
 
+   @Override
+   public boolean isSimpleExpression() {
+      return false;
+   }
+
    /**
     * Gets the name of the property to get from the DynaBean.
     * @return the name of the property that this expression reads

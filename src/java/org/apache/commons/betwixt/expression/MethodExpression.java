@@ -114,6 +114,11 @@ public class MethodExpression implements Expression {
         // do nothing
     }
 
+    @Override
+    public boolean isSimpleExpression() {
+        return Expression.validClasses.contains(getMethod().getReturnType());
+    }
+
     /**
      * Gets the method used to evaluate this expression.
      *

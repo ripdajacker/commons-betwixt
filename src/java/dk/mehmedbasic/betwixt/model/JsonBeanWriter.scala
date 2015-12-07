@@ -13,11 +13,10 @@ import org.apache.commons.logging.LogFactory
 import scala.collection.JavaConverters._
 
 /**
- * The JSON-based class-hierarchy traversal tool.
- *
- * The class uses a JsonWriter from Gson to create the json tree.
- *
- */
+  * The JSON-based class-hierarchy traversal tool.
+  *
+  * The class uses a JsonWriter from Gson to create the json tree.
+  */
 class JsonBeanWriter(output: Writer) extends DescriptorImplicits {
    private val introspector: XMLIntrospector = new XMLIntrospector()
    private val log = LogFactory.getLog(getClass)
@@ -28,14 +27,13 @@ class JsonBeanWriter(output: Writer) extends DescriptorImplicits {
 
    def introspect(clazz: Class[_]) = introspector.introspect(clazz)
 
-   def traverse(bean: AnyRef): Unit = {
+   def write(bean: AnyRef): Unit = {
       json.setIndent("")
       json.beginObject()
 
       traverseInner(bean)
 
       json.endObject()
-      println()
    }
 
    def findReference(bean: Any) = Option(binding.getIdMappingStrategy.getReferenceFor(null, bean))
@@ -168,14 +166,14 @@ class JsonBeanWriter(output: Writer) extends DescriptorImplicits {
    def getXMLIntrospector = introspector
 
    /**
-    * Writes a primitive as a JSON value.
-    *
-    * If the value given is a string, a JSON string is written.
-    *
-    * @param name         the name of the property.
-    * @param propertyType the property class.
-    * @param value        the property value.
-    */
+     * Writes a primitive as a JSON value.
+     *
+     * If the value given is a string, a JSON string is written.
+     *
+     * @param name         the name of the property.
+     * @param propertyType the property class.
+     * @param value        the property value.
+     */
    private def writePrimitive(name: String, propertyType: Class[_], value: AnyRef): Unit = {
       if (propertyType.equals(classOf[Boolean])) {
          val boolean = value.asInstanceOf[Boolean]
@@ -221,12 +219,12 @@ class JsonBeanWriter(output: Writer) extends DescriptorImplicits {
 }
 
 /**
- * A node in the tree.
- *
- * @param name       the name of the node.
- * @param expression the betwixt node expression.
- * @param children   the list of children.
- */
+  * A node in the tree.
+  *
+  * @param name       the name of the node.
+  * @param expression the betwixt node expression.
+  * @param children   the list of children.
+  */
 class Node(val name: String, val propertyType: Class[_], val expression: Option[Expression], val children: List[Node]) extends DescriptorImplicits {
    def iteratorExpression: IteratorExpression = expression match {
       case None => children.head.iteratorExpression
@@ -234,10 +232,10 @@ class Node(val name: String, val propertyType: Class[_], val expression: Option[
    }
 
    /**
-    * Whether or not the node is a collection.
-    *
-    * @return the value.
-    */
+     * Whether or not the node is a collection.
+     *
+     * @return the value.
+     */
    def isCollection: Boolean = {
       expression match {
          case Some(e) => e.isInstanceOf[IteratorExpression]

@@ -89,6 +89,11 @@ public class IteratorExpression implements Expression {
       // do nothing
    }
 
+   @Override
+   public boolean isSimpleExpression() {
+      return false;
+   }
+
    /**
     * Returns something useful for logging
     * @return string useful for logging

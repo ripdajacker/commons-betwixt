@@ -59,6 +59,11 @@ public class StringExpression implements Expression {
       // do nothing
    }
 
+   @Override
+   public boolean isSimpleExpression() {
+      return true;
+   }
+
    /**
     * Returns something useful for logging.
     * @return the (short) class name
