@@ -24,8 +24,6 @@ class BetwixtJsonWriter {
 
     private JsonWriter json
 
-    private boolean didInline = false
-
     BetwixtJsonWriter(Writer output) {
         json = new JsonWriter(output)
     }
