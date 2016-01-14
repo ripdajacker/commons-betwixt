@@ -6,7 +6,6 @@ import org.apache.commons.betwixt.BindingConfiguration
 import org.apache.commons.betwixt.XMLBeanInfo
 import org.apache.commons.betwixt.XMLIntrospector
 import org.apache.commons.betwixt.expression.Context
-import org.apache.commons.betwixt.io.IDGenerator
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 
@@ -20,7 +19,7 @@ class BetwixtJsonWriter {
     XMLIntrospector introspector = new XMLIntrospector()
     BindingConfiguration binding = new BindingConfiguration()
 
-    private IDGenerator idGenerator = new HexIdGenerator()
+    private JsonNameUtil nameUtil = new JsonNameUtil()
 
     private JsonWriter json
 
@@ -56,7 +55,7 @@ class BetwixtJsonWriter {
         def id = binding.idMappingStrategy.getReferenceFor(null, bean)
         boolean idRef = id != null
         if (!id) {
-            id = idGenerator.nextId()
+            id = nameUtil.nextId()
         }
 
         def descriptor = new BetwixtJsonDescriptor(info.getElementDescriptor())
@@ -64,9 +63,9 @@ class BetwixtJsonWriter {
         // If it's a reference to a already written object, write the @ref file
         if (idRef) {
             if (!collection) {
-                json.name(nameWithoutId(name, descriptor))
+                json.name(nameUtil.nameWithoutId(name, descriptor))
             }
-            json.value("@ref:$id")
+            json.value(nameUtil.inlineReference(id))
             return
         }
 
@@ -85,7 +84,7 @@ class BetwixtJsonWriter {
         boolean inlined = false
 
         if (!collection) {
-            json.name(createName(descriptor, name, id))
+            json.name(nameUtil.nameWithId(descriptor, name, id))
 
             if (canBeInlined) {
                 if (!inlinedString) {
@@ -99,12 +98,12 @@ class BetwixtJsonWriter {
         } else {
             if (canBeInlined && inlinedString) {
                 // This is only true if the current descriptor is a leaf.
-                json.value("@id:#${id} $inlinedString")
+                json.value(nameUtil.inlineValue(id, inlinedString))
                 inlined = true
             } else {
                 json.beginObject()
                 json.name("@tag")
-                json.value("${descriptor.name} #$id")
+                json.value(nameUtil.nameWithId(descriptor, "", id))
             }
         }
         if (!canBeInlined) {
@@ -189,30 +188,5 @@ class BetwixtJsonWriter {
         new Context(bean, log, binding)
     }
 
-    /**
-     * Creates a JSON name from the given descriptor, the name of it in the context and the ID of the bean.
-     *
-     * @param descriptor the descriptor.
-     * @param name the name of the bean in the given context.
-     * @param id the ID of the bean.
-     *
-     * @return the generated name.
-     */
-    private static String createName(BetwixtJsonDescriptor descriptor, String name, String id) {
-        if (name.isEmpty()) {
-            name = descriptor.name
-        }
-        return "${name} #${id}"
-
-    }
-
-    private static String nameWithoutId(String name, BetwixtJsonDescriptor descriptor) {
-        if (!name || name.trim().isEmpty()) {
-            return descriptor.name
-        } else {
-            return name
-        }
-
-    }
 
 }
