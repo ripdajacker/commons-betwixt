@@ -90,7 +90,7 @@ public class IteratorExpression implements Expression {
    }
 
    @Override
-   public boolean isSimpleExpression() {
+   public boolean isPrimitiveResult() {
       return false;
    }
 

@@ -115,7 +115,7 @@ public class MethodExpression implements Expression {
     }
 
     @Override
-    public boolean isSimpleExpression() {
+    public boolean isPrimitiveResult() {
         return Expression.validClasses.contains(getMethod().getReturnType());
     }
 

@@ -54,7 +54,7 @@ public interface Expression {
      *
      * @return true or false.
      */
-    boolean isSimpleExpression();
+    boolean isPrimitiveResult();
 
     List<? extends Class> validClasses = Arrays.asList(
             int.class, Integer.class,

@@ -56,7 +56,7 @@ public class EmptyExpression implements Expression {
    }
 
    @Override
-   public boolean isSimpleExpression() {
+   public boolean isPrimitiveResult() {
       return false;
    }
 

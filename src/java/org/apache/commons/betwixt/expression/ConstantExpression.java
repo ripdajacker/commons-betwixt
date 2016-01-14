@@ -66,7 +66,7 @@ public class ConstantExpression implements Expression {
     }
 
     @Override
-    public boolean isSimpleExpression() {
+    public boolean isPrimitiveResult() {
         if (value == null) {
             return false;
         }

@@ -76,7 +76,7 @@ public class DynaBeanExpression implements Expression {
    }
 
    @Override
-   public boolean isSimpleExpression() {
+   public boolean isPrimitiveResult() {
       return false;
    }
 
