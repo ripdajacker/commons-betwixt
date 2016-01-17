@@ -13,12 +13,8 @@ import java.util.regex.Pattern
  */
 @TypeChecked
 @PackageScope
-class JsonNameUtil {
-    private static Pattern PATTERN_NAME_AND_ID = Pattern.compile("([A-Za-z0-9]+) #([0-9a-f]+)")
-    private static Pattern PATTERN_INLINE_VALUE = Pattern.compile("@id:([0-9a-f]+) (.+)")
-    private static Pattern PATTERN_INLINE_REFERENCE = Pattern.compile("@ref:([0-9a-f]+)")
-
-    private IDGenerator idGenerator = new HexIdGenerator()
+class JsonWriterNameGenerator {
+      private IDGenerator idGenerator = new HexIdGenerator()
 
     /**
      * Gets the next id.
@@ -87,55 +83,4 @@ class JsonNameUtil {
         return "@ref:$id"
     }
 
-    /**
-     * Parse name and id.
-     *
-     * @param jsonName the source.
-     *
-     * @return a tuple of name and id.
-     */
-    @SuppressWarnings("GrMethodMayBeStatic")
-    Tuple2<String, String> parseNameAndId(String jsonName) {
-        def matcher = PATTERN_NAME_AND_ID.matcher(jsonName)
-        if (matcher.find()) {
-            def group1 = matcher.group(1)
-            def group2 = matcher.group(2)
-
-            return new Tuple2<String, String>(group1, group2)
-        }
-        return null
-    }
-    /**
-     * Parse name and id.
-     *
-     * @param jsonValue the source.
-     *
-     * @return a tuple of name and id.
-     */
-    @SuppressWarnings("GrMethodMayBeStatic")
-    Tuple2<String, String> parseInlinedValue(String jsonValue) {
-        def matcher = PATTERN_INLINE_VALUE.matcher(jsonValue)
-        if (matcher.find()) {
-            def group1 = matcher.group(1)
-            def group2 = matcher.group(2)
-
-            return new Tuple2<String, String>(group1, group2)
-        }
-        return null
-    }
-    /**
-     * Parses the reference in the json string.
-     *
-     * @param jsonValue the value.
-     *
-     * @return the reference.
-     */
-    @SuppressWarnings("GrMethodMayBeStatic")
-    String parseReference(String jsonValue) {
-        def matcher = PATTERN_INLINE_REFERENCE.matcher(jsonValue)
-        if (matcher.find()) {
-            return matcher.group(1)
-        }
-        return null
-    }
 }

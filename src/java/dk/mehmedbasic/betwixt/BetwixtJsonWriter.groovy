@@ -19,7 +19,7 @@ class BetwixtJsonWriter {
     XMLIntrospector introspector = new XMLIntrospector()
     BindingConfiguration binding = new BindingConfiguration()
 
-    private JsonNameUtil nameUtil = new JsonNameUtil()
+    private JsonWriterNameGenerator nameUtil = new JsonWriterNameGenerator()
 
     private JsonWriter json
 
