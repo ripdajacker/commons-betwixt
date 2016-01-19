@@ -71,10 +71,6 @@ public abstract class AbstractBeanWriter {
     public void end() throws IOException, SAXException {
     }
 
-    public String getJson() {
-        ""
-    }
-
     /**
      * <p> Writes the given bean to the current stream using the XML introspector.</p>
      *
@@ -691,7 +687,7 @@ public abstract class AbstractBeanWriter {
             }
 
             Attributes attributes = addNamespaceDeclarations(
-                    new ElementAttributes(elementDescriptor, context), namespaceUri);
+                    new ElementAttributes(bindingConfiguration, elementDescriptor, context), namespaceUri);
             writeContext.setCurrentDescriptor(elementDescriptor);
             startElement(
                     writeContext,
@@ -770,6 +766,7 @@ public abstract class AbstractBeanWriter {
         if (!ignoreElement(elementDescriptor, namespaceUri, localName, qualifiedName, context)) {
             writeContext.setCurrentDescriptor(elementDescriptor);
             Attributes attributes = new IDElementAttributes(
+                    bindingConfiguration,
                     elementDescriptor,
                     context,
                     idAttribute,
@@ -1088,15 +1085,16 @@ public abstract class AbstractBeanWriter {
      * Attributes backed by attribute descriptors.
      * ID/IDREFs not set.
      */
-    private class ElementAttributes implements Attributes {
+    public static class ElementAttributes implements Attributes {
         /** Attribute descriptors backing the <code>Attributes</code> */
-        private AttributeDescriptor[] attributes;
+        private AttributeDescriptor[] attributes
         /** Context to be evaluated when finding values */
-        private Context context;
+        private Context context
         /** Cached attribute values */
-        private String[] values;
+        private String[] values
         /** The number of unsuppressed attributes */
-        private int length;
+        private int length
+        private BindingConfiguration bindingConfiguration
 
         /**
          * Construct attributes for element and context.
@@ -1104,26 +1102,33 @@ public abstract class AbstractBeanWriter {
          * @param descriptor the <code>ElementDescriptor</code> describing the element
          * @param context evaluate against this context
          */
-        ElementAttributes(ElementDescriptor descriptor, Context context) {
-            this.context = context;
-            init(descriptor.getAttributeDescriptors());
+        ElementAttributes(BindingConfiguration bindingConfiguration, ElementDescriptor descriptor, Context context) {
+            this.context = context
+            this.bindingConfiguration = bindingConfiguration
+            init(descriptor.getAttributeDescriptors())
         }
 
         private void init(AttributeDescriptor[] baseAttributes) {
-            attributes = new AttributeDescriptor[baseAttributes.length];
             values = new String[baseAttributes.length];
             int index = 0;
-            int size = baseAttributes.length
-            for (int i = 0; i < size; i++) {
-                AttributeDescriptor baseAttribute = baseAttributes[i];
-                String attributeValue = valueAttribute(baseAttribute);
-                if (attributeValue != null
-                        && !context.getValueSuppressionStrategy()
-                        .suppressAttribute(baseAttribute, attributeValue)) {
-                    values[index] = attributeValue;
-                    attributes[index] = baseAttribute;
-                    index++;
+            if (context != null) {
+                int size = baseAttributes.length
+                attributes = new AttributeDescriptor[baseAttributes.length];
+
+                for (int i = 0; i < size; i++) {
+                    AttributeDescriptor baseAttribute = baseAttributes[i];
+                    String attributeValue = valueAttribute(baseAttribute);
+
+                    if (attributeValue != null
+                            && !bindingConfiguration.valueSuppressionStrategy
+                            .suppressAttribute(baseAttribute, attributeValue)) {
+                        values[index] = attributeValue;
+                        attributes[index] = baseAttribute;
+                        index++;
+                    }
                 }
+            } else {
+                attributes = new AttributeDescriptor[0];
             }
             length = index;
         }
@@ -1132,7 +1137,7 @@ public abstract class AbstractBeanWriter {
             Expression expression = attribute.getTextExpression();
             if (expression != null) {
                 Object value = expression.evaluate(context);
-                return convertToString(value, attribute, context);
+                return convertToString(bindingConfiguration, value, attribute, context);
             }
 
             return "";
@@ -1335,11 +1340,12 @@ public abstract class AbstractBeanWriter {
          * @param idValue the ID attribute value
          */
         IDElementAttributes(
+                BindingConfiguration bindingConfiguration,
                 ElementDescriptor descriptor,
                 Context context,
                 String idAttributeName,
                 String idValue) {
-            super(descriptor, context);
+            super(bindingConfiguration, descriptor, context);
             this.idValue = idValue;
             this.idAttributeName = idAttributeName;
 
@@ -1757,7 +1763,19 @@ public abstract class AbstractBeanWriter {
      * @return String representation, not null
      */
     private String convertToString(Object value, Descriptor descriptor, Context context) {
-        return getBindingConfiguration()
+        return convertToString(bindingConfiguration, value, descriptor, context);
+    }
+    /**
+     * Converts an object to a string.
+     *
+     * @param value the Object to represent as a String, possibly null
+     * @param descriptor writing out this descriptor not null
+     * @param context not null
+     * @return String representation, not null
+     */
+    private
+    static String convertToString(BindingConfiguration config, Object value, Descriptor descriptor, Context context) {
+        return config
                 .getObjectStringConverter()
                 .objectToString(value, descriptor.getPropertyType(), context);
     }

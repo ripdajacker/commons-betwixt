@@ -24,7 +24,7 @@ class BetwixtJsonWriter {
     private JsonWriter json
 
     BetwixtJsonWriter(Writer output) {
-        json = new JsonWriter(output)
+        json = new JsonWriter(new BufferedWriter(output))
     }
 
     XMLBeanInfo introspect(Class clazz) {
@@ -109,7 +109,8 @@ class BetwixtJsonWriter {
         if (!canBeInlined) {
             for (BetwixtJsonDescriptor child : descriptor.children) {
                 if (child.isCollection()) {
-                    Iterator iterator = child.evaluateAsCollection(context) as Iterator
+                    def potential = child.evaluateAsIterator(context)
+                    Iterator iterator = potential as Iterator
                     if (iterator.hasNext()) {
                         json.name(child.name)
                         json.beginArray()
@@ -161,13 +162,13 @@ class BetwixtJsonWriter {
             json.value(value as int)
         } else if (propertyType in [Double, double]) {
             def doubleValue = value as double
-            if (!doubleValue.naN) {
+            if (!doubleValue.naN && !doubleValue.infinite) {
                 json.name(name)
                 json.value(doubleValue)
             }
         } else if (propertyType in [Float, float]) {
             def floatValue = value as float
-            if (!floatValue.naN) {
+            if (!floatValue.naN && !floatValue.infinite) {
                 json.name(name)
                 json.value(floatValue)
             }
@@ -181,6 +182,7 @@ class BetwixtJsonWriter {
     }
 
     void close() {
+        json.flush()
         json.close()
     }
 
