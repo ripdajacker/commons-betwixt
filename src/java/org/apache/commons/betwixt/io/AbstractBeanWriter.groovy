@@ -1151,9 +1151,11 @@ public abstract class AbstractBeanWriter {
          */
         public int getIndex(String qName) {
             for (int i = 0; i < attributes.length; i++) {
-                if (attributes[i].getQualifiedName() != null
-                        && attributes[i].getQualifiedName().equals(qName)) {
-                    return i;
+                def descriptor = attributes[i]
+                if (descriptor) {
+                    if (descriptor.getQualifiedName() != null && descriptor.getQualifiedName().equals(qName)) {
+                        return i;
+                    }
                 }
             }
             return -1;

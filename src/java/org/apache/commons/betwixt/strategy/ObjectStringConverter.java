@@ -20,6 +20,8 @@ import org.apache.commons.betwixt.Options;
 import org.apache.commons.betwixt.expression.Context;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>Strategy class for string &lt;-&gt; object conversions.
@@ -138,9 +140,13 @@ public class ObjectStringConverter implements Serializable {
     }
 
     public boolean canHandle(Class type) {
-        if (type != null) {
-            return String.class.isAssignableFrom(type) || int.class.isAssignableFrom(type);
-        }
-        return false;
+        return type != null && implicit.contains(type);
     }
+
+    public static final List<? extends Class> implicit = Arrays.asList(
+            int.class, Integer.class,
+            float.class, Float.class,
+            double.class, Double.class,
+            boolean.class, Boolean.class,
+            String.class);
 }

@@ -54,7 +54,7 @@ class BetwixtJsonReader {
 
         def root = createBean("", descriptor)
         def next = rootTree.getElements().iterator().next()
-        readObject(root, rootKey, next, descriptor, null)
+        readObject(root, rootKey, next, descriptor, false, null)
         return returnType.cast(root)
     }
 
@@ -65,16 +65,69 @@ class BetwixtJsonReader {
     private void readObject(Object bean, String mainJsonName,
                             JsonNode jsonElement,
                             BetwixtJsonDescriptor thisDescriptor,
+                            boolean potentialInline,
                             Collection parentCollection) {
         def beanData = new BetwixtJsonData(mainJsonName)
         if (beanData.id) {
-            bean = binding.idMappingStrategy.getReferenced(null, beanData.id)
-        } else if (!thisDescriptor) {
-            def tagElement = jsonElement.get("@tag")
-            if (tagElement != null) {
-                beanData = new BetwixtJsonData(tagElement.textValue)
-                thisDescriptor = registry.lookupName(beanData.propertyName)
-                bean = thisDescriptor.createInstance(beanData, log, readConfiguration, binding)
+            log.info("Found id '${beanData.id}' for name $mainJsonName")
+        }
+        if (beanData.idRef) {
+            bean = binding.idMappingStrategy.getReferenced(null, beanData.idRef)
+        } else {
+            if (!thisDescriptor) {
+                def tagElement = jsonElement.get("@tag")
+                if (tagElement != null) {
+                    beanData = new BetwixtJsonData(tagElement.textValue)
+                    thisDescriptor = registry.lookupName(beanData.propertyName)
+
+                    def childBean = thisDescriptor.createInstance(beanData, log, readConfiguration, binding)
+                    if (beanData.id && childBean) {
+                        binding.idMappingStrategy.setReference(null, childBean, beanData.id)
+                    }
+                    if (parentCollection != null) {
+                        parentCollection.add(childBean)
+                    } else {
+                        if (thisDescriptor.updater != null) {
+                            thisDescriptor.updater.update(ctx(bean), childBean)
+                        }
+                    }
+
+                    if (!bean) {
+                        bean = childBean
+                    }
+                }
+            } else if (potentialInline) {
+                if (jsonElement.isTextual()) {
+                    def value = jsonElement.textValue
+
+                    def childData = new BetwixtJsonData(value)
+                    if (childData.inlineValue) {
+                        log.info("String inlined value ${childData.inlineValue}")
+                    } else {
+                        def childBean
+                        if (childData.idRef) {
+                            childBean = binding.idMappingStrategy.getReferenced(null, childData.idRef)
+                        } else {
+                            childBean = binding.objectStringConverter.stringToObject(value, thisDescriptor.propertyType, ctx(bean))
+                        }
+                        log.info("Resolved '$childBean' from '$value'")
+                        if (beanData.id && childBean) {
+                            binding.idMappingStrategy.setReference(null, childBean, beanData.id)
+                        }
+
+                        if (parentCollection != null) {
+                            parentCollection.add(childBean)
+                        } else {
+                            thisDescriptor.updater.update(ctx(bean), childBean)
+                        }
+
+                        if (!bean) {
+                            bean = childBean
+                        }
+                    }
+                }
+            } else if (!bean) {
+                println("Woop woop $jsonElement")
             }
         }
 
@@ -82,11 +135,12 @@ class BetwixtJsonReader {
         if (!thisDescriptor && !parentCollection) {
             // This should not happen
             log.error("Descriptor not found for child in $mainJsonName")
-            return
+//            return
         }
 
+
         if (parentCollection) {
-            parentCollection.add(bean)
+//            parentCollection.add(bean)Z
         }
 
         for (String childName : jsonElement.fieldNames) {
@@ -101,6 +155,7 @@ class BetwixtJsonReader {
                 log.warn("Descriptor not found for property name '$propertyName', json name '$childName'")
                 continue
             }
+            def canBeInlined = binding.objectStringConverter.canHandle(descriptor.propertyType)
 
             def childElement = jsonElement.get(childName)
             if (descriptor.primitive) {
@@ -112,15 +167,15 @@ class BetwixtJsonReader {
                 def elements = arrayNode.elements
                 while (elements.hasNext()) {
                     JsonNode node = elements.next();
-                    readObject(null, "", node, null, collection)
+                    readObject(null, "", node, null, canBeInlined, collection)
                 }
             } else {
                 if (descriptor.element) {
                     def instance = descriptor.createInstance(holder, log, readConfiguration, binding)
-                    readObject(instance, childName, childElement, descriptor, null)
+                    readObject(instance, childName, childElement, descriptor, canBeInlined, null)
                     descriptor.updater.update(ctx(bean), instance)
-                }    else {
-                    // I am an attribute
+                } else {
+                    readObject(bean, childName, childElement, descriptor, true, null)
                 }
             }
 
