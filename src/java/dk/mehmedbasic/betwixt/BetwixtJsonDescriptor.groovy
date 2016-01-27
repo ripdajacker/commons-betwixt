@@ -56,11 +56,26 @@ class BetwixtJsonDescriptor {
         return children.head().iteratorExpression()
     }
 
+    boolean isHollow() {
+        if (originalDescriptor instanceof ElementDescriptor) {
+            def descriptor = originalDescriptor as ElementDescriptor
+            return descriptor.hollow
+        }
+        return false
+    }
+
     boolean isCollection() {
         if (expression) {
             return expression instanceof IteratorExpression
         }
-        return children.size() == 1 && children.head().isCollection()
+        return false
+    }
+
+    boolean onlyChildIsCollection() {
+        if (children.size() != 1) {
+            return false
+        }
+        return children.get(0).collection
     }
 
     boolean isPrimitive() {
@@ -89,7 +104,8 @@ class BetwixtJsonDescriptor {
     Collection evaluateAsCollection(Context context) {
         def expression = iteratorExpression()
         if (expression) {
-            return expression.evaluate(context) as Collection
+            def iteratorExpression = expression as IteratorExpression
+            return iteratorExpression.expression.evaluate(context) as Collection
         }
         return null
     }
@@ -103,7 +119,7 @@ class BetwixtJsonDescriptor {
         }
         if (element) {
 
-            def mapping = fakeElementMapping(bindingConfiguration, data)
+            def mapping = fakeElementMapping(bindingConfiguration, data, log)
             def readContext = new ReadContext(log, bindingConfiguration, readConfiguration)
 
             return readConfiguration.beanCreationChain.create(mapping, readContext)
@@ -120,12 +136,14 @@ class BetwixtJsonDescriptor {
         return originalDescriptor instanceof ElementDescriptor
     }
 
-    private ElementMapping fakeElementMapping(BindingConfiguration configuration, BetwixtJsonData data) {
+    private ElementMapping fakeElementMapping(BindingConfiguration configuration, BetwixtJsonData data, Log log) {
 
         def mapping = new ElementMapping()
 
         def elementDescriptor = this.originalDescriptor as ElementDescriptor
-        mapping.attributes = new AbstractBeanWriter.ElementAttributes(configuration, elementDescriptor, null)
+
+        def context = new Context(null, log)
+        mapping.attributes = new AbstractBeanWriter.ElementAttributes(configuration, elementDescriptor, context)
         mapping.descriptor = elementDescriptor
         mapping.name = data.propertyName ?: ""
         mapping.namespace = ""

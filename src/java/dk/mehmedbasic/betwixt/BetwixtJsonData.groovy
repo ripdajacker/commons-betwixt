@@ -15,13 +15,14 @@ class BetwixtJsonData {
 
     String propertyName
     String id
+    String idRef
     String inlineValue
 
     BetwixtJsonData(String jsonName) {
         def type = determineType(jsonName)
         switch (type) {
             case NameType.INLINE_REFERENCE:
-                id = parseReference(jsonName)
+                idRef = parseReference(jsonName)
                 break
             case NameType.INLINE_VALUE:
                 def value = parseInlinedValue(jsonName)

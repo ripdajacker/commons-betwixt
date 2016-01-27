@@ -4,8 +4,6 @@ import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.io.IDGenerator
 
-import java.util.regex.Pattern
-
 /**
  * The name util for JSON writing/reading.
  *
@@ -14,7 +12,7 @@ import java.util.regex.Pattern
 @TypeChecked
 @PackageScope
 class JsonWriterNameGenerator {
-      private IDGenerator idGenerator = new HexIdGenerator()
+    private IDGenerator idGenerator = new HexIdGenerator()
 
     /**
      * Gets the next id.
@@ -67,8 +65,12 @@ class JsonWriterNameGenerator {
      * @return the combined string.
      */
     @SuppressWarnings("GrMethodMayBeStatic")
-    String inlineValue(String id, String value) {
-        return "@id:${id} $value"
+    String inlineValue(BetwixtJsonDescriptor descriptor, String id, String value) {
+        return "@${descriptor.name} #${id}:$value"
+    }
+
+    String inlineValueInCollection() {
+
     }
 
     /**
