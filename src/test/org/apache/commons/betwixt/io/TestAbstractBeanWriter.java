@@ -56,13 +56,13 @@ public class TestAbstractBeanWriter extends AbstractTestCase {
       ElementDescriptor movieElementdescriptor
             = movieXmlBeanInfo.getElementDescriptor();
       ElementDescriptor nameDescriptor
-            = movieElementdescriptor.getElementDescriptors()[0];
+              = movieElementdescriptor.getElementDescriptors().get(0);
       ElementDescriptor yearDescriptor
-            = movieElementdescriptor.getElementDescriptors()[1];
+              = movieElementdescriptor.getElementDescriptors().get(1);
       ElementDescriptor directorDescriptor
-            = movieElementdescriptor.getElementDescriptors()[2];
+              = movieElementdescriptor.getElementDescriptors().get(2);
       ElementDescriptor actorsDescriptor
-            = movieElementdescriptor.getElementDescriptors()[3];
+              = movieElementdescriptor.getElementDescriptors().get(3);
       ElementDescriptor personDescriptor
             = personXmlBeanInfo.getElementDescriptor();
 

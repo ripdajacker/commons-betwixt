@@ -29,6 +29,7 @@ import org.apache.commons.betwixt.io.BeanWriter;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 /**
  * @author Brian Pugh
@@ -74,8 +75,8 @@ public class TestLoopType extends TestCase {
       ElementDescriptor ignoreDescriptor = beanInfo.getElementDescriptor();
 
       assertEquals("element name matches", "ignore", ignoreDescriptor.getLocalName());
-      ElementDescriptor[] childDescriptors = ignoreDescriptor.getElementDescriptors();
-      assertEquals("number of child elements", 1, childDescriptors.length);
+      java.util.List<ElementDescriptor> childDescriptors = ignoreDescriptor.getElementDescriptors();
+      assertEquals("number of child elements", 1, childDescriptors.size());
 
    }
 
@@ -90,10 +91,10 @@ public class TestLoopType extends TestCase {
       ElementDescriptor ignoreDescriptor = beanInfo.getElementDescriptor();
 
       assertEquals("element name matches", "ignore", ignoreDescriptor.getLocalName());
-      ElementDescriptor[] childDescriptors = ignoreDescriptor.getElementDescriptors();
-      assertEquals("number of child elements", 2, childDescriptors.length);
-      for (int i = 0; i < childDescriptors.length; i++) {
-         ElementDescriptor descriptor = childDescriptors[i];
+      java.util.List<ElementDescriptor> childDescriptors = ignoreDescriptor.getElementDescriptors();
+      assertEquals("number of child elements", 2, childDescriptors.size());
+      for (int i = 0; i < childDescriptors.size(); i++) {
+         ElementDescriptor descriptor = childDescriptors.get(i);
          if (descriptor.getLocalName().equals("gammas")) {
             assertNull(
                   "Expected descriptor to be null since adders must be explicitly listed.",
@@ -102,9 +103,9 @@ public class TestLoopType extends TestCase {
             assertEquals("alpha", descriptor.getLocalName());
          }
       }
-      AttributeDescriptor[] attributes = ignoreDescriptor.getAttributeDescriptors();
-      assertEquals(1, attributes.length);
-      assertEquals("beta", attributes[0].getLocalName());
+      List<AttributeDescriptor> attributes = ignoreDescriptor.getAttributeDescriptors();
+      assertEquals(1, attributes.size());
+      assertEquals("beta", attributes.get(0).getLocalName());
    }
 
    //TODO: complete these tests after refactoring the element descriptors produced is complete
@@ -113,11 +114,11 @@ public class TestLoopType extends TestCase {
       XMLBeanInfo beanInfo = introspector.introspect(LibraryBean.class);
       ElementDescriptor libraryDescriptor = beanInfo.getElementDescriptor();
 
-      AttributeDescriptor[] libraryAttributeDescriptors = libraryDescriptor.getAttributeDescriptors();
-      assertEquals("Only one attribute", 1, libraryAttributeDescriptors.length);
+      List<AttributeDescriptor> libraryAttributeDescriptors = libraryDescriptor.getAttributeDescriptors();
+      assertEquals("Only one attribute", 1, libraryAttributeDescriptors.size());
 
-      ElementDescriptor[] libraryElementDescriptors = libraryDescriptor.getElementDescriptors();
-      assertEquals("Only one element", 1, libraryElementDescriptors.length);
+      java.util.List<ElementDescriptor> libraryElementDescriptors = libraryDescriptor.getElementDescriptors();
+      assertEquals("Only one element", 1, libraryElementDescriptors.size());
 
 
    }

@@ -64,9 +64,9 @@ public class TestDigestDotBetwixt extends TestCase {
       assertEquals("Value two set on base", "value two", baseDescriptor.getOptions().getValue("two"));
       assertNull("Value three not set on base", baseDescriptor.getOptions().getValue("three"));
 
-      assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().length);
+      assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().size());
 
-      ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors()[0];
+      ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors().get(0);
       assertNull("Value one set on base", childDescriptor.getOptions().getValue("one"));
       assertNull("Value two set on base", childDescriptor.getOptions().getValue("two"));
       assertEquals("Value three set on child", "value three", childDescriptor.getOptions().getValue("three"));

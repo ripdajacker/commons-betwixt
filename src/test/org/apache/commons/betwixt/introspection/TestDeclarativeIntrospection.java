@@ -42,10 +42,10 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(CompanyBean.class);
 
       ElementDescriptor companyBeanDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = companyBeanDescriptor.getElementDescriptors();
-      assertEquals("Correct number of child descriptors", 1, childDescriptors.length);
+      java.util.List<ElementDescriptor> childDescriptors = companyBeanDescriptor.getElementDescriptors();
+      assertEquals("Correct number of child descriptors", 1, childDescriptors.size());
 
-      ElementDescriptor addressDescriptor = childDescriptors[0];
+      ElementDescriptor addressDescriptor = childDescriptors.get(0);
       assertEquals("standard property is hollow", true, addressDescriptor.isHollow());
    }
 
@@ -57,13 +57,13 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(CompanyBean.class);
 
       ElementDescriptor companyBeanDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = companyBeanDescriptor.getElementDescriptors();
-      assertEquals("Correct number of child descriptors", 2, childDescriptors.length);
+      java.util.List<ElementDescriptor> childDescriptors = companyBeanDescriptor.getElementDescriptors();
+      assertEquals("Correct number of child descriptors", 2, childDescriptors.size());
 
       ElementDescriptor nameDescriptor = null;
-      for (int i = 0, size = childDescriptors.length; i < size; i++) {
-         if ("name".equals(childDescriptors[i].getLocalName())) {
-            nameDescriptor = childDescriptors[i];
+      for (int i = 0, size = childDescriptors.size(); i < size; i++) {
+         if ("name".equals(childDescriptors.get(i).getLocalName())) {
+            nameDescriptor = childDescriptors.get(i);
          }
       }
 
@@ -80,17 +80,17 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       // with wrapped collective, we expect a spacer element descriptor
       // (for the collective) containing a single collective descriptor
       ElementDescriptor phoneBookBeanDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] phoneBookChildDescriptors = phoneBookBeanDescriptor.getElementDescriptors();
-      assertEquals("Expected single wrapping descriptor", 1, phoneBookChildDescriptors.length);
+      java.util.List<ElementDescriptor> phoneBookChildDescriptors = phoneBookBeanDescriptor.getElementDescriptors();
+      assertEquals("Expected single wrapping descriptor", 1, phoneBookChildDescriptors.size());
 
-      ElementDescriptor wrappingDescriptor = phoneBookChildDescriptors[0];
+      ElementDescriptor wrappingDescriptor = phoneBookChildDescriptors.get(0);
       assertNull("Spacer should not have an updater", wrappingDescriptor.getUpdater());
       assertEquals("Wrapper element name should match getter", "numbers", wrappingDescriptor.getQualifiedName());
 
-      ElementDescriptor[] wrappingChildDescriptors = wrappingDescriptor.getElementDescriptors();
-      assertEquals("Expected single child for wrapping descriptor", 1, wrappingChildDescriptors.length);
+      java.util.List<ElementDescriptor> wrappingChildDescriptors = wrappingDescriptor.getElementDescriptors();
+      assertEquals("Expected single child for wrapping descriptor", 1, wrappingChildDescriptors.size());
 
-      ElementDescriptor hollowPhoneNumberDescriptor = wrappingChildDescriptors[0];
+      ElementDescriptor hollowPhoneNumberDescriptor = wrappingChildDescriptors.get(0);
       assertTrue("Expected wrapped descriptor to be hollow", hollowPhoneNumberDescriptor.isHollow());
       assertEquals(
             "Expected the collective property type to be a list",
@@ -117,10 +117,10 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       // with wrapped collective, we expect a spacer element descriptor
       // (for the collective) containing a single collective descriptor
       ElementDescriptor phoneBookBeanDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] phoneBookChildDescriptors = phoneBookBeanDescriptor.getElementDescriptors();
-      assertEquals("Expected single child descriptor", 1, phoneBookChildDescriptors.length);
+      java.util.List<ElementDescriptor> phoneBookChildDescriptors = phoneBookBeanDescriptor.getElementDescriptors();
+      assertEquals("Expected single child descriptor", 1, phoneBookChildDescriptors.size());
 
-      ElementDescriptor hollowPhoneNumberDescriptor = phoneBookChildDescriptors[0];
+      ElementDescriptor hollowPhoneNumberDescriptor = phoneBookChildDescriptors.get(0);
 
       assertTrue("Expected collective element descriptor to be hollow", hollowPhoneNumberDescriptor.isHollow());
       assertEquals(
@@ -144,24 +144,24 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(DateFormatterBean.class);
 
       ElementDescriptor formatterDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+      java.util.List<ElementDescriptor> formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
 
-      assertEquals("Only one top level child", 1, formatterChildDescriptors.length);
+      assertEquals("Only one top level child", 1, formatterChildDescriptors.size());
 
-      ElementDescriptor entryDescriptor = formatterChildDescriptors[0];
+      ElementDescriptor entryDescriptor = formatterChildDescriptors.get(0);
       assertEquals("Must be called entry", "entry", entryDescriptor.getLocalName());
       assertFalse("Is not hollow", entryDescriptor.isHollow());
       assertNull("No updater for entry spacer", entryDescriptor.getUpdater());
 
-      ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
-      assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+      java.util.List<ElementDescriptor> entryChildDesciptors = entryDescriptor.getElementDescriptors();
+      assertEquals("Entry has two children", 2, entryChildDesciptors.size());
 
-      ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+      ElementDescriptor keyDescriptor = entryChildDesciptors.get(0);
       assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", keyDescriptor.isHollow());
       assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
 
-      ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+      ElementDescriptor valueDescriptor = entryChildDesciptors.get(1);
       assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", valueDescriptor.isHollow());
       assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
@@ -174,32 +174,32 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(DateFormatterBean.class);
 
       ElementDescriptor formatterDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+      java.util.List<ElementDescriptor> formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
 
-      assertEquals("Only one top level child", 1, formatterChildDescriptors.length);
+      assertEquals("Only one top level child", 1, formatterChildDescriptors.size());
 
-      ElementDescriptor spacerDescriptor = formatterChildDescriptors[0];
+      ElementDescriptor spacerDescriptor = formatterChildDescriptors.get(0);
       assertEquals("Spacer must be called formats", "formats", spacerDescriptor.getLocalName());
       assertFalse("Is not hollow", spacerDescriptor.isHollow());
       assertNull("No updater for entry spacer", spacerDescriptor.getUpdater());
 
-      ElementDescriptor[] spacerChildDescriptors = spacerDescriptor.getElementDescriptors();
-      assertEquals("Only one top level child", 1, spacerChildDescriptors.length);
+      java.util.List<ElementDescriptor> spacerChildDescriptors = spacerDescriptor.getElementDescriptors();
+      assertEquals("Only one top level child", 1, spacerChildDescriptors.size());
 
-      ElementDescriptor entryDescriptor = spacerChildDescriptors[0];
+      ElementDescriptor entryDescriptor = spacerChildDescriptors.get(0);
       assertEquals("Must be called entry", "entry", entryDescriptor.getLocalName());
       assertFalse("Is not hollow", entryDescriptor.isHollow());
       assertNull("No updater for entry spacer", entryDescriptor.getUpdater());
 
-      ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
-      assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+      java.util.List<ElementDescriptor> entryChildDesciptors = entryDescriptor.getElementDescriptors();
+      assertEquals("Entry has two children", 2, entryChildDesciptors.size());
 
-      ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+      ElementDescriptor keyDescriptor = entryChildDesciptors.get(0);
       assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", keyDescriptor.isHollow());
       assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
 
-      ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+      ElementDescriptor valueDescriptor = entryChildDesciptors.get(1);
       assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", valueDescriptor.isHollow());
       assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
@@ -216,19 +216,19 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
 
       assertFalse("Phone number descriptor is complex", phoneNumberDescriptor.isSimple());
 
-      ElementDescriptor[] phoneNumberChildDescriptors = phoneNumberDescriptor.getElementDescriptors();
-      assertEquals("Expected three child elements", 3, phoneNumberChildDescriptors.length);
+      java.util.List<ElementDescriptor> phoneNumberChildDescriptors = phoneNumberDescriptor.getElementDescriptors();
+      assertEquals("Expected three child elements", 3, phoneNumberChildDescriptors.size());
 
       // all children should be simple
       assertTrue(
-            "Descriptor " + phoneNumberChildDescriptors[0] + " should be simple",
-            phoneNumberChildDescriptors[0].isSimple());
+              "Descriptor " + phoneNumberChildDescriptors.get(0) + " should be simple",
+              phoneNumberChildDescriptors.get(0).isSimple());
       assertTrue(
-            "Descriptor " + phoneNumberChildDescriptors[1] + " should be simple",
-            phoneNumberChildDescriptors[1].isSimple());
+              "Descriptor " + phoneNumberChildDescriptors.get(1) + " should be simple",
+              phoneNumberChildDescriptors.get(1).isSimple());
       assertTrue(
-            "Descriptor " + phoneNumberChildDescriptors[2] + " should be simple",
-            phoneNumberChildDescriptors[2].isSimple());
+              "Descriptor " + phoneNumberChildDescriptors.get(2) + " should be simple",
+              phoneNumberChildDescriptors.get(2).isSimple());
    }
 
    public void testSimpleForRSS() throws Exception {
@@ -238,31 +238,31 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(Channel.class);
 
       ElementDescriptor channelDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] childNodesOfRSS = channelDescriptor.getElementDescriptors();
-      assertEquals("RSS has only one child, channel", 1, childNodesOfRSS.length);
-      ElementDescriptor[] childNodesOfChannel = childNodesOfRSS[0].getElementDescriptors();
+      java.util.List<ElementDescriptor> childNodesOfRSS = channelDescriptor.getElementDescriptors();
+      assertEquals("RSS has only one child, channel", 1, childNodesOfRSS.size());
+      java.util.List<ElementDescriptor> childNodesOfChannel = childNodesOfRSS.get(0).getElementDescriptors();
 
       boolean matched = false;
-      for (int i = 0, size = childNodesOfChannel.length; i < size; i++) {
-         if ("item".equals(childNodesOfChannel[i].getLocalName())) {
+      for (int i = 0, size = childNodesOfChannel.size(); i < size; i++) {
+         if ("item".equals(childNodesOfChannel.get(i).getLocalName())) {
             matched = true;
          }
       }
       assertTrue("Local element named item", matched);
 
-      for (int i = 0, size = childNodesOfChannel.length; i < size; i++) {
-         if ("title".equals(childNodesOfChannel[i].getLocalName())) {
-            assertFalse("Title is not hollow", childNodesOfChannel[i].isHollow());
-         } else if ("item".equals(childNodesOfChannel[i].getLocalName())) {
-            assertTrue("Item is hollow", childNodesOfChannel[i].isHollow());
-         } else if ("textinput".equals(childNodesOfChannel[i].getLocalName())) {
-            assertTrue("TextInput is hollow", childNodesOfChannel[i].isHollow());
-         } else if ("skipDays".equals(childNodesOfChannel[i].getLocalName())) {
-            assertFalse("skipDays is not hollow", childNodesOfChannel[i].isHollow());
-            assertFalse("day is not hollow", childNodesOfChannel[i].getElementDescriptors()[0].isHollow());
-         } else if ("skipHours".equals(childNodesOfChannel[i].getLocalName())) {
-            assertFalse("skipHours is not hollow", childNodesOfChannel[i].isHollow());
-            assertFalse("hour is not hollow", childNodesOfChannel[i].getElementDescriptors()[0].isHollow());
+      for (int i = 0, size = childNodesOfChannel.size(); i < size; i++) {
+         if ("title".equals(childNodesOfChannel.get(i).getLocalName())) {
+            assertFalse("Title is not hollow", childNodesOfChannel.get(i).isHollow());
+         } else if ("item".equals(childNodesOfChannel.get(i).getLocalName())) {
+            assertTrue("Item is hollow", childNodesOfChannel.get(i).isHollow());
+         } else if ("textinput".equals(childNodesOfChannel.get(i).getLocalName())) {
+            assertTrue("TextInput is hollow", childNodesOfChannel.get(i).isHollow());
+         } else if ("skipDays".equals(childNodesOfChannel.get(i).getLocalName())) {
+            assertFalse("skipDays is not hollow", childNodesOfChannel.get(i).isHollow());
+            assertFalse("day is not hollow", childNodesOfChannel.get(i).getElementDescriptors().get(0).isHollow());
+         } else if ("skipHours".equals(childNodesOfChannel.get(i).getLocalName())) {
+            assertFalse("skipHours is not hollow", childNodesOfChannel.get(i).isHollow());
+            assertFalse("hour is not hollow", childNodesOfChannel.get(i).getElementDescriptors().get(0).isHollow());
          }
       }
    }
@@ -275,24 +275,24 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(AddressBook.class);
 
       ElementDescriptor formatterDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+      java.util.List<ElementDescriptor> formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
 
-      assertEquals("Two top level children", 2, formatterChildDescriptors.length);
+      assertEquals("Two top level children", 2, formatterChildDescriptors.size());
 
-      ElementDescriptor entryDescriptor = formatterChildDescriptors[0];
+      ElementDescriptor entryDescriptor = formatterChildDescriptors.get(0);
       assertEquals("Must be called entry", "entry", entryDescriptor.getLocalName());
       assertFalse("Is not hollow", entryDescriptor.isHollow());
       assertNull("No updater for entry spacer", entryDescriptor.getUpdater());
 
-      ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
-      assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+      java.util.List<ElementDescriptor> entryChildDesciptors = entryDescriptor.getElementDescriptors();
+      assertEquals("Entry has two children", 2, entryChildDesciptors.size());
 
-      ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+      ElementDescriptor keyDescriptor = entryChildDesciptors.get(0);
       assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
       assertFalse("Is simple therefore not hollow", keyDescriptor.isHollow());
       assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
 
-      ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+      ElementDescriptor valueDescriptor = entryChildDesciptors.get(1);
       assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", valueDescriptor.isHollow());
       assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
@@ -306,24 +306,24 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo out = introspector.introspect(AddressBook.class);
 
       ElementDescriptor formatterDescriptor = out.getElementDescriptor();
-      ElementDescriptor[] formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
+      java.util.List<ElementDescriptor> formatterChildDescriptors = formatterDescriptor.getElementDescriptors();
 
-      assertEquals("Two top level children", 2, formatterChildDescriptors.length);
+      assertEquals("Two top level children", 2, formatterChildDescriptors.size());
 
-      ElementDescriptor entryDescriptor = formatterChildDescriptors[1];
+      ElementDescriptor entryDescriptor = formatterChildDescriptors.get(1);
       assertEquals("Must be called entry", "entry", entryDescriptor.getLocalName());
       assertFalse("Is not hollow", entryDescriptor.isHollow());
       assertNull("No updater for entry spacer", entryDescriptor.getUpdater());
 
-      ElementDescriptor[] entryChildDesciptors = entryDescriptor.getElementDescriptors();
-      assertEquals("Entry has two children", 2, entryChildDesciptors.length);
+      java.util.List<ElementDescriptor> entryChildDesciptors = entryDescriptor.getElementDescriptors();
+      assertEquals("Entry has two children", 2, entryChildDesciptors.size());
 
-      ElementDescriptor keyDescriptor = entryChildDesciptors[0];
+      ElementDescriptor keyDescriptor = entryChildDesciptors.get(0);
       assertEquals("Must be called key", "key", keyDescriptor.getLocalName());
       assertTrue("Is not simple therefore hollow", keyDescriptor.isHollow());
       assertNotNull("Key should have an updater", keyDescriptor.getUpdater());
 
-      ElementDescriptor valueDescriptor = entryChildDesciptors[1];
+      ElementDescriptor valueDescriptor = entryChildDesciptors.get(1);
       assertEquals("Must be called key", "value", valueDescriptor.getLocalName());
       assertFalse("Is simple therefore not hollow", valueDescriptor.isHollow());
       assertNotNull("Value should have an updater", valueDescriptor.getUpdater());
@@ -335,12 +335,12 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
       XMLBeanInfo beanInfo = introspector.introspect(BeanWithConcreteMap.class);
       ElementDescriptor beanDescriptor = beanInfo.getElementDescriptor();
 
-      ElementDescriptor[] beanChildDescriptors = beanDescriptor.getElementDescriptors();
-      assertEquals("One Entry element", 1, beanChildDescriptors.length);
+      java.util.List<ElementDescriptor> beanChildDescriptors = beanDescriptor.getElementDescriptors();
+      assertEquals("One Entry element", 1, beanChildDescriptors.size());
 
-      ElementDescriptor entry = beanChildDescriptors[0];
-      ElementDescriptor[] entryChildren = entry.getElementDescriptors();
-      assertEquals("Expected key and entry elements", 2, entryChildren.length);
+      ElementDescriptor entry = beanChildDescriptors.get(0);
+      java.util.List<ElementDescriptor> entryChildren = entry.getElementDescriptors();
+      assertEquals("Expected key and entry elements", 2, entryChildren.size());
    }
 
    public void testConcreteMapWithWrap() throws Exception {
@@ -350,16 +350,16 @@ public class TestDeclarativeIntrospection extends AbstractTestCase {
 
       ElementDescriptor beanDescriptor = beanInfo.getElementDescriptor();
 
-      ElementDescriptor[] beanChildDescriptors = beanDescriptor.getElementDescriptors();
-      assertEquals("One wrapper element", 1, beanChildDescriptors.length);
+      java.util.List<ElementDescriptor> beanChildDescriptors = beanDescriptor.getElementDescriptors();
+      assertEquals("One wrapper element", 1, beanChildDescriptors.size());
 
-      ElementDescriptor wrapper = beanChildDescriptors[0];
-      ElementDescriptor[] wrapperChildren = wrapper.getElementDescriptors();
-      assertEquals("One Entry element", 1, wrapperChildren.length);
+      ElementDescriptor wrapper = beanChildDescriptors.get(0);
+      java.util.List<ElementDescriptor> wrapperChildren = wrapper.getElementDescriptors();
+      assertEquals("One Entry element", 1, wrapperChildren.size());
 
-      ElementDescriptor entry = wrapperChildren[0];
-      ElementDescriptor[] entryChildren = entry.getElementDescriptors();
-      assertEquals("Expected key and entry elements", 2, entryChildren.length);
+      ElementDescriptor entry = wrapperChildren.get(0);
+      java.util.List<ElementDescriptor> entryChildren = entry.getElementDescriptors();
+      assertEquals("Expected key and entry elements", 2, entryChildren.size());
 
 
    }

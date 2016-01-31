@@ -126,7 +126,7 @@ public class TestNoWrap
    protected BeanReader createBeanReader(Class beanClass)
          throws Exception {
       BeanReader reader = new BeanReader();
-      reader.setXMLIntrospector(createXMLIntrospector());
+      reader.setIntrospector(createXMLIntrospector());
       reader.registerBeanClass(beanClass);
       return reader;
    }

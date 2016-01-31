@@ -24,6 +24,7 @@ import org.xml.sax.InputSource;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.List;
 
 public class TestPolyListHolder extends AbstractTestCase {
 
@@ -127,9 +128,9 @@ public class TestPolyListHolder extends AbstractTestCase {
       XMLBeanInfo beanInfo = introspector.introspect(AlphaListHolder.class);
       ElementDescriptor descriptor = beanInfo.getElementDescriptor();
       assertNotNull(descriptor);
-      ElementDescriptor[] descriptors = descriptor.getElementDescriptors();
+      List<ElementDescriptor> descriptors = descriptor.getElementDescriptors();
       assertNotNull(descriptors);
-      assertEquals("Only one descriptor", 1, descriptors.length);
-      assertNotNull("Expected updater", descriptors[0].getUpdater());
+      assertEquals("Only one descriptor", 1, descriptors.size());
+      assertNotNull("Expected updater", descriptors.get(0).getUpdater());
    }
 }

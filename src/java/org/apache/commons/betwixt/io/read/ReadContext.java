@@ -446,7 +446,7 @@ public class ReadContext extends Context implements AbstractReadContext {
      * @param attributes           <code>Attributes</code>, not null
      */
     public void populateAttributes(
-            AttributeDescriptor[] attributeDescriptors,
+            Iterable<AttributeDescriptor> attributeDescriptors,
             Attributes attributes) {
 
         Log log = getLog();
@@ -551,10 +551,9 @@ public class ReadContext extends Context implements AbstractReadContext {
                         // try the other polymorphic descriptors
                         ElementDescriptor parent = getParentDescriptor();
                         if (parent != null) {
-                            ElementDescriptor[] descriptors = parent.getElementDescriptors();
                             ElementDescriptor originalDescriptor = mapping.getDescriptor();
                             boolean resolved = false;
-                            for (ElementDescriptor descriptor : descriptors) {
+                            for (ElementDescriptor descriptor : parent.getElementDescriptors()) {
                                 if (descriptor.isPolymorphic()) {
                                     mapping.setDescriptor(descriptor);
                                     result = resolver.resolveType(mapping, this);

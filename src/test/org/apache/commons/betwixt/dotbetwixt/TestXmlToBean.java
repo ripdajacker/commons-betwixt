@@ -56,7 +56,7 @@ public class TestXmlToBean extends XmlTestCase {
     public void testForceAccessibleSuper() throws Exception {
         XMLIntrospector xmlIntrospector = new XMLIntrospector();
         XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(MixedUpdatersBean.class);
-        ElementDescriptor[] descriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
+        java.util.List<ElementDescriptor> descriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
         boolean propertyFound = false;
         for (ElementDescriptor descriptor : descriptors) {
             if ("private-super".equals(descriptor.getLocalName())) {

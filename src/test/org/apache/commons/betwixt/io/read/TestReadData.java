@@ -79,26 +79,6 @@ public class TestReadData extends AbstractTestCase {
 
       xmlAssertIsomorphic(parseString(out), parseString(expected), true);
    }
-
-   // This test runs in Eclipse but not in maven :/
-   public void _testReadPrivateStaticClasses() throws Exception {
-
-      StringReader in = new StringReader(
-            "<?xml version='1.0'?>" +
-                  "<ale><name>Timothy Taylor</name></ale>");
-      BeanReader reader = new BeanReader();
-      reader.registerBeanClass("ale", Nested.class);
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      Object out = reader.parse(in);
-      assertNotNull("Expected bean to be output", out);
-      assertEquals(
-            "Expected bean to be of type Nested",
-            "org.apache.commons.betwixt.io.read.TestReadData$Nested",
-            out.getClass().getName());
-      Nested bean = (Nested) out;
-      assertEquals("Expected name to be set", "Timothy Taylor", bean.getName());
-   }
-
    private static class Nested {
       private String name;
 

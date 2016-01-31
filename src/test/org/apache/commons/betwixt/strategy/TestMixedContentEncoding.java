@@ -145,7 +145,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
-      elementInfo.getElementDescriptor().getElementDescriptors()[0]
+      elementInfo.getElementDescriptor().getElementDescriptors().get(0)
             .getOptions().addOption(MixedContentEncodingStrategy.ENCODING_OPTION_NAME, "CDATA");
 
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
@@ -169,7 +169,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
-      elementInfo.getElementDescriptor().getElementDescriptors()[0]
+      elementInfo.getElementDescriptor().getElementDescriptors().get(0)
             .getOptions().addOption("org.apache.commons.betwixt.mixed-content-encoding", "escaped");
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
       writer.write(element);

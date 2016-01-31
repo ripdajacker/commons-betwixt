@@ -35,133 +35,123 @@ import java.util.List;
  */
 public abstract class ComplexType {
 
-   protected List elements = new ArrayList();
+    protected List<Element> elements = new ArrayList<>();
 
-   protected List attributes = new ArrayList();
+    protected List<Attribute> attributes = new ArrayList<>();
 
-   public ComplexType() {
-   }
+    public ComplexType() {
+    }
 
-   public ComplexType(
-         TranscriptionConfiguration configuration,
-         ElementDescriptor elementDescriptor, Schema schema)
-         throws IntrospectionException {
-      elementDescriptor = fillDescriptor(elementDescriptor, schema);
-      init(configuration, elementDescriptor, schema);
-   }
+    public ComplexType(
+            TranscriptionConfiguration configuration,
+            ElementDescriptor elementDescriptor, Schema schema)
+            throws IntrospectionException {
+        elementDescriptor = fillDescriptor(elementDescriptor, schema);
+        init(configuration, elementDescriptor, schema);
+    }
 
-   /**
-    * Fills the given descriptor
-    * @since 0.7
-    * @param elementDescriptor
-    * @param schema
-    * @return @throws
-    *         IntrospectionException
-    */
-   protected ElementDescriptor fillDescriptor(
-         ElementDescriptor elementDescriptor, Schema schema)
-         throws IntrospectionException {
-      if (elementDescriptor.isHollow()) {
-         // need to introspector for filled descriptor
-         Class type = elementDescriptor.getSingularPropertyType();
-         if (type == null) {
-            type = elementDescriptor.getPropertyType();
-         }
-         if (type == null) {
-            // no type!
-            // TODO: handle this
-            // TODO: add support for logging
-            // TODO: maybe should try singular type?
-         } else {
-            XMLBeanInfo filledBeanInfo = schema.introspect(type);
-            elementDescriptor = filledBeanInfo.getElementDescriptor();
-         }
-      }
-      return elementDescriptor;
-   }
+    /**
+     * Fills the given descriptor
+     *
+     * @param elementDescriptor
+     * @param schema
+     * @return @throws
+     * IntrospectionException
+     * @since 0.7
+     */
+    protected ElementDescriptor fillDescriptor(
+            ElementDescriptor elementDescriptor, Schema schema)
+            throws IntrospectionException {
+        if (elementDescriptor.isHollow()) {
+            // need to introspector for filled descriptor
+            Class type = elementDescriptor.getSingularPropertyType();
+            if (type == null) {
+                type = elementDescriptor.getPropertyType();
+            }
+            //noinspection StatementWithEmptyBody
+            if (type != null) {
+                XMLBeanInfo filledBeanInfo = schema.introspect(type);
+                elementDescriptor = filledBeanInfo.getElementDescriptor();
+            } else {
+                // no type!
+                // TODO: handle this
+                // TODO: add support for logging
+                // TODO: maybe should try singular type?
+            }
+        }
+        return elementDescriptor;
+    }
 
-   protected void init(
-         TranscriptionConfiguration configuration,
-         ElementDescriptor elementDescriptor, Schema schema)
-         throws IntrospectionException {
+    protected void init(
+            TranscriptionConfiguration configuration,
+            ElementDescriptor elementDescriptor, Schema schema)
+            throws IntrospectionException {
 
-      AttributeDescriptor[] attributeDescriptors = elementDescriptor
-            .getAttributeDescriptors();
-      for (int i = 0, length = attributeDescriptors.length; i < length; i++) {
-         //TODO: need to think about computing schema types from descriptors
-         // this will probably depend on the class mapped to
-         String uri = attributeDescriptors[i].getURI();
-         if (!SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI.equals(uri)) {
-            attributes.add(new Attribute(attributeDescriptors[i]));
-         }
-      }
+        List<AttributeDescriptor> attributeDescriptors = elementDescriptor.getAttributeDescriptors();
+        for (AttributeDescriptor attributeDescriptor : attributeDescriptors) {
+            //TODO: need to think about computing schema types from descriptors
+            // this will probably depend on the class mapped to
+            String uri = attributeDescriptor.getURI();
+            if (!SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI.equals(uri)) {
+                attributes.add(new Attribute(attributeDescriptor));
+            }
+        }
 
-      //TODO: add support for spacing elements
-      ElementDescriptor[] elementDescriptors = elementDescriptor
-            .getElementDescriptors();
-      for (int i = 0, length = elementDescriptors.length; i < length; i++) {
-         if (elementDescriptors[i].isHollow()) {
-            elements.add(
-                  new ElementReference(
-                        configuration,
-                        elementDescriptors[i], schema));
-         } else if (elementDescriptors[i].isSimple()) {
-            elements.add(
-                  new SimpleLocalElement(
-                        configuration,
-                        elementDescriptors[i], schema));
-         } else {
-            elements.add(
-                  new ComplexLocalElement(
-                        configuration,
-                        elementDescriptors[i], schema));
-         }
-      }
-   }
+        //TODO: add support for spacing elements
+        for (ElementDescriptor child : elementDescriptor.getElementDescriptors()) {
+            if (child.isHollow()) {
+                elements.add(new ElementReference(configuration, child, schema));
+            } else if (child.isSimple()) {
+                elements.add(new SimpleLocalElement(configuration, child, schema));
+            } else {
+                elements.add(new ComplexLocalElement(configuration, child, schema));
+            }
+        }
+    }
 
-   /**
-    * Gets the elements contained by this type
-    *
-    * @return <code>List</code> of contained elements, not null
-    */
-   public List getElements() {
-      return elements;
-   }
+    /**
+     * Gets the elements contained by this type
+     *
+     * @return <code>List</code> of contained elements, not null
+     */
+    public List getElements() {
+        return elements;
+    }
 
-   /**
-    * Adds an element to those contained by this type
-    *
-    * @param element
-    */
-   public void addElement(ElementReference element) {
-      elements.add(element);
-   }
+    /**
+     * Adds an element to those contained by this type
+     *
+     * @param element
+     */
+    public void addElement(ElementReference element) {
+        elements.add(element);
+    }
 
-   /**
-    * Adds an element to those contained by this type
-    *
-    * @param element
-    */
-   public void addElement(LocalElement element) {
-      elements.add(element);
-   }
+    /**
+     * Adds an element to those contained by this type
+     *
+     * @param element
+     */
+    public void addElement(LocalElement element) {
+        elements.add(element);
+    }
 
-   /**
-    * Gets the attributes contained by this type.
-    *
-    * @return <code>List</code> of attributes
-    */
-   public List getAttributes() {
-      return attributes;
-   }
+    /**
+     * Gets the attributes contained by this type.
+     *
+     * @return <code>List</code> of attributes
+     */
+    public List getAttributes() {
+        return attributes;
+    }
 
-   /**
-    * Adds an attribute to those contained by this type
-    *
-    * @param attribute
-    */
-   public void addAttribute(Attribute attribute) {
-      attributes.add(attribute);
-   }
+    /**
+     * Adds an attribute to those contained by this type
+     *
+     * @param attribute
+     */
+    public void addAttribute(Attribute attribute) {
+        attributes.add(attribute);
+    }
 
 }

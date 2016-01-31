@@ -64,11 +64,11 @@ public class TestXMLBeanInfoDigester extends AbstractTestCase {
       assertTrue("Found root element descriptor", descriptor != null);
       assertEquals("Element name correct", "rss", descriptor.getLocalName());
 
-      ElementDescriptor[] elements = descriptor.getElementDescriptors();
+      java.util.List<ElementDescriptor> elements = descriptor.getElementDescriptors();
 
-      assertTrue("Found elements", elements != null && elements.length > 0);
+      assertTrue("Found elements", elements != null && elements.size() > 0);
 
-      descriptor = elements[0];
+      descriptor = elements.get(0);
       assertEquals("Element name correct", "channel", descriptor.getLocalName());
 
    }

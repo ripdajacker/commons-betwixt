@@ -79,7 +79,7 @@ public class TestCollectives extends AbstractTestCase {
 
    public void testReadCategories() throws Exception {
       BeanReader beanReader = new BeanReader();
-      beanReader.getXMLIntrospector().setConfiguration(categoriesIntrospectionConfiguration);
+      beanReader.getIntrospector().setConfiguration(categoriesIntrospectionConfiguration);
       beanReader.setBindingConfiguration(noIDsBindingConfiguration);
       beanReader.registerBeanClass(Categories.class);
 
@@ -111,10 +111,10 @@ public class TestCollectives extends AbstractTestCase {
       XMLBeanInfo beanInfo = xmlIntrospector.introspect(ArrayListExtender.class);
 
       ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
-      assertEquals(2, childDescriptors.length);
-      assertEquals("another", childDescriptors[0].getPropertyName());
-      assertTrue(childDescriptors[1].getContextExpression() instanceof IteratorExpression);
+      java.util.List<ElementDescriptor> childDescriptors = elementDescriptor.getElementDescriptors();
+      assertEquals(2, childDescriptors.size());
+      assertEquals("another", childDescriptors.get(0).getPropertyName());
+      assertTrue(childDescriptors.get(1).getContextExpression() instanceof IteratorExpression);
    }
 
    public void testWriteListExtension() throws Exception {

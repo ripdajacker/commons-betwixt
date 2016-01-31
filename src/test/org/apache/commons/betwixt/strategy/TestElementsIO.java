@@ -93,7 +93,7 @@ public class TestElementsIO extends TestCase {
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 //        BeanCreateRule.setLog(log);
 
-      reader.setXMLIntrospector(newXMLIntrospector(mapper));
+      reader.setIntrospector(newXMLIntrospector(mapper));
       reader.registerBeanClass(Elements.class);
       Elements result = (Elements) reader.parse(in);
 

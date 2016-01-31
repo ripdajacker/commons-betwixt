@@ -117,7 +117,7 @@ public class TestBeanReader extends AbstractTestCase {
       xml = "<?xml version='1.0'?>" + stringWriter.toString();
 
       reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       reader.registerBeanClass(PersonBean.class);
       bean = (PersonBean) reader.parse(new StringReader(xml));
 
@@ -166,7 +166,7 @@ public class TestBeanReader extends AbstractTestCase {
       List locations = customer.getLocations();
       assertTrue("contains some locations", locations != null);
       assertEquals("locations.size()", 2, locations.size());
-      assertEquals("locations[0]", "London", locations.get(0));
+      assertEquals("locations.get(0)", "London", locations.get(0));
       assertEquals("locations[1]", "Bath", locations.get(1));
 
       assertEquals(ConvertUtils.convert("2002-03-17", Date.class), customer.getDate());
@@ -282,8 +282,8 @@ public class TestBeanReader extends AbstractTestCase {
       String xml = "<ListOfNames><names><name name='Martin'/></names></ListOfNames>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
 
       reader.registerBeanClass(ListOfNames.class);
       ListOfNames newListOfNames = (ListOfNames) reader.parse(new StringReader(xml));
@@ -300,8 +300,8 @@ public class TestBeanReader extends AbstractTestCase {
 
       BeanReader reader = new BeanReader();
       reader.setRules(new ExtendedBaseRules());
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
 
       TestRule ruleOne = new TestRule();
       TestRule ruleTwo = new TestRule();
@@ -360,7 +360,7 @@ public class TestBeanReader extends AbstractTestCase {
       xmlAssertIsomorphic(parseString(xml), parseString(out), true);
 
       BeanReader reader = new BeanReader();
-      reader.setXMLIntrospector(introspector);
+      reader.setIntrospector(introspector);
       reader.registerBeanClass("party", PartyBean.class);
       PartyBean readBean = (PartyBean) reader.parse(new StringReader(xml));
 
@@ -414,7 +414,7 @@ public class TestBeanReader extends AbstractTestCase {
       xmlAssertIsomorphic(parseString(xml), parseString(out), true);
 
       BeanReader reader = new BeanReader();
-      reader.setXMLIntrospector(introspector);
+      reader.setIntrospector(introspector);
       reader.registerBeanClass(PartyBean.class);
       PartyBean readBean = (PartyBean) reader.parse(new StringReader(xml));
 
@@ -528,7 +528,7 @@ public class TestBeanReader extends AbstractTestCase {
 
       BeanReader reader = new BeanReader();
       reader.setBindingConfiguration(configuration);
-      reader.setXMLIntrospector(introspector);
+      reader.setIntrospector(introspector);
       reader.registerBeanClass("party", PartyBean.class);
       PartyBean readBean = (PartyBean) reader.parse(new StringReader(xml));
 
@@ -692,7 +692,7 @@ public class TestBeanReader extends AbstractTestCase {
             + "</CHILDREN></DOUBLE_LINKED_PARENT_BEAN>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
+      reader.getIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(true, "_"));
       reader.registerBeanClass(DoubleLinkedParentBean.class);
       DoubleLinkedParentBean bean = (DoubleLinkedParentBean) reader.parse(new StringReader(xml));
 

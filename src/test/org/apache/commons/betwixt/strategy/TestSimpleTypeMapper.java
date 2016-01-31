@@ -26,6 +26,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Tests for SimpleTypeMapper and the associated strategy.
@@ -52,17 +53,17 @@ public class TestSimpleTypeMapper extends AbstractTestCase {
       XMLBeanInfo beanInfo = introspector.introspect(TuneBean.class);
       ElementDescriptor tuneBeanDescriptor = beanInfo.getElementDescriptor();
 
-      AttributeDescriptor[] tuneBeanAttributes = tuneBeanDescriptor.getAttributeDescriptors();
-      assertEquals("Only expect one attribute", 1, tuneBeanAttributes.length);
-      AttributeDescriptor recordedAttribute = tuneBeanAttributes[0];
+      List<AttributeDescriptor> tuneBeanAttributes = tuneBeanDescriptor.getAttributeDescriptors();
+      assertEquals("Only expect one attribute", 1, tuneBeanAttributes.size());
+      AttributeDescriptor recordedAttribute = tuneBeanAttributes.get(0);
       assertEquals("Expected recorded to be bound as an attribute", "recorded", recordedAttribute.getLocalName());
 
-      ElementDescriptor[] tuneBeanChildElements = tuneBeanDescriptor.getElementDescriptors();
-      assertEquals("Expected three child elements", 3, tuneBeanChildElements.length);
+      java.util.List<ElementDescriptor> tuneBeanChildElements = tuneBeanDescriptor.getElementDescriptors();
+      assertEquals("Expected three child elements", 3, tuneBeanChildElements.size());
 
       int bits = 0;
-      for (int i = 0, size = tuneBeanChildElements.length; i < size; i++) {
-         String localName = tuneBeanChildElements[i].getLocalName();
+      for (int i = 0, size = tuneBeanChildElements.size(); i < size; i++) {
+         String localName = tuneBeanChildElements.get(i).getLocalName();
          if ("composers".equals(localName)) {
             bits = bits | 1;
          }
@@ -131,8 +132,8 @@ public class TestSimpleTypeMapper extends AbstractTestCase {
       StringReader in = new StringReader(xml);
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setSimpleTypeMapper(new StringsAsElementsSimpleTypeMapper());
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      reader.getIntrospector().getConfiguration().setSimpleTypeMapper(new StringsAsElementsSimpleTypeMapper());
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       reader.getBindingConfiguration().setMapIDs(false);
 
       reader.registerBeanClass(TuneBean.class);

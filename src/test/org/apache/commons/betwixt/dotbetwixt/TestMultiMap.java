@@ -20,6 +20,7 @@ import org.apache.commons.betwixt.*;
 import org.xml.sax.InputSource;
 
 import java.io.StringReader;
+import java.util.List;
 
 /**
  * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, <a href='http://www.apache.org'>Apache Software Foundation</a>
@@ -57,29 +58,29 @@ public class TestMultiMap extends AbstractTestCase {
 
    public void testRegisterMultiMapping() throws Exception {
       XMLIntrospector xmlIntrospector = new XMLIntrospector();
-      Class[] mapped = xmlIntrospector.register(new InputSource(new StringReader(MAPPING)));
+      List<Class> mapped = xmlIntrospector.register(new InputSource(new StringReader(MAPPING)));
 
-      assertEquals("Mapped classes", 3, mapped.length);
+      assertEquals("Mapped classes", 3, mapped.size());
 
       XMLBeanInfo beanInfo = xmlIntrospector.introspect(AddressBean.class);
       assertNotNull("Bean info mapping", beanInfo);
       ElementDescriptor descriptor = beanInfo.getElementDescriptor();
       assertEquals("Root element name", "not-address", descriptor.getLocalName());
-      ElementDescriptor[] childDescriptors = descriptor.getElementDescriptors();
-      assertEquals("4 child elements", 4, childDescriptors.length);
-      assertEquals("First element", "not-street", childDescriptors[0].getLocalName());
-      assertEquals("Second element", "not-city", childDescriptors[1].getLocalName());
-      assertEquals("Third element", "not-code", childDescriptors[2].getLocalName());
-      assertEquals("Forth element", "not-country", childDescriptors[3].getLocalName());
+      java.util.List<ElementDescriptor> childDescriptors = descriptor.getElementDescriptors();
+      assertEquals("4 child elements", 4, childDescriptors.size());
+      assertEquals("First element", "not-street", childDescriptors.get(0).getLocalName());
+      assertEquals("Second element", "not-city", childDescriptors.get(1).getLocalName());
+      assertEquals("Third element", "not-code", childDescriptors.get(2).getLocalName());
+      assertEquals("Forth element", "not-country", childDescriptors.get(3).getLocalName());
 
       beanInfo = xmlIntrospector.introspect(SimpleTestBean.class);
       assertNotNull("Bean info mapping", beanInfo);
       descriptor = beanInfo.getElementDescriptor();
       assertEquals("Root element name", "jelly", descriptor.getLocalName());
       childDescriptors = descriptor.getElementDescriptors();
-      assertEquals("Child elements", 2, childDescriptors.length);
-      assertEquals("First element", "wibble", childDescriptors[0].getLocalName());
-      assertEquals("Second element", "wobble", childDescriptors[1].getLocalName());
+      assertEquals("Child elements", 2, childDescriptors.size());
+      assertEquals("First element", "wibble", childDescriptors.get(0).getLocalName());
+      assertEquals("Second element", "wobble", childDescriptors.get(1).getLocalName());
 
    }
 }

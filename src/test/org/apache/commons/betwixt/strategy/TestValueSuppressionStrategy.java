@@ -22,18 +22,20 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.read.AddressBean;
 
+import java.util.List;
+
 public class TestValueSuppressionStrategy extends TestCase {
 
-   public void testALLOW_ALL_VALUESStrategy() throws Exception {
-      XMLIntrospector introspector = new XMLIntrospector();
-      introspector.getConfiguration().setAttributesForPrimitives(true);
-      XMLBeanInfo beanInfo = introspector.introspect(AddressBean.class);
-      AttributeDescriptor[] descriptors = beanInfo.getElementDescriptor().getAttributeDescriptors();
-      assertTrue(descriptors.length > 0);
-      for (int i = 0; i < descriptors.length; i++) {
-         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], "Arbitrary Value"));
-         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], ""));
-         assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors[i], null));
-      }
-   }
+    public void testALLOW_ALL_VALUESStrategy() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setAttributesForPrimitives(true);
+        XMLBeanInfo beanInfo = introspector.introspect(AddressBean.class);
+        List<AttributeDescriptor> descriptors = beanInfo.getElementDescriptor().getAttributeDescriptors();
+        assertTrue(descriptors.size() > 0);
+        for (int i = 0; i < descriptors.size(); i++) {
+            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors.get(i), "Arbitrary Value"));
+            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors.get(i), ""));
+            assertFalse(ValueSuppressionStrategy.ALLOW_ALL_VALUES.suppressAttribute(descriptors.get(i), null));
+        }
+    }
 }

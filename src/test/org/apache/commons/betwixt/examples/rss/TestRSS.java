@@ -19,8 +19,14 @@
 package org.apache.commons.betwixt.examples.rss;
 
 import org.apache.commons.betwixt.AbstractTestCase;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.File;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * <p>Test case for example.</p>
@@ -30,12 +36,18 @@ import java.io.File;
  */
 
 public class TestRSS extends AbstractTestCase {
+   Log log = LogFactory.getLog(getClass());
+
 
    public TestRSS(String testName) {
       super(testName);
    }
 
    public void testPrintTextSummary() throws Exception {
+      Logger log = LogManager.getLogManager().getLogger("");
+      for (Handler h : log.getHandlers()) {
+         h.setLevel(Level.ALL);
+      }
       RSSApplication rssApplication = new RSSApplication();
       File file = new File(
             getTestFile("src/test/org/apache/commons/betwixt/examples/rss/rss-example.xml"));

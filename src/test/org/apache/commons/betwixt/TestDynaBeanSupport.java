@@ -53,24 +53,24 @@ public class TestDynaBeanSupport extends AbstractTestCase {
       XMLBeanInfo beanInfo = introspector.introspect(createDynasaurClass());
       ElementDescriptor baseElement = beanInfo.getElementDescriptor();
       // no attributes
-      assertEquals("Correct number of attributes", 0, baseElement.getAttributeDescriptors().length);
-      ElementDescriptor[] descriptors = baseElement.getElementDescriptors();
-      assertEquals("Correct number of elements", 3, descriptors.length);
+      assertEquals("Correct number of attributes", 0, baseElement.getAttributeDescriptors().size());
+      java.util.List<ElementDescriptor> descriptors = baseElement.getElementDescriptors();
+      assertEquals("Correct number of elements", 3, descriptors.size());
 
       boolean matchedSpecies = false;
       boolean matchedIsRaptor = false;
       boolean matchedPeriod = false;
 
-      for (int i = 0, size = descriptors.length; i < size; i++) {
-         if ("Species".equals(descriptors[i].getPropertyName())) {
+      for (int i = 0, size = descriptors.size(); i < size; i++) {
+         if ("Species".equals(descriptors.get(i).getPropertyName())) {
             matchedSpecies = true;
          }
 
-         if ("isRaptor".equals(descriptors[i].getPropertyName())) {
+         if ("isRaptor".equals(descriptors.get(i).getPropertyName())) {
             matchedIsRaptor = true;
          }
 
-         if ("Period".equals(descriptors[i].getPropertyName())) {
+         if ("Period".equals(descriptors.get(i).getPropertyName())) {
             matchedPeriod = true;
          }
       }

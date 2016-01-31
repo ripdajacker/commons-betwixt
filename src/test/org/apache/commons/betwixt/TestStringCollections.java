@@ -32,11 +32,11 @@ public class TestStringCollections extends AbstractTestCase {
       XMLIntrospector introspector = new XMLIntrospector();
       XMLBeanInfo xmlBeanInfo = introspector.introspect(PoemBean.class);
       ElementDescriptor beanDescriptor = xmlBeanInfo.getElementDescriptor();
-      ElementDescriptor[] beanChildren = beanDescriptor.getElementDescriptors();
-      assertEquals("Only one child", 1, beanChildren.length);
-      ElementDescriptor[] linesChildren = beanChildren[0].getElementDescriptors();
-      assertEquals("Only one lines child", 1, linesChildren.length);
-      assertFalse("Line child is not hollow", linesChildren[0].isHollow());
+      java.util.List<ElementDescriptor> beanChildren = beanDescriptor.getElementDescriptors();
+      assertEquals("Only one child", 1, beanChildren.size());
+      java.util.List<ElementDescriptor> linesChildren = beanChildren.get(0).getElementDescriptors();
+      assertEquals("Only one lines child", 1, linesChildren.size());
+      assertFalse("Line child is not hollow", linesChildren.get(0).isHollow());
    }
 
    public void testWritePoem() throws Exception {

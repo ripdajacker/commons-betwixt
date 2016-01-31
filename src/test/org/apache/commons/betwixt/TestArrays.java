@@ -71,7 +71,7 @@ public class TestArrays extends AbstractTestCase {
             "</LibraryBean>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       reader.getBindingConfiguration().setMapIDs(false);
       reader.registerBeanClass(LibraryBean.class);
       LibraryBean bean = (LibraryBean) reader.parse(new StringReader(xml));
@@ -125,7 +125,7 @@ public class TestArrays extends AbstractTestCase {
             "</LibraryBeanWithArraySetter>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       reader.getBindingConfiguration().setMapIDs(false);
       reader.registerBeanClass(LibraryBeanWithArraySetter.class);
       LibraryBeanWithArraySetter bean = (LibraryBeanWithArraySetter) reader.parse(new StringReader(xml));
@@ -144,13 +144,13 @@ public class TestArrays extends AbstractTestCase {
       XMLBeanInfo xmlBeanInfo = introspector.introspect(LibraryBeanWithArraySetter.class);
 
       ElementDescriptor beanDescriptor = xmlBeanInfo.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = beanDescriptor.getElementDescriptors();
-      assertEquals("Only one child element", 1, childDescriptors.length);
+      java.util.List<ElementDescriptor> childDescriptors = beanDescriptor.getElementDescriptors();
+      assertEquals("Only one child element", 1, childDescriptors.size());
 
-      ElementDescriptor booksWrapperDescriptor = childDescriptors[0];
-      ElementDescriptor[] wrapperChildren = booksWrapperDescriptor.getElementDescriptors();
-      assertEquals("Only one child element", 1, childDescriptors.length);
-      ElementDescriptor booksDescriptor = wrapperChildren[0];
+      ElementDescriptor booksWrapperDescriptor = childDescriptors.get(0);
+      java.util.List<ElementDescriptor> wrapperChildren = booksWrapperDescriptor.getElementDescriptors();
+      assertEquals("Only one child element", 1, childDescriptors.size());
+      ElementDescriptor booksDescriptor = wrapperChildren.get(0);
       assertNotNull("Updater for property", booksDescriptor.getUpdater());
    }
 

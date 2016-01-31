@@ -40,9 +40,9 @@ public class TestMixedCollections extends AbstractTestCase {
       xmlIntrospector.getConfiguration().setWrapCollectionsInElement(false);
       XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(MixedCollectionBean.class);
       ElementDescriptor elementDescriptor = xmlBeanInfo.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = elementDescriptor.getElementDescriptors();
-      assertEquals("One child", 1, childDescriptors.length);
-      assertNull("Expected null name", childDescriptors[0].getLocalName());
+      java.util.List<ElementDescriptor> childDescriptors = elementDescriptor.getElementDescriptors();
+      assertEquals("One child", 1, childDescriptors.size());
+      assertNull("Expected null name", childDescriptors.get(0).getLocalName());
    }
 
    public void testNoNameWrite() throws Exception {

@@ -103,7 +103,7 @@ public class TestMaps extends AbstractTestCase {
                   "</BeanWithConcreteMap>");
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       reader.getBindingConfiguration().setMapIDs(false);
       reader.registerBeanClass(BeanWithConcreteMap.class);
 

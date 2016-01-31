@@ -3,7 +3,7 @@
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
+ * (the "License") you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -16,6 +16,8 @@
  */
 package org.apache.commons.betwixt.io
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.BindingConfiguration
 import org.apache.commons.betwixt.ElementDescriptor
 import org.apache.commons.betwixt.XMLBeanInfo
@@ -36,40 +38,35 @@ import java.beans.IntrospectionException
 
 /**
  * <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
- * <p/>
- * <p>Call {@link #registerBeanClass(Class)} or {@link #registerBeanClass(String, Class)}
- * to add rules to map a bean class.</p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  */
+@CompileStatic
+@TypeChecked
 public class BeanReader extends Digester {
-
+    Log log = LogFactory.getLog(getClass())
     /**
      * Introspector used
      */
-    private XMLIntrospector introspector = new XMLIntrospector();
-    /**
-     * Log used for logging (Doh!)
-     */
-    private Log log = LogFactory.getLog(BeanReader.class);
+    XMLIntrospector introspector = new XMLIntrospector()
     /**
      * The registered classes
      */
-    private Set<Class> registeredClasses = new HashSet<>();
+    private Set<Class> registeredClasses = new HashSet<>()
     /**
      * Dynamic binding configuration settings
      */
-    private BindingConfiguration bindingConfiguration = new BindingConfiguration();
+    BindingConfiguration bindingConfiguration = new BindingConfiguration()
     /**
      * Reading specific configuration settings
      */
-    private ReadConfiguration readConfiguration = new ReadConfiguration();
+    ReadConfiguration readConfiguration = new ReadConfiguration()
 
     /**
      * Construct a new BeanReader with default properties.
      */
     public BeanReader() {
-        setRules(new ExtendedBaseRules());
+        setRules(new ExtendedBaseRules())
     }
 
     /**
@@ -82,8 +79,8 @@ public class BeanReader extends Digester {
      * @param parser use this <code>SAXParser</code>
      */
     public BeanReader(SAXParser parser) {
-        super(parser);
-        setRules(new ExtendedBaseRules());
+        super(parser)
+        setRules(new ExtendedBaseRules())
     }
 
     /**
@@ -96,8 +93,8 @@ public class BeanReader extends Digester {
      * @param reader use this <code>XMLReader</code> as source for SAX events
      */
     public BeanReader(XMLReader reader) {
-        super(reader);
-        setRules(new ExtendedBaseRules());
+        super(reader)
+        setRules(new ExtendedBaseRules())
     }
 
     /**
@@ -124,12 +121,9 @@ public class BeanReader extends Digester {
      */
     public void registerBeanClass(Class beanClass) throws IntrospectionException {
         if (!registeredClasses.contains(beanClass)) {
-            register(beanClass, null);
-
+            register(beanClass, null)
         } else {
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot add class " + beanClass.getName() + " since it already exists");
-            }
+            log.warn("Cannot add class " + beanClass.getName() + " since it already exists")
         }
     }
 
@@ -142,22 +136,17 @@ public class BeanReader extends Digester {
      * @throws IntrospectionException
      */
     private void register(Class beanClass, String path) throws IntrospectionException {
-        if (log.isTraceEnabled()) {
-            log.trace("Registering class " + beanClass);
-        }
-        XMLBeanInfo xmlInfo = introspector.introspect(beanClass);
-        registeredClasses.add(beanClass);
+        log.trace("Registering class " + beanClass)
+        XMLBeanInfo xmlInfo = introspector.introspect(beanClass)
+        registeredClasses.add(beanClass)
 
-        ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor();
-
+        ElementDescriptor elementDescriptor = xmlInfo.getElementDescriptor()
         if (path == null) {
-            path = elementDescriptor.getQualifiedName();
+            path = elementDescriptor.getQualifiedName()
         }
 
-        if (log.isTraceEnabled()) {
-            log.trace("Added path: " + path + ", mapped to: " + beanClass.getName());
-        }
-        addBeanCreateRule(path, elementDescriptor, beanClass);
+        log.trace("Added path: " + path + ", mapped to: " + beanClass.getName())
+        addBeanCreateRule(path, elementDescriptor, beanClass)
     }
 
     /**
@@ -188,13 +177,9 @@ public class BeanReader extends Digester {
      */
     public void registerBeanClass(String path, Class beanClass) throws IntrospectionException {
         if (!registeredClasses.contains(beanClass)) {
-
-            register(beanClass, path);
-
+            register(beanClass, path)
         } else {
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot add class " + beanClass.getName() + " since it already exists");
-            }
+            log.warn("Cannot add class " + beanClass.getName() + " since it already exists")
         }
     }
 
@@ -220,10 +205,10 @@ public class BeanReader extends Digester {
      * @since 0.7
      */
     public void registerMultiMapping(InputSource mapping) throws IntrospectionException, IOException, SAXException {
-        Class[] mappedClasses = introspector.register(mapping);
+        List<Class> mappedClasses = introspector.register(mapping)
         for (Class beanClass : mappedClasses) {
             if (!registeredClasses.contains(beanClass)) {
-                register(beanClass, null);
+                register(beanClass, null)
 
             }
         }
@@ -250,18 +235,13 @@ public class BeanReader extends Digester {
      * apply equally to this
      * @since 0.7
      */
-    public void registerBeanClass(
-            InputSource mapping,
-            Class beanClass) throws IntrospectionException, IOException, SAXException {
+    public void registerBeanClass(InputSource mapping, Class beanClass) throws IntrospectionException, IOException, SAXException {
         if (!registeredClasses.contains(beanClass)) {
-
-            introspector.register(beanClass, mapping);
-            register(beanClass, null);
+            introspector.register(beanClass, mapping)
+            register(beanClass, null)
 
         } else {
-            if (log.isWarnEnabled()) {
-                log.warn("Cannot add class " + beanClass.getName() + " since it already exists");
-            }
+            log.warn("Cannot add class " + beanClass.getName() + " since it already exists")
         }
     }
 
@@ -279,91 +259,8 @@ public class BeanReader extends Digester {
      * @since 0.5
      */
     public void deregisterBeanClass(Class beanClass) {
-        registeredClasses.remove(beanClass);
+        registeredClasses.remove(beanClass)
     }
-
-    // Properties
-    //-------------------------------------------------------------------------
-
-    /**
-     * <p> Get the introspector used. </p>
-     * <p/>
-     * <p> The {@link XMLBeanInfo} used to map each bean is
-     * created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by
-     * altering the <code>XMLIntrospector</code>. </p>
-     *
-     * @return the <code>XMLIntrospector</code> used for the introspection
-     */
-    public XMLIntrospector getXMLIntrospector() {
-        return introspector;
-    }
-
-    /**
-     * <p> Set the introspector to be used. </p>
-     * <p/>
-     * <p> The {@link XMLBeanInfo} used to map each bean is
-     * created by the <code>XMLIntrospector</code>.
-     * One way in which the mapping can be customized is by
-     * altering the <code>XMLIntrospector</code>. </p>
-     *
-     * @param introspector use this introspector
-     */
-    public void setXMLIntrospector(XMLIntrospector introspector) {
-        this.introspector = introspector;
-    }
-
-    /**
-     * <p> Get the current level for logging. </p>
-     *
-     * @return the <code>Log</code> implementation this class logs to
-     */
-    public Log getLog() {
-        return log;
-    }
-
-    /**
-     * <p> Set the current logging level. </p>
-     *
-     * @param log the <code>Log</code>implementation to use for logging
-     */
-    public void setLog(Log log) {
-        this.log = log;
-        setLogger(log);
-    }
-
-    /**
-     * Gets the dynamic configuration setting to be used for bean reading.
-     *
-     * @return the BindingConfiguration settings, not null
-     * @since 0.5
-     */
-    public BindingConfiguration getBindingConfiguration() {
-        return bindingConfiguration;
-    }
-
-    /**
-     * Sets the dynamic configuration setting to be used for bean reading.
-     *
-     * @param bindingConfiguration the BindingConfiguration settings, not null
-     * @since 0.5
-     */
-    public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
-        this.bindingConfiguration = bindingConfiguration;
-    }
-
-    /**
-     * Gets read specific configuration details.
-     *
-     * @return the ReadConfiguration, not null
-     * @since 0.5
-     */
-    public ReadConfiguration getReadConfiguration() {
-        return readConfiguration;
-    }
-
-    // Implementation methods
-    //-------------------------------------------------------------------------
 
     /**
      * Adds a new bean create rule for the specified path
@@ -376,16 +273,14 @@ public class BeanReader extends Digester {
             String path,
             ElementDescriptor elementDescriptor,
             Class beanClass) {
-        if (log.isTraceEnabled()) {
-            log.trace("Adding BeanRuleSet for " + beanClass);
-        }
+        log.trace("Adding BeanRuleSet for " + beanClass)
         RuleSet ruleSet = new BeanRuleSet(
                 introspector,
                 path,
                 elementDescriptor,
                 beanClass,
-                makeContext());
-        addRuleSet(ruleSet);
+                makeContext())
+        addRuleSet(ruleSet)
     }
 
     /**
@@ -395,6 +290,6 @@ public class BeanReader extends Digester {
      * @return the ReadContext created, not null
      */
     private ReadContext makeContext() {
-        return new ReadContext(bindingConfiguration, readConfiguration);
+        return new ReadContext(bindingConfiguration, readConfiguration)
     }
 }

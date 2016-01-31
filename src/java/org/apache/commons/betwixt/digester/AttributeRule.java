@@ -166,7 +166,7 @@ public class AttributeRule extends RuleSupport {
             String name = attributeDescriptor.getPropertyName();
             try {
                 BeanInfo beanInfo;
-                if (getXMLIntrospector().getConfiguration().ignoreAllBeanInfo()) {
+                if (getXMLIntrospector().getConfiguration().isIgnoreAllBeanInfo()) {
                     beanInfo = BeanIntrospector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
                 } else {
                     beanInfo = BeanIntrospector.getBeanInfo(beanClass);

@@ -781,8 +781,8 @@ public abstract class AbstractBeanWriter {
                     SAXException,
                     IntrospectionException {
         writeContext.setCurrentDescriptor(elementDescriptor)
-        Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors()
-        if (childDescriptors != null && childDescriptors.length > 0) {
+        List<Descriptor> childDescriptors = elementDescriptor.getContentDescriptors()
+        if (childDescriptors != null && childDescriptors.size() > 0) {
             for (Descriptor currentDescriptor : childDescriptors) {
                 if (currentDescriptor instanceof ElementDescriptor) {
                     // Element content
@@ -977,9 +977,8 @@ public abstract class AbstractBeanWriter {
         // now test child elements
         // an element is empty if it has no non-empty child elements
         if (descriptor.hasChildren()) {
-            int size = descriptor.getElementDescriptors().length
-            for (int i = 0; i < size; i++) {
-                if (!isEmptyElement(descriptor.getElementDescriptors()[i], context)) {
+            for (ElementDescriptor child : descriptor.getElementDescriptors()) {
+                if (!isEmptyElement(child, context)) {
                     log.trace("Element has child which isn't empty.")
                     return false
                 }
@@ -1024,13 +1023,16 @@ public abstract class AbstractBeanWriter {
      */
     public static class ElementAttributes implements Attributes {
         /** Attribute descriptors backing the <code>Attributes</code> */
-        private AttributeDescriptor[] attributes
+        private List<AttributeDescriptor> attributes = []
+
+        private List<String> qualifiedNames = []
+
+        /** Cached attribute values */
+        private List<String> values = []
+
         /** Context to be evaluated when finding values */
         private Context context
-        /** Cached attribute values */
-        private String[] values
         /** The number of unsuppressed attributes */
-        private int length
         private BindingConfiguration bindingConfiguration
 
         /**
@@ -1045,29 +1047,20 @@ public abstract class AbstractBeanWriter {
             init(descriptor.getAttributeDescriptors())
         }
 
-        private void init(AttributeDescriptor[] baseAttributes) {
-            values = new String[baseAttributes.length]
-            int index = 0
+        private void init(Iterable<AttributeDescriptor> source) {
             if (context != null) {
-                int size = baseAttributes.length
-                attributes = new AttributeDescriptor[baseAttributes.length]
-
-                for (int i = 0; i < size; i++) {
-                    AttributeDescriptor baseAttribute = baseAttributes[i]
+                for (AttributeDescriptor baseAttribute : source) {
                     String attributeValue = valueAttribute(baseAttribute)
 
-                    if (attributeValue != null
-                            && !bindingConfiguration.valueSuppressionStrategy
-                            .suppressAttribute(baseAttribute, attributeValue)) {
-                        values[index] = attributeValue
-                        attributes[index] = baseAttribute
-                        index++
+                    def suppressionStrategy = bindingConfiguration.valueSuppressionStrategy
+                    if (attributeValue != null && !suppressionStrategy.suppressAttribute(baseAttribute, attributeValue)) {
+                        values.add(attributeValue)
+                        attributes.add(baseAttribute)
+
+                        qualifiedNames.add(baseAttribute.qualifiedName)
                     }
                 }
-            } else {
-                attributes = new AttributeDescriptor[0]
             }
-            length = index
         }
 
         private String valueAttribute(AttributeDescriptor attribute) {
@@ -1087,15 +1080,7 @@ public abstract class AbstractBeanWriter {
          * @return the index of the attribute - or -1 if there is no matching attribute
          */
         public int getIndex(String qName) {
-            for (int i = 0; i < attributes.length; i++) {
-                def descriptor = attributes[i]
-                if (descriptor) {
-                    if (descriptor.getQualifiedName() != null && descriptor.getQualifiedName().equals(qName)) {
-                        return i
-                    }
-                }
-            }
-            return -1
+            return qualifiedNames.indexOf(qName)
         }
 
         /**
@@ -1106,14 +1091,12 @@ public abstract class AbstractBeanWriter {
          * @return the index of the attribute - or -1 if there is no matching attribute
          */
         public int getIndex(String uri, String localName) {
-            for (int i = 0; i < attributes.length; i++) {
-                if (
-                attributes[i].getURI() != null
-                        && attributes[i].getURI().equals(uri)
-                        && attributes[i].getLocalName() != null
-                        && attributes[i].getURI().equals(localName)) {
-                    return i
+            int index = 0
+            for (AttributeDescriptor attribute : attributes) {
+                if (attribute.getURI() != null && attribute.getURI().equals(uri) && attribute.getLocalName() != null && attribute.getURI().equals(localName)) {
+                    return index
                 }
+                index++
             }
 
             return -1
@@ -1125,7 +1108,7 @@ public abstract class AbstractBeanWriter {
          * @return the number of attributes in this list
          */
         public int getLength() {
-            return length
+            return attributes.size()
         }
 
         /**
@@ -1289,7 +1272,7 @@ public abstract class AbstractBeanWriter {
             this.idAttributeName = idAttributeName
 
             // see if we have already have a matching attribute descriptor
-            AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors()
+            List<AttributeDescriptor> attributeDescriptors = descriptor.getAttributeDescriptors()
             length = super.getLength()
             for (int i = 0; i < length; i++) {
                 if (idAttributeName.equals(attributeDescriptors[i].getQualifiedName())) {

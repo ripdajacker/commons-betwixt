@@ -172,7 +172,7 @@ public class XMLIntrospectorHelper {
             ElementDescriptor elementDescriptor = new ElementDescriptor();
             elementDescriptor.setWrapCollectionsInElement(
                     introspector.isWrapCollectionsInElement());
-            elementDescriptor.setElementDescriptors(new ElementDescriptor[]{loopDescriptor});
+            elementDescriptor.setElementDescriptors(Collections.singletonList(loopDescriptor));
 
             nodeDescriptor = elementDescriptor;
         } else {
@@ -472,76 +472,45 @@ public class XMLIntrospectorHelper {
                                     }
 
                                     // is there a child element with no localName
-                                    ElementDescriptor[] children
-                                            = descriptor.getElementDescriptors();
-                                    if (children != null && children.length > 0) {
-                                        ElementDescriptor child = children[0];
-                                        String localName = child.getLocalName();
-                                        if (localName == null || localName.length() == 0) {
-                                            child.setLocalName(
-                                                    introspector.getElementNameMapper()
-                                                            .mapTypeToElementName(propertyName));
+                                    List<ElementDescriptor> children = descriptor.getElementDescriptors();
+                                    if (children != null) {
+                                        for (ElementDescriptor child : children) {
+                                            String localName = child.getLocalName();
+                                            if (localName == null || localName.length() == 0) {
+                                                child.setLocalName(
+                                                        introspector.getElementNameMapper()
+                                                                .mapTypeToElementName(propertyName));
+                                            }
                                         }
                                     }
 
                                 } else if (isMapDescriptor && types.length == 2) {
                                     // this may match a map
                                     log.trace("Matching map");
-                                    ElementDescriptor[] children
-                                            = descriptor.getElementDescriptors();
+                                    List<ElementDescriptor> children = descriptor.getElementDescriptors();
                                     // see if the descriptor's been set up properly
-                                    if (children.length == 0) {
-
-                                        log.info(
-                                                "'entry' descriptor is missing for map. "
-                                                        + "Updaters cannot be set");
-
+                                    if (children.isEmpty()) {
+                                        log.info("'entry' descriptor is missing for map. Updaters cannot be set");
                                     } else {
                                         // loop through grandchildren
                                         // adding updaters for key and value
-                                        ElementDescriptor[] grandchildren
-                                                = children[0].getElementDescriptors();
+                                        ElementDescriptor child = children.get(0);
                                         MapEntryAdder adder = new MapEntryAdder(method);
-                                        for (
-                                                int n = 0,
-                                                noOfGrandChildren = grandchildren.length;
-                                                n < noOfGrandChildren;
-                                                n++) {
-                                            if ("key".equals(
-                                                    grandchildren[n].getLocalName())) {
-
-                                                grandchildren[n].setUpdater(
-                                                        adder.getKeyUpdater());
-                                                grandchildren[n].setSingularPropertyType(
-                                                        types[0]);
-                                                if (log.isTraceEnabled()) {
-                                                    log.trace(
-                                                            "Key descriptor: " + grandchildren[n]);
-                                                }
-
-                                            } else if (
-                                                    "value".equals(
-                                                            grandchildren[n].getLocalName())) {
-
-                                                grandchildren[n].setUpdater(
-                                                        adder.getValueUpdater());
-                                                grandchildren[n].setSingularPropertyType(
-                                                        types[1]);
-                                                if (log.isTraceEnabled()) {
-                                                    log.trace(
-                                                            "Value descriptor: " + grandchildren[n]);
-                                                }
+                                        for (ElementDescriptor grandchild : child.getElementDescriptors()) {
+                                            if ("key".equals(grandchild.getLocalName())) {
+                                                grandchild.setUpdater(adder.getKeyUpdater());
+                                                grandchild.setSingularPropertyType(types[0]);
+                                                log.trace("Key descriptor: " + grandchild);
+                                            } else if ("value".equals(grandchild.getLocalName())) {
+                                                grandchild.setUpdater(adder.getValueUpdater());
+                                                grandchild.setSingularPropertyType(types[1]);
+                                                log.trace("Value descriptor: " + grandchild);
                                             }
                                         }
                                     }
                                 }
                             } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
-                                            "Could not find an ElementDescriptor with property name: "
-                                                    + propertyName + " to attach the add method: " + method
-                                    );
-                                }
+                                log.debug("Could not find an ElementDescriptor with property name: " + propertyName + " to attach the add method: " + method);
                             }
                         }
                     }
@@ -659,10 +628,8 @@ public class XMLIntrospectorHelper {
      * @deprecated 0.6 moved into XMLIntrospector
      */
     protected static void makeElementDescriptorMap(ElementDescriptor rootDescriptor, Map map) {
-        ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
-        if (children != null) {
-            for (int i = 0, size = children.length; i < size; i++) {
-                ElementDescriptor child = children[i];
+        if (rootDescriptor.getElementDescriptors() != null) {
+            for (ElementDescriptor child : rootDescriptor.getElementDescriptors()) {
                 String propertyName = child.getPropertyName();
                 if (propertyName != null) {
                     map.put(propertyName, child);
@@ -672,29 +639,4 @@ public class XMLIntrospectorHelper {
         }
     }
 
-    /**
-     * Traverse the tree of element descriptors and find the oldValue and swap it with the newValue.
-     * This would be much easier to do if ElementDescriptor supported a parent relationship.
-     *
-     * @param rootDescriptor traverse child graph for this <code>ElementDescriptor</code>
-     * @param oldValue       replace this <code>ElementDescriptor</code>
-     * @param newValue       replace with this <code>ElementDescriptor</code>
-     * @deprecated 0.6 now unused
-     */
-    protected static void swapDescriptor(
-            ElementDescriptor rootDescriptor,
-            ElementDescriptor oldValue,
-            ElementDescriptor newValue) {
-        ElementDescriptor[] children = rootDescriptor.getElementDescriptors();
-        if (children != null) {
-            for (int i = 0, size = children.length; i < size; i++) {
-                ElementDescriptor child = children[i];
-                if (child == oldValue) {
-                    children[i] = newValue;
-                    break;
-                }
-                swapDescriptor(child, oldValue, newValue);
-            }
-        }
-    }
 }

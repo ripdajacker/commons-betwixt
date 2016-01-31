@@ -102,7 +102,7 @@ public class TestScarabSettings extends AbstractTestCase {
    protected BeanReader createBeanReader()
          throws Exception {
       BeanReader reader = new BeanReader();
-      reader.setXMLIntrospector(createXMLIntrospector());
+      reader.setIntrospector(createXMLIntrospector());
       reader.registerBeanClass(ScarabSettings.class);
       return reader;
    }

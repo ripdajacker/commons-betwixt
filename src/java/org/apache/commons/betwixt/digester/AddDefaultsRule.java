@@ -101,7 +101,7 @@ public class AddDefaultsRule extends RuleSupport {
          try {
             boolean attributesForPrimitives = getXMLInfoDigester().isAttributesForPrimitives();
             BeanInfo beanInfo;
-            if (getXMLIntrospector().getConfiguration().ignoreAllBeanInfo()) {
+            if (getXMLIntrospector().getConfiguration().isIgnoreAllBeanInfo()) {
                beanInfo = BeanIntrospector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
             } else {
                beanInfo = BeanIntrospector.getBeanInfo(beanClass);

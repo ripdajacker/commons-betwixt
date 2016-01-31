@@ -108,8 +108,8 @@ public class TestBeanCreation extends AbstractTestCase {
       chain.insertBeanCreator(1, new EnumCreator());
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       reader.registerBeanClass("houses", HouseBeans.class);
       reader.getReadConfiguration().setBeanCreationChain(chain);
 
@@ -192,8 +192,8 @@ public class TestBeanCreation extends AbstractTestCase {
       chain.insertBeanCreator(1, new EnumCreator());
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      reader.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      reader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      reader.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       reader.registerBeanClass("houses", HouseBeans.class);
       reader.getReadConfiguration().setBeanCreationChain(chain);
 

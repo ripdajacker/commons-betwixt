@@ -118,7 +118,7 @@ public class TestMsgParser extends TestCase {
       MsgBean msg = null;
       BeanReader beanReader = new BeanReader();
       // Configure the reader
-      beanReader.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      beanReader.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       // Register beans so that betwixt knows what the xml is
       beanReader.registerBeanClass("message", MsgBean.class);
       StringReader stringReader = new StringReader(xmlMessage);

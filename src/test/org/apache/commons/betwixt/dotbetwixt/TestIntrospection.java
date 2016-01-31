@@ -52,11 +52,11 @@ public class TestIntrospection extends XmlTestCase {
 
       XMLIntrospector introspector = new XMLIntrospector();
       XMLBeanInfo beanInfo = introspector.introspect(ExampleBean.class);
-      ElementDescriptor[] elementDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
+      java.util.List<ElementDescriptor> elementDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
       ElementDescriptor elementsElementDescriptor = null;
-      for (int i = 0, size = elementDescriptors.length; i < size; i++) {
-         if ("example".equals(elementDescriptors[i].getLocalName())) {
-            elementsElementDescriptor = elementDescriptors[i];
+      for (int i = 0, size = elementDescriptors.size(); i < size; i++) {
+         if ("example".equals(elementDescriptors.get(i).getLocalName())) {
+            elementsElementDescriptor = elementDescriptors.get(i);
          }
       }
 

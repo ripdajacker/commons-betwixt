@@ -32,12 +32,12 @@ public class TestInterfaceIntrospection extends TestCase {
       XMLIntrospector introspector = new XMLIntrospector();
 
       XMLBeanInfo beanInfo = introspector.introspect(ICopyableDateRange.class);
-      ElementDescriptor[] childDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
+      java.util.List<ElementDescriptor> childDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
 
-      assertEquals("Date range child elements", 2, childDescriptors.length);
+      assertEquals("Date range child elements", 2, childDescriptors.size());
       int code = 0;
       for (int i = 0; i < 2; i++) {
-         String name = childDescriptors[i].getPropertyName();
+         String name = childDescriptors.get(i).getPropertyName();
          if ("startDate".equals(name)) {
             code += 1;
          }
@@ -54,12 +54,12 @@ public class TestInterfaceIntrospection extends TestCase {
       XMLIntrospector introspector = new XMLIntrospector();
 
       XMLBeanInfo beanInfo = introspector.introspect(ILaughingCount.class);
-      ElementDescriptor[] childDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
+      java.util.List<ElementDescriptor> childDescriptors = beanInfo.getElementDescriptor().getElementDescriptors();
 
-      assertEquals("Laughing count child elements", 1, childDescriptors.length);
-      assertEquals("Laughing count super interface matched", "count", childDescriptors[0].getPropertyName());
-      assertEquals("Laughing count super interface matched", Integer.TYPE, childDescriptors[0].getPropertyType());
-      assertNotNull("Laughing count updater matched", childDescriptors[0].getUpdater());
+      assertEquals("Laughing count child elements", 1, childDescriptors.size());
+      assertEquals("Laughing count super interface matched", "count", childDescriptors.get(0).getPropertyName());
+      assertEquals("Laughing count super interface matched", Integer.TYPE, childDescriptors.get(0).getPropertyType());
+      assertNotNull("Laughing count updater matched", childDescriptors.get(0).getUpdater());
    }
 
 }

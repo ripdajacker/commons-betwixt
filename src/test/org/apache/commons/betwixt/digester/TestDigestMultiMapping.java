@@ -73,9 +73,9 @@ public class TestDigestMultiMapping extends TestCase {
       assertEquals("Value two set on base", "test-value-b", baseDescriptor.getOptions().getValue("test-key-b"));
       assertNull("Value three not set on base", baseDescriptor.getOptions().getValue("three"));
 
-      assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().length);
+      assertEquals("Number of child elements", 1, baseDescriptor.getElementDescriptors().size());
 
-      ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors()[0];
+      ElementDescriptor childDescriptor = baseDescriptor.getElementDescriptors().get(0);
       assertNull("Value one set on base", childDescriptor.getOptions().getValue("test-key-a"));
       assertNull("Value two set on base", childDescriptor.getOptions().getValue("test-key-b"));
       assertEquals("Value three set on child", "test-value-c", childDescriptor.getOptions().getValue("test-key-c"));

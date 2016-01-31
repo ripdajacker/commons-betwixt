@@ -89,7 +89,7 @@ public class TestSchema extends AbstractTestCase {
       // end up in rereading / mapping the object model.
       registry.flush();
       // set the xmlIntrospector back to the reader
-      reader.setXMLIntrospector(intro);
+      reader.setIntrospector(intro);
       reader.deregisterBeanClass(PhysicalSchema.class);
       reader.getRules().clear();
       reader.registerBeanClass(PhysicalSchema.class);
@@ -123,7 +123,7 @@ public class TestSchema extends AbstractTestCase {
    protected BeanReader createBeanReader()
          throws Exception {
       BeanReader reader = new BeanReader();
-      reader.setXMLIntrospector(createXMLIntrospector());
+      reader.setIntrospector(createXMLIntrospector());
       // register the class which maps to the root element
       // of the xml file (this depends on the NameMapper used.
       reader.registerBeanClass(PhysicalSchema.class);

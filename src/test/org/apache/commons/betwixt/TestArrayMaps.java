@@ -17,6 +17,8 @@
 
 package org.apache.commons.betwixt;
 
+import java.util.List;
+
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
@@ -39,27 +41,27 @@ public class TestArrayMaps extends AbstractTestCase {
             = introspector.introspect(AddressBookWithMapArrayAdder.class);
 
       ElementDescriptor beanDescriptor = xmlBeanInfo.getElementDescriptor();
-      ElementDescriptor[] childDescriptors = beanDescriptor.getElementDescriptors();
-      assertEquals("Only one child element", 1, childDescriptors.length);
-      ElementDescriptor wrappingDescriptor = childDescriptors[0];
-      ElementDescriptor[] wrappingChildDescriptors = wrappingDescriptor.getElementDescriptors();
-      assertEquals("One child descriptor", 1, wrappingChildDescriptors.length);
-      ElementDescriptor entryDescriptor = wrappingChildDescriptors[0];
-      ElementDescriptor[] entryChildDescriptors = entryDescriptor.getElementDescriptors();
-      assertEquals("Two child descriptors", 2, entryChildDescriptors.length);
+      List<ElementDescriptor> childDescriptors = beanDescriptor.getElementDescriptors();
+      assertEquals("Only one child element", 1, childDescriptors.size());
+      ElementDescriptor wrappingDescriptor = childDescriptors.get(0);
+      List<ElementDescriptor> wrappingChildDescriptors = wrappingDescriptor.getElementDescriptors();
+      assertEquals("One child descriptor", 1, wrappingChildDescriptors.size());
+      ElementDescriptor entryDescriptor = wrappingChildDescriptors.get(0);
+      List<ElementDescriptor> entryChildDescriptors = entryDescriptor.getElementDescriptors();
+      assertEquals("Two child descriptors", 2, entryChildDescriptors.size());
       ElementDescriptor keyDescriptor = null;
       ElementDescriptor valueDescriptor = null;
-      if ("key".equals(entryChildDescriptors[0].getQualifiedName())) {
-         keyDescriptor = entryChildDescriptors[0];
+      if ("key".equals(entryChildDescriptors.get(0).getQualifiedName())) {
+         keyDescriptor = entryChildDescriptors.get(0);
       }
-      if ("value".equals(entryChildDescriptors[0].getQualifiedName())) {
-         valueDescriptor = entryChildDescriptors[0];
+      if ("value".equals(entryChildDescriptors.get(0).getQualifiedName())) {
+         valueDescriptor = entryChildDescriptors.get(0);
       }
-      if ("key".equals(entryChildDescriptors[1].getQualifiedName())) {
-         keyDescriptor = entryChildDescriptors[1];
+      if ("key".equals(entryChildDescriptors.get(1).getQualifiedName())) {
+         keyDescriptor = entryChildDescriptors.get(1);
       }
-      if ("value".equals(entryChildDescriptors[1].getQualifiedName())) {
-         valueDescriptor = entryChildDescriptors[1];
+      if ("value".equals(entryChildDescriptors.get(1).getQualifiedName())) {
+         valueDescriptor = entryChildDescriptors.get(1);
       }
 
       assertNotNull("Expected key descriptor", keyDescriptor);
@@ -67,9 +69,9 @@ public class TestArrayMaps extends AbstractTestCase {
       assertNotNull("Expected key property type", keyDescriptor.getPropertyType());
       assertNotNull("Expected value property type", valueDescriptor.getPropertyType());
 
-      ElementDescriptor[] childValueDescriptors = valueDescriptor.getElementDescriptors();
-      assertEquals("One hollow child descriptor for array", 1, childValueDescriptors.length);
-      ElementDescriptor hollowValueDescriptor = childValueDescriptors[0];
+      List<ElementDescriptor> childValueDescriptors = valueDescriptor.getElementDescriptors();
+      assertEquals("One hollow child descriptor for array", 1, childValueDescriptors.size());
+      ElementDescriptor hollowValueDescriptor = childValueDescriptors.get(0);
       assertEquals("Child descriptor is hollow", true, hollowValueDescriptor.isHollow());
       assertEquals(
             "Child descriptor has AddressBean[] property type",

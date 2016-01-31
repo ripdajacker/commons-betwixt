@@ -100,12 +100,12 @@ public class TestPolyList extends AbstractTestCase {
    public void testIntrospection() throws Exception {
       XMLIntrospector introspector = new XMLIntrospector();
       XMLBeanInfo beanInfo = introspector.introspect(AlphaList.class);
-      ElementDescriptor[] descriptors = beanInfo.getElementDescriptor().getElementDescriptors();
-      assertEquals("One descriptor", 1, descriptors.length);
-      assertTrue(descriptors[0].isHollow());
-      assertNotNull(descriptors[0].getContextExpression());
-      assertNotNull(descriptors[0].getUpdater());
-      assertEquals("A list can contain any object", Object.class, descriptors[0].getSingularPropertyType());
+      java.util.List<ElementDescriptor> descriptors = beanInfo.getElementDescriptor().getElementDescriptors();
+      assertEquals("One descriptor", 1, descriptors.size());
+      assertTrue(descriptors.get(0).isHollow());
+      assertNotNull(descriptors.get(0).getContextExpression());
+      assertNotNull(descriptors.get(0).getUpdater());
+      assertEquals("A list can contain any object", Object.class, descriptors.get(0).getSingularPropertyType());
    }
 
    private void configure(BindingConfiguration configuration) {

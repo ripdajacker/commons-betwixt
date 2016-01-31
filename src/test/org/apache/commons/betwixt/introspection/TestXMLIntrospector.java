@@ -32,277 +32,282 @@ import org.apache.commons.digester.rss.Channel;
 import java.beans.BeanInfo;
 import java.beans.PropertyDescriptor;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 
-/** Test harness for the XMLIntrospector
+/**
+ * Test harness for the XMLIntrospector
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Revision$
  */
 public class TestXMLIntrospector extends AbstractTestCase {
 
-   public static void main(String[] args) {
-      TestRunner.run(suite());
-   }
+    public static void main(String[] args) {
+        TestRunner.run(suite());
+    }
 
-   public static Test suite() {
-      return new TestSuite(TestXMLIntrospector.class);
-   }
+    public static Test suite() {
+        return new TestSuite(TestXMLIntrospector.class);
+    }
 
-   public TestXMLIntrospector(String testName) {
-      super(testName);
-   }
+    public TestXMLIntrospector(String testName) {
+        super(testName);
+    }
 
-   public void testIntrospector() throws Exception {
-      //SimpleLog log = new SimpleLog("testIntrospector:introspector");
-      //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
-      XMLIntrospector introspector = new XMLIntrospector();
-      //introspector.setLog(log);
+    public void testIntrospector() throws Exception {
+        //SimpleLog log = new SimpleLog("testIntrospector:introspector");
+        //log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
+        XMLIntrospector introspector = new XMLIntrospector();
+        //introspector.setLog(log);
 
-      introspector.getConfiguration().setAttributesForPrimitives(true);
+        introspector.getConfiguration().setAttributesForPrimitives(true);
 
-      Object bean = createBean();
+        Object bean = createBean();
 
-      XMLBeanInfo info = introspector.introspect(bean);
+        XMLBeanInfo info = introspector.introspect(bean);
 
-      assertTrue("Found XMLBeanInfo", info != null);
+        assertTrue("Found XMLBeanInfo", info != null);
 
-      ElementDescriptor descriptor = info.getElementDescriptor();
+        ElementDescriptor descriptor = info.getElementDescriptor();
 
-      assertTrue("Found root element descriptor", descriptor != null);
+        assertTrue("Found root element descriptor", descriptor != null);
 
-      AttributeDescriptor[] attributes = descriptor.getAttributeDescriptors();
+        List<AttributeDescriptor> attributes = descriptor.getAttributeDescriptors();
 
-      assertTrue("Found attributes", attributes != null && attributes.length > 0);
+        assertTrue("Found attributes", attributes != null && attributes.size() > 0);
 
-      // test second introspection with caching on
-      info = introspector.introspect(bean);
+        // test second introspection with caching on
+        info = introspector.introspect(bean);
 
-      assertTrue("Found XMLBeanInfo", info != null);
+        assertTrue("Found XMLBeanInfo", info != null);
 
-      descriptor = info.getElementDescriptor();
+        descriptor = info.getElementDescriptor();
 
-      assertTrue("Found root element descriptor", descriptor != null);
+        assertTrue("Found root element descriptor", descriptor != null);
 
-      attributes = descriptor.getAttributeDescriptors();
+        attributes = descriptor.getAttributeDescriptors();
 
-      assertTrue("Found attributes", attributes != null && attributes.length > 0);
-
-
-      // test introspection with caching off
-      //introspector.setCachingEnabled(false);
-      introspector.setRegistry(new NoCacheRegistry());
-      info = introspector.introspect(bean);
-
-      assertTrue("Found XMLBeanInfo", info != null);
-
-      descriptor = info.getElementDescriptor();
-
-      assertTrue("Found root element descriptor", descriptor != null);
-
-      attributes = descriptor.getAttributeDescriptors();
-
-      assertTrue("Found attributes", attributes != null && attributes.length > 0);
+        assertTrue("Found attributes", attributes != null && attributes.size() > 0);
 
 
-      // test introspection after flushing cache
+        // test introspection with caching off
+        //introspector.setCachingEnabled(false);
+        introspector.setRegistry(new NoCacheRegistry());
+        info = introspector.introspect(bean);
+
+        assertTrue("Found XMLBeanInfo", info != null);
+
+        descriptor = info.getElementDescriptor();
+
+        assertTrue("Found root element descriptor", descriptor != null);
+
+        attributes = descriptor.getAttributeDescriptors();
+
+        assertTrue("Found attributes", attributes != null && attributes.size() > 0);
+
+
+        // test introspection after flushing cache
 //        introspector.setCachingEnabled(true);
-      introspector.setRegistry(new DefaultXMLBeanInfoRegistry());
-      //introspector.flushCache();
-      info = introspector.introspect(bean);
+        introspector.setRegistry(new DefaultXMLBeanInfoRegistry());
+        //introspector.flushCache();
+        info = introspector.introspect(bean);
 
-      assertTrue("Found XMLBeanInfo", info != null);
+        assertTrue("Found XMLBeanInfo", info != null);
 
-      descriptor = info.getElementDescriptor();
+        descriptor = info.getElementDescriptor();
 
-      assertTrue("Found root element descriptor", descriptor != null);
+        assertTrue("Found root element descriptor", descriptor != null);
 
-      attributes = descriptor.getAttributeDescriptors();
+        attributes = descriptor.getAttributeDescriptors();
 
-      assertTrue("Found attributes", attributes != null && attributes.length > 0);
+        assertTrue("Found attributes", attributes != null && attributes.size() > 0);
 
-   }
+    }
 
-   public void testBeanWithBeanInfo() throws Exception {
+    public void testBeanWithBeanInfo() throws Exception {
 
-      // let's check that bean info's ok
-      BeanInfo bwbiBeanInfo = BeanIntrospector.getBeanInfo(BeanWithBeanInfoBean.class);
+        // let's check that bean info's ok
+        BeanInfo bwbiBeanInfo = BeanIntrospector.getBeanInfo(BeanWithBeanInfoBean.class);
 
-      PropertyDescriptor[] propertyDescriptors = bwbiBeanInfo.getPropertyDescriptors();
+        List<PropertyDescriptor> propertyDescriptors = new LinkedList<>();
+        Collections.addAll(propertyDescriptors, bwbiBeanInfo.getPropertyDescriptors());
 
-      assertEquals("Wrong number of properties", 3, propertyDescriptors.length);
+        assertEquals("Wrong number of properties", 3, propertyDescriptors.size());
 
-      // order of properties isn't guarenteed
-      if ("alpha".equals(propertyDescriptors[0].getName())) {
-         assertEquals("Second property name", "beta", propertyDescriptors[1].getName());
+        // order of properties isn't guarenteed
+        if ("alpha".equals(propertyDescriptors.get(0).getName())) {
+            assertEquals("Second property name", "beta", propertyDescriptors.get(1).getName());
 
-      } else {
+        } else {
 
-         assertEquals("First property name", "gamma", propertyDescriptors[0].getName());
-         assertEquals("Second property name", "alpha", propertyDescriptors[1].getName());
-      }
+            assertEquals("First property name", "gamma", propertyDescriptors.get(0).getName());
+            assertEquals("Second property name", "alpha", propertyDescriptors.get(1).getName());
+        }
 
-      // finished with the descriptors
-      propertyDescriptors = null;
+        // finished with the descriptors
+        propertyDescriptors = null;
 
 //        SimpleLog log = new SimpleLog("[testBeanWithBeanInfo:XMLIntrospector]");
 //        log.setLevel(SimpleLog.LOG_LEVEL_TRACE);
 
-      XMLIntrospector introspector = new XMLIntrospector();
-      introspector.getConfiguration().setAttributesForPrimitives(false);
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setAttributesForPrimitives(false);
 //        introspector.setLog(log);
 
-      XMLBeanInfo xmlBeanInfo = introspector.introspect(BeanWithBeanInfoBean.class);
+        XMLBeanInfo xmlBeanInfo = introspector.introspect(BeanWithBeanInfoBean.class);
 
-      ElementDescriptor[] elementDescriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
+        List<ElementDescriptor> elementDescriptors = xmlBeanInfo.getElementDescriptor().getElementDescriptors();
 
-      assertEquals("Wrong number of elements", 2, elementDescriptors.length);
+        assertEquals("Wrong number of elements", 2, elementDescriptors.size());
 
-      // order of properties isn't guarenteed
-      boolean alphaFirst = true;
-      if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-         assertEquals("Second element name", "beta", elementDescriptors[1].getPropertyName());
-      } else {
-         alphaFirst = false;
-         assertEquals("First element name", "beta", elementDescriptors[0].getPropertyName());
-         assertEquals("Second element name", "alpha", elementDescriptors[1].getPropertyName());
-      }
+        // order of properties isn't guarenteed
+        boolean alphaFirst = true;
+        if ("alpha".equals(elementDescriptors.get(0).getPropertyName())) {
+            assertEquals("Second element name", "beta", elementDescriptors.get(1).getPropertyName());
+        } else {
+            alphaFirst = false;
+            assertEquals("First element name", "beta", elementDescriptors.get(0).getPropertyName());
+            assertEquals("Second element name", "alpha", elementDescriptors.get(1).getPropertyName());
+        }
 
-      // might as well give test output
-      StringWriter out = new StringWriter();
-      BeanWriter writer = new BeanWriter(out);
-      writer.getBindingConfiguration().setMapIDs(false);
-      BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value", "beta value", "gamma value");
-      writer.write(bean);
+        // might as well give test output
+        StringWriter out = new StringWriter();
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
+        BeanWithBeanInfoBean bean = new BeanWithBeanInfoBean("alpha value", "beta value", "gamma value");
+        writer.write(bean);
 
-      if (alphaFirst) {
+        if (alphaFirst) {
 
-         xmlAssertIsomorphicContent(
-               parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-a.xml"),
-               parseString(out.toString()));
+            xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-a.xml"),
+                    parseString(out.toString()));
 
-      } else {
-         xmlAssertIsomorphicContent(
-               parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-g.xml"),
-               parseString(out.toString()));
-      }
-   }
+        } else {
+            xmlAssertIsomorphicContent(
+                    parseFile("src/test/org/apache/commons/betwixt/introspection/test-bwbi-output-g.xml"),
+                    parseString(out.toString()));
+        }
+    }
 
-   public void testDefaultClassNormalizer() throws Exception {
-      XMLIntrospector introspector = new XMLIntrospector();
+    public void testDefaultClassNormalizer() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
 
-      FaceImpl face = new FaceImpl();
-      XMLBeanInfo info = introspector.introspect(face);
-      ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        FaceImpl face = new FaceImpl();
+        XMLBeanInfo info = introspector.introspect(face);
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
 
-      AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();
-      ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        List<AttributeDescriptor> attributeDescriptor = elementDescriptor.getAttributeDescriptors();
+        List<ElementDescriptor> children = elementDescriptor.getElementDescriptors();
 
-      assertEquals("Expected no attributes", 0, attributeDescriptor.length);
-      assertEquals("Expected two elements", 2, children.length);
-   }
+        assertEquals("Expected no attributes", 0, attributeDescriptor.size());
+        assertEquals("Expected two elements", 2, children.size());
+    }
 
-   public void testClassNormalizer() throws Exception {
-      XMLIntrospector introspector = new XMLIntrospector();
-      introspector.getConfiguration().setClassNormalizer(
-            new ClassNormalizer() {
+    public void testClassNormalizer() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setClassNormalizer(
+                new ClassNormalizer() {
 
-               public Class normalize(Class clazz) {
-                  if (IFace.class.isAssignableFrom(clazz)) {
-                     return IFace.class;
-                  }
-                  return super.normalize(clazz);
-               }
-            });
+                    public Class normalize(Class clazz) {
+                        if (IFace.class.isAssignableFrom(clazz)) {
+                            return IFace.class;
+                        }
+                        return super.normalize(clazz);
+                    }
+                });
 
-      FaceImpl face = new FaceImpl();
-      XMLBeanInfo info = introspector.introspect(face);
-      ElementDescriptor elementDescriptor = info.getElementDescriptor();
-      assertEquals("Expected only itself", 1, elementDescriptor.getElementDescriptors().length);
+        FaceImpl face = new FaceImpl();
+        XMLBeanInfo info = introspector.introspect(face);
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        assertEquals("Expected only itself", 1, elementDescriptor.getElementDescriptors().size());
 
-      AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();
-      ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        List<AttributeDescriptor> attributeDescriptor = elementDescriptor.getAttributeDescriptors();
+        List<ElementDescriptor> children = elementDescriptor.getElementDescriptors();
 
-      assertEquals("Expected no attributes", 0, attributeDescriptor.length);
-      assertEquals("Expected one elements", 1, children.length);
-      assertEquals("Expected element", "name", children[0].getLocalName());
-   }
+        assertEquals("Expected no attributes", 0, attributeDescriptor.size());
+        assertEquals("Expected one elements", 1, children.size());
+        assertEquals("Expected element", "name", children.get(0).getLocalName());
+    }
 
-   public void testListedClassNormalizer() throws Exception {
-      ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
-      classNormalizer.addSubstitution(IFace.class);
-      XMLIntrospector introspector = new XMLIntrospector();
-      introspector.getConfiguration().setClassNormalizer(classNormalizer);
+    public void testListedClassNormalizer() throws Exception {
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution(IFace.class);
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setClassNormalizer(classNormalizer);
 
-      FaceImpl face = new FaceImpl();
+        FaceImpl face = new FaceImpl();
 
-      XMLBeanInfo info = introspector.introspect(face);
-      ElementDescriptor elementDescriptor = info.getElementDescriptor();
-      AttributeDescriptor[] attributeDescriptor = elementDescriptor.getAttributeDescriptors();
-      ElementDescriptor[] children = elementDescriptor.getElementDescriptors();
+        XMLBeanInfo info = introspector.introspect(face);
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        List<AttributeDescriptor> attributeDescriptor = elementDescriptor.getAttributeDescriptors();
+        List<ElementDescriptor> children = elementDescriptor.getElementDescriptors();
 
-      assertEquals("Expected no attributes", 0, attributeDescriptor.length);
-      assertEquals("Expected one elements", 1, children.length);
-      assertEquals("Expected element", "name", children[0].getLocalName());
-   }
+        assertEquals("Expected no attributes", 0, attributeDescriptor.size());
+        assertEquals("Expected one elements", 1, children.size());
+        assertEquals("Expected element", "name", children.get(0).getLocalName());
+    }
 
-   public void testListedClassNormalizerWrite() throws Exception {
-      ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
-      classNormalizer.addSubstitution(IFace.class);
+    public void testListedClassNormalizerWrite() throws Exception {
+        ListedClassNormalizer classNormalizer = new ListedClassNormalizer();
+        classNormalizer.addSubstitution(IFace.class);
 
-      StringWriter out = new StringWriter();
-      out.write("<?xml version='1.0'?>");
-      BeanWriter writer = new BeanWriter(out);
-      writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setClassNormalizer(classNormalizer);
-      FaceImpl bean = new FaceImpl();
-      bean.setName("Old Tom Cobbly");
-      writer.write(bean);
+        StringWriter out = new StringWriter();
+        out.write("<?xml version='1.0'?>");
+        BeanWriter writer = new BeanWriter(out);
+        writer.getBindingConfiguration().setMapIDs(false);
+        writer.getXMLIntrospector().getConfiguration().setClassNormalizer(classNormalizer);
+        FaceImpl bean = new FaceImpl();
+        bean.setName("Old Tom Cobbly");
+        writer.write(bean);
 
-      String xml = "<?xml version='1.0'?><IFace><name>Old Tom Cobbly</name></IFace>";
-      xmlAssertIsomorphicContent(
-            parseString(out.getBuffer().toString()),
-            parseString(xml),
-            true);
-   }
+        String xml = "<?xml version='1.0'?><IFace><name>Old Tom Cobbly</name></IFace>";
+        xmlAssertIsomorphicContent(
+                parseString(out.getBuffer().toString()),
+                parseString(xml),
+                true);
+    }
 
-   public void testBetwixtFileType() throws Exception {
-      XMLIntrospector introspector = new XMLIntrospector();
-      XMLBeanInfo info = introspector.introspect(Channel.class);
+    public void testBetwixtFileType() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        XMLBeanInfo info = introspector.introspect(Channel.class);
 
-      ElementDescriptor elementDescriptor = info.getElementDescriptor();
+        ElementDescriptor elementDescriptor = info.getElementDescriptor();
 
-      Class clazz = elementDescriptor.getSingularPropertyType();
-      assertEquals("Element type correct", Channel.class, clazz);
+        Class clazz = elementDescriptor.getSingularPropertyType();
+        assertEquals("Element type correct", Channel.class, clazz);
 
-      assertEquals("Element name correct", "rss", elementDescriptor.getLocalName());
-   }
+        assertEquals("Element name correct", "rss", elementDescriptor.getLocalName());
+    }
 
-   public void testIgnoreAllBeanInfo() throws Exception {
-      XMLIntrospector introspector = new XMLIntrospector();
-      introspector.getConfiguration().setIgnoreAllBeanInfo(false);
-      introspector.setRegistry(new NoCacheRegistry());
-      XMLBeanInfo info = introspector.introspect(BeanWithBeanInfoBean.class);
-      ElementDescriptor[] elementDescriptors = info.getElementDescriptor().getElementDescriptors();
-      // When BeanInfo is used the properties alpha and gamma will be found
-      if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-         assertEquals("Second element name", "beta", elementDescriptors[1].getPropertyName());
-      } else {
-         assertEquals("First element name", "gamma", elementDescriptors[0].getPropertyName());
-         assertEquals("Second element name", "alpha", elementDescriptors[1].getPropertyName());
-      }
+    public void testIgnoreAllBeanInfo() throws Exception {
+        XMLIntrospector introspector = new XMLIntrospector();
+        introspector.getConfiguration().setIgnoreAllBeanInfo(false);
+        introspector.setRegistry(new NoCacheRegistry());
+        XMLBeanInfo info = introspector.introspect(BeanWithBeanInfoBean.class);
+        List<ElementDescriptor> elementDescriptors = info.getElementDescriptor().getElementDescriptors();
+        // When BeanInfo is used the properties alpha and gamma will be found
+        if ("alpha".equals(elementDescriptors.get(0).getPropertyName())) {
+            assertEquals("Second element name", "beta", elementDescriptors.get(1).getPropertyName());
+        } else {
+            assertEquals("First element name", "gamma", elementDescriptors.get(0).getPropertyName());
+            assertEquals("Second element name", "alpha", elementDescriptors.get(1).getPropertyName());
+        }
 
-      introspector.getConfiguration().setIgnoreAllBeanInfo(true);
-      info = introspector.introspect(BeanWithBeanInfoBean.class);
-      elementDescriptors = info.getElementDescriptor().getElementDescriptors();
-      // When BeanInfo is ignored the properties alpha and beta will be found
-      if ("alpha".equals(elementDescriptors[0].getPropertyName())) {
-         assertEquals("Second element name", "beta", elementDescriptors[1].getPropertyName());
-      } else {
-         assertEquals("First element name", "beta", elementDescriptors[0].getPropertyName());
-         assertEquals("Second element name", "alpha", elementDescriptors[1].getPropertyName());
-      }
-   }
+        introspector.getConfiguration().setIgnoreAllBeanInfo(true);
+        info = introspector.introspect(BeanWithBeanInfoBean.class);
+        elementDescriptors = info.getElementDescriptor().getElementDescriptors();
+        // When BeanInfo is ignored the properties alpha and beta will be found
+        if ("alpha".equals(elementDescriptors.get(0).getPropertyName())) {
+            assertEquals("Second element name", "beta", elementDescriptors.get(1).getPropertyName());
+        } else {
+            assertEquals("First element name", "beta", elementDescriptors.get(0).getPropertyName());
+            assertEquals("Second element name", "alpha", elementDescriptors.get(1).getPropertyName());
+        }
+    }
 
 
 }

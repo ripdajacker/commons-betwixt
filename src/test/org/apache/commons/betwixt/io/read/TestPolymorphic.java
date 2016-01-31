@@ -101,7 +101,7 @@ public class TestPolymorphic extends AbstractTestCase {
       StringReader in = new StringReader(XML);
       BeanReader reader = new BeanReader();
       reader.getBindingConfiguration().setMapIDs(false);
-      reader.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      reader.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       reader.registerBeanClass(Animals.class);
       Animals animals = (Animals) reader.parse(in);
 

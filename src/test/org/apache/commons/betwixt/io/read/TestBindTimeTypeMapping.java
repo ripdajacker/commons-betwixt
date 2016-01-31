@@ -47,7 +47,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
       XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(Animals.class);
       ElementDescriptor animalsDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use bind time type", true, animalsDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors().get(0);
       assertEquals("Use bind time type", true, animalDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -57,7 +57,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
       XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(Animals.class);
       ElementDescriptor animalsDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use introspection time type", false, animalsDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors().get(0);
       assertEquals("Use introspection time type", false, animalDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -67,7 +67,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
       XMLBeanInfo xmlBeanInfo = xmlIntrospector.introspect(Animals.class);
       ElementDescriptor animalsDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use bind time type", true, animalsDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = animalsDescriptor.getElementDescriptors().get(0);
       assertEquals("Use bind time type", true, animalDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -84,7 +84,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
             new InputSource(new StringReader(mappingDocument)));
       ElementDescriptor petDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use type from strategy", true, petDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors().get(0);
       assertEquals("Use type from document", true, animalDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -101,7 +101,7 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
             new InputSource(new StringReader(mappingDocument)));
       ElementDescriptor petDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use type from strategy", true, petDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors().get(0);
       assertEquals("Use type from document", false, animalDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -119,9 +119,9 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
             new InputSource(new StringReader(mappingDocument)));
       ElementDescriptor petDescriptor = xmlBeanInfo.getElementDescriptor();
       assertEquals("Use type from strategy", true, petDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors()[0];
+      ElementDescriptor animalDescriptor = petDescriptor.getElementDescriptors().get(0);
       assertEquals("Use type from document", false, animalDescriptor.isUseBindTimeTypeForMapping());
-      ElementDescriptor personDescriptor = petDescriptor.getElementDescriptors()[1];
+      ElementDescriptor personDescriptor = petDescriptor.getElementDescriptors().get(1);
       assertEquals("Use type from document", true, personDescriptor.isUseBindTimeTypeForMapping());
    }
 
@@ -179,9 +179,9 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
             "</Animals>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration()
+      reader.getIntrospector().getConfiguration()
             .setMappingDerivationStrategy(MappingDerivationStrategy.USE_BIND_TIME_TYPE);
-      reader.getXMLIntrospector().getConfiguration()
+      reader.getIntrospector().getConfiguration()
             .setWrapCollectionsInElement(false);
       reader.getBindingConfiguration().setMapIDs(false);
 
@@ -256,9 +256,9 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
             "</Animals>";
 
       BeanReader reader = new BeanReader();
-      reader.getXMLIntrospector().getConfiguration()
+      reader.getIntrospector().getConfiguration()
             .setMappingDerivationStrategy(MappingDerivationStrategy.USE_INTROSPECTION_TIME_TYPE);
-      reader.getXMLIntrospector().getConfiguration()
+      reader.getIntrospector().getConfiguration()
             .setWrapCollectionsInElement(false);
       reader.getBindingConfiguration().setMapIDs(false);
 
