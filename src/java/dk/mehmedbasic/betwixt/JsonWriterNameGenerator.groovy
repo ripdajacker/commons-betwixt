@@ -3,6 +3,7 @@ package dk.mehmedbasic.betwixt
 import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.io.IDGenerator
+import org.apache.commons.betwixt.io.id.AlphabetIdGenerator
 
 /**
  * The name util for JSON writing/reading.
@@ -12,7 +13,7 @@ import org.apache.commons.betwixt.io.IDGenerator
 @TypeChecked
 @PackageScope
 class JsonWriterNameGenerator {
-    private IDGenerator idGenerator = new HexIdGenerator()
+    private IDGenerator idGenerator = new AlphabetIdGenerator()
 
     /**
      * Gets the next id.

@@ -18,7 +18,9 @@ package org.apache.commons.betwixt.io.read;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
+import org.apache.commons.betwixt.strategy.ObjectStringConverter;
 import org.apache.commons.logging.Log;
+import org.xml.sax.Attributes;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.Constructor;
@@ -36,19 +38,68 @@ public class ChainedBeanCreatorFactory {
     private static final Object[] EMPTY_OBJECT_ARRAY = {};
 
     /**
+     * Creates a <code>ChainedBeanCreator</code> that constructs beans based on element type.
+     *
+     * @return <code>ChainedBeanCreator</code> that implements load by type beans logic, not null
+     */
+    public static ChainedBeanCreator createElementTypeBeanCreator() {
+        return new ElementTypeBeanCreator();
+    }
+
+    /**
+     * Creates a <code>ChainedBeanCreator</code> that finds existing beans based on their IDREF.
+     *
+     * @return <code>ChainedBeanCreator</code> that implements IDREF beans logic, not null
+     */
+    public static ChainedBeanCreator createIDREFBeanCreator() {
+        return new IdRefBeanCreator();
+    }
+
+    /**
+     * Creates a <code>ChainedBeanCreator</code> that constructs derived beans.
+     * These have their classname set by an xml attribute.
+     *
+     * @return <code>ChainedBeanCreator</code> that implements Derived beans logic, not null
+     */
+    public static ChainedBeanCreator createDerivedBeanCreator() {
+        return new DerivedBeanCreator();
+    }
+
+    public static ChainedBeanCreator createInlineValueCreator() {
+        return new FromInlineValueBeanCreator();
+    }
+
+
+    private static final class FromInlineValueBeanCreator implements ChainedBeanCreator {
+        @Override
+        public Object create(ElementMapping elementMapping, ReadContext context, BeanCreationChain chain) {
+            Attributes attributes = elementMapping.getAttributes();
+            int index = attributes.getIndex("inlinedValue");
+            if (index >= 0) {
+                String value = attributes.getValue(index);
+
+                ObjectStringConverter converter = context.getObjectStringConverter();
+
+                Class type = elementMapping.getType();
+                if (elementMapping.getDescriptor() != null) {
+                    Class aClass = elementMapping.getDescriptor().getImplementationClass();
+                    if (aClass != null) {
+                        type = aClass;
+                    }
+                }
+                return converter.stringToObject(value, type, context);
+            }
+            return chain.create(elementMapping, context);
+        }
+    }
+
+    /**
      * Singleton instance for creating derived beans
      */
-    private static final ChainedBeanCreator derivedBeanCreator
-            = new ChainedBeanCreator() {
-        public Object create(
-                ElementMapping elementMapping,
-                ReadContext context,
-                BeanCreationChain chain) {
-
+    private static final class DerivedBeanCreator implements ChainedBeanCreator {
+        public Object create(ElementMapping elementMapping, ReadContext context, BeanCreationChain chain) {
             Log log = context.getLog();
-            String className
-                    = elementMapping
-                    .getAttributes().getValue(context.getClassNameAttribute());
+            String className = elementMapping.getAttributes().getValue(context.getClassNameAttribute());
             if (className != null) {
                 try {
                     // load the class we should instantiate
@@ -60,8 +111,7 @@ public class ChainedBeanCreatorFactory {
                         try {
                             clazz = classLoader.loadClass(className);
                         } catch (ClassNotFoundException e) {
-                            log.info("Class not found in context classloader:");
-                            log.debug(clazz, e);
+                            log.info("Class '" + className + "' not found in context classloader:");
                         }
                     }
                     if (clazz == null) {
@@ -81,17 +131,8 @@ public class ChainedBeanCreatorFactory {
                 return chain.create(elementMapping, context);
             }
         }
-    };
-
-    /**
-     * Creates a <code>ChainedBeanCreator</code> that constructs derived beans.
-     * These have their classname set by an xml attribute.
-     *
-     * @return <code>ChainedBeanCreator</code> that implements Derived beans logic, not null
-     */
-    public static final ChainedBeanCreator createDerivedBeanCreator() {
-        return derivedBeanCreator;
     }
+
 
     /**
      * Constructs a new instance of the given class.
@@ -102,10 +143,11 @@ public class ChainedBeanCreatorFactory {
      * @return <code>Object</code>, an instance of the given class
      * @throws Exception
      */
-    private static final Object newInstance(Class theClass, Log log) throws Exception {
+    private static Object newInstance(Class theClass, Log log) throws Exception {
         Object result = null;
         try {
-            Constructor constructor = theClass.getConstructor(EMPTY_CLASS_ARRAY);
+            //noinspection unchecked
+            Constructor constructor = theClass.getDeclaredConstructor(EMPTY_CLASS_ARRAY);
             if (!constructor.isAccessible()) {
                 constructor.setAccessible(true);
             }
@@ -128,13 +170,8 @@ public class ChainedBeanCreatorFactory {
     /**
      * Singleton instance that creates beans based on type
      */
-    private static final ChainedBeanCreator elementTypeBeanCreator
-            = new ChainedBeanCreator() {
-        public Object create(
-                ElementMapping element,
-                ReadContext context,
-                BeanCreationChain chain) {
-
+    private static final class ElementTypeBeanCreator implements ChainedBeanCreator {
+        public Object create(ElementMapping element, ReadContext context, BeanCreationChain chain) {
             Log log = context.getLog();
             Class theClass = null;
 
@@ -176,20 +213,14 @@ public class ChainedBeanCreatorFactory {
                     context.getLog().debug("Introspection failed: ", e);
                     return null;
                 }
-
             }
 
             if (log.isTraceEnabled()) {
-                log.trace(
-                        "Creating instance of class " + theClass.getName()
-                                + " for element " + element.getName());
+                log.trace("Creating instance of class " + theClass.getName() + " for element " + element.getName());
             }
 
             try {
-
-                Object result = newInstance(theClass, log);
-                return result;
-
+                return newInstance(theClass, log);
             } catch (Exception e) {
                 if (context.getLog() != null) {
                     // it would be nice to have a pluggable strategy for exception management
@@ -200,33 +231,17 @@ public class ChainedBeanCreatorFactory {
                 return null;
             }
         }
-    };
-
-    /**
-     * Creates a <code>ChainedBeanCreator</code> that constructs beans based on element type.
-     *
-     * @return <code>ChainedBeanCreator</code> that implements load by type beans logic, not null
-     */
-    public static final ChainedBeanCreator createElementTypeBeanCreator() {
-        return elementTypeBeanCreator;
     }
+
 
     /**
      * Singleton instance that creates beans based on IDREF
      */
-    private static final ChainedBeanCreator idRefBeanCreator
-            = new ChainedBeanCreator() {
-        public Object create(
-                ElementMapping elementMapping,
-                ReadContext context,
-                BeanCreationChain chain) {
+    private static final class IdRefBeanCreator implements ChainedBeanCreator {
+        public Object create(ElementMapping elementMapping, ReadContext context, BeanCreationChain chain) {
             if (context.getMapIDs()) {
                 String idref = elementMapping.getAttributes().getValue("idref");
                 if (idref != null) {
-                    // XXX need to check up about ordering
-                    // XXX this is a very simple system that assumes that
-                    // XXX id occurs before idrefs
-                    // XXX would need some thought about how to implement a fuller system
                     context.getLog().trace("Found IDREF");
                     Object bean = context.getBean(idref);
                     if (bean != null) {
@@ -240,14 +255,7 @@ public class ChainedBeanCreatorFactory {
             }
             return chain.create(elementMapping, context);
         }
-    };
-
-    /**
-     * Creates a <code>ChainedBeanCreator</code> that finds existing beans based on their IDREF.
-     *
-     * @return <code>ChainedBeanCreator</code> that implements IDREF beans logic, not null
-     */
-    public static final ChainedBeanCreator createIDREFBeanCreator() {
-        return idRefBeanCreator;
     }
+
+
 }

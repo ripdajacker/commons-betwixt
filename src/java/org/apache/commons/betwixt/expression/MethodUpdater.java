@@ -124,7 +124,7 @@ public class MethodUpdater extends TypedUpdater {
             method.setAccessible(true);
             method.invoke(bean, arguments);
         } catch (Throwable throwable) {
-            System.out.println();
+            log.error("Errror", throwable);
         }
     }
 

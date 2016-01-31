@@ -16,8 +16,9 @@
  */
 package org.apache.commons.betwixt.io.read;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>Chain implementation that's backed by a list.
@@ -36,100 +37,105 @@ public class BeanCreationList extends BeanCreationChain {
 
 //-------------------------------------------------------- Class Methods
 
-   /**
-    * Creates the default <code>BeanCreationChain</code> used when reading beans.
-    * @return a <code>BeanCreationList</code> with the default creators loader in order, not null
-    */
-   public static final BeanCreationList createStandardChain() {
-      BeanCreationList chain = new BeanCreationList();
-      chain.addBeanCreator(ChainedBeanCreatorFactory.createIDREFBeanCreator());
-      chain.addBeanCreator(ChainedBeanCreatorFactory.createDerivedBeanCreator());
-      chain.addBeanCreator(ChainedBeanCreatorFactory.createElementTypeBeanCreator());
-      return chain;
-   }
+    /**
+     * Creates the default <code>BeanCreationChain</code> used when reading beans.
+     *
+     * @return a <code>BeanCreationList</code> with the default creators loader in order, not null
+     */
+    public static BeanCreationList createStandardChain() {
+        BeanCreationList chain = new BeanCreationList();
+        chain.addBeanCreator(ChainedBeanCreatorFactory.createIDREFBeanCreator());
+        chain.addBeanCreator(ChainedBeanCreatorFactory.createInlineValueCreator());
+        chain.addBeanCreator(ChainedBeanCreatorFactory.createDerivedBeanCreator());
+        chain.addBeanCreator(ChainedBeanCreatorFactory.createElementTypeBeanCreator());
+        return chain;
+    }
 
 
 //-------------------------------------------------------- Attributes
-   /** The list backing this chain */
-   private ArrayList beanCreators = new ArrayList();
+    /**
+     * The list backing this chain
+     */
+    private List<ChainedBeanCreator> beanCreators = new LinkedList<>();
 
 //-------------------------------------------------------- Methods
 
-   /**
-    * Creates an Object based on the given element mapping and read context.
-    * Delegates to chain.
-    *
-    * @param elementMapping the element mapping details
-    * @param readContext create against this context
-    * @return the created bean, possibly null
-    */
-   public Object create(ElementMapping elementMapping, ReadContext readContext) {
-      ChainWorker worker = new ChainWorker();
-      return worker.create(elementMapping, readContext);
-   }
+    /**
+     * Creates an Object based on the given element mapping and read context.
+     * Delegates to chain.
+     *
+     * @param elementMapping the element mapping details
+     * @param readContext    create against this context
+     * @return the created bean, possibly null
+     */
+    public Object create(ElementMapping elementMapping, ReadContext readContext) {
+        ChainWorker worker = new ChainWorker();
+        return worker.create(elementMapping, readContext);
+    }
 
 //-------------------------------------------------------- Properties
 
-   /**
-    * Gets the number of BeanCreators in the wrapped chain.
-    * @return the number of <code>ChainedBeanCreator</code>'s in the current chain
-    */
-   public int getSize() {
-      return beanCreators.size();
-   }
+    /**
+     * Gets the number of BeanCreators in the wrapped chain.
+     *
+     * @return the number of <code>ChainedBeanCreator</code>'s in the current chain
+     */
+    public int getSize() {
+        return beanCreators.size();
+    }
 
-   /**
-    * Inserts a <code>BeanCreator</code> at the given position in the chain.
-    * Shifts the object currently in that position - and any subsequent elements -
-    * to the right.
-    *
-    * @param index index at which the creator should be inserted
-    * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
-    * @throws IndexOutOfBoundsException if the index is out of the range
-    * <code>(index < 0 || index > getSize())
-    */
-   public void insertBeanCreator(
-         int index,
-         ChainedBeanCreator beanCreator)
-         throws IndexOutOfBoundsException {
-      beanCreators.add(index, beanCreator);
-   }
+    /**
+     * Inserts a <code>BeanCreator</code> at the given position in the chain.
+     * Shifts the object currently in that position - and any subsequent elements -
+     * to the right.
+     *
+     * @param index       index at which the creator should be inserted
+     * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
+     * @throws IndexOutOfBoundsException if the index is out of the range
+     *                                   <code>(index < 0 || index > getSize())
+     */
+    public void insertBeanCreator(
+            int index,
+            ChainedBeanCreator beanCreator)
+            throws IndexOutOfBoundsException {
+        beanCreators.add(index, beanCreator);
+    }
 
-   /**
-    * Adds a <code>BeanCreator</code> to the end of the chain.
-    * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
-    */
-   public void addBeanCreator(ChainedBeanCreator beanCreator) {
-      beanCreators.add(beanCreator);
-   }
+    /**
+     * Adds a <code>BeanCreator</code> to the end of the chain.
+     *
+     * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
+     */
+    public void addBeanCreator(ChainedBeanCreator beanCreator) {
+        beanCreators.add(beanCreator);
+    }
 
-   /**
-    * Clears the creator chain.
-    */
-   public void clearBeanCreators() {
-      beanCreators.clear();
-   }
+    /**
+     * Worker class walks a chain
+     */
+    private class ChainWorker extends BeanCreationChain {
+        /**
+         * Iterator for the creator list
+         */
+        private Iterator<ChainedBeanCreator> iterator;
 
-   /** Worker class walks a chain */
-   private class ChainWorker extends BeanCreationChain {
-      /** Iterator for the creator list */
-      private Iterator iterator;
+        /**
+         * Creates the iterator
+         */
+        ChainWorker() {
+            iterator = beanCreators.iterator();
+        }
 
-      /** Creates the iterator */
-      ChainWorker() {
-         iterator = beanCreators.iterator();
-      }
+        /**
+         * @see BeanCreationChain#create
+         */
+        public Object create(ElementMapping elementMapping, ReadContext readContext) {
+            if (iterator.hasNext()) {
+                ChainedBeanCreator beanCreator = iterator.next();
+                return beanCreator.create(elementMapping, readContext, this);
+            }
 
-      /**
-       * @see BeanCreationChain#create
-       */
-      public Object create(ElementMapping elementMapping, ReadContext readContext) {
-         if (iterator.hasNext()) {
-            ChainedBeanCreator beanCreator = (ChainedBeanCreator) iterator.next();
-            return beanCreator.create(elementMapping, readContext, this);
-         }
-
-         return null;
-      }
-   }
+            return null;
+        }
+    }
 }

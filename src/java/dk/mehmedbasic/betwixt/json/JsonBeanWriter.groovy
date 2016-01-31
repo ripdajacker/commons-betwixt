@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 
 import java.beans.IntrospectionException
-import java.lang.reflect.Modifier
 import java.util.regex.Pattern
 
 /**
@@ -45,7 +44,10 @@ class JsonBeanWriter {
 
     void writeBean(String name, Object bean, Context context) {
         XMLBeanInfo beanInfo = introspector.introspect(bean);
+        json.beginObject()
+        json.name(beanInfo.elementDescriptor.qualifiedName)
         writeBean(name, bean, context, beanInfo);
+        json.endObject()
     }
 
     void writeBean(String name, Object bean, Context context, ElementDescriptor parentDescriptor) {
@@ -77,7 +79,7 @@ class JsonBeanWriter {
                     json.name(elementDescriptor.qualifiedName)
                     json.valueGeneric("@ref:$reference")
                 } else {
-                    json.valueGeneric("@ref:$reference")
+                    json.valueGeneric("@ref:$elementDescriptor.qualifiedName:$reference")
                 }
             } else {
                 reference = idGenerator.nextId()
@@ -119,13 +121,9 @@ class JsonBeanWriter {
 
             def string = converter.objectToString(context.bean, elementDescriptor.propertyType, context)
             if (options.insideCollection) {
-                if (Modifier.isFinal(elementDescriptor.propertyType.modifiers)) {
-                    json.valueGeneric("#$id:$string")
-                } else {
-                    json.valueGeneric("@${elementDescriptor.qualifiedName} #$id:$string")
-                }
+                json.valueGeneric("@${elementDescriptor.qualifiedName} #$id:$string")
             } else {
-                json.valueGeneric(string)
+                json.valueGeneric(string as String)
             }
             return
         }
@@ -161,7 +159,7 @@ class JsonBeanWriter {
             def expression = attributeDescriptor.textExpression
             if (expression) {
                 def value = expression.evaluate(context)
-                if (value) {
+                if (value != null) {
                     def qualifiedName = attributeDescriptor.qualifiedName
                     def childId = bindingConfiguration.idMappingStrategy.getReferenceFor(context, value)
                     if (childId) {
@@ -173,7 +171,7 @@ class JsonBeanWriter {
                             def strategy = bindingConfiguration.valueSuppressionStrategy
                             def shouldSuppress = strategy.suppressAttribute(attributeDescriptor, text)
                             if (!shouldSuppress) {
-                                writeNameValueWithId(qualifiedName, text, context, value)
+                                writeNameValueWithoutId(qualifiedName, text, context, value)
                             }
                         }
                     }
@@ -257,7 +255,7 @@ class JsonBeanWriter {
     private void writeNameValueWithId(String name, String text, Context context, Object value) {
         if (isPrimitive(value)) {
             json.name(name)
-            json.valueGeneric(text)
+            json.valueGeneric(value)
         } else {
             def childId = idGenerator.nextId()
 
@@ -265,6 +263,16 @@ class JsonBeanWriter {
             json.valueGeneric(text)
 
             bindingConfiguration.idMappingStrategy.setReference(context, value, childId)
+        }
+    }
+
+    private void writeNameValueWithoutId(String name, String text, Context context, Object value) {
+        if (isPrimitive(value)) {
+            json.name(name)
+            json.valueGeneric(value)
+        } else {
+            json.name("$name")
+            json.valueGeneric(text)
         }
     }
 

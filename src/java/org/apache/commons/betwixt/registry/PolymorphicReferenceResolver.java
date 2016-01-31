@@ -16,8 +16,8 @@
  */
 package org.apache.commons.betwixt.registry;
 
+import org.apache.commons.betwixt.io.read.AbstractReadContext;
 import org.apache.commons.betwixt.io.read.ElementMapping;
-import org.apache.commons.betwixt.io.read.ReadContext;
 
 /**
  * <p>Resolves polymorphic references.
@@ -40,5 +40,5 @@ public interface PolymorphicReferenceResolver {
     * @return the <code>Class</code> describing the type to which this element should be bound,
     * or null if the reference cannot be resolved
     */
-   public Class resolveType(ElementMapping mapping, ReadContext context);
+   Class resolveType(ElementMapping mapping, AbstractReadContext context);
 }

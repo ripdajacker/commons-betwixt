@@ -1,5 +1,6 @@
 package dk.mehmedbasic.betwixt
 
+import dk.mehmedbasic.betwixt.json.JsonReadContextEventListener
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.BindingConfiguration
 import org.apache.commons.betwixt.ElementDescriptor
@@ -120,7 +121,7 @@ class BetwixtJsonDescriptor {
         if (element) {
 
             def mapping = fakeElementMapping(bindingConfiguration, data, log)
-            def readContext = new ReadContext(log, bindingConfiguration, readConfiguration)
+            def readContext = new ReadContext(new JsonReadContextEventListener(), log, bindingConfiguration, readConfiguration)
 
             return readConfiguration.beanCreationChain.create(mapping, readContext)
         } else {

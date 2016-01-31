@@ -22,6 +22,7 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
+import org.apache.commons.betwixt.io.read.ReadContextEventListener;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.ExtendedBaseRules;
 import org.apache.commons.digester.RuleSet;
@@ -46,6 +47,7 @@ import java.util.Set;
  */
 public class BeanReader extends Digester {
 
+   private ReadContextEventListener readContextEventListener;
    /** Introspector used */
    private XMLIntrospector introspector = new XMLIntrospector();
    /** Log used for logging (Doh!) */
@@ -421,12 +423,20 @@ public class BeanReader extends Digester {
       addRuleSet(ruleSet);
    }
 
+   public ReadContextEventListener getReadContextEventListener() {
+      return readContextEventListener;
+   }
+
+   public void setReadContextEventListener(ReadContextEventListener readContextEventListener) {
+      this.readContextEventListener = readContextEventListener;
+   }
+
    /**
     * Factory method for new contexts.
     * Ensure that they are correctly configured.
     * @return the ReadContext created, not null
     */
    private ReadContext makeContext() {
-      return new ReadContext(log, bindingConfiguration, readConfiguration);
+      return new ReadContext(readContextEventListener, log, bindingConfiguration, readConfiguration);
    }
 }

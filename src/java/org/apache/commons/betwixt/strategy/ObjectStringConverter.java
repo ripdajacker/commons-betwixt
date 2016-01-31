@@ -149,4 +149,8 @@ public class ObjectStringConverter implements Serializable {
             double.class, Double.class,
             boolean.class, Boolean.class,
             String.class);
+
+    public static boolean isPrimitive(Class type) {
+        return implicit.contains(type);
+    }
 }

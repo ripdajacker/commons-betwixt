@@ -20,6 +20,7 @@ import org.apache.commons.betwixt.*
 import org.apache.commons.betwixt.expression.Context
 import org.apache.commons.betwixt.expression.Expression
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator
+import org.apache.commons.betwixt.strategy.ObjectStringConverter
 import org.apache.commons.collections.ArrayStack
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
@@ -686,8 +687,19 @@ public abstract class AbstractBeanWriter {
                 log.trace("Element " + elementDescriptor + " is empty.");
             }
 
-            Attributes attributes = addNamespaceDeclarations(
-                    new ElementAttributes(bindingConfiguration, elementDescriptor, context), namespaceUri);
+
+            def type = elementDescriptor.propertyType
+
+            def canHandle = bindingConfiguration.objectStringConverter.canHandle(type)
+
+            def stringified = canHandle && !ObjectStringConverter.isPrimitive(type)
+            Attributes attributes
+            if (stringified) {
+                String value = bindingConfiguration.objectStringConverter.objectToString(context.bean, elementDescriptor.propertyType, context)
+                attributes = addNamespaceDeclarations(new InlineValueAttributes(null, null, value), namespaceUri);
+            } else {
+                attributes = addNamespaceDeclarations(new ElementAttributes(bindingConfiguration, elementDescriptor, context), namespaceUri);
+            }
             writeContext.setCurrentDescriptor(elementDescriptor);
             startElement(
                     writeContext,
@@ -695,8 +707,9 @@ public abstract class AbstractBeanWriter {
                     localName,
                     qualifiedName,
                     attributes);
-
-            writeElementContent(elementDescriptor, context);
+            if (!stringified) {
+                writeElementContent(elementDescriptor, context);
+            }
             writeContext.setCurrentDescriptor(elementDescriptor);
             endElement(writeContext, namespaceUri, localName, qualifiedName);
         }
@@ -1079,6 +1092,19 @@ public abstract class AbstractBeanWriter {
 
         log.trace("Element is empty.");
         return true;
+    }
+
+    private static final class InlineValueAttributes extends EmptyAttributes {
+
+        InlineValueAttributes(String id, String idref, String value) {
+            if (id) {
+                addValue("id", id)
+            }
+            if (idref) {
+                addValue("idref", idref)
+            }
+            addValue("inlinedValue", value)
+        }
     }
 
     /**
