@@ -8,8 +8,9 @@ import org.xml.sax.Attributes
  */
 @TypeChecked
 class EmptyAttributes implements Attributes {
+
     List<String> names = []
-    List<String> values = []
+    private List<String> values = []
 
     @Override
     int getLength() {
@@ -88,8 +89,15 @@ class EmptyAttributes implements Attributes {
     }
 
     void addValue(String qualifiedName, String value) {
-        names << qualifiedName
-        values << value
+        if (names.contains(qualifiedName)) {
+            def index = getIndex(qualifiedName)
+            names.set(index, qualifiedName)
+            values.set(index, value)
+            values.set(index, value)
+        } else {
+            names << qualifiedName
+            values << value
+        }
     }
 }
 

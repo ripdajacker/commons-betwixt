@@ -37,7 +37,7 @@ import java.beans.IntrospectionException
 @CompileStatic
 public abstract class AbstractBeanWriter {
 
-    BeanWriteListener beanWriteListener = new NoopListener()
+    BeanWriteEventListener beanWriteListener = new NoopListener()
 
     /** Introspector used */
     private XMLIntrospector introspector = new XMLIntrospector()
@@ -63,6 +63,7 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      */
     public void start() throws IOException, SAXException {
+        beanWriteListener.start()
     }
 
     /**
@@ -74,6 +75,7 @@ public abstract class AbstractBeanWriter {
      */
 
     public void end() throws IOException, SAXException {
+        beanWriteListener.end()
     }
 
     /**
@@ -750,7 +752,7 @@ public abstract class AbstractBeanWriter {
                     IntrospectionException {
 
         // write IDREF element
-        AttributesImpl attributes = new AttributesImpl()
+        Attributes attributes = new AttributesImpl()
         // XXX for the moment, assign IDREF to default namespace
         attributes.addAttribute(
                 "",
@@ -759,8 +761,12 @@ public abstract class AbstractBeanWriter {
                 "IDREF",
                 idrefAttributeValue)
         writeContext.setCurrentDescriptor(elementDescriptor)
-        startElement(writeContext, uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri))
+        attributes = addNamespaceDeclarations(attributes, uri)
+        startElement(writeContext, uri, localName, qualifiedName, attributes)
+        beanWriteListener.startElement(writeContext, qualifiedName, attributes)
+
         endElement(writeContext, uri, localName, qualifiedName)
+        beanWriteListener.endElement(writeContext, qualifiedName)
     }
 
     /**
@@ -832,6 +838,7 @@ public abstract class AbstractBeanWriter {
                         Object value = expression.evaluate(context)
                         String text = convertToString(value, currentDescriptor, context)
                         if (text != null && text.length() > 0) {
+                            beanWriteListener.bodyText(writeContext, text)
                             bodyText(writeContext, text)
                         }
                     }
@@ -844,6 +851,7 @@ public abstract class AbstractBeanWriter {
                 Object value = expression.evaluate(context)
                 String text = convertToString(value, elementDescriptor, context)
                 if (text != null && text.length() > 0) {
+                    beanWriteListener.bodyText(writeContext, text)
                     bodyText(writeContext, text)
                 }
             }
@@ -1017,18 +1025,9 @@ public abstract class AbstractBeanWriter {
         }
     }
 
-    /**
-     * Attributes backed by attribute descriptors.
-     * ID/IDREFs not set.
-     */
-    public static class ElementAttributes implements Attributes {
+    static class ElementAttributes extends EmptyAttributes {
         /** Attribute descriptors backing the <code>Attributes</code> */
         private List<AttributeDescriptor> attributes = []
-
-        private List<String> qualifiedNames = []
-
-        /** Cached attribute values */
-        private List<String> values = []
 
         /** Context to be evaluated when finding values */
         private Context context
@@ -1042,8 +1041,8 @@ public abstract class AbstractBeanWriter {
          * @param context evaluate against this context
          */
         ElementAttributes(BindingConfiguration bindingConfiguration, ElementDescriptor descriptor, Context context) {
-            this.context = context
             this.bindingConfiguration = bindingConfiguration
+            this.context = context
             init(descriptor.getAttributeDescriptors())
         }
 
@@ -1054,10 +1053,8 @@ public abstract class AbstractBeanWriter {
 
                     def suppressionStrategy = bindingConfiguration.valueSuppressionStrategy
                     if (attributeValue != null && !suppressionStrategy.suppressAttribute(baseAttribute, attributeValue)) {
-                        values.add(attributeValue)
+                        addValue(baseAttribute.qualifiedName, attributeValue)
                         attributes.add(baseAttribute)
-
-                        qualifiedNames.add(baseAttribute.qualifiedName)
                     }
                 }
             }
@@ -1073,186 +1070,10 @@ public abstract class AbstractBeanWriter {
             return ""
         }
 
-        /**
-         * Gets the index of an attribute by qualified name.
-         *
-         * @param qName the qualified name of the attribute
-         * @return the index of the attribute - or -1 if there is no matching attribute
-         */
-        public int getIndex(String qName) {
-            return qualifiedNames.indexOf(qName)
-        }
 
-        /**
-         * Gets the index of an attribute by namespace name.
-         *
-         * @param uri the namespace uri of the attribute
-         * @param localName the local name of the attribute
-         * @return the index of the attribute - or -1 if there is no matching attribute
-         */
-        public int getIndex(String uri, String localName) {
-            int index = 0
-            for (AttributeDescriptor attribute : attributes) {
-                if (attribute.getURI() != null && attribute.getURI().equals(uri) && attribute.getLocalName() != null && attribute.getURI().equals(localName)) {
-                    return index
-                }
-                index++
-            }
-
-            return -1
-        }
-
-        /**
-         * Gets the number of attributes in the list.
-         *
-         * @return the number of attributes in this list
-         */
-        public int getLength() {
-            return attributes.size()
-        }
-
-        /**
-         * Gets the local name by index.
-         *
-         * @param index the attribute index (zero based)
-         * @return the attribute local name - or null if the index is out of range
-         */
-        public String getLocalName(int index) {
-            if (indexInRange(index)) {
-                return attributes[index].getLocalName()
-            }
-
-            return null
-        }
-
-        /**
-         * Gets the qualified name by index.
-         *
-         * @param index the attribute index (zero based)
-         * @return the qualified name of the element - or null if the index is our of range
-         */
-        public String getQName(int index) {
-            if (indexInRange(index)) {
-                return attributes[index].getQualifiedName()
-            }
-
-            return null
-        }
-
-        /**
-         * Gets the attribute SAX type by namespace name.
-         *
-         * @param index the attribute index (zero based)
-         * @return the attribute type (as a string) or null if the index is out of range
-         */
-        public String getType(int index) {
-            if (indexInRange(index)) {
-                return "CDATA"
-            }
-            return null
-        }
-
-        /**
-         * Gets the attribute SAX type by qualified name.
-         *
-         * @param qName the qualified name of the attribute
-         * @return the attribute type (as a string) or null if the attribute is not in the list
-         */
-        public String getType(String qName) {
-            return getType(getIndex(qName))
-        }
-
-        /**
-         * Gets the attribute SAX type by namespace name.
-         *
-         * @param uri the namespace uri of the attribute
-         * @param localName the local name of the attribute
-         * @return the attribute type (as a string) or null if the attribute is not in the list
-         */
-        public String getType(String uri, String localName) {
-            return getType(getIndex(uri, localName))
-        }
-
-        /**
-         * Gets the namespace URI for attribute at the given index.
-         *
-         * @param index the attribute index (zero-based)
-         * @return the namespace URI (empty string if none is available)
-         * or null if the index is out of range
-         */
-        public String getURI(int index) {
-            if (indexInRange(index)) {
-                return attributes[index].getURI()
-            }
-            return null
-        }
-
-        /**
-         * Gets the value for the attribute at given index.
-         *
-         * @param index the attribute index (zero based)
-         * @return the attribute value or null if the index is out of range
-         */
-        public String getValue(int index) {
-            if (indexInRange(index)) {
-                return values[index]
-            }
-            return null
-        }
-
-        /**
-         * Gets the value for the attribute by qualified name.
-         *
-         * @param qName the qualified name
-         * @return the attribute value or null if there are no attributes
-         * with the given qualified name
-         * @todo add value caching
-         */
-        public String getValue(String qName) {
-            return getValue(getIndex(qName))
-        }
-
-        /**
-         * Gets the value for the attribute by namespace name.
-         *
-         * @param uri the namespace URI of the attribute
-         * @param localName the local name of the attribute
-         * @return the attribute value or null if there are not attributes
-         * with the given namespace and local name
-         * @todo add value caching
-         */
-        public String getValue(String uri, String localName) {
-            return getValue(getIndex(uri, localName))
-        }
-
-        /**
-         * Is the given index within the range of the attribute list
-         *
-         * @param index the index whose range will be checked
-         * @return true if the index with within the range of the attribute list
-         */
-        private boolean indexInRange(int index) {
-            return (index >= 0 && index < getLength())
-        }
     }
 
-    /**
-     * Attributes with generate ID/IDREF attributes
-     * //TODO: refactor the ID/REF generation so that it's fixed at introspection
-     * and the generators are placed into the Context.
-     * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
-     * @version $Revision$
-     */
-    private class IDElementAttributes extends ElementAttributes {
-        /** ID attribute value */
-        private String idValue
-        /** ID attribute name */
-        private String idAttributeName
-
-        private boolean matchingAttribute = false
-        private int length
-        private int idIndex
-
+    static class IDElementAttributes extends ElementAttributes {
         /**
          * Construct attributes for element and context.
          *
@@ -1268,99 +1089,8 @@ public abstract class AbstractBeanWriter {
                 String idAttributeName,
                 String idValue) {
             super(bindingConfiguration, descriptor, context)
-            this.idValue = idValue
-            this.idAttributeName = idAttributeName
-
-            // see if we have already have a matching attribute descriptor
-            List<AttributeDescriptor> attributeDescriptors = descriptor.getAttributeDescriptors()
-            length = super.getLength()
-            for (int i = 0; i < length; i++) {
-                if (idAttributeName.equals(attributeDescriptors[i].getQualifiedName())) {
-                    matchingAttribute = true
-                    idIndex = i
-                    break
-                }
-            }
-            if (!matchingAttribute) {
-                length += 1
-                idIndex = length - 1
-            }
+            addValue(idAttributeName, idValue)
         }
-
-        public int getIndex(String uri, String localName) {
-            if (localName.equals(idAttributeName)) {
-                return idIndex
-            }
-
-            return super.getIndex(uri, localName)
-        }
-
-        public int getIndex(String qName) {
-            if (qName.equals(idAttributeName)) {
-                return idIndex
-            }
-
-            return super.getIndex(qName)
-        }
-
-        public int getLength() {
-            return length
-        }
-
-        public String getLocalName(int index) {
-            if (index == idIndex) {
-                return idAttributeName
-            }
-            return super.getLocalName(index)
-        }
-
-        public String getQName(int index) {
-            if (index == idIndex) {
-                return idAttributeName
-            }
-            return super.getQName(index)
-        }
-
-        public String getType(int index) {
-            if (index == idIndex) {
-                return "ID"
-            }
-            return super.getType(index)
-        }
-
-        public String getType(String uri, String localName) {
-            return getType(getIndex(uri, localName))
-        }
-
-        public String getType(String qName) {
-            return getType(getIndex(qName))
-        }
-
-        public String getURI(int index) {
-            //TODO: this is probably wrong
-            // probably need to move ID management into introspection
-            // before we can handle this namespace bit correctly
-            if (index == idIndex) {
-                return ""
-            }
-            return super.getURI(index)
-        }
-
-        public String getValue(int index) {
-            if (index == idIndex) {
-                return idValue
-            }
-            return super.getValue(index)
-        }
-
-        public String getValue(String uri, String localName) {
-            return getValue(getIndex(uri, localName))
-        }
-
-        public String getValue(String qName) {
-            return getValue(getIndex(qName))
-        }
-
     }
 
     /**
@@ -1472,7 +1202,11 @@ public abstract class AbstractBeanWriter {
         return new Context(bean, log, bindingConfiguration)
     }
 
-    private static final class NoopListener implements BeanWriteListener {
+    private static final class NoopListener implements BeanWriteEventListener {
+
+        @Override
+        void start() {
+        }
 
         @Override
         void startElement(MutableWriteContext writeContext, String qualifiedName, Attributes attributes) {
@@ -1484,6 +1218,11 @@ public abstract class AbstractBeanWriter {
 
         @Override
         void endElement(MutableWriteContext writeContext, String qualifiedName) {
+        }
+
+        @Override
+        void end() {
+
         }
     }
 }

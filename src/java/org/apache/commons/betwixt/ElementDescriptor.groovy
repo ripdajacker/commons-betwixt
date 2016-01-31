@@ -18,6 +18,7 @@ package org.apache.commons.betwixt
 
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.expression.Expression
+import org.apache.commons.betwixt.expression.IteratorExpression
 
 /** <p><code>ElementDescriptor</code> describes the XML elements
  * to be created for a bean instance.</p>
@@ -503,4 +504,16 @@ public class ElementDescriptor extends NodeDescriptor {
     public boolean isPolymorphic() {
         return (getQualifiedName() == null)
     }
+
+    public boolean isContentIterable() {
+        if (contextExpression != null) {
+            return contextExpression instanceof IteratorExpression
+        }
+        if (contentDescriptors.size() == 1 && elementDescriptors.size() == 1) {
+            def child = elementDescriptors[0]
+            return child.collective && !child.contentIterable
+        }
+        return false
+    }
+
 }
