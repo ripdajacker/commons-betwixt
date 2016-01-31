@@ -3,7 +3,7 @@
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
+ * (the "License") you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -16,14 +16,15 @@
  */
 package org.apache.commons.betwixt.io
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
+import groovy.util.logging.Commons
 import org.apache.commons.betwixt.*
 import org.apache.commons.betwixt.expression.Context
 import org.apache.commons.betwixt.expression.Expression
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator
 import org.apache.commons.betwixt.strategy.ObjectStringConverter
 import org.apache.commons.collections.ArrayStack
-import org.apache.commons.logging.Log
-import org.apache.commons.logging.LogFactory
 import org.xml.sax.Attributes
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
@@ -31,25 +32,26 @@ import org.xml.sax.helpers.AttributesImpl
 
 import java.beans.IntrospectionException
 
+@Commons
+@TypeChecked
+@CompileStatic
 public abstract class AbstractBeanWriter {
 
     /** Introspector used */
-    private XMLIntrospector introspector = new XMLIntrospector();
+    private XMLIntrospector introspector = new XMLIntrospector()
 
-    /** Log used for logging (Doh!) */
-    private Log log = LogFactory.getLog(AbstractBeanWriter.class);
     /** Stack containing beans - used to detect cycles */
-    private ArrayStack beanStack = new ArrayStack();
+    private ArrayStack beanStack = new ArrayStack()
     /** Used to generate ID attribute values*/
-    private IDGenerator idGenerator = new SequentialIDGenerator();
+    private IDGenerator idGenerator = new SequentialIDGenerator()
     /** Should empty elements be written out? */
-    private boolean writeEmptyElements = true;
+    private boolean writeEmptyElements = true
     /** Dynamic binding configuration settings */
-    private BindingConfiguration bindingConfiguration = new BindingConfiguration();
+    private BindingConfiguration bindingConfiguration = new BindingConfiguration()
     /** <code>WriteContext</code> implementation reused curing writing */
-    private WriteContextImpl writeContext = new WriteContextImpl();
+    private MutableWriteContext writeContext = new MutableWriteContext()
     /** Collection of namespaces which have already been declared */
-    private Collection namespacesDeclared = new ArrayList();
+    private Collection namespacesDeclared = new ArrayList()
 
     /**
      * Marks the start of the bean writing.
@@ -92,14 +94,14 @@ public abstract class AbstractBeanWriter {
             SAXException,
             IntrospectionException {
         if (log.isDebugEnabled()) {
-            log.debug("Writing bean graph...");
-            log.debug(bean);
+            log.debug("Writing bean graph...")
+            log.debug(bean)
         }
-        start();
-        writeBean(null, null, null, bean, makeContext(bean));
-        end();
+        start()
+        writeBean(null, null, null, bean, makeContext(bean))
+        end()
         if (log.isDebugEnabled()) {
-            log.debug("Finished writing bean graph.");
+            log.debug("Finished writing bean graph.")
         }
     }
 
@@ -125,9 +127,9 @@ public abstract class AbstractBeanWriter {
                     IOException,
                     SAXException,
                     IntrospectionException {
-        start();
-        writeBean("", qualifiedName, qualifiedName, bean, makeContext(bean));
-        end();
+        start()
+        writeBean("", qualifiedName, qualifiedName, bean, makeContext(bean))
+        end()
     }
 
     /**
@@ -155,7 +157,7 @@ public abstract class AbstractBeanWriter {
                 null,
                 bean,
                 makeContext(bean),
-                getXMLIntrospector().introspect(bean.getClass(), source));
+                getXMLIntrospector().introspect(bean.getClass(), source))
     }
 
     /**
@@ -190,14 +192,14 @@ public abstract class AbstractBeanWriter {
                     IntrospectionException {
 
         if (log.isTraceEnabled()) {
-            log.trace("Writing bean graph (qualified name '" + qualifiedName + "'");
+            log.trace("Writing bean graph (qualified name '" + qualifiedName + "'")
         }
 
         // introspect to obtain bean info
-        XMLBeanInfo beanInfo = introspector.introspect(bean);
-        writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo);
+        XMLBeanInfo beanInfo = introspector.introspect(bean)
+        writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo)
 
-        log.trace("Finished writing bean graph.");
+        log.trace("Finished writing bean graph.")
     }
 
 
@@ -214,14 +216,14 @@ public abstract class AbstractBeanWriter {
                     IntrospectionException {
 
         if (log.isTraceEnabled()) {
-            log.trace("Writing bean graph (qualified name '" + qualifiedName + "'");
+            log.trace("Writing bean graph (qualified name '" + qualifiedName + "'")
         }
 
         // introspect to obtain bean info
-        XMLBeanInfo beanInfo = findXMLBeanInfo(bean, parentDescriptor);
-        writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo);
+        XMLBeanInfo beanInfo = findXMLBeanInfo(bean, parentDescriptor)
+        writeBean(namespaceUri, localName, qualifiedName, bean, context, beanInfo)
 
-        log.trace("Finished writing bean graph.");
+        log.trace("Finished writing bean graph.")
     }
 
     /**
@@ -232,17 +234,15 @@ public abstract class AbstractBeanWriter {
      * @throws IntrospectionException
      */
     private XMLBeanInfo findXMLBeanInfo(Object bean, ElementDescriptor parentDescriptor) throws IntrospectionException {
-        XMLBeanInfo beanInfo = null;
-        Class introspectedBindType = parentDescriptor.getSingularPropertyType();
+        Class introspectedBindType = parentDescriptor.getSingularPropertyType()
         if (introspectedBindType == null) {
-            introspectedBindType = parentDescriptor.getPropertyType();
+            introspectedBindType = parentDescriptor.getPropertyType()
         }
         if (parentDescriptor.isUseBindTimeTypeForMapping() || introspectedBindType == null) {
-            beanInfo = introspector.introspect(bean);
+            return introspector.introspect(bean)
         } else {
-            beanInfo = introspector.introspect(introspectedBindType);
+            return introspector.introspect(introspectedBindType)
         }
-        return beanInfo;
     }
 
     /**
@@ -273,52 +273,51 @@ public abstract class AbstractBeanWriter {
             XMLBeanInfo beanInfo)
             throws IOException, SAXException, IntrospectionException {
         if (beanInfo != null) {
-            ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor();
+            ElementDescriptor elementDescriptor = beanInfo.getElementDescriptor()
             if (elementDescriptor != null) {
                 // Construct the options
-                Options combinedOptions = new Options();
+                Options combinedOptions = new Options()
 
                 // Add options defined by the current bean's element descriptor
-                combinedOptions.addOptions(elementDescriptor.getOptions());
+                combinedOptions.addOptions(elementDescriptor.getOptions())
 
                 // The parent descriptor may have defined options
                 // for the current bean.  These options take precedence
                 // over the options of the current class descriptor
                 if (context.getOptions() != null) {
-                    combinedOptions.addOptions(context.getOptions());
+                    combinedOptions.addOptions(context.getOptions())
                 }
-                context = context.newContext(bean);
-                context.pushOptions(combinedOptions);
+                context = context.newContext(bean)
+                context.pushOptions(combinedOptions)
 
                 if (qualifiedName == null) {
-                    qualifiedName = elementDescriptor.getQualifiedName();
+                    qualifiedName = elementDescriptor.getQualifiedName()
                 }
                 if (namespaceUri == null) {
-                    namespaceUri = elementDescriptor.getURI();
+                    namespaceUri = elementDescriptor.getURI()
                 }
                 if (localName == null) {
-                    localName = elementDescriptor.getLocalName();
+                    localName = elementDescriptor.getLocalName()
                 }
 
-                String ref = null;
-                String id = null;
+                String ref = null
 
                 // simple type should not have IDs
                 if (elementDescriptor.isSimple()) {
                     // write without an id
-                    writeElement(namespaceUri, localName, qualifiedName, elementDescriptor, context);
+                    writeElement(namespaceUri, localName, qualifiedName, elementDescriptor, context)
                 } else {
-                    pushBean(context.getBean());
+                    pushBean(context.getBean())
                     if (getBindingConfiguration().getMapIDs()) {
-                        ref = getBindingConfiguration().getIdMappingStrategy().getReferenceFor(context, context.getBean());
+                        ref = getBindingConfiguration().getIdMappingStrategy().getReferenceFor(context, context.getBean())
                     }
                     if (ref == null) {
                         // this is the first time that this bean has be written
-                        AttributeDescriptor idAttribute = beanInfo.getIDAttribute();
+                        AttributeDescriptor idAttribute = beanInfo.getIDAttribute()
                         if (idAttribute == null) {
                             // use a generated id
-                            id = idGenerator.nextId();
-                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id);
+                            String id = idGenerator.nextId()
+                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id)
 
                             if (getBindingConfiguration().getMapIDs()) {
                                 // write element with id
@@ -329,7 +328,7 @@ public abstract class AbstractBeanWriter {
                                         elementDescriptor,
                                         context,
                                         beanInfo.getIDAttributeName(),
-                                        id);
+                                        id)
 
 
                             } else {
@@ -339,27 +338,29 @@ public abstract class AbstractBeanWriter {
                                         localName,
                                         qualifiedName,
                                         elementDescriptor,
-                                        context);
+                                        context)
                             }
 
                         } else {
                             // use id from bean property
                             // it's up to the user to ensure uniqueness
-                            Expression idExpression = idAttribute.getTextExpression();
+                            Expression idExpression = idAttribute.getTextExpression()
                             if (idExpression == null) {
-                                throw new IntrospectionException("The specified id property wasn't found in the bean (${idAttribute}).");
+                                throw new IntrospectionException("The specified id property wasn't found in the bean (${idAttribute}).")
                             }
-                            Object exp = idExpression.evaluate(context);
+                            String id
+
+                            Object exp = idExpression.evaluate(context)
                             if (exp == null) {
                                 // we'll use a random id
-                                log.debug("Using random id");
-                                id = idGenerator.nextId();
+                                log.debug("Using random id")
+                                id = idGenerator.nextId()
 
                             } else {
                                 // convert to string
-                                id = exp.toString();
+                                id = exp.toString()
                             }
-                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id);
+                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id)
 
                             // the ID attribute should be written automatically
                             writeElement(
@@ -367,7 +368,7 @@ public abstract class AbstractBeanWriter {
                                     localName,
                                     qualifiedName,
                                     elementDescriptor,
-                                    context);
+                                    context)
                         }
                     } else {
 
@@ -379,25 +380,15 @@ public abstract class AbstractBeanWriter {
                                     localName,
                                     qualifiedName,
                                     beanInfo.getIDREFAttributeName(),
-                                    ref);
+                                    ref)
                         }
                     }
-                    popBean();
+                    popBean()
                 }
 
-                context.popOptions();
+                context.popOptions()
             }
         }
-    }
-
-    /**
-     * Get <code>IDGenerator</code> implementation used to
-     * generate <code>ID</code> attribute values .
-     *
-     * @return implementation used for <code>ID</code> attribute generation
-     */
-    public IDGenerator getIdGenerator() {
-        return idGenerator;
     }
 
     /**
@@ -408,7 +399,7 @@ public abstract class AbstractBeanWriter {
      * @param idGenerator use this implementation for <code>ID</code> attribute generation
      */
     public void setIdGenerator(IDGenerator idGenerator) {
-        this.idGenerator = idGenerator;
+        this.idGenerator = idGenerator
     }
 
     /**
@@ -417,7 +408,7 @@ public abstract class AbstractBeanWriter {
      * @since 0.5
      */
     public BindingConfiguration getBindingConfiguration() {
-        return bindingConfiguration;
+        return bindingConfiguration
     }
 
     /**
@@ -426,32 +417,7 @@ public abstract class AbstractBeanWriter {
      * @since 0.5
      */
     public void setBindingConfiguration(BindingConfiguration bindingConfiguration) {
-        this.bindingConfiguration = bindingConfiguration;
-    }
-
-    /**
-     * <p>Should generated <code>ID</code> attribute values be added to the elements?</p>
-     *
-     * <p>If IDs are not being written then if a cycle is encountered in the bean graph,
-     * then a {@link CyclicReferenceException} will be thrown by the write method.</p>
-     *
-     * @return true if <code>ID</code> and <code>IDREF</code> attributes are to be written
-     * @deprecated 0.5 use {@link BindingConfiguration#getMapIDs}
-     */
-    public boolean getWriteIDs() {
-        return getBindingConfiguration().getMapIDs();
-    }
-
-    /**
-     * Set whether generated <code>ID</code> attribute values should be added to the elements
-     * If this property is set to false, then <code>CyclicReferenceException</code>
-     * will be thrown whenever a cyclic occurs in the bean graph.
-     *
-     * @param writeIDs true if <code>ID</code>'s and <code>IDREF</code>'s should be written
-     * @deprecated 0.5 use {@link BindingConfiguration#setMapIDs}
-     */
-    public void setWriteIDs(boolean writeIDs) {
-        getBindingConfiguration().setMapIDs(writeIDs);
+        this.bindingConfiguration = bindingConfiguration
     }
 
     /**
@@ -459,14 +425,14 @@ public abstract class AbstractBeanWriter {
      *
      * <p>An empty element is one that has no attributes, no child elements
      * and no body text.
-     * For example, <code>&lt;element/&gt;</code> is an empty element but
-     * <code>&lt;element attr='value'/&gt;</code> is not.</p>
+     * For example, <code>&ltelement/&gt</code> is an empty element but
+     * <code>&ltelement attr='value'/&gt</code> is not.</p>
      *
      * @return true if empty elements will be written into the output
      * @since 0.5
      */
     public boolean getWriteEmptyElements() {
-        return writeEmptyElements;
+        return writeEmptyElements
     }
 
     /**
@@ -474,14 +440,14 @@ public abstract class AbstractBeanWriter {
      *
      * <p>An empty element is one that has no attributes, no child elements
      * and no body text.
-     * For example, <code>&lt;element/&gt;</code> is an empty element but
-     * <code>&lt;element attr='value'/&gt;</code> is not.
+     * For example, <code>&ltelement/&gt</code> is an empty element but
+     * <code>&ltelement attr='value'/&gt</code> is not.
      *
      * @param writeEmptyElements true if empty elements should be written into the output
      * @since 0.5
      */
     public void setWriteEmptyElements(boolean writeEmptyElements) {
-        this.writeEmptyElements = writeEmptyElements;
+        this.writeEmptyElements = writeEmptyElements
     }
 
     /**
@@ -495,7 +461,7 @@ public abstract class AbstractBeanWriter {
      * @return the <code>XMLIntrospector</code> used for introspection
      */
     public XMLIntrospector getXMLIntrospector() {
-        return introspector;
+        return introspector
     }
 
     /**
@@ -509,25 +475,7 @@ public abstract class AbstractBeanWriter {
      * @param introspector use this introspector
      */
     public void setXMLIntrospector(XMLIntrospector introspector) {
-        this.introspector = introspector;
-    }
-
-    /**
-     * <p>Gets the current logging implementation.</p>
-     *
-     * @return the <code>Log</code> implementation which this class logs to
-     */
-    public final Log getAbstractBeanWriterLog() {
-        return log;
-    }
-
-    /**
-     * <p> Set the current logging implementation. </p>
-     *
-     * @param log <code>Log</code> implementation to use
-     */
-    public final void setAbstractBeanWriterLog(Log log) {
-        this.log = log;
+        this.introspector = introspector
     }
 
     // SAX-style methods
@@ -545,17 +493,11 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @since 0.5
      */
-    protected void startElement(
-            WriteContext context,
-            String uri,
-            String localName,
-            String qName,
-            Attributes attr)
-            throws
-                    IOException,
-                    SAXException {
+    protected void startElement(WriteContext context, String uri, String localName, String qName, Attributes attr)
+            throws IOException, SAXException {
         // for backwards compatbility call older methods
-        startElement(uri, localName, qName, attr);
+        //noinspection GrDeprecatedAPIUsage
+        startElement(uri, localName, qName, attr)
     }
 
     /**
@@ -569,16 +511,11 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @since 0.5
      */
-    protected void endElement(
-            WriteContext context,
-            String uri,
-            String localName,
-            String qName)
-            throws
-                    IOException,
-                    SAXException {
+    protected void endElement(WriteContext context, String uri, String localName, String qName)
+            throws IOException, SAXException {
         // for backwards compatibility call older interface
-        endElement(uri, localName, qName);
+        //noinspection GrDeprecatedAPIUsage
+        endElement(uri, localName, qName)
     }
 
     /**
@@ -590,10 +527,10 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @since 0.5
      */
-    protected void bodyText(WriteContext context, String text)
-            throws IOException, SAXException {
+    protected void bodyText(WriteContext context, String text) throws IOException, SAXException {
         // for backwards compatibility call older interface
-        bodyText(text);
+        //noinspection GrDeprecatedAPIUsage
+        bodyText(text)
     }
 
     // Older SAX-style methods
@@ -611,14 +548,8 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @deprecated 0.5 use {@link #startElement(WriteContext, String, String, String, Attributes)}
      */
-    protected void startElement(
-            String uri,
-            String localName,
-            String qName,
-            Attributes attr)
-            throws
-                    IOException,
-                    SAXException {
+    protected void startElement(String uri, String localName, String qName, Attributes attr)
+            throws IOException, SAXException {
     }
 
     /**
@@ -632,13 +563,8 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @deprecated 0.5 use {@link #endElement(WriteContext, String, String, String)}
      */
-    protected void endElement(
-            String uri,
-            String localName,
-            String qName)
-            throws
-                    IOException,
-                    SAXException {
+    protected void endElement(String uri, String localName, String qName)
+            throws IOException, SAXException {
     }
 
     /**
@@ -668,23 +594,15 @@ public abstract class AbstractBeanWriter {
      * @throws SAXException if an SAX problem occurs during writing
      * @throws IntrospectionException if a java beans introspection problem occurs
      */
-    private void writeElement(
-            String namespaceUri,
-            String localName,
-            String qualifiedName,
-            ElementDescriptor elementDescriptor,
-            Context context)
-            throws
-                    IOException,
-                    SAXException,
-                    IntrospectionException {
+    private void writeElement(String namespaceUri, String localName, String qualifiedName, ElementDescriptor elementDescriptor, Context context)
+            throws IOException, SAXException, IntrospectionException {
         if (log.isTraceEnabled()) {
-            log.trace("Writing: " + qualifiedName + " element: " + elementDescriptor);
+            log.trace("Writing: " + qualifiedName + " element: " + elementDescriptor)
         }
 
         if (!ignoreElement(elementDescriptor, namespaceUri, localName, qualifiedName, context)) {
             if (log.isTraceEnabled()) {
-                log.trace("Element " + elementDescriptor + " is empty.");
+                log.trace("Element " + elementDescriptor + " is empty.")
             }
 
 
@@ -696,22 +614,22 @@ public abstract class AbstractBeanWriter {
             Attributes attributes
             if (stringified) {
                 String value = bindingConfiguration.objectStringConverter.objectToString(context.bean, elementDescriptor.propertyType, context)
-                attributes = addNamespaceDeclarations(new InlineValueAttributes(null, null, value), namespaceUri);
+                attributes = addNamespaceDeclarations(new InlineValueAttributes(null, null, value), namespaceUri)
             } else {
-                attributes = addNamespaceDeclarations(new ElementAttributes(bindingConfiguration, elementDescriptor, context), namespaceUri);
+                attributes = addNamespaceDeclarations(new ElementAttributes(bindingConfiguration, elementDescriptor, context), namespaceUri)
             }
-            writeContext.setCurrentDescriptor(elementDescriptor);
+            writeContext.setCurrentDescriptor(elementDescriptor)
             startElement(
                     writeContext,
                     namespaceUri,
                     localName,
                     qualifiedName,
-                    attributes);
+                    attributes)
             if (!stringified) {
-                writeElementContent(elementDescriptor, context);
+                writeElementContent(elementDescriptor, context)
             }
-            writeContext.setCurrentDescriptor(elementDescriptor);
-            endElement(writeContext, namespaceUri, localName, qualifiedName);
+            writeContext.setCurrentDescriptor(elementDescriptor)
+            endElement(writeContext, namespaceUri, localName, qualifiedName)
         }
     }
 
@@ -722,31 +640,31 @@ public abstract class AbstractBeanWriter {
      * @return Attributes , not null
      */
     private Attributes addNamespaceDeclarations(Attributes attributes, String elementNamespaceUri) {
-        Attributes result = attributes;
-        AttributesImpl withDeclarations = null;
+        Attributes result = attributes
+        AttributesImpl withDeclarations = null
         int size = attributes.getLength()
         for (int i = -1; i < size; i++) {
-            String uri = null;
+            String uri
             if (i == -1) {
-                uri = elementNamespaceUri;
+                uri = elementNamespaceUri
             } else {
-                uri = attributes.getURI(i);
+                uri = attributes.getURI(i)
             }
             if (uri != null && !"".equals(uri) && !namespacesDeclared.contains(uri)) {
                 if (withDeclarations == null) {
-                    withDeclarations = new AttributesImpl(attributes);
+                    withDeclarations = new AttributesImpl(attributes)
                 }
                 withDeclarations.addAttribute(
                         "", "", "xmlns:"
-                        + getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri), "NOTATION", uri);
-                namespacesDeclared.add(uri);
+                        + getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri), "NOTATION", uri)
+                namespacesDeclared.add(uri)
             }
         }
 
         if (withDeclarations != null) {
-            result = withDeclarations;
+            result = withDeclarations
         }
-        return result;
+        return result
     }
 
     /**
@@ -777,25 +695,25 @@ public abstract class AbstractBeanWriter {
                     IntrospectionException {
 
         if (!ignoreElement(elementDescriptor, namespaceUri, localName, qualifiedName, context)) {
-            writeContext.setCurrentDescriptor(elementDescriptor);
+            writeContext.setCurrentDescriptor(elementDescriptor)
             Attributes attributes = new IDElementAttributes(
                     bindingConfiguration,
                     elementDescriptor,
                     context,
                     idAttribute,
-                    idValue);
+                    idValue)
             startElement(
                     writeContext,
                     namespaceUri,
                     localName,
                     qualifiedName,
-                    addNamespaceDeclarations(attributes, namespaceUri));
+                    addNamespaceDeclarations(attributes, namespaceUri))
 
-            writeElementContent(elementDescriptor, context);
-            writeContext.setCurrentDescriptor(elementDescriptor);
-            endElement(writeContext, namespaceUri, localName, qualifiedName);
+            writeElementContent(elementDescriptor, context)
+            writeContext.setCurrentDescriptor(elementDescriptor)
+            endElement(writeContext, namespaceUri, localName, qualifiedName)
         } else if (log.isTraceEnabled()) {
-            log.trace("Element " + qualifiedName + " is empty.");
+            log.trace("Element " + qualifiedName + " is empty.")
         }
     }
 
@@ -824,17 +742,17 @@ public abstract class AbstractBeanWriter {
                     IntrospectionException {
 
         // write IDREF element
-        AttributesImpl attributes = new AttributesImpl();
+        AttributesImpl attributes = new AttributesImpl()
         // XXX for the moment, assign IDREF to default namespace
         attributes.addAttribute(
                 "",
                 idrefAttributeName,
                 idrefAttributeName,
                 "IDREF",
-                idrefAttributeValue);
-        writeContext.setCurrentDescriptor(elementDescriptor);
-        startElement(writeContext, uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri));
-        endElement(writeContext, uri, localName, qualifiedName);
+                idrefAttributeValue)
+        writeContext.setCurrentDescriptor(elementDescriptor)
+        startElement(writeContext, uri, localName, qualifiedName, addNamespaceDeclarations(attributes, uri))
+        endElement(writeContext, uri, localName, qualifiedName)
     }
 
     /**
@@ -854,39 +772,30 @@ public abstract class AbstractBeanWriter {
                     IOException,
                     SAXException,
                     IntrospectionException {
-        writeContext.setCurrentDescriptor(elementDescriptor);
-        Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors();
+        writeContext.setCurrentDescriptor(elementDescriptor)
+        Descriptor[] childDescriptors = elementDescriptor.getContentDescriptors()
         if (childDescriptors != null && childDescriptors.length > 0) {
-            // process child elements
-            int size = childDescriptors.length
-            for (int i = 0; i < size; i++) {
-                if (childDescriptors[i] instanceof ElementDescriptor) {
+            for (Descriptor currentDescriptor : childDescriptors) {
+                if (currentDescriptor instanceof ElementDescriptor) {
                     // Element content
-                    ElementDescriptor childDescriptor = (ElementDescriptor) childDescriptors[i];
-                    Context childContext = context;
-                    childContext.pushOptions(childDescriptor.getOptions());
-                    Expression childExpression = childDescriptor.getContextExpression();
+                    ElementDescriptor childDescriptor = (ElementDescriptor) currentDescriptor
+                    Context childContext = context
+                    childContext.pushOptions(childDescriptor.getOptions())
+                    Expression childExpression = childDescriptor.getContextExpression()
                     if (childExpression != null) {
-                        Object childBean = childExpression.evaluate(context);
+                        Object childBean = childExpression.evaluate(context)
                         if (childBean != null) {
-                            String qualifiedName = childDescriptor.getQualifiedName();
-                            String namespaceUri = childDescriptor.getURI();
-                            String localName = childDescriptor.getLocalName();
+                            String qualifiedName = childDescriptor.getQualifiedName()
+                            String namespaceUri = childDescriptor.getURI()
+                            String localName = childDescriptor.getLocalName()
 
-                            // XXXX: should we handle nulls better
                             if (childBean instanceof Iterator) {
-                                for (Iterator iter = (Iterator) childBean; iter.hasNext();) {
-                                    Object object = iter.next();
-                                    if (object == null) {
-                                        continue;
+                                def iterator = childBean as Iterator
+                                while (iterator.hasNext()) {
+                                    Object object = iterator.next();
+                                    if (object != null) {
+                                        writeBean(namespaceUri, localName, qualifiedName, object, childDescriptor, context)
                                     }
-                                    writeBean(
-                                            namespaceUri,
-                                            localName,
-                                            qualifiedName,
-                                            object,
-                                            childDescriptor,
-                                            context);
                                 }
                             } else {
                                 writeBean(
@@ -895,7 +804,7 @@ public abstract class AbstractBeanWriter {
                                         qualifiedName,
                                         childBean,
                                         childDescriptor,
-                                        context);
+                                        context)
                             }
                         }
                     } else {
@@ -904,34 +813,30 @@ public abstract class AbstractBeanWriter {
                                 childDescriptor.getLocalName(),
                                 childDescriptor.getQualifiedName(),
                                 childDescriptor,
-                                childContext);
+                                childContext)
                     }
-                    childContext.popOptions();
+                    childContext.popOptions()
                 } else {
                     // Mixed text content
                     // evaluate the body text
-                    Expression expression = childDescriptors[i].getTextExpression();
+                    Expression expression = currentDescriptor.getTextExpression()
                     if (expression != null) {
-                        Object value = expression.evaluate(context);
-                        String text = convertToString(
-                                value,
-                                childDescriptors[i],
-                                context);
+                        Object value = expression.evaluate(context)
+                        String text = convertToString(value, currentDescriptor, context)
                         if (text != null && text.length() > 0) {
-                            ;
-                            bodyText(writeContext, text);
+                            bodyText(writeContext, text)
                         }
                     }
                 }
             }
         } else {
             // evaluate the body text
-            Expression expression = elementDescriptor.getTextExpression();
+            Expression expression = elementDescriptor.getTextExpression()
             if (expression != null) {
-                Object value = expression.evaluate(context);
-                String text = convertToString(value, elementDescriptor, context);
+                Object value = expression.evaluate(context)
+                String text = convertToString(value, elementDescriptor, context)
                 if (text != null && text.length() > 0) {
-                    bodyText(writeContext, text);
+                    bodyText(writeContext, text)
                 }
             }
         }
@@ -946,36 +851,36 @@ public abstract class AbstractBeanWriter {
     protected void pushBean(Object bean) {
         // check that we don't have a cyclic reference when we're not writing IDs
         if (!getBindingConfiguration().getMapIDs()) {
-            Iterator it = beanStack.iterator();
+            Iterator it = beanStack.iterator()
             while (it.hasNext()) {
-                Object next = it.next();
+                Object next = it.next()
                 // use absolute equality rather than equals
                 // we're only really bothered if objects are actually the same
                 if (bean == next) {
-                    final String message = "Cyclic reference at bean: " + bean;
-                    log.error(message);
-                    StringBuffer buffer = new StringBuffer(message);
-                    buffer.append(" Stack: ");
-                    Iterator errorStack = beanStack.iterator();
+                    final String message = "Cyclic reference at bean: " + bean
+                    log.error(message)
+                    StringBuffer buffer = new StringBuffer(message)
+                    buffer.append(" Stack: ")
+                    Iterator errorStack = beanStack.iterator()
                     while (errorStack.hasNext()) {
-                        Object errorObj = errorStack.next();
+                        Object errorObj = errorStack.next()
                         if (errorObj != null) {
-                            buffer.append(errorObj.getClass().getName());
-                            buffer.append(": ");
+                            buffer.append(errorObj.getClass().getName())
+                            buffer.append(": ")
                         }
-                        buffer.append(errorObj);
-                        buffer.append(";");
+                        buffer.append(errorObj)
+                        buffer.append("")
                     }
-                    final String debugMessage = buffer.toString();
-                    log.info(debugMessage);
-                    throw new CyclicReferenceException(debugMessage);
+                    final String debugMessage = buffer.toString()
+                    log.info(debugMessage)
+                    throw new CyclicReferenceException(debugMessage)
                 }
             }
         }
         if (log.isTraceEnabled()) {
-            log.trace("Pushing onto object stack: " + bean);
+            log.trace("Pushing onto object stack: " + bean)
         }
-        beanStack.push(bean);
+        beanStack.push(bean)
     }
 
     /**
@@ -984,11 +889,11 @@ public abstract class AbstractBeanWriter {
      * @return the last object pushed onto the ancester stack
      */
     protected Object popBean() {
-        Object bean = beanStack.pop();
+        Object bean = beanStack.pop()
         if (log.isTraceEnabled()) {
-            log.trace("Popped from object stack: " + bean);
+            log.trace("Popped from object stack: " + bean)
         }
-        return bean;
+        return bean
     }
 
     /**
@@ -1011,13 +916,13 @@ public abstract class AbstractBeanWriter {
                 localName,
                 qualifiedName,
                 context.getBean())) {
-            return true;
+            return true
         }
 
         if (!getWriteEmptyElements()) {
-            return isEmptyElement(descriptor, context);
+            return isEmptyElement(descriptor, context)
         }
-        return false;
+        return false
     }
 
     /**
@@ -1025,8 +930,8 @@ public abstract class AbstractBeanWriter {
      *
      * <p>An empty element is one that has no attributes, no child elements
      * and no body text.
-     * For example, <code>&lt;element/&gt;</code> is an empty element but
-     * <code>&lt;element attr='value'/&gt;</code> is not.</p>
+     * For example, <code>&ltelement/&gt</code> is an empty element but
+     * <code>&ltelement attr='value'/&gt</code> is not.</p>
      *
      * @param descriptor the <code>ElementDescriptor</code> to evaluate
      * @param context the <code>Context</code> against which the element will be evaluated
@@ -1036,31 +941,29 @@ public abstract class AbstractBeanWriter {
     private boolean isEmptyElement(ElementDescriptor descriptor, Context context) throws IntrospectionException {
         //TODO: this design isn't too good
         // to would be much better to render just once
-        if (log.isTraceEnabled()) {
-            log.trace("Is " + descriptor + " empty?");
-        }
+        log.trace("Is " + descriptor + " empty?")
 
         // an element which has attributes is not empty
         if (descriptor.hasAttributes()) {
-            log.trace("Element has attributes.");
-            return false;
+            log.trace("Element has attributes.")
+            return false
         }
 
         // an element is not empty if it has a non-empty body
-        Expression expression = descriptor.getTextExpression();
+        Expression expression = descriptor.getTextExpression()
         if (expression != null) {
-            Object value = expression.evaluate(context);
-            String text = convertToString(value, descriptor, context);
+            Object value = expression.evaluate(context)
+            String text = convertToString(value, descriptor, context)
             if (text != null && text.length() > 0) {
-                log.trace("Element has body text which isn't empty.");
-                return false;
+                log.trace("Element has body text which isn't empty.")
+                return false
             }
         }
 
         // always write out loops - even when they have no elements
         if (descriptor.isCollective()) {
-            log.trace("Loop type so not empty.");
-            return false;
+            log.trace("Loop type so not empty.")
+            return false
         }
 
         // now test child elements
@@ -1069,29 +972,29 @@ public abstract class AbstractBeanWriter {
             int size = descriptor.getElementDescriptors().length
             for (int i = 0; i < size; i++) {
                 if (!isEmptyElement(descriptor.getElementDescriptors()[i], context)) {
-                    log.trace("Element has child which isn't empty.");
-                    return false;
+                    log.trace("Element has child which isn't empty.")
+                    return false
                 }
             }
         }
 
         if (descriptor.isHollow()) {
-            Expression contentExpression = descriptor.getContextExpression();
+            Expression contentExpression = descriptor.getContextExpression()
             if (contentExpression != null) {
-                Object childBean = contentExpression.evaluate(context);
+                Object childBean = contentExpression.evaluate(context)
                 if (childBean != null) {
-                    XMLBeanInfo xmlBeanInfo = findXMLBeanInfo(childBean, descriptor);
-                    Object currentBean = context.getBean();
-                    context.setBean(childBean);
-                    boolean result = isEmptyElement(xmlBeanInfo.getElementDescriptor(), context);
-                    context.setBean(currentBean);
-                    return result;
+                    XMLBeanInfo xmlBeanInfo = findXMLBeanInfo(childBean, descriptor)
+                    Object currentBean = context.getBean()
+                    context.setBean(childBean)
+                    boolean result = isEmptyElement(xmlBeanInfo.getElementDescriptor(), context)
+                    context.setBean(currentBean)
+                    return result
                 }
             }
         }
 
-        log.trace("Element is empty.");
-        return true;
+        log.trace("Element is empty.")
+        return true
     }
 
     private static final class InlineValueAttributes extends EmptyAttributes {
@@ -1135,38 +1038,38 @@ public abstract class AbstractBeanWriter {
         }
 
         private void init(AttributeDescriptor[] baseAttributes) {
-            values = new String[baseAttributes.length];
-            int index = 0;
+            values = new String[baseAttributes.length]
+            int index = 0
             if (context != null) {
                 int size = baseAttributes.length
-                attributes = new AttributeDescriptor[baseAttributes.length];
+                attributes = new AttributeDescriptor[baseAttributes.length]
 
                 for (int i = 0; i < size; i++) {
-                    AttributeDescriptor baseAttribute = baseAttributes[i];
-                    String attributeValue = valueAttribute(baseAttribute);
+                    AttributeDescriptor baseAttribute = baseAttributes[i]
+                    String attributeValue = valueAttribute(baseAttribute)
 
                     if (attributeValue != null
                             && !bindingConfiguration.valueSuppressionStrategy
                             .suppressAttribute(baseAttribute, attributeValue)) {
-                        values[index] = attributeValue;
-                        attributes[index] = baseAttribute;
-                        index++;
+                        values[index] = attributeValue
+                        attributes[index] = baseAttribute
+                        index++
                     }
                 }
             } else {
-                attributes = new AttributeDescriptor[0];
+                attributes = new AttributeDescriptor[0]
             }
-            length = index;
+            length = index
         }
 
         private String valueAttribute(AttributeDescriptor attribute) {
-            Expression expression = attribute.getTextExpression();
+            Expression expression = attribute.getTextExpression()
             if (expression != null) {
-                Object value = expression.evaluate(context);
-                return convertToString(bindingConfiguration, value, attribute, context);
+                Object value = expression.evaluate(context)
+                return convertToString(bindingConfiguration, value, attribute, context)
             }
 
-            return "";
+            return ""
         }
 
         /**
@@ -1180,11 +1083,11 @@ public abstract class AbstractBeanWriter {
                 def descriptor = attributes[i]
                 if (descriptor) {
                     if (descriptor.getQualifiedName() != null && descriptor.getQualifiedName().equals(qName)) {
-                        return i;
+                        return i
                     }
                 }
             }
-            return -1;
+            return -1
         }
 
         /**
@@ -1201,11 +1104,11 @@ public abstract class AbstractBeanWriter {
                         && attributes[i].getURI().equals(uri)
                         && attributes[i].getLocalName() != null
                         && attributes[i].getURI().equals(localName)) {
-                    return i;
+                    return i
                 }
             }
 
-            return -1;
+            return -1
         }
 
         /**
@@ -1214,7 +1117,7 @@ public abstract class AbstractBeanWriter {
          * @return the number of attributes in this list
          */
         public int getLength() {
-            return length;
+            return length
         }
 
         /**
@@ -1225,10 +1128,10 @@ public abstract class AbstractBeanWriter {
          */
         public String getLocalName(int index) {
             if (indexInRange(index)) {
-                return attributes[index].getLocalName();
+                return attributes[index].getLocalName()
             }
 
-            return null;
+            return null
         }
 
         /**
@@ -1239,10 +1142,10 @@ public abstract class AbstractBeanWriter {
          */
         public String getQName(int index) {
             if (indexInRange(index)) {
-                return attributes[index].getQualifiedName();
+                return attributes[index].getQualifiedName()
             }
 
-            return null;
+            return null
         }
 
         /**
@@ -1253,9 +1156,9 @@ public abstract class AbstractBeanWriter {
          */
         public String getType(int index) {
             if (indexInRange(index)) {
-                return "CDATA";
+                return "CDATA"
             }
-            return null;
+            return null
         }
 
         /**
@@ -1265,7 +1168,7 @@ public abstract class AbstractBeanWriter {
          * @return the attribute type (as a string) or null if the attribute is not in the list
          */
         public String getType(String qName) {
-            return getType(getIndex(qName));
+            return getType(getIndex(qName))
         }
 
         /**
@@ -1276,7 +1179,7 @@ public abstract class AbstractBeanWriter {
          * @return the attribute type (as a string) or null if the attribute is not in the list
          */
         public String getType(String uri, String localName) {
-            return getType(getIndex(uri, localName));
+            return getType(getIndex(uri, localName))
         }
 
         /**
@@ -1288,9 +1191,9 @@ public abstract class AbstractBeanWriter {
          */
         public String getURI(int index) {
             if (indexInRange(index)) {
-                return attributes[index].getURI();
+                return attributes[index].getURI()
             }
-            return null;
+            return null
         }
 
         /**
@@ -1301,9 +1204,9 @@ public abstract class AbstractBeanWriter {
          */
         public String getValue(int index) {
             if (indexInRange(index)) {
-                return values[index];
+                return values[index]
             }
-            return null;
+            return null
         }
 
         /**
@@ -1315,7 +1218,7 @@ public abstract class AbstractBeanWriter {
          * @todo add value caching
          */
         public String getValue(String qName) {
-            return getValue(getIndex(qName));
+            return getValue(getIndex(qName))
         }
 
         /**
@@ -1328,7 +1231,7 @@ public abstract class AbstractBeanWriter {
          * @todo add value caching
          */
         public String getValue(String uri, String localName) {
-            return getValue(getIndex(uri, localName));
+            return getValue(getIndex(uri, localName))
         }
 
         /**
@@ -1338,7 +1241,7 @@ public abstract class AbstractBeanWriter {
          * @return true if the index with within the range of the attribute list
          */
         private boolean indexInRange(int index) {
-            return (index >= 0 && index < getLength());
+            return (index >= 0 && index < getLength())
         }
     }
 
@@ -1351,13 +1254,13 @@ public abstract class AbstractBeanWriter {
      */
     private class IDElementAttributes extends ElementAttributes {
         /** ID attribute value */
-        private String idValue;
+        private String idValue
         /** ID attribute name */
-        private String idAttributeName;
+        private String idAttributeName
 
-        private boolean matchingAttribute = false;
-        private int length;
-        private int idIndex;
+        private boolean matchingAttribute = false
+        private int length
+        private int idIndex
 
         /**
          * Construct attributes for element and context.
@@ -1373,73 +1276,73 @@ public abstract class AbstractBeanWriter {
                 Context context,
                 String idAttributeName,
                 String idValue) {
-            super(bindingConfiguration, descriptor, context);
-            this.idValue = idValue;
-            this.idAttributeName = idAttributeName;
+            super(bindingConfiguration, descriptor, context)
+            this.idValue = idValue
+            this.idAttributeName = idAttributeName
 
             // see if we have already have a matching attribute descriptor
-            AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors();
-            length = super.getLength();
+            AttributeDescriptor[] attributeDescriptors = descriptor.getAttributeDescriptors()
+            length = super.getLength()
             for (int i = 0; i < length; i++) {
                 if (idAttributeName.equals(attributeDescriptors[i].getQualifiedName())) {
-                    matchingAttribute = true;
-                    idIndex = i;
-                    break;
+                    matchingAttribute = true
+                    idIndex = i
+                    break
                 }
             }
             if (!matchingAttribute) {
-                length += 1;
-                idIndex = length - 1;
+                length += 1
+                idIndex = length - 1
             }
         }
 
         public int getIndex(String uri, String localName) {
             if (localName.equals(idAttributeName)) {
-                return idIndex;
+                return idIndex
             }
 
-            return super.getIndex(uri, localName);
+            return super.getIndex(uri, localName)
         }
 
         public int getIndex(String qName) {
             if (qName.equals(idAttributeName)) {
-                return idIndex;
+                return idIndex
             }
 
-            return super.getIndex(qName);
+            return super.getIndex(qName)
         }
 
         public int getLength() {
-            return length;
+            return length
         }
 
         public String getLocalName(int index) {
             if (index == idIndex) {
-                return idAttributeName;
+                return idAttributeName
             }
-            return super.getLocalName(index);
+            return super.getLocalName(index)
         }
 
         public String getQName(int index) {
             if (index == idIndex) {
-                return idAttributeName;
+                return idAttributeName
             }
-            return super.getQName(index);
+            return super.getQName(index)
         }
 
         public String getType(int index) {
             if (index == idIndex) {
-                return "ID";
+                return "ID"
             }
-            return super.getType(index);
+            return super.getType(index)
         }
 
         public String getType(String uri, String localName) {
-            return getType(getIndex(uri, localName));
+            return getType(getIndex(uri, localName))
         }
 
         public String getType(String qName) {
-            return getType(getIndex(qName));
+            return getType(getIndex(qName))
         }
 
         public String getURI(int index) {
@@ -1447,163 +1350,26 @@ public abstract class AbstractBeanWriter {
             // probably need to move ID management into introspection
             // before we can handle this namespace bit correctly
             if (index == idIndex) {
-                return "";
+                return ""
             }
-            return super.getURI(index);
+            return super.getURI(index)
         }
 
         public String getValue(int index) {
             if (index == idIndex) {
-                return idValue;
+                return idValue
             }
-            return super.getValue(index);
+            return super.getValue(index)
         }
 
         public String getValue(String uri, String localName) {
-            return getValue(getIndex(uri, localName));
+            return getValue(getIndex(uri, localName))
         }
 
         public String getValue(String qName) {
-            return getValue(getIndex(qName));
+            return getValue(getIndex(qName))
         }
 
-    }
-
-    // OLD API (DEPRECATED)
-    // --------------------------------------------------------------------------------------
-
-    /**
-     * Get the indentation for the current element.
-     * Used for pretty priting.
-     *
-     * @return the amount that the current element is indented
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected int getIndentLevel() {
-        return 0;
-    }
-
-    // Expression methods
-    //-------------------------------------------------------------------------
-
-    /**
-     * Express an element tag start using given qualified name.
-     *
-     * @param qualifiedName the qualified name of the element to be expressed
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressElementStart(String qualifiedName)
-            throws IOException, SAXException {
-        // do nothing
-    }
-
-    /**
-     * Express a closing tag.
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressTagClose() throws IOException, SAXException {
-    }
-
-    /**
-     * Express an element end tag (with given name)
-     *
-     * @param qualifiedName the qualified name for the element to be closed
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressElementEnd(String qualifiedName)
-            throws IOException, SAXException {
-        // do nothing
-    }
-
-    /**
-     * Express an element end tag (with given name)
-     *
-     * @param uri the namespace uri of the element close tag
-     * @param localName the local name of the element close tag
-     * @param qualifiedName the qualified name for the element to be closed
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressElementEnd(
-            String uri,
-            String localName,
-            String qualifiedName)
-            throws
-                    IOException,
-                    SAXException {
-        expressElementEnd(qualifiedName);
-    }
-
-    /**
-     * Express an empty element end.
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressElementEnd() throws IOException, SAXException {
-    }
-
-    /**
-     * Express body text
-     *
-     * @param text the string to write out as the body of the current element
-     *
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressBodyText(String text) throws IOException, SAXException {
-    }
-
-    /**
-     * Express an attribute
-     *
-     * @param qualifiedName the qualified name of the attribute
-     * @param value the attribute value
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressAttribute(
-            String qualifiedName,
-            String value)
-            throws
-                    IOException,
-                    SAXException {
-        // Do nothing
-    }
-
-    /**
-     * Express an attribute
-     *
-     * @param namespaceUri the namespace uri
-     * @param localName the local name
-     * @param qualifiedName the qualified name of the attribute
-     * @param value the attribute value
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void expressAttribute(
-            String namespaceUri,
-            String localName,
-            String qualifiedName,
-            String value)
-            throws
-                    IOException,
-                    SAXException {
-        expressAttribute(qualifiedName, value);
     }
 
     /**
@@ -1625,7 +1391,7 @@ public abstract class AbstractBeanWriter {
                     IOException,
                     SAXException,
                     IntrospectionException {
-        writeElement("", qualifiedName, qualifiedName, elementDescriptor, context);
+        writeElement("", qualifiedName, qualifiedName, elementDescriptor, context)
     }
 
     /**
@@ -1658,108 +1424,7 @@ public abstract class AbstractBeanWriter {
                 elementDescriptor,
                 context,
                 idAttribute,
-                idValue);
-    }
-
-    /**
-     * Write attributes, child elements and element end
-     *
-     * @param qualifiedName qualified name to use for the element
-     * @param elementDescriptor the <code>ElementDescriptor</code> describing the element
-     * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void writeRestOfElement(
-            String qualifiedName,
-            ElementDescriptor elementDescriptor,
-            Context context)
-            throws
-                    IOException,
-                    SAXException,
-                    IntrospectionException {
-        writeRestOfElement(qualifiedName, elementDescriptor, context);
-    }
-
-    /**
-     * Writes the element content.
-     *
-     * @param elementDescriptor the <code>ElementDescriptor</code> to write as xml
-     * @param context the <code>Context</code> to use to evaluate the bean expressions
-     * @return true if some content was written
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @throws IntrospectionException if a java beans introspection problem occurs
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected boolean writeContent(
-            ElementDescriptor elementDescriptor,
-            Context context)
-            throws
-                    IOException,
-                    SAXException,
-                    IntrospectionException {
-        return false;
-    }
-
-    /**
-     * Writes the attribute declarations
-     *
-     * @param elementDescriptor the <code>ElementDescriptor</code> to be written out as xml
-     * @param context the <code>Context</code> to use to evaluation bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void writeAttributes(
-            ElementDescriptor elementDescriptor,
-            Context context)
-            throws
-                    IOException, SAXException {
-        if (!elementDescriptor.isWrapCollectionsInElement()) {
-            return;
-        }
-
-        AttributeDescriptor[] attributeDescriptors = elementDescriptor.getAttributeDescriptors();
-        if (attributeDescriptors != null) {
-            int size = attributeDescriptors.length
-            for (int i = 0; i < size; i++) {
-                AttributeDescriptor attributeDescriptor = attributeDescriptors[i];
-                writeAttribute(attributeDescriptor, context);
-            }
-        }
-    }
-
-    /**
-     * Writes an attribute declaration
-     *
-     * @param attributeDescriptor the <code>AttributeDescriptor</code> to be written as xml
-     * @param context the <code>Context</code> to use to evaluation bean expressions
-     * @throws IOException if an IO problem occurs during writing
-     * @throws SAXException if an SAX problem occurs during writing
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void writeAttribute(
-            AttributeDescriptor attributeDescriptor,
-            Context context)
-            throws
-                    IOException, SAXException {
-        Expression expression = attributeDescriptor.getTextExpression();
-        if (expression != null) {
-            Object value = expression.evaluate(context);
-            if (value != null) {
-                String text = value.toString();
-                if (text != null && text.length() > 0) {
-                    expressAttribute(
-                            attributeDescriptor.getURI(),
-                            attributeDescriptor.getLocalName(),
-                            attributeDescriptor.getQualifiedName(),
-                            text);
-                }
-            }
-        }
+                idValue)
     }
 
     /**
@@ -1791,7 +1456,7 @@ public abstract class AbstractBeanWriter {
      * @return String representation, not null
      */
     private String convertToString(Object value, Descriptor descriptor, Context context) {
-        return convertToString(bindingConfiguration, value, descriptor, context);
+        return convertToString(bindingConfiguration, value, descriptor, context)
     }
     /**
      * Converts an object to a string.
@@ -1803,9 +1468,7 @@ public abstract class AbstractBeanWriter {
      */
     private
     static String convertToString(BindingConfiguration config, Object value, Descriptor descriptor, Context context) {
-        return config
-                .getObjectStringConverter()
-                .objectToString(value, descriptor.getPropertyType(), context);
+        return config.objectStringConverter.objectToString(value, descriptor.getPropertyType(), context)
     }
 
     /**
@@ -1815,30 +1478,6 @@ public abstract class AbstractBeanWriter {
      * @return not null
      */
     private Context makeContext(Object bean) {
-        return new Context(bean, log, bindingConfiguration);
-    }
-
-    /**
-     * Basic mutable implementation of <code>WriteContext</code>.
-     */
-    private static class WriteContextImpl extends WriteContext {
-
-        private ElementDescriptor currentDescriptor;
-
-        /**
-         * @see org.apache.commons.betwixt.io.WriteContext#getCurrentDescriptor()
-         */
-        public ElementDescriptor getCurrentDescriptor() {
-            return currentDescriptor;
-        }
-
-        /**
-         * Sets the descriptor for the current element.
-         * @param currentDescriptor
-         */
-        public void setCurrentDescriptor(ElementDescriptor currentDescriptor) {
-            this.currentDescriptor = currentDescriptor;
-        }
-
+        return new Context(bean, log, bindingConfiguration)
     }
 }
