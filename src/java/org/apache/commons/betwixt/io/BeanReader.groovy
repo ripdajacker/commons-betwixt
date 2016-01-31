@@ -14,28 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.betwixt.io;
+package org.apache.commons.betwixt.io
 
-import org.apache.commons.betwixt.BindingConfiguration;
-import org.apache.commons.betwixt.ElementDescriptor;
-import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.XMLIntrospector;
-import org.apache.commons.betwixt.io.read.ReadConfiguration;
-import org.apache.commons.betwixt.io.read.ReadContext;
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.ExtendedBaseRules;
-import org.apache.commons.digester.RuleSet;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
+import org.apache.commons.betwixt.BindingConfiguration
+import org.apache.commons.betwixt.ElementDescriptor
+import org.apache.commons.betwixt.XMLBeanInfo
+import org.apache.commons.betwixt.XMLIntrospector
+import org.apache.commons.betwixt.io.read.ReadConfiguration
+import org.apache.commons.betwixt.io.read.ReadContext
+import org.apache.commons.digester.Digester
+import org.apache.commons.digester.ExtendedBaseRules
+import org.apache.commons.digester.RuleSet
+import org.apache.commons.logging.Log
+import org.apache.commons.logging.LogFactory
+import org.xml.sax.InputSource
+import org.xml.sax.SAXException
+import org.xml.sax.XMLReader
 
-import javax.xml.parsers.SAXParser;
-import java.beans.IntrospectionException;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import javax.xml.parsers.SAXParser
+import java.beans.IntrospectionException
 
 /**
  * <p><code>BeanReader</code> reads a tree of beans from an XML document.</p>
@@ -103,7 +100,6 @@ public class BeanReader extends Digester {
         setRules(new ExtendedBaseRules());
     }
 
-
     /**
      * <p>Register a bean class and add mapping rules for this bean class.</p>
      * <p/>
@@ -141,7 +137,7 @@ public class BeanReader extends Digester {
      * Registers the given class at the given path.
      *
      * @param beanClass <code>Class</code> for binding
-     * @param path      the path at which the bean class should be registered
+     * @param path the path at which the bean class should be registered
      *                  or null if the automatic path is to be used
      * @throws IntrospectionException
      */
@@ -185,7 +181,7 @@ public class BeanReader extends Digester {
      * method is called.
      * Those that should be executed afterwards, should be added afterwards.</p>
      *
-     * @param path      the xml path expression where the class is to registered.
+     * @param path the xml path expression where the class is to registered.
      *                  This should be in digester path notation
      * @param beanClass the <code>Class</code> to be registered
      * @throws IntrospectionException if the bean introspection fails
@@ -244,7 +240,7 @@ public class BeanReader extends Digester {
      * by {@link XMLIntrospector#register}  be considered as an alternative to this method.
      * </p>
      *
-     * @param mapping   <code>InputSource</code> giving the dot betwixt document specifying
+     * @param mapping <code>InputSource</code> giving the dot betwixt document specifying
      *                  the mapping
      * @param beanClass <code>Class</code> that should be register
      * @throws IntrospectionException
@@ -302,7 +298,6 @@ public class BeanReader extends Digester {
     public XMLIntrospector getXMLIntrospector() {
         return introspector;
     }
-
 
     /**
      * <p> Set the introspector to be used. </p>
@@ -373,9 +368,9 @@ public class BeanReader extends Digester {
     /**
      * Adds a new bean create rule for the specified path
      *
-     * @param path              the digester path at which this rule should be added
+     * @param path the digester path at which this rule should be added
      * @param elementDescriptor the <code>ElementDescriptor</code> describes the expected element
-     * @param beanClass         the <code>Class</code> of the bean created by this rule
+     * @param beanClass the <code>Class</code> of the bean created by this rule
      */
     protected void addBeanCreateRule(
             String path,
