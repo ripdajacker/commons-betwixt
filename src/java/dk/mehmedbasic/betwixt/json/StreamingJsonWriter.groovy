@@ -1,6 +1,6 @@
 package dk.mehmedbasic.betwixt.json
 /**
- * TODO - someone remind me to document this class 
+ * A streaming json writer.
  */
 class StreamingJsonWriter implements JsonWriterStrategy {
     @Delegate

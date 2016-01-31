@@ -3,7 +3,7 @@ package dk.mehmedbasic.betwixt.json
 import groovy.transform.TypeChecked
 
 /**
- * TODO - someone remind me to document this class 
+ * Write options for JSON
  */
 @TypeChecked
 final class JsonWriteOptions {

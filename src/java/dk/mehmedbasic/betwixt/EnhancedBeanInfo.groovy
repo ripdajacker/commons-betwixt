@@ -9,9 +9,8 @@ import java.util.List
 /**
  * A bean info that enhances the default BeanInfo used in Betwixt.
  */
+@SuppressWarnings("GroovyAssignabilityCheck")
 public class EnhancedBeanInfo<T> implements BeanInfo {
-    static final String ADD_PREFIX = "add";
-    static final String REMOVE_PREFIX = "remove";
     static final String GET_PREFIX = "get";
     static final String SET_PREFIX = "set";
     static final String IS_PREFIX = "is";
@@ -24,11 +23,6 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
     private BeanDescriptor beanDescriptor;
     private BeanInfo legacy
     private PropertyDescriptor[] propertyDescriptors;
-    private boolean ignoreInfo
-
-    public EnhancedBeanInfo(Class<T> clazz) {
-        this(clazz, false)
-    }
 
     public EnhancedBeanInfo(Class<T> clazz, boolean ignoreAllInfo) {
         if (ignoreAllInfo) {
@@ -105,6 +99,7 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
         return propertyDescriptors;
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     private void injectInterceptors(Collection<Method> methodList) {
         // Now analyze each method.
         for (Method method : methodList) {
@@ -149,7 +144,7 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
                         descriptor = new IndexedPropertyDescriptor(this.beanClass, name.substring(3), null, null, null, method);
                     }
                 }
-            } catch (IntrospectionException ex) {
+            } catch (IntrospectionException ignored) {
                 // This happens if a PropertyDescriptor or IndexedPropertyDescriptor
                 // constructor fins that the method violates details of the deisgn
                 // pattern, e.g. by having an empty name, or a getter returning
@@ -345,8 +340,8 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
     }
 
     // Handle regular pd merge
-    private PropertyDescriptor mergePropertyDescriptor(PropertyDescriptor pd1,
-                                                       PropertyDescriptor pd2) {
+    private static PropertyDescriptor mergePropertyDescriptor(PropertyDescriptor pd1,
+                                                              PropertyDescriptor pd2) {
         if (pd1.getClass0().isAssignableFrom(pd2.getClass0())) {
             return new PropertyDescriptor(pd1, pd2);
         } else {
@@ -355,8 +350,8 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
     }
 
     // Handle regular ipd merge
-    private PropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd1,
-                                                       IndexedPropertyDescriptor ipd2) {
+    private static PropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd1,
+                                                              IndexedPropertyDescriptor ipd2) {
         if (ipd1.getClass0().isAssignableFrom(ipd2.getClass0())) {
             return new IndexedPropertyDescriptor(ipd1, ipd2);
         } else {
