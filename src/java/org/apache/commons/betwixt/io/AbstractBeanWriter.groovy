@@ -37,6 +37,8 @@ import java.beans.IntrospectionException
 @CompileStatic
 public abstract class AbstractBeanWriter {
 
+    BeanWriteListener beanWriteListener = new NoopListener()
+
     /** Introspector used */
     private XMLIntrospector introspector = new XMLIntrospector()
 
@@ -625,11 +627,13 @@ public abstract class AbstractBeanWriter {
                     localName,
                     qualifiedName,
                     attributes)
+            beanWriteListener.startElement(writeContext, qualifiedName, attributes)
             if (!stringified) {
                 writeElementContent(elementDescriptor, context)
             }
             writeContext.setCurrentDescriptor(elementDescriptor)
             endElement(writeContext, namespaceUri, localName, qualifiedName)
+            beanWriteListener.endElement(writeContext, qualifiedName)
         }
     }
 
@@ -702,16 +706,20 @@ public abstract class AbstractBeanWriter {
                     context,
                     idAttribute,
                     idValue)
+            attributes = addNamespaceDeclarations(attributes, namespaceUri)
             startElement(
                     writeContext,
                     namespaceUri,
                     localName,
                     qualifiedName,
-                    addNamespaceDeclarations(attributes, namespaceUri))
+                    attributes)
+            beanWriteListener.startElement(writeContext, qualifiedName, attributes)
 
             writeElementContent(elementDescriptor, context)
+
             writeContext.setCurrentDescriptor(elementDescriptor)
             endElement(writeContext, namespaceUri, localName, qualifiedName)
+            beanWriteListener.endElement(writeContext, qualifiedName)
         } else if (log.isTraceEnabled()) {
             log.trace("Element " + qualifiedName + " is empty.")
         }
@@ -1479,5 +1487,20 @@ public abstract class AbstractBeanWriter {
      */
     private Context makeContext(Object bean) {
         return new Context(bean, log, bindingConfiguration)
+    }
+
+    private static final class NoopListener implements BeanWriteListener {
+
+        @Override
+        void startElement(MutableWriteContext writeContext, String qualifiedName, Attributes attributes) {
+        }
+
+        @Override
+        void bodyText(WriteContext context, String text) {
+        }
+
+        @Override
+        void endElement(MutableWriteContext writeContext, String qualifiedName) {
+        }
     }
 }
