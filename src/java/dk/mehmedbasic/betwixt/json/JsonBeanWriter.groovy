@@ -5,6 +5,7 @@ import org.apache.commons.betwixt.*
 import org.apache.commons.betwixt.expression.Context
 import org.apache.commons.betwixt.io.CyclicReferenceException
 import org.apache.commons.betwixt.io.IDGenerator
+import org.apache.commons.betwixt.io.MutableWriteContext
 import org.apache.commons.betwixt.io.id.SequentialIDGenerator
 import org.apache.commons.betwixt.strategy.ObjectStringConverter
 import org.apache.commons.logging.Log

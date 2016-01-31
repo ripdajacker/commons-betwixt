@@ -1,11 +1,10 @@
-package dk.mehmedbasic.betwixt.json
+package org.apache.commons.betwixt.io
 
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.ElementDescriptor
-import org.apache.commons.betwixt.io.WriteContext
 
 /**
- * A mutalbe write context
+ * A mutable write context
  */
 @TypeChecked
 class MutableWriteContext extends WriteContext {
