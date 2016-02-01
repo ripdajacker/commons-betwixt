@@ -164,7 +164,7 @@ public class TestScarabSettings extends AbstractTestCase {
    protected void write(Object bean, Writer out)
          throws Exception {
       BeanWriter writer = new BeanWriter(out);
-      writer.setXMLIntrospector(createXMLIntrospector());
+      writer.setIntrospector(createXMLIntrospector());
       writer.setEndOfLine("\n");
       writer.enablePrettyPrint();
       writer.write(bean);

@@ -58,7 +58,7 @@ public class TestCollectionMapping2 extends AbstractTestCase {
       }
    }
 
-   public static interface SubElement {
+   public interface SubElement {
    }
 
    public static class SubElementA implements SubElement {

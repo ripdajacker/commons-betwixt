@@ -48,7 +48,7 @@ public class TestCollectionMapping extends AbstractTestCase {
       }
    }
 
-   public static interface Element {
+   public interface Element {
    }
 
    public static class ElementA implements Element {
@@ -115,7 +115,7 @@ public class TestCollectionMapping extends AbstractTestCase {
       beanWriter.enablePrettyPrint();
       beanWriter.setWriteEmptyElements(true);
       beanWriter.getBindingConfiguration().setMapIDs(false);
-      beanWriter.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      beanWriter.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       beanWriter.setEndOfLine("\n"); //force to \n so expected values match for sure
       beanWriter.write(container);
 

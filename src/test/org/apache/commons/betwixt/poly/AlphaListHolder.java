@@ -24,7 +24,7 @@ public class AlphaListHolder {
    }
 
    public void setAlphaList(AlphaList alphaList) {
-      this.alphaList = (AlphaList) alphaList;
+      this.alphaList = alphaList;
    }
 
 

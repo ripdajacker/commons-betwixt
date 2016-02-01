@@ -156,9 +156,9 @@ public class TestVersioning extends AbstractTestCase {
 
         final VersioningStrategy versioningStrategy = new VersioningStrategy(
                 "1");
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setAttributeSuppressionStrategy(versioningStrategy);
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setElementSuppressionStrategy(versioningStrategy);
 
         configure(writer.getBindingConfiguration());
@@ -216,9 +216,9 @@ public class TestVersioning extends AbstractTestCase {
 
         final VersioningStrategy versioningStrategy = new VersioningStrategy(
                 "2");
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setAttributeSuppressionStrategy(versioningStrategy);
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setElementSuppressionStrategy(versioningStrategy);
 
         configure(writer.getBindingConfiguration());
@@ -262,9 +262,9 @@ public class TestVersioning extends AbstractTestCase {
 
         final VersioningStrategy versioningStrategy = new VersioningStrategy(
                 "3");
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setAttributeSuppressionStrategy(versioningStrategy);
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setElementSuppressionStrategy(versioningStrategy);
 
         configure(writer.getBindingConfiguration());

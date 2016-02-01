@@ -21,5 +21,5 @@ package org.apache.commons.betwixt.introspection;
  */
 public interface ILaugh {
 
-   public void laugh();
+   void laugh();
 }

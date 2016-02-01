@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  */
 public class TestOptions extends TestCase {
 
-   private static final int A_SHIFT = 1 << 0;
+   private static final int A_SHIFT = 1;
    private static final int B_SHIFT = 1 << 1;
    private static final int C_SHIFT = 1 << 2;
 

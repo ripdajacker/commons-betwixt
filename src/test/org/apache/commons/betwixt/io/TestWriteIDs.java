@@ -33,7 +33,7 @@ public class TestWriteIDs extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter beanWriter = new BeanWriter(out);
-      beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      beanWriter.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       beanWriter.getBindingConfiguration().setMapIDs(true);
       beanWriter.enablePrettyPrint();
       beanWriter.write("bean", bean);

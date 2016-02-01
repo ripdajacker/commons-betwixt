@@ -528,5 +528,9 @@ public class XmlTestCase extends TestCase {
          fail("Validation failure: " + se.getMessage());
       }
    }
+
+   public void testToRemoveWarning() {
+      // Do nothing
+   }
 }
 

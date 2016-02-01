@@ -135,9 +135,9 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
       animals.addAnimal(new DogBean("Bobby"));
 
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration()
+      writer.getIntrospector().getConfiguration()
             .setMappingDerivationStrategy(MappingDerivationStrategy.USE_BIND_TIME_TYPE);
-      writer.getXMLIntrospector().getConfiguration()
+      writer.getIntrospector().getConfiguration()
             .setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write(animals);
@@ -222,9 +222,9 @@ public class TestBindTimeTypeMapping extends AbstractTestCase {
       animals.addAnimal(new DogBean("Bobby"));
 
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration()
+      writer.getIntrospector().getConfiguration()
             .setMappingDerivationStrategy(MappingDerivationStrategy.USE_INTROSPECTION_TIME_TYPE);
-      writer.getXMLIntrospector().getConfiguration()
+      writer.getIntrospector().getConfiguration()
             .setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write(animals);

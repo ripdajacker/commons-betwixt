@@ -90,7 +90,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
       writer.write(dynasaur);
 
       String xml = "<?xml version='1.0'?><dynasaur><species>Allosaurus</species>"
@@ -109,7 +109,7 @@ public class TestDynaBeanSupport extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new DecapitalizeNameMapper());
       writer.write("bean", bean);
 
       String xml = "<?xml version='1.0'?><bean><ndp>Tweedledum</ndp></bean>";

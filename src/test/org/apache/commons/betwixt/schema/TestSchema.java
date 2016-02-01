@@ -167,9 +167,9 @@ public class TestSchema extends AbstractTestCase {
          throws Exception {
       BeanWriter writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.setXMLIntrospector(createXMLIntrospector());
+      writer.setIntrospector(createXMLIntrospector());
       // specifies weather to use collection elements or not.
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement);
       // we don't want to write Id attributes to every element
       // we just want our opbject model written nothing more..
       writer.getBindingConfiguration().setMapIDs(false);

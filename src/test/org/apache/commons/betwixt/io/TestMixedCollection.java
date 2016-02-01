@@ -72,7 +72,7 @@ public class TestMixedCollection extends AbstractTestCase {
       StringWriter writer = new StringWriter();
       BeanWriter beanWriter = new BeanWriter(writer);
       beanWriter.enablePrettyPrint();
-      beanWriter.getXMLIntrospector().register(
+      beanWriter.getIntrospector().register(
             new InputSource(configReader));
       beanWriter.writeXmlDeclaration("<?xml version=\"1.0\"?>");
       beanWriter.write(pb);

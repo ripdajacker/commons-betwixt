@@ -46,7 +46,7 @@ public class TestWriteClass extends AbstractTestCase {
       StringWriter out = new StringWriter();
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().register(EmployeeBean.class, new InputSource(new StringReader(customDotBetwixt)));
+      writer.getIntrospector().register(EmployeeBean.class, new InputSource(new StringReader(customDotBetwixt)));
       writer.write(employeeBean);
 
       String expected = "<?xml version='1.0'?><type classname='org.apache.commons.betwixt.derived.EmployeeBean'/>";
@@ -65,7 +65,7 @@ public class TestWriteClass extends AbstractTestCase {
       StringWriter out = new StringWriter();
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+      writer.getIntrospector().getConfiguration().setPropertySuppressionStrategy(
             new PropertySuppressionStrategy() {
 
                public boolean suppressProperty(
@@ -75,10 +75,7 @@ public class TestWriteClass extends AbstractTestCase {
                   if ("class".equals(propertyName)) {
                      return true;
                   }
-                  if (propertyName.startsWith("secret")) {
-                     return true;
-                  }
-                  return false;
+                  return propertyName.startsWith("secret");
                }
 
             });

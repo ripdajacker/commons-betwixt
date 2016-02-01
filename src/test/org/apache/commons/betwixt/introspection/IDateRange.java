@@ -24,7 +24,7 @@ import java.util.Date;
  */
 public interface IDateRange {
 
-   public Date getStartDate();
+   Date getStartDate();
 
-   public Date getEndDate();
+   Date getEndDate();
 }

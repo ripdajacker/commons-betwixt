@@ -220,9 +220,9 @@ public class TestRecursion extends AbstractTestCase {
             throws Exception {
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.setXMLIntrospector(createXMLIntrospector());
+        writer.setIntrospector(createXMLIntrospector());
         // specifies weather to use collection elements or not.
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setWrapCollectionsInElement(wrapIt);
         // we don't want to write Id attributes to every element
         // we just want our opbject model written nothing more..
@@ -255,7 +255,7 @@ public class TestRecursion extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
         writer.setWriteEmptyElements(true);
-        writer.getXMLIntrospector().getConfiguration()
+        writer.getIntrospector().getConfiguration()
                 .setAttributesForPrimitives(true);
         writer.getBindingConfiguration().setMapIDs(true);
         writer.write(bean);

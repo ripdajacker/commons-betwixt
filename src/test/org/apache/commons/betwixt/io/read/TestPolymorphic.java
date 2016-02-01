@@ -91,7 +91,7 @@ public class TestPolymorphic extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      writer.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       writer.write(animals);
       xmlAssertIsomorphic(parseString(XML), parseString(out), true);
    }

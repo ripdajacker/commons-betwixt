@@ -99,7 +99,7 @@ public class TestNoWrap
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter beanWriter = new BeanWriter(out);
-      beanWriter.setXMLIntrospector(createXMLIntrospector());
+      beanWriter.setIntrospector(createXMLIntrospector());
       beanWriter.getBindingConfiguration().setMapIDs(false);
       beanWriter.setEndOfLine("\n");
       beanWriter.enablePrettyPrint();

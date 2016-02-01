@@ -62,7 +62,7 @@ public class TestMaps extends AbstractTestCase {
       beanWriter.enablePrettyPrint();
       beanWriter.setWriteEmptyElements(false);
       beanWriter.getBindingConfiguration().setMapIDs(false);
-      beanWriter.setXMLIntrospector(new XMLIntrospector());
+      beanWriter.setIntrospector(new XMLIntrospector());
       beanWriter.write(hash);
 
       xmlAssertIsomorphic(parseString(expected), parseString(out));
@@ -99,7 +99,7 @@ public class TestMaps extends AbstractTestCase {
       beanWriter.enablePrettyPrint();
       beanWriter.setWriteEmptyElements(true);
       beanWriter.getBindingConfiguration().setMapIDs(false);
-      beanWriter.setXMLIntrospector(new XMLIntrospector());
+      beanWriter.setIntrospector(new XMLIntrospector());
       beanWriter.write(hash);
 
       xmlAssertIsomorphic(parseString(expected), parseString(out));

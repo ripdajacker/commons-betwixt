@@ -394,7 +394,7 @@ public class Channel implements Serializable {
       try {
          render(stream, null);
       } catch (UnsupportedEncodingException e) {
-         ; // Can not happen
+         // Can not happen
       }
 
    }

@@ -53,7 +53,7 @@ public class TestCollectives extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().setConfiguration(categoriesIntrospectionConfiguration);
+      writer.getIntrospector().setConfiguration(categoriesIntrospectionConfiguration);
       writer.setBindingConfiguration(noIDsBindingConfiguration);
 
       Categories categories = new Categories();

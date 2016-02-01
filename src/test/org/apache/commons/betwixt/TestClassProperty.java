@@ -57,7 +57,7 @@ public class TestClassProperty extends AbstractTestCase {
       // configure bean writer with counting suppression strategy...
       StringWriter buffer = new StringWriter();
       BeanWriter beanWriter = new BeanWriter(buffer);
-      beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+       beanWriter.getIntrospector().getConfiguration().setPropertySuppressionStrategy(
             new PropertySuppressionStrategy() {
 
                public boolean suppressProperty(
@@ -79,7 +79,7 @@ public class TestClassProperty extends AbstractTestCase {
       // configure bean writer with counting suppression strategy...
       StringWriter buffer = new StringWriter();
       BeanWriter beanWriter = new BeanWriter(buffer);
-      beanWriter.getXMLIntrospector().getConfiguration().setPropertySuppressionStrategy(
+       beanWriter.getIntrospector().getConfiguration().setPropertySuppressionStrategy(
             new PropertySuppressionStrategy() {
 
                public boolean suppressProperty(

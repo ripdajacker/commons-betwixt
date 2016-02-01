@@ -122,7 +122,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
       writer.write(element);
@@ -142,9 +142,9 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
-      XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
+      XMLBeanInfo elementInfo = writer.getIntrospector().introspect(Element.class);
       elementInfo.getElementDescriptor().getElementDescriptors().get(0)
             .getOptions().addOption(MixedContentEncodingStrategy.ENCODING_OPTION_NAME, "CDATA");
 
@@ -166,9 +166,9 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
-      XMLBeanInfo elementInfo = writer.getXMLIntrospector().introspect(Element.class);
+      XMLBeanInfo elementInfo = writer.getIntrospector().introspect(Element.class);
       elementInfo.getElementDescriptor().getElementDescriptors().get(0)
             .getOptions().addOption("org.apache.commons.betwixt.mixed-content-encoding", "escaped");
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
@@ -189,7 +189,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
       writer.write(bean);
@@ -212,7 +212,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(false));
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure
@@ -232,7 +232,7 @@ public class TestMixedContentEncoding extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.setMixedContentEncodingStrategy(new TestBaseMixedContentEncoding(true));
       writer.setEndOfLine("\n"); //force to \n so expected values match for sure

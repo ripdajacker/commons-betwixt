@@ -70,7 +70,7 @@ public class TestReadData extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("ale", nested);
 

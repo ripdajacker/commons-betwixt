@@ -53,7 +53,7 @@ public class TestRecursiveBeanSchemaGeneration extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
       String xsd = out.getBuffer().toString();
 
@@ -77,7 +77,7 @@ public class TestRecursiveBeanSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       writer.write(loopBean);
 
       String xml = out.getBuffer().toString();
@@ -94,7 +94,7 @@ public class TestRecursiveBeanSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
 
       writer.write(schema);
 

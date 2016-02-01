@@ -18,5 +18,5 @@ package org.apache.commons.betwixt.poly;
 
 public interface IAlpha {
 
-   public String alpha();
+   String alpha();
 }

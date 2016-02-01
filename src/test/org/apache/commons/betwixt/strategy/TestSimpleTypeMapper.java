@@ -82,8 +82,8 @@ public class TestSimpleTypeMapper extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setSimpleTypeMapper(new StringsAsElementsSimpleTypeMapper());
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setSimpleTypeMapper(new StringsAsElementsSimpleTypeMapper());
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
 
       TuneBean bean = new TuneBean("On The Run", "Pink Floyd", 1972);

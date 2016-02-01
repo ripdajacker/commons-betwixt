@@ -24,9 +24,9 @@ package org.apache.commons.betwixt.introspection;
  */
 public interface IFace {
 
-   public String getName();
+   String getName();
 
-   public void setName(String name);
+   void setName(String name);
 
-   public void smirk();
+   void smirk();
 }

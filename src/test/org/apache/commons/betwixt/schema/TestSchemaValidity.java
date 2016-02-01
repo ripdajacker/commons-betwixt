@@ -50,7 +50,7 @@ public class TestSchemaValidity extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -65,8 +65,8 @@ public class TestSchemaValidity extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().getPrefixMapper().setPrefix(
             SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI,
             "xsi");
       writer.getBindingConfiguration().setMapIDs(false);
@@ -88,7 +88,7 @@ public class TestSchemaValidity extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -101,9 +101,9 @@ public class TestSchemaValidity extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
-      writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
+      writer.getIntrospector().getConfiguration().getPrefixMapper().setPrefix(
             SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI,
             "xsi");
       writer.getBindingConfiguration().setMapIDs(false);
@@ -127,7 +127,7 @@ public class TestSchemaValidity extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -139,10 +139,10 @@ public class TestSchemaValidity extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
-      writer.getXMLIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+      writer.getIntrospector().getConfiguration().setAttributeNameMapper(new HyphenatedNameMapper());
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
 
       OrderBean bean = new OrderBean(
@@ -169,7 +169,7 @@ public class TestSchemaValidity extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();

@@ -21,10 +21,10 @@ package org.apache.commons.betwixt.introspection;
  */
 public interface ICount {
 
-   public int getCount();
+   int getCount();
 
-   public void setCount(int newCount);
+   void setCount(int newCount);
 
-   public void increment();
+   void increment();
 
 }

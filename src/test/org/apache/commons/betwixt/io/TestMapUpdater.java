@@ -53,7 +53,7 @@ public class TestMapUpdater extends AbstractTestCase {
       StringWriter writer = new StringWriter();
       BeanWriter beanWriter = new BeanWriter(writer);
       beanWriter.enablePrettyPrint();
-      beanWriter.getXMLIntrospector().register(
+      beanWriter.getIntrospector().register(
             new InputSource(new StringReader(config)));
       beanWriter.writeXmlDeclaration("<?xml version=\"1.0\"?>");
       beanWriter.write(pb);
@@ -72,7 +72,7 @@ public class TestMapUpdater extends AbstractTestCase {
       StringWriter writer2 = new StringWriter();
       BeanWriter beanWriter2 = new BeanWriter(writer2);
       beanWriter2.enablePrettyPrint();
-      beanWriter2.getXMLIntrospector().register(
+      beanWriter2.getIntrospector().register(
             new InputSource(new StringReader(config)));
       beanWriter2.writeXmlDeclaration("<?xml version=\"1.0\"?>");
       beanWriter2.write(pbRead);

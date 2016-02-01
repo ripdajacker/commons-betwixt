@@ -184,7 +184,7 @@ public class TestIdStorageStrategy extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
-      writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      writer.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       writer.write(elements);
 
       String expected = "<?xml version='1.0'?>" +
@@ -242,7 +242,7 @@ public class TestIdStorageStrategy extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
-      writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      writer.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       writer.write(alpha);
 
       String expected = "<?xml version='1.0'?>" +
@@ -297,7 +297,7 @@ public class TestIdStorageStrategy extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
-      writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      writer.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       writer.write(alpha);
 
       String expected = "<?xml version='1.0'?>" +
@@ -357,7 +357,7 @@ public class TestIdStorageStrategy extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setIdMappingStrategy(storingStrategy);
-      writer.getXMLIntrospector().register(new InputSource(new StringReader(MAPPING)));
+      writer.getIntrospector().register(new InputSource(new StringReader(MAPPING)));
       writer.write(alpha);
 
       String expected = "<?xml version='1.0'?>" +

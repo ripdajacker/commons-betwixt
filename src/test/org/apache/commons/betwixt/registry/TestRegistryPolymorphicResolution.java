@@ -48,7 +48,7 @@ public class TestRegistryPolymorphicResolution extends TestCase {
       }
    }
 
-   public static interface Element {
+   public interface Element {
    }
 
    public static class ElementA implements Element {

@@ -22,5 +22,5 @@ package org.apache.commons.betwixt.introspection;
  */
 public interface ICopyable {
 
-   public Object copy();
+   Object copy();
 }

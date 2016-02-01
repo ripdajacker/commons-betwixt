@@ -40,7 +40,7 @@ public class TestDotBetwixtNamespace extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().getPrefixMapper()
+      writer.getIntrospector().getConfiguration().getPrefixMapper()
             .setPrefix("http://commons.apache.org/betwixt/PersonWithNamespaceExample", "pn");
       writer.write(bean);
 

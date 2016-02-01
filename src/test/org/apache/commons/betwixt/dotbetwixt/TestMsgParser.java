@@ -94,7 +94,7 @@ public class TestMsgParser extends TestCase {
 
       // Configure betwixt
       // For more details see java docs or later in the main documentation
-      beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      beanWriter.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       beanWriter.getBindingConfiguration().setMapIDs(false);
       beanWriter.setEndOfLine("\n");
       beanWriter.enablePrettyPrint();

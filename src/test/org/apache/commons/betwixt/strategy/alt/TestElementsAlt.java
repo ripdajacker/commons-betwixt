@@ -107,7 +107,7 @@ public class TestElementsAlt extends TestCase {
       BeanWriter result = new BeanWriter(writer);
       result.setWriteEmptyElements(true);
 
-      result.setXMLIntrospector(newXMLIntrospector(mapper));
+      result.setIntrospector(newXMLIntrospector(mapper));
       result.setEndOfLine("\n");
       result.enablePrettyPrint();
       result.getBindingConfiguration().setMapIDs(false);

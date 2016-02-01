@@ -40,7 +40,7 @@ public class TestAttributeSuppression extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
 
       writer.write(bean);
 
@@ -57,7 +57,7 @@ public class TestAttributeSuppression extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       writer.getBindingConfiguration().setValueSuppressionStrategy(
             new ValueSuppressionStrategy() {
 

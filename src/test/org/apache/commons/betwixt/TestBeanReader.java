@@ -111,7 +111,7 @@ public class TestBeanReader extends AbstractTestCase {
       bean = new PersonBean(19, "John Smith");
       stringWriter = new StringWriter();
       beanWriter = new BeanWriter(stringWriter);
-      beanWriter.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      beanWriter.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
       beanWriter.write(bean);
       stringWriter.flush();
       xml = "<?xml version='1.0'?>" + stringWriter.toString();
@@ -343,7 +343,7 @@ public class TestBeanReader extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      XMLIntrospector introspector = writer.getXMLIntrospector();
+      XMLIntrospector introspector = writer.getIntrospector();
       introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
       introspector.getConfiguration().setAttributesForPrimitives(false);
 
@@ -397,7 +397,7 @@ public class TestBeanReader extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      XMLIntrospector introspector = writer.getXMLIntrospector();
+      XMLIntrospector introspector = writer.getIntrospector();
       introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
       introspector.getConfiguration().setAttributesForPrimitives(false);
 
@@ -511,7 +511,7 @@ public class TestBeanReader extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(configuration);
-      XMLIntrospector introspector = writer.getXMLIntrospector();
+      XMLIntrospector introspector = writer.getIntrospector();
       introspector.getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
       introspector.getConfiguration().setAttributesForPrimitives(false);
 

@@ -75,7 +75,7 @@ public class TestPolyListHolder extends AbstractTestCase {
       StringWriter out = new StringWriter();
       BeanWriter writer = new BeanWriter(out);
       StringReader mapping = new StringReader(MAPPING);
-      writer.getXMLIntrospector().register(new InputSource(mapping));
+      writer.getIntrospector().register(new InputSource(mapping));
       configure(writer.getBindingConfiguration());
       writer.write(bean);
 

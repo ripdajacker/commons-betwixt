@@ -168,8 +168,8 @@ public class TestBeanToXml extends XmlTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper());
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
 
       writer.write(bean);
 

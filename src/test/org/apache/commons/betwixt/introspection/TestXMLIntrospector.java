@@ -259,7 +259,7 @@ public class TestXMLIntrospector extends AbstractTestCase {
         out.write("<?xml version='1.0'?>");
         BeanWriter writer = new BeanWriter(out);
         writer.getBindingConfiguration().setMapIDs(false);
-        writer.getXMLIntrospector().getConfiguration().setClassNormalizer(classNormalizer);
+        writer.getIntrospector().getConfiguration().setClassNormalizer(classNormalizer);
         FaceImpl bean = new FaceImpl();
         bean.setName("Old Tom Cobbly");
         writer.write(bean);

@@ -24,10 +24,8 @@ import org.apache.commons.betwixt.io.BeanWriter;
 import org.apache.commons.betwixt.io.CyclicReferenceException;
 import org.apache.commons.betwixt.strategy.CapitalizeNameMapper;
 import org.apache.commons.betwixt.strategy.HyphenatedNameMapper;
-import org.apache.commons.logging.impl.SimpleLog;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -168,7 +166,7 @@ public class TestBeanWriter extends AbstractTestCase {
       writer.enablePrettyPrint();
       XMLIntrospector introspector = new XMLIntrospector();
       introspector.getConfiguration().setAttributesForPrimitives(true);
-      writer.setXMLIntrospector(introspector);
+      writer.setIntrospector(introspector);
       writer.write(new LoopBean("Escape<LessThan"));
       writer.write(new LoopBean("Escape>GreaterThan"));
       writer.write(new LoopBean("Escape&amphersand"));
@@ -229,39 +227,6 @@ public class TestBeanWriter extends AbstractTestCase {
             true);
    }
 
-   /**
-    * Testing valid endofline characters.
-    * It tests if there is a warning on System.err
-    */
-   public void testValidEndOfLine() throws Exception {
-      BeanWriter writer = new BeanWriter();
-      writer.setWriteEmptyElements(true);
-
-      // store the system err
-      PrintStream errStream = System.err;
-      ByteArrayOutputStream warning = new ByteArrayOutputStream();
-      System.setErr(new PrintStream(warning));
-
-      // force logging to go to System.err
-      writer.setLog(new SimpleLog("test.betwixt"));
-
-
-      writer.setEndOfLine("X");
-      warning.flush();
-      assertTrue(warning.toString().startsWith("[WARN]"));
-      warning.reset();
-      writer.setEndOfLine("\tX");
-      warning.flush();
-      assertTrue(warning.toString().startsWith("[WARN]"));
-      warning.reset();
-      // now test a valid value..
-      writer.setEndOfLine(" ");
-      warning.flush();
-      assertTrue(warning.toString().equals(""));
-      warning.reset();
-      // set the System.err back again..
-      System.setErr(errStream);
-   }
 
    /** Test simplest case for writing empty elements */
    public void testSimpleWriteEmptyElements() throws Exception {
@@ -379,7 +344,7 @@ public class TestBeanWriter extends AbstractTestCase {
       //XMLIntrospectorHelper.setLog(log);
 
       writer.setWriteEmptyElements(false);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("Names", names);
 
@@ -399,7 +364,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("Names", names);
 
@@ -420,7 +385,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("Names", names);
 
@@ -441,7 +406,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(false);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("Names", names);
 
@@ -471,7 +436,7 @@ public class TestBeanWriter extends AbstractTestCase {
 
       BeanWriter writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write("CarryOn", names);
 
@@ -493,9 +458,9 @@ public class TestBeanWriter extends AbstractTestCase {
 
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
       writer.write("CarryOn", names);
 
       xml = "<?xml version='1.0'?><CarryOn><Names>"
@@ -523,7 +488,7 @@ public class TestBeanWriter extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
       writer.write(bean);
 
@@ -543,9 +508,9 @@ public class TestBeanWriter extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new CapitalizeNameMapper());
       writer.write(bean);
 
       xml = "<?xml version='1.0'?><NoAdderBean><Things>"
@@ -564,9 +529,9 @@ public class TestBeanWriter extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       writer = new BeanWriter(out);
       writer.setWriteEmptyElements(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(true);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(false));
+      writer.getIntrospector().getConfiguration().setElementNameMapper(new HyphenatedNameMapper(false));
       writer.write(bean);
 
       xml = "<?xml version='1.0'?><no-adder-bean><things>"

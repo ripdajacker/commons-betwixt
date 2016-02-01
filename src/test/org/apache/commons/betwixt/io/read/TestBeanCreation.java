@@ -61,8 +61,8 @@ public class TestBeanCreation extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.write("houses", houses);
 
       String xml = "<?xml version='1.0'?><houses>"
@@ -145,8 +145,8 @@ public class TestBeanCreation extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.getBindingConfiguration().setMapIDs(false);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setAttributesForPrimitives(true);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.write("houses", houses);
 
       String xml = "<?xml version='1.0'?><houses>"

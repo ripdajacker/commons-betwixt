@@ -23,12 +23,12 @@ package org.apache.commons.betwixt.dotbetwixt;
  */
 public interface IExample {
 
-   public int getId();
+   int getId();
 
-   public void setId(int id);
+   void setId(int id);
 
-   public String getName();
+   String getName();
 
-   public void setName(String id);
+   void setName(String id);
 }
 

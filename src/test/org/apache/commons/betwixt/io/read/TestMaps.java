@@ -42,7 +42,7 @@ public class TestMaps extends AbstractTestCase {
       StringWriter out = new StringWriter();
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setWrapCollectionsInElement(false);
+      writer.getIntrospector().getConfiguration().setWrapCollectionsInElement(false);
       writer.getBindingConfiguration().setMapIDs(false);
       BeanWithConcreteMap bean = new BeanWithConcreteMap();
       bean.addSomeThingy("Aethelred", "The Unready");

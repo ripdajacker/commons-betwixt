@@ -47,7 +47,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -73,7 +73,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -98,7 +98,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -129,7 +129,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
       out.write("<?xml version='1.0'?>");
       BeanWriter writer = new BeanWriter(out);
       writer.setBindingConfiguration(transcriber.createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
+      writer.getIntrospector().setConfiguration(transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
       String xsd = out.getBuffer().toString();
@@ -187,7 +187,7 @@ public class TestSchemaGeneration extends AbstractTestCase {
       writer.setBindingConfiguration(
             transcriber
                   .createSchemaBindingConfiguration());
-      writer.getXMLIntrospector().setConfiguration(
+      writer.getIntrospector().setConfiguration(
             transcriber.createSchemaIntrospectionConfiguration());
       writer.write(schema);
 
