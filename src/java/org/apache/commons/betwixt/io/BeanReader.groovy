@@ -274,12 +274,7 @@ public class BeanReader extends Digester {
             ElementDescriptor elementDescriptor,
             Class beanClass) {
         log.trace("Adding BeanRuleSet for " + beanClass)
-        RuleSet ruleSet = new BeanRuleSet(
-                introspector,
-                path,
-                elementDescriptor,
-                beanClass,
-                makeContext())
+        RuleSet ruleSet = new BeanRuleSet(introspector, path, beanClass, makeContext())
         addRuleSet(ruleSet)
     }
 
