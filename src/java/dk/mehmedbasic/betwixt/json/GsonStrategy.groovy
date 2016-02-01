@@ -4,7 +4,7 @@ import com.google.gson.stream.JsonWriter
 import groovy.transform.TypeChecked
 
 /**
- * TODO - someone remind me to document this class 
+ * A JSON writer that uses Googles Gson writer.
  */
 @TypeChecked
 class GsonStrategy implements JsonWriterStrategy {
