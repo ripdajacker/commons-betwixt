@@ -57,24 +57,6 @@ public class TestSchemaValidity extends AbstractTestCase {
       return xsd;
    }
 
-   public void testSimplestBeanWithElements() throws Exception {
-      String xsd = generateSchema(SimplestElementBean.class);
-
-      StringWriter out = new StringWriter();
-      out.write("<?xml version='1.0'?>");
-      BeanWriter writer = new BeanWriter(out);
-      writer.getXMLIntrospector().getConfiguration().setAttributesForPrimitives(true);
-      writer.getXMLIntrospector().getConfiguration().getPrefixMapper().setPrefix(
-            SchemaTranscriber.W3C_SCHEMA_INSTANCE_URI,
-            "xsi");
-      writer.getBindingConfiguration().setMapIDs(false);
-      SimplestElementBean bean = new SimplestElementBean("Simon");
-      writer.write(bean);
-
-      String xml = out.getBuffer().toString();
-
-      xmlAssertIsValid(new InputSource(new StringReader(xml)), new InputSource(new StringReader(xsd)));
-   }
 
 
    public void testSimpleBean() throws Exception {
