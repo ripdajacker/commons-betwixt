@@ -17,7 +17,7 @@
 
 package org.apache.commons.betwixt.io.read
 
-import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.ElementDescriptor
 import org.apache.commons.betwixt.expression.Context
 import org.apache.commons.betwixt.expression.Updater
@@ -36,7 +36,7 @@ import org.xml.sax.Attributes
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
-@CompileStatic
+@TypeChecked
 public class ArrayBindAction extends MappingAction.Base {
 
     /**

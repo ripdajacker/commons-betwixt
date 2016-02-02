@@ -51,7 +51,7 @@ public interface XMLBeanInfoRegistry {
     * @return <code>null</code> if fresh introspection should be used
     * to find the <code>XMLBeanInfo</code>
     */
-   public XMLBeanInfo get(Class forThisClass);
+   XMLBeanInfo get(Class forThisClass);
 
    /**
     * Associate a class with it's <code>XMLBeanInfo</code>.
@@ -59,11 +59,11 @@ public interface XMLBeanInfoRegistry {
     * @param forThisClass the class to associate with the given bean info
     * @param beanInfo the <code>XMLBeanInfo</code> to use for the given class
     */
-   public void put(Class forThisClass, XMLBeanInfo beanInfo);
+   void put(Class forThisClass, XMLBeanInfo beanInfo);
 
    /**
     * Flush or resets the current registry to it's original state.
     * It has to be implemented, however could be an empty implementation
     */
-   public void flush();
+   void flush();
 }

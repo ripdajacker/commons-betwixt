@@ -24,24 +24,18 @@ package org.apache.commons.betwixt.io.read;
  */
 public interface ChainedBeanCreator {
 
-   /**
-    * Creates a bean either directly or by delegating the responsibility to the other
-    * members of the chain.
-    *
-    * @param elementMapping  specifies the mapping between the type and element.
-    * <strong>Note</strong> it is recommended that classes do not store a permenant
-    * reference to this object since these objects may later be reused.
-    * Not null
-    * @param context the context in which this converision happens, not null
-    * @param chain not null
-    * @return the Object created, possibly null
-    */
-
-   // TODO: is element mapping really necessary here?
-   // TODO: what about exception handling?
-   public Object create(
-         ElementMapping elementMapping,
-         ReadContext context,
-         BeanCreationChain chain);
+    /**
+     * Creates a bean either directly or by delegating the responsibility to the other
+     * members of the chain.
+     *
+     * @param elementMapping specifies the mapping between the type and element.
+     *                       <strong>Note</strong> it is recommended that classes do not store a permenant
+     *                       reference to this object since these objects may later be reused.
+     *                       Not null
+     * @param context the context in which this converision happens, not null
+     * @param chain not null
+     * @return the Object created, possibly null
+     */
+    Object create(ElementMapping elementMapping, ReadContext context, BeanCreationChain chain);
 
 }

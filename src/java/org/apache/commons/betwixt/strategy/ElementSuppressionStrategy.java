@@ -29,13 +29,13 @@ public interface ElementSuppressionStrategy {
     * @return true if the desciptor should be ignored during introspection,
     * false otherwise
     */
-   public boolean suppress(ElementDescriptor descriptor);
+   boolean suppress(ElementDescriptor descriptor);
 
    /**
     * Default strategy: show all elements.
     */
-   public final static ElementSuppressionStrategy DEFAULT = new ElementSuppressionStrategy() {
-      public boolean suppress(ElementDescriptor descr) {
+   ElementSuppressionStrategy DEFAULT = new ElementSuppressionStrategy() {
+      public boolean suppress(ElementDescriptor descriptor) {
          return false;
       }
    };

@@ -79,7 +79,6 @@ public abstract class TypedUpdater implements Updater {
             }
          }
 
-         ;
          try {
             executeUpdate(context, bean, newValue);
 

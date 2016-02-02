@@ -99,7 +99,7 @@ public class TestMappingActions extends AbstractTestCase {
       context.setBean(bean);
       context.markClassMap(AddressBean.class);
       context.pushElement("NoMatch");
-      context.setXMLIntrospector(introspector);
+      context.setIntrospector(introspector);
       SimpleTypeBindAction action = new SimpleTypeBindAction();
       action.body("Street value", context);
       assertEquals("Street is unset", "DEFAULT", bean.getStreet());
@@ -119,7 +119,7 @@ public class TestMappingActions extends AbstractTestCase {
       context.pushBean(bean);
       context.markClassMap(AddressBean.class);
       context.pushElement("street");
-      context.setXMLIntrospector(introspector);
+      context.setIntrospector(introspector);
       SimpleTypeBindAction action = new SimpleTypeBindAction();
       action.body("Street value", context);
       assertEquals("Street is set", "Street value", bean.getStreet());

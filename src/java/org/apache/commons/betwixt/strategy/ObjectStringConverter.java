@@ -41,6 +41,7 @@ import java.util.List;
  * @author Robert Burrell Donkin
  * @since 0.5
  */
+@SuppressWarnings("deprecation")
 public class ObjectStringConverter implements Serializable {
 
     /**

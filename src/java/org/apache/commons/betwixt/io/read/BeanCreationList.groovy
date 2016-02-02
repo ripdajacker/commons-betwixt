@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.betwixt.io.read;
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
+package org.apache.commons.betwixt.io.read
 /**
  * <p>Chain implementation that's backed by a list.
  * This is the default implementation used by Betwixt.
@@ -34,9 +29,6 @@ import java.util.List;
  * @since 0.5
  */
 public class BeanCreationList extends BeanCreationChain {
-
-//-------------------------------------------------------- Class Methods
-
     /**
      * Creates the default <code>BeanCreationChain</code> used when reading beans.
      *
@@ -50,30 +42,23 @@ public class BeanCreationList extends BeanCreationChain {
         chain.addBeanCreator(ChainedBeanCreatorFactory.createElementTypeBeanCreator());
         return chain;
     }
-
-
-//-------------------------------------------------------- Attributes
     /**
      * The list backing this chain
      */
     private List<ChainedBeanCreator> beanCreators = new LinkedList<>();
-
-//-------------------------------------------------------- Methods
 
     /**
      * Creates an Object based on the given element mapping and read context.
      * Delegates to chain.
      *
      * @param elementMapping the element mapping details
-     * @param readContext    create against this context
+     * @param readContext create against this context
      * @return the created bean, possibly null
      */
     public Object create(ElementMapping elementMapping, ReadContext readContext) {
         ChainWorker worker = new ChainWorker();
         return worker.create(elementMapping, readContext);
     }
-
-//-------------------------------------------------------- Properties
 
     /**
      * Gets the number of BeanCreators in the wrapped chain.
@@ -89,7 +74,7 @@ public class BeanCreationList extends BeanCreationChain {
      * Shifts the object currently in that position - and any subsequent elements -
      * to the right.
      *
-     * @param index       index at which the creator should be inserted
+     * @param index index at which the creator should be inserted
      * @param beanCreator the <code>BeanCreator</code> to be inserted, not null
      * @throws IndexOutOfBoundsException if the index is out of the range
      *                                   <code>(index < 0 || index > getSize())
@@ -134,7 +119,6 @@ public class BeanCreationList extends BeanCreationChain {
                 ChainedBeanCreator beanCreator = iterator.next();
                 return beanCreator.create(elementMapping, readContext, this);
             }
-
             return null;
         }
     }

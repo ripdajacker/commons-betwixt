@@ -4,11 +4,8 @@ import dk.mehmedbasic.betwixt.BeanIntrospector
 import groovy.transform.CompileStatic
 import groovy.util.logging.Commons
 import org.apache.commons.beanutils.DynaBean
-import org.apache.commons.beanutils.DynaClass
-import org.apache.commons.beanutils.DynaProperty
 import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester
-import org.apache.commons.betwixt.digester.XMLIntrospectorHelper
 import org.apache.commons.betwixt.expression.*
 import org.apache.commons.betwixt.registry.DefaultXMLBeanInfoRegistry
 import org.apache.commons.betwixt.registry.PolymorphicReferenceResolver
@@ -29,11 +26,11 @@ import java.lang.reflect.Method
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
+ * (the "License") you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,40 +63,40 @@ import java.lang.reflect.Method
  */
 @Commons
 @CompileStatic
+@SuppressWarnings("GrDeprecatedAPIUsage")
 public class XMLIntrospector {
-
     /**
      * Maps classes to <code>XMLBeanInfo</code>'s
      */
-    private XMLBeanInfoRegistry registry;
+    private XMLBeanInfoRegistry registry
 
     /**
      * Digester used to parse the XML descriptor files
      */
-    private XMLBeanInfoDigester digester;
+    private XMLBeanInfoDigester digester
 
     /**
      * Digester used to parse the multi-mapping XML descriptor files
      */
-    private MultiMappingBeanInfoDigester multiMappingdigester;
+    private MultiMappingBeanInfoDigester multiMappingdigester
 
     /**
      * Configuration to be used for introspection
      */
-    IntrospectionConfiguration configuration;
+    IntrospectionConfiguration configuration
 
     /**
      * Resolves polymorphic references. Though this is used only at bind time, it is typically
      * tightly couple to the xml registry. It is therefore convenient to keep both references
      * together.
      */
-    private PolymorphicReferenceResolver polymorphicReferenceResolver;
+    private PolymorphicReferenceResolver polymorphicReferenceResolver
 
     /**
      * Base constructor
      */
     public XMLIntrospector() {
-        this(new IntrospectionConfiguration());
+        this(new IntrospectionConfiguration())
     }
 
     /**
@@ -109,10 +106,10 @@ public class XMLIntrospector {
      * @param configuration IntrospectionConfiguration, not null
      */
     public XMLIntrospector(IntrospectionConfiguration configuration) {
-        setConfiguration(configuration);
-        DefaultXMLBeanInfoRegistry defaultRegistry = new DefaultXMLBeanInfoRegistry();
-        setRegistry(defaultRegistry);
-        setPolymorphicReferenceResolver(defaultRegistry);
+        setConfiguration(configuration)
+        DefaultXMLBeanInfoRegistry defaultRegistry = new DefaultXMLBeanInfoRegistry()
+        setRegistry(defaultRegistry)
+        setPolymorphicReferenceResolver(defaultRegistry)
     }
 
     // Properties
@@ -126,7 +123,7 @@ public class XMLIntrospector {
      * @return the Log implementation which this class logs to
      */
     public Log getLog() {
-        return getConfiguration().getIntrospectionLog();
+        return getConfiguration().getIntrospectionLog()
     }
 
     /**
@@ -137,7 +134,7 @@ public class XMLIntrospector {
      * @param log the Log implementation to use for logging
      */
     public void setLog(Log log) {
-        getConfiguration().setIntrospectionLog(log);
+        getConfiguration().setIntrospectionLog(log)
     }
 
     /**
@@ -155,7 +152,7 @@ public class XMLIntrospector {
      * @return the XMLBeanInfoRegistry currently used
      */
     public XMLBeanInfoRegistry getRegistry() {
-        return registry;
+        return registry
     }
 
     /**
@@ -178,7 +175,7 @@ public class XMLIntrospector {
      * @param registry the XMLBeanInfoRegistry to use
      */
     public void setRegistry(XMLBeanInfoRegistry registry) {
-        this.registry = registry;
+        this.registry = registry
     }
 
     /**
@@ -191,20 +188,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().getClassNormalizer
      */
     public ClassNormalizer getClassNormalizer() {
-        return getConfiguration().getClassNormalizer();
-    }
-
-    /**
-     * Sets the <code>ClassNormalizer</code> strategy. This is used to determine the Class to be
-     * introspected (the normalized Class).
-     *
-     * @param classNormalizer the <code>ClassNormalizer</code> to be used to determine the Class to be
-     *                        introspected for a given Object.
-     * @since 0.5
-     * @deprecated 0.6 use getConfiguration().setClassNormalizer
-     */
-    public void setClassNormalizer(ClassNormalizer classNormalizer) {
-        getConfiguration().setClassNormalizer(classNormalizer);
+        return getConfiguration().getClassNormalizer()
     }
 
     /**
@@ -226,7 +210,7 @@ public class XMLIntrospector {
      * @since 0.7
      */
     public PolymorphicReferenceResolver getPolymorphicReferenceResolver() {
-        return polymorphicReferenceResolver;
+        return polymorphicReferenceResolver
     }
 
     /**
@@ -249,48 +233,17 @@ public class XMLIntrospector {
      */
     public void setPolymorphicReferenceResolver(
             PolymorphicReferenceResolver polymorphicReferenceResolver) {
-        this.polymorphicReferenceResolver = polymorphicReferenceResolver;
-    }
-
-    /**
-     * Is <code>XMLBeanInfo</code> caching enabled?
-     *
-     * @return true if caching is enabled
-     * @deprecated 0.5 replaced by XMlBeanInfoRegistry
-     */
-    public boolean isCachingEnabled() {
-        return true;
-    }
-
-    /**
-     * Set whether <code>XMLBeanInfo</code> caching should be enabled.
-     *
-     * @param cachingEnabled ignored
-     * @deprecated 0.5 replaced by XMlBeanInfoRegistry
-     */
-    public void setCachingEnabled(boolean cachingEnabled) {
-        //
-    }
-
-    /**
-     * Should attributes (or elements) be used for primitive types.
-     *
-     * @return true if primitive types will be mapped to attributes in the introspection
-     * @deprecated 0.6 use getConfiguration().isAttributesForPrimitives
-     */
-    public boolean isAttributesForPrimitives() {
-        return getConfiguration().isAttributesForPrimitives();
+        this.polymorphicReferenceResolver = polymorphicReferenceResolver
     }
 
     /**
      * Set whether attributes (or elements) should be used for primitive types.
      *
-     * @param attributesForPrimitives pass trus to map primitives to attributes, pass false to map primitives to
-     *                                elements
+     * @param value pass true to map primitives to attributes, pass false to map primitives to elements
      * @deprecated 0.6 use getConfiguration().setAttributesForPrimitives
      */
-    public void setAttributesForPrimitives(boolean attributesForPrimitives) {
-        getConfiguration().setAttributesForPrimitives(attributesForPrimitives);
+    public void setAttributesForPrimitives(boolean value) {
+        getConfiguration().setAttributesForPrimitives(value)
     }
 
     /**
@@ -300,7 +253,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().isWrapCollectionsInElement
      */
     public boolean isWrapCollectionsInElement() {
-        return getConfiguration().isWrapCollectionsInElement();
+        return getConfiguration().isWrapCollectionsInElement()
     }
 
     /**
@@ -310,7 +263,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().setWrapCollectionsInElement
      */
     public void setWrapCollectionsInElement(boolean wrapCollectionsInElement) {
-        getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement);
+        getConfiguration().setWrapCollectionsInElement(wrapCollectionsInElement)
     }
 
     /**
@@ -320,7 +273,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().getPluralStemmer
      */
     public PluralStemmer getPluralStemmer() {
-        return getConfiguration().getPluralStemmer();
+        return getConfiguration().getPluralStemmer()
     }
     /**
      * Gets the name mapping strategy used to convert bean names into elements.
@@ -330,7 +283,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().getElementNameMapper
      */
     public NameMapper getElementNameMapper() {
-        return getConfiguration().getElementNameMapper();
+        return getConfiguration().getElementNameMapper()
     }
 
     /**
@@ -340,7 +293,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 use getConfiguration().setElementNameMapper
      */
     public void setElementNameMapper(NameMapper nameMapper) {
-        getConfiguration().setElementNameMapper(nameMapper);
+        getConfiguration().setElementNameMapper(nameMapper)
     }
 
     /**
@@ -351,7 +304,7 @@ public class XMLIntrospector {
      * @deprecated 0.6 getConfiguration().getAttributeNameMapper
      */
     public NameMapper getAttributeNameMapper() {
-        return getConfiguration().getAttributeNameMapper();
+        return getConfiguration().getAttributeNameMapper()
     }
 
     /**
@@ -363,49 +316,11 @@ public class XMLIntrospector {
      * @throws IntrospectionException when the bean introspection fails
      */
     public XMLBeanInfo introspect(Object bean) throws IntrospectionException {
-        if (getLog().isDebugEnabled()) {
-            getLog().debug("Introspecting...");
-            getLog().debug(bean);
-        }
-
         if (bean instanceof DynaBean) {
-            // allow DynaBean implementations to be overridden by .betwixt files
-            XMLBeanInfo xmlBeanInfo = findByXMLDescriptor(bean.getClass());
-            if (xmlBeanInfo != null) {
-                return xmlBeanInfo;
-            }
-            // this is DynaBean use the DynaClass for introspection
-            return introspect(((DynaBean) bean).getDynaClass());
-
-        } else {
-            // normal bean so normal introspection
-            Class normalClass = getClassNormalizer().getNormalizedClass(bean);
-            return introspect(normalClass);
+            throw new RuntimeException("!")
         }
-    }
-
-    /**
-     * Creates XMLBeanInfo by reading the DynaProperties of a DynaBean. Customizing DynaBeans using
-     * betwixt is not supported.
-     *
-     * @param dynaClass the DynaBean to introspect
-     * @return XMLBeanInfo for the DynaClass
-     */
-    public XMLBeanInfo introspect(DynaClass dynaClass) {
-
-        // for now this method does not do much, since XMLBeanInfoRegistry cannot
-        // use a DynaClass as a key
-        // TODO: add caching for DynaClass XMLBeanInfo
-        // need to work out if this is possible
-
-        // this line allows subclasses to change creation strategy
-        XMLBeanInfo xmlInfo = createXMLBeanInfo(dynaClass);
-
-        // populate the created info with
-        DynaClassBeanType beanClass = new DynaClassBeanType(dynaClass);
-        populate(xmlInfo, beanClass);
-
-        return xmlInfo;
+        Class normalClass = getClassNormalizer().getNormalizedClass(bean)
+        return introspect(normalClass)
     }
 
     /**
@@ -427,9 +342,8 @@ public class XMLIntrospector {
      */
     public synchronized XMLBeanInfo introspect(Class aClass, InputSource source) throws IOException, SAXException {
         // need to synchronize since we only use one instance and SAX is essentially one thread only
-        configureDigester(aClass);
-        XMLBeanInfo result = (XMLBeanInfo) digester.parse(source);
-        return result;
+        configureDigester(aClass)
+        return (XMLBeanInfo) digester.parse(source)
     }
 
     /**
@@ -442,59 +356,52 @@ public class XMLIntrospector {
      */
     public XMLBeanInfo introspect(Class aClass) throws IntrospectionException {
         // we first reset the beaninfo searchpath.
-        String[] searchPath = null;
+        String[] searchPath = null
         if (!getConfiguration().useBeanInfoSearchPath) {
             try {
-                searchPath = Introspector.getBeanInfoSearchPath();
-                Introspector.setBeanInfoSearchPath([] as String[]);
+                searchPath = Introspector.getBeanInfoSearchPath()
+                Introspector.setBeanInfoSearchPath([] as String[])
             } catch (SecurityException e) {
                 // this call may fail in some environments
-                getLog().warn("Security manager does not allow bean info search path to be set");
-                getLog().debug("Security exception whilst setting bean info search page", e);
+                getLog().warn("Security manager does not allow bean info search path to be set")
+                getLog().debug("Security exception whilst setting bean info search page", e)
             }
         }
 
-        XMLBeanInfo xmlInfo = registry.get(aClass);
+        XMLBeanInfo xmlInfo = registry.get(aClass)
 
         if (xmlInfo == null) {
             // lets see if we can find an XML descriptor first
-            if (getLog().isDebugEnabled()) {
-                getLog().debug("Attempting to lookup an XML descriptor for class: " + aClass);
-            }
+            getLog().debug("Attempting to lookup an XML descriptor for class: $aClass")
 
-            xmlInfo = findByXMLDescriptor(aClass);
+            xmlInfo = findByXMLDescriptor(aClass)
             if (xmlInfo == null) {
-                BeanInfo info;
+                BeanInfo info
                 if (getConfiguration().ignoreAllBeanInfo) {
-                    info = BeanIntrospector.getBeanInfo(aClass, Introspector.IGNORE_ALL_BEANINFO);
+                    info = BeanIntrospector.getBeanInfo(aClass, Introspector.IGNORE_ALL_BEANINFO)
                 } else {
-                    info = BeanIntrospector.getBeanInfo(aClass);
+                    info = BeanIntrospector.getBeanInfo(aClass)
                 }
-                xmlInfo = introspect(info);
+                xmlInfo = introspect(info)
             }
 
             if (xmlInfo != null) {
-                registry.put(aClass, xmlInfo);
+                registry.put(aClass, xmlInfo)
             }
-        } else {
-            getLog().trace("Used cached XMLBeanInfo.");
         }
 
-        if (getLog().isTraceEnabled()) {
-            getLog().trace(xmlInfo);
-        }
         if (!getConfiguration().useBeanInfoSearchPath && searchPath != null) {
             try {
                 // we restore the beaninfo searchpath.
-                Introspector.setBeanInfoSearchPath(searchPath);
+                Introspector.setBeanInfoSearchPath(searchPath)
             } catch (SecurityException e) {
                 // this call may fail in some environments
-                getLog().warn("Security manager does not allow bean info search path to be set");
-                getLog().debug("Security exception whilst setting bean info search page", e);
+                getLog().warn("Security manager does not allow bean info search path to be set")
+                getLog().debug("Security exception whilst setting bean info search page", e)
             }
         }
 
-        return xmlInfo;
+        return xmlInfo
     }
 
     /**
@@ -506,9 +413,9 @@ public class XMLIntrospector {
      * @throws IntrospectionException when the bean introspection fails
      */
     public XMLBeanInfo introspect(BeanInfo beanInfo) throws IntrospectionException {
-        XMLBeanInfo xmlBeanInfo = createXMLBeanInfo(beanInfo);
-        populate(xmlBeanInfo, new JavaBeanType(beanInfo));
-        return xmlBeanInfo;
+        XMLBeanInfo xmlBeanInfo = createXMLBeanInfo(beanInfo)
+        populate(xmlBeanInfo, new JavaBeanType(beanInfo))
+        return xmlBeanInfo
     }
 
     /**
@@ -529,19 +436,17 @@ public class XMLIntrospector {
      * @since 0.7
      */
     synchronized List<Class> register(InputSource source) throws IntrospectionException, IOException, SAXException {
-        Map xmlBeanInfoByClass = loadMultiMapping(source);
-        Set keySet = xmlBeanInfoByClass.keySet();
+        Map<Class, XMLBeanInfo> xmlBeanInfoByClass = loadMultiMapping(source)
+
         List<Class> mappedClasses = []
-        int i = 0;
-        for (Iterator it = keySet.iterator(); it.hasNext();) {
-            Class clazz = (Class) it.next();
-            mappedClasses << clazz;
-            XMLBeanInfo xmlBeanInfo = (XMLBeanInfo) xmlBeanInfoByClass.get(clazz);
+        for (Class clazz : xmlBeanInfoByClass.keySet()) {
+            mappedClasses << clazz
+            XMLBeanInfo xmlBeanInfo = (XMLBeanInfo) xmlBeanInfoByClass.get(clazz)
             if (xmlBeanInfo != null) {
-                getRegistry().put(clazz, xmlBeanInfo);
+                getRegistry().put(clazz, xmlBeanInfo)
             }
         }
-        return mappedClasses;
+        return mappedClasses
     }
 
     /**
@@ -553,15 +458,15 @@ public class XMLIntrospector {
      * @throws IOException
      * @throws SAXException
      */
-    private synchronized Map loadMultiMapping(InputSource mapping) throws IOException, SAXException {
+    private
+    synchronized Map<Class, XMLBeanInfo> loadMultiMapping(InputSource mapping) throws IOException, SAXException {
         // synchronized method so this digester is only used by
         // one thread at once
         if (multiMappingdigester == null) {
-            multiMappingdigester = new MultiMappingBeanInfoDigester();
-            multiMappingdigester.setXMLIntrospector(this);
+            multiMappingdigester = new MultiMappingBeanInfoDigester()
+            multiMappingdigester.setXMLIntrospector(this)
         }
-        Map multiBeanInfoMap = (Map) multiMappingdigester.parse(mapping);
-        return multiBeanInfoMap;
+        return (Map) multiMappingdigester.parse(mapping)
     }
 
     /**
@@ -580,8 +485,8 @@ public class XMLIntrospector {
      * @since 0.7
      */
     public void register(Class aClass, InputSource source) throws IOException, SAXException {
-        XMLBeanInfo xmlBeanInfo = introspect(aClass, source);
-        getRegistry().put(aClass, xmlBeanInfo);
+        XMLBeanInfo xmlBeanInfo = introspect(aClass, source)
+        getRegistry().put(aClass, xmlBeanInfo)
     }
 
     /**
@@ -591,27 +496,22 @@ public class XMLIntrospector {
      * @param bean the type definition for the bean, not null
      */
     private void populate(XMLBeanInfo xmlBeanInfo, BeanType bean) {
-        String name = bean.getBeanName();
+        String name = bean.getBeanName()
 
-        ElementDescriptor elementDescriptor = new ElementDescriptor();
+        ElementDescriptor elementDescriptor = new ElementDescriptor()
         elementDescriptor.setLocalName(
-                getElementNameMapper().mapTypeToElementName(name));
-        elementDescriptor.setPropertyType(bean.getElementType());
+                getElementNameMapper().mapTypeToElementName(name))
+        elementDescriptor.setPropertyType(bean.getElementType())
 
         if (getLog().isTraceEnabled()) {
-            getLog().trace("Populating:" + bean);
+            getLog().trace("Populating:" + bean)
         }
 
         // add default string value for primitive types
         if (bean.isPrimitiveType()) {
-            getLog().trace("Bean is primitive");
-            elementDescriptor.setTextExpression(StringExpression.getInstance());
-
+            elementDescriptor.setTextExpression(StringExpression.getInstance())
         } else {
-
-            getLog().trace("Bean is standard type");
-
-            boolean isLoopType = bean.isLoopType();
+            boolean isLoopType = bean.isLoopType()
 
             List<ElementDescriptor> elements = []
             List<AttributeDescriptor> attributes = []
@@ -619,49 +519,41 @@ public class XMLIntrospector {
 
             // add bean properties for all collection which are not basic
             if (!(isLoopType && isBasicCollection(bean.getClass()))) {
-                addProperties(bean.getProperties(), elements, attributes, contents);
+                addProperties(bean.getProperties(), elements, attributes, contents)
             }
 
             // add iterator for collections
             if (isLoopType) {
-                getLog().trace("Bean is loop");
-                ElementDescriptor loopDescriptor = new ElementDescriptor();
-                loopDescriptor.setCollective(true);
-                loopDescriptor.setHollow(true);
-                loopDescriptor.setSingularPropertyType(Object.class);
-                loopDescriptor.setContextExpression(
-                        new IteratorExpression(EmptyExpression.getInstance())
-                );
-                loopDescriptor.setUpdater(CollectionUpdater.getInstance());
+                ElementDescriptor loopDescriptor = new ElementDescriptor()
+                loopDescriptor.setCollective(true)
+                loopDescriptor.setHollow(true)
+                loopDescriptor.setSingularPropertyType(Object.class)
+                loopDescriptor.setContextExpression(new IteratorExpression(EmptyExpression.getInstance()))
+                loopDescriptor.setUpdater(CollectionUpdater.getInstance())
                 if (bean.isMapType()) {
-                    loopDescriptor.setQualifiedName("entry");
+                    loopDescriptor.setQualifiedName("entry")
                 }
-                elements.add(loopDescriptor);
+                elements.add(loopDescriptor)
             }
 
-            int size = elements.size();
+            int size = elements.size()
             if (size > 0) {
-                elementDescriptor.setElementDescriptors(elements);
+                elementDescriptor.setElementDescriptors(elements)
             }
-            size = attributes.size();
+            size = attributes.size()
             if (size > 0) {
-                elementDescriptor.setAttributeDescriptors(attributes);
+                elementDescriptor.setAttributeDescriptors(attributes)
             }
-            size = contents.size();
+            size = contents.size()
             if (size > 0) {
-                elementDescriptor.setContentDescriptors(contents);
+                elementDescriptor.setContentDescriptors(contents)
             }
         }
 
-        xmlBeanInfo.setElementDescriptor(elementDescriptor);
+        xmlBeanInfo.setElementDescriptor(elementDescriptor)
 
         // default any addProperty() methods
-        defaultAddMethods(elementDescriptor, bean.getElementType());
-
-        if (getLog().isTraceEnabled()) {
-            getLog().trace("Populated descriptor:");
-            getLog().trace(elementDescriptor);
-        }
+        defaultAddMethods(elementDescriptor, bean.getElementType())
     }
 
     /**
@@ -676,20 +568,8 @@ public class XMLIntrospector {
      * @param type <code>Class</code>, not null
      * @return
      */
-    private boolean isBasicCollection(Class type) {
-        return type.getName().startsWith("java.util");
-    }
-
-    /**
-     * Creates XMLBeanInfo for the given DynaClass.
-     *
-     * @param dynaClass the class describing a DynaBean
-     * @return XMLBeanInfo that describes the properties of the given DynaClass
-     */
-    protected XMLBeanInfo createXMLBeanInfo(DynaClass dynaClass) {
-        // XXX is the chosen class right?
-        XMLBeanInfo beanInfo = new XMLBeanInfo(dynaClass.getClass());
-        return beanInfo;
+    private static boolean isBasicCollection(Class type) {
+        return type.getName().startsWith("java.util")
     }
 
     /**
@@ -702,11 +582,8 @@ public class XMLIntrospector {
      * @throws IntrospectionException when bean introspection fails
      * @deprecated 0.5 use {@link #createXMLDescriptor}.
      */
-    public Descriptor createDescriptor(
-            PropertyDescriptor propertyDescriptor,
-            boolean useAttributesForPrimitives
-    ) throws IntrospectionException {
-        return createXMLDescriptor(new BeanProperty(propertyDescriptor));
+    public Descriptor createDescriptor(PropertyDescriptor propertyDescriptor) throws IntrospectionException {
+        return createXMLDescriptor(new BeanProperty(propertyDescriptor))
     }
 
     /**
@@ -718,7 +595,7 @@ public class XMLIntrospector {
      * @since 0.5
      */
     public Descriptor createXMLDescriptor(BeanProperty beanProperty) {
-        return beanProperty.createXMLDescriptor(configuration);
+        return beanProperty.createXMLDescriptor(configuration)
     }
 
     /**
@@ -730,18 +607,12 @@ public class XMLIntrospector {
      * added and find the first ElementDescriptor that matches the property starting with the
      * string. This should work for most use cases. e.g. addChild() would match the children
      * property. <br>
-     * TODO this probably needs refactoring. It probably belongs in the bean wrapper (so that it'll
-     * work properly with dyna-beans) and so that the operations can be optimized by caching.
-     * Multiple hash maps are created and getMethods is called multiple times. This is relatively
-     * expensive and so it'd be better to push into a proper class and cache. <br>
      *
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
      */
-    public void defaultAddMethods(
-            ElementDescriptor rootDescriptor,
-            Class beanClass) {
-        defaultAddMethods(rootDescriptor, beanClass, false);
+    public void defaultAddMethods(ElementDescriptor rootDescriptor, Class beanClass) {
+        defaultAddMethods(rootDescriptor, beanClass, false)
     }
 
     /**
@@ -753,65 +624,47 @@ public class XMLIntrospector {
      * added and find the first ElementDescriptor that matches the property starting with the
      * string. This should work for most use cases. e.g. addChild() would match the children
      * property. <br>
-     * TODO this probably needs refactoring. It probably belongs in the bean wrapper (so that it'll
-     * work properly with dyna-beans) and so that the operations can be optimized by caching.
-     * Multiple hash maps are created and getMethods is called multiple times. This is relatively
-     * expensive and so it'd be better to push into a proper class and cache. <br>
      *
      * @param rootDescriptor add defaults to this descriptor
      * @param beanClass the <code>Class</code> to which descriptor corresponds
      * @since 0.8
      */
     public void defaultAddMethods(ElementDescriptor rootDescriptor, Class beanClass, boolean preservePropertyName) {
-        // TODO: this probably does work properly with DynaBeans: need to push
-        // implementation into an class and expose it on BeanType.
-
         // lets iterate over all methods looking for one of the form
         // add*(PropertyType)
         if (beanClass != null) {
-            ArrayList singleParameterAdders = new ArrayList();
-            ArrayList twinParameterAdders = new ArrayList();
+            List<Method> singleParameterAdders = []
+            List<Method> twinParameterAdders = []
 
-            Method[] methods = beanClass.getMethods();
-            for (Method method : methods) {
-                String name = method.getName();
-                if (name.startsWith("add")) {
-                    // TODO: should we filter out non-void returning methods?
-                    // some beans will return something as a helper
-                    Class[] types = method.getParameterTypes();
-                    if (types != null) {
-                        log.trace("Searching for match for " + method);
-
-                        switch (types.length) {
-                            case 1:
-                                singleParameterAdders.add(method);
-                                break;
-                            case 2:
-                                twinParameterAdders.add(method);
-                                break;
-                            default:
-                                // ignore
-                                break;
-                        }
-                    }
+            Method[] methods = beanClass.getMethods()
+            for (Method method : methods.findAll { it.name.startsWith("add") }) {
+                Class[] types = method.getParameterTypes()
+                switch (types.length) {
+                    case 1:
+                        singleParameterAdders.add(method)
+                        break
+                    case 2:
+                        twinParameterAdders.add(method)
+                        break
+                    default:
+                        // ignore
+                        break
                 }
             }
 
-            Map elementsByPropertyName = makeElementDescriptorMap(rootDescriptor);
+            Map<String, Descriptor> elementsByPropertyName = makeElementDescriptorMap(rootDescriptor)
 
-            for (Iterator it = singleParameterAdders.iterator(); it.hasNext();) {
-                Method singleParameterAdder = (Method) it.next();
-                setIteratorAdder(elementsByPropertyName, singleParameterAdder, preservePropertyName);
+            for (Method singleParameterAdder : singleParameterAdders) {
+                setIteratorAdder(elementsByPropertyName, singleParameterAdder, preservePropertyName)
             }
 
-            for (Iterator it = twinParameterAdders.iterator(); it.hasNext();) {
-                Method twinParameterAdder = (Method) it.next();
-                setMapAdder(elementsByPropertyName, twinParameterAdder);
+            for (Method twinParameterAdder : twinParameterAdders) {
+                setMapAdder(elementsByPropertyName, twinParameterAdder)
             }
 
             // need to call this once all the defaults have been added
             // so that all the singular types have been set correctly
-            configureMappingDerivation(rootDescriptor);
+            configureMappingDerivation(rootDescriptor)
         }
     }
 
@@ -822,12 +675,12 @@ public class XMLIntrospector {
      * @param rootDescriptor <code>ElementDescriptor</code>, not null
      */
     private void configureMappingDerivation(ElementDescriptor descriptor) {
-        boolean useBindTime = getConfiguration().getMappingDerivationStrategy()
-                .useBindTimeTypeForMapping(descriptor.getPropertyType(), descriptor.getSingularPropertyType());
-        descriptor.setUseBindTimeTypeForMapping(useBindTime);
-        List<ElementDescriptor> childDescriptors = descriptor.getElementDescriptors();
+        def strategy = configuration.mappingDerivationStrategy
+        boolean bindTime = strategy.useBindTimeTypeForMapping(descriptor.propertyType, descriptor.singularPropertyType)
+        descriptor.setUseBindTimeTypeForMapping(bindTime)
+        List<ElementDescriptor> childDescriptors = descriptor.getElementDescriptors()
         for (ElementDescriptor child : childDescriptors) {
-            configureMappingDerivation(child);
+            configureMappingDerivation(child)
         }
     }
 
@@ -837,37 +690,19 @@ public class XMLIntrospector {
      * @param rootDescriptor
      * @param singleParameterAdder
      */
-    private void setIteratorAdder(
-            Map elementsByPropertyName,
-            Method singleParameterAdderMethod,
-            boolean preserveNullPropertyName) {
-
-        String adderName = singleParameterAdderMethod.getName();
-        String propertyName = Introspector.decapitalize(adderName.substring(3));
-        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
+    private void setIteratorAdder(Map<String, Descriptor> elementsByPropertyName, Method singleParameterAdderMethod, boolean preserveNullPropertyName) {
+        String adderName = singleParameterAdderMethod.getName()
+        String propertyName = Introspector.decapitalize(adderName.substring(3))
+        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName)
         if (matchingDescriptor != null) {
-            // TODO defensive code: probably should check descriptor type
+            Class singularType = singleParameterAdderMethod.getParameterTypes()[0]
 
-            Class singularType = singleParameterAdderMethod.getParameterTypes()[0];
-            if (getLog().isTraceEnabled()) {
-                getLog().trace(adderName + "->" + propertyName);
-            }
-            // this may match a standard collection or iteration
-            getLog().trace("Matching collection or iteration");
-
-            matchingDescriptor.setUpdater(new MethodUpdater(singleParameterAdderMethod, propertyName));
-            matchingDescriptor.setSingularPropertyType(singularType);
-            matchingDescriptor.setHollow(!isPrimitiveType(singularType));
-            String localName = matchingDescriptor.getLocalName();
+            matchingDescriptor.setUpdater(new MethodUpdater(singleParameterAdderMethod, propertyName))
+            matchingDescriptor.setSingularPropertyType(singularType)
+            matchingDescriptor.setHollow(!isPrimitiveType(singularType))
+            String localName = matchingDescriptor.getLocalName()
             if (!preserveNullPropertyName && (localName == null || localName.length() == 0)) {
-                matchingDescriptor.setLocalName(
-                        getConfiguration().getElementNameMapper()
-                                .mapTypeToElementName(propertyName));
-            }
-
-            if (getLog().isDebugEnabled()) {
-                getLog().debug("!! " + singleParameterAdderMethod);
-                getLog().debug("!! " + singularType);
+                matchingDescriptor.setLocalName(getConfiguration().getElementNameMapper().mapTypeToElementName(propertyName))
             }
         }
     }
@@ -881,10 +716,10 @@ public class XMLIntrospector {
     private void setMapAdder(
             Map elementsByPropertyName,
             Method twinParameterAdderMethod) {
-        String adderName = twinParameterAdderMethod.getName();
-        String propertyName = Introspector.decapitalize(adderName.substring(3));
-        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName);
-        assignAdder(twinParameterAdderMethod, matchingDescriptor);
+        String adderName = twinParameterAdderMethod.getName()
+        String propertyName = Introspector.decapitalize(adderName.substring(3))
+        ElementDescriptor matchingDescriptor = getMatchForAdder(propertyName, elementsByPropertyName)
+        assignAdder(twinParameterAdderMethod, matchingDescriptor)
     }
 
     /**
@@ -898,13 +733,13 @@ public class XMLIntrospector {
         if (matchingDescriptor != null
                 && Map.class.isAssignableFrom(matchingDescriptor.getPropertyType())) {
             // this may match a map
-            getLog().trace("Matching map");
-            List<ElementDescriptor> children = matchingDescriptor.getElementDescriptors();
+            getLog().trace("Matching map")
+            List<ElementDescriptor> children = matchingDescriptor.getElementDescriptors()
             // see if the descriptor's been set up properly
             if (children.size() == 0) {
-                getLog().info("'entry' descriptor is missing for map. Updaters cannot be set");
+                getLog().info("'entry' descriptor is missing for map. Updaters cannot be set")
             } else {
-                assignAdderArray(twinParameterAdderMethod, children);
+                assignAdderArray(twinParameterAdderMethod, children)
             }
         }
     }
@@ -916,50 +751,50 @@ public class XMLIntrospector {
      * @param children <code>ElementDescriptor</code> children, not null
      */
     private void assignAdderArray(Method twinParameterAdderMethod, List<ElementDescriptor> children) {
-        Class[] types = twinParameterAdderMethod.getParameterTypes();
-        Class keyType = types[0];
-        Class valueType = types[1];
+        Class[] types = twinParameterAdderMethod.getParameterTypes()
+        Class keyType = types[0]
+        Class valueType = types[1]
 
         // loop through children
         // adding updaters for key and value
-        MapEntryAdder adder = new MapEntryAdder(twinParameterAdderMethod);
+        MapEntryAdder adder = new MapEntryAdder(twinParameterAdderMethod)
         for (ElementDescriptor child : children) {
             if ("key".equals(child.getLocalName())) {
-                child.setUpdater(adder.getKeyUpdater());
-                child.setSingularPropertyType(keyType);
+                child.setUpdater(adder.getKeyUpdater())
+                child.setSingularPropertyType(keyType)
                 if (child.getPropertyType() == null) {
-                    child.setPropertyType(valueType);
+                    child.setPropertyType(valueType)
                 }
                 if (isPrimitiveType(keyType)) {
-                    child.setHollow(false);
+                    child.setHollow(false)
                 }
                 if (getLog().isTraceEnabled()) {
-                    getLog().trace("Key descriptor: " + child);
+                    getLog().trace("Key descriptor: " + child)
                 }
 
             } else if ("value".equals(child.getLocalName())) {
 
-                child.setUpdater(adder.getValueUpdater());
-                child.setSingularPropertyType(valueType);
+                child.setUpdater(adder.getValueUpdater())
+                child.setSingularPropertyType(valueType)
                 if (child.getPropertyType() == null) {
-                    child.setPropertyType(valueType);
+                    child.setPropertyType(valueType)
                 }
                 if (isPrimitiveType(valueType)) {
-                    child.setHollow(false);
+                    child.setHollow(false)
                 }
                 if (isLoopType(valueType)) {
                     // need to attach a hollow descriptor
                     // don't know the element name
                     // so use null name (to match anything)
-                    ElementDescriptor loopDescriptor = new ElementDescriptor();
-                    loopDescriptor.setHollow(true);
-                    loopDescriptor.setSingularPropertyType(valueType);
-                    loopDescriptor.setPropertyType(valueType);
-                    child.addElementDescriptor(loopDescriptor);
-                    loopDescriptor.setCollective(true);
+                    ElementDescriptor loopDescriptor = new ElementDescriptor()
+                    loopDescriptor.setHollow(true)
+                    loopDescriptor.setSingularPropertyType(valueType)
+                    loopDescriptor.setPropertyType(valueType)
+                    child.addElementDescriptor(loopDescriptor)
+                    loopDescriptor.setCollective(true)
                 }
                 if (getLog().isTraceEnabled()) {
-                    getLog().trace("Value descriptor: " + child);
+                    getLog().trace("Value descriptor: " + child)
                 }
             }
         }
@@ -975,24 +810,24 @@ public class XMLIntrospector {
     private ElementDescriptor getMatchForAdder(
             String propertyName,
             Map elementsByPropertyName) {
-        ElementDescriptor matchingDescriptor = null;
+        ElementDescriptor matchingDescriptor = null
         if (propertyName.length() > 0) {
             if (getLog().isTraceEnabled()) {
                 getLog().trace(
                         "findPluralDescriptor( " + propertyName
-                                + " ):root property name=" + propertyName);
+                                + " ):root property name=" + propertyName)
             }
 
-            PluralStemmer stemmer = getPluralStemmer();
-            matchingDescriptor = stemmer.findPluralDescriptor(propertyName, elementsByPropertyName);
+            PluralStemmer stemmer = getPluralStemmer()
+            matchingDescriptor = stemmer.findPluralDescriptor(propertyName, elementsByPropertyName)
 
             if (getLog().isTraceEnabled()) {
                 getLog().trace(
                         "findPluralDescriptor( " + propertyName
-                                + " ):ElementDescriptor=" + matchingDescriptor);
+                                + " ):ElementDescriptor=" + matchingDescriptor)
             }
         }
-        return matchingDescriptor;
+        return matchingDescriptor
     }
 
     // Implementation methods
@@ -1001,14 +836,14 @@ public class XMLIntrospector {
     /**
      * Creates a map where the keys are the property names and the values are the ElementDescriptors
      */
-    private Map makeElementDescriptorMap(ElementDescriptor rootDescriptor) {
-        Map result = new HashMap();
-        String rootPropertyName = rootDescriptor.getPropertyName();
+    private Map<String, Descriptor> makeElementDescriptorMap(ElementDescriptor rootDescriptor) {
+        Map<String, Descriptor> result = [:]
+        String rootPropertyName = rootDescriptor.getPropertyName()
         if (rootPropertyName != null) {
-            result.put(rootPropertyName, rootDescriptor);
+            result.put(rootPropertyName, rootDescriptor)
         }
-        makeElementDescriptorMap(rootDescriptor, result);
-        return result;
+        makeElementDescriptorMap(rootDescriptor, result)
+        return result
     }
 
     /**
@@ -1018,15 +853,15 @@ public class XMLIntrospector {
      *                       index by their property names
      * @param map the map to which the elements will be added
      */
-    private void makeElementDescriptorMap(ElementDescriptor rootDescriptor, Map map) {
-        List<ElementDescriptor> children = rootDescriptor.getElementDescriptors();
+    private void makeElementDescriptorMap(ElementDescriptor rootDescriptor, Map<String, Descriptor> map) {
+        List<ElementDescriptor> children = rootDescriptor.getElementDescriptors()
         if (children != null) {
             for (ElementDescriptor child : children) {
-                String propertyName = child.getPropertyName();
+                String propertyName = child.getPropertyName()
                 if (propertyName != null) {
-                    map.put(propertyName, child);
+                    map.put(propertyName, child)
                 }
-                makeElementDescriptorMap(child, map);
+                makeElementDescriptorMap(child, map)
             }
         }
     }
@@ -1040,33 +875,33 @@ public class XMLIntrospector {
      */
     protected synchronized XMLBeanInfo findByXMLDescriptor(Class aClass) {
         // trim the package name
-        String name = aClass.getName();
-        int idx = name.lastIndexOf('.');
+        String name = aClass.getName()
+        int idx = name.lastIndexOf('.')
         if (idx >= 0) {
-            name = name.substring(idx + 1);
+            name = name.substring(idx + 1)
         }
-        name += ".betwixt";
+        name += ".betwixt"
 
-        URL url = aClass.getResource(name);
+        URL url = aClass.getResource(name)
         if (url != null) {
             try {
-                String urlText = url.toString();
+                String urlText = url.toString()
                 if (getLog().isDebugEnabled()) {
-                    getLog().debug("Parsing Betwixt XML descriptor: " + urlText);
+                    getLog().debug("Parsing Betwixt XML descriptor: " + urlText)
                 }
                 // synchronized method so this digester is only used by
                 // one thread at once
-                configureDigester(aClass);
-                return (XMLBeanInfo) digester.parse(urlText);
+                configureDigester(aClass)
+                return (XMLBeanInfo) digester.parse(urlText)
             } catch (Exception e) {
-                getLog().warn("Caught exception trying to parse: " + name, e);
+                getLog().warn("Caught exception trying to parse: " + name, e)
             }
         }
 
         if (getLog().isTraceEnabled()) {
-            getLog().trace("Could not find betwixt file " + name);
+            getLog().trace("Could not find betwixt file " + name)
         }
-        return null;
+        return null
     }
 
     /**
@@ -1076,49 +911,24 @@ public class XMLIntrospector {
      */
     private synchronized void configureDigester(Class aClass) {
         if (digester == null) {
-            digester = new XMLBeanInfoDigester();
-            digester.setXMLIntrospector(this);
+            digester = new XMLBeanInfoDigester()
+            digester.setXMLIntrospector(this)
         }
 
         if (configuration.isUseContextClassLoader()) {
             // Use the context classloader to find classes.
             //
-            // There is one case in which this gives odd behaviour; with digester <= 1.8 (at least),
+            // There is one case in which this gives odd behaviour with digester <= 1.8 (at least),
             // if the context classloader is inaccessable for some reason then Digester will fall
             // back to using the same classloader that loaded Digester.
-            digester.setUseContextClassLoader(true);
+            digester.setUseContextClassLoader(true)
         } else {
             // Use the classloader that loaded this betwixt library, regardless
             // of where the Digester class library happens to be.
-            digester.setClassLoader(this.getClass().getClassLoader());
+            digester.setClassLoader(this.getClass().getClassLoader())
         }
 
-        digester.setBeanClass(aClass);
-    }
-
-    /**
-     * Loop through properties and process each one
-     *
-     * @param beanInfo the BeanInfo whose properties will be processed
-     * @param elements ElementDescriptor list to which elements will be added
-     * @param attributes AttributeDescriptor list to which attributes will be added
-     * @param contents Descriptor list to which mixed content will be added
-     * @throws IntrospectionException if the bean introspection fails
-     * @deprecated 0.5
-     */
-    protected void addProperties(BeanInfo beanInfo, List elements, List attributes, List contents)
-            throws IntrospectionException {
-        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-        if (descriptors != null) {
-            for (PropertyDescriptor child : descriptors) {
-                addProperty(beanInfo, child, elements, attributes, contents);
-            }
-        }
-        if (getLog().isTraceEnabled()) {
-            getLog().trace(elements);
-            getLog().trace(attributes);
-            getLog().trace(contents);
-        }
+        digester.setBeanClass(aClass)
     }
 
     /**
@@ -1137,63 +947,18 @@ public class XMLIntrospector {
             List contents) {
         if (beanProperties != null) {
             if (getLog().isTraceEnabled()) {
-                getLog().trace(beanProperties.size() + " properties to be added");
+                getLog().trace(beanProperties.size() + " properties to be added")
             }
             for (BeanProperty child : beanProperties) {
-                addProperty(child, elements, attributes, contents);
+                addProperty(child, elements, attributes, contents)
             }
         }
         if (getLog().isTraceEnabled()) {
-            getLog().trace("After properties have been added (elements, attributes, contents):");
-            getLog().trace(elements);
-            getLog().trace(attributes);
-            getLog().trace(contents);
+            getLog().trace("After properties have been added (elements, attributes, contents):")
+            getLog().trace(elements)
+            getLog().trace(attributes)
+            getLog().trace(contents)
         }
-    }
-
-    /**
-     * Process a property. Go through and work out whether it's a loop property, a primitive or a
-     * standard. The class property is ignored.
-     *
-     * @param beanInfo the BeanInfo whose property is being processed
-     * @param propertyDescriptor the PropertyDescriptor to process
-     * @param elements ElementDescriptor list to which elements will be added
-     * @param attributes AttributeDescriptor list to which attributes will be added
-     * @param contents Descriptor list to which mixed content will be added
-     * @throws IntrospectionException if the bean introspection fails
-     * @deprecated 0.5 BeanInfo is no longer required. Use
-     * {@link #addProperty(PropertyDescriptor, List, List, List)} instead.
-     */
-    protected void addProperty(
-            BeanInfo beanInfo,
-            PropertyDescriptor propertyDescriptor,
-            List elements,
-            List attributes,
-            List contents)
-            throws
-                    IntrospectionException {
-        addProperty(propertyDescriptor, elements, attributes, contents);
-    }
-
-    /**
-     * Process a property. Go through and work out whether it's a loop property, a primitive or a
-     * standard. The class property is ignored.
-     *
-     * @param propertyDescriptor the PropertyDescriptor to process
-     * @param elements ElementDescriptor list to which elements will be added
-     * @param attributes AttributeDescriptor list to which attributes will be added
-     * @param contents Descriptor list to which mixed content will be added
-     * @throws IntrospectionException if the bean introspection fails
-     * @deprecated 0.5 use {@link #addProperty(BeanProperty, List, List, List)} instead
-     */
-    protected void addProperty(
-            PropertyDescriptor propertyDescriptor,
-            List elements,
-            List attributes,
-            List contents)
-            throws
-                    IntrospectionException {
-        addProperty(new BeanProperty(propertyDescriptor), elements, attributes, contents);
     }
 
     /**
@@ -1211,78 +976,16 @@ public class XMLIntrospector {
             List elements,
             List attributes,
             List contents) {
-        Descriptor nodeDescriptor = createXMLDescriptor(beanProperty);
+        Descriptor nodeDescriptor = createXMLDescriptor(beanProperty)
         if (nodeDescriptor == null) {
-            return;
+            return
         }
         if (nodeDescriptor instanceof ElementDescriptor) {
-            elements.add(nodeDescriptor);
+            elements.add(nodeDescriptor)
         } else if (nodeDescriptor instanceof AttributeDescriptor) {
-            attributes.add(nodeDescriptor);
+            attributes.add(nodeDescriptor)
         } else {
-            contents.add(nodeDescriptor);
-        }
-    }
-
-    /**
-     * Loop through properties and process each one
-     *
-     * @param beanInfo the BeanInfo whose properties will be processed
-     * @param elements ElementDescriptor list to which elements will be added
-     * @param attributes AttributeDescriptor list to which attributes will be added
-     * @throws IntrospectionException if the bean introspection fails
-     * @deprecated 0.5 this method does not support mixed content. Use
-     * {@link #addProperties(BeanInfo, List, List, List)} instead.
-     */
-    protected void addProperties(
-            BeanInfo beanInfo,
-            List elements,
-            List attributes)
-            throws
-                    IntrospectionException {
-        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-        if (descriptors != null) {
-            for (PropertyDescriptor child : descriptors) {
-                addProperty(beanInfo, child, elements, attributes);
-            }
-        }
-        if (getLog().isTraceEnabled()) {
-            getLog().trace(elements);
-            getLog().trace(attributes);
-        }
-    }
-
-    /**
-     * Process a property. Go through and work out whether it's a loop property, a primitive or a
-     * standard. The class property is ignored.
-     *
-     * @param beanInfo the BeanInfo whose property is being processed
-     * @param propertyDescriptor the PropertyDescriptor to process
-     * @param elements ElementDescriptor list to which elements will be added
-     * @param attributes AttributeDescriptor list to which attributes will be added
-     * @throws IntrospectionException if the bean introspection fails
-     * @deprecated 0.5 this method does not support mixed content. Use
-     * {@link #addProperty(BeanInfo, PropertyDescriptor, List, List, List)} instead.
-     */
-    protected void addProperty(
-            BeanInfo beanInfo,
-            PropertyDescriptor propertyDescriptor,
-            List elements,
-            List attributes)
-            throws
-                    IntrospectionException {
-        NodeDescriptor nodeDescriptor = XMLIntrospectorHelper
-                .createDescriptor(
-                propertyDescriptor,
-                isAttributesForPrimitives(),
-                this);
-        if (nodeDescriptor == null) {
-            return;
-        }
-        if (nodeDescriptor instanceof ElementDescriptor) {
-            elements.add(nodeDescriptor);
-        } else {
-            attributes.add(nodeDescriptor);
+            contents.add(nodeDescriptor)
         }
     }
 
@@ -1292,9 +995,9 @@ public class XMLIntrospector {
      * @param beanInfo the BeanInfo from which the XMLBeanInfo will be created
      * @return XMLBeanInfo describing the bean-xml mapping
      */
-    protected XMLBeanInfo createXMLBeanInfo(BeanInfo beanInfo) {
-        XMLBeanInfo xmlBeanInfo = new XMLBeanInfo(beanInfo.getBeanDescriptor().getBeanClass());
-        return xmlBeanInfo;
+    protected static XMLBeanInfo createXMLBeanInfo(BeanInfo beanInfo) {
+        XMLBeanInfo xmlBeanInfo = new XMLBeanInfo(beanInfo.getBeanDescriptor().getBeanClass())
+        return xmlBeanInfo
     }
 
     /**
@@ -1304,7 +1007,7 @@ public class XMLIntrospector {
      * @return true if the type is a loop type
      */
     public boolean isLoopType(Class type) {
-        return getConfiguration().isLoopType(type);
+        return getConfiguration().isLoopType(type)
     }
 
     /**
@@ -1314,65 +1017,56 @@ public class XMLIntrospector {
      * @return true for primitive types
      */
     public boolean isPrimitiveType(Class type) {
-        // TODO: this method will probably be deprecated when primitive types
-        // are subsumed into the simple type concept
-        TypeBindingStrategy.BindingType bindingType = configuration.getTypeBindingStrategy().bindingType(type);
-        return (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE));
-    }
-
-    public XMLBeanInfo introspectOrGet(Class<?> clazz) throws IntrospectionException {
-        if (getRegistry().get(clazz) == null) {
-            return introspect(clazz);
-        }
-        return getRegistry().get(clazz);
+        TypeBindingStrategy.BindingType bindingType = configuration.getTypeBindingStrategy().bindingType(type)
+        return bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE)
     }
 
     /**
      * Some type of pseudo-bean
      */
-    private abstract class BeanType {
+    private static abstract class BeanType {
 
         /**
          * Gets the name for this bean type
          *
          * @return the bean type name, not null
          */
-        public abstract String getBeanName();
+        public abstract String getBeanName()
 
         /**
          * Gets the type to be used by the associated element
          *
          * @return a Class that is the type not null
          */
-        public abstract Class getElementType();
+        public abstract Class getElementType()
 
         /**
          * Is this type a primitive?
          *
          * @return true if this type should be treated by betwixt as a primitive
          */
-        public abstract boolean isPrimitiveType();
+        public abstract boolean isPrimitiveType()
 
         /**
          * is this type a map?
          *
          * @return true this should be treated as a map.
          */
-        public abstract boolean isMapType();
+        public abstract boolean isMapType()
 
         /**
          * Is this type a loop?
          *
          * @return true if this should be treated as a loop
          */
-        public abstract boolean isLoopType();
+        public abstract boolean isLoopType()
 
         /**
          * Gets the properties associated with this bean.
          *
          * @return the BeanProperty's, not null
          */
-        public abstract List<BeanProperty> getProperties();
+        public abstract List<BeanProperty> getProperties()
 
         /**
          * Create string representation
@@ -1380,7 +1074,7 @@ public class XMLIntrospector {
          * @return something useful for logging
          */
         public String toString() {
-            return "Bean[name=" + getBeanName() + ", type=" + getElementType();
+            return "Bean[name=" + getBeanName() + ", type=" + getElementType()
         }
     }
 
@@ -1392,22 +1086,22 @@ public class XMLIntrospector {
         /**
          * Introspected bean
          */
-        private BeanInfo beanInfo;
+        private BeanInfo beanInfo
 
         /**
          * Bean class
          */
-        private Class beanClass;
+        private Class beanClass
 
         /**
          * Bean name
          */
-        private String name;
+        private String name
 
         /**
          * Bean properties
          */
-        private List<BeanProperty> properties;
+        private List<BeanProperty> properties
 
         /**
          * Constructs a BeanType for a standard Java Bean
@@ -1415,14 +1109,14 @@ public class XMLIntrospector {
          * @param beanInfo the BeanInfo describing the standard Java Bean, not null
          */
         public JavaBeanType(BeanInfo beanInfo) {
-            this.beanInfo = beanInfo;
-            BeanDescriptor beanDescriptor = beanInfo.getBeanDescriptor();
-            beanClass = beanDescriptor.getBeanClass();
-            name = beanDescriptor.getName();
+            this.beanInfo = beanInfo
+            BeanDescriptor beanDescriptor = beanInfo.getBeanDescriptor()
+            beanClass = beanDescriptor.getBeanClass()
+            name = beanDescriptor.getName()
             // Array's contain a bad character
             if (beanClass.isArray()) {
                 // called all array's Array
-                name = "Array";
+                name = "Array"
             }
 
         }
@@ -1431,35 +1125,35 @@ public class XMLIntrospector {
          * @see BeanType #getElementType
          */
         public Class getElementType() {
-            return beanClass;
+            return beanClass
         }
 
         /**
          * @see BeanType#getBeanName
          */
         public String getBeanName() {
-            return name;
+            return name
         }
 
         /**
          * @see BeanType#isPrimitiveType
          */
         public boolean isPrimitiveType() {
-            return XMLIntrospector.this.isPrimitiveType(beanClass);
+            return XMLIntrospector.this.isPrimitiveType(beanClass)
         }
 
         /**
          * @see BeanType#isLoopType
          */
         public boolean isLoopType() {
-            return getConfiguration().isLoopType(beanClass);
+            return getConfiguration().isLoopType(beanClass)
         }
 
         /**
          * @see BeanType#isMapType
          */
         public boolean isMapType() {
-            return Map.class.isAssignableFrom(beanClass);
+            return Map.class.isAssignableFrom(beanClass)
         }
 
         /**
@@ -1468,9 +1162,9 @@ public class XMLIntrospector {
         public List<BeanProperty> getProperties() {
             // lazy creation
             if (properties == null) {
-                List<PropertyDescriptor> propertyDescriptors = new LinkedList<PropertyDescriptor>();
+                List<PropertyDescriptor> propertyDescriptors = new LinkedList<PropertyDescriptor>()
                 // add base bean info
-                PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+                PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors()
                 if (descriptors != null) {
                     for (PropertyDescriptor child : descriptors) {
                         if (!getConfiguration().getPropertySuppressionStrategy()
@@ -1479,22 +1173,22 @@ public class XMLIntrospector {
                                 child.getPropertyType(),
                                 child.getName())) {
                             if (!propertyDescriptors.contains(child)) {
-                                propertyDescriptors.add(child);
+                                propertyDescriptors.add(child)
                             }
                         }
                     }
                 }
 
                 // add properties from additional bean infos
-                BeanInfo[] additionals = beanInfo.getAdditionalBeanInfo();
+                BeanInfo[] additionals = beanInfo.getAdditionalBeanInfo()
                 if (additionals != null) {
                     for (BeanInfo additionalInfo : additionals) {
-                        descriptors = additionalInfo.getPropertyDescriptors();
+                        descriptors = additionalInfo.getPropertyDescriptors()
                         if (descriptors != null) {
                             for (PropertyDescriptor child : descriptors) {
                                 if (!configuration.propertySuppressionStrategy.suppressProperty(beanClass, child.getPropertyType(), child.getName())) {
                                     if (!propertyDescriptors.contains(child)) {
-                                        propertyDescriptors.add(child);
+                                        propertyDescriptors.add(child)
                                     }
                                 }
                             }
@@ -1502,17 +1196,15 @@ public class XMLIntrospector {
                     }
                 }
 
-                addAllSuperinterfaces(beanClass, propertyDescriptors);
+                addAllSuperinterfaces(beanClass, propertyDescriptors)
 
                 // what happens when size is zero?
                 properties = []
-                int count = 0;
-                for (Iterator it = propertyDescriptors.iterator(); it.hasNext(); count++) {
-                    PropertyDescriptor propertyDescriptor = (PropertyDescriptor) it.next();
+                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                     properties.add(new BeanProperty(propertyDescriptor))
                 }
             }
-            return properties;
+            return properties
         }
 
         /**
@@ -1526,99 +1218,28 @@ public class XMLIntrospector {
             if (clazz.isInterface()) {
                 for (Class potentialInterface : clazz.getInterfaces()) {
                     try {
-                        BeanInfo beanInfo;
+                        BeanInfo beanInfo
                         if (getConfiguration().ignoreAllBeanInfo) {
-                            beanInfo = BeanIntrospector.getBeanInfo(potentialInterface, Introspector.IGNORE_ALL_BEANINFO);
+                            beanInfo = BeanIntrospector.getBeanInfo(potentialInterface, Introspector.IGNORE_ALL_BEANINFO)
                         } else {
-                            beanInfo = BeanIntrospector.getBeanInfo(potentialInterface);
+                            beanInfo = BeanIntrospector.getBeanInfo(potentialInterface)
                         }
-                        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+                        PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors()
                         for (PropertyDescriptor child : descriptors) {
                             if (!configuration.propertySuppressionStrategy.suppressProperty(beanClass, child.propertyType, child.name)) {
                                 if (!propertyDescriptors.contains(child)) {
-                                    propertyDescriptors.add(child);
+                                    propertyDescriptors.add(child)
                                 }
                             }
                         }
-                        addAllSuperinterfaces(potentialInterface, propertyDescriptors);
+                        addAllSuperinterfaces(potentialInterface, propertyDescriptors)
 
                     } catch (IntrospectionException ex) {
-                        log.info("Introspection on superinterface failed.", ex);
+                        log.info("Introspection on superinterface failed.", ex)
                     }
                 }
             }
         }
     }
 
-    /**
-     * Implementation for DynaClasses
-     */
-    private class DynaClassBeanType extends BeanType {
-
-        /**
-         * BeanType for this DynaClass
-         */
-        private DynaClass dynaClass;
-
-        /**
-         * Properties extracted in constuctor
-         */
-        private List<BeanProperty> properties;
-
-        /**
-         * Constructs a BeanType for a DynaClass
-         *
-         * @param dynaClass not null
-         */
-        public DynaClassBeanType(DynaClass dynaClass) {
-            this.dynaClass = dynaClass;
-            properties = []
-            DynaProperty[] dynaProperties = dynaClass.getDynaProperties();
-            for (DynaProperty dynaProperty : dynaProperties) {
-                properties << new BeanProperty(dynaProperty);
-            }
-        }
-
-        /**
-         * @see BeanType#getBeanName
-         */
-        public String getBeanName() {
-            return dynaClass.getName();
-        }
-
-        /**
-         * @see BeanType#getElementType
-         */
-        public Class getElementType() {
-            return DynaClass.class;
-        }
-
-        /**
-         * @see BeanType#isPrimitiveType
-         */
-        public boolean isPrimitiveType() {
-            return false;
-        }
-
-        /**
-         * @see BeanType#isMapType
-         */
-        public boolean isMapType() {
-            return false;
-        }
-
-        /**
-         * @see BeanType#isLoopType
-         */
-        public boolean isLoopType() {
-            return false;
-        }
-
-        /**
-         * @see BeanType#getProperties
-         */
-        public List<BeanProperty> getProperties() {
-            return properties;
-        }
-    }
 }

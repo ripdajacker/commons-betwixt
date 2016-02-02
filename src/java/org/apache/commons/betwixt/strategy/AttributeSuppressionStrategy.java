@@ -29,13 +29,13 @@ public interface AttributeSuppressionStrategy {
     * @return true if the attribute should be ignore,
     * false otherwise
     */
-   public boolean suppress(AttributeDescriptor descriptor);
+   boolean suppress(AttributeDescriptor descriptor);
 
    /**
     * Default strategy: show all attributes.
     */
-   public final static AttributeSuppressionStrategy DEFAULT = new AttributeSuppressionStrategy() {
-      public boolean suppress(AttributeDescriptor description) {
+   AttributeSuppressionStrategy DEFAULT = new AttributeSuppressionStrategy() {
+      public boolean suppress(AttributeDescriptor descriptor) {
          return false;
       }
 

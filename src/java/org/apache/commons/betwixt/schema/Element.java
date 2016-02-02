@@ -23,5 +23,5 @@ package org.apache.commons.betwixt.schema;
  * @version $Revision$
  */
 public interface Element {
-   public String getName();
+   String getName();
 }

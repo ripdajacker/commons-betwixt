@@ -17,13 +17,14 @@
 package org.apache.commons.betwixt.io;
 
 
-/** <p>Interface allowing pluggable <code>ID</code> attribute value generators.</p>
- *
+/**
+ * <p>Interface allowing pluggable <code>ID</code> attribute value generators.</p>
+ * <p/>
  * <p> <code>IDGenerator</code>'s are used to generate <code>ID</code>
  * attribute values by <code>BeanWriter</code>.
  * A user can specify the generation mechanism by passing an implementation to
  * {@link BeanWriter#setIdGenerator}.</p>
- *
+ * <p/>
  * <p>Standard implementations are included with that supply random and sequantial values.</p>
  *
  * @author <a href="mailto:rdonkin@apache.org">Robert Burrell Donkin</a>
@@ -31,17 +32,17 @@ package org.apache.commons.betwixt.io;
  */
 public interface IDGenerator {
 
-   /**
-    * Get the last <code>ID</code> value generated.
-    *
-    * @return the last value generated
-    */
-   public String getLastId();
+    /**
+     * Get the last <code>ID</code> value generated.
+     *
+     * @return the last value generated
+     */
+    String getLastId();
 
-   /**
-    * Generate a new  <code>ID</code> attribute value.
-    *
-    * @return next value
-    */
-   public String nextId();
+    /**
+     * Generate a new  <code>ID</code> attribute value.
+     *
+     * @return next value
+     */
+    String nextId();
 }

@@ -51,7 +51,7 @@ public class ElementRule extends MappedPropertyRule {
     *            the new Log implementation for this class to use
     * @since 0.5
     */
-   public static final void setLog(Log newLog) {
+   public static void setLog(Log newLog) {
       log = newLog;
    }
 
@@ -214,42 +214,6 @@ public class ElementRule extends MappedPropertyRule {
       }
    }
 
-   // Implementation methods
-   // -------------------------------------------------------------------------
-
-   /**
-    * Sets the Expression and Updater from a bean property name Uses the
-    * default updater (from the standard java bean property).
-    *
-    * @param elementDescriptor
-    *            configure this <code>ElementDescriptor</code>
-    * @since 0.5
-    */
-   protected void configureDescriptor(ElementDescriptor elementDescriptor) {
-      configureDescriptor(elementDescriptor, null);
-   }
-
-   /**
-    * Sets the Expression and Updater from a bean property name Allows a custom
-    * updater to be passed in.
-    *
-    * @param elementDescriptor
-    *            configure this <code>ElementDescriptor</code>
-    * @param updateMethodName
-    *            custom update method. If null, then use standard
-    * @since 0.5
-    * @deprecated now calls
-    *             <code>#configureDescriptor(ElementDescriptor, String, boolean)</code>
-    *             which allow accessibility to be forced. The subclassing API
-    *             was not really considered carefully when this class was
-    *             created. If anyone subclasses this method please contact the
-    *             mailing list and suitable hooks will be placed into the code.
-    */
-   protected void configureDescriptor(
-         ElementDescriptor elementDescriptor,
-         String updateMethodName) {
-      configureDescriptor(elementDescriptor, null, false);
-   }
 
    /**
     * Sets the Expression and Updater from a bean property name Allows a custom
@@ -444,16 +408,14 @@ public class ElementRule extends MappedPropertyRule {
 
    private Method findPublicMethod(String updateMethodName, Class beanType, boolean isMapTypeProperty) {
       Method[] methods = beanType.getMethods();
-      Method updateMethod = searchMethodsForMatch(updateMethodName, methods, isMapTypeProperty);
-      return updateMethod;
+      return searchMethodsForMatch(updateMethodName, methods, isMapTypeProperty);
    }
 
    private Method searchMethodsForMatch(
          String updateMethodName,
          Method[] methods, boolean isMapType) {
       Method updateMethod = null;
-      for (int i = 0, size = methods.length; i < size; i++) {
-         Method method = methods[i];
+      for (Method method : methods) {
          if (updateMethodName.equals(method.getName())) {
 
             // updater should have one parameter unless type is Map
@@ -465,9 +427,9 @@ public class ElementRule extends MappedPropertyRule {
 
             // we have a matching name
             // check paramters are correct
-            if (methods[i].getParameterTypes().length == numParams) {
+            if (method.getParameterTypes().length == numParams) {
                // we'll use first match
-               updateMethod = methods[i];
+               updateMethod = method;
                if (log.isTraceEnabled()) {
                   log.trace("Matched method:" + updateMethod);
                }

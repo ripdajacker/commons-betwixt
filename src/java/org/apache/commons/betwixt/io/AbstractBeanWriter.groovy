@@ -285,7 +285,7 @@ public abstract class AbstractBeanWriter {
                                         qualifiedName,
                                         elementDescriptor,
                                         context,
-                                        beanInfo.getIDAttributeName(),
+                                        beanInfo.idAttributeName,
                                         id)
 
 
@@ -337,7 +337,7 @@ public abstract class AbstractBeanWriter {
                                     namespaceUri,
                                     localName,
                                     qualifiedName,
-                                    beanInfo.getIDREFAttributeName(),
+                                    beanInfo.idRefAttributeName,
                                     ref)
                         }
                     }
@@ -938,24 +938,6 @@ public abstract class AbstractBeanWriter {
             String idAttribute,
             String idValue) {
         writeElement("", qualifiedName, qualifiedName, elementDescriptor, context, idAttribute, idValue)
-    }
-
-    /**
-     * Writes a empty line.
-     * This implementation does nothing but can be overridden by subclasses.
-     *
-     * @deprecated 0.5 replaced by new SAX inspired API
-     */
-    protected void writePrintln() {
-    }
-
-    /**
-     * Writes an indentation.
-     * This implementation does nothing but can be overridden by subclasses.
-     *
-     * @deprecated 0.5 replaced by new BeanWriter API
-     */
-    protected void writeIndent() {
     }
 
     /**

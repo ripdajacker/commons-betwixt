@@ -18,8 +18,6 @@ package org.apache.commons.betwixt.digester;
 
 import org.apache.commons.betwixt.XMLIntrospector;
 import org.apache.commons.digester.Rule;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.Set;
 
@@ -30,9 +28,6 @@ import java.util.Set;
  * @version $Revision$
  */
 public class RuleSupport extends Rule {
-
-   /** Logger */
-   private static final Log log = LogFactory.getLog(RuleSupport.class);
 
    /** Base constructor */
    public RuleSupport() {
@@ -88,7 +83,7 @@ public class RuleSupport extends Rule {
     */
    protected Class loadClass(String className) throws ClassNotFoundException {
       ClassLoader classloader = digester.getClassLoader();
-      Class clazz = null;
+      Class clazz;
       if (classloader == null) {
          clazz = Class.forName(className);
       } else {

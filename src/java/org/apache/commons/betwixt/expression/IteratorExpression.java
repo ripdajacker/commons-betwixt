@@ -52,7 +52,7 @@ public class IteratorExpression implements Expression {
       // return an appropriate iterator
       if (value instanceof Iterator) {
          // if the value is an iterator, we're done
-         return (Iterator) value;
+         return value;
 
       } else if (value instanceof Collection) {
          // if it's a collection, return an iterator for that collection

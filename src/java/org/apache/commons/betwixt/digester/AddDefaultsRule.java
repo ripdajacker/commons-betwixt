@@ -207,9 +207,8 @@ public class AddDefaultsRule extends RuleSupport {
          return beanInfo.getElementDescriptor();
 
       } else if (top instanceof ElementDescriptor) {
-         ElementDescriptor parent = (ElementDescriptor) top;
          // XXX: could maybe walk up the parent hierarchy?
-         return parent;
+         return (ElementDescriptor) top;
       }
       return null;
    }

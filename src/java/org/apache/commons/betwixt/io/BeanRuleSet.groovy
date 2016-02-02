@@ -58,7 +58,7 @@ public class BeanRuleSet implements RuleSet {
         this.basePath = basePath
         this.context = new DigesterReadContext(baseContext)
         this.context.setRootClass(baseBeanClass)
-        this.context.setXMLIntrospector(introspector)
+        this.context.setIntrospector(introspector)
     }
 
     //-------------------------------- Ruleset implementation

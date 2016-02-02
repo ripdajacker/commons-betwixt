@@ -159,51 +159,24 @@ public class BeanProperty {
         Updater propertyUpdater = getPropertyUpdater()
 
         if (propertyExpression == null) {
-            if (log.isTraceEnabled()) {
-                log.trace(
-                        "No read method for property: name="
-                                + getPropertyName() + " type=" + getPropertyType())
-            }
+            log.warn("No read method for property: name=$propertyName type=$propertyType")
             return null
         }
 
-        if (log.isTraceEnabled()) {
-            log.trace("Property expression=" + propertyExpression)
-        }
-
-        // choose response from property type
-
-        //TODO this big conditional should be replaced with subclasses based on the type
-
-        //TODO complete simple type implementation
         NodeDescriptor descriptor
         TypeBindingStrategy.BindingType bindingType = configuration.getTypeBindingStrategy().bindingType(getPropertyType())
         if (bindingType.equals(TypeBindingStrategy.BindingType.PRIMITIVE)) {
             descriptor = createDescriptorForPrimitive(configuration, propertyExpression, propertyUpdater)
         } else if (configuration.isLoopType(getPropertyType())) {
-            if (log.isTraceEnabled()) {
-                log.trace("Loop type: " + getPropertyName())
-                log.trace("Wrap in collections? " + configuration.isWrapCollectionsInElement())
-            }
-
             if (Map.class.isAssignableFrom(getPropertyType())) {
                 descriptor = createDescriptorForMap(configuration, propertyExpression)
             } else {
-
                 descriptor = createDescriptorForCollective(configuration, propertyUpdater, propertyExpression)
             }
         } else {
-            if (log.isTraceEnabled()) {
-                log.trace("Standard property: " + getPropertyName())
-            }
             descriptor = createDescriptorForStandard(propertyExpression, propertyUpdater, configuration)
         }
 
-
-        if (log.isTraceEnabled()) {
-            log.trace("Created descriptor:")
-            log.trace(descriptor)
-        }
         return descriptor
     }
 
@@ -269,7 +242,6 @@ public class BeanProperty {
             IntrospectionConfiguration configuration,
             Expression propertyExpression) {
 
-        //TODO: need to clean the element descriptors so that the wrappers are plain
         ElementDescriptor result
 
         ElementDescriptor entryDescriptor = new ElementDescriptor()

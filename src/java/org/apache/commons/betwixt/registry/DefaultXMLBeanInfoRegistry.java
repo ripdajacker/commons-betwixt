@@ -47,7 +47,7 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
      * no <code>XMLBeanInfo</code> has been associated
      */
     public XMLBeanInfo get(Class forThisClass) {
-        return (XMLBeanInfo) xmlBeanInfos.get(forThisClass);
+        return xmlBeanInfos.get(forThisClass);
     }
 
     /**

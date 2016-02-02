@@ -31,8 +31,6 @@ public class InfoRule extends RuleSupport {
 
    /** Logger */
    private static final Log log = LogFactory.getLog(InfoRule.class);
-   /** <code>XMLBeanInfo</code> being created */
-   private XMLBeanInfo xmlBeanInfo;
 
    /** Base constructor */
    public InfoRule() {
@@ -50,7 +48,7 @@ public class InfoRule extends RuleSupport {
    public void begin(String name, String namespace, Attributes attributes) throws SAXException {
       Class beanClass = getBeanClass();
 
-      xmlBeanInfo = new XMLBeanInfo(beanClass);
+      XMLBeanInfo xmlBeanInfo = new XMLBeanInfo(beanClass);
 
       String value = attributes.getValue("primitiveTypes");
       if (value != null) {

@@ -320,22 +320,10 @@ public class BeanWriter extends AbstractBeanWriter {
      *
      * @deprecated 0.5 replaced by new SAX inspired API
      */
-    protected void writePrintln() {
-        if (endOfLine != null) {
-            writer.write(endOfLine)
-        }
-    }
 
     /**
      * Writes out <code>indent</code>'s to the current <code>indentLevel</code>
      *
      * @deprecated 0.5 replaced by new SAX inspired API
      */
-    protected void writeIndent() {
-        if (indent != null) {
-            for (int i = 0; i < indentLevel; i++) {
-                writer.write(getIndent())
-            }
-        }
-    }
 }

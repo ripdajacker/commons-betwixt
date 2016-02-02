@@ -17,8 +17,6 @@
 package org.apache.commons.betwixt.digester;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -27,9 +25,8 @@ import org.xml.sax.SAXException;
  * @since 0.7
  * @author Brian Pugh
  */
+@SuppressWarnings("deprecation")
 public class ConfigRule extends RuleSupport {
-   /** Logger. */
-   private static final Log log = LogFactory.getLog(ConfigRule.class);
 
    /** Base constructor. */
    public ConfigRule() {
@@ -65,7 +62,7 @@ public class ConfigRule extends RuleSupport {
     * Process the end of this element.
     */
    public void end() {
-      Object top = getDigester().pop();
+      getDigester().pop();
    }
 
 

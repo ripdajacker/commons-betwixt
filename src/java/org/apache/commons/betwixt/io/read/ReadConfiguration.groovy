@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.betwixt.expression;
+package org.apache.commons.betwixt.io.read;
 
-/** <p><code>Updater</code> acts like an lvalue which updates the current 
- * context bean from some text from an XML attribute or element.</p>
+import org.apache.commons.betwixt.strategy.ActionMappingStrategy;
+
+/**
+ * Stores mapping phase configuration settings that apply only for bean reading.
  *
- * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
- * @version $Revision$
+ * @author Robert Burrell Donkin
+ * @since 0.5
  */
-public interface Updater {
+public class ReadConfiguration {
 
-   /** Updates the current bean context with a new String value.
-    * This is typically used when parsing XML and updating a bean value
-    * from XML
-    *
-    * @param context update the bean in this <code>Context</code>
-    * @param newValue set value to this <code>Object</code>
-    */
-   void update(Context context, Object newValue);
+    /** Chain used to create beans defaults to BeanCreationChain.createDefaultChain() */
+    BeanCreationChain beanCreationChain = BeanCreationChain.createDefaultChain();
+    /** Pluggable strategy used to determine free mappings */
+    ActionMappingStrategy actionMappingStrategy = ActionMappingStrategy.DEFAULT;
+
+
 }

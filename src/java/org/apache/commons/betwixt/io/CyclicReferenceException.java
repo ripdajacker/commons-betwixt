@@ -36,8 +36,7 @@ package org.apache.commons.betwixt.io;
 public class CyclicReferenceException extends RuntimeException {
 
    /** Message used with empty constructor */
-   private static final String DEFAULT_MESSAGE
-         = "Bean graph contains a cyclic reference";
+   private static final String DEFAULT_MESSAGE = "Bean graph contains a cyclic reference";
 
    /** Construct exception with default message.
     */

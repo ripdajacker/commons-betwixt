@@ -25,6 +25,7 @@ import org.apache.commons.betwixt.expression.Context;
  * @author Robert Burrell Donkin
  * @since 0.5
  */
+@SuppressWarnings("deprecation")
 public class ConvertUtilsObjectStringConverter extends ObjectStringConverter {
 
    /**

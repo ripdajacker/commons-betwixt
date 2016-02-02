@@ -38,16 +38,14 @@ import groovy.transform.TypeChecked;
 @TypeChecked
 public class XMLBeanInfo {
     /** Descriptor for main element */
-    private ElementDescriptor elementDescriptor;
+    ElementDescriptor elementDescriptor;
 
     /** the beans class that this XML info refers to */
-    private Class beanClass;
-    /** <code>ID</code> attribute name */
-    private String idAttributeName = "id";
-    /** <code>IDREF</code> attribute name */
-    private String idrefAttributeName = "idref";
-    /** Have we already cached the <code>idAttributeDescriptor</code>? */
-    private boolean cachedIDAttribute = false;
+    Class beanClass;
+
+    String idAttributeName = "id";
+    String idRefAttributeName = "idref";
+
     /** Cached <code>ID</code> attribute descriptor */
     private AttributeDescriptor idAttributeDescriptor;
 
@@ -101,17 +99,7 @@ public class XMLBeanInfo {
      * @return the xml ID attribute
      */
     public AttributeDescriptor getIDAttribute() {
-        //
-        // XXX for some reason caching isn't working at the moment
-        // it could be that this method is called too early
-        // and not reset when attributes change
-        // on the other hand, the speed gain is likely to be too
-        // small to bother about
-        //
-        //if ( cachedIDAttribute = false ) {
         idAttributeDescriptor = findIDAttribute();
-        //  cachedIDAttribute = true;
-        //}
         return idAttributeDescriptor;
     }
 
@@ -121,71 +109,16 @@ public class XMLBeanInfo {
      */
     private AttributeDescriptor findIDAttribute() {
         // we'll check to see if the bean already has an id
-        if (getElementDescriptor().hasAttributes()) {
-            List<AttributeDescriptor> attributes = getElementDescriptor().getAttributeDescriptors();
-            if (attributes != null) {
-                for (AttributeDescriptor attribute : attributes) {
-                    if (idAttributeName in [attribute.qualifiedName, attribute.localName]) {
-                        // we've got a match so use this attribute
-                        return attribute
+        List<AttributeDescriptor> attributes = getElementDescriptor().getAttributeDescriptors();
+        for (AttributeDescriptor attribute : attributes) {
+            if (idAttributeName in [attribute.qualifiedName, attribute.localName]) {
+                // we've got a match so use this attribute
+                return attribute
 
-                    }
-                }
             }
         }
         return null;
     }
-
-    /**
-     * <p>Get name of <code>ID</code> attribute.
-     * This is used to write (for example) automatic <code>ID</code>
-     * attribute values.</p>
-     *
-     * <p>The default name is 'id'.</p>
-     *
-     * @return name for the special <code>ID</code> attribute
-     */
-    public String getIDAttributeName() {
-        return idAttributeName;
-    }
-
-    /**
-     * Set name of <code>ID</code> attribute
-     * This is used to write (for example) automatic <code>ID</code>
-     * attribute values.</p>
-     *
-     * <p>The default name is 'id'.</p>
-     *
-     * @param idAttributeName the attribute name for the special <code>ID</code> attribute
-     */
-    public void setIDAttributeName(String idAttributeName) {
-        this.idAttributeName = idAttributeName;
-    }
-
-    /**
-     * <p>Get <code>IDREF</code> attribute name
-     * This is used (for example) to deal with cyclic references.
-     *
-     * <p>The default name is 'idref'.</p>
-     *
-     * @return name for the special <code>IDREF</code> attribute
-     */
-    public String getIDREFAttributeName() {
-        return idrefAttributeName;
-    }
-
-    /**
-     * Set <code>IDREF</code> attribute name
-     * This is used (for example) to deal with cyclic references.
-     *
-     * <p>The default name is 'idref'.</p>
-     *
-     * @param idrefAttributeName the attribute name for the special <code>IDREF</code> attribute
-     */
-    public void setIDREFAttributeName(String idrefAttributeName) {
-        this.idrefAttributeName = idrefAttributeName;
-    }
-
     /**
      * Gets log-friendly string representation.
      *
