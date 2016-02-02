@@ -29,13 +29,7 @@ public class ConstantExpression implements Expression {
     /**
      * The value of this expression
      */
-    private Object value;
-
-    /**
-     * Base constructor
-     */
-    public ConstantExpression() {
-    }
+    private final Object value;
 
     /**
      * Convenience constructor sets <code>value</code> property.
@@ -54,41 +48,6 @@ public class ConstantExpression implements Expression {
      */
     public Object evaluate(Context context) {
         return value;
-    }
-
-    /**
-     * Do nothing
-     *
-     * @see org.apache.commons.betwixt.expression.Expression
-     */
-    public void update(Context context, String newValue) {
-        // do nothing
-    }
-
-    @Override
-    public boolean isPrimitiveResult() {
-        if (value == null) {
-            return false;
-        }
-        return Expression.validClasses.contains(value.getClass());
-    }
-
-    /**
-     * Gets the constant value of this expression
-     *
-     * @return this expression's constant value
-     */
-    public Object getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the constant value of this expression
-     *
-     * @param value the constant value for this expression
-     */
-    public void setValue(Object value) {
-        this.value = value;
     }
 
     /**

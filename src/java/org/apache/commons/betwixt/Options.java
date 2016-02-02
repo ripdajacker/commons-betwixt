@@ -22,7 +22,7 @@ import java.util.Set;
 
 /**
  * Collective for <code>Betwixt</code> optional behaviour hints.
- * An option links a name with a value (both strings). 
+ * An option links a name with a value (both strings).
  *
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @since 0.5
@@ -31,7 +31,7 @@ public class Options {
    /** Empty string array for use with toArray  */
    private static final String[] EMPTY_STRING_ARRAY = {};
    /** Option values indexed by name */
-   private HashMap valuesByName = new HashMap();
+   private final HashMap valuesByName = new HashMap();
 
    /**
     * Gets the value (if any) associated with the given name.
@@ -59,6 +59,7 @@ public class Options {
     * @param value <code>Strong</code> name, not null
     */
    public void addOption(String name, String value) {
+      //noinspection unchecked
       valuesByName.put(name, value);
    }
 
@@ -72,6 +73,7 @@ public class Options {
     * @since 0.8
     */
    public void addOptions(Options options) {
+      //noinspection unchecked
       valuesByName.putAll(options.valuesByName);
    }
 }

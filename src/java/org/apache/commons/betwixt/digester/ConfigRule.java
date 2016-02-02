@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
  * @author Brian Pugh
  */
 @SuppressWarnings("deprecation")
-public class ConfigRule extends RuleSupport {
+class ConfigRule extends RuleSupport {
 
    /** Base constructor. */
    public ConfigRule() {

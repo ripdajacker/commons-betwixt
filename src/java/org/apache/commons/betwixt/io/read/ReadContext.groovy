@@ -112,7 +112,7 @@ public class ReadContext extends Context implements AbstractReadContext {
      * @param bean the Object to store, not null
      */
     public void putBean(String id, Object bean) {
-        getIdMappingStrategy().setReference(this, bean, id)
+        getIdMappingStrategy().setReference(bean, id)
     }
 
     /**
@@ -122,7 +122,7 @@ public class ReadContext extends Context implements AbstractReadContext {
      * @return the Object that the ID references, otherwise null
      */
     public Object getBean(String id) {
-        return getIdMappingStrategy().getReferenced(this, id)
+        return getIdMappingStrategy().getReferenced(id)
     }
 
     /**
@@ -437,7 +437,7 @@ public class ReadContext extends Context implements AbstractReadContext {
             if (currentDescriptor != null) {
                 if (currentDescriptor.isPolymorphic()) {
                     PolymorphicReferenceResolver resolver = introspector.getPolymorphicReferenceResolver()
-                    result = resolver.resolveType(mapping, this)
+                    result = resolver.resolveType(mapping)
                     if (result == null) {
                         // try the other polymorphic descriptors
                         ElementDescriptor parent = getParentDescriptor()
@@ -447,7 +447,7 @@ public class ReadContext extends Context implements AbstractReadContext {
                             for (ElementDescriptor descriptor : parent.getElementDescriptors()) {
                                 if (descriptor.isPolymorphic()) {
                                     mapping.setDescriptor(descriptor)
-                                    result = resolver.resolveType(mapping, this)
+                                    result = resolver.resolveType(mapping)
                                     if (result != null) {
                                         resolved = true
                                         descriptorStack.pop()

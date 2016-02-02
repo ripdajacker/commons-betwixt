@@ -23,8 +23,6 @@ import org.apache.commons.betwixt.XMLBeanInfo;
 import org.apache.commons.betwixt.expression.ConstantExpression;
 import org.apache.commons.betwixt.expression.MethodExpression;
 import org.apache.commons.betwixt.expression.MethodUpdater;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -43,10 +41,7 @@ import java.lang.reflect.Method;
  * @author Robert Burrell Donkin
  * @version $Id$
  */
-public class TextRule extends MappedPropertyRule {
-
-   /** Logger */
-   private static final Log log = LogFactory.getLog(TextRule.class);
+class TextRule extends MappedPropertyRule {
 
    /** Base constructor */
    public TextRule() {
@@ -98,10 +93,10 @@ public class TextRule extends MappedPropertyRule {
                   getPropertyDescriptor(beanClass, descriptorPropertyName);
             if (propertyDescriptor != null) {
                Method readMethod = propertyDescriptor.getReadMethod();
-               descriptor.setTextExpression(new MethodExpression(readMethod, propertyName));
+               descriptor.setTextExpression(new MethodExpression(readMethod));
                Method writeMethod = propertyDescriptor.getWriteMethod();
                if (writeMethod != null) {
-                  descriptor.setUpdater(new MethodUpdater(writeMethod, descriptor.getPropertyName()));
+                  descriptor.setUpdater(new MethodUpdater(writeMethod));
                }
                getProcessedPropertyNameSet().add(descriptorPropertyName);
             }

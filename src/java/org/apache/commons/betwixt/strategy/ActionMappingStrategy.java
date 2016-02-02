@@ -20,44 +20,38 @@ package org.apache.commons.betwixt.strategy;
 
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadContext;
-import org.xml.sax.Attributes;
 
 /**
  * <p>
  * Pluggable strategy interface used for free mappings.
  * </p>
  * <p>
- * Free mappings (ones where the current mapping ) 
- * are executed by calling a <code>ActionMappingStrategy</code> 
+ * Free mappings (ones where the current mapping )
+ * are executed by calling a <code>ActionMappingStrategy</code>
  * implementation.
- * So, using a custom strategy is an easy way to 
- * customize the mapping. 
+ * So, using a custom strategy is an easy way to
+ * customize the mapping.
  * </p>
+ *
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
  * @version $Revision$
  */
 public abstract class ActionMappingStrategy {
 
-   /**
-    * Default <code>ActionMappingStrategy</code>
-    * used by betwixt
-    */
-   public static final ActionMappingStrategy DEFAULT
-         = new DefaultActionMappingStrategy();
+    /**
+     * Default <code>ActionMappingStrategy</code>
+     * used by betwixt
+     */
+    public static final ActionMappingStrategy DEFAULT = new DefaultActionMappingStrategy();
 
-   /**
-    * Gets the mapping action to map the given element.
-    * @param namespace not null
-    * @param name not null
-    * @param attributes <code>Attributes</code>, not null
-    * @param context <code>ReadContext</code>, not null
-    * @return <code>MappingAction</code>, not null
-    * @throws Exception
-    */
-   public abstract MappingAction getMappingAction(
-         String namespace,
-         String name,
-         Attributes attributes,
-         ReadContext context)
-         throws Exception;
+    /**
+     * Gets the mapping action to map the given element.
+     *
+     * @param context <code>ReadContext</code>, not null
+     * @return <code>MappingAction</code>, not null
+     * @throws Exception
+     */
+    public abstract MappingAction getMappingAction(
+            ReadContext context)
+            throws Exception;
 }

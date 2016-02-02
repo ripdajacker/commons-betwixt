@@ -175,8 +175,8 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
 
         Iterator it = temporaryMap.values().iterator();
         while (it.hasNext()) {
-            pd = null; gpd = null; spd = null;
-            ipd = null; igpd = null; ispd = null;
+            gpd = null; spd = null;
+            igpd = null; ispd = null;
 
             list = (List) it.next();
 
@@ -258,7 +258,7 @@ public class EnhancedBeanInfo<T> implements BeanInfo {
             // representative getters and setters. The order at which the
             // property descriptors are determined represent the
             // precedence of the property ordering.
-            pd = null; ipd = null;
+            pd = null;
 
             if (igpd != null && ispd != null) {
                 // Complete indexed properties set

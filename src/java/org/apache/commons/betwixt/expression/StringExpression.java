@@ -35,7 +35,7 @@ public class StringExpression implements Expression {
    }
 
    /** Base constructor. Should this be private? */
-   public StringExpression() {
+   private StringExpression() {
    }
 
    /** Return the context bean as a string
@@ -49,19 +49,6 @@ public class StringExpression implements Expression {
          return value.toString();
       }
       return null;
-   }
-
-   /**
-    * Do nothing
-    * @see org.apache.commons.betwixt.expression.Expression
-    */
-   public void update(Context context, String newValue) {
-      // do nothing
-   }
-
-   @Override
-   public boolean isPrimitiveResult() {
-      return true;
    }
 
    /**

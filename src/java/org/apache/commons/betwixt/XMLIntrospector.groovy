@@ -3,7 +3,6 @@ package org.apache.commons.betwixt
 import dk.mehmedbasic.betwixt.BeanIntrospector
 import groovy.transform.CompileStatic
 import groovy.util.logging.Commons
-import org.apache.commons.beanutils.DynaBean
 import org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester
 import org.apache.commons.betwixt.digester.XMLBeanInfoDigester
 import org.apache.commons.betwixt.expression.*
@@ -316,9 +315,6 @@ public class XMLIntrospector {
      * @throws IntrospectionException when the bean introspection fails
      */
     public XMLBeanInfo introspect(Object bean) throws IntrospectionException {
-        if (bean instanceof DynaBean) {
-            throw new RuntimeException("!")
-        }
         Class normalClass = getClassNormalizer().getNormalizedClass(bean)
         return introspect(normalClass)
     }
@@ -697,7 +693,7 @@ public class XMLIntrospector {
         if (matchingDescriptor != null) {
             Class singularType = singleParameterAdderMethod.getParameterTypes()[0]
 
-            matchingDescriptor.setUpdater(new MethodUpdater(singleParameterAdderMethod, propertyName))
+            matchingDescriptor.setUpdater(new MethodUpdater(singleParameterAdderMethod))
             matchingDescriptor.setSingularPropertyType(singularType)
             matchingDescriptor.setHollow(!isPrimitiveType(singularType))
             String localName = matchingDescriptor.getLocalName()

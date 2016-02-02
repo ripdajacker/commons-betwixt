@@ -46,8 +46,6 @@ public class BindingConfiguration implements Serializable {
    private boolean mapIDs = true;
    /** Converts objects &lt-&gt; strings */
    private ObjectStringConverter objectStringConverter;
-   /** The name of the classname attribute used when creating derived beans */
-   private String classNameAttribute = "className";
    /** Strategy for suppressing attributes with certain values when writing */
    private ValueSuppressionStrategy valueSuppressionStrategy = ValueSuppressionStrategy.DEFAULT;
    /** Strategy for storing and accessing ID values */
@@ -117,20 +115,7 @@ public class BindingConfiguration implements Serializable {
     * @return The name of the attribute used to overload the class name of a bean
     */
    public String getClassNameAttribute() {
-      return classNameAttribute;
-   }
-
-   /**
-    * Sets the name of the attribute which can be specified in
-    * the XML to override the type of a bean used at a certain
-    * point in the schema.
-    *
-    * <p>The default value is 'className'.</p>
-    *
-    * @param classNameAttribute The name of the attribute used to overload the class name of a bean
-    */
-   public void setClassNameAttribute(String classNameAttribute) {
-      this.classNameAttribute = classNameAttribute;
+      return "className";
    }
 
 

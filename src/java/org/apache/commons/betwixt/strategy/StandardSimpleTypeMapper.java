@@ -31,7 +31,7 @@ public class StandardSimpleTypeMapper extends SimpleTypeMapper {
    /**
     * Implementation binds as per configuration
     */
-   public Binding bind(String propertyName, Class propertyType, IntrospectionConfiguration configuration) {
+   public Binding bind(IntrospectionConfiguration configuration) {
       if (configuration.isAttributesForPrimitives()) {
 
          return StandardSimpleTypeMapper.Binding.ATTRIBUTE;

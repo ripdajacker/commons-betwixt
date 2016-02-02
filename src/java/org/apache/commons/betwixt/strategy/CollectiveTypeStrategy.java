@@ -52,6 +52,7 @@ public abstract class CollectiveTypeStrategy {
       public boolean isCollective(Class type) {
          // consider: should this be factored into a pluggable strategy?
          // check for NPEs
+         //noinspection SimplifiableIfStatement
          if (type == null) {
             return false;
          }

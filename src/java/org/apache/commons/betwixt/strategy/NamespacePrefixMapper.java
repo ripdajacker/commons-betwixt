@@ -26,7 +26,7 @@ import java.util.HashMap;
  * When validating xml documents including namespaces,
  * the issue of prefixes (the short expression before the colon in a universal name)
  * becomes important.
- * DTDs are not namespace aware and so a fixed prefixed must be chosen 
+ * DTDs are not namespace aware and so a fixed prefixed must be chosen
  * and used consistently.
  * This class is used to supply consistent, user specified prefixes.
  * </p>
@@ -36,7 +36,7 @@ import java.util.HashMap;
 public class NamespacePrefixMapper {
 
    private int count = 0;
-   private HashMap prefixesByUri = new HashMap();
+   private final HashMap prefixesByUri = new HashMap();
 
    /**
     * Gets the prefix to be used with the given namespace URI
@@ -60,6 +60,7 @@ public class NamespacePrefixMapper {
     * @param prefix
     */
    public void setPrefix(String namespaceUri, String prefix) {
+      //noinspection unchecked
       prefixesByUri.put(namespaceUri, prefix);
    }
 

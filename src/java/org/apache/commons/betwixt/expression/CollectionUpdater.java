@@ -47,6 +47,7 @@ public class CollectionUpdater implements Updater {
          Object subject = context.getBean();
          if (subject != null && subject instanceof Collection) {
             Collection collection = (Collection) subject;
+            //noinspection unchecked
             collection.add(newValue);
          }
       }

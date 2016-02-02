@@ -45,23 +45,12 @@ public abstract class SimpleTypeMapper {
       private static final int ELEMENT_CODE = 1;
       private static final int ATTRIBUTE_CODE = 2;
 
-      private int code;
+      private final int code;
 
       private Binding(int code) {
          this.code = code;
       }
 
-
-      /**
-       * Equals compatible with the enumeration.
-       */
-      public boolean equals(Object obj) {
-         boolean result = false;
-         if (obj == this) {
-            result = true;
-         }
-         return result;
-      }
 
       /**
        * Implementation compatible with equals
@@ -94,12 +83,8 @@ public abstract class SimpleTypeMapper {
     * <strong>Note:</strong> the xml name to which this property will be bound
     * cannot be known at this stage (since it depends
     * </p>
-    * @param propertyName the name of the property (to be bound)
-    * @param propertyType the type of the property (to be bound)
     * @param configuration the current IntrospectionConfiguration
     */
    public abstract SimpleTypeMapper.Binding bind(
-         String propertyName,
-         Class propertyType,
-         IntrospectionConfiguration configuration);
+           IntrospectionConfiguration configuration);
 }

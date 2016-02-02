@@ -16,7 +16,6 @@
  */
 package org.apache.commons.betwixt.registry;
 
-import org.apache.commons.betwixt.io.read.AbstractReadContext;
 import org.apache.commons.betwixt.io.read.ElementMapping;
 
 /**
@@ -24,7 +23,7 @@ import org.apache.commons.betwixt.io.read.ElementMapping;
  * </p><p>
  * A polymorphic reference is an element whose name and type
  * resolution are postponed till bind-time.
- * When the xml is read, the type can then resolved from 
+ * When the xml is read, the type can then resolved from
  * by calling {@link #resolveType}.
  * </p>
  * @since 0.7
@@ -36,9 +35,8 @@ public interface PolymorphicReferenceResolver {
     * Resolves the bind-time type of a polymorphic element.
     * @param mapping <code>ElementMapping</code> describing the (polymorphic) element being mapped,
     * not null
-    * @param context <code>ReadContext</code>, not null
     * @return the <code>Class</code> describing the type to which this element should be bound,
     * or null if the reference cannot be resolved
     */
-   Class resolveType(ElementMapping mapping, AbstractReadContext context);
+   Class resolveType(ElementMapping mapping);
 }

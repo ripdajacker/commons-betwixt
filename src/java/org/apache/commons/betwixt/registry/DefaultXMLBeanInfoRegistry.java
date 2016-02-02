@@ -19,7 +19,6 @@ package org.apache.commons.betwixt.registry;
 
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.XMLBeanInfo;
-import org.apache.commons.betwixt.io.read.AbstractReadContext;
 import org.apache.commons.betwixt.io.read.ElementMapping;
 
 import java.util.Collection;
@@ -37,7 +36,7 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
     /**
      * Used to associated <code>XMLBeanInfo</code>'s to classes
      */
-    private Map<Class, XMLBeanInfo> xmlBeanInfos = new HashMap<Class, XMLBeanInfo>();
+    private final Map<Class, XMLBeanInfo> xmlBeanInfos = new HashMap<Class, XMLBeanInfo>();
 
     /**
      * Get <code>XMLBeanInfo</code> from cache.
@@ -75,7 +74,7 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
      * org.apache.commons.betwixt.io.read.ReadContext)
      * @since 0.7
      */
-    public Class resolveType(ElementMapping mapping, AbstractReadContext context) {
+    public Class resolveType(ElementMapping mapping) {
         Class result = null;
         Collection<Class> cachedClasses = getCachedClasses();
         ElementDescriptor mappedDescriptor = mapping.getDescriptor();
@@ -89,6 +88,7 @@ public class DefaultXMLBeanInfoRegistry implements XMLBeanInfoRegistry, Polymorp
             boolean sameName = mapping.getName().equals(typeDescriptor.getQualifiedName());
             if (sameName) {
 
+                //noinspection unchecked,unchecked
                 boolean compatibleClass = mappedType.isAssignableFrom(beanInfo.getBeanClass());
                 if (compatibleClass) {
                     result = beanInfo.getBeanClass();

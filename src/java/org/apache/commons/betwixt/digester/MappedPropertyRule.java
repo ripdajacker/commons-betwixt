@@ -30,13 +30,13 @@ import java.beans.PropertyDescriptor;
  * @author Robert Burrell Donkin
  * @since 0.5
  */
-public abstract class MappedPropertyRule extends RuleSupport {
+abstract class MappedPropertyRule extends RuleSupport {
 
    /** Logger */
    private static final Log log = LogFactory.getLog(MappedPropertyRule.class);
 
    /** Base constructor */
-   public MappedPropertyRule() {
+   MappedPropertyRule() {
    }
 
 
@@ -52,9 +52,9 @@ public abstract class MappedPropertyRule extends RuleSupport {
     * @param propertyName descriptor for property with this name
     * @return property descriptor for the named property in the given class
     */
-   protected PropertyDescriptor getPropertyDescriptor(
-         Class beanClass,
-         String propertyName) {
+   PropertyDescriptor getPropertyDescriptor(
+           Class beanClass,
+           String propertyName) {
       if (beanClass != null && propertyName != null) {
          if (log.isTraceEnabled()) {
             log.trace("Searching for property " + propertyName + " on " + beanClass);
@@ -109,9 +109,9 @@ public abstract class MappedPropertyRule extends RuleSupport {
     * @param propertyName the name of the property whose type is to be determined
     * @return property type
     */
-   protected Class getPropertyType(
-         String propertyClassName,
-         Class beanClass, String propertyName) {
+   Class getPropertyType(
+           String propertyClassName,
+           Class beanClass, String propertyName) {
       // XXX: should use a ClassLoader to handle
       //      complex class loading situations
       if (propertyClassName != null) {

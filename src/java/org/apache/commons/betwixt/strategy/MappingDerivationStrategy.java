@@ -20,7 +20,7 @@ package org.apache.commons.betwixt.strategy;
  * <p>Pluggable strategy determines whether introspection or bind time
  * typing should be used when finding mappings.
  * The type of a property is determined at introspection time but
- * the actual type of the instance can differ at bind time (when the 
+ * the actual type of the instance can differ at bind time (when the
  * xml is actually being processed). This strategy is used to set
  * (at a per-element level) whether the bind or introspection
  * time type should be used to calculate the mapping to be used.
@@ -33,7 +33,7 @@ package org.apache.commons.betwixt.strategy;
  * refinements.
  * </p>
  * @since 0.7
- * @author <a href='http://commons.apache.org'>Apache Commons Team</a>, 
+ * @author <a href='http://commons.apache.org'>Apache Commons Team</a>,
  * <a href='http://www.apache.org'>Apache Software Foundation</a>
  */
 public abstract class MappingDerivationStrategy {

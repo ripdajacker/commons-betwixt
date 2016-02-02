@@ -67,7 +67,7 @@ public abstract class TypeBindingStrategy {
        */
       public static final BindingType PRIMITIVE = new BindingType(PRIMITIVE_INDICATOR);
 
-      private int type;
+      private final int type;
 
       private BindingType(int type) {
          this.type = type;
@@ -164,7 +164,7 @@ public abstract class TypeBindingStrategy {
        * @param type <code>Class</code>, not null
        * @return true if the type is one of the standard Betwixt primitives
        */
-      protected boolean isStandardPrimitive(Class type) {
+      boolean isStandardPrimitive(Class type) {
          if (type == null) {
             return false;
 
@@ -187,6 +187,7 @@ public abstract class TypeBindingStrategy {
          }
 
          for (int i = 0, size = INHERITED_COMPLEX.length; i < size; i++) {
+            //noinspection unchecked
             if (INHERITED_COMPLEX[i].isAssignableFrom(type)) {
                return false;
             }
@@ -197,6 +198,7 @@ public abstract class TypeBindingStrategy {
          }
 
          for (int i = 0, size = INHERITED_SIMPLE.length; i < size; i++) {
+            //noinspection unchecked
             if (INHERITED_SIMPLE[i].isAssignableFrom(type)) {
                return true;
             }

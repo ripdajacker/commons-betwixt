@@ -24,7 +24,6 @@ import org.apache.commons.betwixt.io.read.ArrayBindAction;
 import org.apache.commons.betwixt.io.read.MappingAction;
 import org.apache.commons.betwixt.io.read.ReadConfiguration;
 import org.apache.commons.betwixt.io.read.ReadContext;
-import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
@@ -46,7 +45,7 @@ public class TestBaseMappingStrategy extends AbstractTestCase {
       context.pushElement("books");
 
       ActionMappingStrategy strategy = ActionMappingStrategy.DEFAULT;
-      MappingAction action = strategy.getMappingAction("", "books", new AttributesImpl(), context);
+      MappingAction action = strategy.getMappingAction(context);
       assertTrue("Should be mapped to an array bind action", action instanceof ArrayBindAction);
    }
 }

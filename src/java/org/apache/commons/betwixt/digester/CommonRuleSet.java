@@ -23,7 +23,7 @@ import org.apache.commons.digester.RuleSetBase;
  * Rules common to both {@link org.apache.commons.betwixt.digester.MultiMappingBeanInfoDigester}
  * and {@link org.apache.commons.betwixt.digester.XMLBeanInfoDigester}.
  */
-public class CommonRuleSet extends RuleSetBase {
+class CommonRuleSet extends RuleSetBase {
 
    /**
     * Adds rule instances.

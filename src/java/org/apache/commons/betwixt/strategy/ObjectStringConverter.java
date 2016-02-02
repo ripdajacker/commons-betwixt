@@ -47,7 +47,7 @@ public class ObjectStringConverter implements Serializable {
     /**
      * Standard name for option giving flavour
      */
-    public static final String FLAVOUR_OPTION_NAME
+    private static final String FLAVOUR_OPTION_NAME
             = "org.apache.commons.betwixt.flavour";
 
     /**
@@ -144,7 +144,7 @@ public class ObjectStringConverter implements Serializable {
         return type != null && implicit.contains(type);
     }
 
-    public static final List<? extends Class> implicit = Arrays.asList(
+    private static final List<? extends Class> implicit = Arrays.asList(
             int.class, Integer.class,
             float.class, Float.class,
             double.class, Double.class,

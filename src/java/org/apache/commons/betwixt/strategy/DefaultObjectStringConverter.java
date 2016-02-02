@@ -26,10 +26,10 @@ import java.util.Locale;
 /**
  * <p>Default string &lt;-&gt; object conversion strategy.</p>
  * <p>
- * This delegates to ConvertUtils except when the type 
+ * This delegates to ConvertUtils except when the type
  * is assignable from <code>java.util.Date</code>
  * but not from <code>java.sql.Date</code>.
- * In this case, the format used is (in SimpleDateFormat terms) 
+ * In this case, the format used is (in SimpleDateFormat terms)
  * <code>EEE MMM dd HH:mm:ss zzz yyyy</code>.
  * This is the same as the output of the toString method on java.util.Date.
  * </p>
@@ -116,7 +116,7 @@ public class DefaultObjectStringConverter extends ConvertUtilsObjectStringConver
     * @param e the Exception to be handled
     * @throws org.apache.commons.beanutils.ConversionException when conversion fails
     */
-   protected void handleException(Exception e) {
+   private void handleException(Exception e) {
       throw new ConversionException("String to object conversion failed: " + e.getMessage(), e);
    }
 

@@ -56,7 +56,6 @@ class BeanReaderJsonAdapter {
             JsonIdentifier thisIdentifier = createIdentifier(name, thisNode)
 
             def attributes = new JsonAttributes(thisIdentifier, thisNode as ObjectNode)
-            attributes.clean()
 
             def filter = {
                 !JsonAttributes.SYSTEM_NAMES.contains(it) && !attributes.names.contains(it)

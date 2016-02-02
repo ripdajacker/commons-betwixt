@@ -95,7 +95,7 @@ public abstract class MappingAction {
      */
     public static class Base extends MappingAction {
         public MappingAction next(String namespace, String name, Attributes attributes, ReadContext context) {
-            return context.getActionMappingStrategy().getMappingAction(namespace, name, attributes, context)
+            return context.getActionMappingStrategy().getMappingAction(context)
         }
 
         /**

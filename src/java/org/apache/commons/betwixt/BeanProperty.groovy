@@ -1,7 +1,6 @@
 package org.apache.commons.betwixt
 
 import groovy.transform.TypeChecked
-import org.apache.commons.beanutils.DynaProperty
 import org.apache.commons.betwixt.expression.*
 import org.apache.commons.betwixt.strategy.NameMapper
 import org.apache.commons.betwixt.strategy.SimpleTypeMapper
@@ -37,7 +36,6 @@ import java.lang.reflect.Method
  */
 @TypeChecked
 public class BeanProperty {
-
     /**
      * The bean name for the property (not null)
      */
@@ -83,25 +81,13 @@ public class BeanProperty {
 
         Method readMethod = descriptor.getReadMethod()
         if (readMethod != null) {
-            this.propertyExpression = new MethodExpression(readMethod, propertyName)
+            this.propertyExpression = new MethodExpression(readMethod)
         }
 
         Method writeMethod = descriptor.getWriteMethod()
         if (writeMethod != null) {
-            this.propertyUpdater = new MethodUpdater(writeMethod, getPropertyName())
+            this.propertyUpdater = new MethodUpdater(writeMethod)
         }
-    }
-
-    /**
-     * Constructs a BeanProperty from a <code>DynaProperty</code>
-     *
-     * @param dynaProperty not null
-     */
-    public BeanProperty(DynaProperty dynaProperty) {
-        this.propertyName = dynaProperty.getName()
-        this.propertyType = dynaProperty.getType()
-        this.propertyExpression = new DynaBeanExpression(propertyName)
-        this.propertyUpdater = new DynaBeanUpdater(propertyName, propertyType)
     }
 
     /**
@@ -333,8 +319,6 @@ public class BeanProperty {
             log.trace("Primitive type: " + getPropertyName())
         }
         SimpleTypeMapper.Binding binding = configuration.getSimpleTypeMapper().bind(
-                propertyName,
-                propertyType,
                 configuration)
         if (SimpleTypeMapper.Binding.ATTRIBUTE.equals(binding)) {
             if (log.isTraceEnabled()) {

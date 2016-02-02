@@ -88,10 +88,10 @@ public class TestRegistryPolymorphicResolution extends TestCase {
       elementMapping.setType(Iterator.class);
       ReadContext readContext = new ReadContext(new BindingConfiguration(), new ReadConfiguration());
 
-      assertNull(introspector.getPolymorphicReferenceResolver().resolveType(elementMapping, readContext));
+      assertNull(introspector.getPolymorphicReferenceResolver().resolveType(elementMapping));
 
       elementMapping.setName("elementA");
-      Class resolution = introspector.getPolymorphicReferenceResolver().resolveType(elementMapping, readContext);
+      Class resolution = introspector.getPolymorphicReferenceResolver().resolveType(elementMapping);
       assertEquals("Should resolve to the element about", ElementA.class, resolution);
    }
 }

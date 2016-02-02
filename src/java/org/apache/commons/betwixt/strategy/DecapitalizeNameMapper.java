@@ -21,9 +21,9 @@ import java.beans.Introspector;
 /**
  * <p>A name mapper which converts types to a decapitalized String.</p>
  *
- * <p>This conversion decapitalizes in the standard java beans way 
+ * <p>This conversion decapitalizes in the standard java beans way
  * (as per <code>java.beans.Introspector</code>).
- * This means that the first letter only will be decapitalized except 
+ * This means that the first letter only will be decapitalized except
  * for the case where the first and second characters are both upper case.
  * When both are upper case, then the name will be left alown.</p>
  *

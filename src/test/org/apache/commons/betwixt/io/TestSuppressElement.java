@@ -96,11 +96,10 @@ public class TestSuppressElement extends AbstractTestCase {
                }
 
                public boolean suppressElement(
-                     ElementDescriptor element,
-                     String namespaceUrl,
-                     String localName,
-                     String qualifiedName,
-                     Object value) {
+                       ElementDescriptor element,
+                       String localName,
+                       String qualifiedName,
+                       Object value) {
                   // suppress NullPersonBean's
                   boolean result = false;
                   if (value instanceof NullPersonBean) {
@@ -152,11 +151,10 @@ public class TestSuppressElement extends AbstractTestCase {
                }
 
                public boolean suppressElement(
-                     ElementDescriptor element,
-                     String namespaceUrl,
-                     String localName,
-                     String qualifiedName,
-                     Object value) {
+                       ElementDescriptor element,
+                       String localName,
+                       String qualifiedName,
+                       Object value) {
                   // suppress NullPersonBean's
                   boolean result = false;
                   if ("year".equals(element.getQualifiedName())) {
@@ -214,11 +212,10 @@ public class TestSuppressElement extends AbstractTestCase {
                }
 
                public boolean suppressElement(
-                     ElementDescriptor element,
-                     String namespaceUrl,
-                     String localName,
-                     String qualifiedName,
-                     Object value) {
+                       ElementDescriptor element,
+                       String localName,
+                       String qualifiedName,
+                       Object value) {
                   // suppress NullPersonBean's
                   boolean result = false;
                   if ("actor".equals(qualifiedName)) {

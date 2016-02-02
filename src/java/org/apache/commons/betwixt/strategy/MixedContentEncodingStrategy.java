@@ -22,14 +22,14 @@ import org.apache.commons.betwixt.ElementDescriptor;
 /**
  * <p>Encodes body content.
  * </p><p>
- * <strong>Usage:</strong> 
+ * <strong>Usage:</strong>
  * Used by {@link org.apache.commons.betwixt.io.BeanWriter} to encode body content before it is written
  * into the textual output.
  * This gives flexibility in this stage allowing (for example)
- * some properties to use character escaping whilst others 
+ * some properties to use character escaping whilst others
  * use <code>CDATA</code> wrapping.
  * </p>
- * <p><strong>Note:</strong> the word <code>encoding</code> here is used 
+ * <p><strong>Note:</strong> the word <code>encoding</code> here is used
  * in the sense of escaping a sequence of character data.
  * </p>
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>
@@ -45,7 +45,7 @@ public abstract class MixedContentEncodingStrategy {
    public static final String ENCODING_OPTION_NAME
          = "org.apache.commons.betwixt.mixed-content-encoding";
    /** The option value for CDATA */
-   public static final String CDATA_ENCODING = "CDATA";
+   private static final String CDATA_ENCODING = "CDATA";
 
    /**
     * The standard implementation used by Betwixt by default.

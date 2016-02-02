@@ -38,7 +38,7 @@ public abstract class Descriptor {
    /** the singular property type (i.e. the type ignoring the Collection or Array */
    private Class singularPropertyType;
    /** Options set for this Descriptor */
-   private Options options = new Options();
+   private final Options options = new Options();
 
 
    /** Base constructor */
@@ -148,16 +148,6 @@ public abstract class Descriptor {
     */
    public Options getOptions() {
       return options;
-   }
-
-   /**
-    * Sets the options for this descriptor.
-    * Options are used to communicate non-declarative
-    * (optinal) behaviour hints.
-    * @param options
-    */
-   public void setOptions(Options options) {
-      this.options = options;
    }
 
 }

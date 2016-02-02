@@ -16,7 +16,7 @@
  */
 package org.apache.commons.betwixt;
 
-/** <p>Describes mixed-content text. 
+/** <p>Describes mixed-content text.
  * A mixed content element contains elements mixed with text.
  * For example:
  * <pre>

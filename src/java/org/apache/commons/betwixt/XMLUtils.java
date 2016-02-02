@@ -40,23 +40,23 @@ public class XMLUtils {
     /**
      * Escaped <code>&lt;</code> entity
      */
-    public static final String LESS_THAN_ENTITY = "&lt;";
+    private static final String LESS_THAN_ENTITY = "&lt;";
     /**
      * Escaped <code>&gt;</code> entity
      */
-    public static final String GREATER_THAN_ENTITY = "&gt;";
+    private static final String GREATER_THAN_ENTITY = "&gt;";
     /**
      * Escaped <code>&amp;</code> entity
      */
-    public static final String AMPERSAND_ENTITY = "&amp;";
+    private static final String AMPERSAND_ENTITY = "&amp;";
     /**
      * Escaped <code>'</code> entity
      */
-    public static final String APOSTROPHE_ENTITY = "&apos;";
+    private static final String APOSTROPHE_ENTITY = "&apos;";
     /**
      * Escaped <code>"</code> entity
      */
-    public static final String QUOTE_ENTITY = "&quot;";
+    private static final String QUOTE_ENTITY = "&quot;";
 
     // Used by isWellFormedXMLName
     /**

@@ -28,188 +28,174 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
-/** <p><code>AddDefaultsRule</code> appends all the default properties
+/**
+ * <p><code>AddDefaultsRule</code> appends all the default properties
  * to the current element.</p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  */
-public class AddDefaultsRule extends RuleSupport {
+class AddDefaultsRule extends RuleSupport {
 
-   /** Logger */
-   private static final Log log = LogFactory.getLog(AddDefaultsRule.class);
+    /**
+     * Logger
+     */
+    private static final Log log = LogFactory.getLog(AddDefaultsRule.class);
 
-   /** Base constructor */
-   public AddDefaultsRule() {
-   }
+    /**
+     * Base constructor
+     */
+    public AddDefaultsRule() {
+    }
 
-   // Rule interface
-   //-------------------------------------------------------------------------
+    // Rule interface
+    //-------------------------------------------------------------------------
 
-   /**
-    * Process the beginning of this element.
-    *
-    * @param attributes The attribute list of this element
-    * @throws Exception generally this will indicate an unrecoverable error
-    */
-   public void begin(String name, String namespace, Attributes attributes) throws Exception {
-      boolean addProperties = true;
-      String addPropertiesAttributeValue = attributes.getValue("add-properties");
-      if (addPropertiesAttributeValue != null) {
-         addProperties = Boolean.valueOf(addPropertiesAttributeValue).booleanValue();
-      }
+    /**
+     * Process the beginning of this element.
+     *
+     * @param attributes The attribute list of this element
+     * @throws Exception generally this will indicate an unrecoverable error
+     */
+    public void begin(String name, String namespace, Attributes attributes) throws Exception {
+        boolean addProperties = true;
+        String addPropertiesAttributeValue = attributes.getValue("add-properties");
+        if (addPropertiesAttributeValue != null) {
+            addProperties = Boolean.parseBoolean(addPropertiesAttributeValue);
+        }
 
-      boolean addAdders = true;
-      String addAddersAttributeValue = attributes.getValue("add-adders");
-      if (addAddersAttributeValue != null) {
-         addAdders = Boolean.valueOf(addAddersAttributeValue).booleanValue();
-      }
+        boolean addAdders = true;
+        String addAddersAttributeValue = attributes.getValue("add-adders");
+        if (addAddersAttributeValue != null) {
+            addAdders = Boolean.parseBoolean(addAddersAttributeValue);
+        }
 
-      boolean guessNames = true;
-      String guessNamesAttributeValue = attributes.getValue("guess-names");
-      if (guessNamesAttributeValue != null) {
-         guessNames = Boolean.valueOf(guessNamesAttributeValue).booleanValue();
-      }
+        boolean guessNames = true;
+        String guessNamesAttributeValue = attributes.getValue("guess-names");
+        if (guessNamesAttributeValue != null) {
+            guessNames = Boolean.parseBoolean(guessNamesAttributeValue);
+        }
 
-      if (addProperties) {
-         addDefaultProperties();
-      }
+        if (addProperties) {
+            addDefaultProperties();
+        }
 
-      if (addAdders) {
-         addAdders(guessNames);
-      }
-   }
+        if (addAdders) {
+            addAdders(guessNames);
+        }
+    }
 
-   /**
-    * Adds default adder methods
-    */
-   private void addAdders(boolean guessNames) {
-      Class beanClass = getBeanClass();
-      // default any addProperty() methods
-      getXMLIntrospector().defaultAddMethods(
-            getRootElementDescriptor(),
-            beanClass, !guessNames);
-   }
+    /**
+     * Adds default adder methods
+     */
+    private void addAdders(boolean guessNames) {
+        Class beanClass = getBeanClass();
+        // default any addProperty() methods
+        getXMLIntrospector().defaultAddMethods(
+                getRootElementDescriptor(),
+                beanClass, !guessNames);
+    }
 
-   /**
-    * Adds default property methods
-    *
-    */
-   private void addDefaultProperties() {
-      Class beanClass = getBeanClass();
-      Set processedProperties = getProcessedPropertyNameSet();
-      if (beanClass != null) {
-         try {
-            boolean attributesForPrimitives = getXMLInfoDigester().isAttributesForPrimitives();
-            BeanInfo beanInfo;
-            if (getXMLIntrospector().getConfiguration().isIgnoreAllBeanInfo()) {
-               beanInfo = BeanIntrospector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
+    /**
+     * Adds default property methods
+     */
+    private void addDefaultProperties() {
+        Class beanClass = getBeanClass();
+        Set processedProperties = getProcessedPropertyNameSet();
+        if (beanClass != null) {
+            try {
+                BeanInfo beanInfo;
+                if (getXMLIntrospector().getConfiguration().isIgnoreAllBeanInfo()) {
+                    beanInfo = BeanIntrospector.getBeanInfo(beanClass, Introspector.IGNORE_ALL_BEANINFO);
+                } else {
+                    beanInfo = BeanIntrospector.getBeanInfo(beanClass);
+                }
+                PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+                if (descriptors != null) {
+                    for (PropertyDescriptor descriptor : descriptors) {
+                        // have we already created a property for this
+                        String propertyName = descriptor.getName();
+                        if (processedProperties.contains(propertyName)) {
+                            continue;
+                        }
+                        if (!getXMLIntrospector().getConfiguration().getPropertySuppressionStrategy()
+                                .suppressProperty(
+                                        beanClass,
+                                        descriptor.getPropertyType(),
+                                        descriptor.getName())) {
+                            Descriptor nodeDescriptor =
+                                    getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
+                            if (nodeDescriptor != null) {
+                                addDescriptor(nodeDescriptor);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log.info("Caught introspection exception", e);
+            }
+        }
+    }
+
+
+    /**
+     * Add a desciptor to the top object on the Digester stack.
+     *
+     * @param nodeDescriptor add this <code>NodeDescriptor</code>. Must not be null.
+     * @throws SAXException if the parent for the addDefaults element is not a <element>
+     *                      or if the top object on the stack is not a <code>XMLBeanInfo</code> or a
+     *                      <code>ElementDescriptor</code>
+     * @since 0.5
+     */
+    private void addDescriptor(Descriptor nodeDescriptor) throws SAXException {
+        Object top = digester.peek();
+        if (top instanceof XMLBeanInfo) {
+            log.warn("It is advisable to put an <addDefaults/> element inside an <element> tag");
+
+            XMLBeanInfo beanInfo = (XMLBeanInfo) top;
+            // if there is already a root element descriptor then use it
+            // otherwise use this descriptor
+            if (nodeDescriptor instanceof ElementDescriptor) {
+                ElementDescriptor elementDescriptor = (ElementDescriptor) nodeDescriptor;
+                ElementDescriptor root = beanInfo.getElementDescriptor();
+                if (root == null) {
+                    beanInfo.setElementDescriptor(elementDescriptor);
+                } else {
+                    root.addElementDescriptor(elementDescriptor);
+                }
             } else {
-               beanInfo = BeanIntrospector.getBeanInfo(beanClass);
+                throw new SAXException(
+                        "the <addDefaults> element should be within an <element> tag");
             }
-            PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-            if (descriptors != null) {
-               for (int i = 0, size = descriptors.length; i < size; i++) {
-                  PropertyDescriptor descriptor = descriptors[i];
-                  // have we already created a property for this
-                  String propertyName = descriptor.getName();
-                  if (processedProperties.contains(propertyName)) {
-                     continue;
-                  }
-                  if (!getXMLIntrospector().getConfiguration().getPropertySuppressionStrategy()
-                        .suppressProperty(
-                              beanClass,
-                              descriptor.getPropertyType(),
-                              descriptor.getName())) {
-                     Descriptor nodeDescriptor =
-                           getXMLIntrospector().createXMLDescriptor(new BeanProperty(descriptor));
-                     if (nodeDescriptor != null) {
-                        addDescriptor(nodeDescriptor);
-                     }
-                  }
-               }
-            }
-         } catch (Exception e) {
-            log.info("Caught introspection exception", e);
-         }
-      }
-   }
-
-
-   // Implementation methods
-   //-------------------------------------------------------------------------
-
-   /**
-    * Add a desciptor to the top object on the Digester stack.
-    *
-    * @param nodeDescriptor add this <code>NodeDescriptor</code>. Must not be null.
-    * @throws SAXException if the parent for the addDefaults element is not a <element> 
-    * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
-    * <code>ElementDescriptor</code>
-    * @deprecated 0.5 replaced {@link #addDescriptor(Descriptor)}
-    */
-   protected void addDescriptor(NodeDescriptor nodeDescriptor) throws SAXException {
-      addDescriptor((Descriptor) nodeDescriptor);
-   }
-
-   /**
-    * Add a desciptor to the top object on the Digester stack.
-    *
-    * @param nodeDescriptor add this <code>NodeDescriptor</code>. Must not be null.
-    * @throws SAXException if the parent for the addDefaults element is not a <element> 
-    * or if the top object on the stack is not a <code>XMLBeanInfo</code> or a 
-    * <code>ElementDescriptor</code>
-    * @since 0.5
-    */
-   protected void addDescriptor(Descriptor nodeDescriptor) throws SAXException {
-      Object top = digester.peek();
-      if (top instanceof XMLBeanInfo) {
-         log.warn("It is advisable to put an <addDefaults/> element inside an <element> tag");
-
-         XMLBeanInfo beanInfo = (XMLBeanInfo) top;
-         // if there is already a root element descriptor then use it
-         // otherwise use this descriptor
-         if (nodeDescriptor instanceof ElementDescriptor) {
-            ElementDescriptor elementDescriptor = (ElementDescriptor) nodeDescriptor;
-            ElementDescriptor root = beanInfo.getElementDescriptor();
-            if (root == null) {
-               beanInfo.setElementDescriptor(elementDescriptor);
+        } else if (top instanceof ElementDescriptor) {
+            ElementDescriptor parent = (ElementDescriptor) top;
+            if (nodeDescriptor instanceof ElementDescriptor) {
+                parent.addElementDescriptor((ElementDescriptor) nodeDescriptor);
             } else {
-               root.addElementDescriptor(elementDescriptor);
+                parent.addAttributeDescriptor((AttributeDescriptor) nodeDescriptor);
             }
-         } else {
+        } else {
             throw new SAXException(
-                  "the <addDefaults> element should be within an <element> tag");
-         }
-      } else if (top instanceof ElementDescriptor) {
-         ElementDescriptor parent = (ElementDescriptor) top;
-         if (nodeDescriptor instanceof ElementDescriptor) {
-            parent.addElementDescriptor((ElementDescriptor) nodeDescriptor);
-         } else {
-            parent.addAttributeDescriptor((AttributeDescriptor) nodeDescriptor);
-         }
-      } else {
-         throw new SAXException(
-               "Invalid use of <addDefaults>. It should be nested inside <element> element");
-      }
-   }
+                    "Invalid use of <addDefaults>. It should be nested inside <element> element");
+        }
+    }
 
-   /**
-    * Gets an <code>ElementDescriptor</code> for the top on digester's stack.
-    *
-    * @return the top object or the element description if the top object
-    * is an <code>ElementDescriptor</code> or a <code>XMLBeanInfo</code> class (respectively)
-    * Otherwise null.
-    */
-   protected ElementDescriptor getRootElementDescriptor() {
-      Object top = digester.peek();
-      if (top instanceof XMLBeanInfo) {
-         XMLBeanInfo beanInfo = (XMLBeanInfo) top;
-         return beanInfo.getElementDescriptor();
+    /**
+     * Gets an <code>ElementDescriptor</code> for the top on digester's stack.
+     *
+     * @return the top object or the element description if the top object
+     * is an <code>ElementDescriptor</code> or a <code>XMLBeanInfo</code> class (respectively)
+     * Otherwise null.
+     */
+    private ElementDescriptor getRootElementDescriptor() {
+        Object top = digester.peek();
+        if (top instanceof XMLBeanInfo) {
+            XMLBeanInfo beanInfo = (XMLBeanInfo) top;
+            return beanInfo.getElementDescriptor();
 
-      } else if (top instanceof ElementDescriptor) {
-         // XXX: could maybe walk up the parent hierarchy?
-         return (ElementDescriptor) top;
-      }
-      return null;
-   }
+        } else if (top instanceof ElementDescriptor) {
+            // XXX: could maybe walk up the parent hierarchy?
+            return (ElementDescriptor) top;
+        }
+        return null;
+    }
 }

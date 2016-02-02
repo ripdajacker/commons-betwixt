@@ -26,7 +26,7 @@ import org.apache.commons.betwixt.ElementDescriptor;
  * This (logical) interface is a <em>Parameter Object</em>
  * allowing additional, <code>Betwixt</code>-specific information
  * to be passed through the SAX-inspired writing API.
- * </p> 
+ * </p>
  * <p>
  * It is likely that access will be required to methods in the
  * <code>Context</code> used by the {@link AbstractBeanWriter}

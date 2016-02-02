@@ -59,37 +59,26 @@ public class Context {
     /**
      * Variables map
      */
-    private Map variables;
+    private final Map variables;
     /**
      * Store options
      */
-    private ArrayStack optionStack = new ArrayStack();
+    private final ArrayStack optionStack = new ArrayStack();
     /**
      * Logging uses commons-logging <code>Log</code>
      * named <code>org.apache.commons.betwixt</code>
      */
-    private Log log;
+    private final Log log;
     /**
      * Configuration for dynamic binding properties
      */
-    private BindingConfiguration bindingConfiguration;
+    private final BindingConfiguration bindingConfiguration;
 
     /**
      * Construct context with default log
      */
     public Context() {
-        this(null, LogFactory.getLog(Context.class));
-    }
-
-    /**
-     * Convenience constructor sets evaluted bean and log.
-     *
-     * @param bean evaluate expressions against this bean
-     * @param log  log to this logger
-     * @deprecated 0.5 use constructor which takes a BindingConfiguration
-     */
-    public Context(Object bean, Log log) {
-        this(bean, log, new BindingConfiguration());
+        this(null, new HashMap(), LogFactory.getLog(Context.class), new BindingConfiguration());
     }
 
 
@@ -118,24 +107,12 @@ public class Context {
     /**
      * Convenience constructor sets evaluted bean, context variables and log.
      *
-     * @param bean      evaluate expressions against this bean
-     * @param variables context variables
-     * @param log       log to this logger
-     * @deprecated 0.5 use constructor which takes a converter
-     */
-    public Context(Object bean, Map variables, Log log) {
-        this(bean, variables, log, new BindingConfiguration());
-    }
-
-    /**
-     * Convenience constructor sets evaluted bean, context variables and log.
-     *
      * @param bean                 evaluate expressions against this bean
      * @param variables            context variables
      * @param log                  log to this logger
      * @param bindingConfiguration not null
      */
-    public Context(Object bean, Map variables, Log log, BindingConfiguration bindingConfiguration) {
+    private Context(Object bean, Map variables, Log log, BindingConfiguration bindingConfiguration) {
         this.bean = bean;
         this.variables = variables;
         this.log = log;
@@ -181,15 +158,6 @@ public class Context {
      */
     public Log getLog() {
         return log;
-    }
-
-    /**
-     * Set the log implementation to which this class logs
-     *
-     * @param log the implemetation that this class should log to
-     */
-    public void setLog(Log log) {
-        this.log = log;
     }
 
     /**

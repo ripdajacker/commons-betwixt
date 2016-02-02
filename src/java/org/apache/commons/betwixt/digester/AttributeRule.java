@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Id$
  */
-public class AttributeRule extends RuleSupport {
+class AttributeRule extends RuleSupport {
 
     /**
      * Logger
@@ -50,11 +50,7 @@ public class AttributeRule extends RuleSupport {
     /**
      * This loads all classes created by name. Defaults to this class's classloader
      */
-    private ClassLoader classLoader;
-    /**
-     * The <code>Class</code> whose .betwixt file is being digested
-     */
-    private Class beanClass;
+    private final ClassLoader classLoader;
 
     /**
      * Base constructor
@@ -143,7 +139,7 @@ public class AttributeRule extends RuleSupport {
      * @param name the name of the class to load
      * @return the class instance loaded by the appropriate classloader
      */
-    protected Class loadClass(String name) {
+    Class loadClass(String name) {
         // XXX: should use a ClassLoader to handle complex class loading situations
         if (name != null) {
             try {
@@ -160,7 +156,7 @@ public class AttributeRule extends RuleSupport {
      * @param attributeDescriptor configure this <code>AttributeDescriptor</code>
      *                            from the property with a matching name in the bean class
      */
-    protected void configureDescriptor(AttributeDescriptor attributeDescriptor) {
+    private void configureDescriptor(AttributeDescriptor attributeDescriptor) {
         Class beanClass = getBeanClass();
         if (beanClass != null) {
             String name = attributeDescriptor.getPropertyName();
@@ -173,8 +169,7 @@ public class AttributeRule extends RuleSupport {
                 }
                 PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                 if (descriptors != null) {
-                    for (int i = 0, size = descriptors.length; i < size; i++) {
-                        PropertyDescriptor descriptor = descriptors[i];
+                    for (PropertyDescriptor descriptor : descriptors) {
                         if (name.equals(descriptor.getName())) {
                             configureProperty(attributeDescriptor, descriptor);
                             getProcessedPropertyNameSet().add(name);
@@ -218,10 +213,10 @@ public class AttributeRule extends RuleSupport {
         }
 
         log.trace("Standard property");
-        attributeDescriptor.setTextExpression(new MethodExpression(readMethod, propertyDescriptor.getName()));
+        attributeDescriptor.setTextExpression(new MethodExpression(readMethod));
 
         if (writeMethod != null) {
-            attributeDescriptor.setUpdater(new MethodUpdater(writeMethod, propertyDescriptor.getName()));
+            attributeDescriptor.setUpdater(new MethodUpdater(writeMethod));
         }
 
         attributeDescriptor.setPropertyName(propertyDescriptor.getName());

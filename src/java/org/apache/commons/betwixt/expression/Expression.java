@@ -16,9 +16,6 @@
  */
 package org.apache.commons.betwixt.expression;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * <p><code>Expression</code> represents an arbitrary expression on a bean.</p>
  *
@@ -34,32 +31,4 @@ public interface Expression {
      * @return the value of the expression
      */
     Object evaluate(Context context);
-
-
-    /**
-     * <p>Updates the current bean context with a new String value.
-     * This is typically used when parsing XML and updating a beans value
-     * from XML.<p>
-     *
-     * @param context  update this <code>Context</code>
-     * @param newValue the new value for this expression
-     * @deprecated 0.5 use {@link Updater} instead
-     */
-    void update(Context context, String newValue);
-
-    /**
-     * Whether or not the expression is simple.
-     * <br/>
-     * A simple expression is an expression that has a primitive (or the Object wrappers of primitives return value.
-     *
-     * @return true or false.
-     */
-    boolean isPrimitiveResult();
-
-    List<? extends Class> validClasses = Arrays.asList(
-            int.class, Integer.class,
-            float.class, Float.class,
-            double.class, Double.class,
-            boolean.class, Boolean.class,
-            String.class);
 }

@@ -20,7 +20,6 @@ package org.apache.commons.betwixt.strategy;
 import groovy.transform.TypeChecked;
 import org.apache.commons.betwixt.ElementDescriptor;
 import org.apache.commons.betwixt.io.read.*;
-import org.xml.sax.Attributes;
 
 import java.util.List;
 
@@ -34,17 +33,11 @@ public class DefaultActionMappingStrategy extends ActionMappingStrategy {
     /**
      * Gets the mapping action to map the given element.
      *
-     * @param namespace  not null
-     * @param name       not null
-     * @param attributes <code>Attributes</code>, not null
      * @param context    <code>ReadContext</code>, not null
      * @return <code>MappingAction</code>, not null
      * @throws Exception
      */
     public MappingAction getMappingAction(
-            String namespace,
-            String name,
-            Attributes attributes,
             ReadContext context)
             throws Exception {
         MappingAction result = MappingAction.EMPTY;

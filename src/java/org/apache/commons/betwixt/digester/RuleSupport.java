@@ -27,10 +27,10 @@ import java.util.Set;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @version $Revision$
  */
-public class RuleSupport extends Rule {
+class RuleSupport extends Rule {
 
    /** Base constructor */
-   public RuleSupport() {
+   RuleSupport() {
    }
 
 
@@ -42,7 +42,7 @@ public class RuleSupport extends Rule {
     *
     * @return <code>XMLBeanInfoDigester</code> for this rule
     */
-   protected XMLBeanInfoDigester getXMLInfoDigester() {
+   XMLBeanInfoDigester getXMLInfoDigester() {
       return (XMLBeanInfoDigester) getDigester();
    }
 
@@ -51,7 +51,7 @@ public class RuleSupport extends Rule {
     *
     * @return <code>XMLIntrospector</code> to use
     */
-   protected XMLIntrospector getXMLIntrospector() {
+   XMLIntrospector getXMLIntrospector() {
       return getXMLInfoDigester().getXMLIntrospector();
    }
 
@@ -60,7 +60,7 @@ public class RuleSupport extends Rule {
     *
     * @return the <code>Class</code> of the bean being processed
     */
-   protected Class getBeanClass() {
+   Class getBeanClass() {
       return getXMLInfoDigester().getBeanClass();
    }
 
@@ -69,7 +69,7 @@ public class RuleSupport extends Rule {
     *
     * @return the set of property names that have been processed so far
     */
-   protected Set getProcessedPropertyNameSet() {
+   Set<String> getProcessedPropertyNameSet() {
       return getXMLInfoDigester().getProcessedPropertyNameSet();
    }
 
@@ -81,7 +81,7 @@ public class RuleSupport extends Rule {
     * @return <code>Class</code> loaded, not null
     * @throws ClassNotFoundException
     */
-   protected Class loadClass(String className) throws ClassNotFoundException {
+   Class loadClass(String className) throws ClassNotFoundException {
       ClassLoader classloader = digester.getClassLoader();
       Class clazz;
       if (classloader == null) {

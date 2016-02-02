@@ -267,7 +267,7 @@ public abstract class AbstractBeanWriter {
                 } else {
                     pushBean(context.getBean())
                     if (getBindingConfiguration().getMapIDs()) {
-                        ref = getBindingConfiguration().getIdMappingStrategy().getReferenceFor(context, context.getBean())
+                        ref = getBindingConfiguration().getIdMappingStrategy().getReferenceFor(context.getBean())
                     }
                     if (ref == null) {
                         // this is the first time that this bean has be written
@@ -275,7 +275,7 @@ public abstract class AbstractBeanWriter {
                         if (idAttribute == null) {
                             // use a generated id
                             String id = idGenerator.nextId()
-                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id)
+                            getBindingConfiguration().getIdMappingStrategy().setReference(bean, id)
 
                             if (getBindingConfiguration().getMapIDs()) {
                                 // write element with id
@@ -318,7 +318,7 @@ public abstract class AbstractBeanWriter {
                                 // convert to string
                                 id = exp.toString()
                             }
-                            getBindingConfiguration().getIdMappingStrategy().setReference(context, bean, id)
+                            getBindingConfiguration().getIdMappingStrategy().setReference(bean, id)
 
                             // the ID attribute should be written automatically
                             writeElement(
@@ -758,7 +758,7 @@ public abstract class AbstractBeanWriter {
                                   String qualifiedName,
                                   Context context) {
         def strategy = bindingConfiguration.valueSuppressionStrategy
-        if (strategy.suppressElement(descriptor, uri, localName, qualifiedName, context.getBean())) {
+        if (strategy.suppressElement(descriptor, localName, qualifiedName, context.getBean())) {
             return true
         }
 

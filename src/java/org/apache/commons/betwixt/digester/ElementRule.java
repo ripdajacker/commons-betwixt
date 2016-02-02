@@ -39,21 +39,10 @@ import java.util.Map;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  */
-public class ElementRule extends MappedPropertyRule {
+class ElementRule extends MappedPropertyRule {
 
    /** Logger */
-   private static Log log = LogFactory.getLog(ElementRule.class);
-
-   /**
-    * Sets the log for this class
-    *
-    * @param newLog
-    *            the new Log implementation for this class to use
-    * @since 0.5
-    */
-   public static void setLog(Log newLog) {
-      log = newLog;
-   }
+   private static final Log log = LogFactory.getLog(ElementRule.class);
 
    /** Class for which the .bewixt file is being digested */
    private Class beanClass;
@@ -299,7 +288,7 @@ public class ElementRule extends MappedPropertyRule {
 
       // choose response from property type
 
-       final MethodExpression methodExpression = new MethodExpression(readMethod, elementDescriptor.getPropertyName());
+      final MethodExpression methodExpression = new MethodExpression(readMethod);
       if (getXMLIntrospector().isPrimitiveType(type)) {
          elementDescriptor
                .setTextExpression(methodExpression);
@@ -354,7 +343,7 @@ public class ElementRule extends MappedPropertyRule {
       if (updateMethodName == null) {
          // set standard write method
          if (writeMethod != null) {
-             elementDescriptor.setUpdater(new MethodUpdater(writeMethod, elementDescriptor.getPropertyName()));
+            elementDescriptor.setUpdater(new MethodUpdater(writeMethod));
          }
 
       } else {
@@ -388,7 +377,7 @@ public class ElementRule extends MappedPropertyRule {
 
             } else {
                elementDescriptor
-                       .setUpdater(new MethodUpdater(updateMethod, elementDescriptor.getPropertyName()));
+                       .setUpdater(new MethodUpdater(updateMethod));
                Class singularType = updateMethod.getParameterTypes()[0];
                elementDescriptor.setSingularPropertyType(singularType);
                if (singularType != null) {
@@ -445,7 +434,7 @@ public class ElementRule extends MappedPropertyRule {
       // TODO: suspect that this algorithm may run into difficulties
       // on older JVMs (particularly with package privilage interfaces).
       // This seems like too esoteric a use case to worry to much about now
-      Method updateMethod = null;
+      Method updateMethod;
       Class classToTry = beanType;
       do {
          Method[] methods = classToTry.getDeclaredMethods();

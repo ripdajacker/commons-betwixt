@@ -20,7 +20,7 @@ import org.apache.commons.betwixt.AttributeDescriptor;
 import org.apache.commons.betwixt.ElementDescriptor;
 
 /**
- * Determines whether the expression of an attribute with a values 
+ * Determines whether the expression of an attribute with a values
  * should be suppressed.
  *
  * @since 0.7
@@ -40,7 +40,7 @@ public abstract class ValueSuppressionStrategy {
    /**
     * Suppresses all null values.
     */
-   public static final ValueSuppressionStrategy SUPPRESS_EMPTY = new ValueSuppressionStrategy() {
+   private static final ValueSuppressionStrategy SUPPRESS_EMPTY = new ValueSuppressionStrategy() {
       public boolean suppressAttribute(AttributeDescriptor attributeDescriptor, String value) {
          return "".equals(value);
       }
@@ -70,7 +70,6 @@ public abstract class ValueSuppressionStrategy {
     * this may be made abstract.
     * </p>
     * @param element <code>ElementDescriptor</code> describing the element, not null
-    * @param namespaceUri the namespace of the element to be written
     * @param localName the local name of the element to be written
     * @param qualifiedName the qualified name of the element to be written
     * @param value <code>Object</code> value, possibly null
@@ -79,11 +78,10 @@ public abstract class ValueSuppressionStrategy {
     * @since 0.8
     */
    public boolean suppressElement(
-         ElementDescriptor element,
-         String namespaceUri,
-         String localName,
-         String qualifiedName,
-         Object value) {
+           ElementDescriptor element,
+           String localName,
+           String qualifiedName,
+           Object value) {
       return false;
    }
 }

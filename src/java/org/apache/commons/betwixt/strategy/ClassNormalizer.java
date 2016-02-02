@@ -20,16 +20,16 @@ package org.apache.commons.betwixt.strategy;
  * <p>Class normalization strategy.</p>
  *
  * <p>
- * The normalized Class is the Class that Betwixt should 
+ * The normalized Class is the Class that Betwixt should
  * introspect.
- * This strategy class allows the introspected Class to be 
+ * This strategy class allows the introspected Class to be
  * varied.
  * This implementation simply returns the Class given.
  * </p>
  *
  * <p>
  * Used by Betwixt to allow superclasses or interfaces to be subsittuted
- * before an object is introspected. 
+ * before an object is introspected.
  * This allows users to feed in logical interfaces and make Betwixt ignore
  * properties other than those in the interface.
  * It also allows support for <code>Proxy</code>'s.

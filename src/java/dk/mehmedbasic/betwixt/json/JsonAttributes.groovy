@@ -43,8 +43,4 @@ class JsonAttributes extends EmptyAttributes {
     }
 
 
-    void clean() {
-        if (getValue("idref") != null) {
-        }
-    }
 }

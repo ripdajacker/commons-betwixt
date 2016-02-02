@@ -27,7 +27,7 @@ import org.apache.commons.betwixt.XMLUtils;
  */
 public class BadCharacterReplacingNMapper implements NameMapper {
    /** Next mapper in chain, possibly null */
-   private NameMapper chainedMapper;
+   private final NameMapper chainedMapper;
    /** Replacement character, possibly null */
    private Character replacement = null;
 
@@ -39,14 +39,6 @@ public class BadCharacterReplacingNMapper implements NameMapper {
       this.chainedMapper = chainedMapper;
    }
 
-   /**
-    * Gets the character that should be used to replace bad characters
-    * if null then bad characters will be deleted.
-    * @return the replacement Character possibly null
-    */
-   public Character getReplacement() {
-      return replacement;
-   }
 
    /**
     * Sets the character that should be used to replace bad characters.
@@ -69,10 +61,10 @@ public class BadCharacterReplacingNMapper implements NameMapper {
     */
    public String mapTypeToElementName(String typeName) {
 
-      StringBuffer buffer = new StringBuffer(typeName);
+      StringBuilder buffer = new StringBuilder(typeName);
       for (int i = 0, size = buffer.length(); i < size; i++) {
          char nextChar = buffer.charAt(i);
-         boolean bad = false;
+         boolean bad;
          if (i == 0) {
             bad = !XMLUtils.isNameStartChar(nextChar);
          } else {

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.betwixt.expression;
 
-/** <p><code>Updater</code> acts like an lvalue which updates the current 
+/** <p><code>Updater</code> acts like an lvalue which updates the current
  * context bean from some text from an XML attribute or element.</p>
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>

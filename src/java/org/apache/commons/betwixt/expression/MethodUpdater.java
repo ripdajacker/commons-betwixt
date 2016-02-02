@@ -35,47 +35,21 @@ public class MethodUpdater extends TypedUpdater {
     /**
      * Logger
      */
-    private static Log log = LogFactory.getLog(MethodUpdater.class);
-
-    /**
-     * Programmatically set log
-     *
-     * @param aLog the implementation to which this class should log
-     */
-    public static void setLog(Log aLog) {
-        log = aLog;
-    }
+    private static final Log log = LogFactory.getLog(MethodUpdater.class);
 
     /**
      * The method to call on the bean
      */
     private Method method;
-    private String propertyName;
 
-    /**
-     * Base constructor
-     */
-    public MethodUpdater() {
-    }
 
     /**
      * Convenience constructor sets method property
      *
      * @param method       the Method to be invoked on the context's bean in the update
-     * @param propertyName
      */
-    public MethodUpdater(Method method, String propertyName) {
-        this.propertyName = propertyName;
+    public MethodUpdater(Method method) {
         setMethod(method);
-    }
-
-    /**
-     * Gets the method which will be invoked by the update
-     *
-     * @return the Method to be invoked by the update
-     */
-    public Method getMethod() {
-        return method;
     }
 
     /**
@@ -83,7 +57,7 @@ public class MethodUpdater extends TypedUpdater {
      *
      * @param method the Method to be invoked by the update
      */
-    public void setMethod(Method method) {
+    private void setMethod(Method method) {
         this.method = method;
         Class[] types = method.getParameterTypes();
         if (types == null || types.length <= 0) {
@@ -110,7 +84,7 @@ public class MethodUpdater extends TypedUpdater {
      *
      * @since 0.7
      */
-    protected void executeUpdate(Context context, Object bean, Object newValue) throws Exception {
+    protected void executeUpdate(Object bean, Object newValue) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug(
                     "Calling setter method: " + method.getName() + " on bean: " + bean
@@ -128,7 +102,4 @@ public class MethodUpdater extends TypedUpdater {
         }
     }
 
-    public String getPropertyName() {
-        return propertyName;
-    }
 }

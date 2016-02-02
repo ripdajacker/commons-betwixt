@@ -21,7 +21,7 @@ package org.apache.commons.betwixt.strategy;
  * A name mapper which converts types to a hypenated String. So
  * a bean type of FooBar will be converted to the element name "foo-bar".
  * The name mapper can be configured to convert to upper case and to
- * use a different separator via the <code>separator</code> and 
+ * use a different separator via the <code>separator</code> and
  * <code>upperCase</code> properties, so that FooBar can be converted
  * to FOO_BAR if needed, by calling the constructor
  * <code>new HyphenatedNameMapper(true, "_")</code>.
@@ -117,34 +117,12 @@ public class HyphenatedNameMapper implements NameMapper {
    //-------------------------------------------------------------------------
 
    /**
-    * This separator will be inserted between the words in the bean name.
-    *
-    * @return the separator used to seperate words, which defaults to '-'
-    */
-   public String getSeparator() {
-      return separator;
-   }
-
-   /**
     * Sets the separator used to seperate words, which defaults to '-'
     *
     * @param separator the string inserted to separate words
     */
    public void setSeparator(String separator) {
       this.separator = separator;
-   }
-
-   /**
-    * <p>Should the bean name be converted to upper case?
-    * </p>
-    * <p>
-    * Otherwise, it will be converted to lower case.
-    * </p>
-    * @return whether upper or lower case conversions should be performed,
-    * which defaults to false for lower case
-    */
-   public boolean isUpperCase() {
-      return upperCase;
    }
 
    /**
@@ -167,7 +145,7 @@ public class HyphenatedNameMapper implements NameMapper {
     * @param ch the character to be converted
     * @return converted to upper case if {@link #isUpperCase} otherwise to lower case
     */
-   protected char convertChar(char ch) {
+   private char convertChar(char ch) {
       if (upperCase) {
          return Character.toUpperCase(ch);
 

@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Brian Pugh
  * @since 0.7
  */
-public class ClassRule extends RuleSupport {
+class ClassRule extends RuleSupport {
     /**
      * Base constructor.
      */

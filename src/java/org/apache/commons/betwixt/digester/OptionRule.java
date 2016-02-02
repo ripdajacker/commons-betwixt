@@ -22,7 +22,7 @@ import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
 
 /**
- * Maps option tree to an option in the 
+ * Maps option tree to an option in the
  * {@link org.apache.commons.betwixt.Options}
  * on the current description.
  * @author <a href='http://commons.apache.org/'>Apache Commons Team</a>

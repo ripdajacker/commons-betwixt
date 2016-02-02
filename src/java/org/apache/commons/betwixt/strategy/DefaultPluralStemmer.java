@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * A default implementation of the plural name stemmer which
  * tests for some common english plural/singular patterns and
- * then uses a simple starts-with algorithm 
+ * then uses a simple starts-with algorithm
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  * @author <a href="mailto:martin@mvdb.net">Martin van den Bemt</a>
@@ -35,7 +35,7 @@ import java.util.Map;
 public class DefaultPluralStemmer implements PluralStemmer {
 
    /** Log used for logging (Doh!) */
-   protected static Log log = LogFactory.getLog(DefaultPluralStemmer.class);
+   private static final Log log = LogFactory.getLog(DefaultPluralStemmer.class);
 
    /**
     * <p>Algorithm supports common english plural patterns.</p>

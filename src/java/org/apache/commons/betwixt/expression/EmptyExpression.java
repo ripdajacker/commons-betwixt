@@ -38,7 +38,7 @@ public class EmptyExpression implements Expression {
 
    /** Should this be private?
     */
-   public EmptyExpression() {
+   private EmptyExpression() {
    }
 
    /** Return the bean we're evaluating.
@@ -46,18 +46,6 @@ public class EmptyExpression implements Expression {
     */
    public Object evaluate(Context context) {
       return context.getBean();
-   }
-
-   /** Do nothing
-    * @see org.apache.commons.betwixt.expression.Expression
-    */
-   public void update(Context context, String newValue) {
-      // do nothing
-   }
-
-   @Override
-   public boolean isPrimitiveResult() {
-      return false;
    }
 
    /**
