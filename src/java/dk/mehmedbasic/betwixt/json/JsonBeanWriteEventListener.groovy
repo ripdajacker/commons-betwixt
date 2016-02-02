@@ -1,6 +1,5 @@
 package dk.mehmedbasic.betwixt.json
 
-import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
 import org.apache.commons.betwixt.io.BeanWriteEventListener
 import org.apache.commons.betwixt.io.MutableWriteContext
@@ -13,7 +12,6 @@ import org.xml.sax.Attributes
  * The gist of the class is that it follows the SAX-like nature of {@link org.apache.commons.betwixt.io.AbstractBeanWriter}.
  * Instead of writing XML elements it writes the JSON equivalent.
  */
-@PackageScope
 @TypeChecked
 class JsonBeanWriteEventListener implements BeanWriteEventListener {
     private JsonWriterStrategy json

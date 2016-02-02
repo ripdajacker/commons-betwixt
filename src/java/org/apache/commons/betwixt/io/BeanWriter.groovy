@@ -76,7 +76,7 @@ import java.beans.IntrospectionException
 public class BeanWriter extends AbstractBeanWriter {
 
     /** Where the output goes */
-    private Writer writer
+    Writer writer
     /** text used for end of lines. Defaults to <code>\n</code>*/
     private static final String EOL = System.lineSeparator()
 

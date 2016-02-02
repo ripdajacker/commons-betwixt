@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 /**
  * <p>Example application using Betwixt to process RSS 0.91.
- * The intention is to provide illumination and education 
+ * The intention is to provide illumination and education
  * rather than providing a .</p>
  *
  * @author Robert Burrell Donkin
@@ -33,67 +33,55 @@ import java.util.Iterator;
  */
 
 public class RSSApplication {
+    BeanReader reader = new BeanReader();
 
-   /**
-    *
-    */
-   public static void main(String args[]) throws Exception {
-      if (args.length != 1) {
-         System.err.println("Usage: <filename>");
-         System.exit(1);
-      }
+    public RSSApplication() throws Exception {
+        configure();
+    }
 
-      RSSApplication rssApplication = new RSSApplication();
-      System.out.println(rssApplication.plainTextSummary(args[0]));
-      System.exit(0);
-   }
+    public void configure() throws Exception {
+        reader.registerBeanClass(Channel.class);
+    }
 
-   private BeanReader reader = new BeanReader();
+    public String plainTextSummary(String filename) throws Exception {
+        return plainTextSummary(new File(filename));
+    }
 
-   public RSSApplication() throws Exception {
-      configure();
-   }
+    public String plainTextSummary(File file) throws Exception {
+        Channel channel = (Channel) reader.parse(file);
+        return plainTextSummary(channel);
+    }
 
-   private void configure() throws Exception {
-      reader.registerBeanClass(Channel.class);
-   }
+    public BeanReader getReader() {
+        return reader;
+    }
 
-   public String plainTextSummary(String filename) throws Exception {
-      return plainTextSummary(new File(filename));
-   }
+    public String plainTextSummary(Channel channel) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("channel: ");
+        buffer.append(channel.getTitle());
+        buffer.append('\n');
+        buffer.append("url: ");
+        buffer.append(channel.getLink());
+        buffer.append('\n');
+        buffer.append("copyright: ");
+        buffer.append(channel.getCopyright());
+        buffer.append('\n');
 
-   public String plainTextSummary(File file) throws Exception {
-      Channel channel = (Channel) reader.parse(file);
-      return plainTextSummary(channel);
-   }
+        for (Iterator it = channel.getItems().iterator(); it.hasNext(); ) {
+            Item item = (Item) it.next();
+            buffer.append('\n');
+            buffer.append("title: ");
+            buffer.append(item.getTitle());
+            buffer.append('\n');
+            buffer.append("link: ");
+            buffer.append(item.getLink());
+            buffer.append('\n');
+            buffer.append("description: ");
+            buffer.append(item.getDescription());
+            buffer.append('\n');
+        }
 
-
-   public String plainTextSummary(Channel channel) {
-      StringBuffer buffer = new StringBuffer();
-      buffer.append("channel: ");
-      buffer.append(channel.getTitle());
-      buffer.append('\n');
-      buffer.append("url: ");
-      buffer.append(channel.getLink());
-      buffer.append('\n');
-      buffer.append("copyright: ");
-      buffer.append(channel.getCopyright());
-      buffer.append('\n');
-
-      for (Iterator it = channel.getItems().iterator(); it.hasNext(); ) {
-         Item item = (Item) it.next();
-         buffer.append('\n');
-         buffer.append("title: ");
-         buffer.append(item.getTitle());
-         buffer.append('\n');
-         buffer.append("link: ");
-         buffer.append(item.getLink());
-         buffer.append('\n');
-         buffer.append("description: ");
-         buffer.append(item.getDescription());
-         buffer.append('\n');
-      }
-
-      return buffer.toString();
-   }
+        return buffer.toString();
+    }
 }
