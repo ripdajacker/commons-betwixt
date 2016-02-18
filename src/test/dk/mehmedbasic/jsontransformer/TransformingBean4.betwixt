@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+    <element name="transformingBean">
+        <attribute property="renamedAttribute" name="renamedAttribute" />
+        <attribute property="element" name="element" />
+    </element>
+</info>

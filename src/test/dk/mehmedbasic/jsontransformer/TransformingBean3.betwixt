@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+    <element name="transformingBean">
+        <attribute property="renamedAttribute" name="renamedAttribute" />
+        <element name="nesting">
+            <element property="element" name="element" />
+        </element>
+    </element>
+</info>
