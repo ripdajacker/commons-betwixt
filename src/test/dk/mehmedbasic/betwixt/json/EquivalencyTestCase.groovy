@@ -19,16 +19,16 @@ abstract class EquivalencyTestCase extends AbstractTestCase {
         super(getClass().simpleName)
     }
 
-    protected static EquivalencyComparison createTest(File file, List<Class> mappings) {
-        new EquivalencyComparison(new FileInputStream(file), json(mappings), xml(mappings))
+    protected static EquivalencyComparison createTest(File file, List<Class> mappings, File jsonOutput = null) {
+        new EquivalencyComparison(new FileInputStream(file), json(mappings, jsonOutput != null), xml(mappings), jsonOutput)
     }
 
     private static XmlStrategy xml(List<Class> mappings) {
         new XmlStrategy(new Factory(mappings))
     }
 
-    private static JsonStrategy json(List<Class> mappings) {
-        new JsonStrategy(new Factory(mappings))
+    private static JsonStrategy json(List<Class> mappings, boolean pretty) {
+        new JsonStrategy(new Factory(mappings), pretty)
     }
 
 

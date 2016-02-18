@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+    <element name="person">
+        <attribute property="uuid" name="uuid" />
+        <element name="name" property="name" />
+        <element name="details">
+            <attribute name="external" property="external" />
+        </element>
+        <element name="query" property="queries" updater="addQuery" />
+
+    </element>
+</info>

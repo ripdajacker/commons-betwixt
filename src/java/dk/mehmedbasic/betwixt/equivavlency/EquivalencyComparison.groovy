@@ -11,8 +11,13 @@ class EquivalencyComparison {
 
     ReadWriteStrategy jsonStrategy
     ReadWriteStrategy xmlStrategy
+    private File jsonOutput
 
-    EquivalencyComparison(InputStream xmlInput, ReadWriteStrategy jsonStrategy, ReadWriteStrategy xmlStrategy) {
+    EquivalencyComparison(InputStream xmlInput,
+                          ReadWriteStrategy jsonStrategy,
+                          ReadWriteStrategy xmlStrategy,
+                          File jsonOutput) {
+        this.jsonOutput = jsonOutput
         this.xmlInput = xmlInput
         this.jsonStrategy = jsonStrategy
         this.xmlStrategy = xmlStrategy
@@ -28,6 +33,11 @@ class EquivalencyComparison {
         xml = xmlStrategy.serialize(model)
 
         def json = jsonStrategy.serialize(model)
+        if (jsonOutput) {
+            def writer = new FileWriter(jsonOutput)
+            writer.append(json)
+            writer.close()
+        }
         def jsonModel = jsonStrategy.deserializeReader(new StringReader(json))
 
         def actual = xmlStrategy.serialize(jsonModel)

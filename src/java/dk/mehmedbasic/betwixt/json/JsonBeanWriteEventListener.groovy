@@ -21,9 +21,10 @@ class JsonBeanWriteEventListener implements BeanWriteEventListener {
      * Constructs a listener that outputs JSON to the given writer.
      *
      * @param out the destination writer.
+     * @param pretty whether or not to pretty print
      */
-    JsonBeanWriteEventListener(Writer out) {
-        json = new GsonStrategy(out)
+    JsonBeanWriteEventListener(Writer out, boolean pretty = false) {
+        json = new GsonStrategy(out, pretty)
     }
 
     @Override

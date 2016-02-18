@@ -11,9 +11,11 @@ import groovy.transform.TypeChecked
 @TypeChecked
 final class JsonStrategy implements ReadWriteStrategy {
     private ReaderWriterFactory factory
+    boolean prettyPrint
 
-    JsonStrategy(ReaderWriterFactory factory) {
+    JsonStrategy(ReaderWriterFactory factory, boolean prettyPrint = false) {
         this.factory = factory
+        this.prettyPrint = prettyPrint
     }
 
     @Override
@@ -22,7 +24,7 @@ final class JsonStrategy implements ReadWriteStrategy {
 
         def buffer = new StringWriter()
         writer.writer = new JsonSaxWriter.EmptyWriter()
-        writer.beanWriteListener = new JsonBeanWriteEventListener(buffer)
+        writer.beanWriteListener = new JsonBeanWriteEventListener(buffer, prettyPrint)
 
         writer.write(object)
         return buffer.toString()

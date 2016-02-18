@@ -11,8 +11,11 @@ class GsonStrategy implements JsonWriterStrategy {
     private JsonWriter json
     String deferredName
 
-    GsonStrategy(Writer out) {
+    GsonStrategy(Writer out, boolean pretty) {
         json = new JsonWriter(out)
+        if (pretty) {
+            json.indent = " "
+        }
     }
 
     @Override

@@ -1,0 +1,6 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+    <element name="people">
+        <element property="people" name="person" updater="addPerson" />
+    </element>
+</info>

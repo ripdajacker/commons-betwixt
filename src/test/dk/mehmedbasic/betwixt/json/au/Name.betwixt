@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<info primitiveTypes='attribute'>
+    <element name="name">
+        <attribute property="firstName" name="firstName" />
+        <attribute property="lastName" name="lastName" />
+    </element>
+</info>
