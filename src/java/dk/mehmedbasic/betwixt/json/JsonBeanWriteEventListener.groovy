@@ -64,7 +64,7 @@ class JsonBeanWriteEventListener implements BeanWriteEventListener {
                 json.name("@tag")
                 json.valueGeneric(qualifiedName)
 
-                if (idref != null) {
+                if (idref == null) {
                     def id = attributes.getValue("id")
                     if (id != null) {
                         json.name("@id")
