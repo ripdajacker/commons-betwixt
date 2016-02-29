@@ -98,7 +98,19 @@ class TestTransformations extends TestCase {
                     .apply()
         })
         versionControl.definitions << new VersionDefinition(5, "v4 to v5", {
-            // Do nothing
+            document.transform("renamedAttribute")
+                    .renameTo("temp")
+                    .apply()
+
+            def value = document.selectSingle("temp").get()
+
+            document.transform("transformingBean")
+                    .addJson("renamedAttribute", "{}")
+                    .apply()
+                    .transform("renamedAttribute")
+                    .add("@body", value)
+                    .apply()
+
         })
     }
 
@@ -126,7 +138,7 @@ class TestTransformations extends TestCase {
     }
 
     void testVersion5() {
-        TransformingBean4 bean = readBean(migrate(file1, 5), TransformingBean4)
+        TransformingBean5 bean = readBean(migrate(file1, 5), TransformingBean5)
 
         assert bean5.element == bean.element
         assert bean5.renamedAttribute == bean.renamedAttribute
