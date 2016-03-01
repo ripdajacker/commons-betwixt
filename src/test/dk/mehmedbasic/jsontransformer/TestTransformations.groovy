@@ -67,51 +67,51 @@ class TestTransformations extends TestCase {
         file4 = write("version4", TransformingBean4, bean4)
         file5 = write("version5", TransformingBean5, bean5)
 
-        versionControl = new VersionControl()
-        versionControl.definitions << new VersionDefinition(2, "v1 to v2", {
-            document.transform("transformingBean")
-                    .renameChild("attribute", "renamedAttribute")
-                    .apply()
-        })
+versionControl = new VersionControl()
+versionControl.definitions << new VersionDefinition(2, "v1 to v2", {
+    document.transform("transformingBean")
+            .renameChild("attribute", "renamedAttribute")
+            .apply()
+})
 
-        versionControl.definitions << new VersionDefinition(3, "v2 to v3", {
-            document.transform("transformingBean")
-                    .add("nesting", JsonType.Object)
-                    .apply()
+versionControl.definitions << new VersionDefinition(3, "v2 to v3", {
+    document.transform("transformingBean")
+            .add("nesting", JsonType.Object)
+            .apply()
 
-            document.transform("element")
-                    .moveTo("nesting")
-                    .apply()
-        })
+    document.transform("element")
+            .moveTo("nesting")
+            .apply()
+})
 
-        versionControl.definitions << new VersionDefinition(4, "v3 to v4", {
-            document.transform("nesting > element")
-                    .renameTo("element2")
-                    .moveTo("transformingBean")
-                    .apply()
+versionControl.definitions << new VersionDefinition(4, "v3 to v4", {
+    document.transform("nesting > element")
+            .renameTo("element2")
+            .moveTo("transformingBean")
+            .apply()
 
-            def value = document.selectSingle("element2 > .string").get()
-            document.transform("transformingBean")
-                    .deleteChild("nesting")
-                    .add("element", value)
-                    .deleteChild("element2")
-                    .apply()
-        })
-        versionControl.definitions << new VersionDefinition(5, "v4 to v5", {
-            document.transform("renamedAttribute")
-                    .renameTo("temp")
-                    .apply()
+    def value = document.selectSingle("element2 > .string").get()
+    document.transform("transformingBean")
+            .deleteChild("nesting")
+            .add("element", value)
+            .deleteChild("element2")
+            .apply()
+})
+versionControl.definitions << new VersionDefinition(5, "v4 to v5", {
+    document.transform("renamedAttribute")
+            .renameTo("temp")
+            .apply()
 
-            def value = document.selectSingle("temp").get()
+    def value = document.selectSingle("temp").get()
 
-            document.transform("transformingBean")
-                    .addJson("renamedAttribute", "{}")
-                    .apply()
-                    .transform("renamedAttribute")
-                    .add("@body", value)
-                    .apply()
+    document.transform("transformingBean")
+            .addJson("renamedAttribute", "{}")
+            .apply()
+            .transform("renamedAttribute")
+            .add("@body", value)
+            .apply()
 
-        })
+})
     }
 
     void testVersion2() {
