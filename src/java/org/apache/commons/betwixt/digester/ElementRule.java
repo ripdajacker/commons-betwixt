@@ -29,6 +29,8 @@ import org.xml.sax.SAXException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +42,18 @@ import java.util.Map;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
  */
 public class ElementRule extends MappedPropertyRule {
+
+   private static final List<String> validAttributes = new LinkedList<>();
+
+   static {
+      validAttributes.add("mappingDerivation");
+      validAttributes.add("forceAccessible");
+      validAttributes.add("name");
+      validAttributes.add("property");
+      validAttributes.add("updater");
+      validAttributes.add("class");
+      validAttributes.add("uri");
+   }
 
    /** Logger */
    private static Log log = LogFactory.getLog(ElementRule.class);
@@ -76,8 +90,8 @@ public class ElementRule extends MappedPropertyRule {
     *             the name attribute is not present 4. If the class attribute
     *             is not a loadable (fully qualified) class name
     */
-   public void begin(String name, String namespace, Attributes attributes)
-         throws SAXException {
+   public void begin(String name, String namespace, Attributes attributes) throws SAXException {
+      validateAttributes(attributes);
       String nameAttributeValue = attributes.getValue("name");
 
       ElementDescriptor descriptor = new ElementDescriptor();
@@ -86,8 +100,7 @@ public class ElementRule extends MappedPropertyRule {
       String qName = nameAttributeValue;
       if (uri != null && nameAttributeValue != null) {
          descriptor.setURI(uri);
-         String prefix = getXMLIntrospector().getConfiguration()
-               .getPrefixMapper().getPrefix(uri);
+         String prefix = getXMLIntrospector().getConfiguration().getPrefixMapper().getPrefix(uri);
          qName = prefix + ":" + nameAttributeValue;
       }
       descriptor.setQualifiedName(qName);
@@ -194,6 +207,18 @@ public class ElementRule extends MappedPropertyRule {
       }
 
       digester.push(descriptor);
+   }
+
+   private void validateAttributes(Attributes attributes) {
+
+      for (int i = 0; i < attributes.getLength(); i++) {
+         String qualifiedName = attributes.getQName(i);
+         if (!validAttributes.contains(qualifiedName)) {
+            throw new IllegalArgumentException(String.format(
+                  "The specified attribute '%s' is invalid.",
+                  qualifiedName));
+         }
+      }
    }
 
    /**
